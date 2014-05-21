@@ -1,4 +1,4 @@
-angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcService) ->
+angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcService, Wallet) ->
   $scope.transactions = []
   $scope.balance = 0.0
 
@@ -34,8 +34,5 @@ angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcSer
             to: fromat_address(val.to)
             memo: val.memo
 
-  RpcService.request("wallet_rescan_blockchain_state").then (response) ->
-    RpcService.request('wallet_get_balance').then (response) ->
-      console.log "balance: ", response.result.amount
-      $scope.balance = response.result.amount
-      load_transactions()
+  Wallet.get_balance().then (balance)->
+    $scope.balance = balance

@@ -14,8 +14,9 @@ class Wallet
         @q.reject(error)
 
   get_balance: ->
-    @rpc.request('wallet_get_balance').then (response) ->
-      response.result.amount
+    @rpc.request("wallet_rescan_blockchain_state").then (response) ->
+      @rpc.request('wallet_get_balance').then (response) ->
+        response.result.amount
 
   get_wallet_name: ->
     @rpc.request('wallet_get_name').then (response) =>
