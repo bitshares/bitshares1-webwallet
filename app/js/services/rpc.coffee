@@ -3,7 +3,7 @@ servicesModule.factory "RpcService", ($http, ErrorService) ->
   RpcService =
     request: (method, params) ->
       reqparams = {method: method, params: params || []}
-      ErrorService.clear()
+      ErrorService.setError ""
       http_params =
         method: "POST",
         cache: false,
@@ -12,6 +12,8 @@ servicesModule.factory "RpcService", ($http, ErrorService) ->
           jsonrpc: "2.0"
           id: 1
       angular.extend(http_params.data, reqparams)
-      $http(http_params).then (response) ->
+      promise = $http(http_params).then( (response) ->
         console.log "RpcService <#{http_params.data.method}> response:", response
         response.data or response
+      )
+      promise

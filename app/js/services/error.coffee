@@ -1,12 +1,11 @@
 servicesModule = angular.module("app.services", [])
 servicesModule.factory "ErrorService", (InfoBarService) ->
   errorMessage: null
-  set: (msg) ->
+  setError: (msg) ->
     @errorMessage = msg
     InfoBarService.message = null if msg
   clear: ->
     @errorMessage = null
-    InfoBarService.message = null
 
 servicesModule.config ($httpProvider) ->
   $httpProvider.interceptors.push('myHttpInterceptor')
@@ -37,6 +36,6 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, ErrorService) ->
     console.log "#{error_msg.substring(0, 512)} (#{response.status})", response
     method_in_dont_report_list = method and (dont_report_methods.filter (x) -> x == method).length > 0
     if !promise and !method_in_dont_report_list
-      ErrorService.set "#{error_msg.substring(0,512)} (#{response.status})"
+      ErrorService.setError "#{error_msg.substring(0,512)} (#{response.status})"
 
     return (if promise then promise else $q.reject(response))

@@ -1,7 +1,12 @@
-angular.module("app").controller "CreateWalletController", ($scope, $modal, $log, RpcService, ErrorService, Wallet) ->
+angular.module("app").controller "CreateWalletController", ($scope, $modal, $log, RpcService, ErrorService) ->
   $scope.submitForm = (isValid) ->
-    if true or isValid
-      Wallet.create($scope.wallet_password, $scope.spending_password).success ->
+    unless isValid
+      ErrorService.setError "Please fill up the form below"
+      return
+
+    RpcService.request('wallet_create', ['default', $scope.wallet_password, $scope.spending_password]).then (response) ->
+      if response.result == true
         window.location.href = "/"
-    else
-      ErrorService.set "Please fill up the form below"
+      else
+        console.log "Error in create_wallet", result
+        ErrorService.setError "Cannot create wallet, the wallet may already exist"
