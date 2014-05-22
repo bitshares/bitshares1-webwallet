@@ -9,6 +9,7 @@ angular.module("app").controller "TransactionsController", ($scope, $location, R
       res += a[1]
     res
   format_amount = (delta_balance) ->
+  	# TO DO: search for all deposit_op_type with asset_id 0 and sum them
     return "-" if !delta_balance or delta_balance.length == 0
     first_asset = delta_balance[0]
     return "-" if !first_asset or first_asset.length < 2
@@ -21,12 +22,12 @@ angular.module("app").controller "TransactionsController", ($scope, $location, R
         $scope.transactions.splice(0, $scope.transactions.length)
         angular.forEach response.result, (val) ->
           $scope.transactions.push
-            block_num: val.block_num
-            trx_num: val.trx_num
-            time: val.confirm_time
-            amount: format_amount(val.delta_balance)
-            from: fromat_address(val.from)
-            to: fromat_address(val.to)
+            block_num: val.location.block_num
+            trx_num: val.location.trx_num
+            time: val.received
+            amount: val.trx.operations[0].data.amount
+            from: val.trx.operations[0].data.balance_id.slice(-5)
+            to: val.trx.operations[1].data.condition.data.owner.slice(-5)
             memo: val.memo
 
   $scope.load_transactions()
