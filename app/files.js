@@ -19,8 +19,7 @@ module.exports = function(lineman) {
         //"vendor/js/angular-route.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ng-grid-2.0.11.debug.js"
+	 "vendor/js/ui-bootstrap-tpls.js"
       ],
       app: [
         "app/js/app.js",
@@ -42,12 +41,9 @@ module.exports = function(lineman) {
         //"vendor/css/jasny-bootstrap.css",
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
-        "vendor/css/ng-grid.css"
       ],
       app: [
-        //TODO: make main.css compatible with ng-grid
-        "app/css/main.css",
-        "app/css/my-ng-grid.css"
+       "app/css/main.css"
       ]
     }
 

@@ -1,4 +1,4 @@
-app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives"])
+app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid"])
 
 app.config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise('/home')
@@ -21,11 +21,11 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "transfer.html"
     controller: "TransferController"
 
-  transfer =
-    name: 'transfer'
-    url: '/transfer'
-    templateUrl: "transfer.html"
-    controller: "TransferController"
+  contacts =
+    name: 'contacts'
+    url: '/contacts'
+    templateUrl: "contacts.html"
+    controller: "ContactsController"
 
   transactions =
     name: 'transactions'
@@ -45,6 +45,6 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  $stateProvider.state(home).state(receive).state(transfer)
+  $stateProvider.state(home).state(receive).state(transfer).state(contacts)
     .state(transactions).state(blocks).state(createwallet)
 

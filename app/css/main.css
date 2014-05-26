@@ -1,3 +1,4 @@
+
 @font-face {
 	font-family: 'Open Sans';
 	src: url('/webfonts/opensans-regular.eot');
@@ -6,13 +7,7 @@
 	font-style: normal;
 }
 
-.navbar-brand {
-	padding: 10px 0 0 15px;
-}
 
-body {
-	max-width: 1024px;
-}
 
 .main-content {
 	border-top: none;
@@ -22,6 +17,17 @@ body {
 .navbar-default.navbar-main {
 	border-bottom: none;
 }
+
+  
+
+.navbar-brand {
+	padding: 10px 0 0 15px;
+}
+
+body {
+	max-width: 1024px;
+}
+
 
 h3, .header .header-title {
 	margin-top: 0;
