@@ -1,6 +1,7 @@
 angular.module("app").controller "TransactionsController", ($scope, $location, RpcService) ->
   $scope.transactions = []
 
+  #Deprecate?  Does not work with current RPC implementation
   fromat_address = (addr) ->
     return "-" if !addr or addr.length == 0
     res = ""
@@ -8,12 +9,16 @@ angular.module("app").controller "TransactionsController", ($scope, $location, R
       res += ", " if res.length > 0
       res += a[1]
     res
+
+  #Deprecate?  Does not work with current RPC implementation
   format_amount = (delta_balance) ->
-  	# TO DO: search for all deposit_op_type with asset_id 0 and sum them
     return "-" if !delta_balance or delta_balance.length == 0
     first_asset = delta_balance[0]
     return "-" if !first_asset or first_asset.length < 2
     first_asset[1]
+
+
+  # TO DO: search for all deposit_op_type with asset_id 0 and sum them to get amount
 
   $scope.load_transactions = ->
     RpcService.request("wallet_rescan_blockchain_state").then (response) ->
@@ -26,8 +31,8 @@ angular.module("app").controller "TransactionsController", ($scope, $location, R
             trx_num: val.location.trx_num
             time: val.received
             amount: val.trx.operations[0].data.amount
-            from: val.trx.operations[0].data.balance_id.slice(-5)
-            to: val.trx.operations[1].data.condition.data.owner.slice(-5)
+            from: val.trx.operations[0].data.balance_id.slice(-32)
+            to: val.trx.operations[1].data.condition.data.owner.slice(-32)
             memo: val.memo
 
   $scope.load_transactions()
