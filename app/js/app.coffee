@@ -1,4 +1,4 @@
-app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid"])
+app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
 
 app.config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise('/home')

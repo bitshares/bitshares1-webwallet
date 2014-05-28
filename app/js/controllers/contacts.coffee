@@ -1,4 +1,4 @@
-angular.module("app").controller "ContactsController", ($scope, $location, RpcService, InfoBarService) ->
+angular.module("app").controller "ContactsController", ($scope, $state, $location, RpcService, InfoBarService) ->
   $scope.myData = []
   $scope.filterOptions = filterText: ""
   $scope.gridOptions =
@@ -22,9 +22,9 @@ angular.module("app").controller "ContactsController", ($scope, $location, RpcSe
         enableCellEdit: false
         width: 100
         #btn btn-danger btn-sm
-        cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
+        cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' ng-click=\"bam()\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
         headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-wrench fa-fw fa-2x'></i></div>"
-        #<i class='fa fa-copy fa-fw'></i>
+        #<i class='fa fa-copy fa-fw'></i>    ng-click=\"bam()\"
       }
     ]
     
@@ -52,3 +52,7 @@ angular.module("app").controller "ContactsController", ($scope, $location, RpcSe
 
 
   $scope.refresh_addresses()
+
+  $scope.bam = ->
+  	$state.go("transfer")
+  	$scope.payto = 'xxx'
