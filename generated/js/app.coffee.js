@@ -1,10 +1,10 @@
 (function() {
   var app;
 
-  app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives"]);
+  app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid"]);
 
   app.config(function($stateProvider, $urlRouterProvider) {
-    var blocks, createwallet, home, receive, transactions, transfer;
+    var blocks, contacts, createwallet, home, receive, transactions, transfer;
     $urlRouterProvider.otherwise('/home');
     home = {
       name: 'home',
@@ -24,11 +24,11 @@
       templateUrl: "transfer.html",
       controller: "TransferController"
     };
-    transfer = {
-      name: 'transfer',
-      url: '/transfer',
-      templateUrl: "transfer.html",
-      controller: "TransferController"
+    contacts = {
+      name: 'contacts',
+      url: '/contacts',
+      templateUrl: "contacts.html",
+      controller: "ContactsController"
     };
     transactions = {
       name: 'transactions',
@@ -48,7 +48,7 @@
       templateUrl: "createwallet.html",
       controller: "CreateWalletController"
     };
-    return $stateProvider.state(home).state(receive).state(transfer).state(transactions).state(blocks).state(createwallet);
+    return $stateProvider.state(home).state(receive).state(transfer).state(contacts).state(transactions).state(blocks).state(createwallet);
   });
 
 }).call(this);
@@ -59,14 +59,76 @@
 }).call(this);
 
 (function() {
+  angular.module("app").controller("ContactsController", function($scope, $location, RpcService, InfoBarService) {
+    $scope.myData = [];
+    $scope.filterOptions = {
+      filterText: ""
+    };
+    $scope.gridOptions = {
+      enableRowSelection: false,
+      enableCellSelection: false,
+      enableCellEdit: false,
+      data: "myData",
+      filterOptions: $scope.filterOptions,
+      columnDefs: [
+        {
+          field: "Label",
+          width: 80,
+          enableCellEdit: true
+        }, {
+          field: "Address",
+          enableCellEdit: false
+        }, {
+          displayName: "",
+          enableCellEdit: false,
+          width: 100,
+          cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>",
+          headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-wrench fa-fw fa-2x'></i></div>"
+        }
+      ]
+    };
+    $scope.filterNephi = function() {
+      var filterText;
+      filterText = "name:Nephi";
+      if ($scope.filterOptions.filterText === "") {
+        $scope.filterOptions.filterText = filterText;
+      } else {
+        if ($scope.filterOptions.filterText === filterText) {
+          $scope.filterOptions.filterText = "";
+        }
+      }
+    };
+    $scope.refresh_addresses = function() {
+      return RpcService.request("wallet_list_receive_accounts").then(function(response) {
+        var data, i, newData;
+        newData = [];
+        data = response.result;
+        i = 0;
+        while (i < data.length) {
+          newData.push({
+            Label: data[i][0],
+            Address: data[i][1]
+          });
+          i++;
+        }
+        $scope.myData = newData;
+        return InfoBarService.message = "Click labels to edit";
+      });
+    };
+    return $scope.refresh_addresses();
+  });
+
+}).call(this);
+
+(function() {
   angular.module("app").controller("CreateWalletController", function($scope, $modal, $log, RpcService, ErrorService, Wallet) {
     return $scope.submitForm = function(isValid) {
-      if (true || isValid) {
+      if (isValid) {
         return Wallet.create($scope.wallet_password, $scope.spending_password).success(function() {
           return window.location.href = "/";
         });
       } else {
-        return ErrorService.set("Please fill up the form below");
+        ErrorService.set("Please fill up the form below");
       }
     };
   });
@@ -74,10 +136,50 @@
 }).call(this);
 
 (function() {
+  angular.module("app").controller("FooterController", function($scope, Wallet) {
+    var on_update, watch_for;
+    $scope.connections = 0;
+    watch_for = function() {
+      return Wallet.info;
+    };
+    on_update = function(info) {
+      var connections;
+      connections = info.network_connections;
+      $scope.connections = connections;
+      if (connections === 0) {
+        $scope.connections_str = "Not connected to the network";
+      } else if (connections === 1) {
+        $scope.connections_str = "1 network connection";
+      } else {
+        $scope.connections_str = "" + connections + " network connections";
+      }
+      if (connections < 4) {
+        $scope.connections_img = "/img/signal_" + connections + ".png";
+      } else {
+        $scope.connections_img = "/img/signal_4.png";
+      }
+      return $scope.wallet_open = info.wallet_open;
+    };
+    return $scope.$watch(watch_for, on_update, true);
+  });
+
+}).call(this);
+
+(function() {
   angular.module("app").controller("HomeController", function($scope, $modal, $log, RpcService, Wallet) {
-    var format_amount, fromat_address, load_transactions;
+    var format_amount, fromat_address, load_transactions, on_update, watch_for;
     $scope.transactions = [];
-    $scope.balance = 0.0;
+    $scope.balance_amount = 0.0;
+    $scope.balance_asset_type = '';
+    watch_for = function() {
+      return Wallet.info;
+    };
+    on_update = function(info) {
+      if (info.wallet_open) {
+        return $scope.balance_amount = info.balance;
+      }
+    };
+    $scope.$watch(watch_for, on_update, true);
     fromat_address = function(addr) {
       var res;
       if (!addr || addr.length === 0) {
@@ -104,30 +206,30 @@
       return first_asset[1];
     };
     load_transactions = function() {
-      return RpcService.request("wallet_rescan_blockchain_state").then(function(response) {
-        return RpcService.request("get_transaction_history").then(function(response) {
-          var count;
-          $scope.transactions.splice(0, $scope.transactions.length);
-          count = 0;
-          return angular.forEach(response.result, function(val) {
-            count += 1;
-            if (count < 10) {
-              return $scope.transactions.push({
-                block_num: val.block_num,
-                trx_num: val.trx_num,
-                time: val.confirm_time,
-                amount: format_amount(val.delta_balance),
-                from: fromat_address(val.from),
-                to: fromat_address(val.to),
-                memo: val.memo
-              });
-            }
-          });
+      return RpcService.request("wallet_get_transaction_history").then(function(response) {
+        var count;
+        $scope.transactions.splice(0, $scope.transactions.length);
+        count = 0;
+        return angular.forEach(response.result, function(val) {
+          count += 1;
+          if (count < 10) {
+            return $scope.transactions.push({
+              block_num: val.block_num,
+              trx_num: val.trx_num,
+              time: val.confirm_time,
+              amount: format_amount(val.delta_balance),
+              from: fromat_address(val.from),
+              to: fromat_address(val.to),
+              memo: val.memo
+            });
+          }
         });
       });
     };
     return Wallet.get_balance().then(function(balance) {
-      return $scope.balance = balance;
+      $scope.balance_amount = balance.amount;
+      $scope.balance_asset_type = balance.asset_type;
+      return load_transactions();
     });
   });
 
@@ -147,7 +249,7 @@
       $scope.wrong_password_msg = "Wallet cannot be unlocked. Please check you password";
     }
     open_wallet_request = function() {
-      return RpcService.request('wallet_open', ['walleta', $scope.password]).then(function(response) {
+      return RpcService.request('wallet_open', ['default', $scope.password]).then(function(response) {
         if (response.result) {
           $modalInstance.close("ok");
           return $scope.cur_deferred.resolve();
@@ -207,15 +309,15 @@
         $scope.addresses.splice(0, $scope.addresses.length);
         return angular.forEach(response.result, function(val) {
           return $scope.addresses.push({
-            label: val[1],
-            address: val[0]
+            label: val[0],
+            address: val[1]
           });
         });
       });
     };
     refresh_addresses();
     $scope.create_address = function() {
-      return RpcService.request('wallet_get_account', [$scope.new_address_label]).then(function(response) {
+      return RpcService.request('wallet_create_receive_account', [$scope.new_address_label]).then(function(response) {
         $scope.new_address_label = "";
         return refresh_addresses();
       });
@@ -317,12 +419,12 @@
           $scope.transactions.splice(0, $scope.transactions.length);
           return angular.forEach(response.result, function(val) {
             return $scope.transactions.push({
-              block_num: val.block_num,
-              trx_num: val.trx_num,
-              time: val.confirm_time,
-              amount: format_amount(val.delta_balance),
-              from: fromat_address(val.from),
-              to: fromat_address(val.to),
+              block_num: val.location.block_num,
+              trx_num: val.location.trx_num,
+              time: val.received,
+              amount: val.trx.operations[0].data.amount,
+              from: val.trx.operations[0].data.balance_id.slice(-32),
+              to: val.trx.operations[1].data.condition.data.owner.slice(-32),
               memo: val.memo
             });
           });
@@ -450,8 +552,7 @@
         }
       },
       clear: function() {
-        this.errorMessage = null;
-        return InfoBarService.message = null;
+        return this.errorMessage = null;
       }
     };
   });
@@ -473,7 +574,7 @@
           if (error_msg.match(/check_wallet_is_open/)) {
             promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data);
           }
-          if (error_msg.match(/check_wallet_unlocked/)) {
+          if (error_msg.match(/wallet must be unlocked/)) {
             promise = $rootScope.open_wallet_and_repeat_request("unlock_wallet", response.config.data);
           }
           method = (_ref2 = response.config.data) != null ? _ref2.method : void 0;
@@ -551,16 +652,25 @@
 }).call(this);
 
 (function() {
-  var Wallet;
+  var Wallet,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Wallet = (function() {
-    function Wallet(q, log, rpc, error_service) {
+    function Wallet(q, log, rpc, error_service, interval) {
       this.q = q;
       this.log = log;
       this.rpc = rpc;
       this.error_service = error_service;
+      this.interval = interval;
+      this.watch_for_updates = __bind(this.watch_for_updates, this);
       this.log.info("---- Wallet Constructor ----");
       this.wallet_name = "";
+      this.info = {
+        network_connections: 0,
+        balance: 0,
+        wallet_open: false
+      };
+      this.watch_for_updates();
     }
 
     Wallet.prototype.create = function(wallet_password, spending_password) {
@@ -579,7 +689,12 @@
 
     Wallet.prototype.get_balance = function() {
       return this.rpc.request('wallet_get_balance').then(function(response) {
-        return response.result.amount;
+        var asset;
+        asset = response.result[0];
+        return {
+          amount: asset[0],
+          asset_type: asset[1]
+        };
       });
     };
 
@@ -591,10 +706,28 @@
       });
     };
 
+    Wallet.prototype.get_info = function() {
+      return this.rpc.request('get_info').then(function(response) {
+        return response.result;
+      });
+    };
+
+    Wallet.prototype.watch_for_updates = function() {
+      var _this = this;
+      return this.interval((function() {
+        return _this.get_info().then(function(info) {
+          _this.info.network_connections = info.network_num_connections;
+          _this.info.balance = info.wallet_balance;
+          _this.info.wallet_open = info.wallet_open;
+          return _this.log.info("+++ intervalFunction", _this.info);
+        });
+      }), 5000);
+    };
+
     return Wallet;
 
   })();
 
-  angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "ErrorService", Wallet]);
+  angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "ErrorService", "$interval", Wallet]);
 
 }).call(this);

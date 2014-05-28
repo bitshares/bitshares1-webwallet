@@ -16,6 +16,36 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div>\n"
   );
 
+  $templateCache.put("contacts.html",
+    "<!--<ol class=\"breadcrumb\">-->\n" +
+    " <!--<li><i class=\"fa fa-home fa-fw\"></i>Home</a></li>-->\n" +
+    " <!--<li><i class=\"fa fa-sign-out fa-fw\"></i> Contacts</li>-->\n" +
+    "<!--</ol>-->\n" +
+    "\n" +
+    "<div class=\"header\">\n" +
+    " <div class=\"col-md-12\">\n" +
+    "  <h3 class=\"header-title\">Contacts</h3>\n" +
+    "  \t<div class=\"pull-left\">\n" +
+    "  \t\t<button type=\"submit\" class=\"btn btn-primary\"><i class=\"fa fa-plus fa-fw\"></i> New</button>\n" +
+    "  \t</div>\n" +
+    "\t  <div class=\"pull-right\">\n" +
+    "\t\t <input type=\"text\" class=\"form-control\" ng-model=\"filterOptions.filterText\" placeholder='Filter'>\n" +
+    "\t  </div>\n" +
+    " </div>\n" +
+    "</div>\n" +
+    "\n" +
+    "<div class=\"main-content\">\n" +
+    "\n" +
+    "<div>\n" +
+    "        <div style=\"height: 600px; padding-top:4px\" ng-grid=\"gridOptions\"></div>\n" +
+    "        \n" +
+    "    </div>\n" +
+    "\n" +
+    "</div>\n" +
+    "\n" +
+    "</div>\n"
+  );
+
   $templateCache.put("createwallet.html",
     "<br/>\n" +
     "<br/>\n" +
@@ -105,6 +135,18 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "</div>\n"
   );
 
+  $templateCache.put("footer.html",
+    "<div class=\"container\">\n" +
+    "\t<p class=\"text-muted pull-right\">\n" +
+    "\t\t<img class=\"connections\" ng-src=\"{{connections_img}}\" alt=\"network connections\" title=\"{{connections_str}}\" height=\"24\" width=\"24\"/>\n" +
+    "\t\t<span class=\"wallet-status\" ng-switch on=\"wallet_open\">\n" +
+    "\t\t\t<i class=\"wallet-status fa fa-unlock fa-fw\" ng-switch-when=\"true\" title=\"Wallet is open\"></i>\n" +
+    "\t\t\t<i class=\"wallet-status fa fa-lock fa-fw\" ng-switch-default title=\"Wallet is closed\"></i>\n" +
+    "\t\t</span>\n" +
+    "\t</p>\n" +
+    "</div>\n"
+  );
+
   $templateCache.put("home.html",
     "<!--<ol class=\"breadcrumb\">-->\n" +
     "<!--<li><i class=\"fa fa-home fa-fw\"></i> Overview</li>-->\n" +
@@ -122,7 +164,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "  <div class=\"col-sm-4\">\n" +
     "   <div class=\"panel\">\n" +
     "    <div class=\"panel-heading\">\n" +
-    "     <h3 class=\"panel-title\">Balance {{balance | currency : ''}}</h3>\n" +
+    "     <h3 class=\"panel-title\">Balance {{balance_amount | currency : ''}} {{balance_asset_type}}</h3>\n" +
     "    </div>\n" +
     "    <div class=\"panel-body\">\n" +
     "     <div class=\"col-sm-4\">\n" +
@@ -346,7 +388,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "    <label for=\"payto\" class=\"col-sm-2 control-label\">To</label>\n" +
     "\n" +
     "    <div class=\"col-sm-10\">\n" +
-    "     <input ng-model=\"payto\" type=\"text\" class=\"form-control\" placeholder=\"Address\" id=\"payto\"/>\n" +
+    "     <input ng-model=\"payto\" type=\"text\" class=\"form-control\" placeholder=\"Contact Name\" id=\"payto\"/>\n" +
     "    </div>\n" +
     "   </div>\n" +
     "   <div class=\"form-group\">\n" +

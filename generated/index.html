@@ -28,9 +28,12 @@
    <ul class="nav nav-stacked">
     <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>Overview</a></li>
     <li ui-sref-active="active"><a ui-sref="receive"><i class="fa fa-sign-in fa-fw"></i>Receive</a></li>
-    <li ui-sref-active="active"><a ui-sref="transfer"><i class="fa  fa-sign-out fa-fw"></i>Transfer</a></li>
+    <li ui-sref-active="active"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw"></i>Transfer</a></li>
+    <li ui-sref-active="active"><a ui-sref="contacts"><i class="fa fa-users fa-fw"></i>Contacts</a></li>
     <li ui-sref-active="active"><a ui-sref="transactions"><i class="fa fa-exchange fa-fw"></i>Transactions</a></li>
     <li ui-sref-active="active"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>Block Explorer</a></li>
+    <li ui-sref-active="active"><a><i class="fa fa-unlock fa-fw"></i>O:OO</a></li>
+    <li ui-sref-active="active"><button type="submit" class="btn btn-primary"><i class="fa fa-unlock fa-fw"></i>O:OO</button>
    </ul>
   </aside>
   <section class="content">
@@ -40,4 +43,8 @@
   </section>
  </div>
 </div>
+
+<footer ng-controller="FooterController">
+	<div ng-include src="'footer.html'"></div>
+</footer>
 </body>

@@ -14,7 +14,7 @@
         wallet: this.wallet
       });
     }));
-    return it('should should transition to #home', function() {
+    return it('should transition to #home', function() {
       this.$state.transitionTo('home');
       this.deferred.resolve(111.11);
       this.$rootScope.$apply();
