@@ -1,0 +1,9 @@
+<div class="container">
+	<p class="text-muted pull-right">
+		<img class="connections" ng-src="{{connections_img}}" alt="network connections" title="{{connections_str}}" height="24" width="24"/>
+		<span class="wallet-status" ng-switch on="wallet_open">
+			<i class="wallet-status fa fa-unlock fa-fw" ng-switch-when="true" title="Wallet is open"></i>
+			<i class="wallet-status fa fa-lock fa-fw" ng-switch-default title="Wallet is closed"></i>
+		</span>
+	</p>
+</div>

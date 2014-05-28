@@ -26,7 +26,7 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, ErrorService) ->
     if response.config? and response.config.url.match(/\/rpc$/)
       if error_msg.match(/check_wallet_is_open/)
         promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)
-      if error_msg.match(/check_wallet_unlocked/)
+      if error_msg.match(/wallet must be unlocked/)
         promise = $rootScope.open_wallet_and_repeat_request("unlock_wallet", response.config.data)
       method = response.config.data?.method
       title = if method then "RPC error calling #{method}" else "RPC error"
