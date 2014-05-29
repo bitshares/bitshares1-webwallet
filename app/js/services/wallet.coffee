@@ -11,7 +11,7 @@ class Wallet
       last_block_time: null
     @watch_for_updates()
 
-  convertDate = (t) ->
+  toDate: (t) ->
     dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
     match = t.match(dateRE)
     return 0 unless match
@@ -58,7 +58,7 @@ class Wallet
           @info.balance = data.wallet_balance
           @info.wallet_open = data.wallet_open
           @info.wallet_unlocked = !!data.wallet_unlocked_until
-          @info.last_block_time = convertDate(block.timestamp)
+          @info.last_block_time = @toDate(block.timestamp)
           @info.last_block_num = data.blockchain_block_num
       , =>
         @info.network_connections = 0
@@ -68,6 +68,24 @@ class Wallet
         @info.last_block_time = null
         @info.last_block_num = 0
     ), 2500
+
+  get_transactions: =>
+    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
+    # TODO: cache transactions
+    # TODO: sort transactions, show the most recent ones on top
+    @rpc.request("wallet_get_transaction_history").then (response) =>
+      #console.log "--- transactions = ", response
+      transactions = []
+      angular.forEach response.result, (val) =>
+        transactions.push
+          block_num: val.location.block_num
+          trx_num: val.location.trx_num
+          time: @toDate(val.received).toDateString()
+          amount: val.trx.operations[0].data.amount
+          from: val.trx.operations[0].data.balance_id.slice(-32)
+          to: val.trx.operations[1].data.condition.data.owner.slice(-32)
+          memo: val.memo
+      transactions
 
 
 angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "ErrorService", "$interval", Wallet])

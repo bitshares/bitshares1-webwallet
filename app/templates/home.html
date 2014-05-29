@@ -36,7 +36,7 @@
 			</thead>
 			<tbody>
 			<tr ng-repeat="t in transactions">
-				<td>{{ t.trx_num }}</td>
+				<td>{{ t.block_num }}/{{ t.trx_num }}</td>
 				<td>{{ t.time }}</td>
 				<td>{{ t.amount | currency : '' }}</td>
 				<td>{{ t.from }}</td>

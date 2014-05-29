@@ -23,27 +23,23 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "<!--</ol>-->\n" +
     "\n" +
     "<div class=\"header\">\n" +
-    " <div class=\"col-md-12\">\n" +
-    "  <h3 class=\"header-title\">Contacts</h3>\n" +
-    "  \t<div class=\"pull-left\">\n" +
-    "  \t\t<button type=\"submit\" class=\"btn btn-primary\"><i class=\"fa fa-plus fa-fw\"></i> New</button>\n" +
-    "  \t</div>\n" +
-    "\t  <div class=\"pull-right\">\n" +
-    "\t\t <input type=\"text\" class=\"form-control\" ng-model=\"filterOptions.filterText\" placeholder='Filter'>\n" +
-    "\t  </div>\n" +
-    " </div>\n" +
+    "\t<div class=\"col-md-12\">\n" +
+    "\t\t<h3 class=\"header-title\">Contacts</h3>\n" +
+    "\t\t<div class=\"pull-left\">\n" +
+    "\t\t\t<button type=\"submit\" class=\"btn btn-primary\"><i class=\"fa fa-plus fa-fw\"></i> New</button>\n" +
+    "\t\t</div>\n" +
+    "\t\t<div class=\"pull-right\">\n" +
+    "\t\t\t<input type=\"text\" class=\"form-control\" ng-model=\"filterOptions.filterText\" placeholder='Filter'>\n" +
+    "\t\t</div>\n" +
+    "\t</div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"main-content\">\n" +
-    "\n" +
-    "<div>\n" +
-    "        <div style=\"height: 600px; padding-top:4px\" ng-grid=\"gridOptions\"></div>\n" +
-    "        \n" +
+    "\t<div>\n" +
+    "        <div style=\"height: 600px; padding-top:6px\" ng-grid=\"gridOptions\"></div>    \n" +
     "    </div>\n" +
-    "\n" +
     "</div>\n" +
-    "\n" +
-    "</div>\n"
+    "\n"
   );
 
   $templateCache.put("createwallet.html",
@@ -189,7 +185,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "\t\t\t</thead>\n" +
     "\t\t\t<tbody>\n" +
     "\t\t\t<tr ng-repeat=\"t in transactions\">\n" +
-    "\t\t\t\t<td>{{ t.trx_num }}</td>\n" +
+    "\t\t\t\t<td>{{ t.block_num }}/{{ t.trx_num }}</td>\n" +
     "\t\t\t\t<td>{{ t.time }}</td>\n" +
     "\t\t\t\t<td>{{ t.amount | currency : '' }}</td>\n" +
     "\t\t\t\t<td>{{ t.from }}</td>\n" +
@@ -245,10 +241,14 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "      </div>\n" +
     "      <div class=\"form-group\">\n" +
     "       <div class=\"col-sm-offset-2 col-sm-10\">\n" +
-    "        <button type=\"submit\" class=\"btn btn-primary\">Create Address</button>\n" +
+    "        <button type=\"submit\" class=\"btn btn-primary\">Create Account</button>\n" +
     "       </div>\n" +
     "      </div>\n" +
     "     </form>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "    </tab>\n" +
     "\n" +
     "    <tab heading=\"Import Key\">\n" +
@@ -271,6 +271,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "        <button type=\"submit\" class=\"btn btn-primary\">Import Key</button>\n" +
     "       </div>\n" +
     "      </div>\n" +
+    "\n" +
     "     </form>\n" +
     "    </tab>\n" +
     "\n" +

@@ -1,7 +1,7 @@
 (function() {
   var app;
 
-  app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid"]);
+  app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid", "ui.bootstrap"]);
 
   app.config(function($stateProvider, $urlRouterProvider) {
     var blocks, contacts, createwallet, home, receive, transactions, transfer;
@@ -59,7 +59,7 @@
 }).call(this);
 
 (function() {
-  angular.module("app").controller("ContactsController", function($scope, $location, RpcService, InfoBarService) {
+  angular.module("app").controller("ContactsController", function($scope, $state, $location, RpcService, InfoBarService) {
     $scope.myData = [];
     $scope.filterOptions = {
       filterText: ""
@@ -82,7 +82,7 @@
           displayName: "",
           enableCellEdit: false,
           width: 100,
-          cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>",
+          cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' ng-click=\"bam()\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>",
           headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-wrench fa-fw fa-2x'></i></div>"
         }
       ]
@@ -115,7 +115,11 @@
         return InfoBarService.message = "Click labels to edit";
       });
     };
-    return $scope.refresh_addresses();
+    $scope.refresh_addresses();
+    return $scope.bam = function() {
+      $state.go("transfer");
+      return $scope.payto = 'xxx';
+    };
   });
 
 }).call(this);
@@ -175,7 +179,7 @@
 
 (function() {
   angular.module("app").controller("HomeController", function($scope, $modal, $log, RpcService, Wallet) {
-    var format_amount, fromat_address, load_transactions, on_update, watch_for;
+    var on_update, watch_for;
     $scope.transactions = [];
     $scope.balance_amount = 0.0;
     $scope.balance_asset_type = '';
@@ -188,56 +192,12 @@
       }
     };
     $scope.$watch(watch_for, on_update, true);
-    fromat_address = function(addr) {
-      var res;
-      if (!addr || addr.length === 0) {
-        return "-";
-      }
-      res = "";
-      angular.forEach(addr, function(a) {
-        if (res.length > 0) {
-          res += ", ";
-        }
-        return res += a[1];
-      });
-      return res;
-    };
-    format_amount = function(delta_balance) {
-      var first_asset;
-      if (!delta_balance || delta_balance.length === 0) {
-        return "-";
-      }
-      first_asset = delta_balance[0];
-      if (!first_asset || first_asset.length < 2) {
-        return "-";
-      }
-      return first_asset[1];
-    };
-    load_transactions = function() {
-      return RpcService.request("wallet_get_transaction_history").then(function(response) {
-        var count;
-        $scope.transactions.splice(0, $scope.transactions.length);
-        count = 0;
-        return angular.forEach(response.result, function(val) {
-          count += 1;
-          if (count < 10) {
-            return $scope.transactions.push({
-              block_num: val.block_num,
-              trx_num: val.trx_num,
-              time: val.confirm_time,
-              amount: format_amount(val.delta_balance),
-              from: fromat_address(val.from),
-              to: fromat_address(val.to),
-              memo: val.memo
-            });
-          }
-        });
-      });
-    };
     return Wallet.get_balance().then(function(balance) {
       $scope.balance_amount = balance.amount;
       $scope.balance_asset_type = balance.asset_type;
-      return load_transactions();
+      return Wallet.get_transactions().then(function(trs) {
+        return $scope.transactions = trs;
+      });
     });
   });
 
@@ -388,53 +348,11 @@
 }).call(this);
 
 (function() {
-  angular.module("app").controller("TransactionsController", function($scope, $location, RpcService) {
-    var format_amount, fromat_address;
+  angular.module("app").controller("TransactionsController", function($scope, $location, RpcService, Wallet) {
     $scope.transactions = [];
-    fromat_address = function(addr) {
-      var res;
-      if (!addr || addr.length === 0) {
-        return "-";
-      }
-      res = "";
-      angular.forEach(addr, function(a) {
-        if (res.length > 0) {
-          res += ", ";
-        }
-        return res += a[1];
-      });
-      return res;
-    };
-    format_amount = function(delta_balance) {
-      var first_asset;
-      if (!delta_balance || delta_balance.length === 0) {
-        return "-";
-      }
-      first_asset = delta_balance[0];
-      if (!first_asset || first_asset.length < 2) {
-        return "-";
-      }
-      return first_asset[1];
-    };
-    $scope.load_transactions = function() {
-      return RpcService.request("wallet_rescan_blockchain_state").then(function(response) {
-        return RpcService.request("wallet_get_transaction_history").then(function(response) {
-          $scope.transactions.splice(0, $scope.transactions.length);
-          return angular.forEach(response.result, function(val) {
-            return $scope.transactions.push({
-              block_num: val.location.block_num,
-              trx_num: val.location.trx_num,
-              time: val.received,
-              amount: val.trx.operations[0].data.amount,
-              from: val.trx.operations[0].data.balance_id.slice(-32),
-              to: val.trx.operations[1].data.condition.data.owner.slice(-32),
-              memo: val.memo
-            });
-          });
-        });
-      });
-    };
-    $scope.load_transactions();
+    Wallet.get_transactions().then(function(trs) {
+      return $scope.transactions = trs;
+    });
     return $scope.rescan = function() {
       return $scope.load_transactions();
     };
@@ -658,14 +576,13 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Wallet = (function() {
-    var convertDate;
-
     function Wallet(q, log, rpc, error_service, interval) {
       this.q = q;
       this.log = log;
       this.rpc = rpc;
       this.error_service = error_service;
       this.interval = interval;
+      this.get_transactions = __bind(this.get_transactions, this);
       this.watch_for_updates = __bind(this.watch_for_updates, this);
       this.log.info("---- Wallet Constructor ----");
       this.wallet_name = "";
@@ -679,7 +596,7 @@
       this.watch_for_updates();
     }
 
-    convertDate = function(t) {
+    Wallet.prototype.toDate = function(t) {
       var dateRE, i, match, nums;
       dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/;
       match = t.match(dateRE);
@@ -749,7 +666,7 @@
             _this.info.balance = data.wallet_balance;
             _this.info.wallet_open = data.wallet_open;
             _this.info.wallet_unlocked = !!data.wallet_unlocked_until;
-            _this.info.last_block_time = convertDate(block.timestamp);
+            _this.info.last_block_time = _this.toDate(block.timestamp);
             return _this.info.last_block_num = data.blockchain_block_num;
           });
         }, function() {
@@ -761,6 +678,26 @@
           return _this.info.last_block_num = 0;
         });
       }), 2500);
+    };
+
+    Wallet.prototype.get_transactions = function() {
+      var _this = this;
+      return this.rpc.request("wallet_get_transaction_history").then(function(response) {
+        var transactions;
+        transactions = [];
+        angular.forEach(response.result, function(val) {
+          return transactions.push({
+            block_num: val.location.block_num,
+            trx_num: val.location.trx_num,
+            time: _this.toDate(val.received).toDateString(),
+            amount: val.trx.operations[0].data.amount,
+            from: val.trx.operations[0].data.balance_id.slice(-32),
+            to: val.trx.operations[1].data.condition.data.owner.slice(-32),
+            memo: val.memo
+          });
+        });
+        return transactions;
+      });
     };
 
     return Wallet;
