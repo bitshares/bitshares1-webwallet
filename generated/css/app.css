@@ -11570,7 +11570,7 @@ body.cover {
 }
 
 body {
-	max-width: 1024px;
+	/*max-width: 1024px;*/
 }
 
 
@@ -11588,22 +11588,33 @@ footer {
 }
 
 footer p {
-	margin: 5px 0;
+	margin: 5px 40px 5px 0;
 }
 
 footer img.connections {
 	width: 24px;
 	height: 24px;
 	position: relative;
-	top: -4px;
+	top: -5px;
 }
 
-footer .wallet-status i {
-	font-size: 20px;
-	line-height: 20px;
+footer .wallet-status > i {
+	font-size: 18px;
+	line-height: 18px;
 	margin: 0;
 	padding: 0;
+	margin-right: 6px;
 }
+
+footer .blockchain-status > i {
+	font-size: 14px;
+	line-height: 14px;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	top: -1px;
+}
+
 
 .ngRow.even {
         background-color: rgb(255, 255, 255);

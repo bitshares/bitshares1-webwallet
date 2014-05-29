@@ -136,15 +136,18 @@ angular.module("app").run(["$templateCache", function($templateCache) {
   );
 
   $templateCache.put("footer.html",
-    "<div class=\"container\">\n" +
-    "\t<p class=\"text-muted pull-right\">\n" +
-    "\t\t<img class=\"connections\" ng-src=\"{{connections_img}}\" alt=\"network connections\" title=\"{{connections_str}}\" height=\"24\" width=\"24\"/>\n" +
-    "\t\t<span class=\"wallet-status\" ng-switch on=\"wallet_open\">\n" +
-    "\t\t\t<i class=\"wallet-status fa fa-unlock fa-fw\" ng-switch-when=\"true\" title=\"Wallet is open\"></i>\n" +
-    "\t\t\t<i class=\"wallet-status fa fa-lock fa-fw\" ng-switch-default title=\"Wallet is closed\"></i>\n" +
-    "\t\t</span>\n" +
-    "\t</p>\n" +
-    "</div>\n"
+    "<p class=\"text-muted pull-right\">\n" +
+    "\t<span class=\"wallet-status\" ng-switch on=\"wallet_unlocked\">\n" +
+    "\t\t<i class=\"fa fa-unlock-alt\" ng-switch-when=\"true\" tooltip=\"Wallet is unlocked\"></i>\n" +
+    "\t\t<i class=\"fa fa-lock\" ng-switch-default tooltip=\"Wallet is locked\"></i>\n" +
+    "\t</span>\n" +
+    "\t<span class=\"blockchain-status \" ng-switch on=\"blockchain_status\">\n" +
+    "\t\t<i class=\"fa fa-check\" ng-switch-when=\"synced\" tooltip=\"Up to date, processed {{blockchain_last_block_num}} blocks\"></i>\n" +
+    "\t\t<i class=\"fa fa-refresh fa-spin\" ng-switch-when=\"syncing\" tooltip=\"Blockchain is {{blockchain_blocks_behind}} blocks behind\"></i>\n" +
+    "\t\t<i ng-switch-default></i>\n" +
+    "\t</span>\n" +
+    "\t<img class=\"connections\" ng-src=\"{{connections_img}}\" alt=\"network connections\" tooltip=\"{{connections_str}}\" height=\"24\" width=\"24\"/>\n" +
+    "</p>\n"
   );
 
   $templateCache.put("home.html",

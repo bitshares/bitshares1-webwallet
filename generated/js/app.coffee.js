@@ -139,6 +139,9 @@
   angular.module("app").controller("FooterController", function($scope, Wallet) {
     var on_update, watch_for;
     $scope.connections = 0;
+    $scope.blockchain_blocks_behind = 0;
+    $scope.blockchain_status = "off";
+    $scope.blockchain_last_block_num = 0;
     watch_for = function() {
       return Wallet.info;
     };
@@ -158,7 +161,12 @@
       } else {
         $scope.connections_img = "/img/signal_4.png";
       }
-      return $scope.wallet_open = info.wallet_open;
+      $scope.wallet_unlocked = info.wallet_unlocked;
+      if (info.last_block_time) {
+        $scope.blockchain_blocks_behind = Math.floor((Date.now() - info.last_block_time.getTime()) / (30 * 1000));
+        $scope.blockchain_status = $scope.blockchain_blocks_behind < 2 ? "synced" : "syncing";
+        return $scope.blockchain_last_block_num = info.last_block_num;
+      }
     };
     return $scope.$watch(watch_for, on_update, true);
   });
@@ -250,13 +258,8 @@
     }
     open_wallet_request = function() {
       return RpcService.request('wallet_open', ['default', $scope.password]).then(function(response) {
-        if (response.result) {
-          $modalInstance.close("ok");
-          return $scope.cur_deferred.resolve();
-        } else {
-          $scope.password_validation_error();
-          return $scope.cur_deferred.resolve("invalid password");
-        }
+        $modalInstance.close("ok");
+        return $scope.cur_deferred.resolve();
       }, function(reason) {
         $scope.password_validation_error();
         return $scope.cur_deferred.reject(reason);
@@ -563,7 +566,7 @@
 
   servicesModule.factory("myHttpInterceptor", function($q, $rootScope, ErrorService) {
     var dont_report_methods;
-    dont_report_methods = ["open_wallet", "walletpassphrase"];
+    dont_report_methods = ["open_wallet", "walletpassphrase", "get_info", "blockchain_get_block_by_number"];
     return {
       responseError: function(response) {
         var error_msg, method, method_in_dont_report_list, promise, title, _ref, _ref1, _ref2;
@@ -642,7 +645,6 @@
         };
         angular.extend(http_params.data, reqparams);
         return $http(http_params).then(function(response) {
-          console.log("RpcService <" + http_params.data.method + "> response:", response);
           return response.data || response;
         });
       }
@@ -656,6 +658,8 @@
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Wallet = (function() {
+    var convertDate;
+
     function Wallet(q, log, rpc, error_service, interval) {
       this.q = q;
       this.log = log;
@@ -668,10 +672,28 @@
       this.info = {
         network_connections: 0,
         balance: 0,
-        wallet_open: false
+        wallet_open: false,
+        last_block_num: 0,
+        last_block_time: null
       };
       this.watch_for_updates();
     }
+
+    convertDate = function(t) {
+      var dateRE, i, match, nums;
+      dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/;
+      match = t.match(dateRE);
+      if (!match) {
+        return 0;
+      }
+      nums = [];
+      i = 1;
+      while (i < match.length) {
+        nums.push(parseInt(match[i], 10));
+        i++;
+      }
+      return new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]));
+    };
 
     Wallet.prototype.create = function(wallet_password, spending_password) {
       var _this = this;
@@ -701,8 +723,8 @@
     Wallet.prototype.get_wallet_name = function() {
       var _this = this;
       return this.rpc.request('wallet_get_name').then(function(response) {
-        _this.wallet_name = response.result;
-        return console.log("---- current wallet name: ", response.result);
+        console.log("---- current wallet name: ", response.result);
+        return _this.wallet_name = response.result;
       });
     };
 
@@ -712,16 +734,33 @@
       });
     };
 
+    Wallet.prototype.get_block = function(block_num) {
+      return this.rpc.request('blockchain_get_block_by_number', [block_num]).then(function(response) {
+        return response.result;
+      });
+    };
+
     Wallet.prototype.watch_for_updates = function() {
       var _this = this;
       return this.interval((function() {
-        return _this.get_info().then(function(info) {
-          _this.info.network_connections = info.network_num_connections;
-          _this.info.balance = info.wallet_balance;
-          _this.info.wallet_open = info.wallet_open;
-          return _this.log.info("+++ intervalFunction", _this.info);
+        return _this.get_info().then(function(data) {
+          return _this.get_block(data.blockchain_block_num).then(function(block) {
+            _this.info.network_connections = data.network_num_connections;
+            _this.info.balance = data.wallet_balance;
+            _this.info.wallet_open = data.wallet_open;
+            _this.info.wallet_unlocked = !!data.wallet_unlocked_until;
+            _this.info.last_block_time = convertDate(block.timestamp);
+            return _this.info.last_block_num = data.blockchain_block_num;
+          });
+        }, function() {
+          _this.info.network_connections = 0;
+          _this.info.balance = 0;
+          _this.info.wallet_open = false;
+          _this.info.wallet_unlocked = false;
+          _this.info.last_block_time = null;
+          return _this.info.last_block_num = 0;
         });
-      }), 5000);
+      }), 2500);
     };
 
     return Wallet;

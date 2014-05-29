@@ -1,9 +1,12 @@
-<div class="container">
-	<p class="text-muted pull-right">
-		<img class="connections" ng-src="{{connections_img}}" alt="network connections" title="{{connections_str}}" height="24" width="24"/>
-		<span class="wallet-status" ng-switch on="wallet_open">
-			<i class="wallet-status fa fa-unlock fa-fw" ng-switch-when="true" title="Wallet is open"></i>
-			<i class="wallet-status fa fa-lock fa-fw" ng-switch-default title="Wallet is closed"></i>
-		</span>
-	</p>
-</div>
+<p class="text-muted pull-right">
+	<span class="wallet-status" ng-switch on="wallet_unlocked">
+		<i class="fa fa-unlock-alt" ng-switch-when="true" tooltip="Wallet is unlocked"></i>
+		<i class="fa fa-lock" ng-switch-default tooltip="Wallet is locked"></i>
+	</span>
+	<span class="blockchain-status " ng-switch on="blockchain_status">
+		<i class="fa fa-check" ng-switch-when="synced" tooltip="Up to date, processed {{blockchain_last_block_num}} blocks"></i>
+		<i class="fa fa-refresh fa-spin" ng-switch-when="syncing" tooltip="Blockchain is {{blockchain_blocks_behind}} blocks behind"></i>
+		<i ng-switch-default></i>
+	</span>
+	<img class="connections" ng-src="{{connections_img}}" alt="network connections" tooltip="{{connections_str}}" height="24" width="24"/>
+</p>

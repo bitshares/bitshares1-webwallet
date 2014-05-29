@@ -1,5 +1,8 @@
 angular.module("app").controller "FooterController", ($scope, Wallet) ->
   $scope.connections = 0
+  $scope.blockchain_blocks_behind = 0
+  $scope.blockchain_status = "off"
+  $scope.blockchain_last_block_num = 0
 
   watch_for = ->
     Wallet.info
@@ -19,7 +22,12 @@ angular.module("app").controller "FooterController", ($scope, Wallet) ->
     else
       $scope.connections_img = "/img/signal_4.png"
 
-    $scope.wallet_open = info.wallet_open
+    $scope.wallet_unlocked = info.wallet_unlocked
+
+    if info.last_block_time
+      $scope.blockchain_blocks_behind = Math.floor((Date.now() - info.last_block_time.getTime()) / (30 * 1000))
+      $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
+      $scope.blockchain_last_block_num = info.last_block_num
 
   $scope.$watch(watch_for, on_update, true)
 

@@ -13,5 +13,5 @@ servicesModule.factory "RpcService", ($http, ErrorService) ->
           id: 1
       angular.extend(http_params.data, reqparams)
       $http(http_params).then (response) ->
-        console.log "RpcService <#{http_params.data.method}> response:", response
+        #console.log "RpcService <#{http_params.data.method}> response:", response
         response.data or response

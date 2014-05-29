@@ -11,7 +11,7 @@ servicesModule.config ($httpProvider) ->
   $httpProvider.interceptors.push('myHttpInterceptor')
 
 servicesModule.factory "myHttpInterceptor", ($q, $rootScope, ErrorService) ->
-  dont_report_methods = ["open_wallet", "walletpassphrase"]
+  dont_report_methods = ["open_wallet", "walletpassphrase", "get_info", "blockchain_get_block_by_number"]
 
 #  request: (config) ->
 #    config

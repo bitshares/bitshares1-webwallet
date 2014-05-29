@@ -11,12 +11,8 @@ angular.module("app").controller "OpenWalletController", ($scope, $modalInstance
 
   open_wallet_request = ->
     RpcService.request('wallet_open', ['default', $scope.password]).then (response) ->
-      if response.result
-        $modalInstance.close("ok")
-        $scope.cur_deferred.resolve()
-      else
-        $scope.password_validation_error()
-        $scope.cur_deferred.resolve("invalid password")
+      $modalInstance.close("ok")
+      $scope.cur_deferred.resolve()
     ,
     (reason) ->
       $scope.password_validation_error()
