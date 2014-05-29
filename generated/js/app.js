@@ -41736,7 +41736,7 @@ angular.module('ngGrid').run(['$templateCache', function($templateCache) {
       return Wallet.info;
     };
     on_update = function(info) {
-      var connections;
+      var connections, hours_diff, hours_diff_str, minutes_diff, minutes_diff_str, seconds_diff;
       connections = info.network_connections;
       $scope.connections = connections;
       if (connections === 0) {
@@ -41753,7 +41753,13 @@ angular.module('ngGrid').run(['$templateCache', function($templateCache) {
       }
       $scope.wallet_unlocked = info.wallet_unlocked;
       if (info.last_block_time) {
-        $scope.blockchain_blocks_behind = Math.floor((Date.now() - info.last_block_time.getTime()) / (30 * 1000));
+        seconds_diff = (Date.now() - info.last_block_time.getTime()) / 1000;
+        hours_diff = Math.floor(seconds_diff / 3600);
+        minutes_diff = (Math.floor(seconds_diff / 60)) % 60;
+        hours_diff_str = hours_diff === 1 ? "" + hours_diff + " hour" : "" + hours_diff + " hours";
+        minutes_diff_str = minutes_diff === 1 ? "" + minutes_diff + " minute" : "" + minutes_diff + " minutes";
+        $scope.blockchain_blocks_behind = Math.floor(seconds_diff / 30);
+        $scope.blockchain_time_behind = "" + hours_diff_str + " " + minutes_diff_str;
         $scope.blockchain_status = $scope.blockchain_blocks_behind < 2 ? "synced" : "syncing";
         return $scope.blockchain_last_block_num = info.last_block_num;
       }
@@ -42256,6 +42262,7 @@ angular.module('ngGrid').run(['$templateCache', function($templateCache) {
             return _this.info.last_block_num = data.blockchain_block_num;
           });
         }, function() {
+          console.log("error----->");
           _this.info.network_connections = 0;
           _this.info.balance = 0;
           _this.info.wallet_open = false;
@@ -42435,7 +42442,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "\t</span>\n" +
     "\t<span class=\"blockchain-status \" ng-switch on=\"blockchain_status\">\n" +
     "\t\t<i class=\"fa fa-check\" ng-switch-when=\"synced\" tooltip=\"Up to date, processed {{blockchain_last_block_num}} blocks\"></i>\n" +
-    "\t\t<i class=\"fa fa-refresh fa-spin\" ng-switch-when=\"syncing\" tooltip=\"Blockchain is {{blockchain_blocks_behind}} blocks behind\"></i>\n" +
+    "\t\t<i class=\"fa fa-refresh fa-spin\" ng-switch-when=\"syncing\" tooltip=\"Catching up.. processed {{blockchain_last_block_num}} out of {{blockchain_last_block_num + blockchain_blocks_behind}} blocks ({{blockchain_time_behind}} behind)\"></i>\n" +
     "\t\t<i ng-switch-default></i>\n" +
     "\t</span>\n" +
     "\t<img class=\"connections\" ng-src=\"{{connections_img}}\" alt=\"network connections\" tooltip=\"{{connections_str}}\" height=\"24\" width=\"24\"/>\n" +

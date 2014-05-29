@@ -150,7 +150,7 @@
       return Wallet.info;
     };
     on_update = function(info) {
-      var connections;
+      var connections, hours_diff, hours_diff_str, minutes_diff, minutes_diff_str, seconds_diff;
       connections = info.network_connections;
       $scope.connections = connections;
       if (connections === 0) {
@@ -167,7 +167,13 @@
       }
       $scope.wallet_unlocked = info.wallet_unlocked;
       if (info.last_block_time) {
-        $scope.blockchain_blocks_behind = Math.floor((Date.now() - info.last_block_time.getTime()) / (30 * 1000));
+        seconds_diff = (Date.now() - info.last_block_time.getTime()) / 1000;
+        hours_diff = Math.floor(seconds_diff / 3600);
+        minutes_diff = (Math.floor(seconds_diff / 60)) % 60;
+        hours_diff_str = hours_diff === 1 ? "" + hours_diff + " hour" : "" + hours_diff + " hours";
+        minutes_diff_str = minutes_diff === 1 ? "" + minutes_diff + " minute" : "" + minutes_diff + " minutes";
+        $scope.blockchain_blocks_behind = Math.floor(seconds_diff / 30);
+        $scope.blockchain_time_behind = "" + hours_diff_str + " " + minutes_diff_str;
         $scope.blockchain_status = $scope.blockchain_blocks_behind < 2 ? "synced" : "syncing";
         return $scope.blockchain_last_block_num = info.last_block_num;
       }
@@ -670,6 +676,7 @@
             return _this.info.last_block_num = data.blockchain_block_num;
           });
         }, function() {
+          console.log("error----->");
           _this.info.network_connections = 0;
           _this.info.balance = 0;
           _this.info.wallet_open = false;

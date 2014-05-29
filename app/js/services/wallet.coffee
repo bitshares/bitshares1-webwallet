@@ -61,6 +61,7 @@ class Wallet
           @info.last_block_time = @toDate(block.timestamp)
           @info.last_block_num = data.blockchain_block_num
       , =>
+        console.log "error----->"
         @info.network_connections = 0
         @info.balance = 0
         @info.wallet_open = false
