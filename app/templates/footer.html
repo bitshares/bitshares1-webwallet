@@ -5,7 +5,7 @@
 	</span>
 	<span class="blockchain-status " ng-switch on="blockchain_status">
 		<i class="fa fa-check" ng-switch-when="synced" tooltip="Up to date, processed {{blockchain_last_block_num}} blocks"></i>
-		<i class="fa fa-refresh fa-spin" ng-switch-when="syncing" tooltip="Catching up.. processed {{blockchain_last_block_num}} out of {{blockchain_last_block_num + blockchain_blocks_behind}} blocks ({{blockchain_time_behind}} behind)"></i>
+		<i class="fa fa-refresh fa-spin" ng-switch-when="syncing" tooltip="Blockchain is {{blockchain_blocks_behind}} blocks behind"></i>
 		<i ng-switch-default></i>
 	</span>
 	<img class="connections" ng-src="{{connections_img}}" alt="network connections" tooltip="{{connections_str}}" height="24" width="24"/>

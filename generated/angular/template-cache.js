@@ -139,7 +139,7 @@ angular.module("app").run(["$templateCache", function($templateCache) {
     "\t</span>\n" +
     "\t<span class=\"blockchain-status \" ng-switch on=\"blockchain_status\">\n" +
     "\t\t<i class=\"fa fa-check\" ng-switch-when=\"synced\" tooltip=\"Up to date, processed {{blockchain_last_block_num}} blocks\"></i>\n" +
-    "\t\t<i class=\"fa fa-refresh fa-spin\" ng-switch-when=\"syncing\" tooltip=\"Catching up.. processed {{blockchain_last_block_num}} out of {{blockchain_last_block_num + blockchain_blocks_behind}} blocks ({{blockchain_time_behind}} behind)\"></i>\n" +
+    "\t\t<i class=\"fa fa-refresh fa-spin\" ng-switch-when=\"syncing\" tooltip=\"Blockchain is {{blockchain_blocks_behind}} blocks behind\"></i>\n" +
     "\t\t<i ng-switch-default></i>\n" +
     "\t</span>\n" +
     "\t<img class=\"connections\" ng-src=\"{{connections_img}}\" alt=\"network connections\" tooltip=\"{{connections_str}}\" height=\"24\" width=\"24\"/>\n" +
