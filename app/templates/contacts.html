@@ -7,7 +7,7 @@
 	<div class="col-md-12">
 		<h3 class="header-title">Contacts</h3>
 		<div class="pull-left">
-			<button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> New</button>
+			<button type="submit" ng-click='newContactModal()' class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> New</button>
 		</div>
 		<div class="pull-right">
 			<input type="text" class="form-control" ng-model="filterOptions.filterText" placeholder='Filter'>
@@ -16,6 +16,7 @@
 </div>
 
 <div class="main-content">
+
 	<div>
         <div style="height: 600px; padding-top:6px" ng-grid="gridOptions"></div>    
     </div>

@@ -1,4 +1,4 @@
-angular.module("app").controller "ContactsController", ($scope, $state, $location, RpcService, InfoBarService) ->
+angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, ErrorService, RpcService, InfoBarService, Shared) ->
   $scope.myData = []
   $scope.filterOptions = filterText: ""
   $scope.gridOptions =
@@ -7,23 +7,22 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     enableCellEdit: false
     data: "myData"
     filterOptions: $scope.filterOptions
+    rowHeight: 68
     columnDefs: [
       {
         field: "Label"
-        width: 80
-        enableCellEdit: true
-      }
-      {
-        field: "Address"
         enableCellEdit: false
+        displayName: "Name"
+        cellTemplate: '<a ui-sref="contact" ng-click="contactClicked(row)" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field][0]}}</div><div style="font-family:monospace">{{row.entity[col.field][1]}}</div></div></a>'
       }
+      #class="btn btn-default btn-sm active" style="width:100%"
       {
         displayName: ""
         enableCellEdit: false
-        width: 100
+        width: 200
         #btn btn-danger btn-sm
-        cellTemplate: "<div class='text-center' style='margin-top:4px'><button title='Copy' class='btn btn-xs btn-link' ng-click=\"bam()\"><i class='fa fa-lg fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-lg fa-copy fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
-        headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-wrench fa-fw fa-2x'></i></div>"
+        cellTemplate: "<div class='text-center' style='margin-top:10px'><button title='Copy' class='btn btn-xs btn-link' ng-click='sendHimFunds(row)'><i class='fa fa-3x fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i class='fa fa-3x fa-copy fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link' onclick=\"alert('You clicked  {{row.entity}} ')\"><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
+        headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-gear fa-fw fa-2x'></i></div>"
         #<i class='fa fa-copy fa-fw'></i>    ng-click=\"bam()\"
       }
     ]
@@ -43,8 +42,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
       while i < data.length
         newData.push
-          Label: data[i][0]
-          Address: data[i][1]
+          Label: data[i]
 
         i++
       $scope.myData = newData
@@ -53,6 +51,19 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
   $scope.refresh_addresses()
 
-  $scope.bam = ->
-  	$state.go("transfer")
-  	$scope.payto = 'xxx'
+
+  $scope.sendHimFunds = (contact) ->
+    Shared.contactName = contact.entity.Label[0]
+    $state.go "transfer"
+
+  $scope.contactClicked = (contact) ->
+    Shared.contactName = contact.entity.Label[0]
+    Shared.contactAddress = contact.entity.Label[1]
+
+  $scope.newContactModal = ->
+
+  
+  	
+    $modal.open
+      templateUrl: "newcontact.html"
+          

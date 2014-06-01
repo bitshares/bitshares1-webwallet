@@ -1,5 +1,6 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, InfoBarService) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, InfoBarService, Shared) ->
 
+  $scope.payto = Shared.contactName
   $scope.send = ->
   	# $scope.memo was removed
     RpcService.request('wallet_transfer', [$scope.amount, $scope.payto, {"to_account":$scope.payto}]).then (response) ->

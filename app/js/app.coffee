@@ -27,6 +27,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "contacts.html"
     controller: "ContactsController"
 
+  contact =
+    name: 'contact'
+    url: '/contact'
+    templateUrl: "contact.html"
+    controller: "ContactController"
+
   transactions =
     name: 'transactions'
     url: '/transactions'
@@ -46,5 +52,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     controller: "CreateWalletController"
 
   $stateProvider.state(home).state(receive).state(transfer).state(contacts)
-    .state(transactions).state(blocks).state(createwallet)
+    .state(transactions).state(blocks).state(createwallet).state(contact)
 
