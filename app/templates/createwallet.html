@@ -4,59 +4,52 @@
 
  <div class="header row">
   <div class="col-md-12">
-   <h3 class="header-title">BitShares XT Wallet</h3>
+    <img src="img/bs-double-trans.png" class="img-responsive">
+    <br><br>
+   <h3 class="header-title">Create New BitShares XT Wallet</h3>
   </div>
  </div>
 <br/>
  <form name="wform" class="form-horizontal" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
-
+<!--Name is set to default
   <div class="row">
    <div class="col-md-12">
-    <h3>Wallet Password</h3>
+    <h3>Name</h3>
 
-    <p>Your wallet password is optional and secures your transaction history. This password is separate from your
-     spending password which secures your private keys. If you forget this password you will be unable to view or
-     transfer your shares.</p>
+    <p>Your wallet name.  You can have multiple wallets on one</p>
 
     <div class="form-group" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
-     <label for="wallet_password" class="col-sm-2 control-label">Password</label>
+     <label for="wallet_name" class="col-sm-2 control-label">Name</label>
 
      <div class="col-sm-6">
-      <input ng-model="wallet_password" name="wp" type="password" class="form-control" id="wallet_password"
-             placeholder="Password" autofocus ng-minlength="3">
-      <p ng-show="wform.wp.$error.minlength" class="help-block">Password is too short.</p>
-     </div>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : wform.cwp.$invalid && !wform.cwp.$pristine }">
-     <label for="confirm_wallet_password" class="col-sm-2 control-label">Confirm Password</label>
-
-     <div class="col-sm-6">
-      <input ng-model="confirm_wallet_password" name="cwp" type="password" class="form-control"
-             id="confirm_wallet_password"
-             placeholder="Confirm Password" data-match="wallet_password">
-      <p ng-show="wform.cwp.$error.match" class="help-block">Fields do not match.</p>
+      <input ng-model="wallet_name" name="wp" required class="form-control" ng-pattern="/^[a-z][a-z0-9-]*$/" id="wallet_name"
+             placeholder="Name" autofocus ng-minlength="1" ng-maxlength="63">
+      <p ng-show="wform.wp.$error.required" class="help-block">Name is required.</p>
+      <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
+      <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
      </div>
     </div>
    </div>
   </div>
+  -->
   <br/>
   <div class="row">
    <div class="col-md-12">
-    <h3>Spending Password</h3>
+    <h3>Password</h3>
 
-    <p>Your spending password is manditory and controls when and how your funds may be spent. If you forget this
+    <p>Your password is manditory and controls when and how your funds may be spent. If you forget this
      password you will be unable to transfer your shares.</p>
 
     <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
      <label for="spending_password" class="col-sm-2 control-label">Password</label>
 
      <div class="col-sm-6">
-      <input ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password"
+      <input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password"
              placeholder="Password"
-             required autofocus ng-minlength="9">
+             required autofocus ng-minlength="9" ng-maxlength="255">
 
       <p ng-show="wform.sp.$error.minlength" class="help-block">Password is too short. It must be more than 8 characters.</p>
-
+      <p ng-show="wform.sp.$error.maxlength" class="help-block">Password is too long. It can be at most 255 characters.</p>
       <p ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="help-block">Password is required.</p>
      </div>
     </div>
@@ -64,13 +57,44 @@
      <label for="confirm_spending_password" class="col-sm-2 control-label">Confirm Password</label>
 
      <div class="col-sm-6">
-      <input ng-model="confirm_spending_password" name="csp" type="password" class="form-control"
+      <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" class="form-control"
              id="confirm_spending_password"
              placeholder="Confirm Password" required data-match="spending_password">
 
       <p ng-show="wform.csp.$error.match" class="help-block">Fields do not match.</p>
      </div>
     </div>
+    <!--
+    <div>
+      <button class="btn btn-default btn-lg" ng-click="isCollapsed = !isCollapsed">Brain Wallet</button>
+      <hr>
+      <div collapse="isCollapsed">
+        <div class="well well-lg">
+          <div class="form-group" ng-class="{ 'has-error' : wform.bp.$invalid && !wform.bp.$pristine }">
+           <label for="brain_passphrase" class="col-sm-2 control-label">Brain Passphrase</label>
+
+           <div class="col-sm-6">
+            <input ng-trim="false" ng-model="brain_passphrase" name="bp" type="password" class="form-control" id="brain_passphrase"
+                   placeholder="Brain Passphrase" autofocus ng-minlength="32" ng-maxlength="255">
+
+            <p ng-show="wform.bp.$error.minlength" class="help-block">Passphrase is too short. It must be at least 32 characters.</p>
+            <p ng-show="wform.bp.$error.maxlength" class="help-block">Passphrase is too long. It can be at most 255 characters.</p>
+           </div>
+          </div>
+          <div class="form-group" ng-class="{ 'has-error' : wform.cbp.$invalid && !wform.cbp.$pristine }">
+           <label for="confirm_brain_passphrase" class="col-sm-2 control-label">Confirm Brain Passphrase</label>
+
+           <div class="col-sm-6">
+            <input ng-trim="false" ng-model="confirm_brain_passphrase" name="cbp" type="password" class="form-control"
+                   id="confirm_brain_passphrase" placeholder="Confirm Brain Passphrase" data-match="brain_passphrase">
+
+            <p ng-show="wform.cbp.$error.match" class="help-block">Fields do not match.</p>
+           </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+    -->
 
     <div class="form-group row">
      <div class="col-sm-offset-2 col-sm-10">
