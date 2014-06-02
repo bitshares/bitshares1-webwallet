@@ -53,13 +53,13 @@ class Wallet
     @interval (=>
       @get_info().then (data) =>
         #console.log "watch_for_updates get_info:>", data
-        @get_block(data.blockchain_block_num).then (block) =>
+        @get_block(data.blockchain_head_block_num).then (block) =>
           @info.network_connections = data.network_num_connections
           @info.balance = data.wallet_balance
           @info.wallet_open = data.wallet_open
           @info.wallet_unlocked = !!data.wallet_unlocked_until
           @info.last_block_time = @toDate(block.timestamp)
-          @info.last_block_num = data.blockchain_block_num
+          @info.last_block_num = data.blockchain_head_block_num
       , =>
         @info.network_connections = 0
         @info.balance = 0
@@ -73,18 +73,18 @@ class Wallet
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
     # TODO: cache transactions
     # TODO: sort transactions, show the most recent ones on top
-    @rpc.request("wallet_get_transaction_history").then (response) =>
-      #console.log "--- transactions = ", response
+    @rpc.request("wallet_account_transaction_history").then (response) =>
+      console.log "--- transactions = ", response
       transactions = []
-      angular.forEach response.result, (val) =>
-        transactions.push
-          block_num: val.location.block_num
-          trx_num: val.location.trx_num
-          time: @toDate(val.received).toDateString()
-          amount: val.trx.operations[0].data.amount
-          from: val.trx.operations[0].data.balance_id.slice(-32)
-          to: val.trx.operations[1].data.condition.data.owner.slice(-32)
-          memo: val.memo
+#      angular.forEach response.result, (val) =>
+#        transactions.push
+#          block_num: val.location.block_num
+#          trx_num: val.location.trx_num
+#          time: @toDate(val.received).toDateString()
+#          amount: val.trx.operations[0].data.amount
+#          from: val.trx.operations[0].data.balance_id.slice(-32)
+#          to: val.trx.operations[1].data.condition.data.owner.slice(-32)
+#          memo: val.memo
       transactions
 
 

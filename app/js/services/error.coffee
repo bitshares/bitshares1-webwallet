@@ -20,6 +20,7 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, ErrorService) ->
 #    response
 
   responseError: (response) ->
+
     promise = null
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
@@ -31,6 +32,8 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, ErrorService) ->
       method = response.config.data?.method
       title = if method then "RPC error calling #{method}" else "RPC error"
       error_msg = "#{title}: #{error_msg}"
+    else if response.message
+      error_msg = response.message
     else
       error_msg = "HTTP Error: " + error_msg
     console.log "#{error_msg.substring(0, 512)} (#{response.status})", response
