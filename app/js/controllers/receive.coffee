@@ -1,10 +1,14 @@
-angular.module("app").controller "ReceiveController", ($scope, $location, RpcService, InfoBarService) ->
+angular.module("app").controller "ReceiveController", ($scope, $location, RpcService, InfoBarService, Shared) ->
   $scope.new_address_label = ""
   $scope.addresses = []
   $scope.pk_label = ""
   $scope.pk_value = ""
   $scope.wallet_file = ""
   $scope.wallet_password = ""
+
+  $scope.accountClicked = (name, address)->
+    Shared.accountName  = name
+    Shared.accountAddress = address
 
   refresh_addresses = ->
     RpcService.request('wallet_list_receive_accounts').then (response) ->
