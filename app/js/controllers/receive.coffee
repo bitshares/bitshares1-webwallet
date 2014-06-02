@@ -14,12 +14,12 @@ angular.module("app").controller "ReceiveController", ($scope, $location, RpcSer
     RpcService.request('wallet_list_receive_accounts').then (response) ->
       $scope.addresses.splice(0, $scope.addresses.length)
       angular.forEach response.result, (val) ->
-        $scope.addresses.push({label: val[0], address: val[1]})
+        $scope.addresses.push({label: val.name, address: val.owner_key})
 
   refresh_addresses()
 
   $scope.create_address = ->
-    RpcService.request('wallet_create_receive_account', [$scope.new_address_label]).then (response) ->
+    RpcService.request('wallet_create_account', [$scope.new_address_label]).then (response) ->
       $scope.new_address_label = ""
       refresh_addresses()
 

@@ -13,7 +13,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
         field: "Label"
         enableCellEdit: false
         displayName: "Name"
-        cellTemplate: '<a ui-sref="contact" ng-click="contactClicked(row)" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field][0]}}</div><div style="font-family:monospace">{{row.entity[col.field][1]}}</div></div></a>'
+        cellTemplate: '<a ui-sref="contact" ng-click="contactClicked(row)" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field].name}}</div><div style="font-family:monospace">{{row.entity[col.field].owner_key}}</div></div></a>'
       }
       #class="btn btn-default btn-sm active" style="width:100%"
       {
@@ -35,7 +35,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     return
 
   $scope.refresh_addresses = ->
-    RpcService.request("wallet_list_receive_accounts").then (response) ->
+    RpcService.request("wallet_list_contact_accounts").then (response) ->
       newData = []
       data = response.result
       i = 0
@@ -52,12 +52,12 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
 
   $scope.sendHimFunds = (contact) ->
-    Shared.contactName = contact.entity.Label[0]
+    Shared.contactName = contact.entity.Label.name
     $state.go "transfer"
 
   $scope.contactClicked = (contact) ->
-    Shared.contactName = contact.entity.Label[0]
-    Shared.contactAddress = contact.entity.Label[1]
+    Shared.contactName = contact.entity.Label.name
+    Shared.contactAddress = contact.entity.Label.owner_key
 
   $scope.newContactModal = ->
 
