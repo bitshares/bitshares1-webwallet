@@ -15,22 +15,30 @@
 		<table class="table table-striped table-hover">
 			<thead>
 			<tr>
-				<th>BLK</th>
-				<th>TRX</th>
-				<th>CONFIRMED</th>
-				<th>AMOUNT</th>
+				<th>#</th>
+				<th>BLK.TRX</th>
+				<th>TIME RECEIVED</th>
 				<th>FROM</th>
 				<th>TO</th>
+				<th>MEMO</th>
+				<th>AMOUNT</th>
+				<th>FEE</th>
+				<th>VOTE</th>
+				<th>ID</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr ng-repeat="t in transactions">
-				<td>{{ t.block_num }}</td>
 				<td>{{ t.trx_num }}</td>
+				<td>{{ t.block_num }}</td>
 				<td>{{ t.time }}</td>
-				<td>{{ t.amount | currency : '' }}</td>
 				<td>{{ t.from }}</td>
 				<td>{{ t.to }}</td>
+				<td>{{ t.memo }}</td>
+				<td>{{ t.amount | currency : '' }}</td>
+				<td>{{ t.fee }}</td>
+				<td>{{ t.vote }}</td>
+				<td>{{ t.id }}</td>
 			</tr>
 			</tbody>
 		</table>

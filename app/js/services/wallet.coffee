@@ -81,17 +81,20 @@ class Wallet
     # TODO: cache transactions
     # TODO: sort transactions, show the most recent ones on top
     @rpc.request("wallet_account_transaction_history").then (response) =>
-      console.log "--- transactions = ", response
+      console.log "--- transactions = ", response.result
       transactions = []
-#      angular.forEach response.result, (val) =>
-#        transactions.push
-#          block_num: val.location.block_num
-#          trx_num: val.location.trx_num
-#          time: @toDate(val.received).toDateString()
-#          amount: val.trx.operations[0].data.amount
-#          from: val.trx.operations[0].data.balance_id.slice(-32)
-#          to: val.trx.operations[1].data.condition.data.owner.slice(-32)
-#          memo: val.memo
+      angular.forEach response.result, (val, key) =>
+        transactions.push
+          block_num: val.block_num + "." + val.trx_num
+          trx_num: Number(key) + 1
+          time: val.received_time
+          amount: val.amount.amount
+          from: val.from_account
+          to: val.to_account
+          memo: val.memo_message
+          id: val.trx_id
+          fee: val.fees
+          vote: "N/A"
       transactions
 
 
