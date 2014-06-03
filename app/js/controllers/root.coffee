@@ -1,7 +1,9 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, ErrorService, InfoBarService) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, ErrorService, InfoBarService, Wallet) ->
   $scope.errorService = ErrorService
   $scope.infoBarService = InfoBarService
+  Wallet.open()
 
+  
   open_wallet = (mode) ->
     $rootScope.cur_deferred = $q.defer()
     $modal.open
@@ -11,6 +13,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         mode: -> mode
     $rootScope.cur_deferred.promise
 
+
+  
   $rootScope.open_wallet_and_repeat_request = (mode, request_data) ->
     deferred_request = $q.defer()
     #console.log "------ open_wallet_and_repeat_request #{mode} ------"

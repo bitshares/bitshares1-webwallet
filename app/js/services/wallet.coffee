@@ -44,6 +44,10 @@ class Wallet
   get_info: ->
     @rpc.request('get_info').then (response) ->
       response.result
+  
+  open: ->
+    @rpc.request('wallet_open', ['default']).then (response) ->
+      response.result
 
   get_block: (block_num)->
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
