@@ -57,13 +57,14 @@ class Wallet
     @interval (=>
       @get_info().then (data) =>
         #console.log "watch_for_updates get_info:>", data
-        @get_block(data.blockchain_head_block_num).then (block) =>
-          @info.network_connections = data.network_num_connections
-          @info.balance = data.wallet_balance
-          @info.wallet_open = data.wallet_open
-          @info.wallet_unlocked = !!data.wallet_unlocked_until
-          @info.last_block_time = @toDate(block.timestamp)
-          @info.last_block_num = data.blockchain_head_block_num
+        if data.blockchain_head_block_num > 0
+          @get_block(data.blockchain_head_block_num).then (block) =>
+            @info.network_connections = data.network_num_connections
+            @info.balance = data.wallet_balance
+            @info.wallet_open = data.wallet_open
+            @info.wallet_unlocked = !!data.wallet_unlocked_until
+            @info.last_block_time = @toDate(block.timestamp)
+            @info.last_block_num = data.blockchain_head_block_num
       , =>
         @info.network_connections = 0
         @info.balance = 0
