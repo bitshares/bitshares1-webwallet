@@ -65,4 +65,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
   	
     $modal.open
       templateUrl: "newcontact.html"
+      controller: "NewContactController"
+      resolve:
+        refresh:  -> $scope.refresh_addresses
           

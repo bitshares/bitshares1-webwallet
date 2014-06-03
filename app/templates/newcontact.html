@@ -3,13 +3,12 @@
  </div>
  <form role="form" ng-submit="ok()">
  <div class="modal-body">
-  <div class="form-group" ng-class="{'has-error': $parent.has_error}">
+  <div class="form-group">
    <label for="contact_name">Name</label>
-   <input ng-model="$parent.password" focus-me class="form-control" id="contact_name" placeholder="Name" required autofocus>
+   <input ng-model="$parent.name" focus-me class="form-control" id="contact_name" placeholder="Name" required autofocus>
    <br>
    <label for="contact_address">Address</label>
-   <input ng-model="$parent.password" class="form-control" id="contact_address" placeholder="Address">
-   <p class="help-block error" ng-show="$parent.has_error">{{ wrong_password_msg }}</p>
+   <input ng-model="$parent.address" class="form-control" id="contact_address" placeholder="Address">
   </div>
  </div>
  </form>
