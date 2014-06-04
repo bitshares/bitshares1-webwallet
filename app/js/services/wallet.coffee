@@ -69,23 +69,23 @@ class Wallet
         @info.last_block_num = 0
     ), 2500
 
-  get_transactions: =>
+  get_transactions: (account)=>
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
     # TODO: cache transactions
     # TODO: sort transactions, show the most recent ones on top
-    @rpc.request("wallet_account_transaction_history").then (response) =>
+    @rpc.request("wallet_account_transaction_history", [account]).then (response) =>
       console.log "--- transactions = ", response.result
       transactions = []
       angular.forEach response.result, (val, key) =>
         transactions.push
           block_num: val.block_num + "." + val.trx_num
           trx_num: Number(key) + 1
-          time: val.received_time
+          time: new Date(val.received_time*1000)
           amount: val.amount.amount
           from: val.from_account
           to: val.to_account
           memo: val.memo_message
-          id: val.trx_id
+          id: val.trx_id.substring 0, 8
           fee: val.fees
           vote: "N/A"
       transactions
