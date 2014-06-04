@@ -58,6 +58,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
   $scope.contactClicked = (contact) ->
     Shared.contactName = contact.entity.Label.name
     Shared.contactAddress = contact.entity.Label.owner_key
+    Shared.trxFor = contact.entity.Label.name
 
   $scope.newContactModal = ->
 
