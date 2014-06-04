@@ -1,4 +1,4 @@
-angular.module("app").controller "ReceiveController", ($scope, $location, RpcService, InfoBarService, Shared) ->
+angular.module("app").controller "ReceiveController", ($scope, $location, RpcService, Shared, Growl) ->
   $scope.new_address_label = ""
   $scope.addresses = []
   $scope.pk_label = ""
@@ -27,12 +27,12 @@ angular.module("app").controller "ReceiveController", ($scope, $location, RpcSer
     RpcService.request('wallet_import_private_key', [$scope.pk_value, $scope.pk_label]).then (response) ->
       $scope.pk_value = ""
       $scope.pk_label = ""
-      InfoBarService.message = "Your private key was successfully imported."
+      Growl.notice "", "Your private key was successfully imported."
       refresh_addresses()
 
   $scope.import_wallet = ->
     RpcService.request('wallet_import_bitcoin', [$scope.wallet_file,$scope.wallet_password]).then (response) ->
       $scope.wallet_file = ""
       $scope.wallet_password = ""
-      InfoBarService.message = "The wallet was successfully imported."
+      Growl.notice "The wallet was successfully imported."
       refresh_addresses()

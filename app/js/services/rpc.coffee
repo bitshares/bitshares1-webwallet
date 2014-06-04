@@ -1,9 +1,8 @@
 servicesModule = angular.module("app.services")
-servicesModule.factory "RpcService", ($http, ErrorService) ->
+servicesModule.factory "RpcService", ($http) ->
   RpcService =
     request: (method, params) ->
       reqparams = {method: method, params: params || []}
-      ErrorService.clear()
       http_params =
         method: "POST",
         cache: false,

@@ -1,4 +1,4 @@
-angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcService, Wallet) ->
+angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcService, Wallet, Growl) ->
   $scope.transactions = []
   $scope.balance_amount = 0.0
   $scope.balance_asset_type = ''

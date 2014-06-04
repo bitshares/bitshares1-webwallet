@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, InfoBarService, Shared) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Growl, Shared) ->
 
   $scope.payto = Shared.contactName
   $scope.send = ->
@@ -8,4 +8,4 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
       $scope.payto = ""
       $scope.amount = ""
       $scope.memo = ""
-      InfoBarService.message = "Transaction broadcasted (#{response.result})"
+      Growl.notice "", "Transaction broadcasted (#{response.result})"

@@ -11,6 +11,7 @@ module.exports = function(lineman) {
     js: {
       vendor: [
         "vendor/js/jquery.js",
+        "vendor/js/jquery.growl.js",
         //"vendor/js/bootstrap.js",
         //"vendor/js/jasny-bootstrap.js",
         //"vendor/js/ark.js",
@@ -19,8 +20,8 @@ module.exports = function(lineman) {
         //"vendor/js/angular-route.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ng-grid-2.0.11.debug.js"
+	 	    "vendor/js/ui-bootstrap-tpls.js",
+	 	    "vendor/js/ng-grid-2.0.11.debug.js"
       ],
       app: [
         "app/js/app.js",
@@ -38,6 +39,7 @@ module.exports = function(lineman) {
 
     css: {
       vendor: [
+        "vendor/css/jquery.growl.css",
         "vendor/css/bootstrap.css",
         //"vendor/css/jasny-bootstrap.css",
         "vendor/css/font-awesome.css",

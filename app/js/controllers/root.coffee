@@ -1,6 +1,5 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, ErrorService, InfoBarService, Wallet) ->
-  $scope.errorService = ErrorService
-  $scope.infoBarService = InfoBarService
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet) ->
+
   Wallet.open()
 
   

@@ -1,4 +1,79 @@
 
+/* jQuery Growl
+ * Copyright 2013 Kevin Sylvestre
+ * 1.1.8
+ */
+#growls {
+  z-index: 50000;
+  position: fixed; }
+  #growls.default {
+    top: 10px;
+    right: 10px; }
+  #growls.tl {
+    top: 10px;
+    left: 10px; }
+  #growls.tr {
+    top: 10px;
+    right: 10px; }
+  #growls.bl {
+    bottom: 10px;
+    left: 10px; }
+  #growls.br {
+    bottom: 10px;
+    right: 10px; }
+
+.growl {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+  position: relative;
+  border-radius: 4px;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out; }
+  .growl.growl-incoming {
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  .growl.growl-outgoing {
+    opacity: 0;
+    filter: alpha(opacity=0); }
+  .growl.growl-small {
+    width: 200px;
+    padding: 5px;
+    margin: 5px; }
+  .growl.growl-medium {
+    width: 250px;
+    padding: 10px;
+    margin: 10px; }
+  .growl.growl-large {
+    width: 300px;
+    padding: 15px;
+    margin: 15px; }
+  .growl.growl-default {
+    color: white;
+    background: #7f8c8d; }
+  .growl.growl-error {
+    color: white;
+    background: #c0392b; }
+  .growl.growl-notice {
+    color: white;
+    background: #2ecc71; }
+  .growl.growl-warning {
+    color: white;
+    background: #f39c12; }
+  .growl .growl-close {
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: normal;
+    font-family: helvetica, verdana, sans-serif; }
+  .growl .growl-title {
+    font-size: 18px;
+    line-height: 24px; }
+  .growl .growl-message {
+    font-size: 14px;
+    line-height: 18px; }
+
 /*!
  * Bootstrap v3.0.3 (http://getbootstrap.com)
  * Copyright 2013 Twitter, Inc.
@@ -11791,14 +11866,13 @@ body.cover {
 	border-bottom: none;
 }
 
-  
-
 .navbar-brand {
 	padding: 10px 0 0 15px;
 }
 
 body {
 	/*max-width: 1024px;*/
+	padding-top: 10px;
 }
 
 
@@ -11816,7 +11890,7 @@ footer {
 }
 
 footer p {
-	margin: 5px 40px 5px 0;
+	margin: 5px 15px 0 0;
 }
 
 footer img.connections {
@@ -11840,7 +11914,17 @@ footer .blockchain-status > i {
 	margin: 0;
 	padding: 0;
 	position: relative;
-	top: -1px;
+}
+
+footer .logo {
+	position: relative;
+	top: -17px;
+	margin-left: 15px;
+}
+
+footer .logo img {
+	width: 150px;
+	height: 48px;
 }
 
 
@@ -11848,7 +11932,7 @@ footer .blockchain-status > i {
         background-color: rgb(255, 255, 255);
     }
 .ngRow.odd {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(240, 240, 255);
 }
 
 /*

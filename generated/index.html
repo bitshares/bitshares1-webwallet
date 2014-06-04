@@ -12,15 +12,11 @@
 <div class="wrapper">
 
  <!-- HEAD NAV -->
- <div class="navbar navbar-default navbar-static-top navbar-main">
-  <div class="navbar-header">
-   <a class="navbar-brand"><img src="/img/bitsharesTransparentLow.png" height="32px" width="103px"/></a>
-  </div>
-  <!--<button class="btn btn-default pull-right" ng-click="wallet_action('open_wallet')">Open Wallet</button>-->
-  <!--<button class="btn btn-default pull-right" ng-click="wallet_action('unlock_wallet')">Unlock Wallet</button>-->
-  <!--<button class="btn btn-default pull-right" ui-sref="createwallet">Create Wallet</button>-->
-  <!--<div class="pull-right">for debug purposes --&ndash;&gt;</div>-->
- </div>
+ <!--<div class="navbar navbar-default navbar-static-top navbar-main">-->
+  <!--<div class="navbar-header">-->
+   <!--<a class="navbar-brand"><img src="/img/bitsharesTransparentLow.png" height="32px" width="103px"/></a>-->
+  <!--</div>-->
+ <!--</div>-->
 
  <!-- SIDEBAR -->
  <div class="body">
@@ -34,13 +30,9 @@
     <li ui-sref-active="active"><a ui-sref="transactions"><i class="fa fa-exchange fa-fw"></i>Transactions</a></li>
     <li ui-sref-active="active"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>Block Explorer</a></li>
     <li ui-sref-active="active"><a><i class="fa fa-terminal fa-fw"></i>Advanced</a></li>
-    <li ui-sref-active="active"><a><i class="fa fa-unlock fa-fw"></i>O:OO</a></li>
-    <li ui-sref-active="active"><button type="submit" class="btn btn-primary"><i class="fa fa-unlock fa-fw"></i>O:OO</button>
    </ul>
   </aside>
   <section class="content">
-   <div error-bar errormessage="errorService.errorMessage" ng-hide="isErrorBarHidden"></div>
-	 <div info-bar infomessage="infoBarService.message" ng-hide="isInfoBarHidden"></div>
    <div ui-view></div>
   </section>
  </div>

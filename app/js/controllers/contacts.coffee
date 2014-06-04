@@ -1,4 +1,4 @@
-angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, ErrorService, RpcService, InfoBarService, Shared) ->
+angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, RpcService, Shared) ->
   $scope.myData = []
   $scope.filterOptions = filterText: ""
   $scope.gridOptions =

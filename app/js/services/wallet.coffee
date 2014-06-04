@@ -1,6 +1,6 @@
 class Wallet
 
-  constructor: (@q, @log, @rpc, @error_service, @interval) ->
+  constructor: (@q, @log, @rpc, @interval) ->
     @log.info "---- Wallet Constructor ----"
     @wallet_name = ""
     @info =
@@ -25,14 +25,6 @@ class Wallet
   create: (wallet_name, spending_password) ->
     @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>
       #success()
-      #Removed error handling because when there is an error this code does not get called
-      #alert JSON.stringify(response)
-      #if response.result == true
-        
-      #else
-        #error = "Cannot create wallet, the wallet may already exist"
-        #@error_service.set error
-        #@q.reject(error)
 
   get_balance: ->
     @rpc.request('wallet_get_balance').then (response) ->
@@ -99,4 +91,4 @@ class Wallet
       transactions
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "ErrorService", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "$interval", Wallet])
