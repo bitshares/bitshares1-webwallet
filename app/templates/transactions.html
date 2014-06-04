@@ -30,8 +30,8 @@
 			<tr ng-repeat="t in transactions">
 				<td>{{ t.block_num }}</td>
 				<td>{{ t.time }}</td>
-				<td>{{ t.from }}</td>
-				<td>{{ t.to }}</td>
+				<td><a ng-click='viewAccount(t.from)' ui-sref="account">{{ t.from }}</a></td>
+				<td><a ng-click='viewContact(t.to)' ui-sref="contact">{{ t.to }}</td>
 				<td>{{ t.memo }}</td>
 				<td>{{ t.amount | currency : '' }}</td>
 				<td>{{ t.fee }}</td>

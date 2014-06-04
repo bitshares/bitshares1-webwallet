@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionsController", ($scope, Shared, Wallet) ->
+angular.module("app").controller "TransactionsController", ($scope,  $state, Shared, Wallet) ->
   $scope.transactions = []
 
   Wallet.get_transactions(Shared.trxFor).then (trs) ->
@@ -6,3 +6,15 @@ angular.module("app").controller "TransactionsController", ($scope, Shared, Wall
 
   $scope.rescan = ->
     $scope.load_transactions()
+
+  $scope.viewAccount = (name)->
+    Shared.accountName  = name
+    Shared.accountAddress = "TODO:  Look the address up somewhere"
+    Shared.trxFor = name
+
+
+  $scope.viewContact = (name)->
+    Shared.contactName  = name
+    Shared.contactAddress = "TODO:  Look the address up somewhere"
+    Shared.trxFor = name
+
