@@ -94,7 +94,7 @@ class Wallet
         blktrx=val.block_num + "." + val.trx_num
         console.log blktrx
         transactions.push
-          block_num: ((if (val.block_num is "-1.-1") then "Pending" else blktrx))
+          block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
           #trx_num: Number(key) + 1
           time: new Date(val.received_time*1000)
           amount: val.amount.amount
