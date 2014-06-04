@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionsController", ($scope,  $state, Shared, Wallet) ->
+angular.module("app").controller "TransactionsController", ($scope, $location, $state, Shared, Wallet) ->
   $scope.transactions = []
 
   Wallet.get_transactions(Shared.trxFor).then (trs) ->

@@ -15,6 +15,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "receive.html"
     controller: "ReceiveController"
 
+  directory =
+    name: 'directory'
+    url: '/directory'
+    templateUrl: "directory.html"
+    controller: "DirectoryController"
+
   transfer =
     name: 'transfer'
     url: '/transfer'
@@ -51,5 +57,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  $stateProvider.state(home).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account)
+  $stateProvider.state(home).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 

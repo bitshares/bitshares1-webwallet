@@ -39,6 +39,10 @@ class Wallet
   get_info: ->
     @rpc.request('get_info').then (response) ->
       response.result
+
+  wallet_add_contact_account: (name, address) ->
+    @rpc.request('wallet_add_contact_account', [name, address]).then (response) ->
+      response.result
   
   open: ->
     @rpc.request('wallet_open', ['default']).then (response) ->
@@ -47,6 +51,16 @@ class Wallet
   get_block: (block_num)->
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
       response.result
+
+  blockchain_list_registered_accounts: ->
+    @rpc.request('blockchain_list_registered_accounts').then (response) ->
+      reg = []
+      console.log response.result
+      angular.forEach response.result, (val, key) =>
+        reg.push
+          name: val.name
+          owner_key: val.owner_key
+      reg
 
   watch_for_updates: =>
     @interval (=>
@@ -77,9 +91,11 @@ class Wallet
       console.log "--- transactions = ", response.result
       transactions = []
       angular.forEach response.result, (val, key) =>
+        blktrx=val.block_num + "." + val.trx_num
+        console.log blktrx
         transactions.push
-          block_num: val.block_num + "." + val.trx_num
-          trx_num: Number(key) + 1
+          block_num: ((if (val.block_num is "-1.-1") then "Pending" else blktrx))
+          #trx_num: Number(key) + 1
           time: new Date(val.received_time*1000)
           amount: val.amount.amount
           from: val.from_account
