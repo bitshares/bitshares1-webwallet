@@ -18,14 +18,13 @@
 	border-bottom: none;
 }
 
-  
-
 .navbar-brand {
 	padding: 10px 0 0 15px;
 }
 
 body {
 	/*max-width: 1024px;*/
+	padding-top: 10px;
 }
 
 
@@ -43,7 +42,7 @@ footer {
 }
 
 footer p {
-	margin: 5px 40px 5px 0;
+	margin: 5px 15px 0 0;
 }
 
 footer img.connections {
@@ -67,6 +66,16 @@ footer .blockchain-status > i {
 	margin: 0;
 	padding: 0;
 	position: relative;
-	top: -1px;
+}
+
+footer .logo {
+	position: relative;
+	top: -17px;
+	margin-left: 15px;
+}
+
+footer .logo img {
+	width: 150px;
+	height: 48px;
 }
 
