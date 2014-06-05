@@ -15,9 +15,8 @@
 		<table class="table table-striped table-hover">
 			<thead>
 			<tr>
-				<th>#</th>
 				<th>BLK.TRX</th>
-				<th>TIME RECEIVED</th>
+				<th>DATE</th>
 				<th>FROM</th>
 				<th>TO</th>
 				<th>MEMO</th>
@@ -29,11 +28,10 @@
 			</thead>
 			<tbody>
 			<tr ng-repeat="t in transactions">
-				<td>{{ t.trx_num }}</td>
 				<td>{{ t.block_num }}</td>
 				<td>{{ t.time }}</td>
-				<td>{{ t.from }}</td>
-				<td>{{ t.to }}</td>
+				<td><a ng-click='viewAccount(t.from)' ui-sref="account">{{ t.from }}</a></td>
+				<td><a ng-click='viewContact(t.to)' ui-sref="contact">{{ t.to }}</td>
 				<td>{{ t.memo }}</td>
 				<td>{{ t.amount | currency : '' }}</td>
 				<td>{{ t.fee }}</td>
@@ -46,4 +44,3 @@
 
 </div>
 
-</div>

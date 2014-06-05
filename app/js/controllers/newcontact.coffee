@@ -1,9 +1,9 @@
-angular.module("app").controller "NewContactController", ($scope, $modalInstance, RpcService, refresh) ->
+angular.module("app").controller "NewContactController", ($scope, $modalInstance, Wallet, refresh) ->
 
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
 
   $scope.ok = ->
-  	RpcService.request('wallet_add_contact_account', [$scope.name, $scope.address]).then (response) ->
+  	Wallet.wallet_add_contact_account($scope.name, $scope.address).then (response) ->
   		$modalInstance.close("ok")
   		refresh()

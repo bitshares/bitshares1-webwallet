@@ -39,6 +39,10 @@ class Wallet
   get_info: ->
     @rpc.request('get_info').then (response) ->
       response.result
+
+  wallet_add_contact_account: (name, address) ->
+    @rpc.request('wallet_add_contact_account', [name, address]).then (response) ->
+      response.result
   
   open: ->
     @rpc.request('wallet_open', ['default']).then (response) ->
@@ -47,6 +51,16 @@ class Wallet
   get_block: (block_num)->
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
       response.result
+
+  blockchain_list_registered_accounts: ->
+    @rpc.request('blockchain_list_registered_accounts').then (response) ->
+      reg = []
+      console.log response.result
+      angular.forEach response.result, (val, key) =>
+        reg.push
+          name: val.name
+          owner_key: val.owner_key
+      reg
 
   watch_for_updates: =>
     @interval (=>
@@ -69,23 +83,25 @@ class Wallet
         @info.last_block_num = 0
     ), 2500
 
-  get_transactions: =>
+  get_transactions: (account)=>
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
     # TODO: cache transactions
     # TODO: sort transactions, show the most recent ones on top
-    @rpc.request("wallet_account_transaction_history").then (response) =>
+    @rpc.request("wallet_account_transaction_history", [account]).then (response) =>
       console.log "--- transactions = ", response.result
       transactions = []
       angular.forEach response.result, (val, key) =>
+        blktrx=val.block_num + "." + val.trx_num
+        console.log blktrx
         transactions.push
-          block_num: val.block_num + "." + val.trx_num
-          trx_num: Number(key) + 1
-          time: val.received_time
+          block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
+          #trx_num: Number(key) + 1
+          time: new Date(val.received_time*1000)
           amount: val.amount.amount
           from: val.from_account
           to: val.to_account
           memo: val.memo_message
-          id: val.trx_id
+          id: val.trx_id.substring 0, 8
           fee: val.fees
           vote: "N/A"
       transactions

@@ -1,4 +1,4 @@
-angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcService, Wallet, Growl) ->
+angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log, RpcService, Wallet, Growl) ->
   $scope.transactions = []
   $scope.balance_amount = 0.0
   $scope.balance_asset_type = ''
@@ -16,3 +16,14 @@ angular.module("app").controller "HomeController", ($scope, $modal, $log, RpcSer
     $scope.balance_asset_type = balance.asset_type
     Wallet.get_transactions().then (trs) ->
       $scope.transactions = trs
+
+  # Merge: this duplicates the code in transactions.coffee
+  $scope.viewAccount = (name)->
+    Shared.accountName  = name
+    Shared.accountAddress = "TODO:  Look the address up somewhere"
+    Shared.trxFor = name
+
+  $scope.viewContact = (name)->
+    Shared.contactName  = name
+    Shared.contactAddress = "TODO:  Look the address up somewhere"
+    Shared.trxFor = name

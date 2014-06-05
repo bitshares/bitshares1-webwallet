@@ -3,7 +3,7 @@ angular.module("app").controller "AccountController", ($scope, $location, Shared
 	$scope.accountAddress=Shared.accountAddress
 
 	getbalance = ->
-    	RpcService.request('wallet_get_balance', ["XTS", $scope.accountName]).then (response) ->
+    	RpcService.request('wallet_get_balance', ["XTS", Shared.accountName]).then (response) ->
 	      $scope.accountBalance = response.result[0][0]
 	      $scope.accountUnit = response.result[0][1]
 

@@ -9,6 +9,7 @@ angular.module("app").controller "ReceiveController", ($scope, $location, RpcSer
   $scope.accountClicked = (name, address)->
     Shared.accountName  = name
     Shared.accountAddress = address
+    Shared.trxFor = name
 
   refresh_addresses = ->
     RpcService.request('wallet_list_receive_accounts').then (response) ->
