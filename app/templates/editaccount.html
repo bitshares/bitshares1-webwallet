@@ -1,0 +1,80 @@
+<!--<ol class="breadcrumb">-->
+ <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
+ <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
+<!--</ol>-->
+<div class="header">
+	<div class="col-sm-12">
+		<h3 class="header-title">Edit {{accountName}}</h3>
+	</div>
+</div>
+<hr>
+<div class="main-content">
+	<div id="edit-form">
+		<form class="form-horizontal" role="form" ng-submit="update()">
+			<div class="form-group well well-lg">
+				<label for="name" class="col-sm-3 control-label">Name</label>
+				<div class="col-sm-5">
+		    		<input focus ng-model="accountName" type="text" class="form-control" placeholder="Account Name"/>
+		  		</div>
+		  		<div class="col-sm-2">
+		    		<button class="btn btn-default" ng-click="register = !register"><i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[register]"></i> Registered</button>
+		  		</div>
+			</div>
+			<hr>
+			<div collapse="!register">
+				<div class="form-group well well-lg">
+					<h4 class="header-title">Public Info</h4>
+					<div class="form-group row">
+					<label for="name" class="col-sm-3 control-label">Registering costs XTS, Pay with</label>
+					<div class="col-sm-5">
+			    		<input focus ng-model="paywith" type="text" class="form-control" placeholder="Pay with"/>
+			  		</div>
+			  		<div class="col-sm-2">
+						<button class="btn btn-default" ng-click="delegate = !delegate"><i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[delegate]"></i> Registered as delegate</button>
+					</div>
+					</div>
+					<div collapse="!delegate">
+						<div class="well well-lg">
+							<h4 class="header-title">Delegate Info</h4>
+							Registering as delegate costs a lot of XTS
+						</div> 
+					</div>
+					<div class="form-group row">
+						<label for="email" class="col-sm-3 control-label">Email</label>
+						<div class="col-sm-5">
+				    		<input focus ng-model="email" type="text" class="form-control" placeholder="Email"/>
+				  		</div>
+			  		</div>
+			  		<div class="form-group row">
+				  		<label for="website" class="col-sm-3 control-label">Website</label>
+						<div class="col-sm-5">
+				    		<input focus ng-model="website" type="text" class="form-control" placeholder="Website"/>
+				  		</div>
+				  	</div>
+				  	<div class="form-group row">
+						<div class="col-sm-offset-1 col-sm-2">
+				    		<input focus ng-model="email" type="text" class="form-control" placeholder="Key"/>
+				  		</div>
+						<div class="col-sm-5">
+				    		<input focus ng-model="email" type="text" class="form-control" placeholder="Value"/>
+				  		</div>
+			  		</div>
+				</div>
+			</div>
+			<div class="form-group well well-lg">
+				<h4 class="header-title">Private Info</h4>
+				<div class="form-group row">
+					<label for="email" class="col-sm-3 control-label">Note</label>
+					<div class="col-sm-5">
+			    		<input focus ng-model="email" type="text" class="form-control" placeholder="Note"/>
+			  		</div>
+		  		</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-offset-3 col-sm-3">
+					<button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-refresh fa-lg fa-fw"></i> Update</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
