@@ -43,6 +43,10 @@ class Wallet
   wallet_add_contact_account: (name, address) ->
     @rpc.request('wallet_add_contact_account', [name, address]).then (response) ->
       response.result
+
+  wallet_account_register: (account_name, pay_from_account) ->
+    @rpc.request('wallet_account_register', [account_name, pay_from_account]).then (response) ->
+      response.result
   
   open: ->
     @rpc.request('wallet_open', ['default']).then (response) ->
