@@ -1,3 +1,5 @@
+# Warning: this is a generated file, any changes made here will be overwritten by the build process
+
 class WalletAPI
 
   constructor: (@q, @log, @rpc, @interval) ->

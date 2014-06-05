@@ -1,3 +1,5 @@
+# Warning: this is a generated file, any changes made here will be overwritten by the build process
+
 class NetworkAPI
 
   constructor: (@q, @log, @rpc) ->
