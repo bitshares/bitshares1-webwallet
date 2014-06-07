@@ -11,15 +11,33 @@
 
 <div class="main-content">
 
+	
+
  <div id="transfer-form">
   <form class="form-horizontal" role="form" ng-submit="send()">
+  	<!--
+  	<div class="form-group row">
+  		<label for="payfrom" class="col-sm-2 control-label">From</label>
+        <span class="dropdown">
+	      <a href class="dropdown-toggle btn btn-default col-md-5">
+	        Click me for a dropdown, yo!<span class="caret"></span>
+	      </a><br>
+	      <ul class="dropdown-menu">
+	        <li ng-repeat="account in accounts">
+	          <a href>{{account}}</a>
+	        </li>
+	      </ul>
+	    </span>
+     </div>-->
+
+
     <div class="form-group row">
         <label for="amount" class="col-sm-2 control-label">Amount</label>
 	    <div class="col-md-3">
 	    	<input ng-model="amount" type="number" class="form-control" placeholder="0.0" id="amount"/>
 	    </div>
       	<div class="col-md-2">
-        	<select class="form-control" ng-init="symbol = symbolOptions[0]" id='symbol' ng-model="symbol" ng-options="value for value in symbolOptions"></select>
+        	<select class="form-control" id='symbol' ng-model="symbol" ng-options="value for value in symbolOptions"></select>
       	</div>
      </div>
 
@@ -27,7 +45,7 @@
     <div class="form-group">
       <label for="payfrom" class="col-sm-2 control-label">From</label>
       <div class="col-md-5">
-        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts"></select>
+        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts | filter:symbol"></select>
       </div>
     </div>
 
