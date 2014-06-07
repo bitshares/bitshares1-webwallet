@@ -13,10 +13,21 @@
 
  <div id="transfer-form">
   <form class="form-horizontal" role="form" ng-submit="send()">
+    <div class="form-group row">
+        <label for="amount" class="col-sm-2 control-label">Amount</label>
+	    <div class="col-md-3">
+	    	<input ng-model="amount" type="number" class="form-control" placeholder="0.0" id="amount"/>
+	    </div>
+      	<div class="col-md-2">
+        	<select class="form-control" ng-init="symbol = symbolOptions[0]" id='symbol' ng-model="symbol" ng-options="value for value in symbolOptions"></select>
+      	</div>
+     </div>
+
+
     <div class="form-group">
       <label for="payfrom" class="col-sm-2 control-label">From</label>
       <div class="col-md-5">
-        <input ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom"/>
+        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts"></select>
       </div>
     </div>
 
@@ -27,17 +38,6 @@
      <input ng-model="payto" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
     </div>
    </div>
-
-
-    <div class="form-group row">
-        <label for="amount" class="col-sm-2 control-label">Amount</label>
-	    <div class="col-md-3">
-	    	<input ng-model="amount" type="number" class="form-control" placeholder="0.0" id="amount"/>
-	    </div>
-      	<div class="col-md-2">
-        	<select class="form-control" ng-init="symbol = symbolOptions[0]" id='symbol' ng-model="symbol" ng-options="value for value in symbolOptions"></select>
-      	</div>
-     </div>
 
 
 
