@@ -92,16 +92,17 @@
    <thead>
    <tr>
     <th>Name</th>
-    <th>Address</th>
+    <th>Balance</th>
+    <th>Reg Date</th>
    </tr>
    </thead>
    <tbody>
    
    <tr ng-repeat="a in addresses">
    
-    <td><a ng-click='accountClicked(a.label, a.address)' ui-sref="account"><div>{{a.label}}</div></a></td>
-    <td>{{a.address}}</td>
-
+    <td><a ng-click='accountClicked(a.name, a.address)' ui-sref="account"><div>{{a.name}}</div></a></td>
+    <td>{{a.balance}}</td>
+    <td>{{a.regdat}}</td>
    </tr>
    
    </tbody>

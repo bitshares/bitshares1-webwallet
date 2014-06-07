@@ -44,8 +44,12 @@ class Wallet
     @rpc.request('wallet_add_contact_account', [name, address]).then (response) ->
       response.result
 
-  wallet_account_register: (account_name, pay_from_account) ->
-    @rpc.request('wallet_account_register', [account_name, pay_from_account]).then (response) ->
+  wallet_account_register: (account_name, pay_from_account, public_data, as_delegate) ->
+    @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) ->
+      response.result
+
+  wallet_rename_account: (current_name, new_name) ->
+    @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) ->
       response.result
   
   open: ->
