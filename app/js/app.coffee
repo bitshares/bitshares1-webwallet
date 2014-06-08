@@ -15,6 +15,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "receive.html"
     controller: "ReceiveController"
 
+  delegates =
+    name: 'delegates'
+    url: '/delegates'
+    templateUrl: "delegates.html"
+    controller: "DelegatesController"
+
   directory =
     name: 'directory'
     url: '/directory'
@@ -63,5 +69,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  $stateProvider.state(home).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  $stateProvider.state(home).state(delegates).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 
