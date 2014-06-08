@@ -1,4 +1,4 @@
-angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, RpcService, Shared) ->
+angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, RpcService, Wallet, Shared) ->
   $scope.myData = []
   $scope.filterOptions = filterText: ""
   $scope.gridOptions =
@@ -35,9 +35,9 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     return
 
   $scope.refresh_addresses = ->
-    RpcService.request("wallet_list_contact_accounts").then (response) ->
+    Wallet.wallet_list_contact_accounts().then (contacts) ->
       newData = []
-      data = response.result
+      data = contacts
       i = 0
 
       while i < data.length
@@ -46,8 +46,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
         i++
       $scope.myData = newData
-
-
   $scope.refresh_addresses()
 
 

@@ -64,8 +64,20 @@ class Wallet
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
       response.result
 
+  wallet_get_account: (name)->
+    @rpc.request('wallet_get_account', [name]).then (response) ->
+      response.result
+
+  blockchain_get_config: ->
+    @rpc.request('blockchain_get_config').then (response) ->
+      response.result
+
   wallet_set_delegate_trust_level: (delName, trust)->
     @rpc.request('wallet_set_delegate_trust_level', [delName, trust]).then (response) ->
+      response.result
+
+  wallet_list_contact_accounts: ->
+    @rpc.request('wallet_list_contact_accounts').then (response) ->
       response.result
 
   blockchain_list_registered_accounts: ->
