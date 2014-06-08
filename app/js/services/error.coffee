@@ -17,7 +17,7 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
     if response.config? and response.config.url.match(/\/rpc$/)
-      if error_msg.match(/Unable to open wallet/)
+      if error_msg.match(/No such wallet exists/)
         location.href = "blank.html#/createwallet"
       if error_msg.match(/is_open\(\)\:/)
         promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)

@@ -52,12 +52,20 @@ class Wallet
     @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) ->
       response.result
   
+  blockchain_list_delegates: ->
+    @rpc.request('blockchain_list_delegates').then (response) ->
+      response.result
+
   open: ->
     @rpc.request('wallet_open', ['default']).then (response) ->
       response.result
 
   get_block: (block_num)->
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
+      response.result
+
+  wallet_set_delegate_trust_level: (delName, trust)->
+    @rpc.request('wallet_set_delegate_trust_level', [delName, trust]).then (response) ->
       response.result
 
   blockchain_list_registered_accounts: ->
