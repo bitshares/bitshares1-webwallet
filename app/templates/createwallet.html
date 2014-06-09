@@ -39,7 +39,7 @@
 
     <p>Your password is manditory and controls when and how your funds may be spent. If you forget this
      password you will be unable to transfer your shares.</p>
-
+<br>
     <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
      <label for="spending_password" class="col-sm-2 control-label">Password</label>
 
@@ -48,9 +48,10 @@
              placeholder="Password"
              required autofocus ng-minlength="9" ng-maxlength="255">
 
-      <p ng-show="wform.sp.$error.minlength" class="help-block">Password is too short. It must be more than 8 characters.</p>
-      <p ng-show="wform.sp.$error.maxlength" class="help-block">Password is too long. It can be at most 255 characters.</p>
-      <p ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="help-block">Password is required.</p>
+      <span ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</span>
+      <span ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</span>
+      <span ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</span>
+      <br> 
      </div>
     </div>
     <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
@@ -60,8 +61,9 @@
       <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" class="form-control"
              id="confirm_spending_password"
              placeholder="Confirm Password" required data-match="spending_password">
-
-      <p ng-show="wform.csp.$error.match" class="help-block">Fields do not match.</p>
+      
+      <span ng-show="wform.csp.$error.match" class="text-danger">Fields do not match.</span>
+      <br>
      </div>
     </div>
     <!--
