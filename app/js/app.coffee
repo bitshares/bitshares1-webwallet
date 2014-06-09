@@ -1,4 +1,4 @@
-app = angular.module("app", ["ngResource", "ui.router", "ui.bootstrap", "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
+app = angular.module("app", ["ngResource", "ui.router", "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
 
 app.config ($stateProvider, $urlRouterProvider) ->
   $urlRouterProvider.otherwise('/home')
@@ -8,6 +8,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     url: '/home'
     templateUrl: "home.html"
     controller: "HomeController"
+
+  console =
+    name: 'console'
+    url: '/console'
+    templateUrl: "console.html"
+    controller: "ConsoleController"
 
   receive =
     name: 'receive'
@@ -69,5 +75,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  $stateProvider.state(home).state(delegates).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  $stateProvider.state(home).state(console).state(delegates).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 

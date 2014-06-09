@@ -1,0 +1,21 @@
+<!--<ol class="breadcrumb">-->
+ <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
+ <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
+<!--</ol>-->
+<div class="header">
+	<div class="col-sm-12">
+		<h3 class="header-title">Console</h3>
+	</div>
+</div>
+
+<div class="main-content">
+<form ng-submit='submit()'>
+<div>
+	<input ng-model="command" autofocus placeholder="Type a command and hit Enter" ng-trim="false" class="form-control" id="spending_password">
+</div>
+</form>
+<hr>
+<div ng-repeat="output in outputs">
+	{{output}}<br><br>
+</div>
+</div>
