@@ -82,7 +82,8 @@ class Wallet
 
   execute_command_line: (command)->
     @rpc.request('execute_command_line', [command]).then (response) ->
-      response.result
+      response.result=">> " + command + "\n\n" + response.result;
+      
 
   blockchain_list_registered_accounts: ->
     @rpc.request('blockchain_list_registered_accounts').then (response) ->

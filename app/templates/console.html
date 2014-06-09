@@ -15,7 +15,7 @@
 </div>
 </form>
 <hr>
-<div ng-repeat="output in outputs">
-	{{output}}<br><br>
+<div ng-repeat="output in outputs track by $index">
+	<pre>{{output}}</pre>
 </div>
 </div>
