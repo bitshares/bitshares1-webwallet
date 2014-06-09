@@ -16,6 +16,7 @@ angular.module("app").controller "ReceiveController", ($scope, $location, RpcSer
   #TODO ADD a Barrier or something to deal with race condition
   refresh_addresses = ->
     RpcService.request('wallet_account_balance').then (response) ->
+      console.log(response.result)
       non0addr={}
       #$scope.addresses.splice(0, $scope.addresses.length)
       angular.forEach response.result, (val) ->

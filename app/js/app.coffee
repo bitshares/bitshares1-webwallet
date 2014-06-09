@@ -75,5 +75,11 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  $stateProvider.state(home).state(console).state(delegates).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  assets =
+    name: 'assets'
+    url: '/assets'
+    templateUrl: "assets.html"
+    controller: "AssetsController"
+
+  $stateProvider.state(home).state(assets).state(console).state(delegates).state(editaccount).state(receive).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 

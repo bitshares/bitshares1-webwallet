@@ -60,6 +60,10 @@ class Wallet
     @rpc.request('wallet_open', ['default']).then (response) ->
       response.result
 
+  wallet_account_balance: ->
+    @rpc.request('wallet_account_balance').then (response) ->
+      response.result
+
   get_block: (block_num)->
     @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
       response.result
@@ -105,7 +109,8 @@ class Wallet
             @info.balance = data.wallet_balance[0][0]
             @info.wallet_open = data.wallet_open
             @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
-            @info.last_block_time = @toDate(block.blockchain_head_block_time)
+            #@info.last_block_time = @toDate(block.blockchain_head_block_time)
+            @info.last_block_time = block.blockchain_head_block_time
             @info.last_block_num = data.blockchain_head_block_num
         else
           @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
