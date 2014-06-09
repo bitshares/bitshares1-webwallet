@@ -104,9 +104,11 @@ class Wallet
             @info.network_connections = data.network_num_connections
             @info.balance = data.wallet_balance[0][0]
             @info.wallet_open = data.wallet_open
-            @info.wallet_unlocked = !!data.wallet_unlocked_until
-            @info.last_block_time = @toDate(block.timestamp)
+            @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
+            @info.last_block_time = @toDate(block.blockchain_head_block_time)
             @info.last_block_num = data.blockchain_head_block_num
+        else
+          @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
       , =>
         @info.network_connections = 0
         @info.balance = 0

@@ -4,7 +4,7 @@ servicesModule.config ($httpProvider) ->
   $httpProvider.interceptors.push('myHttpInterceptor')
 
 servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
-  dont_report_methods = ["open_wallet", "walletpassphrase", "get_info", "blockchain_get_block_by_number"]
+  dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block_by_number"]
 
 #  request: (config) ->
 #    config

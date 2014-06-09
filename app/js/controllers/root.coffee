@@ -12,8 +12,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         mode: -> mode
     $rootScope.cur_deferred.promise
 
-
-  
   $rootScope.open_wallet_and_repeat_request = (mode, request_data) ->
     deferred_request = $q.defer()
     #console.log "------ open_wallet_and_repeat_request #{mode} ------"
