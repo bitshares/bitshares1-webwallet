@@ -11,6 +11,8 @@ class Wallet
                     precision: 0.000001
                     symbol: "XTS"
 
+    refresh_accounts: ->
+        console.log("TODO")
 
     constructor: (@q, @log, @rpc, @interval) ->
         @log.info "---- Wallet Constructor ----"

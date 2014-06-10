@@ -1,7 +1,8 @@
 class Client
 
-    constructor: (@common, @network, @blockchain, @q, @interval) =>
-        @interval (@refresh_status, undefined, 2500)
+    constructor: (@common, @network, @blockchain, @q, @interval) ->
+        console.log "Client constructor"
+        @interval @refresh_status, 3000
 
     init: ->
         console.log "starting client"
@@ -12,6 +13,7 @@ class Client
         last_block_num: 0
         last_block_time: null
 
+    # This will repopulate everything
     refresh_status: =>
         console.log("refreshing client status")
         CommonAPI.get_info().then (data) =>

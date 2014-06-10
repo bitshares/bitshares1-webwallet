@@ -1,9 +1,7 @@
 angular.module("app").controller "AccountController", ($scope, $location, Shared, Growl, Wallet, RpcService) ->
+
     accountName = $location.$$url.split('/').pop()
-    console.log(accountName)
-    #$scope.accountName=Shared.accountName
     $scope.account = Wallet.accounts["testname"]
-    console.log($scope)
 
     
     $scope.import_key = ->
