@@ -16,7 +16,7 @@ class Client
     # This will repopulate everything
     refresh_status: =>
         console.log("refreshing client status")
-        CommonAPI.get_info().then (data) =>
+        @common.get_info().then (data) =>
             console.log(data)
 
 
