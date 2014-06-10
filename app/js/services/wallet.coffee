@@ -1,9 +1,9 @@
 class Wallet
 
-  get_account: (name) ->
-      return {
+  accounts:
+      "testname":
+          name: "testname"
           address: "XTS...test"
-      }
 
 
   constructor: (@q, @log, @rpc, @interval) ->

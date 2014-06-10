@@ -2,7 +2,7 @@ angular.module("app").controller "AccountController", ($scope, $location, Shared
     $scope.accountName=Shared.accountName
     $scope.accountAddress=Shared.accountAddress
     $scope.active_key=Shared.active_key
-    $scope.account = "test"
+    $scope.account = Wallet.accounts["testname"]
 
     
     $scope.import_key = ->
