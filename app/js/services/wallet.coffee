@@ -1,5 +1,12 @@
 class Wallet
 
+  get_account: (name) ->
+      return {
+          address: "XTS...test"
+      }
+
+
+
   constructor: (@q, @log, @rpc, @interval) ->
     @log.info "---- Wallet Constructor ----"
     @wallet_name = ""
@@ -11,16 +18,6 @@ class Wallet
       last_block_time: null
     @watch_for_updates()
 
-  toDate: (t) ->
-    dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
-    match = t.match(dateRE)
-    return 0 unless match
-    nums = []
-    i = 1
-    while i < match.length
-      nums.push parseInt(match[i], 10)
-      i++
-    new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
 
   create: (wallet_name, spending_password) ->
     @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>
