@@ -53,7 +53,7 @@
    
    <tr ng-repeat="a in addresses">
    
-    <td><a ng-click='accountClicked(a.name, a.address)' ui-sref="account"><div>{{a.name}}</div></a></td>
+       <td><a href="#/account/{{a.name}}"><div>{{a.name}}</div></a></td>
     <td>{{a.balance}}</td>
     <td>{{a.regdat}}</td>
    </tr>

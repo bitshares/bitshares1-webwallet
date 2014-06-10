@@ -59,7 +59,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
 
   account =
     name: 'account'
-    url: '/account'
+    url: '/account/:accountName'
     templateUrl: "account.html"
     controller: "AccountController"
 
