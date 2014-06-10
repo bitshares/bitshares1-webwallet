@@ -1,6 +1,7 @@
 angular.module("app").controller "AccountController", ($scope, $location, Shared, Growl, Wallet, RpcService) ->
 	$scope.accountName=Shared.accountName
 	$scope.accountAddress=Shared.accountAddress
+	$scope.active_key=Shared.active_key
 
 	###
 	getbalance = ->
