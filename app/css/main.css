@@ -12,6 +12,10 @@
 	padding-top: 0;
 }
 
+.nav-tabs > li > a {
+    cursor: pointer;
+}
+
 .navbar-default.navbar-main {
 	border-bottom: none;
 }

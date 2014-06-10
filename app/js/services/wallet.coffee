@@ -110,7 +110,7 @@ class Wallet
         if data.blockchain_head_block_num > 0
           @get_block(data.blockchain_head_block_num).then (block) =>
             @info.network_connections = data.network_num_connections
-            @info.balance = data.wallet_balance[0][0]
+            #@info.balance = data.wallet_balance[0][0]
             @info.wallet_open = data.wallet_open
             @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
             #@info.last_block_time = @toDate(block.blockchain_head_block_time)

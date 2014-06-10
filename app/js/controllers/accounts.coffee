@@ -40,17 +40,4 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
     RpcService.request('wallet_create_account', [$scope.new_address_label]).then (response) ->
       $scope.new_address_label = ""
       refresh_addresses()
-
-  $scope.import_key = ->
-    RpcService.request('wallet_import_private_key', [$scope.pk_value, $scope.pk_label]).then (response) ->
-      $scope.pk_value = ""
-      $scope.pk_label = ""
-      Growl.notice "", "Your private key was successfully imported."
-      refresh_addresses()
-
-  $scope.import_wallet = ->
-    RpcService.request('wallet_import_bitcoin', [$scope.wallet_file,$scope.wallet_password]).then (response) ->
-      $scope.wallet_file = ""
-      $scope.wallet_password = ""
-      Growl.notice "The wallet was successfully imported."
-      refresh_addresses()
+  
