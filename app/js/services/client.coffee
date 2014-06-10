@@ -13,11 +13,12 @@ class Client
         last_block_num: 0
         last_block_time: null
 
-    # This will repopulate everything
+    # This will repopulate "real-time" info
     refresh_status: =>
         console.log("refreshing client status")
         @common.get_info().then (data) =>
-            console.log(data)
+            @status.alert_level = 1
+
 
 
 angular.module("app").service("Client", ["CommonAPI", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Client])
