@@ -1,6 +1,7 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client) ->
 
   Wallet.open()
+  Client.init()
 
   
   open_wallet = (mode) ->
