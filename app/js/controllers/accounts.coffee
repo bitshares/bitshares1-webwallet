@@ -7,12 +7,6 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
     $scope.wallet_password = ""
     non0addr={}
     Shared.trxFor=""
-  
-    $scope.accountClicked = (name, address, active_key) ->
-        Shared.accountName  = name
-        Shared.accountAddress = address
-        Shared.trxFor = name
-        Shared.active_key = active_key
 
 
     #TODO ADD a Barrier or something to deal with race condition

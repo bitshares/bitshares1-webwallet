@@ -2,8 +2,6 @@ angular.module("app").controller "AccountController", ($scope, $location, Shared
     accountName = $location.$$url.split('/').pop()
     console.log(accountName)
     #$scope.accountName=Shared.accountName
-    $scope.accountAddress=Shared.accountAddress
-    $scope.active_key=Shared.active_key
     $scope.account = Wallet.accounts["testname"]
     console.log($scope)
 
