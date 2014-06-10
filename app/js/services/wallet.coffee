@@ -6,7 +6,6 @@ class Wallet
       }
 
 
-
   constructor: (@q, @log, @rpc, @interval) ->
     @log.info "---- Wallet Constructor ----"
     @wallet_name = ""

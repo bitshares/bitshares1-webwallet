@@ -8,7 +8,7 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
     non0addr={}
     Shared.trxFor=""
   
-    $scope.accountClicked = (name, address, active_key)->
+    $scope.accountClicked = (name, address, active_key) ->
         Shared.accountName  = name
         Shared.accountAddress = address
         Shared.trxFor = name
@@ -33,11 +33,16 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
             console.log response.result
             angular.forEach response.result, (val) ->
                 active_key = val.active_key_history[val.active_key_history.length - 1][1]
-                $scope.addresses.push({name: val.name, balance:  non0addr[val.name],  adress: val.address, active_key: active_key, regdat: val.registration_date})
+                $scope.addresses.push({
+                    name: val.name
+                    balance: non0addr[val.name]
+                    adress: val.address
+                    active_key: active_key
+                    regdat: val.registration_date
+                })
     refresh_more_addresses()
 
     $scope.create_address = ->
         RpcService.request('wallet_create_account', [$scope.new_address_label]).then (response) ->
             $scope.new_address_label = ""
-             refresh_addresses()
-
+            refresh_addresses()
