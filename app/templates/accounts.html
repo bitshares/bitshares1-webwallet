@@ -31,29 +31,6 @@
 
     </tab>
 
-    <tab heading="Import Wallet">
-     <br/>
-
-     <form class="form-horizontal" role="form" ng-submit="import_wallet()">
-      <div class="form-group">
-       <label for="wallet_file" class="col-sm-2 control-label">Wallet Path</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.wallet_file" type="text" class="form-control" id="wallet_file" placeholder=""/>
-       </div>
-      </div>
-      <div class="form-group">
-       <label for="wallet_password" class="col-sm-2 control-label">Wallet Password</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.wallet_password" type="password" class="form-control" id="wallet_password" placeholder="Password"/>
-       </div>
-      </div>
-      <div class="form-group">
-       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Import Wallet</button>
-       </div>
-      </div>
-     </form>
-    </tab>
 
    </tabset>
 

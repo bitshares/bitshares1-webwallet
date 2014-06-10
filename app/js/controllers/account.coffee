@@ -18,3 +18,11 @@ angular.module("app").controller "AccountController", ($scope, $location, Shared
 
 	$scope.register = ->
 		Wallet.wallet_account_register($scope.accountName, $scope.accountName)
+
+
+	$scope.import_wallet = ->
+    RpcService.request('wallet_import_bitcoin', [$scope.wallet_file,$scope.wallet_password,$scope.accountName]).then (response) ->
+      $scope.wallet_file = ""
+      $scope.wallet_password = ""
+      Growl.notice "The wallet was successfully imported."
+      refresh_addresses()
