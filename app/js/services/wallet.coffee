@@ -72,6 +72,10 @@ class Wallet
     @rpc.request('wallet_get_account', [name]).then (response) ->
       response.result
 
+  wallet_remove_contact_account: (name)->
+    @rpc.request('wallet_remove_contact_account', [name]).then (response) ->
+      response.result
+
   blockchain_get_config: ->
     @rpc.request('blockchain_get_config').then (response) ->
       response.result

@@ -21,7 +21,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
         enableCellEdit: false
         width: 200
         #btn btn-danger btn-sm
-        cellTemplate: "<div class='text-center' style='margin-top:10px'><button title='Copy' class='btn btn-xs btn-link' ng-click='sendHimFunds(row)'><i class='fa fa-3x fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link'><i class='fa fa-3x fa-copy fa-fw'></i></button><button title='Delete' class='btn btn-xs btn-link'><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
+        cellTemplate: "<div class='text-center' style='margin-top:10px'><button title='Copy' class='btn btn-xs btn-link' ng-click='sendHimFunds(row)'><i class='fa fa-3x fa-sign-in fa-fw'></i></button><button title='Send' class='btn btn-xs btn-link'><i class='fa fa-3x fa-copy fa-fw'></i></button><button title='Delete' ng-click='deleteContact(row)' class='btn btn-xs btn-link'><i style='color:#d14' class='fa fa-lg fa-times fa-fw'></i></button></div>"
         headerCellTemplate: "<div class='text-center' style='background:none; margin-top:2px'><i class='fa fa-gear fa-fw fa-2x'></i></div>"
         #<i class='fa fa-copy fa-fw'></i>    ng-click=\"bam()\"
       }
@@ -53,15 +53,18 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     Shared.contactName = contact.entity.Label.name
     $state.go "transfer"
 
+  #TODO:  instead of chaining calls do calls in parallel and handle callbacks in the right order
+  $scope.deleteContact = (row) ->
+    Wallet.wallet_remove_contact_account(row.entity.Label.name).then ->
+      $scope.refresh_addresses()
+
+
   $scope.contactClicked = (contact) ->
     Shared.contactName = contact.entity.Label.name
     Shared.contactAddress = contact.entity.Label.owner_key
     Shared.trxFor = contact.entity.Label.name
 
   $scope.newContactModal = ->
-
-  
-  	
     $modal.open
       templateUrl: "newcontact.html"
       controller: "NewContactController"

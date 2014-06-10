@@ -1,4 +1,4 @@
-angular.module("app").controller "ReceiveController", ($scope, $location, RpcService, Shared, Growl) ->
+angular.module("app").controller "AccountsController", ($scope, $location, RpcService, Shared, Growl) ->
   $scope.new_address_label = ""
   $scope.addresses = []
   $scope.pk_label = ""
@@ -6,7 +6,8 @@ angular.module("app").controller "ReceiveController", ($scope, $location, RpcSer
   $scope.wallet_file = ""
   $scope.wallet_password = ""
   non0addr={}
-
+  Shared.trxFor=""
+  
   $scope.accountClicked = (name, address)->
     Shared.accountName  = name
     Shared.accountAddress = address
