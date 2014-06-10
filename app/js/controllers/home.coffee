@@ -1,4 +1,6 @@
+
 angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log, RpcService, Wallet, Growl) ->
+	###
   $scope.transactions = []
   $scope.balance_amount = 0.0
   $scope.balance_asset_type = ''
@@ -33,3 +35,4 @@ angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log
     Shared.contactName  = name
     Shared.contactAddress = "TODO:  Look the address up somewhere"
     Shared.trxFor = name
+###
