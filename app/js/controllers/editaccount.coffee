@@ -1,8 +1,8 @@
-angular.module("app").controller "EditAccountController", ($scope, $location, Wallet, Growl, Shared) ->
-	$scope.oldName=Shared.accountName
-	$scope.newName=Shared.accountName
-	$scope.paywith=Shared.accountName
-	$scope.register = false
+angular.module("app").controller "EditAccountController", ($scope, $location, Wallet, $stateParams, Growl, Shared) ->
+	$scope.oldName=$stateParams.name
+	$scope.newName=$stateParams.name
+	$scope.paywith=$stateParams.name
+	$scope.registration = false
 	$scope.delegate = false
 	$scope.pairs = [{key: 'github', val: 'nikakhov'}, {key: 'favorite food', val: 'steak'}]
 	$scope.addKeyVal = ->
