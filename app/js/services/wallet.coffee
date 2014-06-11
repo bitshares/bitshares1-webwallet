@@ -1,9 +1,11 @@
 class Wallet
 
-    accounts:
+    contact_accounts:
+        "testname2": @dummy_act
+
+    receive_accounts:
         "testname":
             name: "testname"
-            address: "XTS...test"
             active_key: "testkey"
             balances:
                 "XTS":
@@ -11,11 +13,26 @@ class Wallet
                     precision: 0.000001
                     symbol: "XTS"
 
+    dummy_acct:
+        "global_dummy_act":
+            name: "dummy"
+            active_key: "testkey"
+            balances:
+                "XTS":
+                    amount: 10000
+                    precision: 0.000001
+                    symbol: "XTS"
+
+    transactions:
+        "asd314sadn3254": "pretend tx object"
+
 
     get_account: (name) ->
-        if @accounts[name]
-            acct = @q.defer()
-            acct.resolve(@accounts[name])
+        if @receive_accounts[name]
+            @q.defer().resolve(@receive_accounts[name]).promise
+        else if @contact_accounts[name]
+            @q.defer()
+            acct.resolve(@contact_accounts[name])
             acct.promise
         else
             @wallet_api.get_account(name).then (result) ->
@@ -24,11 +41,6 @@ class Wallet
 
     sync_accounts: ->
         console.log("TODO")
-
-
-    import_key: (key, account_name, cb) ->
-        RpcService.request('wallet_import_private_key', [key, account_name]).then (response) ->
-            cb(null, response)
 
 
     constructor: (@q, @log, @rpc, @wallet_api, @interval) ->
