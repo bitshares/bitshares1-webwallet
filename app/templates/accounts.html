@@ -50,7 +50,7 @@
    
        <td><a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a></td>
     <td>{{a.balance}}</td>
-    <td>{{a.registered}}</td>
+    <td>{{utils.prettyDate(a.registered_date)}}</td>
    </tr>
    
    </tbody>

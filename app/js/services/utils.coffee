@@ -7,6 +7,8 @@ servicesModule.factory "Utils", ->
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         parts.join(".") + asset.symbol
 
+    prettyDate: (date) ->
+        date.toLocaleDateString("en-us")
 
     toDate: (t) ->
         dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
@@ -18,3 +20,4 @@ servicesModule.factory "Utils", ->
             nums.push parseInt(match[i], 10)
             i++
         new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
+

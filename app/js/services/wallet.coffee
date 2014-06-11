@@ -20,17 +20,24 @@ class Wallet
     transactions:
         "asd314sadn3254": "pretend tx object"
 
+    refresh_balances: ->
+        me = @
+        @wallet_api.account_balance("").then (result) ->
+            console.log (result)
+            angular.forEach result, (key, val) ->
+                console.log(key, val)
+
     refresh_accounts: ->
         me = @
+        @refresh_balances()
         @wallet_api.list_receive_accounts().then (result) ->
             angular.forEach result, (val) ->
-                console.log val
                 me.receive_accounts[val.name] = {
                     name: val.name
                     active_key: val.active_key_history[val.active_key_history.length - 1][1]
                     active_key_history: val.active_key_history
-                    balance: 10000
-                    registered: val.registration_date
+                    balance: "TODO format me {asset obj}"
+                    registered_date: me.utils.toDate(val.registration_date)
                 }
 
     create_account: (name) ->
@@ -56,17 +63,6 @@ class Wallet
 
     sync_accounts: ->
         console.log("TODO")
-
-    constructor: (@q, @log, @rpc, @wallet_api, @interval) ->
-        @log.info "---- Wallet Constructor ----"
-        @wallet_name = ""
-        @info =
-            network_connections: 0
-            balance: 0
-            wallet_open: false
-            last_block_num: 0
-            last_block_time: null
-        @watch_for_updates()
 
 
     create: (wallet_name, spending_password) ->
@@ -194,4 +190,17 @@ class Wallet
             transactions
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "WalletAPI", "$interval", Wallet])
+
+    constructor: (@q, @log, @rpc, @utils, @wallet_api, @interval) ->
+        @log.info "---- Wallet Constructor ----"
+        @wallet_name = ""
+        @info =
+            network_connections: 0
+            balance: 0
+            wallet_open: false
+            last_block_num: 0
+            last_block_time: null
+        @watch_for_updates()
+
+
+angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "Utils", "WalletAPI", "$interval", Wallet])
