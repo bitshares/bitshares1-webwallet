@@ -1,8 +1,3 @@
-<!--<ol class="breadcrumb">-->
-<!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
-<!--<li><i class="fa fa-sign-in fa-fw"></i> Receive</li>-->
-<!--</ol>-->
-
 <div class="main-content">
  <div class="row">
   <div class="col-sm-12">
@@ -11,11 +6,11 @@
 
     <tab heading="Create Account">
      <br/>
-     <form class="form-horizontal" role="form" ng-submit="create_address()">
+     <form class="form-horizontal" role="form" ng-submit="create_account()">
       <div class="form-group">
-       <label for="new_address_label" class="col-sm-2 control-label">Name</label>
+       <label for="new_account_label" class="col-sm-2 control-label">Name</label>
        <div class="col-sm-9">
-        <input ng-model="$parent.new_address_label" type="text" class="form-control" id="new_address_label" placeholder="Name"
+        <input ng-model="$parent.new_account_label" type="text" class="form-control" id="new_account_label" placeholder="Name"
                autofocus>
        </div>
       </div>
@@ -51,7 +46,7 @@
    </thead>
    <tbody>
    
-   <tr ng-repeat="a in addresses">
+   <tr ng-repeat="a in accounts">
    
        <td><a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a></td>
     <td>{{a.balance}}</td>
