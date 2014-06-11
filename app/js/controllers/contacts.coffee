@@ -13,7 +13,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
         field: "Label"
         enableCellEdit: false
         displayName: "Name"
-        cellTemplate: '<a href="#/contacts/{{row.entity.Label.name}}" ng-click="contactClicked(row)" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field].name}}</div><div style="font-family:monospace">{{row.entity[col.field].owner_key}}</div></div></a>'
+        cellTemplate: '<a href="#/contacts/{{row.entity.Label.name}}" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field].name}}</div><div style="font-family:monospace">{{row.entity[col.field].owner_key}}</div></div></a>'
       }
       #class="btn btn-default btn-sm active" style="width:100%"
       {
@@ -57,12 +57,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
   $scope.deleteContact = (row) ->
     Wallet.wallet_remove_contact_account(row.entity.Label.name).then ->
       $scope.refresh_addresses()
-
-
-  $scope.contactClicked = (contact) ->
-    Shared.contactName = contact.entity.Label.name
-    Shared.contactAddress = contact.entity.Label.owner_key
-    Shared.trxFor = contact.entity.Label.name
 
   $scope.newContactModal = ->
     $modal.open

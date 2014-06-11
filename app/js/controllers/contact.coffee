@@ -1,7 +1,6 @@
-angular.module("app").controller "ContactController", ($scope, Wallet, $location, $stateParams, Shared) ->
-	$scope.contactName = $stateParams.contactName
+angular.module("app").controller "ContactController", ($scope, Wallet, $location, $stateParams) ->
+	$scope.contactName = $stateParams.name
 	$scope.contactAddress = "Make a request for contact address"
-	Shared.trxFor=$stateParams.contactName
 
 	$scope.voteUp = ->
 		Wallet.wallet_set_delegate_trust_level($scope.contactName, 1).then (trx) ->
