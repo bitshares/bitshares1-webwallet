@@ -1,11 +1,11 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, RpcService) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Shared, RpcService) ->
 
     #alert($stateParams.accountName)
     #accountName = $location.$$url.split('/').pop()
     #$scope.account = Wallet.accounts[$stateParams.accountName]
     $scope.account = {}
     $scope.account.name = $stateParams.accountName
-    
+    Shared.trxFor=$stateParams.contactName
 
     $scope.import_key = ->
         console.log([$scope.pk_value, $scope.account.name])

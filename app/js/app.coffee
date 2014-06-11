@@ -53,7 +53,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
 
   contact =
     name: 'contact'
-    url: '/contact'
+    url: '/contacts/:contactName'
     templateUrl: "contact.html"
     controller: "ContactController"
 

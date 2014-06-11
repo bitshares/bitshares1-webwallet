@@ -7,14 +7,3 @@ angular.module("app").controller "TransactionsController", ($scope, $location, $
   $scope.rescan = ->
     $scope.load_transactions()
 
-  $scope.viewAccount = (name)->
-    Shared.accountName  = name
-    Shared.accountAddress = "TODO:  Look the address up somewhere"
-    Shared.trxFor = name
-
-
-  $scope.viewContact = (name)->
-    Shared.contactName  = name
-    Shared.contactAddress = "TODO:  Look the address up somewhere"
-    Shared.trxFor = name
-
