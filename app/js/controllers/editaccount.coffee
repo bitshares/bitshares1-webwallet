@@ -2,7 +2,6 @@ angular.module("app").controller "EditAccountController", ($scope, $location, Wa
 	$scope.oldName=$stateParams.name
 	$scope.newName=$stateParams.name
 	$scope.paywith=$stateParams.name
-	$scope.registration = false
 	$scope.delegate = false
 	$scope.pairs = [{key: 'github', val: 'nikakhov'}, {key: 'favorite food', val: 'steak'}]
 	$scope.addKeyVal = ->
