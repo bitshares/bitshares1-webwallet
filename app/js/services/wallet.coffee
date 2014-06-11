@@ -37,9 +37,9 @@ class Wallet
             angular.forEach result, (val) ->
                 me.populate_account(val, true)
 
-    create_account: (name) ->
+    create_account: (name, privateData) ->
         me = @
-        @wallet_api.account_create(name, null).then (result)->
+        @wallet_api.account_create(name, privateData).then (result)->
             console.log(result)
             me.refresh_accounts()
 

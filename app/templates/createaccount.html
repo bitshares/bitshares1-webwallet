@@ -1,0 +1,37 @@
+<!--<ol class="breadcrumb">-->
+ <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
+ <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
+<!--</ol>-->
+<div class="header">
+	<div class="col-sm-12">
+		<h3 class="header-title">Create Account</h3>
+	</div>
+</div>
+
+<div class="well well-lg">
+	<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+		<div class="form-group">
+			<div class="form-group row">
+				<label for="name" class="col-sm-2 control-label">Name</label>
+				<div class="col-sm-5">
+		    		<input name="wp" ng-maxlength="63" required ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name" autofocus ng-model="name" type="text" class="form-control" placeholder="Account Name"/>
+		    		<p ng-show="wform.wp.$error.required && !wform.wp.$pristine" class="help-block">Name is required.</p>
+				    <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
+				    <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
+		  		</div>
+		  		<div class="col-sm-2">
+		    		<button class="btn btn-success" type="submit">Create</button>
+		  		</div>
+	  		</div>
+  		</div>
+	</form>
+	<form class="form-horizontal">
+		<div class="form-group">
+		  	<div class="form-group row">
+				<div class="col-sm-offset-2 col-sm-7">
+		    		<textarea ng-model="notes" rows="8" type="text" class="form-control" placeholder="Account notes.  Can be blank."></textarea>
+		  		</div>
+			</div>
+		</div>
+	</form>
+</div>

@@ -15,6 +15,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "console.html"
     controller: "ConsoleController"
 
+  createaccount =
+    name: 'createaccount'
+    url: '/create/account'
+    templateUrl: "createaccount.html"
+    controller: "CreateAccountController"
+
   accounts =
     name: 'accounts'
     url: '/accounts'
@@ -81,5 +87,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "assets.html"
     controller: "AssetsController"
 
-  $stateProvider.state(home).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  $stateProvider.state(home).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 
