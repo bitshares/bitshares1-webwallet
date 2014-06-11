@@ -11,24 +11,33 @@ class Wallet
                     symbol: "XTS"
 
 
-    receive_accounts:
-        "testname":
-            name: "testname"
-            active_key: "testkey"
-            balances:
-                "XTS":
-                    amount: 10000
-                    precision: 0.000001
-                    symbol: "XTS"
+    receive_accounts: {}
 
-    asset_records: []
+    asset_records: {}
 
-    balances:
-        "testname": "blah"
+    balances: {}
 
     transactions:
         "asd314sadn3254": "pretend tx object"
 
+    refresh_accounts: ->
+        me = @
+        @wallet_api.list_receive_accounts().then (result) ->
+            angular.forEach result, (val) ->
+                console.log val
+                me.receive_accounts[val.name] = {
+                    name: val.name
+                    active_key: val.active_key_history[val.active_key_history.length - 1][1]
+                    active_key_history: val.active_key_history
+                    balance: 10000
+                    registered: val.registration_date
+                }
+
+    create_account: (name) ->
+        me = @
+        @wallet_api.account_create(name, null).then (result)->
+            console.log(result)
+            me.refresh_accounts()
 
     get_account: (name) ->
         if @receive_accounts[name]

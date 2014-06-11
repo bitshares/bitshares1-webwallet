@@ -1,13 +1,6 @@
-servicesModule = angular.module("app.services")#, [Blockchain])
+servicesModule = angular.module("app.services")
 
 servicesModule.factory "Utils", ->
-
-    toAsset: (amount, asset_symbol) ->
-        return {
-            amount: amount
-            symbol: asset_symbol
-            precision: 0.000001 #Blockchain.asset_records[asset_symbol].precision
-        }
 
     formatAsset: (asset) ->
         parts = (asset.amount * asset.precision).toString().split(".")

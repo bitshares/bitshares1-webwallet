@@ -6,7 +6,7 @@
 
     <tab heading="Create Account">
      <br/>
-     <form class="form-horizontal" role="form" ng-submit="create_account()">
+     <form class="form-horizontal" role="form" ng-submit="create_account(new_account_label)">
       <div class="form-group">
        <label for="new_account_label" class="col-sm-2 control-label">Name</label>
        <div class="col-sm-9">
@@ -50,7 +50,7 @@
    
        <td><a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a></td>
     <td>{{a.balance}}</td>
-    <td>{{a.regdat}}</td>
+    <td>{{a.registered}}</td>
    </tr>
    
    </tbody>
