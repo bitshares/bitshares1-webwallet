@@ -1,44 +1,41 @@
 class Wallet
 
-    contact_accounts:
-        "testname2":
-            name: "testname2"
-            active_key: "testkey"
-            balances:
-                "XTS":
-                    amount: 10000
-                    precision: 0.000001
-                    symbol: "XTS"
-
+    contact_accounts: {}
 
     receive_accounts: {}
-
-    asset_records: {}
 
     balances: {}
 
     transactions:
         "asd314sadn3254": "pretend tx object"
 
+
     refresh_balances: ->
         me = @
         @wallet_api.account_balance("").then (result) ->
-            console.log (result)
             angular.forEach result, (key, val) ->
-                console.log(key, val)
+                balances[key] = val
+
+    # turn raw rpc return value into nice object
+    populate_account: (val, is_receive) ->
+        acct = {
+            name: val.name
+            active_key: val.active_key_history[val.active_key_history.length - 1][1]
+            active_key_history: val.active_key_history
+            registered_date: @utils.toDate(val.registration_date)
+        }
+        if is_receive
+            @receive_accounts[acct.name] = acct
+        else
+            @contact_accounts[acct.name] = acct
+        return acct
 
     refresh_accounts: ->
         me = @
         @refresh_balances()
         @wallet_api.list_receive_accounts().then (result) ->
             angular.forEach result, (val) ->
-                me.receive_accounts[val.name] = {
-                    name: val.name
-                    active_key: val.active_key_history[val.active_key_history.length - 1][1]
-                    active_key_history: val.active_key_history
-                    balance: "TODO format me {asset obj}"
-                    registered_date: me.utils.toDate(val.registration_date)
-                }
+                me.populate_account(val, true)
 
     create_account: (name) ->
         me = @
@@ -47,23 +44,25 @@ class Wallet
             me.refresh_accounts()
 
     get_account: (name) ->
+        me = @
         if @receive_accounts[name]
-            @q.defer().resolve(@receive_accounts[name]).promise
+            deferred = @q.defer()
+            deferred.resolve(@receive_accounts[name])
+            return deferred.promise
         else if @contact_accounts[name]
-            @q.defer().resolve(@contact_accounts[name]).promise
+            deferred = @q.defer()
+            deferred.resolve(@contact_accounts[name])
+            return deferred.promise
         else
             @wallet_api.get_account(name).then (result) ->
-                result
+                acct = me.populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we know where to put it
+                return acct
     
     get_all_transactions: ->
         console.log("TODO")
 
     get_transactions_for: (name) ->
         console.log("TODO")
-
-    sync_accounts: ->
-        console.log("TODO")
-
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>
@@ -190,8 +189,7 @@ class Wallet
             transactions
 
 
-
-    constructor: (@q, @log, @rpc, @utils, @wallet_api, @interval) ->
+    constructor: (@q, @log, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -203,4 +201,4 @@ class Wallet
         @watch_for_updates()
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "Utils", "WalletAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])

@@ -1,6 +1,6 @@
 class Blockchain
 
-    constructor: (@common, @network, @blockchain, @q, @interval) ->
+    constructor: (@common, @network, @blockchain_api, @q, @interval) ->
         console.log "blockchain constructor"
 
     asset_records: {
@@ -9,13 +9,10 @@ class Blockchain
             precision: 0.000001
     }
 
-    init: ->
-        console.log "starting client"
 
-    refresh_blockchain: =>
-        console.log("refreshing client status")
-        @common.get_info().then (data) =>
-            @status.alert_level = 1
+    get_asset_record: ->
+        @blockchain_api.wallet_list_registered_assets
+    
 
 
 angular.module("app").service("Blockchain", ["CommonAPI", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Blockchain])
