@@ -4,9 +4,6 @@ class Client
         console.log "Client constructor"
         @interval @refresh_status, 3000
 
-    init: ->
-        console.log "starting client"
-
     status:
         network_num_connections: 0
         alert_level: "red"

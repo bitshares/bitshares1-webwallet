@@ -1,8 +1,6 @@
 angular.module("app").controller "AccountsController", ($scope, $location, RpcService, Growl) ->
     $scope.new_address_label = ""
     $scope.addresses = []
-    $scope.pk_label = ""
-    $scope.pk_value = ""
     $scope.wallet_file = ""
     $scope.wallet_password = ""
     non0addr={}

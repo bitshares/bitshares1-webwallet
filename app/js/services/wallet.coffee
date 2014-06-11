@@ -32,12 +32,12 @@ class Wallet
 
     get_account: (name) ->
         if @receive_accounts[name]
-            return @q.defer().resolve(@receive_accounts[name]).promise
+            @q.defer().resolve(@receive_accounts[name]).promise
         else if @contact_accounts[name]
             @q.defer().resolve(@contact_accounts[name]).promise
         else
             @wallet_api.get_account(name).then (result) ->
-                return result
+                result
     
     get_all_transactions: ->
         console.log("TODO")
@@ -47,7 +47,6 @@ class Wallet
 
     sync_accounts: ->
         console.log("TODO")
-
 
     constructor: (@q, @log, @rpc, @wallet_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
@@ -129,7 +128,7 @@ class Wallet
 
     execute_command_line: (command)->
         @rpc.request('execute_command_line', [command]).then (response) ->
-          response.result=">> " + command + "\n\n" + response.result;
+          response.result=">> " + command + "\n\n" + response.result
       
 
     blockchain_list_registered_accounts: ->
