@@ -2,10 +2,10 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
 
     name = $location.$$url.split('/').pop()
 
+
     Wallet.get_account(name).then (acct) ->
         console.log(acct)
         $scope.account = acct
-
 
     $scope.import_key = ->
         console.log([$scope.pk_value, $scope.account.name])

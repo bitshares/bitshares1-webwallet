@@ -1,7 +1,15 @@
 class Wallet
 
     contact_accounts:
-        "testname2": @dummy_act
+        "testname2":
+            name: "testname2"
+            active_key: "testkey"
+            balances:
+                "XTS":
+                    amount: 10000
+                    precision: 0.000001
+                    symbol: "XTS"
+
 
     receive_accounts:
         "testname":
@@ -13,15 +21,10 @@ class Wallet
                     precision: 0.000001
                     symbol: "XTS"
 
-    dummy_acct:
-        "global_dummy_act":
-            name: "dummy"
-            active_key: "testkey"
-            balances:
-                "XTS":
-                    amount: 10000
-                    precision: 0.000001
-                    symbol: "XTS"
+    asset_records: []
+
+    balances:
+        "testname": "blah"
 
     transactions:
         "asd314sadn3254": "pretend tx object"
@@ -29,15 +32,18 @@ class Wallet
 
     get_account: (name) ->
         if @receive_accounts[name]
-            @q.defer().resolve(@receive_accounts[name]).promise
+            return @q.defer().resolve(@receive_accounts[name]).promise
         else if @contact_accounts[name]
-            @q.defer()
-            acct.resolve(@contact_accounts[name])
-            acct.promise
+            @q.defer().resolve(@contact_accounts[name]).promise
         else
             @wallet_api.get_account(name).then (result) ->
-                result
+                return result
     
+    get_all_transactions: ->
+        console.log("TODO")
+
+    get_transactions_for: (name) ->
+        console.log("TODO")
 
     sync_accounts: ->
         console.log("TODO")

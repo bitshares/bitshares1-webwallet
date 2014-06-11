@@ -9,7 +9,7 @@ class Client
 
     status:
         network_num_connections: 0
-        alert_level: 0
+        alert_level: "red"
 
     # This will repopulate "real-time" info
     refresh_status: =>
