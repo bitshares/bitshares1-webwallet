@@ -2,10 +2,15 @@ servicesModule = angular.module("app.services")
 
 servicesModule.factory "Utils", ->
 
+    newAsset: (amount, symbol, precision) ->
+        amount: amount
+        symbol: symbol
+        precision: precision
+
     formatAsset: (asset) ->
-        parts = (asset.amount * asset.precision).toString().split(".")
+        parts = (asset.amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        parts.join(".") + asset.symbol
+        parts.join(".") + " " + asset.symbol
 
     prettyDate: (date) ->
         date.toLocaleDateString("en-us")

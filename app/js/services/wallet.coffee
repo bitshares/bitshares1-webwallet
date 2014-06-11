@@ -9,15 +9,24 @@ class Wallet
     transactions:
         "asd314sadn3254": "pretend tx object"
 
-
     refresh_balances: ->
         me = @
         @wallet_api.account_balance("").then (result) ->
-            angular.forEach result, (key, val) ->
-                balances[key] = val
+            angular.forEach result, (name_bal_pair) ->
+                name = name_bal_pair[0]
+                balances = name_bal_pair[1]
+                angular.forEach balances, (symbol_amt_pair) ->
+                    symbol = symbol_amt_pair[0]
+                    amount = symbol_amt_pair[1]
+                    me.blockchain.get_asset_record(symbol).then (asset_record) ->
+                        me.balances[name][symbol] = me.utils.newAsset(amount, symbol, asset_record.precision)
 
     # turn raw rpc return value into nice object
+    #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
     populate_account: (val, is_receive) ->
+        if not @balances[val.name]
+            @balances[val.name] =
+                "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
         acct = {
             name: val.name
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
@@ -32,10 +41,10 @@ class Wallet
 
     refresh_accounts: ->
         me = @
-        @refresh_balances()
         @wallet_api.list_receive_accounts().then (result) ->
             angular.forEach result, (val) ->
                 me.populate_account(val, true)
+            me.refresh_balances()
 
     create_account: (name) ->
         me = @
@@ -45,6 +54,7 @@ class Wallet
 
     get_account: (name) ->
         me = @
+        @refresh_balances
         if @receive_accounts[name]
             deferred = @q.defer()
             deferred.resolve(@receive_accounts[name])
@@ -55,7 +65,7 @@ class Wallet
             return deferred.promise
         else
             @wallet_api.get_account(name).then (result) ->
-                acct = me.populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we know where to put it
+                acct = me.populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
                 return acct
     
     get_all_transactions: ->

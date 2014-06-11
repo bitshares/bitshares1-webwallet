@@ -49,7 +49,7 @@
    <tr ng-repeat="a in accounts">
    
        <td><a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a></td>
-       <td><div ng-repeat="asset in balances[a.name]">{{utils.formatAsset(asset)}}</div></td>
+       <td><div ng-repeat="(symbol, asset) in balances[a.name]">{{utils.formatAsset(asset)}}</div></td>
     <td>{{utils.prettyDate(a.registered_date)}}</td>
    </tr>
    
