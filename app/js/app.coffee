@@ -47,7 +47,7 @@ app.config ($stateProvider, $urlRouterProvider) ->
 
   editaccount =
     name: 'editaccount'
-    url: '/editaccount'
+    url: '/accounts/:name/edit'
     templateUrl: "editaccount.html"
     controller: "EditAccountController"
 
