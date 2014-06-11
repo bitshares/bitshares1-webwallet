@@ -13,7 +13,7 @@
 					<form class="form-horizontal" role="form" ng-submit="submitNameForm()">
 						<div class="form-group">
 					  		<div class="col-sm-1">
-					    		<button type="button" class="btn btn-success" ng-click="register = !register">Registration</button>
+					    		<button type="button" class="btn btn-success" ng-click="registration = !registration">Registration</button>
 					  		</div>
 							<label for="name" class="col-sm-2 control-label">Name</label>
 							<div class="col-sm-5">
@@ -26,7 +26,7 @@
 			  		</form>
 				</div>
 			</div>
-			<div collapse="!register">
+			<div collapse="registration">
 					<div class="well well-lg">
 					<h4 class="header-title">Public Info</h4>
 					<form class="form-horizontal" role="form" ng-submit='register()'>

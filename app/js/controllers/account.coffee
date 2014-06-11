@@ -1,6 +1,6 @@
 angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, RpcService) ->
 
-    name = $location.$$url.split('/').pop()
+    name = $stateParams.name
 
 
     Wallet.get_account(name).then (acct) ->
