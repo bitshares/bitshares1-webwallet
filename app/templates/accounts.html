@@ -1,41 +1,15 @@
 <div class="main-content">
  <div class="row">
-  <div class="col-sm-12">
 
-   <tabset>
-
-    <tab heading="Create Account">
-     <br/>
-     <form class="form-horizontal" role="form" ng-submit="create_account(new_account_label)">
-      <div class="form-group">
-       <label for="new_account_label" class="col-sm-2 control-label">Name</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.new_account_label" type="text" class="form-control" id="new_account_label" placeholder="Name"
-               autofocus>
-       </div>
-      </div>
-      <div class="form-group">
-       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Create Account</button>
-       </div>
-      </div>
-     </form>
-
-
-
-
-    </tab>
-
-
-   </tabset>
-
-  </div>
- </div>
-
- <br/>
- <div class="row">
- <div class="col-sm-12">
+ <div class="col-sm-2">
   <h3>Accounts</h3>
+  </div>
+  <div class="pull-right">
+  <a class="btn btn-primary btn-success" href="#/create/account"><i class="fa fa-plus fa-lg fa-fw"></i><i class="fa fa-bank fa-fw"></i> Create New Account</a>
+  </div>
+  </div>
+  <div class="row">
+  <div class="col-sm-12">
   <table class="table table-striped table-hover">
    <thead>
    <tr>

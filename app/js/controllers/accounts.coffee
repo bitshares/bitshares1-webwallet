@@ -4,9 +4,6 @@ angular.module("app").controller "AccountsController", ($scope, $location, Walle
     $scope.balances = Wallet.balances
     $scope.utils = Utils
 
-    $scope.create_account = (name) ->
-        Wallet.create_account($scope.new_account_label) # refreshes cache for us
-
     $scope.formatAsset = Utils.formatAsset
 
 
