@@ -6,6 +6,10 @@ class WalletAPI
     #@log.info "---- WalletAPI Constructor ----"
 
 
+  get_account: (name) ->
+      @rpc.request('wallet_get_account', [name]).then (response) ->
+          response.result
+
   # Opens the wallet at the given path
   # parameters: 
   #   filename `wallet_file` - the full path and filename of the wallet to open, example: /path/to/wallet.dat

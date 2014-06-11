@@ -25,5 +25,3 @@ servicesModule.factory "Utils", ->
             nums.push parseInt(match[i], 10)
             i++
         new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
-
-

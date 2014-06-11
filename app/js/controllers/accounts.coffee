@@ -13,10 +13,8 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
         RpcService.request('wallet_account_balance').then (response) ->
             console.log(response.result)
             non0addr={}
-            #$scope.addresses.splice(0, $scope.addresses.length)
             angular.forEach response.result, (val) ->
                 non0addr[val[0]]=val[1]
-                #$scope.addresses.push({name: val[0], balance: val[1]})
     refresh_addresses()
 
 

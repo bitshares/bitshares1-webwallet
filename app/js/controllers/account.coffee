@@ -1,10 +1,11 @@
 angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, RpcService) ->
 
-    #alert($stateParams.accountName)
-    #accountName = $location.$$url.split('/').pop()
-    #$scope.account = Wallet.accounts[$stateParams.accountName]
-    $scope.account = {}
-    $scope.account.name = $stateParams.name
+    name = $location.$$url.split('/').pop()
+
+    Wallet.get_account(name).then (acct) ->
+        console.log(acct)
+        $scope.account = acct
+
 
     $scope.import_key = ->
         console.log([$scope.pk_value, $scope.account.name])
@@ -13,7 +14,7 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             Growl.notice "", "Your private key was successfully imported."
 
     $scope.register = ->
-        Wallet.wallet_account_register($scope.accountName, $scope.accountName)
+        Wallet.wallet_account_register($scope.account.name, $scope.account.name)
 
 
     $scope.import_wallet = ->

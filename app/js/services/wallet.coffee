@@ -11,10 +11,27 @@ class Wallet
                     precision: 0.000001
                     symbol: "XTS"
 
-    refresh_accounts: ->
+
+    get_account: (name) ->
+        if @accounts[name]
+            acct = @q.defer()
+            acct.resolve(@accounts[name])
+            acct.promise
+        else
+            @wallet_api.get_account(name).then (result) ->
+                result
+    
+
+    sync_accounts: ->
         console.log("TODO")
 
-    constructor: (@q, @log, @rpc, @interval) ->
+
+    import_key: (key, account_name, cb) ->
+        RpcService.request('wallet_import_private_key', [key, account_name]).then (response) ->
+            cb(null, response)
+
+
+    constructor: (@q, @log, @rpc, @wallet_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -151,4 +168,4 @@ class Wallet
             transactions
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "WalletAPI", "$interval", Wallet])
