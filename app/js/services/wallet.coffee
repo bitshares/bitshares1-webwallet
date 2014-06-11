@@ -100,8 +100,8 @@ class Wallet
         @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) ->
           response.result
 
-    wallet_rename_account: (current_name, new_name) ->
-        @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) ->
+    wallet_account_rename: (current_name, new_name) ->
+        @rpc.request('wallet_account_rename', [current_name, new_name]).then (response) ->
           response.result
 
     blockchain_list_delegates: ->
