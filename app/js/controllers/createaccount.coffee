@@ -1,3 +1,6 @@
-angular.module("app").controller "CreateAccountController", ($scope, Wallet, $location) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, Growl) ->
     $scope.createAccount = ->
-        Wallet.create_account($scope.name, $scope.notes)
+        name=$scope.name
+        Wallet.create_account(name, $scope.notes).then (response) ->
+            Growl.notice "", "Account (#{name}) created"
+            $location.path("accounts/" + name)
