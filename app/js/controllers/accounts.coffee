@@ -3,7 +3,7 @@ angular.module("app").controller "AccountsController", ($scope, $location, RpcSe
     $scope.accounts = []
     $scope.wallet_file = ""
     $scope.wallet_password = ""
-    non0addr={}
+    non0acct={}
 
 
     #TODO ADD a Barrier or something to deal with race condition
