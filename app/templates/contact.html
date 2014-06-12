@@ -1,21 +1,17 @@
-<!--<ol class="breadcrumb">-->
- <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
- <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
-<!--</ol>-->
 <div class="header">
 	<div class="col-sm-12">
-		<h3 class="header-title">{{contactName}}</h3>
+		<h3 class="header-title">{{account.name}}</h3>
 	</div>
 </div>
 
 <div class="main-content">
-	<div>{{contactAddress}}</div>
-	Registration Date: 00/00/0000<br>
-	<button ng-click="voteUp($index)" class="btn btn-sm btn-link">
-		<i ng-class="vote_up ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+	<div>{{account.active_key}}</div>
+    Registration date:  {{ utils.prettyDate(account.registered_date) }}<br>
+	<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
+        <i ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
 	</button>
-	<button ng-click="voteDown($index)" class="btn btn-sm btn-link">
-		<i ng-class="vote_down ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
+	<button ng-click="toggleVoteDown(del.name)" class="btn btn-sm btn-link">
+		<i ng-class="(trust_levels[del.name] && trust_levels[del.name] < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
 	</button>
 </div>
 

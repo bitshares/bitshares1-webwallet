@@ -5,4 +5,3 @@ angular.module("app").controller "TransactionsController", ($scope, $location, $
   
     Wallet.get_transactions($stateParams.name).then (trs) ->
         $scope.transactions = trs
-

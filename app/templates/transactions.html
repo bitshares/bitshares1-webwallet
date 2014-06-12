@@ -14,28 +14,20 @@
 		<table class="table table-striped table-hover">
 			<thead>
 			<tr>
-				<th>BLK.TRX</th>
 				<th>DATE</th>
 				<th>FROM</th>
 				<th>TO</th>
 				<th>MEMO</th>
 				<th>AMOUNT</th>
-				<th>FEE</th>
-				<th>VOTE</th>
-				<th>ID</th>
 			</tr>
 			</thead>
 			<tbody>
 			<tr ng-repeat="t in transactions">
-				<td>{{ t.block_num }}</td>
-				<td>{{ t.time }}</td>
+				<td>{{ utils.prettyDate(t.time) }}</td>
 				<td><a href="#/accounts/{{t.from}}">{{ t.from }}</a></td>
 				<td><a href="#/contacts/{{t.to}}">{{ t.to }}</td>
 				<td>{{ t.memo }}</td>
 				<td>{{ utils.formatAsset(t.amount) }}</td>
-				<td>{{ utils.formatAsset(t.fee) }}</td>
-				<td>{{ t.vote }}</td>
-				<td>{{ t.id }}</td>
 			</tr>
 			</tbody>
 		</table>

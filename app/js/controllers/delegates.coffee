@@ -9,8 +9,6 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
 
 
     $scope.toggleVoteUp = (name) ->
-        console.log "CLICK"
-        console.log (name in Wallet.trust_levels)
         if name not in Wallet.trust_levels or Wallet.trust_levels[name] < 1
             Wallet.set_trust(name, 1)
         else
