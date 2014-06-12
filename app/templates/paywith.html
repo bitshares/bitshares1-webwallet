@@ -1,0 +1,14 @@
+ <div class="modal-header">
+  <h3 class="modal-title">Pay for Registration</h3>
+ </div>
+ <form role="form" ng-submit="ok()">
+ <div class="modal-body">
+  <div class="form-group">
+   <select ng-model="paywith" type="text" class="form-control" placeholder="Account Name" id="paywith" ng-options="account for account in accounts | filter:symbol"></select>
+  </div>
+ </div>
+ </form>
+ <div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+ </div>

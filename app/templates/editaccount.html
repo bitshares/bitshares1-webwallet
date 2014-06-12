@@ -4,7 +4,7 @@
 <!--</ol>-->
 <div class="header">
 	<div class="col-sm-12">
-		<h3 class="header-title">Edit {{oldName}}</h3>
+		<h3 class="header-title">Edit {{currentName}}</h3>
 	</div>
 </div>
 	<div id="edit-form">
@@ -12,10 +12,11 @@
 				<div class="well well-lg">
 					<form class="form-horizontal" role="form" ng-submit="submitNameForm()">
 						<div class="form-group">
+						<!--
 					  		<div class="col-sm-1">
-					    		<button type="button" class="btn btn-success" ng-click="registration = !registration">Registration</button>
-					  		</div>
-							<label for="name" class="col-sm-2 control-label">Name</label>
+					    		<button type="button" class="btn btn-success" ng-click="noregistration = !noregistration">Registration</button>
+					  		</div>-->
+							<label for="name" class="col-sm-offset-1 col-sm-2 control-label">Name</label>
 							<div class="col-sm-5">
 					    		<input focus ng-model="newName" type="text" class="form-control" placeholder="Account Name"/>
 					  		</div>
@@ -26,7 +27,6 @@
 			  		</form>
 				</div>
 			</div>
-			<div collapse="registration">
 					<div class="well well-lg">
 					<h4 class="header-title">Public Info</h4>
 					<form class="form-horizontal" role="form" ng-submit='register()'>
@@ -72,18 +72,20 @@
 					  	</div>
 					  	<div class="form-group row">
 						  	<div class="col-sm-offset-1 col-sm-2">
-					    		<button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> Add</button>
+					    		<button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> Add Field</button>
 					  		</div>
 				  		</div>
 				  		<div class="form-group row">
 							<div class="col-sm-offset-3 col-sm-3">
-								<button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register</button>
+								<button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{currentName}}</button>
 							</div>
 						</div>
 
 				</form>
 					</div>
-			</div>
+
+
+
 			<div class="form-group well well-lg">
 				<div class="form-group row">
 					<div class="col-sm-2">
@@ -95,7 +97,7 @@
 		  		</div>
 				<div class="form-group row">
 					<div class="col-sm-12">
-			    		<textarea focus ng-model="email" type="text" rows="8" class="form-control" placeholder="Account notes.  Can be blank."></textarea>
+			    		<textarea focus ng-model="notes" type="text" rows="8" class="form-control" placeholder="Account notes.  Can be blank."></textarea>
 			  		</div>
 		  		</div>
 			</div>

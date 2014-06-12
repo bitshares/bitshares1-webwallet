@@ -1,10 +1,10 @@
 angular.module("app").controller "EditAccountController", ($scope, $location, Wallet, $stateParams, Growl, Shared) ->
-	$scope.oldName=$stateParams.name
+	$scope.currentName=$stateParams.name
 	$scope.newName=$stateParams.name
 	$scope.paywith=$stateParams.name
-	$scope.registration = false
+	#$scope.noregistration = true
 	$scope.delegate = false
-	$scope.pairs = [{key: 'github', val: 'nikakhov'}, {key: 'favorite food', val: 'steak'}]
+	$scope.pairs = []
 	$scope.addKeyVal = ->
 		$scope.pairs.push {"":""}
 
@@ -12,10 +12,12 @@ angular.module("app").controller "EditAccountController", ($scope, $location, Wa
 		$scope.pairs.splice(index, 1)
 
 	$scope.register = ->
-		Wallet.wallet_account_register($scope.newName, $scope.paywith, {"email": $scope.email, "website": $scope.website}, $scope.delegate).then (response) ->
+		Wallet.wallet_account_register($scope.currentName, $scope.paywith, {"email": $scope.email, "website": $scope.website}, $scope.delegate).then (response) ->
 			Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response)})"
 			console.log response
 
 	$scope.submitNameForm = ->
-		alert 'Not yet implemented'
-		#Wallet.wallet_rename_account($scope.accountName, $scope.newName)
+		newName=$scope.newName
+		Wallet.wallet_account_rename($scope.currentName, newName).then ->
+			Growl.notice "", "Account renamed"
+			$location.path("accounts/"+newName+"/edit")

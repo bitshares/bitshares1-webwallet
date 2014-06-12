@@ -9,6 +9,12 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "home.html"
     controller: "HomeController"
 
+  proposals =
+    name: 'proposals'
+    url: '/proposals'
+    templateUrl: "proposals.html"
+    controller: "ProposalsController"
+
   console =
     name: 'console'
     url: '/console'
@@ -87,5 +93,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "assets.html"
     controller: "AssetsController"
 
-  $stateProvider.state(home).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
 
