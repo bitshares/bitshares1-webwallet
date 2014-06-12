@@ -1,10 +1,10 @@
 class Blockchain
 
-    constructor: (@common, @network, @blockchain_api, @q, @interval) ->
+    constructor: (@client, @network, @blockchain_api, @q, @interval) ->
         @refresh_asset_records()
         console.log "blockchain constructor"
 
-    ##  
+    # # # # # 
     #  Asset Records
 
     asset_records: {}
@@ -29,20 +29,26 @@ class Blockchain
                 return record
                 
     # Asset records
-    # #
+    # # # # #
+
 
     ##
     # Delegates
 
 
     active_delegates: []
-    inactive_delegats: []
+    inactive_delegates: []
 
+    # TODO
     populate_delegate: (record) ->
-        console.log "todo"
+        record
 
     refresh_delegates: ->
-        console.log "todo"
-    
+        @blockchain_api.blockchain_list_delegates(0, -1).then (result) =>
+            for i in [0 ... @client.config.num_delegates]
+                @active_delegates[i] = @populate_delegate(result[i])
+            for i in [@client.config.num_delegates ... result.length]
+                @inactive_delegates[i - @client.config.num_delegates] = @populate_delegate(result[i])
 
-angular.module("app").service("Blockchain", ["CommonAPI", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Blockchain])
+
+angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Blockchain])

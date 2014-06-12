@@ -8,6 +8,8 @@ class Wallet
 
     transactions: {}
 
+    trust_levels: {}
+
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>
             angular.forEach result, (name_bal_pair) =>
@@ -25,6 +27,9 @@ class Wallet
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
+        @trust_levels[val.name] = val.trust_level
+        console.log val
+        console.log @trust_levels
         acct = {
             name: val.name
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
@@ -37,11 +42,20 @@ class Wallet
             @contact_accounts[acct.name] = acct
         return acct
 
+    refresh_account: (name) ->
+        @wallet_api.get_account(name).then (result) => # TODO no such acct?
+            @populate_account(result)
+
     refresh_accounts: ->
         @wallet_api.list_receive_accounts().then (result) =>
             angular.forEach result, (val) =>
                 @populate_account(val, true)
             @refresh_balances()
+        @wallet_api.list_contact_accounts().then (result) =>
+            angular.forEach result, (val) =>
+                @populate_account(val, false)
+            @refresh_balances()
+
 
     create_account: (name, privateData) ->
         @wallet_api.account_create(name, privateData).then (result) =>
@@ -62,7 +76,15 @@ class Wallet
             @wallet_api.get_account(name).then (result) =>
                 acct = @populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
                 return acct
-  
+
+    set_trust: (name, trust_level) ->
+        @trust_levels[name] = trust_level
+        @wallet_api.set_delegate_trust_level(name, trust_level).then () =>
+            @refresh_account(name)
+        return
+
+
+
     refresh_transactions: (name) ->
         console.log name
 
@@ -91,6 +113,8 @@ class Wallet
             transactions
 
            
+
+
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>

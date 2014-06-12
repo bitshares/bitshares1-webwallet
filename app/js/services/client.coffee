@@ -5,7 +5,7 @@ class Client
         @interval @refresh_status, 3000
 
     config:
-        num_delegates: 0
+        num_delegates: 97
 
     status:
         network_num_connections: 0
