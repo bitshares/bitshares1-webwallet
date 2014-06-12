@@ -6,7 +6,7 @@ class Wallet
 
     balances: {}
 
-    transactions: {}
+    transactions: []
 
     trust_levels: {}
 
@@ -101,7 +101,7 @@ class Wallet
                     block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
                     #trx_num: Number(key) + 1
                     time: new Date(val.received_time*1000)
-                    amount: val.amount.amount
+                    amount: @utils.newAsset(val.amount.amount, "XTS", 1000000) #TODO
                     from: val.from_account
                     to: val.to_account
                     memo: val.memo_message
