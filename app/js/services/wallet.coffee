@@ -119,7 +119,7 @@ class Wallet
             success()
 
     get_balance: ->
-        @growl.notify "DISABLED get_balance"
+        @growl.notice "", "DISABLED get_balance"
         ###
         @rpc.request('wallet_get_balance').then (response) ->
             asset = response.result[0]
@@ -127,7 +127,7 @@ class Wallet
             ###
 
     get_wallet_name: ->
-        @growl.notify "DISABLED get_wallet_name"
+        @growl.notice "", "DISABLED get_wallet_name"
         ###
         @rpc.request('wallet_get_name').then (response) =>
           console.log "---- current wallet name: ", response.result
@@ -139,14 +139,14 @@ class Wallet
           response.result
 
     wallet_add_contact_account: (name, address) ->
-        @growl.notify "DISABLED wallet_add_contact_account"
+        @growl.notice "", "DISABLED wallet_add_contact_account"
         ###
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
           ####
 
     wallet_account_register: (account_name, pay_from_account, public_data, as_delegate) ->
-        @growl.notify "DISABLED wallet_account_register"
+        @growl.notice "", "DISABLED wallet_account_register"
         ###
         @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) =>
           response.result
