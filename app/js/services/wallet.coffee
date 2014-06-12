@@ -119,26 +119,38 @@ class Wallet
             success()
 
     get_balance: ->
+        @growl.notify "DISABLED get_balance"
+        ###
         @rpc.request('wallet_get_balance').then (response) ->
             asset = response.result[0]
             {amount: asset[0], asset_type: asset[1]}
+            ###
 
     get_wallet_name: ->
+        @growl.notify "DISABLED get_wallet_name"
+        ###
         @rpc.request('wallet_get_name').then (response) =>
           console.log "---- current wallet name: ", response.result
           @wallet_name = response.result
+          ###
 
     get_info: ->
         @rpc.request('get_info').then (response) =>
           response.result
 
     wallet_add_contact_account: (name, address) ->
+        @growl.notify "DISABLED wallet_add_contact_account"
+        ###
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
+          ####
 
     wallet_account_register: (account_name, pay_from_account, public_data, as_delegate) ->
+        @growl.notify "DISABLED wallet_account_register"
+        ###
         @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) =>
           response.result
+          ###
 
     wallet_rename_account: (current_name, new_name) ->
         @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) =>
@@ -180,11 +192,6 @@ class Wallet
         @rpc.request('wallet_list_contact_accounts').then (response) ->
           response.result
 
-    execute_command_line: (command)->
-        @rpc.request('execute_command_line', [command]).then (response) ->
-          response.result=">> " + command + "\n\n" + response.result
-      
-
     blockchain_list_registered_accounts: ->
         @rpc.request('blockchain_list_registered_accounts').then (response) ->
           reg = []
@@ -215,7 +222,7 @@ class Wallet
             @info.last_block_num = 0
         ), 2500
 
-    constructor: (@q, @log, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
+    constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -227,4 +234,4 @@ class Wallet
         @watch_for_updates()
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])

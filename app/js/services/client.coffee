@@ -12,9 +12,11 @@ class Client
         alert_level: "red"
 
     # This will repopulate "real-time" info
+    ###
     refresh_status: ->
         @common.get_info().then (data) =>
             @status.network_num_connections = data.network_num_connections
+            ####
 
 
 angular.module("app").service("Client", ["CommonAPI", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Client])
