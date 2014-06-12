@@ -28,8 +28,6 @@ class Wallet
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
         @trust_levels[val.name] = val.trust_level
-        console.log val
-        console.log @trust_levels
         acct = {
             name: val.name
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
