@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Growl, Shared) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared) ->
 
   $scope.payto = Shared.contactName
   $scope.symbolOptions = []
@@ -27,9 +27,7 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
   refresh_accounts()
 
   $scope.send = ->
-  	# $scope.memo was removed
     RpcService.request('wallet_transfer', [$scope.amount, $scope.symbol, $scope.payfrom.split(" ")[0], $scope.payto, $scope.memo]).then (response) ->
-      #$state.go("transactions")
       $scope.payto = ""
       $scope.amount = ""
       $scope.memo = ""

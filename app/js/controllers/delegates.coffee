@@ -1,11 +1,6 @@
 angular.module("app").controller "DelegatesController", ($scope, $location, $state, Growl, Wallet) ->
   $scope.delegates=[]
   trustLevels={}
-  ###
-  Wallet.blockchain_get_config().then (response) ->
-    console.log(response)
-    $scope.activeDels=delegate_num
-  ###
 
   #Make this more efficient by executing HTTP calls in parallel
   refresh_delegates = ->
