@@ -13,6 +13,9 @@ servicesModule.factory "Utils", ->
         parts.join(".") + " " + asset.symbol
 
     prettyDate: (date) ->
+        if not date
+            console.log "attempting to prettify null date"
+            return ""
         date.toLocaleDateString("en-us")
 
     toDate: (t) ->

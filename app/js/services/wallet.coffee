@@ -6,20 +6,20 @@ class Wallet
 
     balances: {}
 
-    transactions:
-        "asd314sadn3254": "pretend tx object"
+    transactions: []
+
+    trust_levels: {}
 
     refresh_balances: ->
-        me = @
-        @wallet_api.account_balance("").then (result) ->
-            angular.forEach result, (name_bal_pair) ->
+        @wallet_api.account_balance("").then (result) =>
+            angular.forEach result, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1]
-                angular.forEach balances, (symbol_amt_pair) ->
+                angular.forEach balances, (symbol_amt_pair) =>
                     symbol = symbol_amt_pair[0]
                     amount = symbol_amt_pair[1]
-                    me.blockchain.get_asset_record(symbol).then (asset_record) ->
-                        me.balances[name][symbol] = me.utils.newAsset(amount, symbol, asset_record.precision)
+                    @blockchain.get_asset_record(symbol).then (asset_record) =>
+                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
     # turn raw rpc return value into nice object
     #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
@@ -27,6 +27,7 @@ class Wallet
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
+        @trust_levels[val.name] = val.trust_level
         acct = {
             name: val.name
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
@@ -39,21 +40,27 @@ class Wallet
             @contact_accounts[acct.name] = acct
         return acct
 
+    refresh_account: (name) ->
+        @wallet_api.get_account(name).then (result) => # TODO no such acct?
+            @populate_account(result)
+
     refresh_accounts: ->
-        me = @
-        @wallet_api.list_receive_accounts().then (result) ->
-            angular.forEach result, (val) ->
-                me.populate_account(val, true)
-            me.refresh_balances()
+        @wallet_api.list_receive_accounts().then (result) =>
+            angular.forEach result, (val) =>
+                @populate_account(val, true)
+            @refresh_balances()
+        @wallet_api.list_contact_accounts().then (result) =>
+            angular.forEach result, (val) =>
+                @populate_account(val, false)
+            @refresh_balances()
+
 
     create_account: (name, privateData) ->
-        me = @
-        @wallet_api.account_create(name, privateData).then (result)->
+        @wallet_api.account_create(name, privateData).then (result) =>
             console.log(result)
-            me.refresh_accounts()
+            @refresh_accounts()
 
     get_account: (name) ->
-        me = @
         @refresh_balances
         if @receive_accounts[name]
             deferred = @q.defer()
@@ -64,52 +71,97 @@ class Wallet
             deferred.resolve(@contact_accounts[name])
             return deferred.promise
         else
-            @wallet_api.get_account(name).then (result) ->
-                acct = me.populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
+            @wallet_api.get_account(name).then (result) =>
+                acct = @populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
                 return acct
-    
-    get_all_transactions: ->
-        console.log("TODO")
 
-    get_transactions_for: (name) ->
-        console.log("TODO")
+    set_trust: (name, trust_level) ->
+        @trust_levels[name] = trust_level
+        @wallet_api.set_delegate_trust_level(name, trust_level).then () =>
+            @refresh_account(name)
+        return
+
+
+
+    refresh_transactions: (name) ->
+        console.log name
+
+    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
+    # TODO: cache transactions
+    # TODO: sort transactions, show the most recent ones on top
+    get_transactions: (account_name) ->
+        @wallet_api.account_transaction_history(account_name).then (result) =>
+            console.log "--- transactions = ", result
+            transactions = []
+            angular.forEach result, (val, key) =>
+                blktrx=val.block_num + "." + val.trx_num
+                console.log blktrx
+                console.log val.amount
+                transactions.push
+                    block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
+                    #trx_num: Number(key) + 1
+                    time: new Date(val.received_time*1000)
+                    amount: @utils.newAsset(val.amount.amount, "XTS", 1000000) #TODO
+                    from: val.from_account
+                    to: val.to_account
+                    memo: val.memo_message
+                    id: val.trx_id.substring 0, 8
+                    fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
+                    vote: "N/A"
+            transactions
+
+           
+
+
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>
             success()
 
     get_balance: ->
+        @growl.notice "", "DISABLED get_balance"
+        ###
         @rpc.request('wallet_get_balance').then (response) ->
             asset = response.result[0]
             {amount: asset[0], asset_type: asset[1]}
+            ###
 
     get_wallet_name: ->
+        @growl.notice "", "DISABLED get_wallet_name"
+        ###
         @rpc.request('wallet_get_name').then (response) =>
           console.log "---- current wallet name: ", response.result
           @wallet_name = response.result
+          ###
 
     get_info: ->
-        @rpc.request('get_info').then (response) ->
+        @rpc.request('get_info').then (response) =>
           response.result
 
     wallet_add_contact_account: (name, address) ->
-        @rpc.request('wallet_add_contact_account', [name, address]).then (response) ->
+        @growl.notice "", "DISABLED wallet_add_contact_account"
+        ###
+        @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
+          ####
 
     wallet_account_register: (account_name, pay_from_account, public_data, as_delegate) ->
-        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) ->
+        @growl.notice "", "DISABLED wallet_account_register"
+        ###
+        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) =>
           response.result
+          ###
 
-    wallet_account_rename: (current_name, new_name) ->
-        @rpc.request('wallet_account_rename', [current_name, new_name]).then (response) ->
+    wallet_rename_account: (current_name, new_name) ->
+        @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) =>
           response.result
 
     blockchain_list_delegates: ->
-        @rpc.request('blockchain_list_delegates').then (response) ->
+        @rpc.request('blockchain_list_delegates').then (response) =>
           response.result
 
     open: ->
-        @rpc.request('wallet_open', ['default']).then (response) ->
+        @rpc.request('wallet_open', ['default']).then (response) =>
           response.result
 
     wallet_account_balance: ->
@@ -139,11 +191,6 @@ class Wallet
     wallet_list_contact_accounts: ->
         @rpc.request('wallet_list_contact_accounts').then (response) ->
           response.result
-
-    execute_command_line: (command)->
-        @rpc.request('execute_command_line', [command]).then (response) ->
-          response.result=">> " + command + "\n\n" + response.result
-      
 
     blockchain_list_registered_accounts: ->
         @rpc.request('blockchain_list_registered_accounts').then (response) ->
@@ -175,31 +222,7 @@ class Wallet
             @info.last_block_num = 0
         ), 2500
 
-    get_transactions: (account)=>
-    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
-    # TODO: cache transactions
-    # TODO: sort transactions, show the most recent ones on top
-        @rpc.request("wallet_account_transaction_history", [account]).then (response) =>
-            console.log "--- transactions = ", response.result
-            transactions = []
-            angular.forEach response.result, (val, key) =>
-              blktrx=val.block_num + "." + val.trx_num
-              console.log blktrx
-              transactions.push
-                block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
-                #trx_num: Number(key) + 1
-                time: new Date(val.received_time*1000)
-                amount: val.amount.amount
-                from: val.from_account
-                to: val.to_account
-                memo: val.memo_message
-                id: val.trx_id.substring 0, 8
-                fee: val.fees
-                vote: "N/A"
-            transactions
-
-
-    constructor: (@q, @log, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
+    constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -211,4 +234,4 @@ class Wallet
         @watch_for_updates()
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])
