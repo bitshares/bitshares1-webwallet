@@ -93,5 +93,11 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "assets.html"
     controller: "AssetsController"
 
-  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory)
+  block =
+    name: 'block'
+    url:  '/blocks/:number'
+    templateUrl: "block.html"
+    controller: "BlockController"
+
+  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory).state(block)
 

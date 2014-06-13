@@ -47,15 +47,20 @@ class Blockchain
                 @blockchain_api.blockchain_list_blocks(begin + 1, current_head_num - begin).then (result) =>
                     for block in result
                         blocks[block.block_num] = block
-                    @block_head_num = current_head_num
 
                     @reverse_blocks.pop while @reverse_blocks.size > 0
                     i = 0
                     angular.forEach blocks, (b) =>
-                        @reverse_blocks.unshift b
-                        #if i >= 20 then @reverse_blocks.unshift b
-                        #i ++
+                        if i < 20 then @reverse_blocks.unshift b
+                        ++ i
 
+                @block_head_num = current_head_num
+                
+    refresh_recent_block_ids: () ->
+        for i in [0 ... @reverse_blocks.length]
+            @blockchain_api.blockchain_get_blockhash(@reverse_blocks[i].block_num).then (result) =>
+                console.log @reverse_blocks[i]
+                @reverse_blocks[i].block_id = result
     ##
     # Delegates
 
