@@ -31,6 +31,30 @@ class Blockchain
     # Asset records
     # # # # #
 
+    block_head_num : 0
+    reverse_blocks : []
+
+    # refresh the latest $count blocks to blocks, TODO: to be impoved
+    refresh_recent_blocks: () ->
+        @blockchain_api.blockchain_get_blockcount().then (result) =>
+            current_head_num = result
+
+            if current_head_num > @block_head_num
+                blocks = {}
+                begin = current_head_num - 20
+                if begin < 1 then begin = 1
+
+                @blockchain_api.blockchain_list_blocks(begin + 1, current_head_num - begin).then (result) =>
+                    for block in result
+                        blocks[block.block_num] = block
+                    @block_head_num = current_head_num
+
+                    @reverse_blocks.pop while @reverse_blocks.size > 0
+                    i = 0
+                    angular.forEach blocks, (b) =>
+                        if i >= 20 then
+                            @reverse_blocks.unshift b
+                        i ++
 
     ##
     # Delegates
