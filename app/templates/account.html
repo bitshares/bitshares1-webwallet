@@ -1,58 +1,121 @@
-<div class="header">
-	<div class="col-sm-12">
-		<h3 class="header-title">{{account.name}}</h3>
-		
-	</div>
-</div>
+  <div ng-controller="AccountOverviewController" ng-include src="'account_overview.html'"></div>
 
-<div class="main-content">
-	<div>{{account.active_key}}</div>
-	<br>
-	<div class="pull-right">
+	<div>
 			<a class="btn btn-primary" href="#/accounts/{{account.name}}/edit"><i class="fa fa-edit fa-lg fa-fw"></i> Edit</a>
-		</div>
-	<button class="btn btn-primary"><i class="fa fa-file-excel-o fa-lg fa-fw"></i> Issue assets</button>
-  <button class="btn btn-primary">Free Registration</button>
-</div>
+	</div>
+	<!--<button class="btn btn-primary"><i class="fa fa-file-excel-o fa-lg fa-fw"></i> Issue assets</button>
+  <button class="btn btn-primary">Free Registration</button> -->
+
+
 <tabset>
-<tab heading="Import Private Key">
-<form class="form-horizontal" role="form" ng-submit="import_key()">
-      <div class="form-group">
-       <label for="pk_value" class="col-sm-2 control-label">Private Key</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.pk_value" type="text" class="form-control" id="pk_value" placeholder="Private Key"/>
-       </div>
-      </div>
-      <div class="form-group">
-       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Import Key</button>
-       </div>
-      </div>
+    <tab heading="Transactions" >
+      <div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
+    </tab>
+    <tab heading="Transfer" >
 
-     </form>
-</tab>
-    <tab heading="Import Wallet">
-     <br/>
+          <div id="transfer-form">
+           <form class="form-horizontal" role="form" ng-submit="send()">
 
-     <form class="form-horizontal" role="form" ng-submit="import_wallet()">
-      <div class="form-group">
-       <label for="wallet_file" class="col-sm-2 control-label">Wallet Path</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.wallet_file" type="text" class="form-control" id="wallet_file" placeholder=""/>
-       </div>
-      </div>
-      <div class="form-group">
-       <label for="wallet_password" class="col-sm-2 control-label">Wallet Password</label>
-       <div class="col-sm-9">
-        <input ng-model="$parent.wallet_password" type="password" class="form-control" id="wallet_password" placeholder="Password"/>
-       </div>
-      </div>
-      <div class="form-group">
-       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">Import Wallet</button>
-       </div>
-      </div>
-     </form>
+             <div class="form-group row">
+                 <label for="amount" class="col-sm-2 control-label">Amount</label>
+               <div class="col-md-3">
+                 <input ng-model="amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
+               </div>
+                 <div class="col-md-2">
+                   <select class="form-control" id='symbol' ng-model="symbol" ng-options="symbol in balances[name]"></select>
+                 </div>
+              </div>
+
+            <!--
+             <div class="form-group">
+               <label for="payfrom" class="col-sm-2 control-label">From</label>
+               <div class="col-md-5">
+                 <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts | filter:symbol"></select>
+               </div>
+             </div>
+             -->
+
+            <div class="form-group">
+             <label for="payto" class="col-sm-2 control-label">To</label>
+
+             <div class="col-md-5">
+              <input ng-model="payto" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
+             </div>
+            </div>
+
+
+            <div class="form-group">
+             <label for="memo" class="col-sm-2 control-label">Memo</label>
+             <div class="col-md-5">
+              <input ng-model="memo" type="text" class="form-control" placeholder="Memo" id="memo"/>
+             </div>
+            </div>
+             <div class="form-group row">
+               <div class="col-sm-offset-2 col-sm-10">
+                 <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Send</button>
+               </div>
+             </div>
+           </form>
+          </div>
+
+
+
+
+    </tab>
+    <tab heading="Advanced" >
+	    <div><b>Account Public Key:</b> {{account.active_key}}</div>
+
+      <tabset>
+          <tab heading="Import Private Key">
+          <form class="form-horizontal" role="form" ng-submit="import_key()">
+                <div class="form-group">
+                 <label for="pk_value" class="col-sm-2 control-label">Private Key</label>
+                 <div class="col-sm-9">
+                  <input ng-model="$parent.pk_value" type="text" class="form-control" id="pk_value" placeholder="Private Key"/>
+                 </div>
+                </div>
+                <div class="form-group">
+                 <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-primary">Import Key</button>
+                 </div>
+                </div>
+
+               </form>
+          </tab>
+          <tab heading="Import Wallet">
+           <br/>
+
+           <form class="form-horizontal" role="form" ng-submit="import_wallet()">
+            <div class="form-group">
+             <label for="wallet_file" class="col-sm-2 control-label">Wallet Type</label>
+             <div class="col-sm-9">
+                <select name="menu">
+                <option value="1">Bitcoin</option>
+                <option value="2">Multibit</option>
+                <option value="3">Electrum</option>
+                </select>
+             </div>
+            </div>
+            <div class="form-group">
+             <label for="wallet_file" class="col-sm-2 control-label">Wallet Path</label>
+             <div class="col-sm-9">
+              <input ng-model="$parent.wallet_file" type="text" class="form-control" id="wallet_file" placeholder=""/>
+             </div>
+            </div>
+            <div class="form-group">
+             <label for="wallet_password" class="col-sm-2 control-label">Wallet Password</label>
+             <div class="col-sm-9">
+              <input ng-model="$parent.wallet_password" type="password" class="form-control" id="wallet_password" placeholder="Password"/>
+             </div>
+            </div>
+            <div class="form-group">
+             <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-primary">Import Wallet</button>
+             </div>
+            </div>
+           </form>
+          </tab>
+      </tabset>
+
     </tab>
 </tabset>
-<div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
