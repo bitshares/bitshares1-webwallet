@@ -212,7 +212,7 @@ class Wallet
             @info.wallet_open = false
             @info.wallet_unlocked = false
             @info.last_block_num = 0
-          @blockchain_get_security_state.then (data) =>
+          @blockchain_get_security_state().then (data) =>
             @info.alert_level = data.alert_level
         ), 2500
 
