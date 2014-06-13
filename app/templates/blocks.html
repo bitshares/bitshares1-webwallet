@@ -9,5 +9,32 @@
 </div>
 
 <div class="main-content">
-
+   <b>
+      <table class="table table-striped table-hover">
+         <thead>
+         <tr>
+            <th>Height</th>
+            <th>Age</th>
+            <th>Transactions</th>
+            <th>Fee Rate</th>
+            <th>Delegate Pay Rate</th>
+            <th>Size</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr ng-repeat="block in blocks">
+            <td>{{ block.block_num }}</td>
+            <td>
+               {{ block.timestamp }}&emsp;
+            </td>
+            <td>
+               {{ block.user_transaction_ids.length }}&emsp;
+            </td>
+            <td>{{ block.fee_rate }}</td>
+            <td>{{ block.delegate_pay_rate }}</td>
+            <td>{{ block.block_size }}</td>
+         </tr>
+         </tbody>
+      </table>
+   </b>
 </div>
