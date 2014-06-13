@@ -115,8 +115,7 @@ class Wallet
 
 
     create: (wallet_name, spending_password) ->
-        @rpc.request('wallet_create', [wallet_name, spending_password]).then (response) =>
-            success()
+        @rpc.request('wallet_create', [wallet_name, spending_password])
 
     get_balance: ->
         @rpc.request('wallet_get_balance').then (response) ->
