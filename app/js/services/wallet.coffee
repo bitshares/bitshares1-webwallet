@@ -147,6 +147,11 @@ class Wallet
         @rpc.request('blockchain_list_delegates').then (response) =>
           response.result
 
+    blockchain_get_security_state: ->
+        @rpc.request('blockchain_get_security_state').then (response) =>
+          response.result
+
+
     open: ->
         @rpc.request('wallet_open', ['default']).then (response) =>
           response.result
@@ -207,6 +212,8 @@ class Wallet
             @info.wallet_open = false
             @info.wallet_unlocked = false
             @info.last_block_num = 0
+          @blockchain_get_security_state.then (data) =>
+            @info.alert_level = data.alert_level
         ), 2500
 
     constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
@@ -218,6 +225,7 @@ class Wallet
             wallet_open: false
             last_block_num: 0
             last_block_time: null
+            alert_level: null
         @watch_for_updates()
 
 

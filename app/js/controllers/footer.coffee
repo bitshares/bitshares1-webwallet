@@ -3,6 +3,7 @@ angular.module("app").controller "FooterController", ($scope, Wallet) ->
   $scope.blockchain_blocks_behind = 0
   $scope.blockchain_status = "off"
   $scope.blockchain_last_block_num = 0
+  $scope.alert_level = "normal-state"
 
   watch_for = ->
     Wallet.info
@@ -36,6 +37,13 @@ angular.module("app").controller "FooterController", ($scope, Wallet) ->
       $scope.blockchain_last_block_num = info.last_block_num
     else
       $scope.blockchain_status = "off"
+    
+    if info.alert_level == "green"
+      $scope.alert_level = "normal-state"
+    else if info.alert_level == "yellow"
+      $scope.alert_level = "warning-state"
+    else
+      $scope.alert_level = "severe-state"
 
   $scope.$watch(watch_for, on_update, true)
 

@@ -49,6 +49,18 @@ footer {
 	background-color: #f5f5f5;
 }
 
+footer.normal-state{
+   background-color: green;
+}
+
+footer.warning-state{
+   background-color: yellow;
+}
+
+footer.severe-state{
+   background-color: red;
+}
+
 footer p {
 	margin: 5px 15px 0 0;
 }
