@@ -52,9 +52,9 @@ class Blockchain
                     @reverse_blocks.pop while @reverse_blocks.size > 0
                     i = 0
                     angular.forEach blocks, (b) =>
-                        if i >= 20 then
-                            @reverse_blocks.unshift b
-                        i ++
+                        @reverse_blocks.unshift b
+                        #if i >= 20 then @reverse_blocks.unshift b
+                        #i ++
 
     ##
     # Delegates
