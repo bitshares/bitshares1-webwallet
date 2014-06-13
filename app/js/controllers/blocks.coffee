@@ -2,4 +2,6 @@ angular.module("app").controller "BlocksController", ($scope, $location, $state,
   $scope.blocks=Blockchain.reverse_blocks
 
   #TODO make this more efficient by using parllel, and updating realtime
-  Blockchain.refresh_recent_blocks(20)
+  Blockchain.refresh_recent_blocks()
+
+  #Blockchain.refresh_recent_block_ids()
