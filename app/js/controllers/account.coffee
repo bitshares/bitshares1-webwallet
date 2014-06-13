@@ -1,7 +1,12 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, RpcService) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, RpcService) ->
 
     name = $stateParams.name
 
+    accounts = Wallet.receive_accounts
+    balances = Wallet.balances
+    utils = Utils
+
+    Wallet.refresh_accounts()
 
     Wallet.get_account(name).then (acct) ->
         $scope.account = acct
