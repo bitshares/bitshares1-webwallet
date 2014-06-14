@@ -1,5 +1,80 @@
-<tabset>
-    <tab heading="Transactions" >
-      <div ng-controller="BlockTransactionsController" ng-include src="'transactions.html'"></div>
-    </tab>
-</tabset>
+<div class="header">
+    <div class="col-sm-12">
+        <h3 class="header-title">Block #{{number}}</h3>
+	</div>
+</div>
+
+<div class="main-content">
+   <b>
+      <table class="table table-striped table-hover">
+         <tbody>
+         <tr>
+             <th colspan="2"><b>Summary</b></th>
+         </tr>
+         <tr>
+            <td>Number of Transactions</td>
+            <td>
+               {{ block.transaction_count }}&emsp;
+           </td>
+         </tr>
+         <tr>
+            <td>Previous Block ID</td>
+            <td>
+               {{ block.previous }}&emsp;
+           </td>
+         </tr>
+          <tr>
+            <td>Block Fee Rate</td>
+            <td>
+               {{ block.fee_rate }}&emsp;
+           </td>
+         </tr>
+         <tr>
+            <td>Delegate Pay Rate</td>
+            <td>
+               {{ block.delegate_pay_rate }}&emsp;
+           </td>
+         </tr>
+          <tr>
+            <td>TimeStamp</td>
+            <td>
+               {{ block.timestamp | date:'yyyy-MM-dd HH:mm:ss Z' }}&emsp;
+           </td>
+         </tr>
+         <tr>
+            <td>Transaction Digest</td>
+            <td>
+               {{ block.transaction_digest }}&emsp;
+           </td>
+         </tr>
+          <tr>
+            <td>Next Secret Hash</td>
+            <td>
+               {{ block.next_secret_hash }}&emsp;
+           </td>
+         </tr>
+         <tr>
+            <td>Previous Secret</td>
+            <td>
+               {{ block.previous_secret }}&emsp;
+           </td>
+         </tr>
+         <tr>
+            <td>Delegate Signature</td>
+            <td>
+               {{ block.delegate_signature }}&emsp;
+           </td>
+         </tr>
+        </tbody>
+      </table>
+   </b>
+   <tabset>
+      <tab heading="Transactions" >
+         <div ng-repeat="trx in block.user_transactions">
+            <pre>{{trx}}</pre>
+         </div>
+      </tab>
+    </tabset>
+</div>
+
+
