@@ -57,18 +57,6 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "editaccount.html"
     controller: "EditAccountController"
 
-  contacts =
-    name: 'contacts'
-    url: '/contacts'
-    templateUrl: "contacts.html"
-    controller: "ContactsController"
-
-  contact =
-    name: 'contact'
-    url: '/contacts/:name'
-    templateUrl: "contact.html"
-    controller: "ContactController"
-
   account =
     name: 'account'
     url: '/accounts/:name'
@@ -99,5 +87,5 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "block.html"
     controller: "BlockController"
 
-  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(contacts).state(blocks).state(createwallet).state(contact).state(account).state(directory).state(block)
+  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
 
