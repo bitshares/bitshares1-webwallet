@@ -68,13 +68,71 @@
         </tbody>
       </table>
    </b>
+   <!--
    <tabset>
       <tab heading="Transactions" >
          <div ng-repeat="trx in block.user_transactions">
             <pre>{{trx}}</pre>
          </div>
       </tab>
-    </tabset>
+   </tabset>
+   -->
+    <div>
+        <div class="col-sm-12">
+            <h4 class="header-title">Transactions</h4>
+        </div>
+    </div>
+
+   <div>
+       <div id="tx-{{t.id}}" ng-repeat="t in block.transactions">
+		<table class="table table-striped">
+			<tbody>
+            <tr>
+                <th colspan="4" align="left">
+                    <a href="#/tx/{{t.id}}">{{ t.id }}</a>
+                    <!--<span class="pull-right">{{ t.time | date:'yyyy-MM-dd HH:mm:ss Z' }}</span>-->
+                </th>
+			</tr>
+            <tr>
+                <td colspan="4" align="left">
+                    <span class="pull-left">Total In</span>
+                </td>
+			</tr>
+			<tr ng-repeat="i in t.in">
+				<td></td>
+                <td></td>
+				<td></td>
+				<td>{{ i[1] }}</td>
+			</tr>
+            <tr>
+                <td colspan="4" align="left">
+                    <span class="pull-left">Total Out</span>
+                </td>
+			</tr>
+			<tr ng-repeat="o in t.out">
+				<td></td>
+                <td></td>
+				<td></td>
+				<td>{{ o[1] }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" align="left">
+                    <span class="pull-left">Delegate Vote Change</span>
+                </td>
+			</tr>
+			<tr ng-repeat="vote in t.net_delegate_votes">
+                <td>Delegate ID: <a href="#/delegate/{{vote[0]}}">{{ vote[0] }}</a></td>
+                <td>Vote For Change:&nbsp;{{ vote[1].votes_for }}</td>
+                <td>Vote Against Change:&nbsp;{{ vote[1].votes_against }}</td>
+                <td>Delegate's total change: {{ vote[1].votes_for - vote[1].votes_against }}</td>
+            </tr>
+        </tbody>
+		</table>
+        <div ng-repeat="operation in t.operations">
+            <pre>{{operation}}</pre>
+        </div>
+	</div>
+ </div>
 </div>
 
 
