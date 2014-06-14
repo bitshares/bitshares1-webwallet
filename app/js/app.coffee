@@ -33,12 +33,6 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "accounts.html"
     controller: "AccountsController"
 
-  delegates =
-    name: 'delegates'
-    url: '/delegates'
-    templateUrl: "delegates.html"
-    controller: "DelegatesController"
-
   directory =
     name: 'directory'
     url: '/directory'
@@ -75,17 +69,11 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "createwallet.html"
     controller: "CreateWalletController"
 
-  assets =
-    name: 'assets'
-    url: '/assets'
-    templateUrl: "assets.html"
-    controller: "AssetsController"
-
   block =
     name: 'block'
     url:  '/blocks/:number'
     templateUrl: "block.html"
     controller: "BlockController"
 
-  $stateProvider.state(home).state(proposals).state(createaccount).state(assets).state(console).state(delegates).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
+  $stateProvider.state(home).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
 
