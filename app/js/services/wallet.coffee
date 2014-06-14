@@ -20,8 +20,7 @@ class Wallet
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
     # turn raw rpc return value into nice object
-    #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
-    populate_account: (val) ->
+    populate_account: (val, is_mine) ->
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
@@ -31,6 +30,7 @@ class Wallet
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
             active_key_history: val.active_key_history
             registered_date: @utils.toDate(val.registration_date)
+            is_my_accout: is_mine
         }
         @accounts[acct.name] = acct
         return acct
@@ -42,11 +42,11 @@ class Wallet
     refresh_accounts: ->
         @wallet_api.list_receive_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val)
+                @populate_account(val, true)
             @refresh_balances()
         @wallet_api.list_contact_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val)
+                @populate_account(val, false)
             @refresh_balances()
 
 
