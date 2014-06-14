@@ -8,11 +8,12 @@
 
 
 <tabset>
-    <tab heading="Transactions" >
+    <tab>
+      <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> Transactions</tab-heading>
       <div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
-    <tab heading="Transfer" >
-
+    <tab>
+      <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>Transfer</tab-heading>
           <div id="transfer-form">
            <form class="form-horizontal" role="form" ng-submit="send()">
              <div class="form-group row">
@@ -61,7 +62,8 @@
 
 
     </tab>
-    <tab heading="Advanced" >
+    <tab>
+      <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> Advanced</tab-heading>
 	    <div><b>Account Public Key:</b> {{account.active_key}}</div>
 
       <tabset>
