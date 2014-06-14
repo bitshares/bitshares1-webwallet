@@ -3,6 +3,12 @@ class Blockchain
     constructor: (@client, @network, @blockchain_api, @q, @interval) ->
         @refresh_asset_records()
         console.log "blockchain constructor"
+        @watch_for_updates()
+
+    watch_for_updates: =>
+        @interval (=>
+            @refresh_recent_blocks()           
+        ), 15000
 
     # # # # # 
     #  Asset Records
@@ -32,35 +38,20 @@ class Blockchain
     # # # # #
 
     block_head_num : 0
-    reverse_blocks : []
+    recent_blocks_count : 20
+    recent_blocks : {value : []}
 
-    # refresh the latest $count blocks to blocks, TODO: to be impoved
-    refresh_recent_blocks: () ->
-        @blockchain_api.blockchain_get_blockcount().then (result) =>
-            current_head_num = result
+    refresh_recent_blocks: ->
+        @blockchain_api.blockchain_get_blockcount().then (current_head_num) =>
+                if current_head_num > @block_head_num
+                    blocks = {}
+                    begin = current_head_num - @recent_blocks_count
+                    if begin < 1 then begin = 1
 
-            if current_head_num > @block_head_num
-                blocks = {}
-                begin = current_head_num - 20
-                if begin < 1 then begin = 1
+                    @blockchain_api.blockchain_list_blocks(begin + 1, @recent_blocks_count).then (result) =>
+                        @recent_blocks.value = result.reverse()
+                    @block_head_num = current_head_num
 
-                @blockchain_api.blockchain_list_blocks(begin + 1, current_head_num - begin).then (result) =>
-                    for block in result
-                        blocks[block.block_num] = block
-
-                    @reverse_blocks.pop while @reverse_blocks.size > 0
-                    i = 0
-                    angular.forEach blocks, (b) =>
-                        if i < 20 then @reverse_blocks.unshift b
-                        ++ i
-
-                @block_head_num = current_head_num
-                
-    refresh_recent_block_ids: () ->
-        for i in [0 ... @reverse_blocks.length]
-            @blockchain_api.blockchain_get_blockhash(@reverse_blocks[i].block_num).then (result) =>
-                console.log @reverse_blocks[i]
-                @reverse_blocks[i].block_id = result
     ##
     # Delegates
 
