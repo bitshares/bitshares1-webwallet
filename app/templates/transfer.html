@@ -37,7 +37,7 @@
 	    	<input ng-model="amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
 	    </div>
       	<div class="col-md-2">
-        	<select class="form-control" id='symbol' ng-model="symbol" ng-options="value for value in symbolOptions"></select>
+        	<select class="form-control" id='symbol' ng-model="symbol" ng-options="value.symbol for value in symbolOptions"></select>
       	</div>
      </div>
 

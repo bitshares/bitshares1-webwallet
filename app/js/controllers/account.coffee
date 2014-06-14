@@ -1,15 +1,15 @@
 angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, RpcService) ->
 
     name = $stateParams.name
+    #$scope.accounts = Wallet.receive_accounts
+    #$scope.account.balances = Wallet.balances[name]
+    #$scope.utils = Utils
 
-    accounts = Wallet.receive_accounts
-    balances = Wallet.balances
-    utils = Utils
-
-    Wallet.refresh_accounts()
+    #Wallet.refresh_accounts()
 
     Wallet.get_account(name).then (acct) ->
         $scope.account = acct
+        $scope.balances = Wallet.balances[name]
 
     $scope.import_key = ->
         console.log([$scope.pk_value, $scope.account.name])
@@ -27,3 +27,10 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             $scope.wallet_password = ""
             Growl.notice "The wallet was successfully imported."
             refresh_addresses()
+
+    $scope.send = ->
+        RpcService.request('wallet_transfer', [$scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo]).then (response) ->
+            $scope.payto = ""
+            $scope.amount = ""
+            $scope.memo = ""
+            Growl.notice "", "Transaction broadcasted (#{response.result})"   
