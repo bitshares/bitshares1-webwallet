@@ -9,13 +9,13 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
 
 
     $scope.toggleVoteUp = (name) ->
-        if name not in Wallet.trust_levels or Wallet.trust_levels[name] < 1
+        if name not of Wallet.trust_levels or Wallet.trust_levels[name] < 1
             Wallet.set_trust(name, 1)
         else
             Wallet.set_trust(name, 0)
     
     $scope.toggleVoteDown = (name) ->
-        if name not in Wallet.trust_levels or Wallet.trust_levels[name] > -1
+        if name not of Wallet.trust_levels or Wallet.trust_levels[name] > -1
             Wallet.set_trust(name, -1)
         else
             Wallet.set_trust(name, 0)
