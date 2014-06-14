@@ -63,7 +63,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="del in inactive_delegates track by $index">
+			<tr ng-repeat="del in inactive_delegates">
 				<td>{{ del.name }}</td>
 				<td>
 					{{ del.delegate_info.votes_for }}&emsp;
@@ -71,15 +71,15 @@
 				<td>
 					{{ del.delegate_info.votes_against }}&emsp;
 				</td>
-				<td>{{ del.delegate_info.blocks_missed }}</td>
 				<td>{{ del.delegate_info.blocks_produced }}</td>
+				<td>{{ del.delegate_info.blocks_missed }}</td>
 				<td>
 					<div class="btn-group">
-						<button ng-click="voteUp($index)" class="btn btn-sm btn-link">
-							<i ng-class="del.vote_up ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+						<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
+	                        <i ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
 						</button>
-						<button ng-click="voteDown($index)" class="btn btn-sm btn-link">
-							<i ng-class="del.vote_down ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
+						<button ng-click="toggleVoteDown(del.name)" class="btn btn-sm btn-link">
+							<i ng-class="(trust_levels[del.name] && trust_levels[del.name] < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
 						</button>
 					</div>
 				</td>
