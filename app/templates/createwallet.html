@@ -58,9 +58,9 @@
      <div class="col-sm-8">
       <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" class="form-control"
              id="confirm_spending_password"
-             placeholder="Confirm Password" required data-match="spending_password">
+             placeholder="Confirm Password" required pw-check="spending_password">
       
-      <span ng-show="wform.csp.$error.match" class="text-danger">Fields do not match.</span>
+      <span ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</span>
       <br>
      </div>
     </div>
