@@ -27,7 +27,7 @@
 			<tr ng-repeat="t in transactions">
 				<td>{{ utils.prettyDate(t.time) }}</td>
 				<td><a href="#/accounts/{{t.from}}">{{ t.from }}</a></td>
-                <td><a href="#/contacts/{{t.to}}">{{ t.to }}</a></td>
+                <td><a href="#/accounts/{{t.to}}">{{ t.to }}</a></td>
 				<td>{{ t.memo }}</td>
 				<td>{{ utils.formatAsset(t.amount) }}</td>
 			</tr>
