@@ -1,8 +1,6 @@
 class Wallet
 
-    contact_accounts: {}
-
-    receive_accounts: {}
+    accounts: {}
 
     balances: {}
 
@@ -23,7 +21,7 @@ class Wallet
 
     # turn raw rpc return value into nice object
     #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
-    populate_account: (val, is_receive) ->
+    populate_account: (val) ->
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
@@ -34,10 +32,7 @@ class Wallet
             active_key_history: val.active_key_history
             registered_date: @utils.toDate(val.registration_date)
         }
-        if is_receive
-            @receive_accounts[acct.name] = acct
-        else
-            @contact_accounts[acct.name] = acct
+        @accounts[acct.name] = acct
         return acct
 
     refresh_account: (name) ->
@@ -47,11 +42,11 @@ class Wallet
     refresh_accounts: ->
         @wallet_api.list_receive_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val, true)
+                @populate_account(val)
             @refresh_balances()
         @wallet_api.list_contact_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val, false)
+                @populate_account(val)
             @refresh_balances()
 
 
@@ -61,18 +56,14 @@ class Wallet
             @refresh_accounts()
 
     get_account: (name) ->
-        @refresh_balances
-        if @receive_accounts[name]
+        @refresh_balances()
+        if @accounts[name]
             deferred = @q.defer()
-            deferred.resolve(@receive_accounts[name])
-            return deferred.promise
-        else if @contact_accounts[name]
-            deferred = @q.defer()
-            deferred.resolve(@contact_accounts[name])
+            deferred.resolve(@accounts[name])
             return deferred.promise
         else
             @wallet_api.get_account(name).then (result) =>
-                acct = @populate_account(result, true) #TODO add "has_private_key" as field on RPC return obj so we don't need to pass bool
+                acct = @populate_account(result)
                 return acct
 
     set_trust: (name, trust_level) ->
