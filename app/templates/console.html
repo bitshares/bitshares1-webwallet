@@ -11,7 +11,7 @@
 <div class="main-content">
 <form ng-submit='submit()'>
 <div>
-	<input ng-model="command" autofocus placeholder="Type a command and hit Enter" ng-trim="false" class="form-control" id="spending_password">
+	<input ng-model="command" typeahead="state for state in states | filter:$viewValue | limitTo:8" autofocus placeholder="Type a command and hit Enter" ng-trim="false" class="form-control" id="spending_password">
 </div>
 </form>
 <hr>

@@ -6,13 +6,11 @@ angular.module("app.directives").directive "focusMe", ($timeout) ->
       $timeout ->
         element[0].focus()
 
-angular.module("app.directives").directive "match", ->
+angular.module("app.directives").directive "pwCheck", ->
   require: "ngModel"
-  restrict: "A"
-  scope:
-    match: "="
   link: (scope, elem, attrs, ctrl) ->
-    scope.$watch (->
-      (ctrl.$pristine and angular.isUndefined(ctrl.$modelValue)) or scope.match is ctrl.$modelValue
-    ), (currentValue) ->
-      ctrl.$setValidity "match", currentValue
+    firstPassword = "#" + attrs.pwCheck
+    elem.add(firstPassword).on "keyup", ->
+      scope.$apply ->
+        v = elem.val() is $(firstPassword).val()
+        ctrl.$setValidity "pwmatch", v
