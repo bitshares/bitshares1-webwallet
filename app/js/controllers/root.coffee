@@ -1,7 +1,54 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, $keepalive) ->
 
   Wallet.open().then ->
     Wallet.check_if_locked()
+
+
+
+  $scope.started = false
+
+  closeModals = ->
+    if $scope.warning
+      $scope.warning.close()
+      $scope.warning = null
+    if $scope.timedout
+      $scope.timedout.close()
+      $scope.timedout = null
+    return
+  $scope.started = false
+  $scope.$on "$idleStart", ->
+    closeModals()
+    $scope.warning = $modal.open(
+      templateUrl: "warning-dialog.html"
+      windowClass: "modal-danger"
+    )
+    return
+
+  $scope.$on "$idleEnd", ->
+    closeModals()
+    return
+
+  $scope.$on "$idleTimeout", ->
+    closeModals()
+    $scope.timedout = $modal.open(
+      templateUrl: "timedout-dialog.html"
+      windowClass: "modal-danger"
+    )
+    return
+
+  $scope.start = ->
+    closeModals()
+    $idle.watch()
+    $scope.started = true
+    return
+
+  $scope.stop = ->
+    closeModals()
+    $idle.unwatch()
+    $scope.started = false
+    return
+
+
 
   
   open_wallet = (mode) ->
