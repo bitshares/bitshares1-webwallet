@@ -2,6 +2,7 @@
 	<img src="/img/bts-logo-gray.png" style='height:32px;width:100px;margin-top:16px'/>
 </div>
 <p class="text-muted pull-right">
+    <span> {{blockchain_last_sync_info}} </span>
 	<span class="wallet-status" ng-switch on="wallet_unlocked">
 		<i class="fa fa-unlock-alt" ng-switch-when="true" tooltip="Wallet is unlocked"></i>
 		<i class="fa fa-lock" ng-switch-default tooltip="Wallet is locked"></i>
