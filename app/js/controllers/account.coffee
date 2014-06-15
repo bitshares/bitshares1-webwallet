@@ -9,6 +9,8 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     $scope.trust_level=Wallet.trust_levels[name]
     $scope.wallet_info = {file : "", password : ""}
     
+    $scope.private_key = {value : ""}
+    
     refresh_account = ->
         Wallet.get_account(name).then (acct) ->
             $scope.account = acct
@@ -16,10 +18,11 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     refresh_account()
 
     $scope.import_key = ->
-        console.log([$scope.pk_value, $scope.account.name])
-        RpcService.request('wallet_import_private_key', [$scope.pk_value, $scope.account.name]).then (response) ->
-            $scope.pk_value = ""
+        console.log([$scope.private_key.value, $scope.account.name])
+        RpcService.request('wallet_import_private_key', [$scope.private_key.value, $scope.account.name]).then (response) ->
+            $scope.private_key.value = ""
             Growl.notice "", "Your private key was successfully imported."
+            refresh_account()
 
     $scope.register = ->
         Wallet.wallet_account_register($scope.account.name, $scope.account.name)
