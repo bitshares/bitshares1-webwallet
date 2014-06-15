@@ -11,13 +11,7 @@ servicesModule.factory "Utils", ->
         parts = (asset.amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         parts.join(".") + " " + asset.symbol
-
-    prettyDate: (date) ->
-        if not date
-            console.log "attempting to prettify null date"
-            return ""
-        date.toLocaleDateString("en-us")
-
+    
     toDate: (t) ->
         dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
         match = t.match(dateRE)
@@ -29,3 +23,17 @@ servicesModule.factory "Utils", ->
             i++
         new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
 
+    type : (obj) ->
+        if obj == undefined or obj == null
+            return String obj
+        classToType = {
+            '[object Boolean]': 'boolean',
+            '[object Number]': 'number',
+            '[object String]': 'string',
+            '[object Function]': 'function',
+            '[object Array]': 'array',
+            '[object Date]': 'date',
+            '[object RegExp]': 'regexp',
+            '[object Object]': 'object'
+        }
+        return classToType[Object.prototype.toString.call(obj)]

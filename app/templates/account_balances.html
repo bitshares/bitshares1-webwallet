@@ -16,7 +16,7 @@
              <td>
                 <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
              </td>
-             <td>{{utils.prettyDate(a.registered_date)}}</td>
+             <td>{{a.registered_date | prettyDate}}</td>
          </tr>
          <tr>
          <td></td>
