@@ -13,7 +13,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
         field: "Label"
         enableCellEdit: false
         displayName: "Name"
-        cellTemplate: '<a href="#/contacts/{{row.entity.Label.name}}" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field].name}}</div><div style="font-family:monospace">{{row.entity[col.field].owner_key}}</div></div></a>'
+        cellTemplate: '<a href="#/accounts/{{row.entity.Label.name}}" class="btn btn-default btn-sm active" style="width:100%; opacity:0.7; text-align:left"><div><div style="font-size: 200%">{{row.entity[col.field].name}}</div><div style="font-family:monospace">{{row.entity[col.field].owner_key}}</div></div></a>'
       }
       #class="btn btn-default btn-sm active" style="width:100%"
       {

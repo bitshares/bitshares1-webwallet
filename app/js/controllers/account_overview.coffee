@@ -2,7 +2,7 @@ angular.module("app").controller "AccountOverviewController", ($scope, $location
 
     $scope.name = $stateParams.name
 
-    $scope.accounts = Wallet.receive_accounts
+    $scope.accounts = Wallet.accounts
     $scope.balances = Wallet.balances
     $scope.utils = Utils
 
