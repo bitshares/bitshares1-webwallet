@@ -8,6 +8,8 @@ class Wallet
 
     trust_levels: {}
 
+    timeout=600;
+
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>
             angular.forEach result, (name_bal_pair) =>
@@ -122,6 +124,10 @@ class Wallet
         @rpc.request('get_info').then (response) =>
           response.result
 
+    wallet_get_info: ->
+        @rpc.request('wallet_get_info').then (response) =>
+            response.result
+
     wallet_add_contact_account: (name, address) ->
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
@@ -142,6 +148,15 @@ class Wallet
         @rpc.request('blockchain_get_security_state').then (response) =>
           response.result
 
+
+    wallet_unlock: (password)->
+        @rpc.request('wallet_unlock', [timeout, password]).then (response) =>
+          response.result
+
+    check_if_locked: ->
+        @rpc.request('wallet_get_info').then (response) =>
+            if response.result.locked
+                location.href = "blank.html#/unlockwallet"
 
     open: ->
         @rpc.request('wallet_open', ['default']).then (response) =>

@@ -75,5 +75,11 @@ app.config ($stateProvider, $urlRouterProvider) ->
     templateUrl: "block.html"
     controller: "BlockController"
 
-  $stateProvider.state(home).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
+  unlockwallet =
+    name: 'unlockwallet'
+    url:  '/unlockwallet'
+    templateUrl: "unlockwallet.html"
+    controller: "UnlockWalletController"
+
+  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
 

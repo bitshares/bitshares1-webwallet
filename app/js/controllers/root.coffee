@@ -1,6 +1,7 @@
 angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client) ->
 
-  Wallet.open()
+  Wallet.open().then ->
+    Wallet.check_if_locked()
 
   
   open_wallet = (mode) ->
