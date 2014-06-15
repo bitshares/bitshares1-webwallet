@@ -182,6 +182,10 @@ class Wallet
         @rpc.request('blockchain_get_config').then (response) ->
           response.result
 
+    wallet_lock: ->
+        @rpc.request('wallet_lock').then (response) ->
+          response.result
+
     wallet_set_delegate_trust_level: (delName, trust)->
         @rpc.request('wallet_set_delegate_trust_level', [delName, trust]).then (response) ->
           response.result

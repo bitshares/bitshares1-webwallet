@@ -33,3 +33,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
   $scope.wallet_action = (mode) ->
     open_wallet(mode)
+
+  $scope.lock = ->
+    Wallet.wallet_lock().then ->
+      location.href = "blank.html#/unlockwallet"
