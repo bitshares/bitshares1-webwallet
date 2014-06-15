@@ -6,7 +6,8 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     #$scope.utils = Utils
 
     #Wallet.refresh_accounts()
-
+    $scope.trust_level=Wallet.trust_levels[name]
+    
     Wallet.get_account(name).then (acct) ->
         $scope.account = acct
         $scope.balances = Wallet.balances[name]
@@ -33,4 +34,16 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             $scope.payto = ""
             $scope.amount = ""
             $scope.memo = ""
-            Growl.notice "", "Transaction broadcasted (#{response.result})"   
+            Growl.notice "", "Transaction broadcasted (#{response.result})"
+
+    $scope.toggleVoteUp = ->
+        if name not of Wallet.trust_levels or Wallet.trust_levels[name] < 1
+            Wallet.set_trust(name, 1)
+        else
+            Wallet.set_trust(name, 0)
+    
+    $scope.toggleVoteDown = ->
+        if name not of Wallet.trust_levels or Wallet.trust_levels[name] > -1
+            Wallet.set_trust(name, -1)
+        else
+            Wallet.set_trust(name, 0)
