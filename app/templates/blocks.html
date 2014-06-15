@@ -25,7 +25,7 @@
          <tr ng-repeat="block in blocks.value">
             <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
             <td>
-               {{ block.timestamp | date: 'yyyy-MM-dd HH:mm:ss'}}&emsp;
+               {{ block.timestamp | prettyDate}}&emsp;
             </td>
             <td>
                {{ block.user_transaction_ids.length }}&emsp;

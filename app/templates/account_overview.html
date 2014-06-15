@@ -15,7 +15,7 @@
 			<tbody>
          <tr ng-repeat="(symbol, asset) in balances[name]">
             <td>
-                {{utils.formatAsset(asset)}}
+                {{asset | formatAsset}}
             </td>
          </tr>
 			</tbody>

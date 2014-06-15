@@ -14,7 +14,7 @@
                 <a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a>
              </td>
              <td>
-                <div ng-repeat="(symbol, asset) in balances[a.name]">{{utils.formatAsset(asset)}}</div>
+                <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
              </td>
              <td>{{utils.prettyDate(a.registered_date)}}</td>
          </tr>
