@@ -21,7 +21,8 @@ module.exports = function(lineman) {
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
 	 	    "vendor/js/ui-bootstrap-tpls.js",
-	 	    "vendor/js/ng-grid-2.0.11.debug.js"
+	 	    "vendor/js/ng-grid-2.0.11.debug.js",
+        "vendor/js/angular-idle.js"
       ],
       app: [
         "app/js/app.js",

@@ -1,6 +1,17 @@
-app = angular.module("app", ["ngResource", "ui.router", "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
+app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
 
-app.config ($stateProvider, $urlRouterProvider) ->
+app.run [
+  "$idle"
+  ($idle) ->
+    $idle.watch()
+]
+
+app.config ($keepaliveProvider, $idleProvider, $stateProvider, $urlRouterProvider) ->
+  
+  $idleProvider.idleDuration(5)
+  $idleProvider.warningDuration(5)
+  $keepaliveProvider.interval(10)
+
   $urlRouterProvider.otherwise('/home')
 
   home =
