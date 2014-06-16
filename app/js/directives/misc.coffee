@@ -14,3 +14,18 @@ angular.module("app.directives").directive "pwCheck", ->
       scope.$apply ->
         v = elem.val() is $(firstPassword).val()
         ctrl.$setValidity "pwmatch", v
+
+
+angular.module("app.directives").directive "uncapitalize", ->
+  require: "ngModel"
+  link: (scope, element, attrs, modelCtrl) ->
+    uncapitalize = (inputValue) ->
+      uncapitalized = inputValue.toLowerCase()
+      if uncapitalized isnt inputValue
+        modelCtrl.$setViewValue uncapitalized
+        modelCtrl.$render()
+      uncapitalized
+
+    modelCtrl.$parsers.push uncapitalize
+    uncapitalize scope[attrs.ngModel] # uncapitalize initial value
+    return
