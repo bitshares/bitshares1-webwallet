@@ -39,7 +39,7 @@ class Blockchain
 
     block_head_num : 0
     recent_blocks_count : 20
-    recent_blocks : {value : []}
+    recent_blocks : {value : [], last_block_timestamp: ""}
 
     refresh_recent_blocks: ->
         @blockchain_api.blockchain_get_blockcount().then (current_head_num) =>
@@ -50,6 +50,8 @@ class Blockchain
 
                     @blockchain_api.blockchain_list_blocks(begin + 1, @recent_blocks_count).then (result) =>
                         @recent_blocks.value = result.reverse()
+                        if @recent_blocks.value.length > 0
+                            @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
                     @block_head_num = current_head_num
 
     ##
@@ -61,8 +63,10 @@ class Blockchain
 
     id_delegates: {}
 
+    # TODO: finish this mapping
     type_name_map :
             withdraw_op_type : "Withdraw Operation"
+            deposit_op_type : "Deposit Operation"
 
     # TODO
     populate_delegate: (record) ->
