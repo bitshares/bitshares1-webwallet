@@ -1,0 +1,34 @@
+<div class="header">
+    <div class="col_sm-2">
+	<div class="col-sm-8">
+        <h2 align="center">
+            <a href="#/blocks/round/{{round - 1}}" ng-if="round > 0">&lt;&lt; Previous</a>
+            <b>Blocks of round #{{round}}</b>
+            <a href="#/blocks/round/{{round + 1}}">Next &gt;&gt;</a>
+        </h2>
+	</div>
+    <div class="col_sm-2">
+</div>
+
+<div class="main-content">
+   <b>
+      <table class="table table-striped table-hover">
+         <thead>
+         <tr>
+            <th>Height</th>
+            <th>Time</th>
+            <th>Size</th>
+         </tr>
+         </thead>
+         <tbody>
+         <tr ng-repeat="block in blocks">
+            <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
+            <td>
+               {{ block.timestamp | prettyDate}}&emsp;
+            </td>
+            <td>{{ block.block_size }}</td>
+         </tr>
+         </tbody>
+      </table>
+   </b>
+</div>

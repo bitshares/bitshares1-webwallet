@@ -113,6 +113,11 @@
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>
                 <td><div ng-repeat="b in t.balance"><span>{{ {"amount": b[1], "asset_id": b[0]} | toAsset | formatAsset }}</span><br></div></td>
 			</tr>
+            <tr ng-if=" block.transactions.length == 0 ">
+                <td><span>There are no transactions in this block.</span></td>
+                <td colspan="5"/>
+			</tr>
+
 			</tbody>
 		</table>
 	</div>
