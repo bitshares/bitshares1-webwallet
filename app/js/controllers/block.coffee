@@ -1,7 +1,9 @@
-angular.module("app").controller "BlockController", ($scope, $location, $stateParams, $state, BlockchainAPI, Utils) ->
+angular.module("app").controller "BlockController", ($scope, $location, $stateParams, $state, BlockchainAPI, Blockchain, Utils) ->
     
     $scope.number = $stateParams.number
     $scope.utils = Utils
+
+    Blockchain.refresh_delegates()
 
     BlockchainAPI.blockchain_get_block_by_number($scope.number).then (result) ->
         $scope.block = result
@@ -15,9 +17,10 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
                 # TODO: are they totally matching?
                     trx = {}
                     trx.id = $scope.block.user_transaction_ids[i]
-                    trx.out = transactions[i].withdraws
-                    trx.in = transactions[i].deposits
+                    trx.withdraws = transactions[i].withdraws
+                    trx.deposits = transactions[i].deposits
                     trx.net_delegate_votes = transactions[i].net_delegate_votes
                     trx.operations = transactions[i].trx.operations
+                    trx.balance = transactions[i].balance
                     $scope.block.transactions.push trx
                     # not all block trxs are stored, do not know the trx: trx.time = 

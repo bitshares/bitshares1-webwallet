@@ -59,6 +59,11 @@ class Blockchain
     active_delegates: []
     inactive_delegates: []
 
+    id_delegates: {}
+
+    type_name_map :
+            withdraw_op_type : "Withdraw Operation"
+
     # TODO
     populate_delegate: (record) ->
         record
@@ -67,8 +72,9 @@ class Blockchain
         @blockchain_api.blockchain_list_delegates(0, -1).then (result) =>
             for i in [0 ... @client.config.num_delegates]
                 @active_delegates[i] = @populate_delegate(result[i])
+                @id_delegates[result[i].id] = result[i]
             for i in [@client.config.num_delegates ... result.length]
                 @inactive_delegates[i - @client.config.num_delegates] = @populate_delegate(result[i])
-
+                @id_delegates[result[i].id] = result[i]
 
 angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Blockchain])
