@@ -86,11 +86,23 @@ app.config ($keepaliveProvider, $idleProvider, $stateProvider, $urlRouterProvide
     templateUrl: "block.html"
     controller: "BlockController"
 
+  blocksbyhour =
+    name: 'blocksbyhour'
+    url: '/blocks/hour/:hour'
+    templateUrl: "blocksbyhour.html"
+    controller: "BlocksByHourController"
+
+  transaction =
+    name: 'transaction'
+    url:  '/tx/:id'
+    templateUrl: "transaction.html"
+    controller: "TransactionController"
+
   unlockwallet =
     name: 'unlockwallet'
     url:  '/unlockwallet'
     templateUrl: "unlockwallet.html"
     controller: "UnlockWalletController"
 
-  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block)
+  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyhour)
 

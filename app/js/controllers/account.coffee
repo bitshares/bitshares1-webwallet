@@ -18,7 +18,6 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     refresh_account()
 
     $scope.import_key = ->
-        console.log([$scope.private_key.value, $scope.account.name])
         RpcService.request('wallet_import_private_key', [$scope.private_key.value, $scope.account.name]).then (response) ->
             $scope.private_key.value = ""
             Growl.notice "", "Your private key was successfully imported."

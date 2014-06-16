@@ -38,7 +38,7 @@
           <tr>
             <td>TimeStamp</td>
             <td>
-               {{ block.timestamp | date:'yyyy-MM-dd HH:mm:ss Z' }}&emsp;
+               {{ block.timestamp | prettyDate}}&emsp;
            </td>
          </tr>
          <tr>
@@ -78,61 +78,42 @@
    </tabset>
    -->
     <div>
-        <div class="col-sm-12">
+        <div class="col-sm-8">
             <h4 class="header-title">Transactions</h4>
+        </div>
+        <div class="pull-right">
+            Filter transactions by operation:&nbsp;<input ng-model="operation_filter" type="text"/>
         </div>
     </div>
 
-   <div>
-       <div id="tx-{{t.id}}" ng-repeat="t in block.transactions">
-		<table class="table table-striped">
-			<tbody>
-            <tr>
-                <th colspan="4" align="left">
-                    <a href="#/tx/{{t.id}}">{{ t.id }}</a>
-                    <!--<span class="pull-right">{{ t.time | date:'yyyy-MM-dd HH:mm:ss Z' }}</span>-->
-                </th>
+    <div id="transaction_summary">
+		<table class="table table-striped table-hover">
+			<thead>
+			<tr>
+				<th>Transaction ID</th>
+				<th>Withdraw Amount</th>
+				<th>Deposit Amount</th>
+				<th>Net Delegate Votes</th>
+				<th>Operation Types</th>
+                <th>Balance</th>
 			</tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left">Total In</span>
-                </td>
+			</thead>
+            <tbody>
+			<tr ng-repeat="t in block.transactions" ng-if="t.operations | filterByOperations: operation_filter ">
+                <td><a href="#/tx/{{t.id}}">{{ t.id.substr(0,8) }}</a></td>
+                <td>
+                    <div ng-repeat="withdraw in t.withdraws"><span>{{withdraw[1] | toAsset | formatAsset}}</span><br></div></td>
+                <td>
+                    <div ng-repeat="deposit in t.deposits"><span>{{deposit[1] | toAsset | formatAsset}}</span><br></div></td>
+                <td>
+                    <div ng-repeat="net_vote in t.net_delegate_votes | limitTo: 3">
+                        <span><a href="#/delegate/{{net_vote[0]}}">{{ net_vote[0] | delegateName }}</a>:&nbsp; </span>
+                        <span>{{{"amount": net_vote[1].votes_for - net_vote[1].votes_against, "asset_id": 0} | toAsset | formatAsset }}</span><br></div></td>
+                <td>
+                    <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>
+                <td><div ng-repeat="b in t.balance"><span>{{ {"amount": b[1], "asset_id": b[0]} | toAsset | formatAsset }}</span><br></div></td>
 			</tr>
-			<tr ng-repeat="i in t.in">
-				<td></td>
-                <td></td>
-				<td></td>
-				<td>{{ i[1] }}</td>
-			</tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left">Total Out</span>
-                </td>
-			</tr>
-			<tr ng-repeat="o in t.out">
-				<td></td>
-                <td></td>
-				<td></td>
-				<td>{{ o[1] }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left">Delegate Vote Change</span>
-                </td>
-			</tr>
-			<tr ng-repeat="vote in t.net_delegate_votes">
-                <td>Delegate ID: <a href="#/delegate/{{vote[0]}}">{{ vote[0] }}</a></td>
-                <td>Vote For Change:&nbsp;{{ vote[1].votes_for }}</td>
-                <td>Vote Against Change:&nbsp;{{ vote[1].votes_against }}</td>
-                <td>Delegate's total change: {{ vote[1].votes_for - vote[1].votes_against }}</td>
-            </tr>
-        </tbody>
+			</tbody>
 		</table>
-        <div ng-repeat="operation in t.operations">
-            <pre>{{operation}}</pre>
-        </div>
 	</div>
- </div>
 </div>
-
-

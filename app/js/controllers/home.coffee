@@ -15,7 +15,6 @@ angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log
 
 
   Wallet.wallet_account_balance().then (balance)->
-    console.log('bal')
     console.log(balance)
 
 
