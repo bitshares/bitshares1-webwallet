@@ -1,6 +1,3 @@
-<!doctype html>
-<html>
-<title>BitShares XTS Wallet - Startscreen</title>
 <head>
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 <style>
@@ -59,9 +56,16 @@
 </head>
 <body>
 <section class="start-wrapper">
-<div class="str-top"><img src="img/bts-icon-white-transparent.png" /></div>
-<div class="str-content">BitShares X proto-DAC</div>
-<div class="str-bottom"><img src="img/xt-icon.png" /></div>
+	<div class="str-top"><img src="img/bts-icon-white-transparent.png" /></div>
+        <div class="str-content">BitShares X proto-DAC</div>
+        <div class="str-bottom">
+        	<img src="img/xt-icon.png" />
+
+         	<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
+             	<div class="form-group">
+					<input ng-trim="false" style="width:200px" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
+            	</div>
+            </form>
+        </div>
 </section>
 </body>
-</html>
