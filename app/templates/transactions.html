@@ -29,7 +29,7 @@
 				<td><a href="#/accounts/{{t.from}}">{{ t.from }}</a></td>
                 <td><a href="#/accounts/{{t.to}}">{{ t.to }}</a></td>
 				<td>{{ t.memo }}</td>
-				<td>{{ t.amount | formatAsset }}</td>
+				<td>{{ t.amount | toAsset | formatAsset }}</td>
 			</tr>
 			</tbody>
 		</table>

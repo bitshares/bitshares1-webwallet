@@ -45,7 +45,7 @@
     <div class="form-group">
       <label for="payfrom" class="col-sm-2 control-label">From</label>
       <div class="col-md-5">
-        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts | filter:symbol"></select>
+        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol"></select>
       </div>
     </div>
 

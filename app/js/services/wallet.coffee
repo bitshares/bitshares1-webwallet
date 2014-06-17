@@ -84,7 +84,6 @@ class Wallet
     # TODO: sort transactions, show the most recent ones on top
     get_transactions: (account_name) ->
         @wallet_api.account_transaction_history(account_name).then (result) =>
-            console.log "--- transactions = ", result
             transactions = []
             angular.forEach result, (val, key) =>
                 blktrx=val.block_num + "." + val.trx_num
@@ -94,7 +93,7 @@ class Wallet
                     block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
                     #trx_num: Number(key) + 1
                     time: new Date(val.received_time*1000)
-                    amount: @utils.newAsset(val.amount.amount, "XTS", 1000000) #TODO
+                    amount: val.amount
                     from: val.from_account
                     to: val.to_account
                     memo: val.memo_message

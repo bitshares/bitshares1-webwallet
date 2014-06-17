@@ -14,9 +14,11 @@ class Blockchain
     #  Asset Records
 
     asset_records: {}
+    symbol2records: {}
 
     populate_asset_record: (record) ->
         @asset_records[record.id] = record #TODO this has extra info we don't need to cache
+        @symbol2records[record.symbol] = record
         return @asset_records[record.id]
 
     refresh_asset_records: ->
