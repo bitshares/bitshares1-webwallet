@@ -12,7 +12,10 @@
 	<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 		<div class="form-group">
 			<div class="form-group row">
-				<label for="name" class="col-sm-2 control-label">Name</label>
+				<div class='col-sm-1'>
+					<gravatar-image data-gravatar-email="email" data-gravatar-size="128" data-gravatar-rating="pg" data-gravatar-default="404" data-gravatar-secure="true" data-gravatar-css-class="btn btn-large"></gravatar-image>
+				</div>
+				<label for="name" class="col-sm-1 control-label">Name</label>
 				<div class="col-sm-5">
 		    		<input name="wp" uncapitalize ng-maxlength="63" required ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name" autofocus ng-model="name" type="text" class="form-control" placeholder="Account Name"/>
 		    		<p ng-show="wform.wp.$error.required && !wform.wp.$pristine" class="help-block">Name is required.</p>
@@ -21,16 +24,11 @@
 		  		</div>
 		  	</div>
 		  	<div class="form-group row">
-		  		<label for="email" class="col-sm-2 control-label">Email</label>
+		  		<label for="email" class="col-sm-offset-1 col-sm-1 control-label">Email</label>
 				<div class="col-sm-5">
 		    		<input ng-model="email" type="text" class="form-control" nplaceholder="Email"/>
 		  		</div>
 		  	</div>
-		  	<div class="form-group row">
-		  		<div class='col-sm-offset-2 col-sm-5'>
-					<gravatar-image data-gravatar-email="email" data-gravatar-size="564" data-gravatar-rating="pg" data-gravatar-default="404" data-gravatar-secure="true" data-gravatar-css-class="btn btn-large"></gravatar-image>
-				</div>
-			</div>
 			<div class="form-group row">
 		  		<div class="col-sm-offset-2 col-sm-2">
 		    		<button class="btn btn-success" type="submit">Create</button>
