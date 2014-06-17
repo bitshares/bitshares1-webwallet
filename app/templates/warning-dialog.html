@@ -1,8 +1,8 @@
 <div class="modal-header bg-warning">
-   <h3>You're Idle. Do Something!</h3>
+   <h3>You are idle.</h3>
   </div>
-  <div ng-idle-countdown="countdown" ng-init="countdown=5" class="modal-body">
+  <div ng-idle-countdown="countdown" class="modal-body">
   <p>You'll be logged out in <span class="label label-warning">{{countdown}}</span> <span ng-pluralize="" count="countdown" when="{'one': 'second', 'other': 'seconds' }"></span>.</p>
-   <progressbar max="5" value="countdown" animate="true" class="progress-striped active" type="warning"></progressbar>
+   <progressbar max="60" value="countdown" animate="true" class="progress-striped active" type="warning"></progressbar>
    
   </div>

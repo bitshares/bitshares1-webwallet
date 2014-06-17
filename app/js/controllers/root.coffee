@@ -1,9 +1,7 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, $keepalive) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle) ->
 
   Wallet.open().then ->
     Wallet.check_if_locked()
-
-
 
   $scope.started = false
 
@@ -30,11 +28,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
   $scope.$on "$idleTimeout", ->
     closeModals()
-    $scope.timedout = $modal.open(
-      templateUrl: "timedout-dialog.html"
-      windowClass: "modal-danger"
-    )
-    return
+    Wallet.wallet_lock().then ->
+    	location.href = "blank.html#/unlockwallet"
 
   $scope.start = ->
     closeModals()
@@ -48,9 +43,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     $scope.started = false
     return
 
-
-
-  
   open_wallet = (mode) ->
     $rootScope.cur_deferred = $q.defer()
     $modal.open
