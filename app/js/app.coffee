@@ -1,4 +1,4 @@
-app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap"])
+app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective"])
 
 app.run [
   "$idle"

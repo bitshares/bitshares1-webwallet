@@ -22,7 +22,8 @@ module.exports = function(lineman) {
         "vendor/js/ui-bootstrap-tpls.js",
 	 	    "vendor/js/ui-bootstrap-tpls.js",
 	 	    "vendor/js/ng-grid-2.0.11.debug.js",
-        "vendor/js/angular-idle.js"
+        "vendor/js/angular-idle.js",
+        "vendor/js/angularjs-gravatardirective.js"
       ],
       app: [
         "app/js/app.js",

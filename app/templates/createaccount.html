@@ -19,12 +19,26 @@
 				    <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
 				    <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
 		  		</div>
-		  		<div class="col-sm-2">
+		  	</div>
+		  	<div class="form-group row">
+		  		<label for="email" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-5">
+		    		<input ng-model="email" type="text" class="form-control" nplaceholder="Email"/>
+		  		</div>
+		  	</div>
+		  	<div class="form-group row">
+		  		<div class='col-sm-offset-2 col-sm-5'>
+					<gravatar-image data-gravatar-email="email" data-gravatar-size="564" data-gravatar-rating="pg" data-gravatar-default="404" data-gravatar-secure="true" data-gravatar-css-class="btn btn-large"></gravatar-image>
+				</div>
+			</div>
+			<div class="form-group row">
+		  		<div class="col-sm-offset-2 col-sm-2">
 		    		<button class="btn btn-success" type="submit">Create</button>
 		  		</div>
-	  		</div>
+		  	</div>
   		</div>
 	</form>
+	
 	<form class="form-horizontal">
 		<div class="form-group">
 		  	<div class="form-group row">
