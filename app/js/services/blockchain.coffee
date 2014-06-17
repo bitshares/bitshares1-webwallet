@@ -55,7 +55,7 @@ class Blockchain
                         @recent_blocks.value = result.reverse()
                         if @recent_blocks.value.length > 0
                             @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
-                        @recent_blocks.last_block_round = (current_head_num - 1) / (@client.config.num_delegates)
+                        @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
                     @block_head_num = current_head_num
 
     ##
