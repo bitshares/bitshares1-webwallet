@@ -55,7 +55,7 @@ footer.normal-state{
 }
 
 footer.warning-state{
-   background-color: yellow;
+   background-color: darkorange;
 }
 
 footer.severe-state{
