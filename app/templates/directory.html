@@ -4,7 +4,7 @@
 <!--</ol>-->
 <tabset>
     <tab>
-        <tab-heading><i class="fa fa-users fa-lg"></i> Local</tab-heading>
+        <tab-heading><i class="fa fa-star fa-lg"></i> Favorites</tab-heading>
         <div ng-controller="ContactsController" ng-include src="'contacts.html'"></div>
     </tab>
     <tab>
@@ -31,7 +31,7 @@
         					</thead>
         					<tbody>
         					<tr ng-repeat="r in reg | filter:q">
-        						<td style='width:1%;white-space:nowrap'><button ng-click="addToContacts(r.name, r.owner_key)" class="btn btn-default"><i class="fa fa-plus fa-fw"></i></button></td>
+        						<td style='width:1%;white-space:nowrap'><button ng-click="addToContacts(r.name, r.owner_key)" class="btn btn-link btn-sm"><i class="fa fa-star-o fa-lg"></i></button></td>
         						<td>{{ r.name }}</td>
         						<td>Genesis</td>
         					</tr>
