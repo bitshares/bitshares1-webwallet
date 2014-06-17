@@ -6,11 +6,10 @@ app.run [
     $idle.watch()
 ]
 
-app.config ($keepaliveProvider, $idleProvider, $stateProvider, $urlRouterProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
   
-  $idleProvider.idleDuration(5)
-  $idleProvider.warningDuration(5)
-  $keepaliveProvider.interval(10)
+  $idleProvider.idleDuration(600)
+  $idleProvider.warningDuration(60)
 
   $urlRouterProvider.otherwise('/home')
 

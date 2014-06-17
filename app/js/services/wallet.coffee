@@ -8,7 +8,7 @@ class Wallet
 
     trust_levels: {}
 
-    timeout=600;
+    timeout=60000;
 
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>
