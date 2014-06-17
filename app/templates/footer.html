@@ -3,10 +3,6 @@
 </div>
 <p class="text-muted pull-right">
     <span> {{blockchain_last_sync_info}} </span>
-	<span class="wallet-status" ng-switch on="wallet_unlocked">
-		<i class="fa fa-unlock-alt" ng-switch-when="true" tooltip="Wallet is unlocked"></i>
-		<i class="fa fa-lock" ng-switch-default tooltip="Wallet is locked"></i>
-	</span>
 	<span class="blockchain-status " ng-switch on="blockchain_status">
 		<i class="fa fa-check" ng-switch-when="synced" tooltip="Up to date, processed {{blockchain_last_block_num}} blocks"></i>
 		<i class="fa fa-refresh fa-spin" ng-switch-when="syncing" tooltip="Catching up.. processed {{blockchain_last_block_num}} out of {{blockchain_last_block_num + blockchain_blocks_behind}} blocks ({{blockchain_time_behind}} behind)"></i>
