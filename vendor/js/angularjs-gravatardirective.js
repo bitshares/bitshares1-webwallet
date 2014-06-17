@@ -29,7 +29,7 @@ angular.module('angularjs-gravatardirective',
         'angularjs-gravatardirective.services'
     ]);
 angular.module('angularjs-gravatardirective.directives')
-    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService) {
+    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService, $http) {
         return {
             restrict:"EAC",
             link:function (scope, elm, attrs) {
@@ -47,16 +47,32 @@ angular.module('angularjs-gravatardirective.directives')
                         // parse css class
                         var cssClass = attrs.gravatarCssClass || 'gravatar-icon';
                         // get image src from service
-                        var src = gravatarImageService.getImageSrc(value, size, rating, defaultUrl, attrs.gravatarSecure);
+                        var grv = gravatarImageService.getImageSrc(value, size, rating, defaultUrl, attrs.gravatarSecure);
+                        var src = grv.src;
+                        var hash = grv.hash;
                         // construct the tag to insert into the element
                         var tag = '<img class="' + cssClass + '" src="' + src + '" >';
                         //remove any existing imgs 
                         elm.find('img').remove();
+
+
+                        
+
+                        // Get Gravatar Displayname
+                        //  remove the previous name
+                        elm.find('p').remove();
+                        var url =  'http://www.gravatar.com/' + hash + '.json';
+                        $.getJSON(url + "?callback=?", null, function(data) {
+                            var name='<p style="text-align:right">' + data.entry[0].displayName + '</p>'
+                            elm.append(name);
+                        });
+
                         // insert the tag into the element
                         elm.append(tag);
                         // add handler to remove if image fails to load
                         elm.find('img').bind('error', function() {
                             elm.find('img').remove();
+                            elm.find('p').remove();
                         });
                     }
                 });
@@ -72,7 +88,7 @@ angular.module('angularjs-gravatardirective.services')
                 if (size) src += '?s=' + size;
                 if (rating) src += '&r=' + rating;
                 if (defaultUrl) src += '&d=' + defaultUrl;
-                return src;
+                return {'hash': hash, 'src': src};
             }
         };
     }]);
