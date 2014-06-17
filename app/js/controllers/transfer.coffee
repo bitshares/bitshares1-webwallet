@@ -7,23 +7,16 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
   refresh_accounts = ->
     RpcService.request('wallet_account_balance').then (response) ->
 
-      # empty values
-      symbols={}
       $scope.symbolOptions = []
       $scope.accounts = []
       $scope.accounts.splice(0, $scope.accounts.length)
 
-      console.log response.result
-
       angular.forEach response.result, (val) ->
         $scope.accounts.push(val[0] + " | " + val[1].join('; '));
-        angular.forEach val[1], (amt) ->
-          symbols[amt[0]]=amt[0]
-      console.log symbols
-      angular.forEach symbols, (smb) ->
-        $scope.symbolOptions.push(smb)
-      $scope.symbol= $scope.symbolOptions[0]
-      $scope.payfrom= $scope.accounts[0]
+        angular.forEach val[1], (asset) ->
+            $scope.symbolOptions.push(asset[0])
+        $scope.symbol= $scope.symbolOptions[0]
+        $scope.payfrom= $scope.accounts[0]
   refresh_accounts()
 
   $scope.send = ->
