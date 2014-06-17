@@ -11,37 +11,45 @@
 <div class="well well-lg">
 	<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 		<div class="form-group">
-			<div class="form-group row">
-				<div class='col-sm-1'>
-					<gravatar-image data-gravatar-email="email" data-gravatar-size="128" data-gravatar-rating="pg" data-gravatar-default="404" data-gravatar-secure="true" data-gravatar-css-class="btn btn-large"></gravatar-image>
-				</div>
-				<label for="name" class="col-sm-1 control-label">Name</label>
-				<div class="col-sm-5">
-		    		<input name="wp" uncapitalize ng-maxlength="63" required ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name" autofocus ng-model="name" type="text" class="form-control" placeholder="Account Name"/>
-		    		<p ng-show="wform.wp.$error.required && !wform.wp.$pristine" class="help-block">Name is required.</p>
-				    <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
-				    <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
-		  		</div>
-		  	</div>
-		  	<div class="form-group row">
-		  		<label for="email" class="col-sm-offset-1 col-sm-1 control-label">Email</label>
-				<div class="col-sm-5">
-		    		<input ng-model="email" type="text" class="form-control" nplaceholder="Email"/>
-		  		</div>
-		  	</div>
-			<div class="form-group row">
-		  		<div class="col-sm-offset-2 col-sm-2">
-		    		<button class="btn btn-success" type="submit">Create</button>
-		  		</div>
-		  	</div>
+			<div class='col-sm-1'>
+				<gravatar-image data-gravatar-email="email" data-gravatar-size="128" data-gravatar-rating="pg" data-gravatar-default="404" data-gravatar-secure="true" data-gravatar-css-class="btn btn-large"></gravatar-image>
+			</div>
+			<div class='col-sm-11'>
+				<div class="form-group row">
+					<label for="name" class="col-sm-1 control-label">Name</label>
+					<div class="col-sm-6">
+			    		<input name="wp" uncapitalize ng-maxlength="63" required ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name" autofocus ng-model="name" type="text" class="form-control" placeholder="Account Name"/>
+			    		<p ng-show="wform.wp.$error.required && !wform.wp.$pristine" class="help-block">Name is required.</p>
+					    <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
+					    <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
+			  		</div>
+			  	</div>
+			  	<div class="form-group row">
+			  		<label for="email" class="col-sm-1 control-label">Email</label>
+					<div class="col-sm-6">
+			    		<input ng-model="email" type="text" class="form-control" nplaceholder="Email"/>
+			  		</div>
+			  	</div>
+				<div class="form-group row">
+			  		<div class="col-sm-offset-1 col-sm-1">
+			    		<button class="btn btn-success" type="submit">Create</button>
+			  		</div>
+			  		<div class="checkbox">
+					    <label>
+					      <input type="checkbox"> Free registration
+					    </label>
+					</div>
+			  	</div>
+			 </div>
   		</div>
 	</form>
 	
 	<form class="form-horizontal">
 		<div class="form-group">
 		  	<div class="form-group row">
-				<div class="col-sm-offset-2 col-sm-7">
-		    		<textarea ng-model="notes" rows="8" type="text" class="form-control" placeholder="Account notes.  Can be blank."></textarea>
+				<div class="col-sm-offset-2 col-sm-5">
+		    		<h4>Privacy Statement</h4>
+		    		Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum.
 		  		</div>
 			</div>
 		</div>

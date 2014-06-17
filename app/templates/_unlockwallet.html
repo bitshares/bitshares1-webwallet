@@ -1,0 +1,43 @@
+<br/>
+<br/>
+<div class="main-content">
+
+ <div class="header row">
+  <div class="col-md-12">
+    <img style="width:985px;height:317px"src="img/bs-double-trans.png" class="img-responsive">
+    <br><br>
+   <h3 class="header-title">Unlock Default BitShares XT Wallet</h3>
+  </div>
+ </div>
+<br/>
+ <form name="wform" class="form-horizontal" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
+
+  <div class="row">
+   <div class="col-md-12">
+    <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+     <label for="spending_password" class="col-sm-2 control-label">Password</label>
+
+     <div class="col-sm-8">
+      <input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password"
+             placeholder="Password"
+             required autofocus ng-minlength="9" ng-maxlength="255">
+
+      <span ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</span>
+      <span ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</span>
+      <span ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</span>
+      <br> 
+     </div>
+    </div>
+
+    <div class="form-group row">
+     <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary btn-lg">Unlock Wallet</button>
+     </div>
+    </div>
+   </div>
+  </div>
+
+
+ </form>
+
+</div>

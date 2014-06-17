@@ -2187,7 +2187,7 @@ fieldset[disabled] .form-control {
  */
 input[type="radio"],
 input[type="checkbox"] {
-  visibility: hidden;
+  visibility: visible;
 }
 .radiobox,
 .checkbox,
