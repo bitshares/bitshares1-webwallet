@@ -29,7 +29,7 @@ angular.module('angularjs-gravatardirective',
         'angularjs-gravatardirective.services'
     ]);
 angular.module('angularjs-gravatardirective.directives')
-    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService, $http) {
+    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService, Shared) {
         return {
             restrict:"EAC",
             link:function (scope, elm, attrs) {
@@ -55,7 +55,7 @@ angular.module('angularjs-gravatardirective.directives')
                         //remove any existing imgs 
                         elm.find('img').remove();
 
-
+                        Shared.src=src;
                         
 
                         // Get Gravatar Displayname
