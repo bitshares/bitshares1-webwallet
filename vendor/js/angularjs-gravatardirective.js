@@ -29,7 +29,7 @@ angular.module('angularjs-gravatardirective',
         'angularjs-gravatardirective.services'
     ]);
 angular.module('angularjs-gravatardirective.directives')
-    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService, Shared) {
+    .directive('gravatarImage', ['gravatarImageService', function (gravatarImageService) {
         return {
             restrict:"EAC",
             link:function (scope, elm, attrs) {
@@ -55,7 +55,7 @@ angular.module('angularjs-gravatardirective.directives')
                         //remove any existing imgs 
                         elm.find('img').remove();
 
-                        Shared.src=src;
+
                         
 
                         // Get Gravatar Displayname
@@ -65,6 +65,7 @@ angular.module('angularjs-gravatardirective.directives')
                         $.getJSON(url + "?callback=?", null, function(data) {
                             var name='<p style="text-align:right">' + data.entry[0].displayName + '</p>'
                             elm.append(name);
+                            scope.gravatarDisplayName=data.entry[0].displayName;
                         });
 
                         // insert the tag into the element
