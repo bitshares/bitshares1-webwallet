@@ -32,7 +32,7 @@ class Wallet
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
             active_key_history: val.active_key_history
             registered_date: val.registration_date
-            is_my_accout: is_mine
+            is_my_account: is_mine
         }
         @accounts[acct.name] = acct
         return acct

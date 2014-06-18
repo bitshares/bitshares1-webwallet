@@ -1,8 +1,11 @@
 <div ng-controller="AccountOverviewController" ng-include src="'account_overview.html'"></div>
-  <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link" tooltip="Vote Up">
+  <button ng-click="toggleFavorite()" class="btn btn-sm btn-link" tooltip="Toggle favorite">
+        <i ng-class="(favorite) ? 'fa fa-star-o fa-2x' : 'fa fa-star-o fa-2x'"></i>
+  </button>
+  <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link" tooltip="Toggle vote up">
         <i ng-class="(trust_level && trust_level > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
   </button>
-  <button ng-click="toggleVoteDown()" class="btn btn-sm btn-link" tooltip="Vote Down">
+  <button ng-click="toggleVoteDown()" class="btn btn-sm btn-link" tooltip="Toggle vote down">
     <i ng-class="(trust_level && trust_level < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
   </button>
 
@@ -18,7 +21,7 @@
       <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> Transactions</tab-heading>
       <div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
-    <tab>
+    <tab ng-show='account.is_my_account'>
       <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
       Edit.....
     </tab>
