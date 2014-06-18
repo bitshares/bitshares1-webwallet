@@ -67,6 +67,11 @@ class Wallet
             @wallet_api.get_account(name).then (result) =>
                 acct = @populate_account(result)
                 return acct
+            ,
+            (error) =>
+                @blockchain_api.blockchain_get_account_record(name).then (result) =>
+                    acct = @populate_account(result)
+                    return acct
 
     set_trust: (name, trust_level) ->
         @trust_levels[name] = trust_level
@@ -169,10 +174,6 @@ class Wallet
         @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
           response.result
 
-    wallet_get_account: (name)->
-        @rpc.request('wallet_get_account', [name]).then (response) ->
-          response.result
-
     wallet_remove_contact_account: (name)->
         @rpc.request('wallet_remove_contact_account', [name]).then (response) ->
           response.result
@@ -225,7 +226,7 @@ class Wallet
             @info.alert_level = data.alert_level
         ), 2500
 
-    constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @interval) ->
+    constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -238,4 +239,4 @@ class Wallet
         @watch_for_updates()
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", Wallet])

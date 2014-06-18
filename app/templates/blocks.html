@@ -20,8 +20,7 @@
             <th>Height</th>
             <th>Age</th>
             <th>Transactions</th>
-            <th>Fee Rate</th>
-            <th>Delegate Pay Rate</th>
+            <th>Fee Rate (KB)</th>
             <th>Size</th>
          </tr>
          </thead>
@@ -34,8 +33,7 @@
             <td>
                {{ block.user_transaction_ids.length }}&emsp;
             </td>
-            <td>{{ block.fee_rate }}</td>
-            <td>{{ block.delegate_pay_rate }}</td>
+            <td>{{ block.fee_rate / 1000 }}</td>
             <td>{{ block.block_size }}</td>
          </tr>
          </tbody>

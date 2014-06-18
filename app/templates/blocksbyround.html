@@ -1,13 +1,11 @@
 <div class="header">
-    <div class="col_sm-2">
-	<div class="col-sm-8">
+	<div class="col-sm-12">
         <h2 align="center">
-            <a href="#/blocks/round/{{round - 1}}" ng-if="round > 1">&lt;&lt; Previous</a>
-            <b>Blocks of round #{{round}}</b>
-            <a href="#/blocks/round/{{round + 1}}">Next &gt;&gt;</a>
+            <a href="#/blocks/round/{{round - 1}}" ng-if="round > 1">&lt;&lt; Older</a>
+            <b>Blocks #{{start}} - #{{end}}</b>
+            <a href="#/blocks/round/{{round + 1}}">Newer &gt;&gt;</a>
         </h2>
 	</div>
-    <div class="col_sm-2">
 </div>
 
 <div class="main-content">
@@ -17,6 +15,8 @@
          <tr>
             <th>Height</th>
             <th>Time</th>
+            <th>Trasanaction Count</th>
+            <th>Delegate</th>
             <th>Size</th>
          </tr>
          </thead>
@@ -25,6 +25,12 @@
             <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
             <td>
                {{ block.timestamp | prettyDate}}&emsp;
+            </td>
+            <td>
+               {{ block.user_transaction_ids.length }}
+            </td>
+            <td>
+               {{ "Delegate TODO"}}
             </td>
             <td>{{ block.block_size }}</td>
          </tr>

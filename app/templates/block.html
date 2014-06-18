@@ -107,7 +107,7 @@
                     <div ng-repeat="deposit in t.deposits"><span>{{deposit[1] | toAsset | formatAsset}}</span><br></div></td>
                 <td>
                     <div ng-repeat="net_vote in t.net_delegate_votes | limitTo: 3">
-                        <span><a href="#/delegate/{{net_vote[0]}}">{{ net_vote[0] | delegateName }}</a>:&nbsp; </span>
+                        <span><a href="#/accounts/{{net_vote[0] | delegateName}}">{{ net_vote[0] | delegateName }}</a>:&nbsp; </span>
                         <span>{{{"amount": net_vote[1].votes_for - net_vote[1].votes_against, "asset_id": 0} | toAsset | formatAsset }}</span><br></div></td>
                 <td>
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>
