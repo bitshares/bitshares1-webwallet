@@ -4,6 +4,9 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     #$scope.accounts = Wallet.receive_accounts
     #$scope.account.balances = Wallet.balances[name]
     #$scope.utils = Utils
+    $scope.account = Wallet.accounts[name]
+    console.log('act')
+    console.log(Wallet.accounts[name])
 
     #Wallet.refresh_accounts()
     $scope.trust_level=Wallet.trust_levels[name]

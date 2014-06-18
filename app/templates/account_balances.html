@@ -10,24 +10,26 @@
 			</tr>
 			</thead>
 			<tbody>
-         <tr ng-repeat="a in accounts">
-             <td>
-                <a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a>
-             </td>
-             <td>
-                <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
-             </td>
-             <td>{{a.registered_date | prettyDate}}</td>
-         </tr>
-         <tr>
-         <td></td>
-         <td></td>
-         <td>
-            <div class="pull-right">
-              <a class="btn btn-primary btn-success" href="#/create/account">
-              <i class="fa fa-lg fa-fw"></i><i class="fa fa-bank fa-fw"></i>Create Account</a>
-            </div>
-         </td>
+                <tr ng-repeat="a in accounts">
+                    <td ng-show='a.is_my_account'>
+                        <a href="#/accounts/{{a.name}}"><div>{{a.name}}</div></a>
+                    </td>
+                    <td ng-show='a.is_my_account'>
+                        <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
+                    </td>
+                    <td ng-show='a.is_my_account'>{{a.registered_date | prettyDate}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div class="pull-right">
+                            <a class="btn btn-primary btn-success" href="#/create/account">
+                            <i class="fa fa-lg fa-fw"></i><i class="fa fa-bank fa-fw"></i>Create Account</a>
+                        </div>
+                    </td>
+                </tr>
 			</tbody>
 		</table>
 	</div>
