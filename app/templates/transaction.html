@@ -37,10 +37,10 @@
                 </td>
             </tr>
             <tr ng-repeat="vote in t.net_delegate_votes">
-                <td>Delegate ID: <a href="#/delegate/{{vote[0]}}">{{ vote[0] }}</a></td>
-                <td>Vote For Change:&nbsp;{{ vote[1].votes_for }}</td>
-                <td>Vote Against Change:&nbsp;{{ vote[1].votes_against }}</td>
-                <td>Delegate's total change: {{ vote[1].votes_for - vote[1].votes_against }}</td>
+                <td>Delegate:&nbsp;<a href="#/accounts/{{vote[0] | delegateName}}">{{ vote[0] | delegateName }}</a></td>
+                <td>Vote For Change:&nbsp;{{ {"amount": vote[1].votes_for, "asset_id":0 } | toAsset | formatAsset }}</td>
+                <td>Vote Against Change:&nbsp;{{ {"amount": vote[1].votes_against, "asset_id":0 } | toAsset | formatAsset }}</td>
+                <td>Total Vote Change:&nbsp;{{ {"amount": vote[1].votes_for - vote[1].votes_against, "asset_id": 0 } | toAsset | formatAsset }}</td>
             </tr>
         </tbody>
         </table>

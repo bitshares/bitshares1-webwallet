@@ -2,6 +2,7 @@ class Blockchain
 
     constructor: (@client, @network, @blockchain_api, @q, @interval) ->
         @refresh_asset_records()
+        @refresh_delegates()
         console.log "blockchain constructor"
         @watch_for_updates()
 

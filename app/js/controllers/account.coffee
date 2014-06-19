@@ -16,7 +16,6 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     
     refresh_account = ->
         Wallet.get_account(name).then (acct) ->
-            console.log acct
             $scope.account = acct
             $scope.balances = Wallet.balances[name]
     refresh_account()
