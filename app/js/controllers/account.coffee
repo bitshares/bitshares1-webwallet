@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, RpcService) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI) ->
 
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
@@ -21,7 +21,7 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     refresh_account()
 
     $scope.import_key = ->
-        RpcService.request('wallet_import_private_key', [$scope.private_key.value, $scope.account.name]).then (response) ->
+        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
             $scope.private_key.value = ""
             Growl.notice "", "Your private key was successfully imported."
             refresh_account()
@@ -31,14 +31,14 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
 
 
     $scope.import_wallet = ->
-        RpcService.request('wallet_import_bitcoin', [$scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name]).then (response) ->
+        WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
             Growl.notice "The wallet was successfully imported."
             refresh_account()
 
     $scope.send = ->
-        RpcService.request('wallet_transfer', [$scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo]).then (response) ->
+        WalletAPI.transfer($scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo).then (response) ->
             $scope.payto = ""
             $scope.amount = ""
             $scope.memo = ""
