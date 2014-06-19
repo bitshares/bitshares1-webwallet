@@ -60,12 +60,11 @@ angular.module('angularjs-gravatardirective.directives')
 
                         // Get Gravatar Displayname
                         //  remove the previous name
-                        elm.find('p').remove();
+                        scope.gravatarDisplayName="";
                         var url =  'http://www.gravatar.com/' + hash + '.json';
                         $.getJSON(url + "?callback=?", null, function(data) {
-                            var name='<p style="text-align:right">' + data.entry[0].displayName + '</p>'
-                            elm.append(name);
                             scope.gravatarDisplayName=data.entry[0].displayName;
+                            scope.$apply();
                         });
 
                         // insert the tag into the element
@@ -73,7 +72,6 @@ angular.module('angularjs-gravatardirective.directives')
                         // add handler to remove if image fails to load
                         elm.find('img').bind('error', function() {
                             elm.find('img').remove();
-                            elm.find('p').remove();
                         });
                     }
                 });
