@@ -3,15 +3,13 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
     $scope.number = $stateParams.number
     $scope.utils = Utils
 
-    Blockchain.refresh_delegates()
-
-    BlockchainAPI.blockchain_get_block_by_number($scope.number).then (result) ->
+    BlockchainAPI.get_block_by_number($scope.number).then (result) ->
         $scope.block = result
         $scope.block.transaction_count = result.user_transaction_ids.length
-        BlockchainAPI.blockchain_get_blockhash($scope.number).then (block_hash) ->
+        BlockchainAPI.get_blockhash($scope.number).then (block_hash) ->
             $scope.block_hash = block_hash
 
-            BlockchainAPI.blockchain_get_transactions_for_block(block_hash).then (transactions) ->
+            BlockchainAPI.get_transactions_for_block(block_hash).then (transactions) ->
                 $scope.block.transactions = []
                 for i in [0 ... transactions.length]
                 # TODO: are they totally matching?

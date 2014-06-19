@@ -5,5 +5,5 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
   $scope.end = $scope.start + $scope.round_count - 1
   
 
-  BlockchainAPI.blockchain_list_blocks($scope.start, $scope.round_count).then (result) ->
+  BlockchainAPI.list_blocks($scope.start, $scope.round_count).then (result) ->
     $scope.blocks = result

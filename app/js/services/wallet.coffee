@@ -69,7 +69,7 @@ class Wallet
                 return acct
             ,
             (error) =>
-                @blockchain_api.blockchain_get_account_record(name).then (result) =>
+                @blockchain_api.get_account_record(name).then (result) =>
                     acct = @populate_account(result)
                     return acct
 

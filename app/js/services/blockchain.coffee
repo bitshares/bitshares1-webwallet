@@ -23,7 +23,7 @@ class Blockchain
         return @asset_records[record.id]
 
     refresh_asset_records: ->
-        @blockchain_api.blockchain_list_registered_assets("", -1).then (result) =>
+        @blockchain_api.list_registered_assets("", -1).then (result) =>
             angular.forEach result, (record) =>
                 @populate_asset_record record
 
@@ -33,7 +33,7 @@ class Blockchain
             deferred.resolve(@asset_records[id])
             return deferred.promise
         else
-            @blockchain_api.blockchain_get_asset_record(id).then (result) =>
+            @blockchain_api.get_asset_record(id).then (result) =>
                 record = @populate_asset_record result
                 return record
                 
@@ -48,13 +48,13 @@ class Blockchain
         last_block_round : 0
 
     refresh_recent_blocks: ->
-        @blockchain_api.blockchain_get_blockcount().then (current_head_num) =>
+        @blockchain_api.get_blockcount().then (current_head_num) =>
                 if current_head_num > @block_head_num
                     blocks = {}
                     begin = current_head_num - @recent_blocks_count
                     if begin < 1 then begin = 1
 
-                    @blockchain_api.blockchain_list_blocks(begin + 1, @recent_blocks_count).then (result) =>
+                    @blockchain_api.list_blocks(begin + 1, @recent_blocks_count).then (result) =>
                         @recent_blocks.value = result.reverse()
                         if @recent_blocks.value.length > 0
                             @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
@@ -80,7 +80,7 @@ class Blockchain
         record
 
     refresh_delegates: ->
-        @blockchain_api.blockchain_list_delegates(0, -1).then (result) =>
+        @blockchain_api.list_delegates(0, -1).then (result) =>
             for i in [0 ... @client.config.num_delegates]
                 @active_delegates[i] = @populate_delegate(result[i])
                 @id_delegates[result[i].id] = result[i]
