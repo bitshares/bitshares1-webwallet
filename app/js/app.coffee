@@ -49,12 +49,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
     templateUrl: "directory.html"
     controller: "DirectoryController"
 
-  transfer =
-    name: 'transfer'
-    url: '/transfer'
-    templateUrl: "transfer.html"
-    controller: "TransferController"
-
   editaccount =
     name: 'editaccount'
     url: '/accounts/:name/edit'
@@ -103,5 +97,5 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
     templateUrl: "unlockwallet.html"
     controller: "UnlockWalletController"
 
-  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(transfer).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
+  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
 
