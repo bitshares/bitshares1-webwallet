@@ -21,10 +21,6 @@
       <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> Transactions</tab-heading>
       <div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
-    <tab ng-show='account.is_my_account'>
-      <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
-      Edit.....
-    </tab>
     <tab>
       <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i> Transfer</tab-heading>
           <div id="transfer-form">
@@ -129,6 +125,10 @@
             </div>
            </form>
           </tab>
+	    <tab ng-show='account.is_my_account'>
+	      <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
+	      Edit.....
+	    </tab>
       </tabset>
     </tab>
 </tabset>
