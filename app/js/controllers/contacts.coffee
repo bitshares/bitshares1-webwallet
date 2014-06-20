@@ -35,14 +35,15 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     return
 
   $scope.refresh_addresses = ->
-    Wallet.wallet_list_contact_accounts().then (contacts) ->
+    Wallet.wallet_list_accounts().then (contacts) ->
       newData = []
       data = contacts
       i = 0
 
       while i < data.length
-        newData.push
-          Label: data[i]
+        if !data[i].is_my_account
+          newData.push
+            Label: data[i]
 
         i++
       $scope.myData = newData

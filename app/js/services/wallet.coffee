@@ -181,8 +181,8 @@ class Wallet
         @rpc.request('wallet_set_delegate_trust_level', [delName, trust]).then (response) ->
           response.result
 
-    wallet_list_contact_accounts: ->
-        @rpc.request('wallet_list_contact_accounts').then (response) ->
+    wallet_list_accounts: ->
+        @rpc.request('wallet_list_accounts').then (response) ->
           response.result
 
     blockchain_list_registered_accounts: ->
