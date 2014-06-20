@@ -1,110 +1,144 @@
-<br/>
-<br/>
-<div class="main-content">
+<head>
+<style>
+	body, html {
+		font-family: 'Open Sans', sans-serif;
+		color: #FFF;
+		font-size: 16px;
+		background: #FFF url('img/xt-background.jpg') no-repeat left top;
+		background-size: cover;
+		margin: 0;
+		padding: 0;
+	}
+	
+    .description {
+		font-size: 12px;
+    }
+	
+	.start-wrapper {
+		border: 0px solid #333;
+		width: 400px;
+		height: 400px;
+		position: absolute;
+		top: 35%;
+		left: 50%;
+		margin-left: -200px;
+		margin-top: -100px;
+	}
+	
+	.str-top {
+		height: 80px;
+		text-align: center;
+		border-bottom: 1px solid rgba(255, 255, 255, .5);
+		    -webkit-background-clip: padding-box; /* for Safari */
+		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+	}
+	
+	.str-top img { margin-bottom: 24px; }
+	
+	.str-content {
+		text-align: center;
+		padding: 20px 10px 5px;
+	}
 
- <div class="header row">
-  <div class="col-md-12">
-    <img style="width:985px;height:317px"src="img/bs-double-trans.png" class="img-responsive">
-    <br><br>
-   <h3 class="header-title">Create New BitShares XT Wallet</h3>
-  </div>
- </div>
-<br/>
- <form name="wform" class="form-horizontal" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
-<!--Name is set to default
-  <div class="row">
-   <div class="col-md-12">
-    <h3>Name</h3>
+    .str-arrow {
+        display:block;
+        margin-left:auto;
+        margin-right:auto;
+    }
+	
+	.str-bottom {
+		height: 40px;
+        padding: 25px;
+		text-align: center;
+		border-top: 1px solid rgba(255, 255, 255, .5);
+		    -webkit-background-clip: padding-box; /* for Safari */
+		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
+		
+	}
+	
+	.str-bottom img { margin-top: 24px; }
+	
+    p {
+        text-indent: 30px;
+    }
+	
+	
+    .input {
+        width: 200px;
+    }
 
-    <p>Your wallet name.  You can have multiple wallets on one</p>
+    .spacedrow {
+        margin-top: 10px;
+    }
 
-    <div class="form-group" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
-     <label for="wallet_name" class="col-sm-2 control-label">Name</label>
+</style>
+</head>
 
-     <div class="col-sm-6">
-      <input ng-model="wallet_name" name="wp" required class="form-control" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name"
-             placeholder="Name" autofocus ng-minlength="1" ng-maxlength="63">
-      <p ng-show="wform.wp.$error.required" class="help-block">Name is required.</p>
-      <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
-      <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
-     </div>
+<body>
+<section class="start-wrapper">
+	<div class="str-top">
+    	<img src="img/xts-logo-xl-white-shadow.png" />
+	</div>
+    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X proto-DAC</div>
+    <div class="description" collapse="descriptionCollapsed">
+        <p>
+        BitShares X is an experimental decentralized exchange that will allow for trading derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus.
+        </p>
+        <p>
+        BitShares XT is a test network for testing non-market functionality of BitShares X, like Delegated Proof-of-Stake and TITAN transactions. It will be used as the snapshot target for the initial allocations of subsequent BitShares X blockchains.
+        </p>
+
     </div>
-   </div>
-  </div>
-  -->
-  <div class="row">
-   <div class="col-md-12">
+    <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
 
-    <p>Your password is mandatory and controls when and how your funds may be spent. If you forget this
-     password you will be unable to transfer your shares.</p>
-<br>
-    <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
-     <label for="spending_password" class="col-sm-2 control-label">Password</label>
+    <div class="str-bottom">
 
-     <div class="col-sm-8">
-      <input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password"
-             placeholder="Password"
-             required autofocus ng-minlength="9" ng-maxlength="255">
+         <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
+              <div class="row">
+                   <div class="description">
 
-      <span ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</span>
-      <span ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</span>
-      <span ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</span>
-      <br> 
-     </div>
+                    <h4> Create a New Wallet </h4>
+                    <p>Your password is mandatory and controls when and how your funds may be spent. If you forget this
+                     password you will be unable to transfer your shares.</p>
+                    <br>
+                    <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+
+                      <input ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
+                             placeholder="Password"
+                             required autofocus ng-minlength="9" ng-maxlength="255">
+
+                      <span ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</span>
+                      <span ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</span>
+                      <span ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</span>
+                      <br> 
+                    </div>
+                </div>
+              <div class="row spacedrow">
+                  <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
+
+                    <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
+                           id="confirm_spending_password"
+                           placeholder="Confirm Password" required pw-check="spending_password">
+                    
+                    <span ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</span>
+                    <br>
+                  </div>
+              </div>
+
+              <div class="row spacedrow">
+                    <div class="form-group row">
+                      <button type="submit" class="btn btn-primary">Create Wallet</button>
+                    </div>
+                   </div>
+              </div>
+
+
+         </form>
+
+
+
+		<img src="img/bts-icon-white-transparent.png" />
     </div>
-    <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
-     <label for="confirm_spending_password" class="col-sm-2 control-label">Confirm Password</label>
+</section>
+</body>
 
-     <div class="col-sm-8">
-      <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" class="form-control"
-             id="confirm_spending_password"
-             placeholder="Confirm Password" required pw-check="spending_password">
-      
-      <span ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</span>
-      <br>
-     </div>
-    </div>
-    <!--
-    <div>
-      <button class="btn btn-default btn-lg" ng-click="isCollapsed = !isCollapsed">Brain Wallet</button>
-      <hr>
-      <div collapse="isCollapsed">
-        <div class="well well-lg">
-          <div class="form-group" ng-class="{ 'has-error' : wform.bp.$invalid && !wform.bp.$pristine }">
-           <label for="brain_passphrase" class="col-sm-2 control-label">Brain Passphrase</label>
-
-           <div class="col-sm-6">
-            <input ng-trim="false" ng-model="brain_passphrase" name="bp" type="password" class="form-control" id="brain_passphrase"
-                   placeholder="Brain Passphrase" autofocus ng-minlength="32" ng-maxlength="255">
-
-            <p ng-show="wform.bp.$error.minlength" class="help-block">Passphrase is too short. It must be at least 32 characters.</p>
-            <p ng-show="wform.bp.$error.maxlength" class="help-block">Passphrase is too long. It can be at most 255 characters.</p>
-           </div>
-          </div>
-          <div class="form-group" ng-class="{ 'has-error' : wform.cbp.$invalid && !wform.cbp.$pristine }">
-           <label for="confirm_brain_passphrase" class="col-sm-2 control-label">Confirm Brain Passphrase</label>
-
-           <div class="col-sm-6">
-            <input ng-trim="false" ng-model="confirm_brain_passphrase" name="cbp" type="password" class="form-control"
-                   id="confirm_brain_passphrase" placeholder="Confirm Brain Passphrase" data-match="brain_passphrase">
-
-            <p ng-show="wform.cbp.$error.match" class="help-block">Fields do not match.</p>
-           </div>
-          </div>
-        </div> 
-      </div>
-    </div>
-    -->
-
-    <div class="form-group row">
-     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary btn-lg">Create Wallet</button>
-     </div>
-    </div>
-   </div>
-  </div>
-
-
- </form>
-
-</div>

@@ -10,20 +10,23 @@
 		padding: 0;
 	}
 	
+    .description {
+		font-size: 12px;
+    }
 	
 	.start-wrapper {
 		border: 0px solid #333;
 		width: 400px;
 		height: 400px;
 		position: absolute;
-		top: 50%;
+		top: 35%;
 		left: 50%;
 		margin-left: -200px;
 		margin-top: -100px;
 	}
 	
 	.str-top {
-		height: 130px;
+		height: 80px;
 		text-align: center;
 		border-bottom: 1px solid rgba(255, 255, 255, .5);
 		    -webkit-background-clip: padding-box; /* for Safari */
@@ -44,7 +47,8 @@
     }
 	
 	.str-bottom {
-		height: 80px;
+		height: 40px;
+        padding: 25px;
 		text-align: center;
 		border-top: 1px solid rgba(255, 255, 255, .5);
 		    -webkit-background-clip: padding-box; /* for Safari */
@@ -53,26 +57,43 @@
 	}
 	
 	.str-bottom img { margin-top: 24px; }
-	
-	
 
-</style>
+    p {
+        text-indent: 30px;
+    }
+
+	</style>
+
 </head>
+
 <body>
 <section class="start-wrapper">
 	<div class="str-top">
-		<img src="img/bts-icon-white-transparent.png" />
-		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
-         	<div class="form-group">
-				<input ng-trim="false" style="width:200px" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
-        	</div>
-        </form>
+    	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
     <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X proto-DAC</div>
+    <div class="description" collapse="descriptionCollapsed">
+        <p>
+        BitShares X is an experimental decentralized exchange that will allow for trading derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus.
+        </p>
+        <p>
+        BitShares XT is a test network for testing non-market functionality of BitShares X, like Delegated Proof-of-Stake and TITAN transactions. It will be used as the snapshot target for the initial allocations of subsequent BitShares X blockchains.
+        </p>
+
+    </div>
+
     <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
-    <div collapse="descriptionCollapsed">a description</div>
+
     <div class="str-bottom">
-    	<img src="img/xt-icon.png" />
+
+		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
+         	<div class="form-group">
+				<input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control input" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
+        	</div>
+        </form>
+
+
+		<img src="img/bts-icon-white-transparent.png" />
     </div>
 </section>
 </body>
