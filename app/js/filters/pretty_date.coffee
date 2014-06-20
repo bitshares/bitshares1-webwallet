@@ -4,4 +4,10 @@ angular.module("app").filter "prettyDate", (Utils)->
             console.log "attempting to prettify null date"
             return ""
 
-        if Utils.type(date) == "date" then date.toLocaleString "en-us" else Utils.toDate(date).toLocaleString "en-us"
+        if date.valueOf() == "19700101T000000"
+            return "Not registered"
+
+        if Utils.type(date) == "date"
+            return date.toLocaleString "en-us"
+        else
+            return Utils.toDate(date).toLocaleString "en-us"
