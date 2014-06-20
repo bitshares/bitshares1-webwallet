@@ -8,7 +8,7 @@ class Blockchain
 
     watch_for_updates: =>
         @interval (=>
-            @refresh_recent_blocks()           
+            @refresh_recent_blocks()
         ), 15000
 
     # # # # # 
@@ -42,7 +42,7 @@ class Blockchain
 
     block_head_num : 0
     recent_blocks_count : 20
-    recent_blocks : 
+    recent_blocks :
         value : []
         last_block_timestamp: ""
         last_block_round : 0
