@@ -74,6 +74,7 @@ class Blockchain
     type_name_map :
             withdraw_op_type : "Withdraw Operation"
             deposit_op_type : "Deposit Operation"
+            register_account_op_type : "Register Account Operation"
 
     # TODO
     populate_delegate: (record) ->

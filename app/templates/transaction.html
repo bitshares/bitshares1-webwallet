@@ -62,7 +62,7 @@
         </tbody>
         </table>
         <div ng-repeat="operation in t.trx.operations">
-            <pre>{{operation}}</pre>
+            <pre>{{operation | translateOperation}}</pre>
         </div>
     </div>
 </div>
