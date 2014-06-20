@@ -105,11 +105,11 @@
 
                       <input ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
                              placeholder="Password"
-                             required autofocus ng-minlength="9" ng-maxlength="255">
+                             required autofocus ng-minlength="9" ng-maxlength="255" />
 
-                      <span ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</span>
-                      <span ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</span>
-                      <span ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</span>
+                      <div ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</div>
+                      <div ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</div>
+                      <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</div>
                       <br> 
                     </div>
                 </div>
@@ -118,9 +118,9 @@
 
                     <input ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
                            id="confirm_spending_password"
-                           placeholder="Confirm Password" required pw-check="spending_password">
+                           placeholder="Confirm Password" required pw-check="spending_password" />
                     
-                    <span ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</span>
+                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</div>
                     <br>
                   </div>
               </div>
