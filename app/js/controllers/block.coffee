@@ -7,7 +7,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
         $scope.block = result
         $scope.block.transaction_count = result.user_transaction_ids.length
         BlockchainAPI.get_blockhash($scope.number).then (block_hash) ->
-            $scope.block_hash = block_hash
+            $scope.block.block_hash = block_hash
 
             BlockchainAPI.get_transactions_for_block(block_hash).then (transactions) ->
                 $scope.block.transactions = []
@@ -22,3 +22,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
                     trx.balance = transactions[i].balance
                     $scope.block.transactions.push trx
                     # not all block trxs are stored, do not know the trx: trx.time = 
+
+            BlockchainAPI.get_signing_delegate($scope.number).then (delegate_name) ->
+                console.log delegate_name
+                $scope.block.delegate_name = delegate_name

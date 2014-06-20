@@ -1,6 +1,12 @@
 <div class="header">
-    <div class="col-sm-12">
+    <div class="col-sm-4">
         <h3 class="header-title">Transaction #{{id.substr(0, 8)}}</h3>
+	</div>
+    <div class="col-sm-4">
+        <h3 class="header-title">Block #{{t.chain_location.block_num}}, location #{{t.chain_location.trx_num}}</h3>
+	</div>
+    <div class="col-sm-4">
+        <h3 class="header-title">Timestamp: {{ t.timestamp | prettyDate  }} </h3>
 	</div>
 </div>
 
@@ -30,6 +36,17 @@
                 <td></td>
                 <td></td>
                 <td>{{ o[1] | toAsset | formatAsset }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" align="left">
+                    <span class="pull-left">Fee</span>
+                </td>
+            </tr>
+            <tr ng-repeat="b in t.balance">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>{{ {"amount": b[1], "asset_id": b[0]} | toAsset | formatAsset }}</td>
             </tr>
             <tr>
                 <td colspan="4" align="left">

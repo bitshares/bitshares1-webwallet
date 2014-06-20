@@ -18,16 +18,28 @@
            </td>
          </tr>
          <tr>
+             <td>Block ID</td>
+             <td>
+                 {{ block.block_hash}}
+             </td>
+         </tr>
+         <tr>
             <td>Previous Block ID</td>
             <td>
                {{ block.previous }}&emsp;
            </td>
          </tr>
-          <tr>
+         <tr>
             <td>Block Fee Rate</td>
             <td>
-               {{ block.fee_rate }}&emsp;
-           </td>
+               {{ block.fee_rate/1000 }}&emsp;
+            </td>
+         </tr>
+         <tr>
+             <td>Delegate Name</td>
+             <td>
+                 {{ block.delegate_name}}
+             </td>
          </tr>
          <tr>
             <td>Delegate Pay Rate</td>
@@ -95,7 +107,7 @@
 				<th>Deposit Amount</th>
 				<th>Net Delegate Votes</th>
 				<th>Operation Types</th>
-                <th>Balance</th>
+                <th>Fee</th>
 			</tr>
 			</thead>
             <tbody>
