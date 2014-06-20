@@ -8,7 +8,7 @@ class Wallet
 
     trust_levels: {}
 
-    timeout=60000;
+    timeout=60000
 
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>
@@ -27,13 +27,8 @@ class Wallet
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
         @trust_levels[val.name] = val.trust_level
-        acct = {
-            name: val.name
-            active_key: val.active_key_history[val.active_key_history.length - 1][1]
-            active_key_history: val.active_key_history
-            registered_date: val.registration_date
-            is_my_account: val.is_my_account
-        }
+        acct = val
+        acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
         @accounts[acct.name] = acct
         return acct
 

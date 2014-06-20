@@ -6,7 +6,7 @@
 
 <div class="main-content">
 	<div>{{account.active_key}}</div>
-    Registration date:  {{ account.registered_date | prettyDate }}<br>
+    Registration date:  {{ account.registration_date | prettyDate }}<br>
 	<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
         <i ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
 	</button>

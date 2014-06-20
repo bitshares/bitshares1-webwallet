@@ -17,7 +17,7 @@
                     <td ng-show='a.is_my_account'>
                         <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
                     </td>
-                    <td ng-show='a.is_my_account'>{{a.registered_date | prettyDate}}</td>
+                    <td ng-show='a.is_my_account'>{{a.registration_date | prettyDate}}</td>
                 </tr>
                 <tr>
                     <td></td>
