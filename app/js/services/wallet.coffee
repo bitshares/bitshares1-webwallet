@@ -22,7 +22,7 @@ class Wallet
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
     # turn raw rpc return value into nice object
-    populate_account: (val, is_mine) ->
+    populate_account: (val) ->
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
@@ -32,7 +32,7 @@ class Wallet
             active_key: val.active_key_history[val.active_key_history.length - 1][1]
             active_key_history: val.active_key_history
             registered_date: val.registration_date
-            is_my_account: is_mine
+            is_my_account: val.is_my_account
         }
         @accounts[acct.name] = acct
         return acct
@@ -42,13 +42,9 @@ class Wallet
             @populate_account(result)
 
     refresh_accounts: ->
-        @wallet_api.list_receive_accounts().then (result) =>
+        @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val, true)
-            @refresh_balances()
-        @wallet_api.list_contact_accounts().then (result) =>
-            angular.forEach result, (val) =>
-                @populate_account(val, false)
+                @populate_account(val)
             @refresh_balances()
 
 
