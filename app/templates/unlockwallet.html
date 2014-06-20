@@ -23,7 +23,7 @@
 	}
 	
 	.str-top {
-		height: 80px;
+		height: 130px;
 		text-align: center;
 		border-bottom: 1px solid rgba(255, 255, 255, .5);
 		    -webkit-background-clip: padding-box; /* for Safari */
@@ -60,18 +60,19 @@
 </head>
 <body>
 <section class="start-wrapper">
-	<div class="str-top"><img src="img/bts-icon-white-transparent.png" /></div>
-        <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X proto-DAC</div>
-        <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
-        <div collapse="descriptionCollapsed">a description</div>
-        <div class="str-bottom">
-        	<img src="img/xt-icon.png" />
-
-         	<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
-             	<div class="form-group">
-					<input ng-trim="false" style="width:200px" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
-            	</div>
-            </form>
-        </div>
+	<div class="str-top">
+		<img src="img/bts-icon-white-transparent.png" />
+		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
+         	<div class="form-group">
+				<input ng-trim="false" style="width:200px" ng-model="spending_password" name="sp" type="password" class="form-control" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
+        	</div>
+        </form>
+	</div>
+    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X proto-DAC</div>
+    <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
+    <div collapse="descriptionCollapsed">a description</div>
+    <div class="str-bottom">
+    	<img src="img/xt-icon.png" />
+    </div>
 </section>
 </body>
