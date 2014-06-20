@@ -25,10 +25,10 @@
 		<tr ng-repeat="del in active_delegates">
 			<td>{{ del.name }}</td>
 			<td>
-				{{ del.delegate_info.votes_for }}&emsp;
+				{{ del.delegate_info.votes_for | formatVotes}}&emsp;
 			</td>
 			<td>
-				{{ del.delegate_info.votes_against }}&emsp;
+				{{ del.delegate_info.votes_against | formatVotes}}&emsp;
 			</td>
 			<td>{{ del.delegate_info.blocks_produced }}</td>
 			<td>{{ del.delegate_info.blocks_missed }}</td>

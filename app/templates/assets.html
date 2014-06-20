@@ -9,5 +9,55 @@
 </div>
 
 <div class="main-content">
-
+    <b>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <!--<th>Asset ID</th>-->
+                <th>SYMBOL</th>
+                <th>Name</th>
+                <th>DESCRIPTION</th>
+                <!--<th>Public Data</th>-->
+                <th>ISSUE ACCOUNT</th>
+                <th>PRECISION</th>
+                <th>CURRENT SHARE SUPPLY</th>
+                <th>MAXIMUM SHARE SUPPLY</th>
+                <th>COLLECTED FEES</th>
+                <th>REGISTRATION DATE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="asset in assets">
+                <!--<td>{{ asset.id }}</td>-->
+                <td>
+                    {{ asset.symbol }}&emsp;
+                </td>
+                <td>
+                    {{ asset.name }}&emsp;
+                </td>
+                <td>{{ asset.description }}</td>
+                <!--<td>{{ asset.public_data || "" }}</td>-->
+                <td>
+                    <a href="#/accounts/{{ asset.account_name }}" ng-if="asset.id != 0">{{ asset.account_name }} </a>
+                    <span ng-if="asset.id == 0">{{ asset.account_name }}</span>
+                </td>
+                <td>
+                    {{ asset.precision }} 
+                </td>
+                <td>
+                    {{ { "amount" : asset.current_share_supply, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                </td>
+                <td>
+                    {{ { "amount" : asset.maximum_share_supply, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                </td>
+                <td>
+                    {{ { "amount" : asset.collected_fees, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                </td>
+                <td>
+                    {{ asset.registration_date | prettyDate }} 
+                </td>
+            </tr>
+            </tbody>
+        </table>
+	</b>
 </div>
