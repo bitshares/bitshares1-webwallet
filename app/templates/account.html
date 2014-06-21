@@ -1,19 +1,30 @@
-<div ng-controller="AccountOverviewController" ng-include src="'account_overview.html'"></div>
-  <button ng-click="toggleFavorite()" class="btn btn-sm btn-link" tooltip="Toggle favorite">
-        <i ng-class="(favorite) ? 'fa fa-star-o fa-2x' : 'fa fa-star-o fa-2x'"></i>
-  </button>
-  <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link" tooltip="Toggle vote up">
-        <i ng-class="(trust_level && trust_level > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
-  </button>
-  <button ng-click="toggleVoteDown()" class="btn btn-sm btn-link" tooltip="Toggle vote down">
-    <i ng-class="(trust_level && trust_level < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
-  </button>
-
-  <gravatar-image data-gravatar-email="account.private_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
-
-	<div>
-			<a class="btn btn-primary" href="#/accounts/{{account.name}}/edit"><i class="fa fa-edit fa-lg fa-fw"></i> Edit</a>
+<div class="row">
+	<div class='col-sm-2'>
+		<gravatar-image data-gravatar-email="account.private_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+		<div class="text-center" style='font-size:120%'>
+			{{gravatarDisplayName}}
+		</div>
+		<div class="text-center">
+			<button ng-click="toggleFavorite()" class="btn btn-sm btn-link" tooltip="Toggle favorite">
+	        	<i ng-class="(favorite) ? 'fa fa-star-o fa-2x' : 'fa fa-star-o fa-2x'"></i>
+	  		</button>
+			<button ng-click="toggleVoteUp()" class="btn btn-sm btn-link" tooltip="Toggle vote up">
+			    <i ng-class="(trust_level && trust_level > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+			</button>
+			<button ng-click="toggleVoteDown()" class="btn btn-sm btn-link" tooltip="Toggle vote down">
+				<i ng-class="(trust_level && trust_level < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
+			</button>
+		</div>
+		<br>
 	</div>
+	<div class='col-sm-10'>
+		<div ng-controller="AccountOverviewController" ng-include src="'account_overview.html'"></div>
+	</div>
+</div>
+<div class="row">
+  
+
+  
 	<!--<button class="btn btn-primary"><i class="fa fa-file-excel-o fa-lg fa-fw"></i> Issue assets</button>
   <button class="btn btn-primary">Free Registration</button> -->
 
@@ -135,3 +146,4 @@
         Edit.....
       </tab>
 </tabset>
+</div>

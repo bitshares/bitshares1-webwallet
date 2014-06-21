@@ -67,7 +67,7 @@ angular.module('angularjs-gravatardirective.directives')
                     elm.find('img').remove();
 
 
-                    scope.gravatarDisplayName="Gravatar unknown";
+                    scope.gravatarDisplayName="Unknown Gravatar";
                     var url =  'http://www.gravatar.com/' + hash + '.json';
                     $.getJSON(url + "?callback=?", null, function(data) {
                         scope.gravatarDisplayName=data.entry[0].displayName;
