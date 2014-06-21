@@ -1,12 +1,12 @@
 <div class="header">
     <div class="col-sm-4">
-        <h4>Transaction #{{id.substr(0, 8)}}</h3>
+        <h4>Transaction #{{id.substr(0, 8)}}</h4>
 	</div>
     <div class="col-sm-4">
-        <h4>Block <a href="#/blocks/{{t.chain_location.block_num}}">#{{t.chain_location.block_num}}</a><span ng-if="prev_trx_num != -1">, prev <a href="#/tx/{{prev_trx_id}}">#{{prev_trx_num}}</a></span> , transaction #{{t.chain_location.trx_num}} <span ng-if="next_trx_num != -1">, next <a href="#/tx/{{next_trx_id}}">#{{next_trx_num}}</a></span></h3>
+        <h4>Block <a href="#/blocks/{{t.chain_location.block_num}}">#{{t.chain_location.block_num}}</a><span ng-if="prev_trx_num != -1">, prev <a href="#/tx/{{prev_trx_id}}">#{{prev_trx_num}}</a></span> , transaction #{{t.chain_location.trx_num}} <span ng-if="next_trx_num != -1">, next <a href="#/tx/{{next_trx_id}}">#{{next_trx_num}}</a></span></h4>
 	</div>
     <div class="col-sm-4">
-        <h4>Timestamp: {{ t.timestamp | prettyDate  }} </h3>
+        <h4>Timestamp: {{ t.timestamp | prettyDate  }} </h4>
 	</div>
 </div>
 
