@@ -16,8 +16,7 @@
 			<th>NAME</th>
 			<th>VOTES FOR</th>
 			<th>VOTES AGAINST</th>
-			<th>BLOCKS PRODUCED</th>
-			<th>BLOCKS MISSED</th>
+			<th>PRODUCED / MISSED RATIO</th>
 			<th>TRUST</th>
 		</tr>
 		</thead>
@@ -30,8 +29,7 @@
 			<td>
 				{{ del.delegate_info.votes_against | formatVotes}}&emsp;
 			</td>
-			<td>{{ del.delegate_info.blocks_produced }}</td>
-			<td>{{ del.delegate_info.blocks_missed }}</td>
+			<td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
 			<td>
 				<div class="btn-group">
 					<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
