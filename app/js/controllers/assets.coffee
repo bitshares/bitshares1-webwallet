@@ -8,7 +8,7 @@ angular.module("app").controller "AssetsController", ($scope, $location, Blockch
         $scope.assets = result
         asset_ids = []
         for asset in $scope.assets
-            asset_ids.push [asset.id]
+            asset_ids.push [asset.issuer_account_id]
 
         RpcService.request("batch", ["blockchain_get_account_record_by_id", asset_ids]).then (response) ->
             accounts = response.result

@@ -1,12 +1,12 @@
 <div class="header">
     <div class="col-sm-4">
-        <h3 class="header-title">Transaction #{{id.substr(0, 8)}}</h3>
+        <h4 class="header-title">Transaction #{{id.substr(0, 8)}}</h3>
 	</div>
     <div class="col-sm-4">
-        <h3 class="header-title">Block #{{t.chain_location.block_num}}, location #{{t.chain_location.trx_num}}</h3>
+        <h4 class="header-title">Block #{{t.chain_location.block_num}}, location #{{t.chain_location.trx_num}}</h3>
 	</div>
     <div class="col-sm-4">
-        <h3 class="header-title">Timestamp: {{ t.timestamp | prettyDate  }} </h3>
+        <h4 class="header-title">Timestamp: {{ t.timestamp | prettyDate  }} </h3>
 	</div>
 </div>
 
