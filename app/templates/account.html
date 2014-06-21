@@ -9,6 +9,8 @@
     <i ng-class="(trust_level && trust_level < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
   </button>
 
+  <gravatar-image data-gravatar-email="account.private_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+
 	<div>
 			<a class="btn btn-primary" href="#/accounts/{{account.name}}/edit"><i class="fa fa-edit fa-lg fa-fw"></i> Edit</a>
 	</div>

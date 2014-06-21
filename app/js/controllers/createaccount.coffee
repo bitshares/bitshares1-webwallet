@@ -4,6 +4,6 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
         console.log($scope.gravatarDisplayName)
         name=$scope.name
         #$scope.notes was removed
-        Wallet.create_account(name, {'gravatar': $scope.gravatarDisplayName}).then ->
+        Wallet.create_account(name, {'gravatarDisplayName': $scope.gravatarDisplayName, 'email': $scope.email}).then ->
             Growl.notice "", "Account (#{name}) created"
             $location.path("accounts/" + name)

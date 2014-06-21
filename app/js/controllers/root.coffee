@@ -80,3 +80,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.lock = ->
     Wallet.wallet_lock().then ->
       location.href = "blank.html#/unlockwallet"
+  
+  #alert(Object.keys(Wallet.accounts).length)
+  if (Object.keys(Wallet.accounts).length < 1) 
+    Wallet.refresh_accounts().then ->
+      if Object.keys(Wallet.accounts).length < 1
+        location.href='#/create/account'
+
