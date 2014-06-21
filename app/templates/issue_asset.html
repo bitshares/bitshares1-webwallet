@@ -1,0 +1,34 @@
+<div class="main-content">
+ <div id="issue-form">
+  <form class="form-horizontal" role="form" ng-submit="issue()">
+   <div class="form-group row">
+        <label for="amount" class="col-sm-2 control-label">Amount</label>
+	    <div class="col-md-3">
+	    	<input ng-model="issue_asset.amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
+	    </div>
+      	<div class="col-md-2">
+        	<select class="form-control" id='issue_asset.symbol' ng-model="issue_asset.symbol" ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]" ng-options="symbol for symbol in $parent.my_symbols"></select>
+      	</div>
+     </div>
+   <div class="form-group">
+    <label for="issueto" class="col-sm-2 control-label">To</label>
+
+    <div class="col-md-5">
+     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
+    </div>
+   </div>
+   <div class="form-group">
+    <label for="memo" class="col-sm-2 control-label">Memo</label>
+    <div class="col-md-5">
+     <input ng-model="issue_asset.memo" type="text" class="form-control" placeholder="Memo" id="memo"/>
+    </div>
+   </div>
+		<div class="form-group row">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Issue</button>
+			</div>
+		</div>
+  </form>
+ </div>
+</div>
+</div>

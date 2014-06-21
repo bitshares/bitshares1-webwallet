@@ -7,11 +7,12 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
         description : "" 
         memo : ""
         max_share_supply : 0
-        precision : 1
+        precision : 1000000
 
     $scope.is_registered = false
     $scope.assets = []
     $scope.my_assets = []
+    $scope.my_symbols = []
 
     BlockchainAPI.get_account_record($scope.name).then (result) =>
         if result
@@ -20,6 +21,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
     refresh_my_assets = ->
         $scope.assets = []
         $scope.my_assets = []
+        $scope.my_symbols = []
         BlockchainAPI.list_registered_assets("", -1).then (result) =>
             $scope.assets = result
             asset_ids = []
@@ -36,6 +38,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
 
                     if accounts[i] and accounts[i].name == $scope.name
                         $scope.my_assets.push $scope.assets[i]
+                        $scope.my_symbols.push $scope.assets[i].symbol
 
     refresh_my_assets()
 
@@ -46,7 +49,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
           $scope.create_asset.asset_name = ""
           $scope.create_asset.description = ""
           $scope.create_asset.memo = ""
-          $scope.max_share_supply = ""
-          $scope.precision = ""
+          $scope.create_asset.max_share_supply = "0"
+          $scope.create_asset.precision = 1000000
           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
           refresh_my_assets()
