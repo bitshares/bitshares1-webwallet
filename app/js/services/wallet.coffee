@@ -48,6 +48,11 @@ class Wallet
             console.log(result)
             @refresh_accounts()
 
+    account_update_private_data: (name, privateData) ->
+        @wallet_api.account_update_private_data(name, privateData).then (result) =>
+            console.log(result)
+            @refresh_accounts()
+
     get_account: (name) ->
         @refresh_balances()
         if @accounts[name]
