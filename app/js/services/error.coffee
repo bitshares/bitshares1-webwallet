@@ -23,6 +23,10 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
         promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)
       if error_msg.match(/The wallet's spending key must be unlocked before executing this command/)
         promise = $rootScope.open_wallet_and_repeat_request("unlock_wallet", response.config.data)
+      if error_msg.match(/Invalid password/)
+        Growl.error "Wrong Password", ""
+      if error_msg.match(/BTS_WALLET_MIN_PASSWORD_LENGTH/)
+        Growl.error "Wrong Password", ""
       method = response.config.data?.method
       error_msg = if method then "In method '#{method}': #{error_msg}" else error_msg
     else if response.message
