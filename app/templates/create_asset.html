@@ -1,0 +1,59 @@
+<div class="header">
+    <div class="col-sm-12">
+        <span>Create A New Asset</span>
+    </div>
+</div>
+<hr>
+<div id="create_asset-div">
+    <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" novalidte>
+        <div class="form-group row">
+            <label for="symbol" class="col-sm-2 control-label">Symbol</label>
+            <div class="col-md-3">
+                <input ng-model="create_asset.symbol" type="text" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="Symbol" id="symbol" required/>
+            </div>
+         </div>
+
+        <div class="form-group">
+          <label for="asset_name" class="col-sm-2 control-label">Asset Name</label>
+          <div class="col-md-5">
+            <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="Asset Name" id="asset_name" required></input>
+          </div>
+        </div>
+
+       <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+
+        <div class="col-md-5">
+         <input ng-model="create_asset.description" type="text" class="form-control" placeholder="Description" id="descripion"/>
+        </div>
+       </div>
+
+       <div class="form-group">
+        <label for="memo" class="col-sm-2 control-label">Memo Data</label>
+        <div class="col-md-5">
+         <input ng-model="create_asset.memo" type="text" class="form-control" placeholder="Memo" id="memo"/>
+       </div>
+        </div>
+
+        <div class="form-group">
+        <label for="max_share_supply" class="col-sm-2 control-label">Maximum Share Supply</label>
+        <div class="col-md-6">
+            <input ng-model="create_asset.max_share_supply" type="number" class="form-control" ui-validate="$value > 0" placeholder="" id="max_share_supply"/>
+        </div>
+        </div>
+
+        <div class="form-group">
+        <label for="precision" class="col-sm-2 control-label">Precision</label>
+        <div class="col-md-7">
+            <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="$value > 0" id="precision"/>
+       </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+

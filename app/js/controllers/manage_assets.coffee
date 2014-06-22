@@ -1,19 +1,12 @@
 angular.module("app").controller "ManageAssetsController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService) ->
 
     $scope.name = $stateParams.name
-    $scope.create_asset =
-        symbol : ""
-        asset_name : ""
-        description : "" 
-        memo : ""
-        max_share_supply : 0
-        precision : 1000000
-
+   
     $scope.is_registered = false
     $scope.assets = []
     $scope.my_assets = []
     $scope.my_symbols = []
-
+    
     BlockchainAPI.get_account_record($scope.name).then (result) =>
         if result
             $scope.is_registered = true
@@ -41,15 +34,3 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
                         $scope.my_symbols.push $scope.assets[i].symbol
 
     refresh_my_assets()
-
-    $scope.create = ->
-        console.log $scope.create_asset
-        RpcService.request('wallet_asset_create', [$scope.create_asset.symbol, $scope.create_asset.asset_name, $scope.name, $scope.create_asset.description, $scope.create_asset.memo, $scope.create_asset.max_share_supply, $scope.create_asset.precision]).then (response) ->
-          $scope.create_asset.symbol = ""
-          $scope.create_asset.asset_name = ""
-          $scope.create_asset.description = ""
-          $scope.create_asset.memo = ""
-          $scope.create_asset.max_share_supply = "0"
-          $scope.create_asset.precision = 1000000
-          Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
-          refresh_my_assets()

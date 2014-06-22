@@ -1,14 +1,3 @@
-<!--<ol class="breadcrumb">-->
-<!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
-<!--<li><i class="fa fa-exchange fa-fw"></i> Transaction History</li>-->
-<!--</ol>-->
-<!--
-<div class="header">
-	<div class="col-sm-12">
-		<h3 class="header-title">Transactions</h3>
-	</div>
-</div>
-<hr>-->
 <div class="main-content">
 	<div id="manage_asset" ng-if="is_registered">
         <div id="my-asset">
@@ -72,63 +61,7 @@
         <tabset>
             <tab>
                 <tab-heading><i class="fa fa-bank fa-fw fa-lg"></i> Create Assets</tab-heading>
-               <div class="header">
-                    <div class="col-sm-12">
-                        <span>Create A New Asset</span>
-                    </div>
-                </div>
-                <hr>
-                <div id="create_asset-div">
-                <form class="form-horizontal" role="form" ng-submit="create()">
-                    <div class="form-group row">
-                        <label for="symbol" class="col-sm-2 control-label">Symbol</label>
-                        <div class="col-md-3">
-                            <input ng-model="create_asset.symbol" type="text" class="form-control" placeholder="Symbol" id="symbol"/>
-                        </div>
-                     </div>
-
-                    <div class="form-group">
-                      <label for="asset_name" class="col-sm-2 control-label">Asset Name</label>
-                      <div class="col-md-5">
-                        <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="Asset Name" id="asset_name"></input>
-                      </div>
-                    </div>
-
-                   <div class="form-group">
-                    <label for="description" class="col-sm-2 control-label">Description</label>
-
-                    <div class="col-md-5">
-                     <input ng-model="create_asset.description" type="text" class="form-control" placeholder="Description" id="descripion"/>
-                    </div>
-                   </div>
-
-                   <div class="form-group">
-                    <label for="memo" class="col-sm-2 control-label">Memo Data</label>
-                    <div class="col-md-5">
-                     <input ng-model="create_asset.memo" type="text" class="form-control" placeholder="Memo" id="memo"/>
-                   </div>
-                    </div>
-
-                    <div class="form-group">
-                    <label for="max_share_supply" class="col-sm-2 control-label">Maximum Share Supply</label>
-                    <div class="col-md-6">
-                     <input ng-model="create_asset.max_share_supply" type="text" class="form-control" placeholder="0" id="max_share_supply"/>
-                    </div>
-                    </div>
-
-                    <div class="form-group">
-                    <label for="precision" class="col-sm-2 control-label">Precision</label>
-                    <div class="col-md-7">
-                     <input ng-model="create_asset.precision" type="text" class="form-control" placeholder="0" id="precision"/>
-                   </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Create</button>
-                        </div>
-                    </div>
-                </form>
+                <div id="create-asset" ng-controller="CreateAssetController" ng-include src="'create_asset.html'">
                 </div>
             </tab>
             <tab>
