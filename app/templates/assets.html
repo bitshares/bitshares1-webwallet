@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="asset in assets">
+            <tr ng-repeat="asset in assets | orderBy: 'id'">
                 <!--<td>{{ asset.id }}</td>-->
                 <td>
                     {{ asset.symbol }}&emsp;
