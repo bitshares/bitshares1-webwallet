@@ -1,6 +1,6 @@
 angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, refresh) ->
 
-	alert($scope.account)
+	#alert($scope.account)
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
 

@@ -71,6 +71,6 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     $scope.regDial = ->
         $modal.open
           templateUrl: "registration.html"
-          #controller: "NewContactController"
+          controller: "RegistrationController"
           resolve:
             refresh:  -> $scope.refresh_addresses
