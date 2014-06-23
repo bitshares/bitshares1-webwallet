@@ -216,7 +216,6 @@ class Wallet
     blockchain_list_registered_accounts: ->
         @rpc.request('blockchain_list_registered_accounts').then (response) ->
           reg = []
-          console.log response.result
           angular.forEach response.result, (val, key) =>
             reg.push
               name: val.name
@@ -247,9 +246,9 @@ class Wallet
 
         @interval ( =>
           @refresh_transactions() 
-          for name, account of @accounts
-              if account.is_my_account
-                @refresh_transactions(name)
+          angular.forEach @accounts, (account, name) =>
+            if account.is_my_account
+              @refresh_transactions(name)
         ), 30000
 
     constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
