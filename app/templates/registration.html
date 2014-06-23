@@ -1,0 +1,19 @@
+ <div class="modal-header">
+  <h3 class="modal-title">Register sharni</h3>
+ </div>
+ <form role="form" ng-submit="ok()">
+ <div class="modal-body">
+  registration fee 1 XTS<br>
+  <div class="form-group">
+   <label for="contact_name">Name</label>
+   <input ng-model="$parent.name" focus-me class="form-control" id="contact_name" placeholder="Name" required autofocus>
+   <br>
+   <label for="contact_address">Pay with</label>
+   <input ng-model="$parent.address" class="form-control" id="contact_address" placeholder="Account">
+  </div>
+ </div>
+ </form>
+ <div class="modal-footer">
+  <button class="btn btn-primary" ng-click="ok()">OK</button>
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+ </div>

@@ -15,7 +15,33 @@
 		<br>
 	</div>
 	<div class='col-sm-10'>
-		<div ng-controller="AccountOverviewController" ng-include src="'account_overview.html'"></div>
+		<div id="account_overview">
+      <div class="col-sm-12">
+        <h3 class="header-title">{{account.name}}</h3>
+        <div class="pull-right" ng-switch on="account.registration_date">
+          <div ng-switch-when="19700101T000000">
+            <button type="submit" ng-click='regDial()' class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</button>
+          </div>
+          <div ng-switch-default>
+            Registration date: {{ account.registration_date | prettyDate }}
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>BALANCES</th>
+        </tr>
+        </thead>
+        <tbody>
+           <tr ng-repeat="(symbol, asset) in balances">
+              <td>
+                  {{asset | formatAsset}}
+              </td>
+           </tr>
+        </tbody>
+      </table>
+    </div>
 	</div>
 </div>
 <div class="row">

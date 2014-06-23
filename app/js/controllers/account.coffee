@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal) ->
 
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
@@ -7,6 +7,10 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     $scope.account = Wallet.accounts[name]
     console.log('act')
     console.log(Wallet.accounts[name])
+
+
+    $scope.balances = Wallet.balances[name]
+    $scope.formatAsset = Utils.formatAsset
 
     #Wallet.refresh_accounts()
     $scope.trust_level=Wallet.trust_levels[name]
@@ -63,3 +67,10 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
         Wallet.account_update_private_data(name, private_data).then ->
             $scope.account.private_data=Wallet.accounts[name].private_data
             console.log($scope.account.private_data)
+
+    $scope.regDial = ->
+        $modal.open
+          templateUrl: "registration.html"
+          #controller: "NewContactController"
+          resolve:
+            refresh:  -> $scope.refresh_addresses
