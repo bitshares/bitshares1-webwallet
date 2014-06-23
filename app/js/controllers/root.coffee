@@ -1,4 +1,7 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared) ->
+
+  Wallet.get_setting('timeout').then (result) ->
+    Shared.timeout=result.value
 
   Wallet.wallet_get_info().then (result) ->
     if result.state == "open"
