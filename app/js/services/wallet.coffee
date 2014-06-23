@@ -4,7 +4,7 @@ class Wallet
 
     balances: {}
 
-    transactions: []
+    transactions: {}
 
     trust_levels: {}
 
@@ -35,6 +35,7 @@ class Wallet
     refresh_account: (name) ->
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
+            @refresh_transactions(name)
 
     refresh_accounts: ->
         @wallet_api.list_accounts().then (result) =>
@@ -75,22 +76,13 @@ class Wallet
             @refresh_account(name)
         return
 
-
-
-    refresh_transactions: (name) ->
-        console.log name
-
-    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
-    # TODO: cache transactions
-    # TODO: sort transactions, show the most recent ones on top
-    get_transactions: (account_name) ->
+    refresh_transactions: (account_name) ->
+        account_name_key = account_name || "*"
         @wallet_api.account_transaction_history(account_name).then (result) =>
-            transactions = []
+            @transactions[account_name_key] = []
             angular.forEach result, (val, key) =>
                 blktrx=val.block_num + "." + val.trx_num
-                console.log blktrx
-                console.log val.amount
-                transactions.push
+                @transactions[account_name_key].push
                     block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
                     #trx_num: Number(key) + 1
                     time: new Date(val.received_time*1000)
@@ -101,11 +93,34 @@ class Wallet
                     id: val.trx_id.substring 0, 8
                     fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
                     vote: "N/A"
-            transactions
+            @transactions[account_name_key]
+        #if account_name_key == "*"            
 
-           
-
-
+    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
+    # TODO: sort transactions, show the most recent ones on top
+    get_transactions: (account_name) ->
+        account_name_key = account_name || "*"
+        if @transactions[account_name_key]
+            deferred = @q.defer()
+            deferred.resolve(@transactions[account_name_key])
+            return deferred.promise
+        else
+            @wallet_api.account_transaction_history(account_name).then (result) =>
+                @transactions[account_name_key] = []
+                angular.forEach result, (val, key) =>
+                    blktrx=val.block_num + "." + val.trx_num
+                    @transactions[account_name_key].push
+                        block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
+                        #trx_num: Number(key) + 1
+                        time: new Date(val.received_time*1000)
+                        amount: val.amount
+                        from: val.from_account
+                        to: val.to_account
+                        memo: val.memo_message
+                        id: val.trx_id.substring 0, 8
+                        fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
+                        vote: "N/A"
+                @transactions[account_name_key]
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password])
@@ -221,6 +236,13 @@ class Wallet
           @blockchain_get_security_state().then (data) =>
             @info.alert_level = data.alert_level
         ), 2500
+
+        @interval ( =>
+          @refresh_transactions() 
+          for name, account of @accounts
+              if account.is_my_account
+                @refresh_transactions(name)
+        ), 30000
 
     constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
         @log.info "---- Wallet Constructor ----"

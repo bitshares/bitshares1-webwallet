@@ -4,7 +4,7 @@
    <div class="form-group row">
         <label for="amount" class="col-sm-2 control-label">Amount</label>
 	    <div class="col-md-3">
-            <input ng-model="issue_asset.amount" type="number" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'" required/>
+            <input ng-model="issue_asset.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'" required/>
 	    </div>
       	<div class="col-md-2">
         	<select class="form-control" id='issue_asset.symbol' ng-model="issue_asset.symbol" ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]" ng-options="symbol for symbol in $parent.my_symbols"></select>

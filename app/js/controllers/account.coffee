@@ -18,6 +18,7 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
         Wallet.get_account(name).then (acct) ->
             $scope.account = acct
             $scope.balances = Wallet.balances[name]
+            Wallet.refresh_transactions(name)
     refresh_account()
 
     $scope.import_key = ->
@@ -27,8 +28,8 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             refresh_account()
 
     $scope.register = ->
-        Wallet.wallet_account_register($scope.account.name, $scope.account.name)
-
+        WalletAPI.account_register($scope.account.name, $scope.account.name).then (response) ->
+            Wallet.refresh_account()
 
     $scope.import_wallet = ->
         WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
@@ -42,7 +43,8 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             $scope.payto = ""
             $scope.amount = ""
             $scope.memo = ""
-            Growl.notice "", "Transaction broadcasted (#{response.result})"
+            Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
+            refresh_account()
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.trust_levels or Wallet.trust_levels[name] < 1

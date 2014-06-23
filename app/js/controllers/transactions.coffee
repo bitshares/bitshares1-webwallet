@@ -1,7 +1,11 @@
 angular.module("app").controller "TransactionsController", ($scope, $location, $stateParams, $state, Wallet, Utils) ->
 
-    $scope.transactions = []
+    $scope.name = $stateParams.name || "*"
+    $scope.transactions = Wallet.transactions
+    $scope.account_transactions = Wallet.transactions[$scope.name]
     $scope.utils = Utils
   
-    Wallet.get_transactions($stateParams.name).then (trs) ->
-        $scope.transactions = trs
+    Wallet.refresh_transactions($stateParams.name)
+
+    $scope.$watchCollection "transactions", () ->
+        $scope.account_transactions = Wallet.transactions[$scope.name]

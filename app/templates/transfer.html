@@ -34,7 +34,7 @@
     <div class="form-group row">
         <label for="amount" class="col-sm-2 control-label">Amount</label>
 	    <div class="col-md-3">
-            <input ng-model="amount" type="number" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
+            <input ng-model="amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
 	    </div>
       	<div class="col-md-2">
         	<select class="form-control" id='symbol' ng-model="symbol" ng-options="symbol for symbol in symbolOptions"></select>
