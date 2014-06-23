@@ -102,7 +102,6 @@ class Wallet
                     fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
                     vote: "N/A"
             @transactions[account_name_key]
-        #if account_name_key == "*"            
 
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
     # TODO: sort transactions, show the most recent ones on top
@@ -245,7 +244,10 @@ class Wallet
         ), 2500
 
         @interval ( =>
-          @refresh_transactions() 
+          current_trx_count = if @transactions["*"] then @transactions["*"].length else 0
+          @refresh_transactions().then =>
+            if @transactions["*"].length > current_trx_count
+                @growl.notice "", "You just received a new transaction!"
           angular.forEach @accounts, (account, name) =>
             if account.is_my_account
               @refresh_transactions(name)
