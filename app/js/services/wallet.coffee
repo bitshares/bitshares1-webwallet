@@ -43,6 +43,14 @@ class Wallet
             @refresh_balances()
 
 
+    get_setting: (name) ->
+        @wallet_api.get_setting(name).then (result) =>
+            result
+
+    set_setting: (name, value) ->
+        @wallet_api.set_setting(name, value).then (result) =>
+            result
+
     create_account: (name, privateData) ->
         @wallet_api.account_create(name, privateData).then (result) =>
             console.log(result)

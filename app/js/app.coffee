@@ -19,6 +19,12 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
     templateUrl: "home.html"
     controller: "HomeController"
 
+  preferences =
+    name: 'preferences'
+    url: '/preferences'
+    templateUrl: "preferences.html"
+    controller: "PreferencesController"
+
   proposals =
     name: 'proposals'
     url: '/proposals'
@@ -97,5 +103,5 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
     templateUrl: "unlockwallet.html"
     controller: "UnlockWalletController"
 
-  $stateProvider.state(home).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
+  $stateProvider.state(home).state(preferences).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
 
