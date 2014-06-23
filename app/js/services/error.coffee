@@ -17,11 +17,15 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
     if response.config? and response.config.url.match(/\/rpc$/)
-      if error_msg.match(/No such wallet exists/)
+      console.log('xx')
+      console.log(response)
+      if response.status == 404
+      	location.href = "/"
+      else if error_msg.match(/No such wallet exists/)
         location.href = "blank.html#/createwallet"
-      if error_msg.match(/is_open\(\)\:/)
+      else if error_msg.match(/is_open\(\)\:/)
         promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)
-      if error_msg.match(/The wallet's spending key must be unlocked before executing this command/)
+      else if error_msg.match(/The wallet's spending key must be unlocked before executing this command/)
         promise = $rootScope.open_wallet_and_repeat_request("unlock_wallet", response.config.data)
       method = response.config.data?.method
       error_msg = if method then "In method '#{method}': #{error_msg}" else error_msg
