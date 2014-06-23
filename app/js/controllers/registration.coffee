@@ -1,10 +1,11 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, refresh) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, refresh, Shared) ->
 
-	#alert($scope.account)
+  $scope.payWith=$scope.account.name
+
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
 
   $scope.ok = ->
-  	Wallet.wallet_account_register($scope.name, $scope.address).then (response) ->
+  	Wallet.wallet_account_register(Shared.accToReg, $scope.payWith).then (response) ->
   		$modalInstance.close("ok")
   		refresh()

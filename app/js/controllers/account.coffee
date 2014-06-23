@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, Shared, $modal) ->
 
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
@@ -69,8 +69,10 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             console.log($scope.account.private_data)
 
     $scope.regDial = ->
+        Shared.accToReg=name
         $modal.open
           templateUrl: "registration.html"
           controller: "RegistrationController"
+          scope: $scope
           resolve:
             refresh:  -> $scope.refresh_addresses
