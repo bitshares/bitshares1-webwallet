@@ -49,12 +49,6 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             Wallet.set_trust(name, 1)
         else
             Wallet.set_trust(name, 0)
-    
-    $scope.toggleVoteDown = ->
-        if name not of Wallet.trust_levels or Wallet.trust_levels[name] > -1
-            Wallet.set_trust(name, -1)
-        else
-            Wallet.set_trust(name, 0)
 
     $scope.toggleFavorite = ->
         if (Wallet.accounts[name].private_data)
