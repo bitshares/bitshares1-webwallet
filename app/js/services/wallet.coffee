@@ -35,7 +35,7 @@ class Wallet
     refresh_account: (name) ->
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
-            @refresh_transactions(name)
+            @refresh_transactions_on_update()
 
     refresh_accounts: ->
         @wallet_api.list_accounts().then (result) =>
@@ -83,6 +83,13 @@ class Wallet
         @wallet_api.set_delegate_trust_level(name, trust_level).then () =>
             @refresh_account(name)
         return
+    
+    refresh_transactions_on_update: () ->
+        @refresh_transactions()
+        angular.forEach @accounts, (account, name) =>
+            if account.is_my_account
+                @refresh_transactions(name)
+
 
     refresh_transactions: (account_name) ->
         account_name_key = account_name || "*"
@@ -101,6 +108,8 @@ class Wallet
                     id: val.trx_id.substring 0, 8
                     fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
                     vote: "N/A"
+            if account_name_key == "*"
+                @set_setting("wallet_trx_count", @transactions[account_name_key].length)
             @transactions[account_name_key]
 
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
@@ -246,13 +255,14 @@ class Wallet
         @interval ( =>
           # only refresh when wallet is opened
           if @info.wallet_open
-              current_trx_count = if @transactions["*"] then @transactions["*"].length else 0
-              @refresh_transactions().then =>
-                if @transactions["*"].length > current_trx_count
-                    @growl.notice "", "You just received a new transaction!"
-              angular.forEach @accounts, (account, name) =>
-                if account.is_my_account
-                  @refresh_transactions(name)
+              @get_setting("wallet_trx_count").then (result)=>
+                  current_count = if result then result.value || 0
+                  @refresh_transactions().then =>
+                    if @transactions["*"].length > current_count
+                        @growl.notice "", "You just received a new transaction!"
+                        angular.forEach @accounts, (account, name) =>
+                            if account.is_my_account
+                                @refresh_transactions(name)
         ), 30000
 
     constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->

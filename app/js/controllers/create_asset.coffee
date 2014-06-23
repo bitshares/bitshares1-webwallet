@@ -32,4 +32,4 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
           $scope.create_asset.max_share_supply = 1000000000000000
           $scope.create_asset.precision = 1000000
           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
-          Wallet.refresh_transactions()
+          Wallet.refresh_transactions_on_update()

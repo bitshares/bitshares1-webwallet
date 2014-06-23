@@ -22,7 +22,7 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
         Wallet.get_account(name).then (acct) ->
             $scope.account = acct
             $scope.balances = Wallet.balances[name]
-            Wallet.refresh_transactions(name)
+            Wallet.refresh_transactions_on_update()
     refresh_account()
 
     $scope.import_key = ->

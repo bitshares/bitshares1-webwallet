@@ -11,7 +11,7 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
           $scope.issue_asset.to = Shared.contactName
           $scope.issue_asset.memo = ""
           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
-          Wallet.refresh_transactions()
+          Wallet.refresh_transactions_on_update()
 
 
     # TODO, for init the default symbol, have to do two rpc calls, refactor this
