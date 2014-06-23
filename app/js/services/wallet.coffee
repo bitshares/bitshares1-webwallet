@@ -244,13 +244,15 @@ class Wallet
         ), 2500
 
         @interval ( =>
-          current_trx_count = if @transactions["*"] then @transactions["*"].length else 0
-          @refresh_transactions().then =>
-            if @transactions["*"].length > current_trx_count
-                @growl.notice "", "You just received a new transaction!"
-          angular.forEach @accounts, (account, name) =>
-            if account.is_my_account
-              @refresh_transactions(name)
+          # only refresh when wallet is opened
+          if @info.wallet_open
+              current_trx_count = if @transactions["*"] then @transactions["*"].length else 0
+              @refresh_transactions().then =>
+                if @transactions["*"].length > current_trx_count
+                    @growl.notice "", "You just received a new transaction!"
+              angular.forEach @accounts, (account, name) =>
+                if account.is_my_account
+                  @refresh_transactions(name)
         ), 30000
 
     constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->

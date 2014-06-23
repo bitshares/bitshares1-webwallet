@@ -15,7 +15,6 @@
 		<tr>
 			<th>NAME</th>
 			<th>VOTES FOR</th>
-			<th>VOTES AGAINST</th>
 			<th>PRODUCED / MISSED RATIO</th>
 			<th>TRUST</th>
 		</tr>
@@ -25,9 +24,6 @@
 			<td>{{ del.name }}</td>
 			<td>
 				{{ del.delegate_info.votes_for | formatVotes}}&emsp;
-			</td>
-			<td>
-				{{ del.delegate_info.votes_against | formatVotes}}&emsp;
 			</td>
 			<td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
 			<td>
