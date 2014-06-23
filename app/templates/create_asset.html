@@ -5,7 +5,7 @@
 </div>
 <hr>
 <div id="create_asset-div">
-    <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" novalidte>
+    <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" >
         <div class="form-group row">
             <label for="symbol" class="col-sm-2 control-label">Symbol</label>
             <div class="col-md-3">
@@ -38,14 +38,14 @@
         <div class="form-group">
         <label for="max_share_supply" class="col-sm-2 control-label">Maximum Share Supply</label>
         <div class="col-md-6">
-            <input ng-model="create_asset.max_share_supply" type="number" class="form-control" ui-validate="$value > 0" placeholder="" id="max_share_supply"/>
+            <input ng-model="create_asset.max_share_supply" type="number" class="form-control" ui-validate="'$value > 0'" placeholder="" id="max_share_supply"/>
         </div>
         </div>
 
         <div class="form-group">
         <label for="precision" class="col-sm-2 control-label">Precision</label>
         <div class="col-md-7">
-            <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="$value > 0" id="precision"/>
+            <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="'$value > 0'" id="precision"/>
        </div>
         </div>
 

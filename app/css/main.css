@@ -100,3 +100,9 @@ footer .logo img {
 	height: 48px;
 }
 
+input.ng-dirty.ng-invalid {
+    border: 1px solid red;
+}
+input.ng-dirty.ng-valid {
+    border: 1px solid green;
+}

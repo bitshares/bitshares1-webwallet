@@ -14,7 +14,7 @@
 	
 
  <div id="transfer-form">
-  <form class="form-horizontal" role="form" ng-submit="send()">
+  <form name="transfer_form" class="form-horizontal" role="form" ng-submit="transfer_form.$valid && send()" >
   	<!--
   	<div class="form-group row">
   		<label for="payfrom" class="col-sm-2 control-label">From</label>
@@ -34,7 +34,7 @@
     <div class="form-group row">
         <label for="amount" class="col-sm-2 control-label">Amount</label>
 	    <div class="col-md-3">
-	    	<input ng-model="amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
+            <input ng-model="amount" type="number" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
 	    </div>
       	<div class="col-md-2">
         	<select class="form-control" id='symbol' ng-model="symbol" ng-options="symbol for symbol in symbolOptions"></select>
@@ -45,7 +45,7 @@
     <div class="form-group">
       <label for="payfrom" class="col-sm-2 control-label">From</label>
       <div class="col-md-5">
-        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol"></select>
+        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select>
       </div>
     </div>
 
@@ -53,7 +53,7 @@
     <label for="payto" class="col-sm-2 control-label">To</label>
 
     <div class="col-md-5">
-     <input ng-model="payto" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
+     <input ng-model="payto" type="text" class="form-control" placeholder="Contact Name" id="payto" required/>
     </div>
    </div>
 

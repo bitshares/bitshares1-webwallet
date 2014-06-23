@@ -37,11 +37,11 @@
     <tab>
       <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i> Transfer</tab-heading>
           <div id="transfer-form">
-           <form class="form-horizontal" role="form" ng-submit="send()">
+           <form name="my_transfer_form" class="form-horizontal" role="form" ng-submit="my_transfer_form.$valid && send()" >
              <div class="form-group row">
                  <label for="amount" class="col-sm-2 control-label">Amount</label>
                <div class="col-md-3">
-                 <input ng-model="$parent.amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
+                   <input ng-model="$parent.amount" type="number" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
                </div>
                  <div class="col-md-2">
                    <select class="form-control" id='symbol' ng-model="$parent.symbol" ng-options="k as k for (k, v) in $parent.balances"></select> 
@@ -61,7 +61,7 @@
              <label for="payto" class="col-sm-2 control-label">To</label>
 
              <div class="col-md-5">
-              <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
+              <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto" required/>
              </div>
             </div>
 

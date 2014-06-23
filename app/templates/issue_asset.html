@@ -1,10 +1,10 @@
 <div class="main-content">
  <div id="issue-form">
-  <form class="form-horizontal" role="form" ng-submit="issue()">
+  <form name="issue_asset_form" class="form-horizontal" role="form" ng-submit="issue_asset_form.$valid && issue()" >
    <div class="form-group row">
         <label for="amount" class="col-sm-2 control-label">Amount</label>
 	    <div class="col-md-3">
-	    	<input ng-model="issue_asset.amount" type="text" class="form-control" placeholder="0.0" id="amount"/>
+            <input ng-model="issue_asset.amount" type="number" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'" required/>
 	    </div>
       	<div class="col-md-2">
         	<select class="form-control" id='issue_asset.symbol' ng-model="issue_asset.symbol" ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]" ng-options="symbol for symbol in $parent.my_symbols"></select>
@@ -14,13 +14,13 @@
     <label for="issueto" class="col-sm-2 control-label">To</label>
 
     <div class="col-md-5">
-     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="payto"/>
+     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="issueto" required/>
     </div>
    </div>
    <div class="form-group">
     <label for="memo" class="col-sm-2 control-label">Memo</label>
     <div class="col-md-5">
-     <input ng-model="issue_asset.memo" type="text" class="form-control" placeholder="Memo" id="memo"/>
+     <input ng-model="issue_asset.memo" type="text" class="form-control" placeholder="Memo" id="memo" required/>
     </div>
    </div>
 		<div class="form-group row">
