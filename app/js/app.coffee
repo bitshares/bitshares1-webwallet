@@ -69,7 +69,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
 
   blocks =
     name: 'blocks'
-    url: '/blocks'
+    url: '/blocks?withtrxs'
     templateUrl: "blocks.html"
     controller: "BlocksController"
 
@@ -87,7 +87,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
 
   blocksbyround =
     name: 'blocksbyround'
-    url: '/blocks/round/:round'
+    url: '/blocks/round/:round?withtrxs'
     templateUrl: "blocksbyround.html"
     controller: "BlocksByRoundController"
 

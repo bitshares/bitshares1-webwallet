@@ -1,6 +1,6 @@
 class Blockchain
 
-    constructor: (@client, @network, @blockchain_api, @q, @interval) ->
+    constructor: (@client, @network, @rpc, @blockchain_api, @q, @interval) ->
         @refresh_asset_records()
         @refresh_delegates()
         console.log "blockchain constructor"
@@ -47,19 +47,36 @@ class Blockchain
         last_block_timestamp: ""
         last_block_round : 0
 
+    get_last_block_round: ->
+        if @recent_blocks.last_block_round
+            deferred = @q.defer()
+            deferred.resolve(@recent_blocks.last_block_round)
+            return deferred.promise
+        else
+            @blockchain_api.get_blockcount().then (current_head_num) =>
+                @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
+                return @recent_blocks.last_block_round
+
     refresh_recent_blocks: ->
         @blockchain_api.get_blockcount().then (current_head_num) =>
-                if current_head_num > @block_head_num
-                    blocks = {}
-                    begin = current_head_num - @recent_blocks_count
-                    if begin < 1 then begin = 1
+            if current_head_num > @block_head_num
+                begin = current_head_num - @recent_blocks_count
+                if begin < 1 then begin = 1
 
-                    @blockchain_api.list_blocks(begin + 1, @recent_blocks_count).then (result) =>
-                        @recent_blocks.value = result.reverse()
-                        if @recent_blocks.value.length > 0
-                            @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
-                        @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
-                    @block_head_num = current_head_num
+                @blockchain_api.list_blocks(begin + 1, @recent_blocks_count).then (result) =>
+                    @recent_blocks.value = result.reverse()
+                    if @recent_blocks.value.length > 0
+                        @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
+                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
+
+                    block_numbers = []
+                    for block in @recent_blocks.value
+                        block_numbers.push [block.block_num]
+                    @rpc.request("batch", ["blockchain_get_signing_delegate", block_numbers]).then (response) =>
+                        delegate_names = response.result
+                        for i in [0...delegate_names.length]
+                            @recent_blocks.value[i].delegate_name = delegate_names[i]
+                @block_head_num = current_head_num
 
     ##
     # Delegates
@@ -103,4 +120,4 @@ class Blockchain
                 @inactive_delegates[i - @client.config.num_delegates] = @populate_delegate(result[i])
                 @id_delegates[result[i].id] = result[i]
 
-angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "BlockchainAPI", "$q", "$interval", Blockchain])
+angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "RpcService", "BlockchainAPI", "$q", "$interval", Blockchain])

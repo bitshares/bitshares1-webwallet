@@ -3,14 +3,19 @@
  <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
 <!--</ol>-->
 <div class="header">
-	<div class="col-sm-8">
+	<div class="col-sm-4">
 		<h3 class="header-title">Block Explorer</h3>
 	</div>
     <div class="pull-right">
         <!--<h4><a href="#/blocks/hour/{{blocks.last_block_timestamp | date: 'yyyyMMddTHH'}}">More...</a></h4>-->
-        <h4><a href="#/blocks/round/{{blocks.last_block_round + 1}}">More...</a></h4>
+        <h4><a href="#/blocks/round/{{blocks.last_block_round + 1}}?withtrxs={{filter_zero_trxs}}">More...</a></h4>
+        <input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs">Only show blocks with transactions</input>
+
     </div>
+    
 </div>
+
+
 
 <div class="main-content">
    <b>
@@ -18,14 +23,15 @@
          <thead>
          <tr>
             <th>Height</th>
-            <th>Age</th>
-            <th>Transactions</th>
-            <th>Fee Rate (KB)</th>
+            <th>Time</th>
+            <th>Transaction Count</th>
+            <!--<th>Fee Rate (KB)</th>-->
+            <th>Delegate</th>
             <th>Size</th>
          </tr>
          </thead>
          <tbody>
-         <tr ng-repeat="block in blocks.value">
+         <tr ng-repeat="block in blocks.value" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
             <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
             <td>
                {{ block.timestamp | prettyDate}}&emsp;
@@ -33,7 +39,11 @@
             <td>
                {{ block.user_transaction_ids.length }}&emsp;
             </td>
-            <td>{{ block.fee_rate / 1000 }}</td>
+            <!--<td>{{ block.fee_rate / 1000 }}</td>-->
+            <td>
+                <a href="#/accounts/{{ block.delegate_name }}">
+                    {{ block.delegate_name }}</a>
+            </td>
             <td>{{ block.block_size }}</td>
          </tr>
          </tbody>

@@ -1,12 +1,21 @@
-angular.module("app").controller "BlocksByRoundController", ($scope, $location, $stateParams, $state, Growl, Client, BlockchainAPI, RpcService) ->
+angular.module("app").controller "BlocksByRoundController", ($scope, $location, $stateParams, $state, Growl, Client, Blockchain, BlockchainAPI, RpcService) ->
+  if $stateParams.withtrxs == 'true'
+      $scope.filter_zero_trxs = true
+  else
+      $scope.filter_zero_trxs = false
   $scope.round_count = Client.config.num_delegates
   $scope.round = parseInt($stateParams.round, 10)
   $scope.start = ($scope.round - 1) * $scope.round_count + 1
   $scope.end = $scope.start + $scope.round_count - 1
+
+  Blockchain.get_last_block_round().then (last_block_round) ->
+    console.log last_block_round
+    $scope.last_block_round = last_block_round + 1
   
 
   BlockchainAPI.list_blocks($scope.start, $scope.round_count).then (result) ->
     $scope.blocks = result
+    $scope.end = $scope.start + $scope.blocks.length - 1
     block_numbers = []
     for block in $scope.blocks
         block_numbers.push [block.block_num]
