@@ -24,7 +24,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr ng-repeat="t in account_transactions">
+			<tr ng-repeat="t in account_transactions | orderBy:'time':true">
                 <td>{{ t.time | prettyDate }}</td>
 				<td><a href="#/accounts/{{t.from}}">{{ t.from }}</a></td>
                 <td><a href="#/accounts/{{t.to}}">{{ t.to }}</a></td>
