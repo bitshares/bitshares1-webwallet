@@ -48,7 +48,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{ {"amount": b[1], "asset_id": b[0]} | toAsset | formatAsset }}</td>
+                <td ng-init="fee = {'amount': b[1], 'asset_id': b[0]}">{{ fee | toAsset | formatAsset }}</td>
             </tr>
             <tr>
                 <td colspan="4" align="left">
@@ -66,8 +66,8 @@
         <div class="col-sm-12">
             <h4>Operations:</h4>
         </div>
-        <div ng-repeat="operation in t.trx.operations">
-            <pre>{{operation | translateOperation}}</pre>
+        <div ng-repeat="op in t.trx.operations">
+            <operation-div>{{content}}</operation-div>
         </div>
     </div>
 </div>
