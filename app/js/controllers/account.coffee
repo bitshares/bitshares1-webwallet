@@ -51,6 +51,7 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             $scope.memo = ""
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
             refresh_account()
+            $scope.t_active=true
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.trust_levels or Wallet.trust_levels[name] < 1
