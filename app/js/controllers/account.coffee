@@ -32,7 +32,9 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
             refresh_account()
 
     $scope.register = ->
-        WalletAPI.account_register($scope.account.name, $scope.account.name).then (response) ->
+        console.log "paying with:"
+        console.log $scope.payWith
+        WalletAPI.account_register($scope.account.name, $scope.payWith).then (response) ->
             Wallet.refresh_account()
 
     $scope.import_wallet = ->
