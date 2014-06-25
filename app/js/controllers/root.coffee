@@ -88,5 +88,4 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   if (Object.keys(Wallet.accounts).length < 1) 
     Wallet.refresh_accounts().then ->
       if Object.keys(Wallet.accounts).length < 1
-        location.href='#/create/account'
-
+          $location.path("/create/account")
