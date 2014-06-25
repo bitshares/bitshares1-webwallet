@@ -1,4 +1,4 @@
-angular.module("app").controller "IssueAssetController", ($scope, $location, $stateParams, RpcService, Wallet, Growl, Shared, BlockchainAPI) ->
+angular.module("app").controller "IssueAssetController", ($scope, $location, $stateParams, RpcService, Wallet, Growl, Shared, BlockchainAPI, Utils, Blockchain) ->
     $scope.issue_asset = 
         amount : 0.0
         symbol : ""
@@ -13,6 +13,12 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
           Wallet.refresh_transactions_on_update()
 
+    $scope.utils = Utils
+
+    Blockchain.get_config().then (config) ->
+        $scope.memo_size_max = config.memo_size_max
+
+    
 
     # TODO, for init the default symbol, have to do two rpc calls, refactor this
     BlockchainAPI.list_registered_assets("", -1).then (result) =>

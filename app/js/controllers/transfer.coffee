@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared, Utils) ->
 
   $scope.payto = Shared.contactName
   $scope.symbolOptions = []
@@ -29,3 +29,10 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
       $scope.amount = ""
       $scope.memo = ""
       Growl.notice "", "Transaction broadcasted (#{response.result})"
+
+  $scope.utils = Utils
+
+  Blockchain.get_config().then (config) ->
+        $scope.memo_size_max = config.memo_size_max
+
+

@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService) ->
+angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService, Utils, Blockchain) ->
 
     $scope.name = $stateParams.name
     $scope.create_asset =
@@ -33,3 +33,9 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
           $scope.create_asset.precision = 1000000
           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
           Wallet.refresh_transactions_on_update()
+
+    $scope.utils = Utils
+
+    Blockchain.get_config().then (config) ->
+        $scope.memo_size_max = config.memo_size_max
+

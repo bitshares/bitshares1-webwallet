@@ -1,9 +1,9 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, Shared, $modal) ->
+angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, Shared, $modal, Blockchain) ->
 
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
     #$scope.account.balances = Wallet.balances[name]
-    #$scope.utils = Utils
+    $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
     console.log('act')
     console.log(Wallet.accounts[name])
@@ -17,13 +17,16 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
     $scope.wallet_info = {file : "", password : ""}
     
     $scope.private_key = {value : ""}
-    
+
     refresh_account = ->
         Wallet.get_account(name).then (acct) ->
             $scope.account = acct
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
     refresh_account()
+
+    Blockchain.get_config().then (config) ->
+        $scope.memo_size_max = config.memo_size_max
 
     $scope.import_key = ->
         WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->

@@ -23,3 +23,18 @@ servicesModule.factory "Utils", ->
             i++
         new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
 
+    byteLength : (str) ->
+        if !str
+            return 0
+        # returns the byte length of an utf8 string
+        s = str.length
+        i = str.length - 1
+
+        while i >= 0
+            code = str.charCodeAt(i)
+            if code > 0x7f and code <= 0x7ff
+                s++
+            else s += 2  if code > 0x7ff and code <= 0xffff
+            i--  if code >= 0xDC00 and code <= 0xDFFF #trail surrogate
+            i--
+        s

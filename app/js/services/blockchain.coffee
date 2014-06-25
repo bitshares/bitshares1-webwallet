@@ -11,6 +11,20 @@ class Blockchain
             @refresh_recent_blocks()
         ), 15000
 
+    # # # # #
+    #  Blockchain Config
+    config : {}
+
+    get_config : () ->
+        if Object.keys(@config).length > 0
+            deferred = @q.defer()
+            deferred.resolve(@config)
+            return deferred.promise
+        else
+            @rpc.request("blockchain_get_config", []).then (result) =>
+                @config = result.result
+                return @config
+
     # # # # # 
     #  Asset Records
 
