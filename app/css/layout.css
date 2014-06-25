@@ -1,0 +1,15 @@
+/*
+ * Main content
+ */
+.content {
+	background-color: #fff;
+	overflow: hidden;
+	zoom: 1;
+	margin-left: 0;
+	margin-left: 190px;
+}
+
+.sidebar {
+	background-color: #fff;
+	width: 190px;
+}
