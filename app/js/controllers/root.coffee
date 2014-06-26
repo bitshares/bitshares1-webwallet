@@ -5,19 +5,22 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         $location.path()
     , -> 
         console.log $location.path()
-        if $location.path() == "/unlockwallet"
-            #$scope.bodyclass = "splash"
+        if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
+            $scope.bodyclass = "splash"
             $scope.unlockwallet = true
   
-  Wallet.get_setting('timeout').then (result) ->
-    Shared.timeout=result.value
-
+  
   Wallet.wallet_get_info().then (result) ->
     if result.state == "open"
         Wallet.check_if_locked()
     else
         Wallet.open().then ->
             Wallet.check_if_locked()
+    
+    if result.state == "open"
+        Wallet.get_setting('timeout').then (result) ->
+            Shared.timeout=result.value
+
 
   $scope.started = false
 

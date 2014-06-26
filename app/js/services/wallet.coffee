@@ -240,13 +240,15 @@ class Wallet
               @info.last_block_time_rel = data.blockchain_head_block_time_rel
             else
               @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
+
+            if @info.wallet_open
+                @blockchain_get_security_state().then (data) =>
+                    @info.alert_level = data.alert_level
           , =>
             @info.network_connections = 0
             @info.wallet_open = false
             @info.wallet_unlocked = false
             @info.last_block_num = 0
-          @blockchain_get_security_state().then (data) =>
-            @info.alert_level = data.alert_level
         ), 2500
 
         @interval ( =>

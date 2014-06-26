@@ -2,4 +2,5 @@ angular.module("app").controller "LocationController", ($scope, $location, $moda
   $scope.unlockwallet = false
   console.log $location.path()
   if $location.path() == "/unlockwallet"
-      $scope.unlockwallet = true
+      #$scope.unlockwallet = true
+      ""

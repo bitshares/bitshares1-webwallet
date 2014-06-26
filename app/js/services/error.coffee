@@ -3,7 +3,7 @@ servicesModule = angular.module("app.services", [])
 servicesModule.config ($httpProvider) ->
   $httpProvider.interceptors.push('myHttpInterceptor')
 
-servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
+servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl) ->
   dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block_by_number", "wallet_get_account"]
 
 #  request: (config) ->
@@ -20,9 +20,11 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, Growl) ->
       console.log('xx')
       console.log(response)
       if response.status == 404
-      	location.href = "/"
+        # should redirect to 404 page
+        #$location.path("/home")
+        ""
       else if error_msg.match(/No such wallet exists/)
-        location.href = "blank.html#/createwallet"
+        $location.path("/createwallet")
       else if error_msg.match(/is_open\(\)\:/)
         promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)
       else if error_msg.match(/The wallet's spending key must be unlocked before executing this command/)
