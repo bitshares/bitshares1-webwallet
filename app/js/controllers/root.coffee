@@ -1,4 +1,4 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared, Info) ->
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
 
@@ -32,6 +32,13 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             $scope.bodyclass = "splash"
             $scope.unlockwallet = false
             $scope.check_wallet_status()
+
+  $scope.$watch ->
+        Info.info.wallet_unlocked
+    , (unlocked)->
+        if unlocked == false
+            ($scope.lock || angular.noop)()
+    , true
   
   $scope.check_wallet_status()
     
