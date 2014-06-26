@@ -43,7 +43,6 @@ class Wallet
                 @populate_account(val)
             @refresh_balances()
 
-
     get_setting: (name) ->
         @wallet_api.get_setting(name).then (result) =>
             result
@@ -90,7 +89,6 @@ class Wallet
             if account.is_my_account
                 @refresh_transactions(name)
 
-
     refresh_transactions: (account_name) ->
         account_name_key = account_name || "*"
         @wallet_api.account_transaction_history(account_name).then (result) =>
@@ -111,6 +109,16 @@ class Wallet
             if account_name_key == "*"
                 @set_setting("wallet_trx_count", @transactions[account_name_key].length)
             @transactions[account_name_key]
+
+    refresh_transactions_on_new_block: () ->
+        @get_setting("wallet_trx_count").then (result)=>
+            current_count = if result then result.value || 0
+            @refresh_transactions().then =>
+                if @transactions["*"].length > current_count
+                    @growl.notice "", "You just received a new transaction!"
+                    angular.forEach @accounts, (account, name) =>
+                        if account.is_my_account
+                            @refresh_transactions(name)
 
     # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
     # TODO: sort transactions, show the most recent ones on top
@@ -150,11 +158,7 @@ class Wallet
         @rpc.request('wallet_get_name').then (response) =>
           console.log "---- current wallet name: ", response.result
           @wallet_name = response.result
-
-    get_info: ->
-        @rpc.request('get_info').then (response) =>
-          response.result
-
+    
     wallet_get_info: ->
         @rpc.request('wallet_get_info').then (response) =>
             response.result
@@ -171,15 +175,6 @@ class Wallet
     wallet_rename_account: (current_name, new_name) ->
         @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) =>
           response.result
-
-    blockchain_list_delegates: ->
-        @rpc.request('blockchain_list_delegates').then (response) =>
-          response.result
-
-    blockchain_get_security_state: ->
-        @rpc.request('blockchain_get_security_state').then (response) =>
-          response.result
-
 
     wallet_unlock: (password)->
         @rpc.request('wallet_unlock', [timeout, password]).then (response) =>
@@ -206,10 +201,6 @@ class Wallet
         @rpc.request('wallet_remove_contact_account', [name]).then (response) ->
           response.result
 
-    blockchain_get_config: ->
-        @rpc.request('blockchain_get_config').then (response) ->
-          response.result
-
     wallet_lock: ->
         @rpc.request('wallet_lock').then (response) ->
           response.result
@@ -217,65 +208,9 @@ class Wallet
     wallet_list_accounts: ->
         @rpc.request('wallet_list_accounts').then (response) ->
           response.result
-
-    blockchain_list_registered_accounts: ->
-        @rpc.request('blockchain_list_registered_accounts').then (response) ->
-          reg = []
-          angular.forEach response.result, (val, key) =>
-            reg.push
-              name: val.name
-              owner_key: val.owner_key
-          reg
-
-    watch_for_updates: =>
-        @interval (=>
-          @get_info().then (data) =>
-            #console.log "watch_for_updates get_info:>", data
-            if data.blockchain_head_block_num > 0
-              @info.network_connections = data.network_num_connections
-              @info.wallet_open = data.wallet_open
-              @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
-              @info.last_block_time = data.blockchain_head_block_time
-              @info.last_block_num = data.blockchain_head_block_num
-              @info.last_block_time_rel = data.blockchain_head_block_time_rel
-            else
-              @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
-
-            @blockchain_get_security_state().then (data) =>
-                @info.alert_level = data.alert_level
-          , =>
-            @info.network_connections = 0
-            @info.wallet_open = false
-            @info.wallet_unlocked = false
-            @info.last_block_num = 0
-        ), 2500
-
-        @blockchain.get_config().then (config)=>
-            if config.block_interval > 0
-                @interval ( =>
-                  # only refresh when wallet is opened
-                  if @info.wallet_open
-                      @get_setting("wallet_trx_count").then (result)=>
-                          current_count = if result then result.value || 0
-                          @refresh_transactions().then =>
-                            if @transactions["*"].length > current_count
-                                @growl.notice "", "You just received a new transaction!"
-                                angular.forEach @accounts, (account, name) =>
-                                    if account.is_my_account
-                                        @refresh_transactions(name)
-                ), (config.block_interval * 1000)
-
+        
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
-        @info =
-            network_connections: 0
-            balance: 0
-            wallet_open: false
-            last_block_num: 0
-            last_block_time: null
-            alert_level: null
-        @watch_for_updates()
-
 
 angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", Wallet])

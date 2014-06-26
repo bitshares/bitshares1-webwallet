@@ -19,6 +19,15 @@ class Blockchain
                 @config = result.result
                 return @config
 
+    list_registered_accounts: ->
+        @rpc.request('blockchain_list_registered_accounts').then (response) ->
+            reg = []
+            angular.forEach response.result, (val, key) =>
+                reg.push
+                    name: val.name
+                    owner_key: val.owner_key
+            reg
+
     # # # # # 
     #  Asset Records
 

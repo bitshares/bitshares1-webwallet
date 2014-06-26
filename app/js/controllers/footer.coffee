@@ -1,4 +1,4 @@
-angular.module("app").controller "FooterController", ($scope, Wallet, Utils, Blockchain) ->
+angular.module("app").controller "FooterController", ($scope, Info, Utils, Blockchain) ->
   $scope.connections = 0
   $scope.blockchain_blocks_behind = 0
   $scope.blockchain_status = "off"
@@ -6,7 +6,7 @@ angular.module("app").controller "FooterController", ($scope, Wallet, Utils, Blo
   $scope.alert_level = "normal-state"
 
   watch_for = ->
-    Wallet.info
+    Info.info
 
   on_update = (info) ->
     connections = info.network_connections
@@ -54,5 +54,3 @@ angular.module("app").controller "FooterController", ($scope, Wallet, Utils, Blo
       $scope.alert_level = "severe-state"
 
   $scope.$watch(watch_for, on_update, true)
-
-
