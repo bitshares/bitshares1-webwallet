@@ -38,6 +38,7 @@ class Wallet
             @refresh_transactions_on_update()
 
     refresh_accounts: ->
+        console.log "------refresh---------"
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
                 @populate_account(val)

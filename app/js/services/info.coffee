@@ -1,7 +1,17 @@
 class Info
-    watch_for_updates: =>
-        @interval (=>
-            @common_api.get_info().then (data) =>
+    info : {}
+
+    get : () ->
+        if Object.keys(@info).length > 0
+            deferred = @q.defer()
+            deferred.resolve(@info)
+            return deferred.promise
+        else
+            @refresh_info().then ()=>
+                @info 
+
+    refresh_info : () ->
+        @common_api.get_info().then (data) =>
                 #console.log "watch_for_updates get_info:>", data
                 if data.blockchain_head_block_num > 0
                     @info.network_connections = data.network_num_connections
@@ -20,18 +30,13 @@ class Info
                 @info.wallet_open = false
                 @info.wallet_unlocked = false
                 @info.last_block_num = 0
+
+    watch_for_updates: =>
+        @interval (=>
+            @refresh_info()
         ), 2500
 
-                  #if @info.wallet_open
-
     constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval) ->
-        @info =
-            network_connections: 0
-            balance: 0
-            wallet_open: false
-            last_block_num: 0
-            last_block_time: null
-            alert_level: null
         @watch_for_updates()
 
 angular.module("app").service("Info", ["$q", "$log", "$location", "Growl", "CommonAPI", "Blockchain", "BlockchainAPI", "$interval", Info])

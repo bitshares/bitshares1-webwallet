@@ -1,15 +1,11 @@
 angular.module("app").filter "formatSecond", ()->
     (seconds) ->
-        min = 60
-        hour = 60
-        day = 24
-
-        s = seconds % min
-        minutes = (seconds - s)/min
-        m = minutes % hour
-        hours = (minutes - m)/hour
-        h = hours % day
-        days = (hours - h)/day
+        s = seconds % 60
+        minutes = (seconds - s) / 60
+        m = minutes % 60
+        hours = (minutes - m) / 60
+        h = hours % 24
+        days = (hours - h) / 24
 
         result = "" + (if days then (days + "d ") else "")
         result = result + (if h then (h + "h ") else "")
