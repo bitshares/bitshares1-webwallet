@@ -241,9 +241,8 @@ class Wallet
             else
               @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
 
-            if @info.wallet_open
-                @blockchain_get_security_state().then (data) =>
-                    @info.alert_level = data.alert_level
+            @blockchain_get_security_state().then (data) =>
+                @info.alert_level = data.alert_level
           , =>
             @info.network_connections = 0
             @info.wallet_open = false

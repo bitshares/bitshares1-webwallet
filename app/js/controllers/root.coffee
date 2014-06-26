@@ -12,15 +12,21 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   
   Wallet.wallet_get_info().then (result) ->
     if result.state == "open"
+        #redirection
         Wallet.check_if_locked()
-    else
-        Wallet.open().then ->
-            Wallet.check_if_locked()
-    
-    if result.state == "open"
         Wallet.get_setting('timeout').then (result) ->
             Shared.timeout=result.value
+    else
+        Wallet.open().then ->
+            #rediction
+            Wallet.check_if_locked()
 
+    # here is unlock state    
+    # alert(Object.keys(Wallet.accounts).length)
+    if (Object.keys(Wallet.accounts).length < 1) 
+        Wallet.refresh_accounts().then ->
+          if Object.keys(Wallet.accounts).length < 1
+              $location.path("/create/account")
 
   $scope.started = false
 
@@ -96,8 +102,4 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     Wallet.wallet_lock().then ->
       $location.path("/unlockwallet")
   
-  #alert(Object.keys(Wallet.accounts).length)
-  if (Object.keys(Wallet.accounts).length < 1) 
-    Wallet.refresh_accounts().then ->
-      if Object.keys(Wallet.accounts).length < 1
-          $location.path("/create/account")
+  

@@ -14,7 +14,13 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
   
 
   BlockchainAPI.list_blocks($scope.start, $scope.round_count).then (result) ->
-    $scope.blocks = result
+    blocks = []
+    for block_stat in result
+        block = block_stat[0]
+        block.missed = block_stat[1].missed
+        block.latency = block_stat[1].latency
+        blocks.push block
+    $scope.blocks = blocks
     $scope.end = $scope.start + $scope.blocks.length - 1
     block_numbers = []
     for block in $scope.blocks

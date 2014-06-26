@@ -78,7 +78,13 @@ class Blockchain
                 if begin < 1 then begin = 1
 
                 @blockchain_api.list_blocks(begin + 1, @recent_blocks_count).then (result) =>
-                    @recent_blocks.value = result.reverse()
+                    blocks = []
+                    for block_stat in result
+                        block = block_stat[0]
+                        block.missed = block_stat[1].missed
+                        block.latency = block_stat[1].latency
+                        blocks.push block
+                    @recent_blocks.value = blocks.reverse()
                     if @recent_blocks.value.length > 0
                         @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
                     @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
