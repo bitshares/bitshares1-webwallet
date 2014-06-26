@@ -1,10 +1,10 @@
 angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService) ->
-  $scope.delegate=false
   $scope.symbolOptions = []
   console.log('Wallet.balances')
   console.log(Wallet.balances)
   $scope.m={}
-  
+  $scope.m.payrate=50
+  $scope.m.delegate=false
   
   #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
   $scope.symbol = 'XTS'
@@ -29,6 +29,8 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
     console.log($scope.m.payfrom[0])
-    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0]).then (response) ->
+    payrate = if $scope.m.delegate then $scope.m.payrate else 255
+    console.log($scope.account.name, $scope.m.payfrom[0], null, payrate)
+    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], null, payrate).then (response) ->
       $modalInstance.close("ok")
       #refresh()

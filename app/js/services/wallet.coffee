@@ -163,9 +163,9 @@ class Wallet
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
 
-    wallet_account_register: (account_name, pay_from_account, public_data, as_delegate) ->
-        as_delegate = if as_delegate == undefined then 255 else as_delegate
-        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, as_delegate]).then (response) =>
+    wallet_account_register: (account_name, pay_from_account, public_data, pay_rate) ->
+        pay_rate = if pay_rate == undefined then 255 else pay_rate
+        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, pay_rate]).then (response) =>
           response.result
 
     wallet_rename_account: (current_name, new_name) ->
