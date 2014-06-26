@@ -68,6 +68,7 @@ angular.module('angularjs-gravatardirective.directives')
 
 
                     scope.gravatarDisplayName="Unknown Gravatar";
+                    scope.gravatarMD5=hash;
                     var url =  'http://www.gravatar.com/' + hash + '.json';
                     $.getJSON(url + "?callback=?", null, function(data) {
                         scope.gravatarDisplayName=data.entry[0].displayName;
