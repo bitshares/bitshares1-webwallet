@@ -80,7 +80,7 @@ class Wallet
 
     set_trust: (name, trust_level) ->
         @trust_levels[name] = trust_level
-        @wallet_api.set_delegate_trust_level(name, trust_level).then () =>
+        @wallet_api.set_delegate_trust(name, trust_level).then () =>
             @refresh_account(name)
         return
     
@@ -212,10 +212,6 @@ class Wallet
 
     wallet_lock: ->
         @rpc.request('wallet_lock').then (response) ->
-          response.result
-
-    wallet_set_delegate_trust_level: (delName, trust)->
-        @rpc.request('wallet_set_delegate_trust_level', [delName, trust]).then (response) ->
           response.result
 
     wallet_list_accounts: ->
