@@ -1,5 +1,5 @@
 angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService) ->
-
+  $scope.delegate=false
   $scope.symbolOptions = []
   console.log('Wallet.balances')
   console.log(Wallet.balances)
