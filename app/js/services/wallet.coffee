@@ -188,7 +188,7 @@ class Wallet
     check_if_locked: ->
         @rpc.request('wallet_get_info').then (response) =>
             if response.result.locked
-                location.href = "blank.html#/unlockwallet"
+                @location.path("/unlockwallet")
 
     open: ->
         @rpc.request('wallet_open', ['default']).then (response) =>
@@ -266,7 +266,7 @@ class Wallet
                                 @refresh_transactions(name)
         ), 30000
 
-    constructor: (@q, @log, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
+    constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @info =
@@ -279,4 +279,4 @@ class Wallet
         @watch_for_updates()
 
 
-angular.module("app").service("Wallet", ["$q", "$log", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", Wallet])

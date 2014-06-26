@@ -1,5 +1,14 @@
 angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared) ->
-
+  $scope.unlockwallet = false
+  $scope.bodyclass = "cover"
+  $scope.$watch ->
+        $location.path()
+    , -> 
+        console.log $location.path()
+        if $location.path() == "/unlockwallet"
+            #$scope.bodyclass = "splash"
+            $scope.unlockwallet = true
+  
   Wallet.get_setting('timeout').then (result) ->
     Shared.timeout=result.value
 
@@ -36,7 +45,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.$on "$idleTimeout", ->
     closeModals()
     Wallet.wallet_lock().then ->
-    	location.href = "blank.html#/unlockwallet"
+        $location.path("/unlockwallet")
 
   $scope.start = ->
     closeModals()
@@ -82,7 +91,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
   $scope.lock = ->
     Wallet.wallet_lock().then ->
-      location.href = "blank.html#/unlockwallet"
+      $location.path("/unlockwallet")
   
   #alert(Object.keys(Wallet.accounts).length)
   if (Object.keys(Wallet.accounts).length < 1) 
