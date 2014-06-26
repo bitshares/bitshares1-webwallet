@@ -1,33 +1,40 @@
 angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared) ->
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
+
+  $scope.check_wallet_status = ->
+      Wallet.wallet_get_info().then (result) ->
+        if result.state == "open"
+            #redirection
+            Wallet.check_if_locked()
+            Wallet.get_setting('timeout').then (result) ->
+                Shared.timeout=result.value
+        else
+            Wallet.open().then ->
+                #redirection
+                Wallet.check_if_locked()
+        # here is unlock state    
+        # alert(Object.keys(Wallet.accounts).length)
+        if (Object.keys(Wallet.accounts).length < 1) 
+            Wallet.refresh_accounts().then ->
+              if Object.keys(Wallet.accounts).length < 1
+                  $location.path("/create/account")
+
+
   $scope.$watch ->
         $location.path()
     , -> 
-        console.log $location.path()
         if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
             $scope.bodyclass = "splash"
             $scope.unlockwallet = true
+        else
+            # TODO update bodyclass by watching unlockwallet
+            $scope.bodyclass = "splash"
+            $scope.unlockwallet = false
+            $scope.check_wallet_status()
   
-  
-  Wallet.wallet_get_info().then (result) ->
-    if result.state == "open"
-        #redirection
-        Wallet.check_if_locked()
-        Wallet.get_setting('timeout').then (result) ->
-            Shared.timeout=result.value
-    else
-        Wallet.open().then ->
-            #rediction
-            Wallet.check_if_locked()
-
-    # here is unlock state    
-    # alert(Object.keys(Wallet.accounts).length)
-    if (Object.keys(Wallet.accounts).length < 1) 
-        Wallet.refresh_accounts().then ->
-          if Object.keys(Wallet.accounts).length < 1
-              $location.path("/create/account")
-
+  $scope.check_wallet_status()
+    
   $scope.started = false
 
   closeModals = ->
