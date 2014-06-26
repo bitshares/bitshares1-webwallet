@@ -6,6 +6,16 @@ app.run [
     $idle.watch()
 ]
 
+app.run ($rootScope, $location) ->
+    history = []
+
+    $rootScope.$on '$locationChangeSuccess', ()->
+        history.push $location.$$path
+
+    $rootScope.history_back = ()->
+        prevUrl = if history.length > 1 then history.splice(-2)[0] else "/home"
+        $location.path(prevUrl)
+
 app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
   
   $idleProvider.idleDuration(600)
