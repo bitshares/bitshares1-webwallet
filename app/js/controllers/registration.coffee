@@ -1,33 +1,34 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, refresh, Shared, RpcService) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService) ->
 
-  $scope.payWith=$scope.account.name
-  
   $scope.symbolOptions = []
-  $scope.accounts = []
+  console.log('Wallet.balances')
+  console.log(Wallet.balances)
+  $scope.m={}
+  
+  
+  #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
+  $scope.symbol = 'XTS'
+  
   
   refresh_accounts = ->
     RpcService.request('wallet_account_balance').then (response) ->
-
-      $scope.symbolOptions = []
-      symbols = {}
+      console.log('response.result')
+      console.log(response.result)
       $scope.accounts = []
       $scope.accounts.splice(0, $scope.accounts.length)
 
       angular.forEach response.result, (val) ->
         $scope.accounts.push(val);
-        angular.forEach val[1], (asset) ->
-            symbols[asset[0]] = true
-        $scope.payfrom= $scope.accounts[0]
-      angular.forEach symbols, (v, symbol) ->
-            $scope.symbolOptions.push symbol
-      $scope.symbol = $scope.symbolOptions[0]
-
+        $scope.m.payfrom= $scope.accounts[0]
+      console.log('$scope.accounts')
+      console.log($scope.accounts)
   refresh_accounts()
 
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
 
-  $scope.ok = (pay_with) ->  # $scope.payWith is not in modal's scope FFS!!!
-  	Wallet.wallet_account_register(Shared.accToReg, pay_with).then (response) ->
-  		$modalInstance.close("ok")
-  		refresh()
+  $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
+    console.log($scope.m.payfrom[0])
+    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0]).then (response) ->
+      $modalInstance.close("ok")
+      #refresh()
