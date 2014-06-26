@@ -19,6 +19,15 @@ class Blockchain
                 @config = result.result
                 return @config
 
+    list_registered_accounts: ->
+        @rpc.request('blockchain_list_registered_accounts').then (response) ->
+            reg = []
+            angular.forEach response.result, (val, key) =>
+                reg.push
+                    name: val.name
+                    owner_key: val.owner_key
+            reg
+
     # # # # # 
     #  Asset Records
 
@@ -73,13 +82,7 @@ class Blockchain
                 if begin < 1 then begin = 1
 
                 @q.all({blocks: @blockchain_api.list_blocks(begin + 1, @recent_blocks_count), config: @get_config()}).then (results) =>
-                    blocks = []
-                    for block_stat in results.blocks
-                        block = block_stat[0]
-                        block.missed = block_stat[1].missed
-                        block.latency = block_stat[1].latency
-                        blocks.push block
-                    @recent_blocks.value = blocks.reverse()
+                    @recent_blocks.value = results.blocks.reverse()
                     if @recent_blocks.value.length > 0
                         @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
                     @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.delegate_num))

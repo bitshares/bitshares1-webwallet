@@ -1,6 +1,6 @@
-angular.module("app").controller "DirectoryController", ($scope, $location, Wallet) ->
+angular.module("app").controller "DirectoryController", ($scope, $location, Blockchain, Wallet) ->
   $scope.reg = []
-  Wallet.blockchain_list_registered_accounts().then (reg) ->
+  Blockchain.list_registered_accounts().then (reg) ->
     $scope.reg = reg
 
   $scope.addToContacts = (name, address) ->

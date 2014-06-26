@@ -1,6 +1,7 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared, Info) ->
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
+  $scope.currentPath = $location.path()
 
   $scope.check_wallet_status = ->
       Wallet.wallet_get_info().then (result) ->
@@ -13,17 +14,18 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             Wallet.open().then ->
                 #redirection
                 Wallet.check_if_locked()
-        # here is unlock state    
-        # alert(Object.keys(Wallet.accounts).length)
-        if (Object.keys(Wallet.accounts).length < 1) 
-            Wallet.refresh_accounts().then ->
-              if Object.keys(Wallet.accounts).length < 1
-                  $location.path("/create/account")
 
+        Info.refresh_info().then ()->
+            if Info.info.wallet_open and Info.info.wallet_unlocked
+                if (Object.keys(Wallet.accounts).length < 1) 
+                    Wallet.refresh_accounts().then ->
+                      if Object.keys(Wallet.accounts).length < 1
+                          $location.path("/create/account")
 
   $scope.$watch ->
         $location.path()
     , -> 
+        $scope.currentPath = $location.path()
         if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
             $scope.bodyclass = "splash"
             $scope.unlockwallet = true
@@ -32,6 +34,20 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             $scope.bodyclass = "splash"
             $scope.unlockwallet = false
             $scope.check_wallet_status()
+
+  $scope.$watch ->
+        Info.info.wallet_unlocked
+    , (unlocked)->
+        if Info.info.wallet_open
+            if unlocked == false
+                ($scope.lock || angular.noop)()
+        else
+            if $scope.currentPath != "/createwallet"
+                Wallet.open().then ->
+                    #redirection
+                    Wallet.check_if_locked()
+
+    , true
   
   $scope.check_wallet_status()
     

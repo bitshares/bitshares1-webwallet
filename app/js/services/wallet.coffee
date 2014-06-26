@@ -218,9 +218,8 @@ class Wallet
         @rpc.request('wallet_list_accounts').then (response) ->
           response.result
 
-    blockchain_list_registered_accounts: (first_account_name, limit) ->
-        limit = if limit then limit else 9999
-        @rpc.request('blockchain_list_registered_accounts', [null, limit]).then (response) ->
+    blockchain_list_registered_accounts: ->
+        @rpc.request('blockchain_list_registered_accounts').then (response) ->
           reg = []
           angular.forEach response.result, (val, key) =>
             reg.push
