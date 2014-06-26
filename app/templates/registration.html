@@ -8,6 +8,7 @@
    <label for="contact_address">Pay with</label>
    <input ng-model="payWith" class="form-control" id="contact_address" placeholder="Account">
   </div>
+  <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select>
  </div>
  </form>
  <div class="modal-footer">
