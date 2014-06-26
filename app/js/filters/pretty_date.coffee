@@ -5,7 +5,7 @@ angular.module("app").filter "prettyDate", (Utils)->
             return ""
 
         if date.valueOf() == "19700101T000000"
-            return "Not registered"
+            return "Unregistered"
 
         if angular.isDate(date)
             return date.toLocaleString "en-us"
