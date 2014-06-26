@@ -27,6 +27,7 @@
             <th>Transaction Count</th>
             <!--<th>Fee Rate (KB)</th>-->
             <th>Delegate</th>
+            <th>Latency</th>
             <th>Size</th>
          </tr>
          </thead>
@@ -43,6 +44,9 @@
             <td>
                 <a href="#/accounts/{{ block.delegate_name }}">
                     {{ block.delegate_name }}</a>
+            </td>
+            <td>
+                {{ block.latency | formatSecond }}
             </td>
             <td>{{ block.block_size }}</td>
          </tr>
