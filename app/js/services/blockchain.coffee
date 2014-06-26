@@ -4,12 +4,6 @@ class Blockchain
         @refresh_asset_records()
         @refresh_delegates()
         console.log "blockchain constructor"
-        @watch_for_updates()
-
-    watch_for_updates: =>
-        @interval (=>
-            @refresh_recent_blocks()
-        ), 15000
 
     # # # # #
     #  Blockchain Config
@@ -67,19 +61,20 @@ class Blockchain
             deferred.resolve(@recent_blocks.last_block_round)
             return deferred.promise
         else
-            @blockchain_api.get_blockcount().then (current_head_num) =>
-                @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
+            @q.all({ head_num: @blockchain_api.get_blockcount(), config: @get_config() }).then (results) =>
+                console.log results
+                @recent_blocks.last_block_round = Math.floor((results.head_num - 1) / (results.config.delegate_num))
                 return @recent_blocks.last_block_round
-
+                
     refresh_recent_blocks: ->
         @blockchain_api.get_blockcount().then (current_head_num) =>
             if current_head_num > @block_head_num
                 begin = current_head_num - @recent_blocks_count
                 if begin < 1 then begin = 1
 
-                @blockchain_api.list_blocks(begin + 1, @recent_blocks_count).then (result) =>
+                @q.all({blocks: @blockchain_api.list_blocks(begin + 1, @recent_blocks_count), config: @get_config()}).then (results) =>
                     blocks = []
-                    for block_stat in result
+                    for block_stat in results.blocks
                         block = block_stat[0]
                         block.missed = block_stat[1].missed
                         block.latency = block_stat[1].latency
@@ -87,7 +82,7 @@ class Blockchain
                     @recent_blocks.value = blocks.reverse()
                     if @recent_blocks.value.length > 0
                         @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
-                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (@client.config.num_delegates))
+                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.delegate_num))
 
                     block_numbers = []
                     for block in @recent_blocks.value
@@ -132,12 +127,12 @@ class Blockchain
         record
 
     refresh_delegates: ->
-        @blockchain_api.list_delegates(0, -1).then (result) =>
-            for i in [0 ... @client.config.num_delegates]
-                @active_delegates[i] = @populate_delegate(result[i])
-                @id_delegates[result[i].id] = result[i]
-            for i in [@client.config.num_delegates ... result.length]
-                @inactive_delegates[i - @client.config.num_delegates] = @populate_delegate(result[i])
-                @id_delegates[result[i].id] = result[i]
+        @q.all({dels: @blockchain_api.list_delegates(0, -1), config: @get_config()}).then (results) =>
+            for i in [0 ... results.config.delegate_num]
+                @active_delegates[i] = @populate_delegate(results.dels[i])
+                @id_delegates[results.dels[i].id] = results.dels[i]
+            for i in [results.config.delegate_num ... results.dels.length]
+                @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
+                @id_delegates[results.dels[i].id] = results.dels[i]
 
 angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "RpcService", "BlockchainAPI", "$q", "$interval", Blockchain])

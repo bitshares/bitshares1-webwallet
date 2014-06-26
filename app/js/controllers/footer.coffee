@@ -1,4 +1,4 @@
-angular.module("app").controller "FooterController", ($scope, Wallet, Utils) ->
+angular.module("app").controller "FooterController", ($scope, Wallet, Utils, Blockchain) ->
   $scope.connections = 0
   $scope.blockchain_blocks_behind = 0
   $scope.blockchain_status = "off"
@@ -31,14 +31,16 @@ angular.module("app").controller "FooterController", ($scope, Wallet, Utils) ->
       minutes_diff = (Math.floor seconds_diff / 60) % 60
       hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
       minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
-      $scope.blockchain_blocks_behind = Math.floor seconds_diff / 30
-      $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
-      $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
-      $scope.blockchain_last_block_num = info.last_block_num
-      if seconds_diff > 32
-        $scope.blockchain_last_sync_info = "Last block is synced " + info.last_block_time_rel + " "
-      else
-        $scope.blockchain_last_sync_info = "Blocks are synced "
+      
+      Blockchain.get_config().then (config) ->
+          $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
+          $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
+          $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
+          $scope.blockchain_last_block_num = info.last_block_num
+          if seconds_diff > (config.block_interval + 2)
+            $scope.blockchain_last_sync_info = "Last block is synced " + info.last_block_time_rel + " "
+          else
+            $scope.blockchain_last_sync_info = "Blocks are synced "
     else
       $scope.blockchain_status = "off"
       $scope.blockchain_last_sync_info = " Blocks are syncing ..."

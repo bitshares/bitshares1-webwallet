@@ -3,10 +3,7 @@ class Client
     constructor: (@common, @network, @blockchain, @q, @interval) ->
         console.log "Client constructor"
         @interval @refresh_status, 3000
-
-    config:
-        num_delegates: 101
-
+    
     status:
         network_num_connections: 0
         alert_level: "red"
