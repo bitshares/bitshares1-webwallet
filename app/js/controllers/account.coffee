@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
 
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
@@ -89,4 +89,4 @@ angular.module("app").controller "AccountController", ($scope, $location, $state
         console.log(input)
         Wallet.blockchain_list_registered_accounts(input, 20).then (response) ->
             console.log(response)
-            response
+            $filter('filter')(response, input)
