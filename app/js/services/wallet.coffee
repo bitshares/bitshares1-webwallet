@@ -98,9 +98,9 @@ class Wallet
         @wallet_api.account_transaction_history(account_name).then (result) =>
             @transactions[account_name_key] = []
             angular.forEach result, (val, key) =>
-                blktrx=val.block_num + "." + val.trx_num
                 @transactions[account_name_key].push
-                    block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
+                    block_num: val.block_num
+                    trx_num: val.trx_num
                     #trx_num: Number(key) + 1
                     time: new Date(val.received_time*1000)
                     amount: val.amount
