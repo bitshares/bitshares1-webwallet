@@ -85,7 +85,7 @@
              <label for="payto" class="col-sm-2 control-label">To</label>
 
              <div class="col-md-5">
-              <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto" required/>
+              <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state.name for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' required/>
              </div>
             </div>
 
