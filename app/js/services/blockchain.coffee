@@ -22,10 +22,12 @@ class Blockchain
     list_registered_accounts: ->
         @rpc.request('blockchain_list_registered_accounts').then (response) ->
             reg = []
+            console.log('blockchain_list_registered_accounts',response)
             angular.forEach response.result, (val, key) =>
                 reg.push
                     name: val.name
                     owner_key: val.owner_key
+                    public_data: val.public_data
             reg
 
     # # # # # 

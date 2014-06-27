@@ -4,4 +4,4 @@ angular.module("app").controller "DirectoryController", ($scope, $location, Bloc
     $scope.reg = reg
 
   $scope.addToContacts = (name, address) ->
-  	Wallet.wallet_add_contact_account(name, address)
+    Wallet.wallet_add_contact_account(name, address)
