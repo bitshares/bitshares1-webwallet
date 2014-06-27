@@ -8,7 +8,9 @@ class Wallet
 
     trust_levels: {}
 
-    timeout=60000
+    timeout: 60000
+
+    nonZeroBalance: false
 
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>
@@ -18,6 +20,8 @@ class Wallet
                 angular.forEach balances, (symbol_amt_pair) =>
                     symbol = symbol_amt_pair[0]
                     amount = symbol_amt_pair[1]
+                    if (!nonZeroBalance && amount>0)
+                        nonZeroBalance=true
                     @blockchain.get_asset_record(symbol).then (asset_record) =>
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
