@@ -22,6 +22,8 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         $scope.m.payfrom= $scope.accounts[0]
       console.log('$scope.accounts')
       console.log($scope.accounts)
+
+
   refresh_accounts()
 
   $scope.cancel = ->

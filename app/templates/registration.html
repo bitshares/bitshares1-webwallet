@@ -3,10 +3,11 @@
  </div>
  <form role="form" class="form-horizontal" ng-submit="ok()">
  <div class="modal-body">
-  registration fee TODO XTS<br><br>
+  Registration fee TODO XTS<br><br>
   <div class="form-group">
    <label for="contact_address">Pay with</label>
-   <select ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>
+   <select ng-show="accounts.length > 0" ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>
+   <span ng-show="accounts.length == 0">You need fees for registration, but you still do not have any XTS yet</span><br>
    <button class="btn btn-default btn-lg col-sm-3" type="button" ng-click="m.delegate = !m.delegate">
 	   <i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[m.delegate]"></i> Delegate
    </button>
