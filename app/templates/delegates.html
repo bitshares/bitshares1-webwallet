@@ -62,7 +62,7 @@
             <tr ng-repeat="del in inactive_delegates | filter:search">
                 <td>{{ del.name }}</td>
                 <td>
-                    {{ del.delegate_info.votes_for }}&emsp;
+                    {{ del.delegate_info.votes_for | formatVotes}}&emsp;
                 </td>
                 <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
                 <td>{{ del.delegate_info.delegate_pay_rate }}%<td>
