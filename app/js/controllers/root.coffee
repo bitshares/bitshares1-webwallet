@@ -9,7 +9,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             #redirection
             Wallet.check_if_locked()
             Wallet.get_setting('timeout').then (result) ->
-                Shared.timeout=result.value
+                if result && result.value
+                    Wallet.timeout=result.value
         else
             Wallet.open().then ->
                 #redirection

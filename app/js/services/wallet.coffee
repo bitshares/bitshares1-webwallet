@@ -181,7 +181,7 @@ class Wallet
           response.result
 
     wallet_unlock: (password)->
-        @rpc.request('wallet_unlock', [timeout, password]).then (response) =>
+        @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>
           response.result
 
     check_if_locked: ->

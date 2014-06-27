@@ -1,5 +1,5 @@
 angular.module("app").controller "PreferencesController", ($scope, $location, Wallet, Shared, Growl) ->
-	$scope.timeout = Shared.timeout
+	$scope.timeout = Wallet.timeout
 
 	$scope.updatePreferences = ->
 		Wallet.set_setting('timeout', $scope.timeout).then (r) ->
