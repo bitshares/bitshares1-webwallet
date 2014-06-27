@@ -1,11 +1,14 @@
-angular.module("app").controller "TransactionsController", ($scope, $location, $stateParams, $state, Wallet, Utils, Info) ->
+angular.module("app").controller "TransactionsController", ($scope, $attrs, $location, $stateParams, $state, Wallet, Utils, Info) ->
 
     $scope.name = $stateParams.name || "*"
     $scope.transactions = Wallet.transactions
     $scope.account_transactions = Wallet.transactions[$scope.name]
     $scope.utils = Utils
-  
-    Wallet.refresh_transactions($stateParams.name)
+    $scope.pending_only = false
+    $scope.warning = ""
+
+    if $attrs.model and $attrs.model = "pending_only"
+        $scope.pending_only = true
 
     watch_for = ->
         Info.info.last_block_time
@@ -15,5 +18,18 @@ angular.module("app").controller "TransactionsController", ($scope, $location, $
 
     $scope.$watchCollection "transactions", () ->
         $scope.account_transactions = Wallet.transactions[$scope.name]
+        $scope.warning = ""
+        if !$scope.account_transactions || $scope.account_transactions.length == 0
+            $scope.warning = if $scope.pending_only then "There is no pending trasactions!" else "There is no trasanctions!"
+        else if $scope.pending_only
+            have_pending = false
+            for a in $scope.account_transactions
+                if a.block_num == -1
+                    have_pending = true
+                    break
+            if !have_pending
+                $scope.warning = "There is no pending trasactions!"
 
     $scope.$watch watch_for, on_update, true
+
+    Wallet.refresh_transactions($stateParams.name)
