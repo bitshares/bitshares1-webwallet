@@ -30,7 +30,7 @@ class Wallet
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
-        @trust_levels[val.name] = val.trust_level
+        @trust_levels[val.name] = val.trusted
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
         @accounts[acct.name] = acct
