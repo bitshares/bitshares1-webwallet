@@ -38,15 +38,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.$watch ->
         Info.info.wallet_unlocked
     , (unlocked)->
-        if Info.info.wallet_open
-            if unlocked == false
-                ($scope.lock || angular.noop)()
-        else
-            if $scope.currentPath != "/createwallet"
-                Wallet.open().then ->
-                    #redirection
-                    Wallet.check_if_locked()
-
+        if Info.info.wallet_open and !unlocked 
+            ($scope.lock || angular.noop)()
     , true
   
   $scope.check_wallet_status()
