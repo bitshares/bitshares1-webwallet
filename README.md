@@ -3,8 +3,14 @@
 ## Installation
 
 This appplication uses Lineman.js to compile assets located in app and vendor directories, the output goes either into generated or into dist directories.
-The installation is very simple, basically you need to install node.js
-and install Lineman and dependencies via the following commands:
+The installation is very simple
+
+Install node.js:
+
+   http://nodejs.org/download/
+
+Install Lineman and dependencies via the following commands:
+
 
     $ npm install -g lineman  
     $ npm install
