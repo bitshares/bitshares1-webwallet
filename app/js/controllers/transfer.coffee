@@ -19,7 +19,7 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
         $scope.payfrom= $scope.accounts[0]
       angular.forEach symbols, (v, symbol) ->
             $scope.symbolOptions.push symbol
-      $scope.symbol = $scope.symbolOptions[0]
+      $scope.symbol = "XTS"
 
   refresh_accounts()
 

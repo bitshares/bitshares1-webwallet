@@ -11,6 +11,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
+    $scope.symbol = "XTS"
 
     #Wallet.refresh_accounts()
     $scope.trust_level=Wallet.trust_levels[name]
