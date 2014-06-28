@@ -1,8 +1,8 @@
 class Blockchain
 
     constructor: (@client, @network, @rpc, @blockchain_api, @q, @interval) ->
-        @refresh_asset_records()
-        @refresh_delegates()
+        #@refresh_asset_records()
+        #@refresh_delegates()
         console.log "blockchain constructor"
 
     # # # # #

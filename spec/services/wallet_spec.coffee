@@ -2,11 +2,10 @@ describe "service: Wallet", ->
 
   beforeEach -> module("app")
 
-  beforeEach inject ($q, $rootScope, @Wallet, RpcService, Growl) ->
+  beforeEach inject ($q, $rootScope, @Wallet, RpcService) ->
     @rootScope = $rootScope
     @deferred = $q.defer()
     @rpc = spyOn(RpcService, 'request').andReturn(@deferred.promise)
-    @error = spyOn(Growl, 'error')
 
   describe "#create", ->
 
@@ -15,5 +14,3 @@ describe "service: Wallet", ->
       @deferred.resolve {result: true}
       @rootScope.$apply()
       expect(@rpc).toHaveBeenCalledWith('wallet_create', ['test', 'password'])
-
-

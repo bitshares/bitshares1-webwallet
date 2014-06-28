@@ -1,4 +1,4 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $modal, $log, $location, RpcService, Wallet) ->
+angular.module("app").controller "UnlockWalletController", ($scope, Wallet) ->
   $scope.descriptionCollapsed = true
   $scope.wrongPass = false
   $scope.submitForm = ->
