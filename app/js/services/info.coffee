@@ -19,7 +19,7 @@ class Info
                     @info.wallet_unlocked = data.wallet_unlocked
                     @info.last_block_time = data.blockchain_head_block_timestamp
                     @info.last_block_num = data.blockchain_head_block_num
-                    @info.last_block_time_rel = data.blockchain_head_block_time_rel
+                    @info.last_block_time_rel = data.blockchain_head_block_time_age
                 else
                     @info.wallet_unlocked = data.wallet_unlocked
 
