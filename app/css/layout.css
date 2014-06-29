@@ -1,15 +1,18 @@
+
 /*
  * Main content
  */
 .content {
-	background-color: #fff;
+	background: none;
 	overflow: hidden;
 	zoom: 1;
-	margin-left: 0;
-	margin-left: 190px;
+	margin-top: 20px;
 }
 
 .sidebar {
-	background-color: #fff;
+	background: none;
 	width: 190px;
+	position: fixed;
+	margin-top: 40px;
 }
+

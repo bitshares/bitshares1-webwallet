@@ -1,0 +1,46 @@
+<!--<ol class="breadcrumb">-->
+<!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
+<!--<li><i class="fa fa-exchange fa-fw"></i> Transaction History</li>-->
+<!--</ol>-->
+<!--
+<div class="header">
+	<div class="col-sm-12">
+		<h3 class="header-title">Transactions</h3>
+	</div>
+</div>
+-->
+
+	<div id="transaction_history">
+				<div class="panel">
+				    <div class="panel-heading">
+				    </div>
+				        				    
+				    <div class="panel-body">
+					<table class="table table-striped table-hover">
+						<thead>
+						<tr>
+							<th>DATE</th>
+							<th>FROM</th>
+							<th>TO</th>
+							<th>MEMO</th>
+							<th>AMOUNT</th>
+							<th>FEE</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr ng-repeat="t in account_transactions | orderBy:'time':true">
+			                <td>{{ t.time | prettyDate }}</td>
+							<td><p class="long-shorten-text-l"><a href="#/accounts/{{t.from}}">{{ t.from }}</a></p></td>
+			                <td><p class="long-shorten-text-l"><a href="#/accounts/{{t.to}}">{{ t.to }}</a></p></td>
+							<td>{{ t.memo }}</td>
+							<td><span class="btn btn-default btn-md text-primary ">{{ t.amount | toAsset | formatAsset }}</span></td>
+							<td>{{ t.fee | formatAsset}}</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+

@@ -1,39 +1,48 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
-<head>
- <meta charset="utf-8">
- <meta http-equiv="X-UA-Compatible" content="IE=edge">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <title>BitShares XT Wallet</title>
- <link rel="stylesheet" type="text/css" href="/css/app.css" media="all"/>
- <script type="text/javascript" src="/js/app.js"></script>
-</head>
-<body ng-class="bodyclass" ng-controller="RootController">
-<div class="wrapper">
-    <!-- SIDEBAR -->
-    <div class="body" ng-if="!unlockwallet" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BitShares XT Wallet</title>
+    <link rel="stylesheet" type="text/css" href="/css/app.css" media="all"/>
+    <script type="text/javascript" src="/js/app.js"></script>
+  </head>
+
+  <body class="cover fixed_header" ng-controller="RootController">
+
+    <div class="wrapper">
+      <!-- HEAD NAV -->
+      <div class="navbar navbar-default navbar-static-top navbar-main head-bg" role="navigation">
+
+        <img class="pull-right p-inner" width="214" src="img/xts-logo-head.png">
+      </div>
+      <!-- END: HEAD NAV -->
+
+      <!-- SIDEBAR -->
+      <div class="body">
         <aside class="sidebar">
-            <ul class="nav nav-stacked">
+          <ul class="nav nav-stacked">
             <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>Overview</a></li>
             <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>My Accounts</a></li>
             <li ui-sref-active="active"><a ui-sref="directory"><i class="fa fa-book fa-fw"></i>Directory</a></li>
             <!--<li ui-sref-active="active"><a ui-sref="proposals"><i class="fa fa-file-powerpoint-o fa-fw"></i>Proposals</a></li>-->
+
             <li ui-sref-active="active"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>Block Explorer</a></li>
             <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>Preferences</a></li>
             <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>Console</a></li>
             <li ui-sref-active="active"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>Lock</a></li>
-            </ul>
+
+          </ul>
         </aside>
         <section class="content">
-            <div ui-view></div>
+          <div ui-view></div>
         </section>
+      </div>
     </div>
-</div>
 
-<div ui-view ng-if="unlockwallet" class="unlockwallet">
-</div>
-
-<footer ng-class="alert_level" ng-controller="FooterController">
-	<div ng-include src="'footer.html'"></div>
-</footer>
-</body>
+    <div class="footer-padding"></div>
+    <footer ng-class="alert_level" ng-controller="FooterController">
+      <div ng-include src="'footer.html'"></div>
+    </footer>
+  </body>

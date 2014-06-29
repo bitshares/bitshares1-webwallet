@@ -14,7 +14,7 @@ module.exports = function(lineman) {
         "vendor/js/jquery.growl.js",
         //"vendor/js/bootstrap.js",
         //"vendor/js/jasny-bootstrap.js",
-        //"vendor/js/ark.js",
+        "vendor/js/ark.js",
         "vendor/js/angular.js",
         "vendor/js/angular-resource.js",
         //"vendor/js/angular-route.js",
@@ -52,7 +52,7 @@ module.exports = function(lineman) {
       app: [
         //TODO: make main.css compatible with ng-grid
         "app/css/main.css",
-        //"app/css/layout.css",
+        "app/css/layout.css",
         "app/css/my-ng-grid.css"
       ]
     }

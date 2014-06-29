@@ -1,1 +1,58 @@
-<img src="img/xts-logo-xl-white-shadow.png" class="img-responsive">
+
+<div class="main-content">
+<div class="row">
+        <div class="col-md-9">
+        
+            	<div class="panel bg-default">         
+	                  
+		                	<div class="panel-body ">
+			                    <div class="col-md-3 col-sm-3 col-xs-6 text-center">
+			                        <div style="font-size: 400%; font-weight: 100;">3</div>
+			                        <a ui-sref="accounts" class="pie-title">Accounts</a>
+			                	</div>
+			                    <div class="col-md-3 col-sm-3 col-xs-6 text-center">
+			                        <div  style="font-size: 400%; font-weight: 100;">2</div>
+			                        <a href="#" class="pie-title">Assets</a>
+			                    </div>
+			                    <div class="col-md-3 col-sm-3 col-xs-6 text-center">
+			                        <div style="font-size: 400%; font-weight: 100;">2x</div>
+			                         <a href="#" class="pie-title">Delegates</a>
+			                    </div>
+			                    <div class="col-md-3 col-sm-3 col-xs-6 text-center">
+			                        <div style="font-size: 400%; font-weight: 100;">2</div>
+			                         <a href="#" class="pie-title">Connections</a>
+			                    </div>
+	                		</div>
+				</div>   
+		</div> 
+		<div class="col-md-3 ">
+		
+		    	<div class="panel head-bg ">         
+		      
+		           <div class="panel-body white"><a class="white" href="#/create/account">
+		           <div class="col-md-12 col-sm-12 col-xs-12 text-center ">
+		               <div style="font-size: 400%; font-weight: 100;"><i class="fa fa-plus-circle"></i></div>
+		                <span class="pie-title">CREATE NEW ACCOUNT</span></div></a>
+		           </div>
+		           </div>
+		</div>
+		
+</div>
+
+
+
+<div class="col-md-12">
+
+	<div class="header">
+		<div class="pull-right ">
+	  		<a  class="btn btn-primary btn-success btn-top-right" ui-sref="accounts"><i class="fa fa-bank fa-fw"></i> My Accounts</a>
+		</div>
+	<h3 class="header-title">Recent Transactions</h3>
+	<p class="header-info">Global transaction log</p>
+	</div>
+</div>
+
+<div ng-controller="TransactionsController" ng-include src="'transactions-dashboard.html'"></div>
+
+</div>
+</div></div>

@@ -91,12 +91,13 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
       templateUrl: "openwallet.html"
       controller: "OpenWalletController"
       resolve:
-        mode: -> mode
+        return: -> mode
     $rootScope.cur_deferred.promise
 
   $rootScope.open_wallet_and_repeat_request = (mode, request_data) ->
     deferred_request = $q.defer()
-    #console.log "------ open_wallet_and_repeat_request #{mode} ------"
+    console.log "------ open_wallet_and_repeat_request #{mode} ------"
+    return
     open_wallet(mode).then ->
       #console.log "------ open_wallet_and_repeat_request #{mode} ------ repeat ---"
       $http(

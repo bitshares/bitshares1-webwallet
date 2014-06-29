@@ -2,11 +2,10 @@
  <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
  <!--<li><i class="fa fa-sign-out fa-fw"></i> Contacts</li>-->
 <!--</ol>-->
-
-<div class="header">
-	<div class="col-md-12">
+<div class="col-md-12">
+	<div class="header">
 		<div class="pull-left">
-			<button type="submit" ng-click='newContactModal()' class="btn btn-primary"><i class="fa fa-plus fa-fw"></i> New</button>
+			<button type="submit" ng-click='newContactModal()' class="btn btn-success"><i class="fa fa-plus fa-fw"></i>New</button>
 		</div>
 		<div class="pull-right">
 			<input type="text" class="form-control" ng-model="filterOptions.filterText" placeholder='Filter'>
@@ -14,10 +13,11 @@
 	</div>
 </div>
 
-<div class="main-content">
 	<div class="row">
-		<div class="col-sm-12">
-	        <div style="height: 800px; padding-top:6px" ng-grid="gridOptions"></div>    
+		<div class="col-sm-12 p-inner">
+		    <body ng-controller="MyCtrl">
+	        <div style="height: 800px; padding-top:6px" ng-grid="gridOptions"></div> 
+	        </body>   
 	    </div>
     </div>
 </div>

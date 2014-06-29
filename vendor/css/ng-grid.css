@@ -1,5 +1,5 @@
 .ngGrid {
-  background-color: #fdfdfd;
+  background-color: #FFF;
 }
 .ngGrid input[type="checkbox"] {
   margin: 0;
@@ -32,7 +32,7 @@
 }
 .ngVerticalBarVisible {
   width: 1px;
-  background-color: #d4d4d4;
+  background-color: #FFF;
 }
 #testDataLength {
   position: absolute;
