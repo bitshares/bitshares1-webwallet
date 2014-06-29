@@ -38,7 +38,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
           $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
           $scope.blockchain_last_block_num = info.last_block_num
           if seconds_diff > (config.block_interval + 2)
-            $scope.blockchain_last_sync_info = "Last block is synced " + info.last_block_time_rel + " "
+            $scope.blockchain_last_sync_info = "Last block is synced " + info.blockchain_head_block_age + " "
           else
             $scope.blockchain_last_sync_info = "Blocks are synced "
     else

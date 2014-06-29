@@ -1,3 +1,10 @@
+<div class="header">
+  <div class="col-sm-12">
+    <h3 class="header-title">Pending Transactions</h3>
+  </div>
+</div>
+<div ng-controller="TransactionsController" model="pending_only" ng-include src="'transactions.html'"></div>
+
 <div class="col-lg-12">
   <div class="pull-right">
     <!--<h4><a href="#/blocks/hour/{{blocks.last_block_timestamp | date: 'yyyyMMddTHH'}}">More...</a></h4>-->
