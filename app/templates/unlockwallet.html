@@ -90,7 +90,7 @@
 
 		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
          	<div class="form-group">
-				<input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control input" id="spending_password" placeholder="Password" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" class="btn btn-primary btn-sm">Unlock</button>
+				<input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required autofocus ng-minlength="9" ng-maxlength="255"><button type="submit" tabindex="2" class="btn btn-primary btn-sm">Unlock</button>
         	</div>
             <label class="text-danger" ng-show="wrongPass">
                 Wrong password.
