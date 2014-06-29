@@ -11,7 +11,7 @@
 
   <body class="cover fixed_header" ng-controller="RootController">
 
-    <div class="wrapper">
+    <div class="wrapper" ng-if="!unlockwallet">
       <!-- HEAD NAV -->
       <div class="navbar navbar-default navbar-static-top navbar-main head-bg" role="navigation">
 
@@ -20,7 +20,7 @@
       <!-- END: HEAD NAV -->
 
       <!-- SIDEBAR -->
-      <div class="body" ng-if="!unlockwallet">
+      <div class="body">
         <aside class="sidebar">
           <ul class="nav nav-stacked">
             <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>Overview</a></li>
