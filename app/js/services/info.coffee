@@ -16,12 +16,12 @@ class Info
                 if data.blockchain_head_block_num > 0
                     @info.network_connections = data.network_num_connections
                     @info.wallet_open = data.wallet_open
-                    @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
-                    @info.last_block_time = data.blockchain_head_block_time
+                    @info.wallet_unlocked = data.wallet_unlocked
+                    @info.last_block_time = data.blockchain_head_block_timestamp
                     @info.last_block_num = data.blockchain_head_block_num
                     @info.last_block_time_rel = data.blockchain_head_block_time_rel
                 else
-                    @info.wallet_unlocked = data.wallet_unlocked_seconds_remaining > 0
+                    @info.wallet_unlocked = data.wallet_unlocked
 
                 @blockchain_api.get_security_state().then (data) =>
                     @info.alert_level = data.alert_level

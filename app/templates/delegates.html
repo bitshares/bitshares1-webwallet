@@ -10,8 +10,9 @@
           <thead>
             <tr>
               <th>NAME</th>
-              <th>VOTES FOR</th>
+              <th>APPROVAL</th>
               <th>PRODUCED / MISSED RATIO</th>
+              <th>DELEGATE PAY RATE</th>
               <th>TRUST</th>
             </tr>
           </thead>
@@ -22,6 +23,7 @@
                 {{ del.delegate_info.votes_for | formatVotes}}&emsp;
               </td>
               <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
+              <td>{{ del.delegate_info.delegate_pay_rate }}%<td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
@@ -47,10 +49,9 @@
         <thead>
           <tr>
             <th>NAME</th>
-            <th>VOTES FOR</th>
-            <th>VOTES AGAINST</th>
-            <th>BLOCKS PRODUCED</th>
-            <th>BLOCKS MISSED</th>
+            <th>APPROVAL</th>
+            <th>PRODUCED / MISSED RATIO</th>
+            <th>DELEGATE PAY RATE</th>
             <th>TRUST</th>
           </tr>
         </thead>
@@ -58,22 +59,15 @@
           <tr ng-repeat="del in inactive_delegates">
             <td>{{ del.name }}</td>
             <td>
-              {{ del.delegate_info.votes_for }}&emsp;
-            </td>
-            <td>
-              {{ del.delegate_info.votes_against }}&emsp;
-            </td>
-            <td>{{ del.delegate_info.blocks_produced }}</td>
-            <td>{{ del.delegate_info.blocks_missed }}</td>
+                {{ del.delegate_info.votes_for | formatVotes}}&emsp;
+              </td>
+            <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
+            <td>{{ del.delegate_info.delegate_pay_rate }}%<td>
             <td>
               <div class="btn-group">
-                <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
+                <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
                   <i class="green"
                      ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
-                </button>
-                <button ng-click="toggleVoteDown(del.name)" class="btn btn-sm btn-link">
-                  <i class="red"
-                     ng-class="(trust_levels[del.name] && trust_levels[del.name] < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
                 </button>
               </div>
             </td>

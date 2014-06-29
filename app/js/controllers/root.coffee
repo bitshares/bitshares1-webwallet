@@ -39,8 +39,9 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.$watch ->
         Info.info.wallet_unlocked
     , (unlocked)->
-        if Info.info.wallet_open and !unlocked 
-            ($scope.lock || angular.noop)()
+        Info.refresh_info().then () ->
+            if Info.info.wallet_open and !Info.info.wallet_unlocked 
+                ($scope.lock || angular.noop)()
     , true
   
   $scope.check_wallet_status()
