@@ -20,7 +20,7 @@
       <!-- END: HEAD NAV -->
 
       <!-- SIDEBAR -->
-      <div class="body">
+      <div class="body" ng-if="!unlockwallet">
         <aside class="sidebar">
           <ul class="nav nav-stacked">
             <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>Overview</a></li>
@@ -39,6 +39,8 @@
           <div ui-view></div>
         </section>
       </div>
+    </div>
+    <div ui-view ng-if="unlockwallet" class="unlockwallet">
     </div>
 
     <div class="footer-padding"></div>
