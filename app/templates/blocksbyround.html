@@ -1,19 +1,42 @@
-<div class="header">
-	<div class="col-sm-12">
-        <h2 align="center">
-            <a href="#/blocks/round/{{round - 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round > 1">&lt;&lt; Older</a>
-            <b>Blocks #{{start}} - #{{end}}</b>
-            <a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round < last_block_round">Newer &gt;&gt;</a>
-        </h2>
+<div class="col-sm-12">
+	<div class="header">
+        
+        
+                    <div class="row">
+                    
+                        <div class="col-xs-2">
+                            <ul class="pager">
+                                <li class="previous"><a href="#/blocks/round/{{round - 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round > 1">← Older</a></li>
+                             </ul>
+                        </div>
+                        <div class="col-xs-4">
+                        <h3 style="text-align: center;">Blocks #{{start}} - #{{end}}</h3>
+                        </div>
+                        <div class="col-xs-2">
+                        <ul class="pager">
+                        <li class="next" ng-if="round"><a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}">Newer →</a></li>
+                          </ul>
+                        </div>
+               <div class="col-sm-4 p-inner">
+        
+            	<div class="checkbox pull-right">
+            	<label>
+            		<div class="checker">
+            			<input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs"> Only show blocks with transactions</input>
+            		</div>
+            	</label>
+            </div>
+        </div>
+        
 	</div>
 </div>
 
-<div class="pull-right">
-    <input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs">Only show blocks with transactions</input>
-</div>
+
+
+
 
 <div class="main-content">
-   <b>
+
       <table class="table table-striped table-hover">
          <thead>
          <tr>
@@ -41,5 +64,5 @@
          </tr>
          </tbody>
       </table>
-   </b>
+  
 </div>

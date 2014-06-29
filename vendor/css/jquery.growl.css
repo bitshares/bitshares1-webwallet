@@ -22,10 +22,9 @@
     right: 10px; }
 
 .growl {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+  opacity: 0.9;
+  filter: alpha(opacity=90);
   position: relative;
-  border-radius: 4px;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out; }
@@ -36,26 +35,31 @@
     opacity: 0;
     filter: alpha(opacity=0); }
   .growl.growl-small {
-    width: 200px;
+    width: 100px;
     padding: 5px;
-    margin: 5px; }
+    margin: 5px;
+    white-space:normal;
+      }
   .growl.growl-medium {
-    width: 250px;
+    width: 200px;
     padding: 10px;
-    margin: 10px; }
+    margin: 10px;
+    
+    white-space:normal; }
   .growl.growl-large {
     width: 300px;
     padding: 15px;
-    margin: 15px; }
+    margin: 15px;
+    white-space:normal;  }
   .growl.growl-default {
     color: white;
     background: #7f8c8d; }
   .growl.growl-error {
     color: white;
-    background: #c0392b; }
+    background: #D97572; }
   .growl.growl-notice {
     color: white;
-    background: #2ecc71; }
+    background: #84ce84; }
   .growl.growl-warning {
     color: white;
     background: #f39c12; }
@@ -67,8 +71,8 @@
     font-weight: normal;
     font-family: helvetica, verdana, sans-serif; }
   .growl .growl-title {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 24px; }
   .growl .growl-message {
-    font-size: 14px;
-    line-height: 18px; }
+    font-size: 11px;
+    line-height: 14px; }

@@ -8,10 +8,17 @@
  <link rel="stylesheet" type="text/css" href="/css/app.css" media="all"/>
  <script type="text/javascript" src="/js/app.js"></script>
 </head>
-<body class="cover" ng-controller="RootController">
+<body class="cover fixed_header" ng-controller="RootController">
 <div class="wrapper">
+<!-- HEAD NAV -->
+            <div  class="navbar navbar-default navbar-static-top navbar-main head-bg" role="navigation">
+            
+                <img class="pull-right p-inner" width="214" src="img/xts-logo-head.png" >
+                </div>
+<!-- END: HEAD NAV -->
 
- <!-- SIDEBAR -->
+
+<!-- SIDEBAR -->
  <div class="body">
   <aside class="sidebar">
    <ul class="nav nav-stacked">
@@ -34,7 +41,7 @@
   </section>
  </div>
 </div>
-
+<div class="footer-padding"></div>
 <footer ng-class="alert_level" ng-controller="FooterController">
 	<div ng-include src="'footer.html'"></div>
 </footer>

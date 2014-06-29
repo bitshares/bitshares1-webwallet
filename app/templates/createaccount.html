@@ -1,19 +1,21 @@
-<div class="header">
 	<div class="col-sm-12">
+<div class="header">
+
 		<h3 class="header-title">Create Account</h3>
 	</div>
 </div>
-
-	<div class='col-sm-2'>
+<div class="row">
+<div class="col-md-12 p-inner m-top">
+	<div class="col-sm-2 m-top">
 				<gravatar-image data-gravatar-email="email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
 				<br>
 				<p class="text-center lead">
 				{{gravatarDisplayName}}
 				</p>
 			</div>
-			<div class='col-sm-10'>
+			<div class="col-sm-10">
 	<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
-		<div class="form-group">
+		<div class="form-group m-top">
 			
 			
 				<div class="form-group row">
@@ -68,3 +70,4 @@
 		</div>
 	</form>
 	</div>
+</div></div>

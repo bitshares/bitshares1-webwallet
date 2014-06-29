@@ -12,8 +12,9 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 13px;
   color: #666666;
-  line-height: 1.5;
+  line-height: 2.0;
   background-color: #ffffff;
+
 }
 .wrapper {
   overflow: hidden;
@@ -83,8 +84,8 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: 'Open Sans', Arial, sans-serif;
-  font-weight: 300;
+	font-family: 'Open Sans',Arial,sans-serif;
+	font-weight: 300;
 }
 h1 small,
 h2 small,
@@ -110,7 +111,7 @@ h6 .small,
 .h4 .small,
 .h5 .small,
 .h6 .small {
-  font-weight: 300;
+  font-weight: 100;
 }
 a {
   color: #01bbf4;
@@ -388,12 +389,23 @@ a:focus {
  * Panels
  */
 .panel {
-  border: solid 1px #EEE;
   -webkit-box-shadow: none;
-  box-shadow: none;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+  box-shadow: 1px 1px 2px 0px rgb(208, 208, 208);
+  background: none repeat scroll 0% 0% rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  -moz-border-top-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  border-image: none;
+  border-color: rgb(228, 228, 228) rgb(190, 190, 189) rgb(190, 190, 189) rgb(228, 228, 228);
+  
 }
 @media (max-width: 768px) {
   .panel {
@@ -637,9 +649,7 @@ a:focus {
 .btn {
   font-size: inherit;
   border: none;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+
   position: relative;
 }
 .btn.sr-only {
@@ -822,6 +832,7 @@ a:focus {
 .nav-tabs > li.active > a:focus {
   border: solid 1px #eeeeee;
   border-bottom-color: transparent;
+  border-top: 2px solid #01bbf4;
 }
 .nav .open > a,
 .nav .open > a:hover,
@@ -1478,13 +1489,15 @@ body.fixed_header .wrapper.container .navbar-default.navbar-main {
   font-size: 30px;
   font-weight: 300;
   margin-top: 10px;
-  margin-bottom: 5px;
+  padding-bottom: 12px;
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.1);
 }
 .header .header-info {
   color: #888888;
   font-size: 14px;
   font-weight: 300;
   padding-left: 2px;
+  margin-top: -12px;
 }
 /*
  * Main content
@@ -1511,8 +1524,7 @@ body.fixed_header .wrapper.container .navbar-default.navbar-main {
   }
 }
 .main-content {
-  padding: 15px 15px 55px 15px;
-  border-top: solid 1px #01bbf4;
+	padding:  24px 12px;
 }
 .stats {
   list-style: none;

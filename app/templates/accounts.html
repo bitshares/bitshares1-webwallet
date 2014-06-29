@@ -1,15 +1,21 @@
-<div class="header">
-	<div class="col-sm-12">
-		<h3 class="header-title">Accounts</h3>
+<div class="col-md-12">
+	<div class="header">
+		<div class="pull-right ">
+	  		<a  class="btn btn-primary btn-success btn-top-right" href="#/create/account"><i class="fa fa-bank fa-fw"></i> Create Account</a>
+		</div>
+	<h3 class="header-title">Accounts</h3>
+	<p class="header-info">Klick on account names to get more info about!</p>
 	</div>
 </div>
+<div class="col-sm-12">
 <div ng-controller="AccountBalancesController" ng-include src="'account_balances.html'"></div>
-
-
-<div class="header">
-	<div class="col-sm-12">
+</div>
+<div class="col-sm-12">
+	<div class="header">
 		<h3 class="header-title">Transactions</h3>
 	</div>
 </div>
+<div class="col-sm-12">
 <div ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
+</div>
 

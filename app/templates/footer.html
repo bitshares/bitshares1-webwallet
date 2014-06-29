@@ -1,7 +1,7 @@
 <div class="pull-left logo">
-	<img src="/img/xt-icon.png" style='height:32px;width:100px;margin-top:16px'/>
+	<img src="/img/xt-icon.png" />
 </div>
-<p class="text-muted pull-right">
+<p class="pull-right m-bottom">
     <span> {{blockchain_last_sync_info}} </span>
 	<span class="blockchain-status " ng-switch on="blockchain_status">
 		<i class="fa fa-check" ng-switch-when="synced" tooltip="Up to date, processed {{blockchain_last_block_num}} blocks"></i>
