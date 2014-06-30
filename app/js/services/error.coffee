@@ -20,8 +20,8 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl) -
       console.log(response)
       if response.status == 404
         # TODO: should redirect to 404 page, redirect out of RootController
-        #location.href = "/404.html"
-        $location.path("/home")
+        location.href = "/404.html"
+        #$location.path("/home")
       else if error_msg.match(/No such wallet exists/)
         $location.path("/createwallet")
       else if error_msg.match(/is_open\(\)\:/)

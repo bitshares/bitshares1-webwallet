@@ -129,16 +129,16 @@
 			<tr ng-repeat="t in block.transactions" ng-if="t.operations | filterByOperations: operation_filter ">
                 <td><a href="#/tx/{{t.id}}">{{ t.id.substr(0,8) }}</a></td>
                 <td>
-                    <div ng-repeat="withdraw in t.withdraws"><span>{{withdraw[1] | toAsset | formatAsset}}</span><br></div></td>
+                    <div ng-repeat="withdraw in t.a_withdraws"><span>{{withdraw | formatAsset}}</span><br></div></td>
                 <td>
-                    <div ng-repeat="deposit in t.deposits"><span>{{deposit[1] | toAsset | formatAsset}}</span><br></div></td>
+                    <div ng-repeat="deposit in t.a_deposits"><span>{{deposit | formatAsset}}</span><br></div></td>
                 <td>
                     <div ng-repeat="net_vote in t.net_delegate_votes | limitTo: 3">
                         <span><a href="#/accounts/{{net_vote[0] | delegateName}}">{{ net_vote[0] | delegateName }}</a>:&nbsp; </span>
-                        <span>{{{"amount": net_vote[1].votes_for - net_vote[1].votes_against, "asset_id": 0} | toAsset | formatAsset }}</span><br></div></td>
+                        <span>{{ net_vote[2] | formatAsset }}</span><br></div></td>
                 <td>
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>
-                <td><div ng-repeat="b in t.balance"><span>{{ {"amount": b[1], "asset_id": b[0]} | toAsset | formatAsset }}</span><br></div></td>
+                <td><div ng-repeat="b in t.balance"><span>{{ b[2] | formatAsset }}</span><br></div></td>
 			</tr>
             <tr ng-if=" block.transactions.length == 0 ">
                 <td><span>There are no transactions in this block.</span></td>

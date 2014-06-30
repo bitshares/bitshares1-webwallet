@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared, Utils) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared, Utils, Blockchain) ->
 
   $scope.payto = Shared.contactName
   $scope.symbolOptions = []
@@ -6,20 +6,23 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
   
   refresh_accounts = ->
     RpcService.request('wallet_account_balance').then (response) ->
-
       $scope.symbolOptions = []
       symbols = {}
       $scope.accounts = []
-      $scope.accounts.splice(0, $scope.accounts.length)
 
-      angular.forEach response.result, (val) ->
-        $scope.accounts.push(val);
-        angular.forEach val[1], (asset) ->
-            symbols[asset[0]] = true
-        $scope.payfrom= $scope.accounts[0]
-      angular.forEach symbols, (v, symbol) ->
-            $scope.symbolOptions.push symbol
-      $scope.symbol = "XTS"
+      Blockchain.refresh_asset_records().then ()->
+          angular.forEach response.result, (account) ->
+            
+            result = account[0] + " | "
+            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1])
+            $scope.accounts.push([account[0], balances])
+
+            angular.forEach account[1], (asset) ->
+                symbols[asset[0]] = true
+          $scope.payfrom= $scope.accounts[0]
+          angular.forEach symbols, (v, symbol) ->
+                $scope.symbolOptions.push symbol
+          $scope.symbol = "XTS"
 
   refresh_accounts()
 

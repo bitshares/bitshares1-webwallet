@@ -1,4 +1,4 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Utils) ->
   $scope.symbolOptions = []
   console.log('Wallet.balances')
   console.log(Wallet.balances)
@@ -12,17 +12,16 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   
   refresh_accounts = ->
     RpcService.request('wallet_account_balance').then (response) ->
-      console.log('response.result')
-      console.log(response.result)
       $scope.accounts = []
-      $scope.accounts.splice(0, $scope.accounts.length)
 
-      angular.forEach response.result, (val) ->
-        $scope.accounts.push(val);
-        $scope.m.payfrom= $scope.accounts[0]
-      console.log('$scope.accounts')
-      console.log($scope.accounts)
-
+      Blockchain.refresh_asset_records().then ()->
+          $scope.formated_balances = []
+          angular.forEach response.result, (account) ->
+            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1])
+            console.log balances
+            $scope.accounts.push([account[0], balances])
+            console.log $scope.accounts
+          $scope.m.payfrom= $scope.accounts[0]
 
   refresh_accounts()
 

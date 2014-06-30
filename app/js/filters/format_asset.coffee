@@ -11,5 +11,5 @@ angular.module("app").filter "toAsset", (Blockchain, Utils) ->
 angular.module("app").filter "formatAccountBalance", (Blockchain, Utils) ->
     (account) ->
         result = account[0] + " | "
-        balances = (Utils.formatAsset(Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision)) for balance in account[1])
+        balances = (Utils.formatAsset(balance) for balance in account[1])
         result + balances.join('; ')

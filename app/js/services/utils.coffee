@@ -1,6 +1,10 @@
 servicesModule = angular.module("app.services")
 
 servicesModule.factory "Utils", ->
+    asset: (amount, asset_type) ->
+        amount: amount
+        symbol: asset_type.symbol
+        precision: asset_type.precision
 
     newAsset: (amount, symbol, precision) ->
         amount: amount
