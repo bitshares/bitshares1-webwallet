@@ -6,7 +6,7 @@ class Wallet
 
     transactions: {}
 
-    trust_levels: {}
+    approved_delegates: {}
 
     timeout: 60000
 
@@ -30,7 +30,7 @@ class Wallet
         if not @balances[val.name]
             @balances[val.name] =
                 "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
-        @trust_levels[val.name] = val.trusted
+        @approved_delegates[val.name] = val.approved
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
         @accounts[acct.name] = acct
@@ -81,9 +81,9 @@ class Wallet
                     acct = @populate_account(result)
                     return acct
 
-    set_trust: (name, trust_level) ->
-        @trust_levels[name] = trust_level
-        @wallet_api.set_delegate_trust(name, trust_level).then () =>
+    set_trust: (name, approve) ->
+        @approved_delegates[name] = approve
+        @wallet_api.approve_delegate(name, approve).then () =>
             @refresh_account(name)
         return
     

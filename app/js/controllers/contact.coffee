@@ -5,13 +5,7 @@ angular.module("app").controller "ContactController", ($scope, $location, $state
         $scope.account = acct
 
     $scope.toggleVoteUp = (name) ->
-        if name not in Wallet.trust_levels or Wallet.trust_levels[name] < 1
-            Wallet.set_trust(name, 1)
+        if name not in Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
+            Wallet.set_trust(name, true)
         else
-            Wallet.set_trust(name, 0)
-    
-    $scope.toggleVoteDown = (name) ->
-        if name not in Wallet.trust_levels or Wallet.trust_levels[name] > -1
-            Wallet.set_trust(name, -1)
-        else
-            Wallet.set_trust(name, 0)
+            Wallet.set_trust(name, true)

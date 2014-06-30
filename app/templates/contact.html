@@ -8,10 +8,7 @@
 	<div>{{account.active_key}}</div>
     Registration date:  {{ account.registration_date | prettyDate }}<br>
 	<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
-        <i ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
-	</button>
-	<button ng-click="toggleVoteDown(del.name)" class="btn btn-sm btn-link">
-		<i ng-class="(trust_levels[del.name] && trust_levels[del.name] < 0) ? 'fa fa-thumbs-down fa-2x' : 'fa fa-thumbs-o-down fa-2x'"></i>
+        <i ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
 	</button>
 </div>
 

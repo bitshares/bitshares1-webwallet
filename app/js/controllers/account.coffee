@@ -14,7 +14,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.symbol = "XTS"
 
     #Wallet.refresh_accounts()
-    $scope.trust_level=Wallet.trust_levels[name]
+    $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file : "", password : ""}
     
     $scope.private_key = {value : ""}
@@ -58,10 +58,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.t_active=true
 
     $scope.toggleVoteUp = ->
-        if name not of Wallet.trust_levels or Wallet.trust_levels[name] < 1
-            Wallet.set_trust(name, 1)
+        if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
+            Wallet.set_trust(name, true)
         else
-            Wallet.set_trust(name, 0)
+            Wallet.set_trust(name, false)
 
     $scope.toggleFavorite = ->
         if (Wallet.accounts[name].private_data)

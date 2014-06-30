@@ -28,7 +28,7 @@
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
                     <i class="green"
-                       ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+                       ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
                   </button>
                 </div>
               </td>
@@ -67,7 +67,7 @@
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
                   <i class="green"
-                     ng-class="(trust_levels[del.name] && trust_levels[del.name] > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+                     ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
                 </button>
               </div>
             </td>
