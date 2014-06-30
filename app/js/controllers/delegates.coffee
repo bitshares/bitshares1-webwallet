@@ -7,6 +7,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     Wallet.refresh_accounts()
     Blockchain.refresh_delegates()
 
+    #blockchain_get_asset_record  XTS
 
     $scope.toggleVoteUp = (name) ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
