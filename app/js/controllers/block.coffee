@@ -11,7 +11,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
 
             BlockchainAPI.get_transactions_for_block(block_hash).then (transactions) ->
                 $scope.block.transactions = []
-                Blockchain_refresh_records().then () ->
+                Blockchain.refresh_asset_records().then () ->
                     for i in [0 ... transactions.length]
                     # TODO: are they totally matching?
                         trx = {}

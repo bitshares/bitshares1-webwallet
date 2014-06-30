@@ -37,13 +37,13 @@
                             {{ asset.precision }} 
                         </td>
                         <td>
-                            {{ { "amount" : asset.current_share_supply, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                            {{ asset.current_supply | formatAsset }} 
                         </td>
                         <td>
-                            {{ { "amount" : asset.maximum_share_supply, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                            {{ asset.maximum_supply | formatAsset }} 
                         </td>
                         <td>
-                            {{ { "amount" : asset.collected_fees, "asset_id" : asset.id } | toAsset | formatAsset }} 
+                            {{ asset.c_fees | formatAsset }} 
                         </td>
                         <td>
                             {{ asset.registration_date | prettyDate }} 

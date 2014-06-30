@@ -22,22 +22,22 @@
                     <span class="pull-left">Deposits</span>
                 </td>
             </tr>
-            <tr ng-repeat="i in t.deposits">
+            <tr ng-repeat="i in t.a_deposits">
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{ i[1] | toAsset | formatAsset }}</td>
+                <td>{{ i | formatAsset }}</td>
             </tr>
             <tr>
                 <td colspan="4" align="left">
                     <span class="pull-left">Withdraws</span>
                 </td>
             </tr>
-            <tr ng-repeat="o in t.withdraws">
+            <tr ng-repeat="o in t.a_withdraws">
                 <td></td>
                 <td></td>
                 <td></td>
-                <td>{{ o[1] | toAsset | formatAsset }}</td>
+                <td>{{ o | formatAsset }}</td>
             </tr>
             <tr>
                 <td colspan="4" align="left">
@@ -48,7 +48,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td ng-init="fee = {'amount': b[1], 'asset_id': b[0]}">{{ fee | toAsset | formatAsset }}</td>
+                <td>{{ b[2] | formatAsset }}</td>
             </tr>
             <tr>
                 <td colspan="4" align="left">
@@ -57,9 +57,9 @@
             </tr>
             <tr ng-repeat="vote in t.net_delegate_votes">
                 <td>Delegate:&nbsp;<a href="#/accounts/{{vote[0] | delegateName}}">{{ vote[0] | delegateName }}</a></td>
-                <td>Vote For Change:&nbsp;{{ {"amount": vote[1].votes_for, "asset_id":0 } | toAsset | formatAsset }}</td>
-                <td>Vote Against Change:&nbsp;{{ {"amount": vote[1].votes_against, "asset_id":0 } | toAsset | formatAsset }}</td>
-                <td>Total Vote Change:&nbsp;{{ {"amount": vote[1].votes_for - vote[1].votes_against, "asset_id": 0 } | toAsset | formatAsset }}</td>
+                <td>Vote For Change:&nbsp;{{ vote[2].votes_for | formatAsset }}</td>
+                <td>Vote Against Change:&nbsp;{{ vote[2].votes_against | formatAsset }}</td>
+                <td>Total Vote Change:&nbsp;{{ vote[2].votes_total | formatAsset }}</td>
             </tr>
         </tbody>
         </table>
