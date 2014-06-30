@@ -95,24 +95,26 @@ class Wallet
 
     refresh_transactions: (account_name) ->
         account_name_key = account_name || "*"
-        @wallet_api.account_transaction_history(account_name).then (result) =>
-            @transactions[account_name_key] = []
-            angular.forEach result, (val, key) =>
-                @transactions[account_name_key].push
-                    block_num: val.block_num
-                    trx_num: val.trx_num
-                    #trx_num: Number(key) + 1
-                    time: new Date(val.received_time*1000)
-                    amount: val.amount
-                    from: val.from_account
-                    to: val.to_account
-                    memo: val.memo_message
-                    id: val.trx_id.substring 0, 8
-                    fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
-                    vote: "N/A"
-            if account_name_key == "*"
-                @set_setting("wallet_trx_count", @transactions[account_name_key].length)
-            @transactions[account_name_key]
+        @blockchain.refresh_asset_records().then () =>
+            @wallet_api.account_transaction_history(account_name).then (result) =>
+                @transactions[account_name_key] = []
+                angular.forEach result, (val, key) =>
+                    @transactions[account_name_key].push
+                        block_num: val.block_num
+                        trx_num: val.trx_num
+                        #trx_num: Number(key) + 1
+                        time: new Date(val.received_time*1000)
+                        amount: val.amount
+                        amount_asset : @utils.asset(val.amount.amount, @blockchain.asset_records[val.amount.asset_id])
+                        from: val.from_account
+                        to: val.to_account
+                        memo: val.memo_message
+                        id: val.trx_id.substring 0, 8
+                        fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
+                        vote: "N/A"
+                if account_name_key == "*"
+                    @set_setting("wallet_trx_count", @transactions[account_name_key].length)
+                @transactions[account_name_key]
 
     refresh_transactions_on_new_block: () ->
         @get_setting("wallet_trx_count").then (result)=>

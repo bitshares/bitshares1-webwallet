@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionsController", ($scope, $attrs, $location, $stateParams, $state, Wallet, Utils, Info) ->
+angular.module("app").controller "TransactionsController", ($scope, $attrs, $location, $stateParams, $state, Wallet, Utils, Info, Blockchain) ->
 
     $scope.name = $stateParams.name || "*"
     $scope.transactions = Wallet.transactions

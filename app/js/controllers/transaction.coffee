@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionController", ($scope, $location, $stateParams, $state, BlockchainAPI, Utils) ->
+angular.module("app").controller "TransactionController", ($scope, $location, $stateParams, $state, BlockchainAPI, Blockchain, Utils) ->
     
     $scope.id = $stateParams.id
     $scope.next_trx_id = ""

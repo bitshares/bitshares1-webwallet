@@ -17,7 +17,7 @@
         <td><p class="long-shorten-text-l"><a href="#/accounts/{{t.from}}">{{ t.from }}</a></p></td>
         <td><p class="long-shorten-text-l"><a href="#/accounts/{{t.to}}">{{ t.to }}</a></p></td>
         <td>{{ t.memo }}</td>
-        <td><span class="bold text-success">{{ t.amount | toAsset | formatAsset }}</span></td>
+        <td><span class="bold text-success">{{ t.amount_asset | formatAsset }}</span></td>
         <td>{{ t.fee | formatAsset}}</td>
       </tr>
       <tr ng-if="warning">
