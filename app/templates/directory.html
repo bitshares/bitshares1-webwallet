@@ -34,6 +34,7 @@
                         <th></th>
                         <th>NAME</th>
                         <th>REGISTRATION DATE</th>
+						<th>Gravatar</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -44,6 +45,7 @@
                         </td>
                         <td>{{ r.name }}</td>
                         <td>Genesis</td>
+						<td><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm" /></td>
                       </tr>
                     </tbody>
                   </table>
