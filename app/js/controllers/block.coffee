@@ -1,4 +1,4 @@
-angular.module("app").controller "BlockController", ($scope, $location, $stateParams, $state, BlockchainAPI, Blockchain, Utils) ->
+angular.module("app").controller "BlockController", ($scope, $location, $stateParams, $state, $q, BlockchainAPI, Blockchain, Utils) ->
     
     $scope.number = $stateParams.number
     $scope.utils = Utils
@@ -11,9 +11,8 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
 
             BlockchainAPI.get_transactions_for_block(block_hash).then (transactions) ->
                 $scope.block.transactions = []
-                Blockchain.refresh_asset_records().then () ->
+                $q.all([Blockchain.refresh_asset_records(), Blockchain.refresh_delegates()]).then ()->
                     for i in [0 ... transactions.length]
-                    # TODO: are they totally matching?
                         trx = {}
                         trx.id = $scope.block.user_transaction_ids[i]
                         trx.withdraws = transactions[i].withdraws
@@ -31,7 +30,9 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
                         trx.net_delegate_votes = transactions[i].net_delegate_votes
                         asset_type = Blockchain.asset_records[0]
                         for n in trx.net_delegate_votes
-                            n.push Utils.asset(n[1].votes_for - n[1].votes_against, asset_type)
+                            n.push Utils.asset(n[1].votes_for, asset_type)
+                            # delegate name
+                            n.push Blockchain.id_delegates[n[0]].name
                         trx.operations = transactions[i].trx.operations
                         trx.balance = transactions[i].balance
                         for b in trx.balance
@@ -40,5 +41,4 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
                         $scope.block.transactions.push trx
 
             BlockchainAPI.get_signing_delegate($scope.number).then (delegate_name) ->
-                console.log delegate_name
                 $scope.block.delegate_name = delegate_name
