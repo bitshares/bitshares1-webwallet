@@ -9,5 +9,11 @@
 		</div>
 	</div>
 </div>
-
+	<table class="table table-striped table-hover">
+        <tbody>
+			<tr ng-repeat="(key, value) in about">
+			  <td> {{key}} </td> <td> {{ value }} </td>
+			</tr>
+        </tbody>
+    </table>
 </div>
