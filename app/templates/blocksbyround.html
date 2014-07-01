@@ -48,12 +48,12 @@
          <tbody>
          <tr ng-repeat="block in blocks | orderBy:'timestamp':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
             <td ng-if="block.block_num!=-2"><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
-            <td ng-if="block.block_num==-2" class="error">Missing</td>
+            <td ng-if="block.block_num==-2" class="error">Missing {{block.delta}} Block{{ plural(block.delta)}}</td>
             <td ng-if="block.block_num!=-2">
                {{ block.timestamp | prettyDate}}&emsp;
             </td>
             <td ng-if="block.block_num==-2" class="error">
-               {{ block.timestamp | prettyDate}}&emsp;
+                <span>{{ block.timestamp | prettyDate}}&emsp;</span><span ng-if="block.delta > 1">-&emsp;{{ block.to_timestamp | prettyDate }}</span>
             </td>
             <td ng-if="block.block_num==-2" colspan="4" class="error"></td>
             <td ng-if="block.block_num!=-2">

@@ -4,6 +4,9 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
     else
         $scope.filter_zero_trxs = false
 
+    $scope.plural = (delta)->
+        if delta > 1 then "s" else ""
+
     $scope.get_previous_block_timestamp = (blocks)->
         last_block_timestamp = 0
         if blocks.length and blocks[0].block_num != 1
@@ -28,11 +31,13 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
                             last_block_timestamp = result[0].timestamp
                         delta = (Utils.toDate(result[i].timestamp) - Utils.toDate(last_block_timestamp))/1000 
                         delta = delta / config.block_interval
-                        for j in [ 1 ... delta]
-                            block = 
+                        if delta > 1
+                            block =
                                 block_num : -2
-                                timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, j)
+                                timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, 1)
+                                to_timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, delta - 1)
                                 user_transaction_ids : []
+                                delta: delta - 1
                             blocks.push block
                         last_block_timestamp = result[i].timestamp
                         # TODO: still not detecting missing blocks between pages
