@@ -30,7 +30,7 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
 
             $scope.t = result
 
-            BlockchainAPI.get_block_by_number($scope.t.chain_location.block_num).then (result) ->
+            BlockchainAPI.get_block($scope.t.chain_location.block_num).then (result) ->
                 $scope.t.timestamp = result.timestamp
                 if ($scope.t.chain_location.trx_num + 1) < result.user_transaction_ids.length
                     $scope.next_trx_id = result.user_transaction_ids[$scope.t.chain_location.trx_num + 1]

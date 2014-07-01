@@ -7,7 +7,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
     $scope.my_assets = []
     $scope.my_symbols = []
     
-    BlockchainAPI.get_account_record($scope.name).then (result) =>
+    BlockchainAPI.get_account($scope.name).then (result) =>
         if result
             $scope.is_registered = true
 
@@ -15,14 +15,14 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
         $scope.assets = []
         $scope.my_assets = []
         $scope.my_symbols = []
-        BlockchainAPI.list_registered_assets("", -1).then (result) =>
+        BlockchainAPI.list_assets("", -1).then (result) =>
             $scope.assets = result
             asset_ids = []
             for asset in $scope.assets
                 asset_ids.push [asset.issuer_account_id]
 
             Blockchain.refresh_asset_records().then ()->
-                RpcService.request("batch", ["blockchain_get_account_record_by_id", asset_ids]).then (response) ->
+                RpcService.request("batch", ["blockchain_get_account", asset_ids]).then (response) ->
                     accounts = response.result
                     for i in [0...accounts.length]
                         if accounts[i]

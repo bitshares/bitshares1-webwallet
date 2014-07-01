@@ -88,7 +88,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.accountSuggestions = (input) ->
         console.log(input)
-        Wallet.blockchain_list_registered_accounts(input, 10).then (response) ->
+        Wallet.blockchain_list_accounts(input, 10).then (response) ->
             #code to make local and global accounts data structures consistents
             newresponse=(item.name for item in response)
             console.log(newresponse)

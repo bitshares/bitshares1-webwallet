@@ -3,7 +3,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
     $scope.number = $stateParams.number
     $scope.utils = Utils
 
-    BlockchainAPI.get_block_by_number($scope.number).then (result) ->
+    BlockchainAPI.get_block($scope.number).then (result) ->
         $scope.block = result
         $scope.block.transaction_count = result.user_transaction_ids.length
         BlockchainAPI.get_blockhash($scope.number).then (block_hash) ->
@@ -40,5 +40,5 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
 
                         $scope.block.transactions.push trx
 
-            BlockchainAPI.get_signing_delegate($scope.number).then (delegate_name) ->
+            BlockchainAPI.get_block_signee($scope.number).then (delegate_name) ->
                 $scope.block.delegate_name = delegate_name

@@ -3,5 +3,5 @@ angular.module("app").controller "BlockTransactionsController", ($scope, $locati
     $scope.transactions = []
     $scope.utils = Utils
     
-    BlockchainAPI.get_block_by_number($stateParams.number).then (result) ->
+    BlockchainAPI.get_block($stateParams.number).then (result) ->
         transactions = []

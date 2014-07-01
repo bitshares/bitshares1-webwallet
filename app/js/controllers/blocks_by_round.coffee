@@ -17,7 +17,7 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
             block_numbers = []
             for block in $scope.blocks
                 block_numbers.push [block.block_num]
-            RpcService.request("batch", ["blockchain_get_signing_delegate", block_numbers]).then (response) ->
+            RpcService.request("batch", ["blockchain_get_block_signee", block_numbers]).then (response) ->
                 delegate_names = response.result
                 for i in [0...delegate_names.length]
                     $scope.blocks[i].delegate_name = delegate_names[i]

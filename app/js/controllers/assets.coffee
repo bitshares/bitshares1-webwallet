@@ -4,7 +4,7 @@ angular.module("app").controller "AssetsController", ($scope, $location, Blockch
     #$scope.my_assets = Wallet.assets
     $scope.assets = []
 
-    BlockchainAPI.list_registered_assets("", -1).then (result) =>
+    BlockchainAPI.list_assets("", -1).then (result) =>
         $scope.assets = []
         asset_ids = []
         Blockchain.refresh_asset_records().then ()->
@@ -19,7 +19,7 @@ angular.module("app").controller "AssetsController", ($scope, $location, Blockch
 
                 $scope.assets.push asset
 
-            RpcService.request("batch", ["blockchain_get_account_record_by_id", asset_ids]).then (response) ->
+            RpcService.request("batch", ["blockchain_get_account", asset_ids]).then (response) ->
                 accounts = response.result
                 for i in [0...accounts.length]
                     if accounts[i]

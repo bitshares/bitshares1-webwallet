@@ -22,7 +22,7 @@ class Wallet
                     amount = symbol_amt_pair[1]
                     if (!@nonZeroBalance && amount>0)
                         @nonZeroBalance=true
-                    @blockchain.get_asset_record(symbol).then (asset_record) =>
+                    @blockchain.get_asset(symbol).then (asset_record) =>
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
     # turn raw rpc return value into nice object
@@ -77,7 +77,7 @@ class Wallet
                 return acct
             ,
             (error) =>
-                @blockchain_api.get_account_record(name).then (result) =>
+                @blockchain_api.get_account(name).then (result) =>
                     acct = @populate_account(result)
                     return acct
 
@@ -200,7 +200,7 @@ class Wallet
           response.result
 
     get_block: (block_num)->
-        @rpc.request('blockchain_get_block_by_number', [block_num]).then (response) ->
+        @rpc.request('blockchain_get_block', [block_num]).then (response) ->
           response.result
 
     wallet_remove_contact_account: (name)->
@@ -215,9 +215,9 @@ class Wallet
         @rpc.request('wallet_list_accounts').then (response) ->
           response.result
 
-    blockchain_list_registered_accounts: (first_account_name, limit) ->
+    blockchain_list_accounts: (first_account_name, limit) ->
         limit = if limit then limit else 9999
-        @rpc.request('blockchain_list_registered_accounts', [first_account_name, limit]).then (response) ->
+        @rpc.request('blockchain_list_accounts', [first_account_name, limit]).then (response) ->
           reg = []
           angular.forEach response.result, (val, key) =>
             reg.push

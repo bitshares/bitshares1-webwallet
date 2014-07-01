@@ -17,10 +17,9 @@ class Blockchain
                 @config = result.result
                 return @config
 
-    list_registered_accounts: ->
-        @rpc.request('blockchain_list_registered_accounts').then (response) ->
+    list_accounts: ->
+        @rpc.request('blockchain_list_accounts').then (response) ->
             reg = []
-            console.log('blockchain_list_registered_accounts',response)
             angular.forEach response.result, (val, key) =>
                 reg.push
                     name: val.name
@@ -40,17 +39,17 @@ class Blockchain
         return @asset_records[record.id]
 
     refresh_asset_records: ->
-        @blockchain_api.list_registered_assets("", -1).then (result) =>
+        @blockchain_api.list_assets("", -1).then (result) =>
             angular.forEach result, (record) =>
                 @populate_asset_record record
 
-    get_asset_record: (id) ->
+    get_asset: (id) ->
         if @asset_records[id]
             deferred = @q.defer()
             deferred.resolve(@asset_records[id])
             return deferred.promise
         else
-            @blockchain_api.get_asset_record(id).then (result) =>
+            @blockchain_api.get_asset(id).then (result) =>
                 record = @populate_asset_record result
                 return record
                 
@@ -90,7 +89,7 @@ class Blockchain
                     block_numbers = []
                     for block in @recent_blocks.value
                         block_numbers.push [block.block_num]
-                    @rpc.request("batch", ["blockchain_get_signing_delegate", block_numbers]).then (response) =>
+                    @rpc.request("batch", ["blockchain_get_block_signee", block_numbers]).then (response) =>
                         delegate_names = response.result
                         for i in [0...delegate_names.length]
                             @recent_blocks.value[i].delegate_name = delegate_names[i]
