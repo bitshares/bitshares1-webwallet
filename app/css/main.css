@@ -27,6 +27,13 @@ div.tooltip-inner {
     max-width: 350px;
 }
 
+/*Turn off spinner (arrows for numbers)*/
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
 a.white:hover {
 	color: #000;
 	opacity: 0.4;
