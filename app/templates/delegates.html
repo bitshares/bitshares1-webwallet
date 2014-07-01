@@ -20,7 +20,10 @@
             <tr ng-repeat="del in active_delegates">
               <td>{{ del.name }}</td>
               <td>
-                <span tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">{{ (del.delegate_info.votes_for)/current_xts_supply*100}}%</span>
+                <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
+					<span ng-switch-when='true'><0.01%</span>
+					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+				</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
               <td>{{ del.delegate_info.pay_rate }}%<td>
