@@ -299,3 +299,14 @@ input.ng-dirty.ng-invalid {
 input.ng-dirty.ng-valid {
 	border: 1px solid green;
 }
+
+.loading-overlay {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 1 !important;
+	background-color: #fff;
+	opacity: 0.4;
+}
