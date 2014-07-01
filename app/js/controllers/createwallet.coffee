@@ -4,7 +4,7 @@ angular.module("app").controller "CreateWalletController", ($scope, $rootScope, 
   $scope.submitForm = (isValid) ->
     if isValid
       promise = Wallet.create($scope.wallet_name, $scope.spending_password).then ->
-        $location.path("/home")
+        $location.path("/create/account")
       $rootScope.showLoadingIndicator promise
     else
       alert "Please properly fill up the form below"

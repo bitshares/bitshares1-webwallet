@@ -22,13 +22,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
                 #redirection
                 Wallet.check_if_locked()
 
-        Info.refresh_info().then ()->
-            if Info.info.wallet_open and Info.info.wallet_unlocked
-                if (Object.keys(Wallet.accounts).length < 1) 
-                    Wallet.refresh_accounts().then ->
-                      if Object.keys(Wallet.accounts).length < 1
-                          $location.path("/create/account")
-
   $scope.$watch ->
         $location.path()
     , -> 
