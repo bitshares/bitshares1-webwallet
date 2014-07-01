@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-xs-2">
                         <ul class="pager">
-                        <li class="next" ng-if="round"><a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}">Newer →</a></li>
+                        <li class="next" ng-if="round < last_block_round"><a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}">Newer →</a></li>
                           </ul>
                         </div>
                <div class="col-sm-4 p-inner">

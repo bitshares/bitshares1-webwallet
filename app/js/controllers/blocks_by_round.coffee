@@ -6,7 +6,7 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
 
     # TODO: change to $q.when all, to make it cleaner, add $watch?
     Blockchain.get_config().then (config) ->
-        $scope.round_count = config.delegate_num
+        $scope.round_count = config.page_count
         $scope.round = parseInt($stateParams.round, 10)
         $scope.start = ($scope.round - 1) * $scope.round_count + 1
         $scope.end = $scope.start + $scope.round_count - 1

@@ -15,6 +15,7 @@ class Blockchain
         else
             @rpc.request("blockchain_get_config", []).then (result) =>
                 @config = result.result
+                @config.page_count = 20
                 return @config
 
     list_accounts: ->
@@ -71,7 +72,7 @@ class Blockchain
         else
             @q.all({ head_num: @blockchain_api.get_blockcount(), config: @get_config() }).then (results) =>
                 console.log results
-                @recent_blocks.last_block_round = Math.floor((results.head_num - 1) / (results.config.delegate_num))
+                @recent_blocks.last_block_round = Math.floor((results.head_num - 1) / (results.config.page_count))
                 return @recent_blocks.last_block_round
                 
     refresh_recent_blocks: ->
@@ -84,7 +85,7 @@ class Blockchain
                     @recent_blocks.value = results.blocks.reverse()
                     if @recent_blocks.value.length > 0
                         @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
-                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.delegate_num))
+                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.page_count))
 
                     block_numbers = []
                     for block in @recent_blocks.value
