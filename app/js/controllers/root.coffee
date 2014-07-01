@@ -3,6 +3,12 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.bodyclass = "cover"
   $scope.currentPath = $location.path()
 
+  $rootScope.loading = false
+  $rootScope.showLoadingIndicator = (promise) ->
+    $rootScope.loading = true
+    promise.finally ->
+      $rootScope.loading = false
+
   $scope.check_wallet_status = ->
       Wallet.wallet_get_info().then (result) ->
         if result.state == "open"

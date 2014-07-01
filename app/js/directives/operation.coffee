@@ -1,4 +1,4 @@
-angular.module("app.directives", []).directive "operationDiv", ($q, Utils, Blockchain) ->
+angular.module("app.directives").directive "operationDiv", ($q, Utils, Blockchain) ->
     restrict: "E"
     transclude: true
     template: "<pre ng-transclude></pre>"
