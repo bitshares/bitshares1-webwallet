@@ -17,6 +17,9 @@ servicesModule.factory "Utils", ->
         parts.join(".") + " " + asset.symbol
     
     toDate: (t) ->
+        new Date(@toUTCDate(t))
+
+    toUTCDate: (t) ->
         dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
         match = t.match(dateRE)
         return 0 unless match
@@ -25,7 +28,25 @@ servicesModule.factory "Utils", ->
         while i < match.length
             nums.push parseInt(match[i], 10)
             i++
-        new Date(Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5]))
+        Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5])
+
+    #advance time according to interval in seconds
+    advance_interval: (t, interval, j) ->
+        @formatUTCDate(new Date(@toUTCDate(t) + j * interval * 1000))
+
+    forceTwoDigits : (val) ->
+        if val < 10
+            return "0#{val}"
+        return val
+
+    formatUTCDate : (date) ->
+        year = date.getUTCFullYear()
+        month = @forceTwoDigits(date.getUTCMonth()+1)
+        day = @forceTwoDigits(date.getUTCDate())
+        hour = @forceTwoDigits(date.getUTCHours())
+        minute = @forceTwoDigits(date.getUTCMinutes())
+        second = @forceTwoDigits(date.getUTCSeconds())
+        return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
 
     byteLength : (str) ->
         if !str

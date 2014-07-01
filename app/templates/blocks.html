@@ -9,7 +9,7 @@
   <div class="pull-right">
     <!--<h4><a href="#/blocks/hour/{{blocks.last_block_timestamp | date: 'yyyyMMddTHH'}}">More...</a></h4>-->
     <a class="btn btn-primary btn-success btn-top-right"
-       href="#/blocks/round/{{blocks.last_block_round + 1}}?withtrxs={{filter_zero_trxs}}"><i class="fa fa-cubes"></i>
+       href="#/blocks/round/{{last_block_round + 1}}?withtrxs={{filter_zero_trxs}}"><i class="fa fa-cubes"></i>
       Loading more blocks...</a>
   </div>
   <div class="header">
@@ -46,21 +46,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="block in blocks.value" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
-            <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
-            <td>
-              {{ block.timestamp | prettyDate}}&emsp;
+         <tr ng-repeat="block in blocks | orderBy:'timestamp':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
+            <td ng-if="block.block_num!=-2"><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
+            <td ng-if="block.block_num==-2" class="error">Missing</td>
+            <td ng-if="block.block_num!=-2">
+               {{ block.timestamp | prettyDate}}&emsp;
             </td>
-            <td>
-              {{ block.user_transaction_ids.length }}&emsp;
+            <td ng-if="block.block_num==-2" class="error">
+               {{ block.timestamp | prettyDate}}&emsp;
             </td>
-            <!--<td>{{ block.fee_rate / 1000 }}</td>-->
-            <td>
-              <a href="#/accounts/{{ block.delegate_name }}"> {{ block.delegate_name }}</a>
+            <td ng-if="block.block_num==-2" colspan="4" class="error"></td>
+            <td ng-if="block.block_num!=-2">
+               {{ block.user_transaction_ids.length }}
             </td>
-            <td>{{ block.block_size }}</td>
-          </tr>
-        </tbody>
+            <td ng-if="block.block_num!=-2">
+                <a href="#/accounts/{{ block.delegate_name }}">
+                    {{ block.delegate_name }}</a>
+            </td>
+            <td ng-if="block.block_num!=-2">
+                {{ block.latency | formatSecond}}
+            </td>
+            <td ng-if="block.block_num!=-2">{{ block.block_size }}</td>
+         </tr>
+         </tbody>
       </table>
     </div>
   </div>

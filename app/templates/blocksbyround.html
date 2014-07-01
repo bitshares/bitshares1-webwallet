@@ -1,9 +1,6 @@
 <div class="col-sm-12">
 	<div class="header">
-        
-        
                     <div class="row">
-                    
                         <div class="col-xs-2">
                             <ul class="pager">
                                 <li class="previous"><a href="#/blocks/round/{{round - 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round > 1">← Older</a></li>
@@ -42,29 +39,34 @@
          <tr>
             <th>Height</th>
             <th>Time</th>
-            <th>Trasanaction Count</th>
+            <th>Transaction Count</th>
             <th>Delegate</th>
             <th>Latency</th>
             <th>Size</th>
          </tr>
          </thead>
          <tbody>
-         <tr ng-repeat="block in blocks | orderBy:'block_num':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
-            <td><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
-            <td>
+         <tr ng-repeat="block in blocks | orderBy:'timestamp':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
+            <td ng-if="block.block_num!=-2"><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
+            <td ng-if="block.block_num==-2" class="error">Missing</td>
+            <td ng-if="block.block_num!=-2">
                {{ block.timestamp | prettyDate}}&emsp;
             </td>
-            <td>
+            <td ng-if="block.block_num==-2" class="error">
+               {{ block.timestamp | prettyDate}}&emsp;
+            </td>
+            <td ng-if="block.block_num==-2" colspan="4" class="error"></td>
+            <td ng-if="block.block_num!=-2">
                {{ block.user_transaction_ids.length }}
             </td>
-            <td>
+            <td ng-if="block.block_num!=-2">
                 <a href="#/accounts/{{ block.delegate_name }}">
                     {{ block.delegate_name }}</a>
             </td>
-            <td>
+            <td ng-if="block.block_num!=-2">
                 {{ block.latency | formatSecond}}
             </td>
-            <td>{{ block.block_size }}</td>
+            <td ng-if="block.block_num!=-2">{{ block.block_size }}</td>
          </tr>
          </tbody>
       </table>

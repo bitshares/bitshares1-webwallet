@@ -82,9 +82,9 @@ class Blockchain
                 if begin < 1 then begin = 1
 
                 @q.all({blocks: @blockchain_api.list_blocks(begin + 1, @recent_blocks_count), config: @get_config()}).then (results) =>
-                    @recent_blocks.value = results.blocks.reverse()
+                    @recent_blocks.value = results.blocks
                     if @recent_blocks.value.length > 0
-                        @recent_blocks.last_block_timestamp = @recent_blocks.value[0].timestamp
+                        @recent_blocks.last_block_timestamp = @recent_blocks.value[@recent_blocks.value.length-1].timestamp
                     @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.page_count))
 
                     block_numbers = []
@@ -94,7 +94,7 @@ class Blockchain
                         delegate_names = response.result
                         for i in [0...delegate_names.length]
                             @recent_blocks.value[i].delegate_name = delegate_names[i]
-                @block_head_num = current_head_num
+                    @block_head_num = current_head_num
 
     ##
     # Delegates

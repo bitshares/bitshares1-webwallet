@@ -188,6 +188,10 @@ tabset:hover {
 	background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 }
 
+.table tbody tr > td.error {
+    color: #c06002 !important;
+}
+
 .table-acc-balance > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
 	background: none;
 }
