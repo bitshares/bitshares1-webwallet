@@ -1,5 +1,6 @@
 angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
 
+    $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
     #$scope.account.balances = Wallet.balances[name]
