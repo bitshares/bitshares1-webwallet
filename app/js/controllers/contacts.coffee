@@ -16,9 +16,13 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
             $scope.refresh_contacts()
 
     $scope.newContactModal = ->
-        $modal.open
+        modal = $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactController"
+        modal.result.then ()->
+            $scope.refresh_contacts()
+        , ()->
+            $scope.refresh_contacts()
 
     $scope.toggleFavorite = (name)->
         Wallet.refresh_accounts().then ()->
