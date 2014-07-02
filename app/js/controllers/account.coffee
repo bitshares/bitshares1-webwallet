@@ -86,8 +86,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             templateUrl: "registration.html"
             controller: "RegistrationController"
             scope: $scope
-            resolve:
-              refresh:  -> $scope.refresh_addresses
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
 
