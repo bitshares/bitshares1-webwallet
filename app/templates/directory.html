@@ -31,21 +31,21 @@
                   <table class="table table-striped table-hover">
                     <thead>
                       <tr>
+						<th>Gravatar</th>
                         <th></th>
                         <th>NAME</th>
                         <th>REGISTRATION DATE</th>
-						<th>Gravatar</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="r in reg | filter:q">
+                      	<td><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm" /></td>
                         <td style='width:1%;white-space:nowrap'>
                           <button ng-click="addToContacts(r.name, r.owner_key)" class="btn btn-link btn-sm"><i
                               class="fa fa-star-o"></i></button>
                         </td>
                         <td>{{ r.name }}</td>
                         <td>Genesis</td>
-						<td><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm" /></td>
                       </tr>
                     </tbody>
                   </table>
