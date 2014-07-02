@@ -61,8 +61,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
       $modal.open
         templateUrl: "newcontact.html"
         controller: "NewContactController"
-        resolve:
-          refresh:  -> $scope.refresh_addresses
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
