@@ -19,8 +19,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
         $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactController"
-            resolve:
-                refresh:  -> $scope.refresh_contacts
 
     $scope.toggleFavorite = (name)->
         Wallet.refresh_accounts().then ()->
@@ -33,7 +31,7 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
             private_data.gui_data.favorite=!(private_data.gui_data.favorite)
             Wallet.account_update_private_data(name, private_data).then ->
                 $scope.refresh_contacts()
-             
+
 ###
   $scope.sendHimFunds = (contact) ->
     Shared.contactName = contact.entity.Label.name

@@ -34,4 +34,3 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': $scope.gravatarMD5}, payrate)
     Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': $scope.gravatarMD5}, payrate).then (response) ->
       $modalInstance.close("ok")
-      #refresh()

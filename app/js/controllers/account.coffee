@@ -61,8 +61,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
       $modal.open
         templateUrl: "newcontact.html"
         controller: "NewContactController"
-        resolve:
-          refresh:  -> $scope.refresh_addresses
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
@@ -88,8 +86,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             templateUrl: "registration.html"
             controller: "RegistrationController"
             scope: $scope
-            resolve:
-              refresh:  -> $scope.refresh_addresses
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
 
