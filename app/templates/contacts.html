@@ -3,9 +3,6 @@
 		<div class="pull-left">
 			<button type="submit" ng-click='newContactModal()' class="btn btn-success"><i class="fa fa-plus fa-fw"></i>Add Contact</button>
 		</div>
-		<div class="pull-right">
-			<input type="text" class="form-control" ng-model="filterOptions.filterText" placeholder='Filter'>
-		</div>
 	</div>
 </div>
 <div class="main-content">
@@ -30,8 +27,8 @@
               <tr ng-repeat="c in contacts | filter:q">
                 <td><img src="http://www.gravatar.com/avatar/{{c.public_data.gravatarID}}?d=mm" /></td>
                 <td style='width:1%;white-space:nowrap'>
-                  <button ng-click="addToContacts(c.name, c.owner_key)" class="btn btn-link btn-sm"><i
-                      class="fa fa-star-o"></i></button>
+                  <button ng-class="(c.private_data.gui_data.favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'" ng-click="toggleFavorite(c.name)" class="btn btn-link btn-sm">
+                  </button>
                 </td>
                 <td>{{ c.name }}</td>
                 <td><button ng-click="deleteContact(c.name)" class="btn btn-sm btn-link"><i class="fa fa-trash-o fa-lg"></i></button></td>
