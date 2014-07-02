@@ -104,10 +104,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.pairs = []
 
     $scope.addKeyVal = ->
-        if $scope.pairs.length is 0 || $scope.pairs[$scope.pairs.length-1].key is not null
+        if $scope.pairs.length is 0 || $scope.pairs[$scope.pairs.length-1].key
             $scope.pairs.push {'key': null, 'value': null}
         else
-            console.log('p', $scope.pairs[$scope.pairs.length-1])
             Growl.error 'Fill out empty fields first'
 
     $scope.removeKeyVal = (index) ->
