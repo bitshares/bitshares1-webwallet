@@ -1,5 +1,6 @@
 angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
 
+    $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
     #$scope.accounts = Wallet.receive_accounts
     #$scope.account.balances = Wallet.balances[name]
@@ -55,6 +56,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
             refresh_account()
             $scope.t_active=true
+
+    $scope.newContactModal = ->
+      $modal.open
+        templateUrl: "newcontact.html"
+        controller: "NewContactController"
+        resolve:
+          refresh:  -> $scope.refresh_addresses
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1

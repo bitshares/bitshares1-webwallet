@@ -122,7 +122,7 @@ class Wallet
                         from: val.from_account
                         to: val.to_account
                         memo: val.memo_message
-                        id: val.trx_id.substring 0, 8
+                        id: val.trx_id
                         fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
                         vote: "N/A"
                 @transactions[account_name_key]
