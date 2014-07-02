@@ -48,6 +48,11 @@ servicesModule.factory "Utils", ->
         second = @forceTwoDigits(date.getUTCSeconds())
         return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
 
+    is_registered: (account) ->
+        if account.registration_date == "19700101T000000"
+            return false
+        return true
+
     byteLength : (str) ->
         if !str
             return 0

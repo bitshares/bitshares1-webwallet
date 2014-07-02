@@ -212,16 +212,8 @@ class Wallet
         @rpc.request('blockchain_get_block', [block_num]).then (response) ->
           response.result
 
-    wallet_remove_contact_account: (name)->
-        @rpc.request('wallet_remove_contact_account', [name]).then (response) ->
-          response.result
-
     wallet_lock: ->
         @rpc.request('wallet_lock').then (response) ->
-          response.result
-
-    wallet_list_accounts: ->
-        @rpc.request('wallet_list_accounts').then (response) ->
           response.result
 
     blockchain_list_accounts: (first_account_name, limit) ->

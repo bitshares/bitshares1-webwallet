@@ -1,24 +1,44 @@
-<!--<ol class="breadcrumb">-->
- <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
- <!--<li><i class="fa fa-sign-out fa-fw"></i> Contacts</li>-->
-<!--</ol>-->
 <div class="col-md-12">
 	<div class="header">
 		<div class="pull-left">
-			<button type="submit" ng-click='newContactModal()' class="btn btn-success"><i class="fa fa-plus fa-fw"></i>New</button>
+			<button type="submit" ng-click='newContactModal()' class="btn btn-success"><i class="fa fa-plus fa-fw"></i>Add Contact</button>
 		</div>
 		<div class="pull-right">
 			<input type="text" class="form-control" ng-model="filterOptions.filterText" placeholder='Filter'>
 		</div>
 	</div>
 </div>
-
-	<div class="row">
-		<div class="col-sm-12 p-inner">
-		    <body ng-controller="MyCtrl">
-	        <div style="height: 800px; padding-top:6px" ng-grid="gridOptions"></div> 
-	        </body>   
-	    </div>
+<div class="main-content">
+    <div class="row">
+      <div class="col-sm-3">
+        <br> <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div id="unregister">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Gravatar</th>
+                <th></th>
+                <th>NAME</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="c in contacts | filter:q">
+                <td><img src="http://www.gravatar.com/avatar/{{c.public_data.gravatarID}}?d=mm" /></td>
+                <td style='width:1%;white-space:nowrap'>
+                  <button ng-click="addToContacts(c.name, c.owner_key)" class="btn btn-link btn-sm"><i
+                      class="fa fa-star-o"></i></button>
+                </td>
+                <td>{{ c.name }}</td>
+                <td><button ng-click="deleteContact(c.name)" class="btn btn-sm btn-link"><i class="fa fa-trash-o fa-lg"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 </div>
-
