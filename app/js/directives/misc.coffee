@@ -20,6 +20,8 @@ angular.module("app.directives").directive "uncapitalize", ->
   require: "ngModel"
   link: (scope, element, attrs, modelCtrl) ->
     uncapitalize = (inputValue) ->
+      if inputValue == undefined
+        return inputValue
       uncapitalized = inputValue.toLowerCase()
       if uncapitalized isnt inputValue
         modelCtrl.$setViewValue uncapitalized

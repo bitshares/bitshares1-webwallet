@@ -9,19 +9,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     promise.finally ->
       $rootScope.loading = false
 
-  $scope.check_wallet_status = ->
-      Wallet.wallet_get_info().then (result) ->
-        if result.state == "open"
-            #redirection
-            Wallet.check_if_locked()
-            Wallet.get_setting('timeout').then (result) ->
-                if result && result.value
-                    Wallet.timeout=result.value
-        else
-            Wallet.open().then ->
-                #redirection
-                Wallet.check_if_locked()
-
   $scope.$watch ->
         $location.path()
     , -> 
@@ -33,7 +20,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             # TODO update bodyclass by watching unlockwallet
             $scope.bodyclass = "splash"
             $scope.unlockwallet = false
-            $scope.check_wallet_status()
+            Wallet.check_wallet_status()
 
   $scope.$watch ->
         Info.info.wallet_unlocked
@@ -43,7 +30,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
                 ($scope.lock || angular.noop)()
     , true
   
-  $scope.check_wallet_status()
+  Wallet.check_wallet_status()
     
   $scope.started = false
 

@@ -11,6 +11,19 @@ class Wallet
     timeout: 60000
 
     nonZeroBalance: false
+    
+    check_wallet_status : ()->
+      @wallet_get_info().then (result) =>
+        if result.state == "open"
+            #redirection
+            @check_if_locked()
+            @get_setting('timeout').then (result) =>
+                if result && result.value
+                    @timeout=result.value
+        else
+            @open().then =>
+                #redirection
+                @check_if_locked()
 
     refresh_balances: ->
         @wallet_api.account_balance("").then (result) =>

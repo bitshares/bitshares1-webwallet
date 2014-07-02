@@ -28,6 +28,9 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
     url: '/home'
     templateUrl: "home.html"
     controller: "HomeController"
+    resolve: 
+        status: (Wallet)->
+            Wallet.check_wallet_status()
 
   help =
     name: 'help'
