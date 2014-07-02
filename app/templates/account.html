@@ -17,7 +17,7 @@
 	  			<button ng-switch-default ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary" tooltip="Toggle vote up">
 			    	<i ng-class="(trust_level && trust_level > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
 				</button>
-	  			<button ng-switch-when="null" class="btn btn-sm btn-link primary" tooltip="Not a delegate.  Disabled.">
+	  			<button ng-switch-when="null" style='color:grey' class="btn btn-sm btn-link" disabled="true">
 			    	<i class='fa fa-thumbs-o-up fa-2x'></i>
 				</button>
 			</span>
