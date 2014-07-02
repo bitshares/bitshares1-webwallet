@@ -2,9 +2,9 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
     
     $scope.id = $stateParams.id
     $scope.next_trx_id = ""
-    $scope.next_trx_num = -1
+    $scope.next_trx_num = 0
     $scope.prev_trx_id = ""
-    $scope.prev_trx_num = -1
+    $scope.prev_trx_num = 0
 
     BlockchainAPI.get_transaction($scope.id).then (result) ->
         $q.all([Blockchain.refresh_asset_records(), Blockchain.refresh_delegates()]).then ()->

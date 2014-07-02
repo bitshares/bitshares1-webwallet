@@ -24,7 +24,7 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
         else if $scope.pending_only
             have_pending = false
             for a in $scope.account_transactions
-                if a.block_num == -1
+                if a.block_num == 0
                     have_pending = true
                     break
             if !have_pending

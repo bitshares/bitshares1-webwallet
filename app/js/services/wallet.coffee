@@ -149,7 +149,7 @@ class Wallet
                 angular.forEach result, (val, key) =>
                     blktrx=val.block_num + "." + val.trx_num
                     @transactions[account_name_key].push
-                        block_num: ((if (blktrx is "-1.-1") then "Pending" else blktrx))
+                        block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
                         #trx_num: Number(key) + 1
                         time: new Date(val.received_time*1000)
                         amount: val.amount
