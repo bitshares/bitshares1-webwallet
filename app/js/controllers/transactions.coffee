@@ -20,7 +20,7 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
         $scope.account_transactions = Wallet.transactions[$scope.name]
         $scope.warning = ""
         if !$scope.account_transactions || $scope.account_transactions.length == 0
-            $scope.warning = if $scope.pending_only then "There are no pending trasactions!" else "There are no trasanctions!"
+            $scope.warning = if $scope.pending_only then "There are no pending transactions!" else "There are no transactions!"
         else if $scope.pending_only
             have_pending = false
             for a in $scope.account_transactions
@@ -28,7 +28,7 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
                     have_pending = true
                     break
             if !have_pending
-                $scope.warning = "There are no pending trasactions!"
+                $scope.warning = "There are no pending trasanctions!"
 
     $scope.$watch watch_for, on_update, true
 
