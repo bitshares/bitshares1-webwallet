@@ -8,7 +8,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     console.log('act')
     console.log(Wallet.accounts[name])
 
-
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = "XTS"
@@ -95,3 +94,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             allAccounts=newresponse.concat(Object.keys(Wallet.accounts))
             console.log(allAccounts)
             $filter('filter')(allAccounts, input)
+
+    
+    #Edit section
+    $scope.pairs = []
+
+    $scope.addKeyVal = ->
+        $scope.pairs.push {"":""}
+
+    $scope.removeKeyVal = (index) ->
+        $scope.pairs.splice(index, 1)
