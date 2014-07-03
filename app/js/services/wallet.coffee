@@ -188,6 +188,8 @@ class Wallet
 
     wallet_rename_account: (current_name, new_name) ->
         @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) =>
+          @refresh_accounts().then =>
+              @refresh_transactions()
           response.result
 
     wallet_unlock: (password)->
