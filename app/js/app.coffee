@@ -3,7 +3,7 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
-app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate"])
+app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate", "xeditable"])
 
 #app.run [
 #  "$idle"
@@ -11,8 +11,12 @@ app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services"
 #    $idle.watch()
 #]
 
-app.run ($rootScope, $location, $idle) ->
+app.run ($rootScope, $location, $idle, editableOptions, editableThemes) ->
     history = []
+
+    editableOptions.theme = 'default'
+    editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
+    editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
 
     $rootScope.$on '$locationChangeSuccess', ()->
         history.push $location.$$path

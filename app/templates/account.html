@@ -31,8 +31,8 @@
 		  <div ng-switch-when="19700101T000000" class="pull-right">
 		    <a style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
 		  </div>
-				
-        <div><h1 class="white-shadow">{{account.name}}<small style="position: absolute;" class="text-primary">*</small></h1>
+			  
+        <div><a href="#" style='font-size:200%' editable-text="account.name">{{account.name}}<small style="position: absolute;" class="text-primary">*</small></a>
                   <div class="reg-date" style="" class="white-shadow" ng-switch-default>
             <i class="white">Registration date: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
           </div></div></div>
