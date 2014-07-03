@@ -33,14 +33,15 @@ angular.module("app.directives").directive "uncapitalize", ->
     return
 
 angular.module("app.directives").directive "loadingIndicator", ->
-  console.log "####################"
   restrict: "A"
   replace: true
   scope:
     loading: '=loadingIndicator'
   template: """
   <div ng-show="loading" class='loading-overlay'>
-    <div class="spinner-container"></div>
+    <div class='loading-panel'>
+      <div class="spinner-container"></div>
+    </div>
   </div>
   """
   link: (scope, element, attrs) ->

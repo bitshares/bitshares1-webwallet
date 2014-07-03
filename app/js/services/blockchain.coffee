@@ -130,7 +130,8 @@ class Blockchain
         record
 
     refresh_delegates: ->
-        @q.all({dels: @blockchain_api.list_delegates(0, -1), config: @get_config()}).then (results) =>
+        # TODO: delegates paginator is needed
+        @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_config()}).then (results) =>
             for i in [0 ... results.config.delegate_num]
                 @active_delegates[i] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]

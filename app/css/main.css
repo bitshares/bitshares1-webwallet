@@ -301,12 +301,18 @@ input.ng-dirty.ng-valid {
 }
 
 .loading-overlay {
-	height: 100%;
+	height: 80px;
 	width: 100%;
 	position: fixed;
-	left: 0;
-	top: 0;
+	bottom: 50px;
 	z-index: 1 !important;
-	background-color: #fff;
+}
+
+.loading-panel {
+	height: 80px;
+	width: 300px;
+	background-color: #999;
 	opacity: 0.4;
+	margin: 0 auto;
+	border-radius: 5px;
 }
