@@ -3,12 +3,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.bodyclass = "cover"
   $scope.currentPath = $location.path()
 
-  $rootScope.loading = false
-  $rootScope.showLoadingIndicator = (promise) ->
-    $rootScope.loading = true
-    promise.finally ->
-      $rootScope.loading = false
-
   $scope.$watch ->
         $location.path()
     , -> 

@@ -1,12 +1,17 @@
+window.getStackTrace = ->
+    obj = {}
+    Error.captureStackTrace(obj, getStackTrace)
+    obj.stack
+
 app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate"])
 
-app.run [
-  "$idle"
-  ($idle) ->
-    $idle.watch()
-]
+#app.run [
+#  "$idle"
+#  ($idle) ->
+#    $idle.watch()
+#]
 
-app.run ($rootScope, $location) ->
+app.run ($rootScope, $location, $idle) ->
     history = []
 
     $rootScope.$on '$locationChangeSuccess', ()->
@@ -15,6 +20,14 @@ app.run ($rootScope, $location) ->
     $rootScope.history_back = ()->
         prevUrl = if history.length > 1 then history.splice(-2)[0] else "/home"
         $location.path(prevUrl)
+
+    $rootScope.loading = false
+    $rootScope.showLoadingIndicator = (promise) ->
+        $rootScope.loading = true
+        promise.finally ->
+            $rootScope.loading = false
+
+    $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
   
