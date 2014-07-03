@@ -192,28 +192,28 @@
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
 		<div class='row'>
 			<div class="col-sm-2 m-top">
-				<gravatar-image data-gravatar-email="email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+				<gravatar-image data-gravatar-email="$parent.edit.newemail" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
 				<br>
 				<p class="text-center lead">
 					{{gravatarDisplayName}}
 				</p>
 			</div>
 			<div class="col-sm-10">
-				<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+				<form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 					<div class="form-group m-top">
 					  	<div class="form-group row">
 					  		<label for="email" class="col-sm-1 control-label">Email</label>
 							<div class="col-sm-6">
-					    		<input ng-model="email" type="text" class="form-control" placeholder="Optional Email"/>
+					    		<input ng-model="$parent.edit.newemail" type="text" class="form-control" placeholder="Optional Email"/>
 					  		</div>
 					  	</div>
 					  	<div class="form-group row">
 					  		<label for="website" class="col-sm-1 control-label">Website</label>
 							<div class="col-sm-6">
-					    		<input focus ng-model="website" type="text" class="form-control" placeholder="Website"/>
+					    		<input focus ng-model="$parent.edit.newwebsite" type="text" class="form-control" placeholder="Website"/>
 					  		</div>
 					  	</div>
-						<div ng-repeat="pair in pairs">
+						<div ng-repeat="pair in $parent.edit.pairs">
 						  	<div class="form-group row">
 								<div class="col-sm-1">
 						    		<input focus type="text" ng-model="pair.key" class="form-control" placeholder="Key"/>

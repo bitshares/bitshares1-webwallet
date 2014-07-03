@@ -24,6 +24,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.account = acct
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
+            $scope.edit={}
+            $scope.edit.newemail = acct.private_data.gui_data.email
+            $scope.edit.newwebsite = acct.private_data.gui_data.website
+            if (acct.private_data.gui_custom_data_pairs)
+              $scope.edit.pairs = acct.private_data.gui_custom_data_pairs
+            else
+              $scope.edit.pairs=[]
     refresh_account()
 
     Blockchain.get_config().then (config) ->
@@ -101,13 +108,18 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     
     #Edit section
-    $scope.pairs = []
 
     $scope.addKeyVal = ->
-        if $scope.pairs.length is 0 || $scope.pairs[$scope.pairs.length-1].key
-            $scope.pairs.push {'key': null, 'value': null}
+        if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
+            $scope.edit.pairs.push {'key': null, 'value': null}
         else
             Growl.error 'Fill out empty fields first'
 
     $scope.removeKeyVal = (index) ->
-        $scope.pairs.splice(index, 1)
+        $scope.edit.pairs.splice(index, 1)
+    
+    $scope.submitEditAccount = ->
+        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
+            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
+            refresh_account()
+
