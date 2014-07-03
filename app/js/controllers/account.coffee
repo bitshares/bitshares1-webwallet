@@ -106,7 +106,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             console.log(allAccounts)
             $filter('filter')(allAccounts, input)
 
-    
+    #x-editable
+    $scope.updateUser = (newName) ->
+        Wallet.wallet_rename_account(name, newName).then ->
+            $location.path("/accounts/"+newName)
+
+
     #Edit section
 
     $scope.addKeyVal = ->
