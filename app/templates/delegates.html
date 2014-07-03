@@ -20,7 +20,7 @@
               <th>APPROVAL</th>
               <th>PRODUCED / MISSED RATIO</th>
               <th>DELEGATE PAY RATE</th>
-              <th>TRUST</th>
+              <th>APPROVE</th>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +33,7 @@
 				</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
-              <td>{{ del.delegate_info.pay_rate }}%<td>
+              <td>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
@@ -62,7 +62,7 @@
             <th>APPROVAL</th>
             <th>PRODUCED / MISSED RATIO</th>
             <th>DELEGATE PAY RATE</th>
-            <th>TRUST</th>
+            <th>APPROVE</th>
           </tr>
         </thead>
         <tbody>
@@ -75,7 +75,7 @@
 				</span>
             </td>
             <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
-            <td>{{ del.delegate_info.pay_rate }}%<td>
+            <td>{{ del.delegate_info.pay_rate }}%</td>
             <td>
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
