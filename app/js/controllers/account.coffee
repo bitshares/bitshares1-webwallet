@@ -53,7 +53,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "The wallet was successfully imported."
             refresh_account()
 
-    $scope.send = ->
+    yesSend = ->
         WalletAPI.transfer($scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo).then (response) ->
             $scope.payto = ""
             $scope.amount = ""
@@ -61,6 +61,15 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
             refresh_account()
             $scope.t_active=true
+
+    $scope.send = ->
+        $modal.open
+            templateUrl: "dialog-confirmation.html"
+            controller: "DialogConfirmationController"
+            resolve:
+                title: -> "Are you sure?"
+                message: -> "This will send " + $scope.amount + " " + $scope.symbol + " to " + $scope.payto
+                action: -> yesSend
 
     $scope.newContactModal = ->
       $modal.open
