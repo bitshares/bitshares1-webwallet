@@ -25,7 +25,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="del in active_delegates | filter:search">
-              <td>{{ del.name }}</td>
+                <td><a href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
 					<span ng-switch-when='true'><0.01%</span>
@@ -67,7 +67,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="del in inactive_delegates | filter:search">
-            <td>{{ del.name }}</td>
+              <td><a href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
             <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
 					<span ng-switch-when='true'><0.01%</span>

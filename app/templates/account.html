@@ -45,7 +45,7 @@
   
       <div class="col-sm-10">
             <div class="pull-right p-inner">
-            <table  class="table table-striped table-acc-balance">
+            <table  class="table table-striped table-acc-balance" ng-show="account.is_my_account">
               <thead>
               <tr>
                 <th><h3 class="header-title text-muted">BALANCES</h3></th>
@@ -127,11 +127,11 @@
            </form>
           </div>
     </tab>
-    <tab>
+    <tab ng-show="account.is_my_account">
       <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> Assets</tab-heading>
       <div ng-controller="ManageAssetsController" ng-include src="'manage_assets.html'"></div>
     </tab>
-    <tab>
+    <tab ng-show="account.is_my_account">
       <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> Advanced</tab-heading>
 	    <div class="p-inner"><b>Account Key:</b> {{account.active_key}}</div>
 

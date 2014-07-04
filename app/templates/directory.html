@@ -44,7 +44,7 @@
                           <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
 </button>
                         </td>
-                        <td>{{ r.name }}</td>
+                        <td><a href="#/accounts/{{r.name}}">{{ r.name }}</a></td>
                         <td>Genesis</td>
                       </tr>
                     </tbody>
