@@ -25,7 +25,10 @@ module.exports = function(lineman) {
         "vendor/js/angular-idle.js",
         "vendor/js/angularjs-gravatardirective.js",
         "vendor/js/validate.js",
-        "vendor/js/spin.js"
+        "vendor/js/xeditable.js",
+        "vendor/js/spin.js",
+        "vendor/js/angular-translate.min.js",
+        "vendor/js/angular-translate-loader-static-files.min.js"
       ],
       app: [
         "app/js/app.js",
@@ -48,6 +51,7 @@ module.exports = function(lineman) {
         //"vendor/css/jasny-bootstrap.css",
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
+        "vendor/css/xeditable.css",
         "vendor/css/ng-grid.css"
       ],
       app: [

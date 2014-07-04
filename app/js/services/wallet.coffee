@@ -11,6 +11,8 @@ class Wallet
     timeout: 60000
 
     nonZeroBalance: false
+
+    pendingRegistrations: {}
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
@@ -188,6 +190,8 @@ class Wallet
 
     wallet_rename_account: (current_name, new_name) ->
         @rpc.request('wallet_rename_account', [current_name, new_name]).then (response) =>
+          @refresh_accounts().then =>
+              @refresh_transactions()
           response.result
 
     wallet_unlock: (password)->

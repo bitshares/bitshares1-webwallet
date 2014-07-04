@@ -26,22 +26,22 @@
 	</div>
 
 	<div class="col-sm-10">
-		<button type="button" class="close p-inner" aria-hidden="true" ui-sref="accounts"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></p>
-	
 		<div class="header p-inner ">
-		<div class="" ng-switch on="account.registration_date">
-		  <div ng-switch-when="19700101T000000" class="pull-right">
-		    <a style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
-		  </div>
-				
-        <div><h1 class="white-shadow">{{account.name}}<small style="position: absolute;" class="text-primary">*</small></h1>
-                  <div class="reg-date" style="" class="white-shadow" ng-switch-default>
-            <i class="white">Registration date: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
-          </div></div></div>
-          
-         </div>
-                
+  		<div class="" ng-switch on="account.registration_date">
+  		  <div ng-switch-when="19700101T000000">
+          <div class="pull-right" ng-switch on="p.pendingRegistration">
+			  <div ng-switch-when='pending'>Registration pending</div>
+  		      <a ng-switch-default style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
+  		    </div>
+          <a onbeforesave="updateUser($data)" tooltip="Click to edit" href="#" style='font-size:200%' editable-text="account.name">{{account.name}}</a>
+        </div>      
+        <div class="reg-date" style="" class="white-shadow" ng-switch-default>
+          <div style='color:white;font-size:200%'>{{account.name}}</div>
+          <br>
+          <i class="white">Registration date: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
         </div>
+    </div>
+  </div>
   
       <div class="col-sm-10">
             <div class="pull-right p-inner">
@@ -192,28 +192,28 @@
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
 		<div class='row'>
 			<div class="col-sm-2 m-top">
-				<gravatar-image data-gravatar-email="email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+				<gravatar-image data-gravatar-email="$parent.edit.newemail" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
 				<br>
 				<p class="text-center lead">
 					{{gravatarDisplayName}}
 				</p>
 			</div>
 			<div class="col-sm-10">
-				<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+				<form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 					<div class="form-group m-top">
 					  	<div class="form-group row">
 					  		<label for="email" class="col-sm-1 control-label">Email</label>
 							<div class="col-sm-6">
-					    		<input ng-model="email" type="text" class="form-control" placeholder="Optional Email"/>
+					    		<input ng-model="$parent.edit.newemail" type="text" class="form-control" placeholder="Optional Email"/>
 					  		</div>
 					  	</div>
 					  	<div class="form-group row">
 					  		<label for="website" class="col-sm-1 control-label">Website</label>
 							<div class="col-sm-6">
-					    		<input focus ng-model="website" type="text" class="form-control" placeholder="Website"/>
+					    		<input focus ng-model="$parent.edit.newwebsite" type="text" class="form-control" placeholder="Website"/>
 					  		</div>
 					  	</div>
-						<div ng-repeat="pair in pairs">
+						<div ng-repeat="pair in $parent.edit.pairs">
 						  	<div class="form-group row">
 								<div class="col-sm-1">
 						    		<input focus type="text" ng-model="pair.key" class="form-control" placeholder="Key"/>
