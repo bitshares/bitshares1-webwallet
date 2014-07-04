@@ -29,8 +29,9 @@
 		<div class="header p-inner ">
   		<div class="" ng-switch on="account.registration_date">
   		  <div ng-switch-when="19700101T000000">
-          <div class="pull-right">
-  		      <a style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
+          <div class="pull-right" ng-switch on="p.pendingRegistration">
+			  <div ng-switch-when='pending'>Registration pending</div>
+  		      <a ng-switch-default style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
   		    </div>
           <a onbeforesave="updateUser($data)" tooltip="Click to edit" href="#" style='font-size:200%' editable-text="account.name">{{account.name}}</a>
         </div>      
@@ -39,7 +40,6 @@
           <br>
           <i class="white">Registration date: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
         </div>
-       
     </div>
   </div>
   

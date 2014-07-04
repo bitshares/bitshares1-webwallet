@@ -18,6 +18,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.wallet_info = {file : "", password : ""}
     
     $scope.private_key = {value : ""}
+    $scope.p={}
+    $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
 
     refresh_account = ->
         Wallet.get_account(name).then (acct) ->
@@ -42,11 +44,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Your private key was successfully imported."
             refresh_account()
 
-    $scope.register = ->
-        console.log "paying with:"
-        console.log $scope.payWith
-        WalletAPI.account_register($scope.account.name, $scope.payWith).then (response) ->
-            Wallet.refresh_account()
+
 
     $scope.import_wallet = ->
         WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->

@@ -11,6 +11,8 @@ class Wallet
     timeout: 60000
 
     nonZeroBalance: false
+
+    pendingRegistrations: {}
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
