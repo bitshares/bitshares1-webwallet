@@ -14,8 +14,16 @@ angular.module("app").controller "FavoriteController", ($scope, $state, $locatio
     $scope.isFavorite = (account)->
       account.private_data && account.private_data.gui_data.favorite
     
+    $scope.toggleFavorite = (name) ->
+        $modal.open
+            templateUrl: "dialog-confirmation.html"
+            controller: "DialogConfirmationController"
+            resolve:
+                title: -> "Are you sure?"
+                message: -> "This will remove <b>" + name + "</b> from favorites"
+                action: -> -> yesToggleFavorite(name)
 
-    $scope.toggleFavorite = (name)->
+    yesToggleFavorite = (name)->
         Wallet.refresh_accounts().then ()->
             if (Wallet.accounts[name].private_data)
                 private_data=Wallet.accounts[name].private_data
