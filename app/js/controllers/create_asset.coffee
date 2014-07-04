@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService, Utils, Blockchain) ->
+angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService, Utils, Blockchain, Wallet) ->
 
     $scope.name = $stateParams.name
     $scope.create_asset =

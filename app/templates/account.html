@@ -30,15 +30,15 @@
   		<div class="" ng-switch on="account.registration_date">
   		  <div ng-switch-when="19700101T000000">
           <div class="pull-right" ng-switch on="p.pendingRegistration">
-			  <div ng-switch-when='pending'>Registration pending</div>
-  		      <a ng-switch-default style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Register {{account.name}}</a>
+			  <div ng-switch-when='pending' translate>account.reg_pending</div>
+              <a ng-switch-default style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i>{{'account.reg' | translate}} {{account.name}}</a>
   		    </div>
           <a onbeforesave="updateUser($data)" tooltip="Click to edit" href="#" style='font-size:200%' editable-text="account.name">{{account.name}}</a>
         </div>      
         <div class="reg-date" style="" class="white-shadow" ng-switch-default>
           <div style='color:white;font-size:200%'>{{account.name}}</div>
           <br>
-          <i class="white">Registration date: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
+          <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
         </div>
     </div>
   </div>
@@ -48,7 +48,7 @@
             <table  class="table table-striped table-acc-balance" ng-show="account.is_my_account">
               <thead>
               <tr>
-                <th><h3 class="header-title text-muted">BALANCES</h3></th>
+                <th><h3 class="header-title text-muted" translate>account.balances</h3></th>
               </tr>
               </thead>
               <tbody>
@@ -75,15 +75,15 @@
 <div class="col-sm-12 p-top">
 <tabset>
     <tab active="$parent.t_active">
-      <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> Transactions</tab-heading>
+    <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.transactions' | translate }}</tab-heading>
       <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
     <tab>
-      <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i> Transfer</tab-heading>
+    <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
           <div id="transfer-form p-inner">
            <form name="my_transfer_form" class="form-horizontal p-inner" role="form" ng-submit="my_transfer_form.$valid && send()" >
              <div class="form-group row">
-                 <label for="amount" class="col-sm-2 control-label">Amount</label>
+                 <label for="amount" class="col-sm-2 control-label" transalte>account.amount</label>
                <div class="col-md-3">
                    <input ng-model="$parent.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
                </div>
@@ -102,51 +102,50 @@
              -->
 
             <div class="form-group">
-             <label for="payto" class="col-sm-2 control-label">To</label>
-
+                <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
              <div class="col-md-5">
               <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' required/>
              </div>
              <div class="col-md-1">
-              <button ng-click='newContactModal()' type="button" class="btn btn-primary btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> New</button>
+                 <button ng-click='newContactModal()' type="button" class="btn btn-primary btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> {{'account.new'|translate }}</button>
              </div>
             </div>
 
 
             <div class="form-group">
-             <label for="memo" class="col-sm-2 control-label">Memo</label>
+             <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
              <div class="col-md-5">
                  <input ng-model="$parent.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo" id="memo"/>
              </div>
             </div>
              <div class="form-group row">
                <div class="col-sm-offset-2 col-sm-10">
-                 <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Send</button>
+                   <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.send'|translate}}</button>
                </div>
              </div>
            </form>
           </div>
     </tab>
     <tab ng-show="account.is_my_account">
-      <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> Assets</tab-heading>
+    <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
       <div ng-controller="ManageAssetsController" ng-include src="'manage_assets.html'"></div>
     </tab>
     <tab ng-show="account.is_my_account">
-      <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> Advanced</tab-heading>
-	    <div class="p-inner"><b>Account Key:</b> {{account.active_key}}</div>
+    <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> {{ 'account.advanced' | translate }}</tab-heading>
+    <div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
 
       <tabset class="p-inner">
           <tab heading="Import Private Key">
           <form class="form-horizontal" role="form" ng-submit="import_key()">
                 <div class="form-group">
-                 <label for="pk_value" class="col-sm-2 control-label">Private Key</label>
+                 <label for="pk_value" class="col-sm-2 control-label" translate>account.priv_key</label>
                  <div class="col-sm-9">
                   <input ng-model="private_key.value" type="text" class="form-control" id="pk_value" placeholder="Private Key"/>
                  </div>
                 </div>
                 <div class="form-group">
                  <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary">Import Key</button>
+                  <button type="submit" class="btn btn-primary" translate>account.import_key</button>
                  </div>
                 </div>
 
@@ -157,7 +156,7 @@
 
            <form class="form-horizontal" role="form" ng-submit="import_wallet()">
             <div class="form-group">
-             <label for="wallet_file" class="col-sm-2 control-label">Wallet Type</label>
+             <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_type</label>
              <div class="col-sm-9">
                 <select name="menu">
                 <option value="1">Bitcoin</option>
@@ -167,20 +166,20 @@
              </div>
             </div>
             <div class="form-group">
-             <label for="wallet_file" class="col-sm-2 control-label">Wallet Path</label>
+             <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_path</label>
              <div class="col-sm-9">
               <input ng-model="wallet_info.file" type="text" class="form-control" id="wallet_file" placeholder=""/>
              </div>
             </div>
             <div class="form-group">
-             <label for="wallet_password" class="col-sm-2 control-label">Wallet Password</label>
+             <label for="wallet_password" class="col-sm-2 control-label" translate>account.wallet_password</label>
              <div class="col-sm-9">
               <input ng-model="wallet_info.password" type="password" class="form-control" id="wallet_password" placeholder="Password"/>
              </div>
             </div>
             <div class="form-group">
              <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-primary">Import Wallet</button>
+              <button type="submit" class="btn btn-primary" translate>import_wallet</button>
              </div>
             </div>
            </form>
@@ -189,7 +188,7 @@
       </tabset>
     </tab>
     <tab ng-show='account.is_my_account'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> Edit</tab-heading>
+    <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'edit' | translate }}</tab-heading>
 		<div class='row'>
 			<div class="col-sm-2 m-top">
 				<gravatar-image data-gravatar-email="$parent.edit.newemail" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
@@ -202,13 +201,13 @@
 				<form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 					<div class="form-group m-top">
 					  	<div class="form-group row">
-					  		<label for="email" class="col-sm-1 control-label">Email</label>
+					  		<label for="email" class="col-sm-1 control-label" translate>email</label>
 							<div class="col-sm-6">
 					    		<input ng-model="$parent.edit.newemail" type="text" class="form-control" placeholder="Optional Email"/>
 					  		</div>
 					  	</div>
 					  	<div class="form-group row">
-					  		<label for="website" class="col-sm-1 control-label">Website</label>
+					  		<label for="website" class="col-sm-1 control-label" translate>website</label>
 							<div class="col-sm-6">
 					    		<input focus ng-model="$parent.edit.newwebsite" type="text" class="form-control" placeholder="Website"/>
 					  		</div>
@@ -228,12 +227,12 @@
 					  	</div>
 					  	<div class="form-group row">
 						  	<div class="col-sm-offset-1 col-sm-2">
-					    		<button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> Add Field</button>
+                                <button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> {{ 'account.add_field' | translate}}</button>
 					  		</div>
 				  		</div>
 						<div class="form-group row">
 					  		<div class="col-sm-offset-1 col-sm-2">
-					    		<button class="btn btn-primary" type="submit">Save</button>
+					    		<button class="btn btn-primary" type="submit" translate>save</button>
 					  		</div>
 						</div>
 					</div>

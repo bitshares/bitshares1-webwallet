@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>BitShares XT Wallet</title>
+    <title translate>index.title</title>
     <link rel="stylesheet" type="text/css" href="/css/app.css" media="all"/>
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
@@ -23,16 +23,16 @@
       <div class="body">
         <aside class="sidebar">
           <ul class="nav nav-stacked">
-              <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'overview' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>My Accounts</a></li>
-            <li ui-sref-active="active"><a ui-sref="directory"><i class="fa fa-book fa-fw"></i>Directory</a></li>
+              <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>{{ 'index.my_account' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="directory"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
             <!--<li ui-sref-active="active"><a ui-sref="proposals"><i class="fa fa-file-powerpoint-o fa-fw"></i>Proposals</a></li>-->
 
-            <li ui-sref-active="active"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>Block Explorer</a></li>
-            <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>Preferences</a></li>
-            <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>Console</a></li>
-			      <li ui-sref-active="active"><a ui-sref="help"><i class="fa fa-question-circle fa-fw"></i>Help</a></li>
-            <li ui-sref-active="active"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>Lock</a></li>
+            <li ui-sref-active="active"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>{{ 'index.block_explorer' | translate }}</a></li>
+            <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
+            <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>{{ 'index.console' | translate }}</a></li>
+            <li ui-sref-active="active"><a ui-sref="help"><i class="fa fa-question-circle fa-fw"></i>{{ 'index.help' | translate }}</a></li>
+            <li ui-sref-active="active"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
 
           </ul>
         </aside>
