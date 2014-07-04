@@ -18,67 +18,67 @@
 		         </tr>
 		          <tbody>
 		         <tr>
-		            <td>Number of Transactions</td>
+		            <td translate>block.trx_count</td>
 		            <td>
 		               {{ block.transaction_count }}&emsp;
 		           </td>
 		         </tr>
 		         <tr>
-		             <td>Block ID</td>
+		             <td translate>block.blk_id</td>
 		             <td>
 		                 {{ block.block_hash}}&emsp;
 		             </td>
 		         </tr>
 		         <tr>
-		            <td>Previous Block ID</td>
+		            <td translate>block.prev_blk_id</td>
 		            <td>
 		               {{ block.previous }}&emsp;
 		           </td>
 		         </tr>
 		         <tr>
-		            <td>Block Fee Rate</td>
+		            <td translate>block.block_fee_rate</td>
 		            <td>
 		               {{ block.fee_rate/1000 }}&emsp;
 		            </td>
 		         </tr>
 		         <tr>
-		             <td>Delegate Name</td>
+		             <td translate>block.delegate_name</td>
 		             <td>
 		                 {{ block.delegate_name}}&emsp;
 		             </td>
 		         </tr>
 		         <tr>
-		            <td>Delegate Pay Rate</td>
+		            <td translate>block.delegate_pay_rate</td>
 		            <td>
 		               {{ block.delegate_pay_rate }}&emsp;
 		           </td>
 		         </tr>
 		          <tr>
-		            <td>TimeStamp</td>
+		            <td translate>block.timestamp</td>
 		            <td>
 		               {{ block.timestamp | prettyDate}}&emsp;
 		           </td>
 		         </tr>
 		         <tr>
-		            <td>Transaction Digest</td>
+		            <td translate>block.trx_digest</td>
 		            <td>
 		               {{ block.transaction_digest }}&emsp;
 		           </td>
 		         </tr>
 		          <tr>
-		            <td>Next Secret Hash</td>
+		            <td translate>block.next_secret_hash</td>
 		            <td>
 		               {{ block.next_secret_hash }}&emsp;
 		           </td>
 		         </tr>
 		         <tr>
-		            <td>Previous Secret</td>
+		            <td translate>block.previous_secret</td>
 		            <td>
 		               {{ block.previous_secret }}&emsp;
 		           </td>
 		         </tr>
 		         <tr>
-		            <td>Delegate Signature</td>
+		            <td translate>block.delegate_signature</td>
 		            <td>
 		               <p class="long-shorten-text-r">{{ block.delegate_signature }}&emsp;</p>
 		           </td>

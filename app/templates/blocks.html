@@ -10,11 +10,11 @@
     <!--<h4><a href="#/blocks/hour/{{blocks.last_block_timestamp | date: 'yyyyMMddTHH'}}">More...</a></h4>-->
     <a class="btn btn-primary btn-success btn-top-right"
        href="#/blocks/round/{{last_block_round + 1}}?withtrxs={{filter_zero_trxs}}"><i class="fa fa-cubes"></i>
-      Loading more blocks...</a>
+       {{'blocks.load_more_blocks' | translate}}...</a>
   </div>
   <div class="header">
     <h3 class="header-title">Block Explorer</h3>
-    <p class="header-info">More detailed info about blocks</p>
+    <p class="header-info" translate>blocks.info</p>
 
   </div>
 
@@ -24,8 +24,7 @@
   <div class="checkbox">
     <label>
       <div class="checker">
-        <input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs"> Only show blocks with
-                                                                               transactions</input>
+          <input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs">{{ 'blocks.trxs_only' | translate }}</input>
       </div>
     </label>
   </div>
@@ -37,13 +36,13 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Height</th>
-            <th>Time</th>
-            <th>Transaction Count</th>
+            <th translate>th.height</th>
+            <th translate>th.time</th>
+            <th translate>th.trx_count</th>
             <!--<th>Fee Rate (KB)</th>-->
-            <th>Delegate</th>
-            <th>Latency</th>
-            <th>Size</th>
+            <th translate>th.delegate</th>
+            <th translate>th.latency</th>
+            <th translate>th.size</th>
           </tr>
         </thead>
         <tbody>
