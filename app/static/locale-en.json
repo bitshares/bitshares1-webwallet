@@ -1,4 +1,100 @@
 {
-    "overview": "Overview",
-    "confirm": "Are you sure?"
+    "edit": "Edit",
+    "save": "Save",
+    "email": "Email",
+    "website": "Website",
+    "unlock": "Unlock",
+    "th": {
+        "date": "DATE",
+        "from": "FROM",
+        "to": "TO",
+        "memo": "MEMO",
+        "amount": "AMOUNT",
+        "fee": "FEE",
+        "name": "NAME",
+        "balance": "BALANCE",
+        "registered": "REGISTERED",
+        "symbol": "SYMBOL",
+        "desc": "DESCRIPTION",
+        "issue_account": "ISSUE ACCOUNT",
+        "precision": "PRECISION",
+        "current_share_supply": "CURRENT SHARE SUPPLY",
+        "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
+        "collected_fees": "COLLECTED FEES",
+        "registration_date": "REGISTRATION DATE",
+        "height": "Height",
+        "time": "Time",
+        "trx_count": "Transaction Count",
+        "delegate": "Delegate",
+        "latency": "Latency",
+        "size": "Size"
+    },
+    "block": {
+        "trx_count": "Number of Transactions",
+        "blk_id": "Block ID",
+        "prev_blk_id": "Previous Block ID",
+        "block_fee_rate": "Block Fee Rate",
+        "delegate_name": "Delegate Name",
+        "delegate_pay_rate": "Delegate Pay Rate",
+        "timestamp": "TimeStamp",
+        "trx_digest": "Transaction Digest",
+        "next_secret_hash": "Next Secret Hash",
+        "previous_secret": "Previous Secret",
+        "delegate_signature": "Delegate Signature"
+    },
+    "blocks": {
+        "load_more_blocks": "Loading more blocks",
+        "info": "More detailed info about blocks",
+        "trxs_only": "Only show blocks with transactions"    
+    },
+    "unlock": {
+        "desc_title": "BitShares X Decentralized Exchange",
+        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_content_2": "BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.",
+        "wrong_pass": "Wrong Password."
+    },
+    "wallet": {
+        "create_new_wallet": "Create a New Wallet",
+        "info": "Your password is mandatory and controls when and how your funds may be spent. If you forget this password you will be unable to transfer your shares.",
+        "create_wallet": "Create Wallet"
+    },
+    "index": {
+        "title": "BitShares XT Wallet",
+        "overview": "Overview",
+        "my_account": "My Accounts",
+        "directory": "Directory",
+        "block_explorer": "Block Explorer",
+        "preferences": "Preferences",
+        "console": "Console",
+        "help": "Help",
+        "lock": "Lock"
+    },
+    "account": {
+        "reg_pending": "Registration pending",
+        "reg": "Register",
+        "reg_date": "Registration date",
+        "balances": "BALANCES",
+        "transactions": "Transactions",
+        "transfer": "Transfer",
+        "amount": "Amount",
+        "to": "To",
+        "new": "New",
+        "memo": "Memo",
+        "send": "Send",
+        "assets": "Assets",
+        "advanced": "Advanced",
+        "account_key": "Account Key",
+        "priv_key": "Private Key",
+        "import_key": "Import Key",
+        "wallet_type": "Wallet Type",
+        "wallet_path": "Wallet Path",
+        "wallet_password": "Wallet Password",
+        "import_wallet": "Import Wallet",
+        "add_field": "Add Field"
+    },
+    "accounts": {
+        "create_account": "Create Account",
+        "accounts": "Accounts",
+        "info": "Click on an account name to get more information about that account."
+    }
 }
