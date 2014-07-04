@@ -83,14 +83,10 @@
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
-    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X Decentralized Exchange</div>
+    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
     <div class="description" collapse="descriptionCollapsed">
-        <p>
-        BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.
-        </p>
-        <p>
-        BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.
-        </p>
+        <p translate>unlock.desc_content_1</p>
+        <p translate>unlock.desc_content_2</p>
 
     </div>
     <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
@@ -101,9 +97,8 @@
               <div class="row">
                    <div class="description">
 
-                    <h4> Create a New Wallet </h4>
-                    <p>Your password is mandatory and controls when and how your funds may be spent. If you forget this
-                     password you will be unable to transfer your shares.</p>
+                    <h4 translate>wallet.create_new_wallet</h4>
+                    <p translate>wallet.info</p>
                     <br>
                     <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
 
@@ -131,12 +126,10 @@
 
               <div class="row spacedrow">
                     <div class="form-group row">
-                      <button tabindex="3" type="submit" class="btn btn-primary">Create Wallet</button>
+                      <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
                     </div>
                    </div>
               </div>
-
-
          </form>
 
 
