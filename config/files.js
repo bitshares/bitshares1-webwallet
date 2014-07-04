@@ -26,7 +26,9 @@ module.exports = function(lineman) {
         "vendor/js/angularjs-gravatardirective.js",
         "vendor/js/validate.js",
         "vendor/js/xeditable.js",
-        "vendor/js/spin.js"
+        "vendor/js/spin.js",
+        "vendor/js/angular-translate.min.js",
+        "vendor/js/angular-translate-loader-static-files.min.js"
       ],
       app: [
         "app/js/app.js",

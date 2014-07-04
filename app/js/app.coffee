@@ -3,7 +3,7 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
-app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate", "xeditable"])
+app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate"])
 
 #app.run [
 #  "$idle"
@@ -33,7 +33,11 @@ app.run ($rootScope, $location, $idle, editableOptions, editableThemes) ->
 
     $idle.watch()
 
-app.config ($idleProvider, $stateProvider, $urlRouterProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
+  $translateProvider.useStaticFilesLoader
+    prefix: 'locale-',
+    suffix: '.json'
+  $translateProvider.preferredLanguage('en')
   
   $idleProvider.idleDuration(600)
   $idleProvider.warningDuration(60)
