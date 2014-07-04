@@ -73,15 +73,11 @@
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
-    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed">BitShares X Decentralized Exchange</div>
+    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
     <div class="description" collapse="descriptionCollapsed">
-        <p>
-        BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.
+        <p translate>unlock.desc_content_1</p>
+        <p translate>unlock.desc_content_2
         </p>
-        <p>
-        BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.
-        </p>
-
     </div>
 
     <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
@@ -91,10 +87,10 @@
 		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
          	<div class="form-group">
 				<input ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required autofocus ng-minlength="9" ng-maxlength="255">
-            <button ng-disabled="loading" type="submit" tabindex="2" class="btn btn-primary btn-sm">Unlock</button>
+            <button ng-disabled="loading" type="submit" tabindex="2" class="btn btn-primary btn-sm" translate>unlock</button>
         	</div>
-            <label class="text-danger" ng-show="wrongPass">
-                Wrong password.
+            <label class="text-danger" ng-show="wrongPass" translate>
+                unlock.wrong_pass
             </label>
         </form>
 
