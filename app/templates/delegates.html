@@ -18,7 +18,8 @@
             <tr>
               <th>NAME</th>
               <th>APPROVAL</th>
-              <th>PRODUCED / MISSED RATIO</th>
+              <th>Reliability</th>
+              <th>Blocks Produced</th>
               <th>DELEGATE PAY RATE</th>
               <th>APPROVE</th>
             </tr>
@@ -32,7 +33,11 @@
 					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
 				</span>
               </td>
-              <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
+              <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
+                <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
+                <span ng-switch-default>Unknown</td>
+              </td>
+              <td>{{ del.delegate_info.blocks_produced }}</td>
               <td>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
@@ -60,7 +65,8 @@
           <tr>
             <th>NAME</th>
             <th>APPROVAL</th>
-            <th>PRODUCED / MISSED RATIO</th>
+            <th>Reliability</th>
+            <th>Blocks Produced</th>
             <th>DELEGATE PAY RATE</th>
             <th>APPROVE</th>
           </tr>
@@ -74,7 +80,11 @@
 					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
 				</span>
             </td>
-            <td>{{ del.delegate_info.blocks_produced + "/" + del.delegate_info.blocks_missed }}</td>
+            <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
+              <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
+              <span ng-switch-default>Unknown</td>
+            </td>
+            <td>{{ del.delegate_info.blocks_produced }}</td>
             <td>{{ del.delegate_info.pay_rate }}%</td>
             <td>
               <div class="btn-group">
