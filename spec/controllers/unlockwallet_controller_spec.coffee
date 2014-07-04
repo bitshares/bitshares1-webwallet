@@ -8,6 +8,8 @@ describe "controller: UnlockWalletController", ->
     @wallet = spyOn(Wallet, 'wallet_unlock').andReturn(@deferred.promise)
     @controller = $controller('UnlockWalletController', {$scope: @scope, @wallet})
     spyOn(@$rootScope, 'history_back')
+    spyOn(@$rootScope, 'showLoadingIndicator')
+    spyOn(Wallet, 'check_wallet_status')
 
   it 'should return user back if correct password submitted', ->
     @scope.spending_password = "password"
