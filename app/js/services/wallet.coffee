@@ -40,6 +40,20 @@ class Wallet
                     @blockchain.get_asset(symbol).then (asset_record) =>
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
+    count_my_accounts: ->
+        accounts = 0
+        angular.forEach @accounts, (acct, name) ->
+            if acct.is_my_account
+                accounts += 1
+        return accounts
+
+    count_my_delegates: ->
+        delegates = 0
+        angular.forEach @accounts, (acct, name) ->
+            if acct.is_my_account and acct.delegate_info != null
+                delegates += 1
+        return delegates
+
     # turn raw rpc return value into nice object
     populate_account: (val) ->
         if not @balances[val.name]
