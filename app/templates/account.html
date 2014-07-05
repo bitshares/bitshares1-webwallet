@@ -34,7 +34,7 @@
 			    <div class="pull-right" translate>account.reg_pending</div>
                 <div style='color:white;font-size:200%'>{{account.name}}</div>
 			  </div>
-			  <div ng-switch-default>
+			  <div ng-switch-default ng-show="account.is_my_account">
 			    <div class="pull-right">
   		      	  <a style="margin-top: 4px;" type="submit" ng-click='regDial()'  class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
   		        </div>
