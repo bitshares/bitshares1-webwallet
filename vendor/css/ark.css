@@ -1545,6 +1545,7 @@ body.fixed_header .wrapper.container .navbar-default.navbar-main {
 .stats .stat .value {
   font-size: 120%;
   color: #01bbf4;
+  letter-spacing: 1px;
 }
 .stats .stat em {
   color: #888888;

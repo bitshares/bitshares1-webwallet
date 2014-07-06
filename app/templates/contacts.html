@@ -1,15 +1,17 @@
 <div class="col-md-12">
 	<div class="header">
-		<div class="pull-left">
-			<button type="submit" ng-click='newContactModal()' class="btn btn-success"><i class="fa fa-plus fa-fw"></i>Add Contact</button>
-		</div>
+	
 	</div>
 </div>
 <div class="main-content">
     <div class="row">
       <div class="col-sm-3">
-        <br> <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
+        <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
       </div>
+      <div class="col-sm-3 pull-right">
+<div class="">
+	<button type="submit" ng-click='newContactModal()' class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i>Add Contact</button>
+</div>      </div>
     </div>
     <div class="row">
       <div class="col-sm-12">

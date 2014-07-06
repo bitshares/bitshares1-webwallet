@@ -1,28 +1,85 @@
 
 <div class="main-content">
 <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-3">
         
             	<div class="panel bg-default">         
-	                  
+	                  <div class="panel-heading">
+	                     <h3 class="panel-title text-muted">Daily Income</h3>
+	                   </div>
 		                	<div class="panel-body ">
-                                TODO style
-                                Daily Income: {{daily_income}} APR: {{income_apr}}
-                                Daily Expenses: {{daily_expenses}} APR: {{expenses_apr}}
-                                Daily Burn: {{daily_burn}} APR: {{burn_apr}}
-	                		</div>
+                             
+                                                    <ul class="col-md-12 stats">
+                                                        <li class="stat">
+                                                            <span><b class="value">{{daily_income}}</b></span>
+                                                        </li>
+                                                   
+                                                        <li class="stat">
+                                                            <span class="primary">{{income_apr}} APR </span>
+                                                        </li>
+                                                
+                                                    </ul>
+                                                </div>
+                                
 				</div>   
-		</div> 
-		<div class="col-md-3 ">
+		</div>
+		<div class="col-md-3">
 		
-		    	<div class="panel head-bg ">         
-		      
-		           <div class="panel-body white"><a class="white" href="#/create/account">
-		           <div class="col-md-12 col-sm-12 col-xs-12 text-center ">
-		               <div style="font-size: 400%; font-weight: 100;"><i class="fa fa-plus-circle"></i></div>
-		                <span class="pie-title">CREATE NEW ACCOUNT</span></div></a>
-		           </div>
-		           </div>
+		    	<div class="panel bg-default">         
+		              <div class="panel-heading">
+		                 <h3 class="panel-title text-muted">Daily Expenses</h3>
+		               </div>
+		                	<div class="panel-body ">
+		                     
+		                                            <ul class="col-md-12 stats">
+		                                          
+		                                                <li class="stat">
+		                                                    <span><b class="value ">{{daily_expenses}}</b></span>
+		                                                </li>
+		                                             
+		                                                <li class="stat">
+		                                                    <span class="primary">{{expenses_apr}} APR </span>
+		                                                </li>
+		                                            
+		                                            </ul>
+		                                        </div>
+		                        
+				</div>   
+		</div>
+		<div class="col-md-3">
+		
+		    	<div class="panel bg-default">         
+		              <div class="panel-heading">
+		                 <h3 class="panel-title text-muted">Daily Burn</h3>
+		               </div>
+		                	<div class="panel-body ">
+		                     
+		                                            <ul class="col-md-12 stats">
+		                                                <li class="stat">
+		                                                    <span><b class="value">{{daily_burn}}</b></span>
+		                                                    <em></em>
+		                                                </li>
+		                                                <li class="stat">
+		                                                    <span class="primary">{{burn_apr}} APR</span>
+		                                                    <em> </em>
+		                                                </li>
+		                                            </ul>
+		                                        </div>
+		                        
+				</div>   
+		</div>
+		
+		<div class="col-md-3 ">
+			<div class="panel head-bg ">         
+				<div class="panel-body white">
+			           	<a class="white" href="#/create/account">
+			           		<div class="col-md-12 col-sm-12 col-xs-12 text-center" style="padding-bottom: 6px;">
+			               		<div style="font-size: 400%; font-weight: 100;"><i class="fa fa-plus-circle"></i></div>
+			                	<span class="pie-title" >CREATE NEW ACCOUNT</span>
+			                </div>
+			           </a>
+			      </div>
+		      </div>
 		</div>
 		
 </div>

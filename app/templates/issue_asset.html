@@ -23,9 +23,13 @@
     <label for="issueto" class="col-sm-2 control-label">To</label>
 
     <div class="col-md-5">
+    <di class="input-group">
      <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="issueto" required/>
+     <span ng-click='newContactModal()' type="button" class=" input-group-addon btn white btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i></span>
+     
     </div>
-   </div>
+    </div>
+
    <div class="form-group">
     <label for="memo" class="col-sm-2 control-label">Memo</label>
     <div class="col-md-5">
