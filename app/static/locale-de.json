@@ -1,0 +1,100 @@
+{
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "email": "Email",
+    "website": "Website",
+    "unlock": "entsperren",
+    "th": {
+        "date": "DATUM",
+        "from": "VON",
+        "to": "AN",
+        "memo": "NACHRICHT",
+        "amount": "BETRAG",
+        "fee": "GEBÜHR",
+        "name": "NAME",
+        "balance": "GUTHABEN",
+        "registered": "REGISTRIERT",
+        "symbol": "SYMBOL",
+        "desc": "BESCHREIBUNG",
+        "issue_account": "ISSUE ACCOUNT",
+        "precision": "PRECISION",
+        "current_share_supply": "CURRENT SHARE SUPPLY",
+        "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
+        "collected_fees": "COLLECTED FEES",
+        "registration_date": "REGISTRATION DATE",
+        "height": "Height",
+        "time": "Time",
+        "trx_count": "Transaction Count",
+        "delegate": "Delegate",
+        "latency": "Latency",
+        "size": "GRÖSSE"
+    },
+    "block": {
+        "trx_count": "Anzahl der Transaktionen",
+        "blk_id": "Block ID",
+        "prev_blk_id": "Vorige Block ID",
+        "block_fee_rate": "Block Gebühren Rate",
+        "delegate_name": "Delegate Name",
+        "delegate_pay_rate": "Delegate Pay Rate",
+        "timestamp": "Zeitstempel",
+        "trx_digest": "Transaction Digest",
+        "next_secret_hash": "Next Secret Hash",
+        "previous_secret": "Previous Secret",
+        "delegate_signature": "Delegate Signature"
+    },
+    "blocks": {
+        "load_more_blocks": "Mehr Blöcke laden",
+        "info": "More detailed info about blocks",
+        "trxs_only": "Nur Blöcke mir Transaktionen zeigen"    
+    },
+    "unlock": {
+        "desc_title": "BitShares X Decentralized Exchange",
+        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_content_2": "BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.",
+        "wrong_pass": "Falsches Passwort."
+    },
+    "wallet": {
+        "create_new_wallet": "Neue Brieftasche erstellen",
+        "info": "Your password is mandatory and controls when and how your funds may be spent. If you forget this password you will be unable to transfer your shares.",
+        "create_wallet": "Brieftasche erstellen"
+    },
+    "index": {
+        "title": "BitShares XT Brieftasche",
+        "overview": "Übersicht",
+        "my_account": "Meine Accounts",
+        "directory": "Verzeichnis",
+        "block_explorer": "Block Explorer",
+        "preferences": "Einstellungen",
+        "console": "Konsole",
+        "help": "Hilfe",
+        "lock": "Abmelden"
+    },
+    "account": {
+        "reg_pending": "Registration pending",
+        "reg": "Register",
+        "reg_date": "Registration date",
+        "balances": "GUTHABEN",
+        "transactions": "Transactions",
+        "transfer": "Transfer",
+        "amount": "Betrag",
+        "to": "An",
+        "new": "Neu",
+        "memo": "Memo",
+        "send": "Senden",
+        "assets": "Assets",
+        "advanced": "Erweitert",
+        "account_key": "Accountschlüssel",
+        "priv_key": "Private Key",
+        "import_key": "Importe Key",
+        "wallet_type": "Brieftasche Typ",
+        "wallet_path": "Brieftasche Pfad",
+        "wallet_password": "Brieftasche Passwort",
+        "import_wallet": "Importiere Brieftasche",
+        "add_field": "Feld hinzufügen"
+    },
+    "accounts": {
+        "create_account": "Account erstellen",
+        "accounts": "Accounts",
+        "info": "Klicken Sie auf einen Accountnamen um mehr Informationen über diesen zu erhalten"
+    }
+}
