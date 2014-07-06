@@ -163,6 +163,15 @@ tabset:hover {
 
 /* Home  */
 
+.stat span {
+	font-weight: 100;
+	
+}
+
+li.stat {
+	letter-spacing: 0px;
+}
+
 /* My Accounts */
 
 .table-acc-balance {
