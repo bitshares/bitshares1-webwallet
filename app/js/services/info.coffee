@@ -1,6 +1,8 @@
 class Info
     info : {}
 
+    is_refreshing : false
+
     get : () ->
         if Object.keys(@info).length > 0
             deferred = @q.defer()
@@ -11,7 +13,9 @@ class Info
                 @info
 
     refresh_info : () ->
+        @is_refreshing = true
         @common_api.get_info().then (data) =>
+                @is_refreshing = false
                 #console.log "watch_for_updates get_info:>", data
                 if data.blockchain_head_block_num > 0
                     @info.network_connections = data.network_num_connections
@@ -28,6 +32,7 @@ class Info
                 @blockchain_api.get_security_state().then (data) =>
                     @info.alert_level = data.alert_level
             , =>
+                @is_refreshing = false
                 @info.network_connections = 0
                 @info.wallet_open = false
                 @info.wallet_unlocked = false
@@ -35,7 +40,8 @@ class Info
 
     watch_for_updates: =>
         @interval (=>
-            @refresh_info()
+            if !@is_refreshing
+                @refresh_info()
         ), 2500
 
     constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval) ->
