@@ -16,17 +16,17 @@
         "registered": "REGISTRIERT",
         "symbol": "SYMBOL",
         "desc": "BESCHREIBUNG",
-        "issue_account": "ISSUE ACCOUNT",
-        "precision": "PRECISION",
-        "current_share_supply": "CURRENT SHARE SUPPLY",
-        "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
-        "collected_fees": "COLLECTED FEES",
-        "registration_date": "REGISTRATION DATE",
-        "height": "Height",
-        "time": "Time",
-        "trx_count": "Transaction Count",
-        "delegate": "Delegate",
-        "latency": "Latency",
+        "issue_account": "EMMISIONSKONTO",
+        "precision": "NACHKOMMASTELLEN",
+        "current_share_supply": "AKTUELLES ANTEILSANGEBOT",
+        "maximum_share_supply": "MAXIMALES ANTEILSANGEBOT",
+        "collected_fees": "EINGENOMMENE GEBÜHREN",
+        "registration_date": "REGISTRIERT AM",
+        "height": "Höhe",
+        "time": "Zeit",
+        "trx_count": "Transaktionszähler",
+        "delegate": "Delegierter",
+        "latency": "Latenz",
         "size": "GRÖSSE"
     },
     "block": {
@@ -34,28 +34,28 @@
         "blk_id": "Block ID",
         "prev_blk_id": "Vorige Block ID",
         "block_fee_rate": "Block Gebühren Rate",
-        "delegate_name": "Delegate Name",
-        "delegate_pay_rate": "Delegate Pay Rate",
+        "delegate_name": "Name des Delegierten",
+        "delegate_pay_rate": "Auszahlungsrate des Delegierten",
         "timestamp": "Zeitstempel",
-        "trx_digest": "Transaction Digest",
-        "next_secret_hash": "Next Secret Hash",
-        "previous_secret": "Previous Secret",
-        "delegate_signature": "Delegate Signature"
+        "trx_digest": "Transaktionsübsersicht",
+        "next_secret_hash": "Nächster Geheimschlüssel-Hash",
+        "previous_secret": "Vorheriger Geheimschlüssel",
+        "delegate_signature": "Signature des Delegierten"
     },
     "blocks": {
         "load_more_blocks": "Mehr Blöcke laden",
-        "info": "More detailed info about blocks",
+        "info": "Mehr Details zu den Blöcken",
         "trxs_only": "Nur Blöcke mir Transaktionen zeigen"    
     },
     "unlock": {
-        "desc_title": "BitShares X Decentralized Exchange",
-        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
-        "desc_content_2": "BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.",
+        "desc_title": "BitShares X Dezentralisierte Handelsplatform",
+        "desc_content_1": "BitShares X ist eine experimentelle dezentrale Handlesplatform die es erlaubt spezielle Derivate (wie BitGold) zu handeln, die dem Wert der physikalischen Anlage (etwa Gold) folgt, ohne einem externen Preisticker vertrauen zu müssen. Erreicht wird das durch Anlehnung an die Machaniken eines Prediktionsmarktes der Händler dafür belohnt einen Konses über den Preis zu entwickeln. Zudem ist es möglich das Händler eigene Anteile (die nicht notwendigerweise einer physikalischen Anlage folgen) schaffen und handeln.",
+        "desc_content_2": "BitShares X wurde zunächst ohne Marktfunktionalitäten gestartet um den Investoren die Gelegenheit zu geben einen Startpreis auszuhandeln. Es folgt eine Update um Marktfunktionalitäten hinzuzufügen.",
         "wrong_pass": "Falsches Passwort."
     },
     "wallet": {
         "create_new_wallet": "Neue Brieftasche erstellen",
-        "info": "Your password is mandatory and controls when and how your funds may be spent. If you forget this password you will be unable to transfer your shares.",
+        "info": "Das Setzen eines Passworts ist notwendig, da es Ihre Mittel kontrolliert und übertragen kann. Sollten Sie Ihr Passwort vergessen, verlieren Sie den Zugang zu Ihren Mitteln!",
         "create_wallet": "Brieftasche erstellen"
     },
     "index": {
@@ -70,12 +70,12 @@
         "lock": "Abmelden"
     },
     "account": {
-        "reg_pending": "Registration pending",
-        "reg": "Register",
-        "reg_date": "Registration date",
+        "reg_pending": "Registrierung ausstehend",
+        "reg": "Registrieren",
+        "reg_date": "Registrierungsdatum",
         "balances": "GUTHABEN",
-        "transactions": "Transactions",
-        "transfer": "Transfer",
+        "transactions": "Transaktionen",
+        "transfer": "Übertragen",
         "amount": "Betrag",
         "to": "An",
         "new": "Neu",
@@ -83,9 +83,9 @@
         "send": "Senden",
         "assets": "Assets",
         "advanced": "Erweitert",
-        "account_key": "Accountschlüssel",
-        "priv_key": "Private Key",
-        "import_key": "Importe Key",
+        "account_key": "Kontoschlüssel",
+        "priv_key": "Privater Schlüssel",
+        "import_key": "Importiere einen privaten Schlüssel",
         "wallet_type": "Brieftasche Typ",
         "wallet_path": "Brieftasche Pfad",
         "wallet_password": "Brieftasche Passwort",
@@ -93,8 +93,8 @@
         "add_field": "Feld hinzufügen"
     },
     "accounts": {
-        "create_account": "Account erstellen",
-        "accounts": "Accounts",
+        "create_account": "Konto erstellen",
+        "accounts": "Konten",
         "info": "Klicken Sie auf einen Accountnamen um mehr Informationen über diesen zu erhalten"
     }
 }
