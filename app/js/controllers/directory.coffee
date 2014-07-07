@@ -1,12 +1,26 @@
 angular.module("app").controller "DirectoryController", ($scope, $location, $filter, Blockchain, Wallet, WalletAPI, Utils) ->
   $scope.reg = []
   $scope.genesis_date = ""
+  $scope.p = 
+    currentPage : 0
+    pageSize : 20
+    numberOfPages : 0
+  $scope.q =
+    name: ""
+
+  $scope.$watch ()->
+    $scope.q.name
+  , ()->
+    $scope.p.numberOfPages = Math.ceil(($filter("filter") $scope.reg,  $scope.q).length/$scope.p.pageSize)
+    $scope.p.currentPage = 0
 
   Blockchain.get_config().then (config) ->
     $scope.genesis_date = config.genesis_timestamp
 
   Blockchain.list_accounts().then (reg) ->
     $scope.reg = reg
+    $scope.p.numberOfPages = Math.ceil($scope.reg.length/$scope.p.pageSize)
+
 
   $scope.contacts = {}
   $scope.refresh_contacts = ->
