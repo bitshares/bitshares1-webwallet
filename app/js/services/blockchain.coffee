@@ -26,6 +26,7 @@ class Blockchain
                     name: val.name
                     owner_key: val.owner_key
                     public_data: val.public_data
+                    registration_date: val.registration_date
             reg
 
     # # # # # 
