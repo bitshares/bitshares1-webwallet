@@ -85,7 +85,7 @@
     <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.transactions' | translate }}</tab-heading>
       <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
-    <tab>
+    <tab ng-show="account.is_my_account">
     <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
           <div id="transfer-form p-inner">
            <form name="my_transfer_form" class="form-horizontal p-inner" role="form" ng-submit="my_transfer_form.$valid && send()" >
