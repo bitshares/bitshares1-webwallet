@@ -25,6 +25,25 @@
               </div>
             </div>
             <div class="row">
+                <div class="pull-right">
+                    <br>
+                    <button class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0">
+                        First
+                    </button>
+                    <button class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">
+                        Previous
+                    </button>
+                       {{p.currentPage+1}}/{{p.numberOfPages}}
+                    <button class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">
+                           Next
+                    </button>
+                    <button class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">
+                        Last
+                    </button>
+                    <br>
+                </div>
+            </div>
+            <div class="row">
               <div class="col-sm-12">
                 <div id="registery">
                   <!--<input type="button" ng-click="rescan()" value="Rescan" class="btn btn-primary pull-right"/>-->
@@ -38,14 +57,14 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr ng-repeat="r in reg | filter:q">
+                      <tr ng-repeat="r in reg | filter:q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
                       	<td style='width:1%;white-space:nowrap'><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm" /></td>
                         <td style='width:1%;white-space:nowrap'>
                           <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
 </button>
                         </td>
                         <td><a href="#/accounts/{{r.name}}">{{ r.name }}</a></td>
-                        <td>Genesis</td>
+                        <td>{{ formatRegDate(r.registration_date) }}</td>
                       </tr>
                     </tbody>
                   </table>

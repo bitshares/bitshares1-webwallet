@@ -32,6 +32,23 @@ angular.module("app.directives").directive "uncapitalize", ->
     uncapitalize scope[attrs.ngModel] # uncapitalize initial value
     return
 
+angular.module("app.directives").directive "numonly", ->
+  require: "ngModel"
+  link: (scope, element, attr, ngModelCtrl) ->
+    fromUser = (text) ->
+      transformedInput = text.replace(/[^0-9]/g, "")
+      console.log transformedInput
+      if transformedInput isnt text
+        element.css('background-color', 'pink');
+        setTimeout (->
+            element.css('background-color', 'none');
+        ), 500
+        ngModelCtrl.$setViewValue transformedInput
+        ngModelCtrl.$render()
+      transformedInput # or return Number(transformedInput)
+    ngModelCtrl.$parsers.push fromUser
+    return
+
 angular.module("app.directives").directive "loadingIndicator", ->
   restrict: "A"
   replace: true
@@ -49,3 +66,12 @@ angular.module("app.directives").directive "loadingIndicator", ->
     spinner = new Spinner().spin()
     loadingContainer = element.find(".spinner-container")[0]
     loadingContainer.appendChild spinner.el
+
+angular.module("app.directives").directive "watchChange", ->
+  scope:
+    onchange: '&watchChange'
+  link: (scope, element, attrs) ->
+    element.on 'input', ->
+        scope.$apply ->
+            scope.onchange()
+

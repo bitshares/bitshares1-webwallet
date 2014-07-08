@@ -2,7 +2,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
   $scope.currentPath = $location.path()
-
+  
   $scope.$watch ->
         $location.path()
     , -> 
@@ -25,7 +25,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     , true
   
   Wallet.check_wallet_status()
-    
+  
+  
   $scope.started = false
 
   closeModals = ->
@@ -66,6 +67,9 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     $scope.started = false
     return
 
+  #$idle._options().idleDuration=Wallet.timeout
+  console.log(Wallet.timeout)
+  
   open_wallet = (mode) ->
     $rootScope.cur_deferred = $q.defer()
     $modal.open

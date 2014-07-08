@@ -85,7 +85,7 @@
     <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.transactions' | translate }}</tab-heading>
       <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
-    <tab>
+    <tab ng-show="account.is_my_account">
     <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
           <div id="transfer-form p-inner">
            <form name="my_transfer_form" class="form-horizontal p-inner" role="form" ng-submit="my_transfer_form.$valid && send()" >
@@ -113,7 +113,7 @@
              <div class="col-md-5">
                           <div class="input-group">
              
-              <input ng-model="$parent.payto" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' required/>
+              <input ng-model="$parent.payto" watch-change="addContactFromTo()" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' required/>
                  <span ng-click='newContactModal()' type="button" class=" input-group-addon btn white btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i></span>
           </div>
             </div>

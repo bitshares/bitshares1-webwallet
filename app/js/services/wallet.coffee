@@ -14,14 +14,19 @@ class Wallet
 
     pendingRegistrations: {}
     
+    console.log('executing wallet')
+
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
         if result.state == "open"
-            #redirection
-            @check_if_locked()
+            if result.locked
+                @location.path("/unlockwallet")
             @get_setting('timeout').then (result) =>
                 if result && result.value
                     @timeout=result.value
+                    @idle._options().idleDuration=@timeout
+                    @idle.watch()
+                    console.log('@idle._options()', @idle._options())
         else
             @open().then =>
                 #redirection
@@ -243,8 +248,8 @@ class Wallet
               owner_key: val.owner_key
           reg
 
-    constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval) ->
+    constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
 
-angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
