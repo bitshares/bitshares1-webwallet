@@ -32,6 +32,19 @@ angular.module("app.directives").directive "uncapitalize", ->
     uncapitalize scope[attrs.ngModel] # uncapitalize initial value
     return
 
+angular.module("app.directives").directive "numonly", ->
+  require: "ngModel"
+  link: (scope, element, attr, ngModelCtrl) ->
+    fromUser = (text) ->
+      transformedInput = text.replace(/[^0-9]/g, "")
+      console.log transformedInput
+      if transformedInput isnt text
+        ngModelCtrl.$setViewValue transformedInput
+        ngModelCtrl.$render()
+      transformedInput # or return Number(transformedInput)
+    ngModelCtrl.$parsers.push fromUser
+    return
+
 angular.module("app.directives").directive "loadingIndicator", ->
   restrict: "A"
   replace: true
