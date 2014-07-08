@@ -1,9 +1,21 @@
-angular.module("app").controller "FooterController", ($scope, Info, Utils, Blockchain) ->
+angular.module("app").controller "FooterController", ($scope, Info, Utils, Blockchain, Shared) ->
   $scope.connections = 0
   $scope.blockchain_blocks_behind = 0
   $scope.blockchain_status = "off"
   $scope.blockchain_last_block_num = 0
   $scope.alert_level = "normal-state"
+  $scope.message = ""
+
+
+  $scope.$watch ()->
+    Shared.message
+  , () ->
+    $scope.message = Shared.message
+    if $scope.message
+        setTimeout ()->
+            $scope.message = ""
+            Shared.message = ""
+        , 5000
 
   watch_for = ->
     Info.info
