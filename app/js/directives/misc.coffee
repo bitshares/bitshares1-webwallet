@@ -39,6 +39,10 @@ angular.module("app.directives").directive "numonly", ->
       transformedInput = text.replace(/[^0-9]/g, "")
       console.log transformedInput
       if transformedInput isnt text
+        element.css('background-color', 'pink');
+        setTimeout (->
+            element.css('background-color', 'none');
+        ), 500
         ngModelCtrl.$setViewValue transformedInput
         ngModelCtrl.$render()
       transformedInput # or return Number(transformedInput)
