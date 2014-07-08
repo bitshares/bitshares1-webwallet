@@ -37,6 +37,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     Blockchain.get_config().then (config) ->
         $scope.memo_size_max = config.memo_size_max
+        $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
         WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
@@ -75,6 +76,19 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
       $modal.open
         templateUrl: "newcontact.html"
         controller: "NewContactController"
+
+    $scope.addContactFromTo = ->
+      if payto and payto.value and $scope.addr_symbol and (payto.value.indexOf $scope.addr_symbol) == 0 and payto.value.length == $scope.addr_symbol.length + 50
+          $modal.open
+            templateUrl: "newcontact.html"
+            controller: "NewContactAddrController"
+            resolve: 
+                addr: -> 
+                    payto.value
+                action: ->
+                    (contact)->
+                        payto.value = contact
+                    
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1

@@ -49,3 +49,12 @@ angular.module("app.directives").directive "loadingIndicator", ->
     spinner = new Spinner().spin()
     loadingContainer = element.find(".spinner-container")[0]
     loadingContainer.appendChild spinner.el
+
+angular.module("app.directives").directive "watchChange", ->
+  scope:
+    onchange: '&watchChange'
+  link: (scope, element, attrs) ->
+    element.on 'input', ->
+        scope.$apply ->
+            scope.onchange()
+
