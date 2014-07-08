@@ -87,7 +87,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                     payto.value
                 action: ->
                     (contact)->
-                        payto.value = contact
+                        $scope.payto = contact
                     
 
     $scope.toggleVoteUp = ->
