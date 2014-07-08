@@ -18,7 +18,9 @@ class Wallet
       @wallet_get_info().then (result) =>
         if result.state == "open"
             #redirection
-            @check_if_locked()
+            #remove the rpc call
+            if result.locked
+                @location.path("/unlockwallet")
             @get_setting('timeout').then (result) =>
                 if result && result.value
                     @timeout=result.value
