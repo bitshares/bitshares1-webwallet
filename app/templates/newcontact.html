@@ -1,14 +1,15 @@
  <div class="modal-header">
   <h3 class="modal-title">New Contact</h3>
  </div>
- <form role="form" ng-submit="ok()">
+ <form name="newcontact" role="form" ng-submit="ok()" ng-submit="newcontact.$valid && create()">
  <div class="modal-body">
   <div class="form-group">
    <label for="contact_name">Name</label>
-   <input ng-model="$parent.name" focus-me class="form-control" id="contact_name" placeholder="Name" required autofocus>
+   <input ng-model="$parent.name" focus-me class="form-control" id="contact_name" placeholder="Name" ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>
    <br>
    <label for="contact_address">Account Key</label>
-   <input ng-model="$parent.address" class="form-control" id="contact_address" placeholder="Address">
+   <!--TODO: validation with XTS and length-->
+   <input ng-model="$parent.address" class="form-control" id="contact_address" placeholder="Address" required>
   </div>
  </div>
  </form>

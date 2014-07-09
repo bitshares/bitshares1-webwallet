@@ -24,7 +24,7 @@
 
     <div class="col-md-5">
     <di class="input-group">
-     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="issueto" required/>
+     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="Contact Name" id="issueto" ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
      <span ng-click='newContactModal()' type="button" class=" input-group-addon btn white btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i></span>
      
     </div>

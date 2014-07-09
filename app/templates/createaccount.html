@@ -14,7 +14,7 @@
 				</p>
 			</div>
 			<div class="col-sm-10">
-	<form class="form-horizontal" role="form" name="wform" ng-submit="createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+	<form name="createaccount" class="form-horizontal" role="form" name="wform" ng-submit="createaccount.$valid && createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
 		<div class="form-group m-top">
 			
 			
