@@ -1,14 +1,12 @@
-<div class='row'>
 <div class="col-sm-12">
   <div class="header">
     <h3 class="header-title">Directory</h3>
   </div>
 </div>
-</div>
 
-<div class="main-content">
 <div class="row">
   <div class="col-sm-12">
+    <div class="main-content">
       <tabset>
         <tab>
           <tab-heading><i class="fa fa-star fa-lg"></i> Favorites</tab-heading>
@@ -20,30 +18,20 @@
         </tab>
         <tab>
           <tab-heading><i class="fa fa-globe fa-lg"></i> Registered</tab-heading>
-          
+          <div class="main-content">
             <div class="row">
               <div class="col-sm-3">
                 <br> <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
               </div>
-            </div>
-            <div class="row">
-                <div class="pull-right">
-                    <br>
-                    <button class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0">
-                        First
-                    </button>
-                    <button class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">
-                        Previous
-                    </button>
-                       {{p.currentPage+1}}/{{p.numberOfPages}}
-                    <button class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">
-                           Next
-                    </button>
-                    <button class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">
-                        Last
-                    </button>
-                    <br>
-                </div>
+              <div class="col-sm-6">
+              <ul class="pagination pagination-sm">
+                    <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0"> First</a></li>
+                    <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">Previous</a></li> 
+                    <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
+                    <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">Next</a></li>
+                    <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">Last</a></li>
+                </ul>
+              </div>
             </div>
             <div class="row">
               <div class="col-sm-12">
@@ -73,6 +61,7 @@
                 </div>
               </div>
             </div>
+          </div>
         </tab>
         <tab>
           <tab-heading><i class="fa fa-flag fa-lg"></i> Delegates</tab-heading>
@@ -83,6 +72,6 @@
           <div ng-controller="AssetsController" ng-include src="'assets.html'"></div>
         </tab>
       </tabset>
+    </div>
   </div>
-</div>
 </div>
