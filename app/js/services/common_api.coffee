@@ -8,6 +8,10 @@ class CommonAPI
     get_info: ->
         @rpc.request('get_info').then (response) ->
             response.result
+ 
+    get_config: ->
+        @rpc.request('get_config').then (response) ->
+            response.result
 
 
 angular.module("app").service("CommonAPI", ["$q", "$log", "RpcService", CommonAPI])

@@ -2,7 +2,7 @@
 <div class="col-sm-12">
 <div class="header">
 <h3 class="header-title">Create A New Asset</h3>
-	<p class="header-info">Fees for creating a new asset: 100 XTS</p>
+<p class="header-info">Fees for creating a new asset: {{asset_reg_fee}}</p>
 
     </div>
 </div>
@@ -14,9 +14,12 @@
         <div class="form-group row">
             <label for="symbol" class="col-sm-2 control-label">Symbol</label>
             <div class="col-md-3">
-                <input ng-model="create_asset.symbol" type="text" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="Symbol" id="symbol" required/>
+                <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="Symbol" id="symbol" required/>
             </div>
-         </div>
+            <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
+                <span>The Symbol shoud be 3-5 uppercase characters</span>
+            </div>
+        </div>
 
         <div class="form-group">
           <label for="asset_name" class="col-sm-2 control-label">Asset Name</label>

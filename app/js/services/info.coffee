@@ -31,6 +31,11 @@ class Info
 
                 @blockchain_api.get_security_state().then (data) =>
                     @info.alert_level = data.alert_level
+
+                @common_api.get_config().then (data) =>
+                    @info.delegate_reg_fee = data.delegate_reg_fee
+                    @info.asset_reg_fee = data.asset_reg_fee
+                    @info.priority_fee = data.priority_fee
             , =>
                 @is_refreshing = false
                 @info.network_connections = 0

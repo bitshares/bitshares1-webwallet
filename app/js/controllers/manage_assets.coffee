@@ -1,4 +1,4 @@
-angular.module("app").controller "ManageAssetsController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService, Blockchain, Utils) ->
+angular.module("app").controller "ManageAssetsController", ($scope, $location, $stateParams, Growl, BlockchainAPI, RpcService, Blockchain, Info, Utils) ->
 
     $scope.name = $stateParams.name
    
@@ -6,6 +6,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
     $scope.assets = []
     $scope.my_assets = []
     $scope.my_symbols = []
+    $scope.asset_reg_fee = Info.info.asset_reg_fee
     
     BlockchainAPI.get_account($scope.name).then (result) =>
         if result
