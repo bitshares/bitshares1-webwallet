@@ -14,7 +14,7 @@
 				</p>
 			</div>
 			<div class="col-sm-10">
-	<form name="createaccount" class="form-horizontal" role="form" name="wform" ng-submit="createaccount.$valid && createAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+	<form name="createaccount" class="form-horizontal" role="form" ng-submit="createaccount.$valid && createAccount()" ng-class="{ 'has-error' : createaccount.wp.$invalid && !createaccount.wp.$pristine }">
 		<div class="form-group m-top">
 			
 			
@@ -22,9 +22,9 @@
 					<label for="name" class="col-sm-1 control-label">Name</label>
 					<div class="col-sm-6">
 			    		<input name="wp" uncapitalize ng-maxlength="63" required ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" id="wallet_name" autofocus ng-model="name" type="text" class="form-control" placeholder="Account Name"/>
-			    		<p ng-show="wform.wp.$error.required && !wform.wp.$pristine" class="help-block">Name is required.</p>
-					    <p ng-show="wform.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
-					    <p ng-show="wform.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
+			    		<p ng-show="createaccount.wp.$error.required && !createaccount.wp.$pristine" class="help-block">Name is required.</p>
+					    <p ng-show="createaccount.wp.$error.maxlength" class="help-block">Name can be at most 63 characters.</p>
+					    <p ng-show="createaccount.wp.$error.pattern" class="help-block">Name can only contain lowercase alphanumeric characters and dashes and must start with a letter.</p>
 			  		</div>
 			  	</div>
 			  	<div class="form-group row">
