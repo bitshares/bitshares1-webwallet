@@ -254,7 +254,7 @@ footer {
 }
 
 footer.normal-state {
-	background-color: #84ce84;
+	background-color: #034860;
 }
 
 footer.warning-state {
@@ -262,7 +262,7 @@ footer.warning-state {
 }
 
 footer.severe-state {
-	background-color: #034860;
+	background-color: #be0000;
 }
 
 footer p {
