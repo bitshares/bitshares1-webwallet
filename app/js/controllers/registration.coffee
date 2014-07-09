@@ -1,7 +1,9 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Utils) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Info, Utils) ->
   $scope.symbolOptions = []
   console.log('Wallet.balances')
   console.log(Wallet.balances)
+  $scope.delegate_reg_fee = Info.info.delegate_reg_fee
+  $scope.priority_fee = Info.info.priority_fee
   $scope.m={}
   $scope.m.payrate=50
   $scope.m.delegate=false
