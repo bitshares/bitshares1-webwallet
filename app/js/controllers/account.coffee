@@ -27,12 +27,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
             $scope.edit={}
-            $scope.edit.newemail = acct.private_data.gui_data.email
-            $scope.edit.newwebsite = acct.private_data.gui_data.website
-            if (acct.private_data.gui_custom_data_pairs)
-              $scope.edit.pairs = acct.private_data.gui_custom_data_pairs
-            else
-              $scope.edit.pairs=[]
+            if acct.private_data
+                $scope.edit.newemail = acct.private_data.gui_data.email
+                $scope.edit.newwebsite = acct.private_data.gui_data.website
+                if (acct.private_data.gui_custom_data_pairs)
+                  $scope.edit.pairs = acct.private_data.gui_custom_data_pairs
+                else
+                  $scope.edit.pairs=[]
     refresh_account()
 
     Blockchain.get_config().then (config) ->
@@ -103,16 +104,20 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 $scope.trust_level = false
 
     $scope.toggleFavorite = ->
-        if (Wallet.accounts[name].private_data)
-            private_data=Wallet.accounts[name].private_data
-        else
-            private_data={}
-        if !(private_data.gui_data)
-            private_data.gui_data={}
-        private_data.gui_data.favorite=!(private_data.gui_data.favorite)
-        Wallet.account_update_private_data(name, private_data).then ->
-            $scope.account.private_data=Wallet.accounts[name].private_data
-            console.log($scope.account.private_data)
+        address = $scope.account.owner_key
+        Wallet.wallet_add_contact_account(name, address).then ()->
+            # TODO: move to wallet service
+            Wallet.refresh_accounts().then ()->
+                if (Wallet.accounts[name].private_data)
+                    private_data=Wallet.accounts[name].private_data
+                else
+                    private_data={}
+                if !(private_data.gui_data)
+                    private_data.gui_data={}
+                private_data.gui_data.favorite=!(private_data.gui_data.favorite)
+                Wallet.account_update_private_data(name, private_data).then ->
+                    $scope.account.private_data=Wallet.accounts[name].private_data
+                    console.log($scope.account.private_data)
 
     $scope.regDial = ->
         if Wallet.nonZeroBalance

@@ -1,4 +1,3 @@
-
 <div class="row head-bg  p-inner">
 
 	<div class="col-sm-2">
@@ -11,7 +10,7 @@
 		
 		<div class="text-center">
 			<button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
-	        	<i ng-class="(account.private_data.gui_data.favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
+	        	<i ng-class="(account.private_data && account.private_data.gui_data && account.private_data.gui_data.favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
 	  		</button>
 			<span ng-switch on="account.delegate_info">
 	  			<button ng-switch-default ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary" tooltip="Toggle vote up">
