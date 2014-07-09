@@ -118,7 +118,7 @@ class Wallet
         @approved_delegates[name] = approve
         @wallet_api.approve_delegate(name, approve).then () =>
             @refresh_account(name)
-        return
+            @approved_delegates[name]  # return result in b/c it might have failed
     
     refresh_transactions_on_update: () ->
         @refresh_transactions()

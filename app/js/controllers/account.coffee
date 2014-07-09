@@ -82,8 +82,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
           $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactAddrController"
-            resolve: 
-                addr: -> 
+            resolve:
+                addr: ->
                     payto.value
                 action: ->
                     (contact)->
@@ -92,9 +92,15 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.toggleVoteUp = ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
-            Wallet.set_trust(name, true)
+            console.log "setting trust..."
+            Wallet.set_trust(name, true).then (approved) =>
+                console.log "TODO if setting trust failed then alert user"
+                #if trust == false then do stuff
+                $scope.trust_level = true
         else
-            Wallet.set_trust(name, false)
+            # TODO see above
+            Wallet.set_trust(name, false).then (approved) =>
+                $scope.trust_level = false
 
     $scope.toggleFavorite = ->
         if (Wallet.accounts[name].private_data)
