@@ -2,7 +2,9 @@
 
 	<div class="col-sm-2">
 	
-		<gravatar-image  data-gravatar-email="account.private_data.gui_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive "></gravatar-image>
+		<gravatar-image  data-gravatar-email="account.private_data.gui_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive" ng-if="!account.public_data"></gravatar-image>
+
+        <img class="img-responsive" src="https://secure.gravatar.com/avatar/{{account.public_data.gravatarID}}?s=512&amp;r=pg&amp;d=mm" ng-if="!!account.public_data"></img>
 		
 		<div class="text-center p-inner white-shadow">
 			{{gravatarDisplayName}}
