@@ -1,4 +1,4 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, Wallet) ->
+angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, Wallet) ->
   $scope.descriptionCollapsed = true
   $scope.wrongPass = false
   $scope.submitForm = ->
@@ -7,5 +7,10 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
     , (error) ->
       $scope.wrongPass = true
     )
-    $rootScope.showLoadingIndicator promise
+
+    i = $interval ->
+        Wallet.wallet_get_info().then (info)->
+            $rootScope.updateProgress Math.floor(info.wallet_scan_progress * 100)
+        , 2000
+    $rootScope.showLoadingIndicator promise, i
 

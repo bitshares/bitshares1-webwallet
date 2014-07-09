@@ -11,7 +11,7 @@ app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services"
 #    $idle.watch()
 #]
 
-app.run ($rootScope, $location, $idle, editableOptions, editableThemes) ->
+app.run ($rootScope, $location, $idle, $interval, editableOptions, editableThemes) ->
     history = []
 
     editableOptions.theme = 'default'
@@ -26,10 +26,20 @@ app.run ($rootScope, $location, $idle, editableOptions, editableThemes) ->
         $location.path(prevUrl)
 
     $rootScope.loading = false
-    $rootScope.showLoadingIndicator = (promise) ->
+    $rootScope.progress = 100
+    $rootScope.showLoadingIndicator = (promise, i) ->
         $rootScope.loading = true
+        if i
+            $rootScope.progress = 0
+            
         promise.finally ->
             $rootScope.loading = false
+            if i
+                $rootScope.progress = 100
+                $interval.cancel(i)
+
+    $rootScope.updateProgress = (p) ->
+        $rootScope.progress = p
 
     $idle.watch()
 
