@@ -66,29 +66,36 @@ class Blockchain
         last_block_round : 0
 
     get_blocks_with_missed: (first_block, blocks_to_fetch) ->
-        requests =
-            blocks: @blockchain_api.list_blocks(first_block, blocks_to_fetch)
-            signers: @rpc.request("batch", ["blockchain_get_block_signee", [i] for i in [first_block...first_block+blocks_to_fetch]])
-            missed: @rpc.request("batch", ["blockchain_list_missing_block_delegates", [i] for i in [first_block...first_block+blocks_to_fetch]])
-            config: @get_config()
-        @q.all(requests).then (results) =>
-            blocks = results.blocks
-            missed = results.missed.result
-            signers = results.signers.result
-            config = results.config
+        @blockchain_api.get_blockcount().then (head_block) =>
+            if first_block > head_block
+                def = @q.defer()
+                def.resolve([])
+                return def.promise
+            if first_block + blocks_to_fetch > head_block
+                blocks_to_fetch = head_block - first_block
+            requests =
+                blocks: @blockchain_api.list_blocks(first_block, blocks_to_fetch)
+                signers: @rpc.request("batch", ["blockchain_get_block_signee", [i] for i in [first_block...first_block+blocks_to_fetch]])
+                missed: @rpc.request("batch", ["blockchain_list_missing_block_delegates", [i] for i in [first_block...first_block+blocks_to_fetch]])
+                config: @get_config()
+            @q.all(requests).then (results) =>
+                blocks = results.blocks
+                missed = results.missed.result
+                signers = results.signers.result
+                config = results.config
 
-            merged = []
-            for i in [0...blocks.length]
-                blocks[i].delegate_name = signers[i]
-                blocks[i].timestamp = @utils.toDate(blocks[i].timestamp)
-                for j in [0...missed[i].length]
-                    timestamp = new Date(+blocks[i].timestamp - ((missed[i].length - j)) * (1000 * config.block_interval))
-                    merged.push
-                        block_num: -2
-                        timestamp: timestamp
-                        delegate_name: missed[i][j]
-                merged.push blocks[i]
-            return merged
+                merged = []
+                for i in [0...blocks.length]
+                    blocks[i].delegate_name = signers[i]
+                    blocks[i].timestamp = @utils.toDate(blocks[i].timestamp)
+                    for j in [0...missed[i].length]
+                        timestamp = new Date(+blocks[i].timestamp - ((missed[i].length - j)) * (1000 * config.block_interval))
+                        merged.push
+                            block_num: -2
+                            timestamp: timestamp
+                            delegate_name: missed[i][j]
+                    merged.push blocks[i]
+                return merged
 
     get_last_block_round: ->
         if @recent_blocks.last_block_round
