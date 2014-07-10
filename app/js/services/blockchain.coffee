@@ -65,6 +65,30 @@ class Blockchain
         last_block_timestamp: ""
         last_block_round : 0
 
+    get_blocks_with_missed: (first_block, blocks_to_fetch) ->
+        requests =
+            blocks: @blockchain_api.list_blocks(first_block, blocks_to_fetch)
+            signers: @rpc.request("batch", ["blockchain_get_block_signee", [i] for i in [first_block...first_block+blocks_to_fetch]])
+            missed: @rpc.request("batch", ["blockchain_list_missing_block_delegates", [i] for i in [first_block...first_block+blocks_to_fetch]])
+            config: @get_config()
+        @q.all(requests).then (results) =>
+            blocks = results.blocks
+            missed = results.missed.result
+            signers = results.signers.result
+            config = results.config
+
+            merged = []
+            for i in [0...blocks.length]
+                blocks[i].delegate_name = signers[i]
+                for j in [0...missed[i].length]
+                    timestamp = blocks[i].timestamp + (j+1 - missed[i].length)*config.block_interval
+                    merged.push
+                        block_num: -2
+                        timestamp: timestamp
+                        delegate_name: missed[i][j]
+                merged.push blocks[i]
+            return merged
+
     get_last_block_round: ->
         if @recent_blocks.last_block_round
             deferred = @q.defer()

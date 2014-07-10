@@ -18,31 +18,14 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
             deferred.resolve(0)
             return deferred.promise
 
+    Blockchain.get_blocks_with_missed(10000, 10).then (blocks) =>
+        console.log "merged blocks"
+        console.log blocks
+
     refresh_blocks = ->
-        Blockchain.refresh_recent_blocks().then ()->
-            result = Blockchain.recent_blocks.value
-            blocks = []
-            $scope.last_block_round = Blockchain.recent_blocks.last_block_round
-            $scope.last_block_timestamp = Blockchain.recent_blocks.last_block_timestamp
-            Blockchain.get_config().then (config) ->
-                $scope.get_previous_block_timestamp(result).then (last_block_timestamp) ->
-                    for i in [0 ... result.length]
-                        if last_block_timestamp == 0 and i == 0
-                            last_block_timestamp = result[0].timestamp
-                        delta = (Utils.toDate(result[i].timestamp) - Utils.toDate(last_block_timestamp))/1000 
-                        delta = delta / config.block_interval
-                        if delta > 1
-                            block =
-                                block_num : -2
-                                timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, 1)
-                                to_timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, delta - 1)
-                                user_transaction_ids : []
-                                delta: delta - 1
-                            blocks.push block
-                        last_block_timestamp = result[i].timestamp
-                        # TODO: still not detecting missing blocks between pages
-                        blocks.push result[i]
-                    $scope.blocks = blocks
+        BlockchainAPI.get_blockcount().then (head_block) =>
+            Blockchain.get_blocks_with_missed(head_block - 20, 20).then (blocks) =>
+                $scope.blocks = blocks
 
     watch_for = ->
         Info.info.last_block_time

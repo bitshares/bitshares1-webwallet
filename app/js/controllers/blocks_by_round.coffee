@@ -25,6 +25,9 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
         $scope.start = ($scope.round - 1) * $scope.round_count + 1
         $scope.end = $scope.start + $scope.round_count - 1
 
+        Blockchain.get_blocks_with_missed($scope.start, $scope.round_count).then (result) ->
+            $scope.blocks = result
+        ###
         BlockchainAPI.list_blocks($scope.start, $scope.round_count).then (result) ->
             block_numbers = []
             for block in result
@@ -54,7 +57,7 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
                             last_block_timestamp = result[i].timestamp
                             # TODO: still not detecting missing blocks between pages
                             $scope.blocks.push result[i]
-                                
+        ###                                
     Blockchain.get_last_block_round().then (last_block_round) ->
         $scope.last_block_round = last_block_round + 1
 
