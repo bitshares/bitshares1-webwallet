@@ -1,4 +1,4 @@
-angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5, WalletAPI) ->
+angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, $modal, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5, WalletAPI) ->
     name = $stateParams.name
 
     $scope.$watch ->
@@ -42,17 +42,25 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
     refresh_accounts()
 
     $scope.updateRegAccount = ->
-        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
-            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
+        $modal.open
+            templateUrl: "dialog-confirmation.html"
+            controller: "DialogConfirmationController"
+            resolve:
+                title: -> "Are you sure?"
+                message: -> "This will update your account's private and public info"
+                action: ->
+                    ->
+                        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
+                            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
 
-            payrate = if $scope.m.delegate then $scope.m.payrate else 255
-            if $scope.edit.newemail
-                gravatarMD5 = md5.createHash($scope.edit.newemail)
-            else
-                gravatarMD5 = ""
-            console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
-            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
-                Wallet.refresh_account(name)
+                            payrate = if $scope.m.delegate then $scope.m.payrate else 255
+                            if $scope.edit.newemail
+                                gravatarMD5 = md5.createHash($scope.edit.newemail)
+                            else
+                                gravatarMD5 = ""
+                            console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
+                            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
+                                Wallet.refresh_account(name)
 
 
     $scope.addKeyVal = ->
