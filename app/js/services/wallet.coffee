@@ -136,7 +136,7 @@ class Wallet
                         block_num: val.block_num
                         trx_num: val.trx_num
                         #trx_num: Number(key) + 1
-                        time: new Date(val.received_time*1000)
+                        time: @utils.toDate(val.received_time)
                         amount: val.amount
                         amount_asset : @utils.asset(val.amount.amount, @blockchain.asset_records[val.amount.asset_id])
                         from: val.from_account
