@@ -27,37 +27,7 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
 
         Blockchain.get_blocks_with_missed($scope.start, $scope.round_count).then (result) ->
             $scope.blocks = result
-        ###
-        BlockchainAPI.list_blocks($scope.start, $scope.round_count).then (result) ->
-            block_numbers = []
-            for block in result
-                block_numbers.push [block.block_num]
-            RpcService.request("batch", ["blockchain_get_block_signee", block_numbers]).then (response) ->
-                delegate_names = response.result
-                for i in [0...delegate_names.length]
-                    result[i].delegate_name = delegate_names[i]
-                $scope.end = $scope.start + result.length - 1
-
-                $scope.blocks = []
-                Blockchain.get_config().then (config) ->
-                    $scope.get_previous_block_timestamp(result).then (last_block_timestamp) ->
-                        for i in [0 ... result.length]
-                            if last_block_timestamp == 0 and i == 0
-                                last_block_timestamp = result[0].timestamp
-                            delta = (Utils.toDate(result[i].timestamp) - Utils.toDate(last_block_timestamp))/1000 
-                            delta = delta / config.block_interval
-                            if delta > 1
-                                block =
-                                    block_num : -2
-                                    timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, 1)
-                                    to_timestamp : Utils.advance_interval(last_block_timestamp, config.block_interval, delta - 1)
-                                    user_transaction_ids : []
-                                    delta: delta - 1
-                                $scope.blocks.push block
-                            last_block_timestamp = result[i].timestamp
-                            # TODO: still not detecting missing blocks between pages
-                            $scope.blocks.push result[i]
-        ###                                
+    
     Blockchain.get_last_block_round().then (last_block_round) ->
         $scope.last_block_round = last_block_round + 1
 
