@@ -93,28 +93,19 @@
              <div class="form-group row">
                  <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
                <div class="col-md-3">
-                   <input ng-model="$parent.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
+                   <input ng-model="transfer_info.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
                </div>
                  <div class="col-md-2">
-                   <select class="form-control" id='symbol' ng-model="$parent.symbol" ng-options="k as k for (k, v) in $parent.balances"></select> 
+                   <select class="form-control" id='symbol' ng-model="transfer_info.symbol" ng-options="k as k for (k, v) in $parent.balances"></select> 
                  </div>
               </div>
-
-            <!--
-             <div class="form-group">
-               <label for="payfrom" class="col-sm-2 control-label">From</label>
-               <div class="col-md-5">
-                 <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account for account in accounts | filter:symbol"></select>
-               </div>
-             </div>
-             -->
 
             <div class="form-group">
                 <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
              <div class="col-md-5">
                           <div class="input-group">
              
-              <input ng-model="$parent.payto" watch-change="addContactFromTo()" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
+              <input ng-model="transfer_info.payto" watch-change="addContactFromTo()" type="text" class="form-control" placeholder="Contact Name" id="payto" typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}" typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
                  <span ng-click='newContactModal()' type="button" class=" input-group-addon btn white btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i></span>
           </div>
             </div>
@@ -123,7 +114,7 @@
             <div class="form-group">
              <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
              <div class="col-md-5">
-                 <input ng-model="$parent.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo" id="memo"/>
+                 <input ng-model="transfer_info.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo" id="memo"/>
              </div>
             </div>
              <div class="form-group row">

@@ -10,7 +10,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file : "", password : ""}
+    $scope.transfer_info = 
+        amount : 0
+        symbol : "XTS"
+        payto : ""
+        memo : ""
     
+    $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
     $scope.p={}
     $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
@@ -24,7 +30,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         if Wallet.accounts[name]
             acct = Wallet.accounts[name]
             $scope.account = Wallet.accounts[name]
-            console.log $scope.account
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
 
@@ -52,10 +57,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Wallet.refresh_account(name)
 
     yesSend = ->
-        WalletAPI.transfer($scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo).then (response) ->
-            $scope.payto = ""
-            $scope.amount = ""
-            $scope.memo = ""
+        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
+            $scope.transfer_info.payto = ""
+            $scope.transfer_info.amount = ""
+            $scope.transfer_info.memo = ""
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
             Wallet.refresh_account(name)
             $scope.t_active=true
@@ -66,13 +71,19 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + $scope.amount + " " + $scope.symbol + " to " + $scope.payto
+                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto
                 action: -> yesSend
 
     $scope.newContactModal = ->
       $modal.open
         templateUrl: "newcontact.html"
-        controller: "NewContactController"
+        controller: "NewContactAddrController"
+        resolve:
+            addr: ->
+                ""
+            action: ->
+                (contact)->
+                    $scope.transfer_info.payto = contact
 
     $scope.addContactFromTo = ->
       if payto and payto.value and $scope.addr_symbol and (payto.value.indexOf $scope.addr_symbol) == 0 and payto.value.length == $scope.addr_symbol.length + 50
@@ -84,7 +95,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                     payto.value
                 action: ->
                     (contact)->
-                        $scope.payto = contact
+                        $scope.transfer_info.payto = contact
                     
 
     $scope.toggleVoteUp = ->
@@ -129,9 +140,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         Wallet.blockchain_list_accounts(input, 10).then (response) ->
             #code to make local and global accounts data structures consistents
             newresponse=(item.name for item in response)
-            console.log(newresponse)
             allAccounts=newresponse.concat(Object.keys(Wallet.accounts))
-            console.log(allAccounts)
             $filter('filter')(allAccounts, input)
 
     #x-editable
