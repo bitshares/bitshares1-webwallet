@@ -9,7 +9,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
         BlockchainAPI.get_blockhash($scope.number).then (block_hash) ->
             $scope.block.block_hash = block_hash
 
-            BlockchainAPI.get_transactions_for_block(block_hash).then (transactions) ->
+            BlockchainAPI.get_block_transactions(block_hash).then (transactions) ->
                 $scope.block.transactions = []
                 $q.all([Blockchain.refresh_asset_records(), Blockchain.refresh_delegates()]).then ()->
                     for i in [0 ... transactions.length]
