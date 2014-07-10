@@ -24,6 +24,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         if Wallet.accounts[name]
             acct = Wallet.accounts[name]
             $scope.account = Wallet.accounts[name]
+            console.log $scope.account
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
 

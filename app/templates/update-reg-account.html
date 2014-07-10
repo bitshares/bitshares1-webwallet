@@ -1,0 +1,66 @@
+<div class='row'>
+    <div class="col-sm-2 m-top">
+        <gravatar-image data-gravatar-email="edit.newemail" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+        <br>
+        <p class="text-center lead">
+            {{gravatarDisplayName}}
+        </p>
+    </div>
+    <div class="col-sm-10">
+        <form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+            <div class="form-group m-top">
+                <div class="form-group row">
+                    <label for="email" class="col-sm-1 control-label" translate>email</label>
+                    <div class="col-sm-6">
+                        <input ng-model="edit.newemail" type="text" class="form-control" placeholder="Optional Email"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="website" class="col-sm-1 control-label" translate>website</label>
+                    <div class="col-sm-6">
+                        <input focus ng-model="edit.newwebsite" type="text" class="form-control" placeholder="Website"/>
+                    </div>
+                </div>
+                <div ng-repeat="pair in edit.pairs">
+                    <div class="form-group row">
+                        <div class="col-sm-1">
+                            <input focus type="text" ng-model="pair.key" class="form-control" placeholder="Key"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <input focus type="text" ng-model="pair.val" class="form-control" placeholder="Value"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-warning" ng-click="removeKeyVal($index)"><i class="fa fa-times fa-fw"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-1 col-sm-2">
+                        <button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> {{ 'account.add_field' | translate}}</button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-offset-1 col-sm-2">
+                        <button class="btn btn-primary" type="submit" translate>save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                Registration fee: {{ priority_fee }} <br><br>
+                <label for="contact_address">Pay with</label>
+                <select ng-show="accounts.length > 0" ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>
+                <span ng-show="accounts.length == 0">You need fees for registration, but you still do not have any XTS yet</span><br>
+                <button class="btn btn-default btn-lg col-sm-3" type="button" ng-click="m.delegate = !m.delegate">
+                  <i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[m.delegate]"></i> Delegate
+                </button>
+                <div class="col-sm-9" collapse="!m.delegate">
+                    <div class="warning">Registering as a delegate costs extra: {{delegate_reg_fee}}</div>
+                    <label for="payrate" class="col-sm-4 control-label">Pay rate, 0-100</label>
+                    <div class="col-sm-8">
+                        <input focus ng-model="m.payrate" id='payrate' type="text" class="form-control" placeholder="Pay rate, 0-100"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

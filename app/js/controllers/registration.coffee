@@ -1,7 +1,5 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Info, Utils) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5) ->
   $scope.symbolOptions = []
-  console.log('Wallet.balances')
-  console.log(Wallet.balances)
   $scope.delegate_reg_fee = Info.info.delegate_reg_fee
   $scope.priority_fee = Info.info.priority_fee
   $scope.m={}
@@ -31,10 +29,10 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $modalInstance.dismiss "cancel"
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
-    console.log($scope.m.payfrom[0])
     payrate = if $scope.m.delegate then $scope.m.payrate else 255
-    console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': $scope.gravatarMD5}, payrate)
-    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': $scope.gravatarMD5}, payrate).then (response) ->
+    gravatarMD5 = md5.createHash($scope.account.private_data.gui_data.email)
+    console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
+    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
       $modalInstance.close("ok")
       Wallet.pendingRegistrations[$scope.account.name]="pending"
       $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name]
