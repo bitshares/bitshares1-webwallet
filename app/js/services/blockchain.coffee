@@ -1,6 +1,6 @@
 class Blockchain
 
-    constructor: (@client, @network, @rpc, @blockchain_api, @q, @interval) ->
+    constructor: (@client, @network, @rpc, @blockchain_api, @utils, @q, @interval) ->
         console.log "blockchain constructor"
 
     # # # # #
@@ -80,8 +80,9 @@ class Blockchain
             merged = []
             for i in [0...blocks.length]
                 blocks[i].delegate_name = signers[i]
+                blocks[i].timestamp = @utils.toDate(blocks[i].timestamp)
                 for j in [0...missed[i].length]
-                    timestamp = blocks[i].timestamp + (j+1 - missed[i].length)*config.block_interval
+                    timestamp = new Date(+blocks[i].timestamp - ((missed[i].length - j)) * (1000 * config.block_interval))
                     merged.push
                         block_num: -2
                         timestamp: timestamp
@@ -164,4 +165,4 @@ class Blockchain
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]
 
-angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "RpcService", "BlockchainAPI", "$q", "$interval", Blockchain])
+angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "RpcService", "BlockchainAPI", "Utils", "$q", "$interval", Blockchain])
