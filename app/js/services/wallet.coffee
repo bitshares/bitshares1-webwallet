@@ -131,7 +131,6 @@ class Wallet
         @blockchain.refresh_asset_records().then () =>
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
-                console.log result
                 angular.forEach result, (val, key) =>
                     @transactions[account_name_key].push
                         block_num: val.block_num

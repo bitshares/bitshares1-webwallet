@@ -21,8 +21,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.p={}
     $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
 
+    Wallet.get_account(name).then (acct)->
+        $scope.account = acct
+        
     Wallet.refresh_account(name)
-    Wallet.refresh_balances()
 
     $scope.$watch ->
         Wallet.accounts[name]
