@@ -1,4 +1,4 @@
-angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5) ->
+angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5, WalletAPI) ->
     name = $stateParams.name
 
     $scope.$watch ->
@@ -15,19 +15,6 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
                 else
                   $scope.edit.pairs=[]
 
-    $scope.submitEditAccount = ->
-        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
-            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
-            Wallet.refresh_account(name)
-
-    $scope.addKeyVal = ->
-        if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
-            $scope.edit.pairs.push {'key': null, 'value': null}
-        else
-            Growl.error 'Fill out empty fields first'
-
-    $scope.removeKeyVal = (index) ->
-        $scope.edit.pairs.splice(index, 1)
 
     $scope.symbolOptions = []
     $scope.delegate_reg_fee = Info.info.delegate_reg_fee
@@ -54,12 +41,26 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
 
     refresh_accounts()
 
-    $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
-        payrate = if $scope.m.delegate then $scope.m.payrate else 255
-        gravatarMD5 = md5.createHash($scope.account.private_data.gui_data.email)
-        console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
-        Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
-            $modalInstance.close("ok")
-            Wallet.pendingRegistrations[$scope.account.name]="pending"
-            $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name]
-            console.log('pending', Wallet.pendingRegistrations, 'loc', $scope.p.pendingRegistration)
+    $scope.updateRegAccount = ->
+        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
+            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
+
+            payrate = if $scope.m.delegate then $scope.m.payrate else 255
+            if $scope.edit.newemail
+                gravatarMD5 = md5.createHash($scope.edit.newemail)
+            else
+                gravatarMD5 = ""
+            console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
+            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
+                Wallet.refresh_account(name)
+
+
+    $scope.addKeyVal = ->
+        if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
+            $scope.edit.pairs.push {'key': null, 'value': null}
+        else
+            Growl.error 'Fill out empty fields first'
+
+    $scope.removeKeyVal = (index) ->
+        $scope.edit.pairs.splice(index, 1)
+

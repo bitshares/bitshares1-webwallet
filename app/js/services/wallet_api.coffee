@@ -134,12 +134,14 @@ class WalletAPI
     @rpc.request('wallet_create_from_json', [json_filename, wallet_name, imported_wallet_passphrase]).then (response) ->
       response.result
 
-  # Lists all transactions for the specified account
+  # Lists transaction history for the specified account
   # parameters: 
-  #   account_name `account_name` - the name of the account for which the transaction history will be returned, example: alice
+  #   string `account_name` - the name of the account for which the transaction history will be returned, example: alice
+  #   uint32_t `start_block_num` - the earliest block number to list transactions from; 0 to include all transactions starting from genesis
+  #   uint32_t `end_block_num` - the latest block to list transaction from; -1 to include all transactions ending at the head block
   # return_type: `pretty_transactions`
-  account_transaction_history: (account_name) ->
-    @rpc.request('wallet_account_transaction_history', [account_name]).then (response) ->
+  account_transaction_history: (account_name, start_block_num, end_block_num) ->
+    @rpc.request('wallet_account_transaction_history', [account_name, start_block_num, end_block_num]).then (response) ->
       response.result
 
   # Clear "stuck" pending transactions from the wallet.
@@ -147,6 +149,14 @@ class WalletAPI
   # return_type: `void`
   clear_pending_transactions:  ->
     @rpc.request('wallet_clear_pending_transactions').then (response) ->
+      response.result
+
+  # Return any errors for your currently pending transactions
+  # parameters: 
+  #   string `filename` - filename to save pending transaction errors to
+  # return_type: `map<transaction_id_type, fc::exception>`
+  get_pending_transaction_errors: (filename) ->
+    @rpc.request('wallet_get_pending_transaction_errors', [filename]).then (response) ->
       response.result
 
   # Lock the private keys in wallet, disables spending commands until unlocked
@@ -198,11 +208,11 @@ class WalletAPI
     @rpc.request('wallet_account_set_favorite', [account_name, is_favorite]).then (response) ->
       response.result
 
-  # Updates your approval of the specified delegate
+  # Updates your approval for the specified delegate
   # parameters: 
   #   account_name `delegate_name` - the name of the delegate to set approval for
-  #   bool `approved` - true to approve and false for neutral
-  # return_type: `void`
+  #   bool `approved` - true to approve and false otherwise
+  # return_type: `bool`
   approve_delegate: (delegate_name, approved) ->
     @rpc.request('wallet_approve_delegate', [delegate_name, approved]).then (response) ->
       response.result
@@ -248,13 +258,22 @@ class WalletAPI
     @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message]).then (response) ->
       response.result
 
-  # Scans the transaction history for operations relevant to this wallet.
+  # Scans the blockchain history for operations relevant to this wallet.
   # parameters: 
   #   uint32_t `first_block_number` - the first block to scan
   #   uint32_t `num_blocks` - the number of blocks to scan
   # return_type: `void`
   rescan_blockchain: (first_block_number, num_blocks) ->
     @rpc.request('wallet_rescan_blockchain', [first_block_number, num_blocks]).then (response) ->
+      response.result
+
+  # Scans the specified transaction
+  # parameters: 
+  #   uint32_t `block_num` - the block containing the transaction
+  #   string `transaction_id` - the id (or id prefix) of the transaction
+  # return_type: `void`
+  scan_transaction: (block_num, transaction_id) ->
+    @rpc.request('wallet_scan_transaction', [block_num, transaction_id]).then (response) ->
       response.result
 
   # Updates the data published about a given account
@@ -282,9 +301,10 @@ class WalletAPI
   #   account_name `account_name` - the account that will be updated
   #   account_name `pay_from_account` - the account from which fees will be paid
   #   json_variant `public_data` - public data about the account
+  #   uint32_t `delegate_pay_rate` - percent to pay delegate, 0 to 100 or 255 if not a delegate
   # return_type: `transaction_record`
-  account_update_registration: (account_name, pay_from_account, public_data) ->
-    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data]).then (response) ->
+  account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate) ->
+    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate]).then (response) ->
       response.result
 
   # Lists all accounts associated with this wallet
@@ -347,11 +367,12 @@ class WalletAPI
   #   string `issuer_name` - the name of the issuer of the asset
   #   string `description` - a description of the asset
   #   json_variant `data` - arbitrary data attached to the asset
-  #   int64_t `maximum_share_supply` - the maximum number of shares of the asset
+  #   real_amount `maximum_share_supply` - the maximum number of shares of the asset
   #   int64_t `precision` - defines where the decimal should be displayed, must be a power of 10
+  #   bool `is_market_issued` - creation of a new BitAsset that is created by shorting
   # return_type: `signed_transaction`
-  asset_create: (symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision) ->
-    @rpc.request('wallet_asset_create', [symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision]).then (response) ->
+  asset_create: (symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision, is_market_issued) ->
+    @rpc.request('wallet_asset_create', [symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision, is_market_issued]).then (response) ->
       response.result
 
   # Issues new shares of a given asset type
@@ -388,19 +409,10 @@ class WalletAPI
     @rpc.request('wallet_vote_proposal', [name, proposal_id, vote, message]).then (response) ->
       response.result
 
-  # Lists the unspent balances that are controlled by this wallet
+  # Lists the total asset balances for the specified account
   # parameters: 
-  #   account_name `account_name` - the account for which unspent balances should be listed
-  #   asset_symbol `symbol` - The symbol to filter by, '*' for all
-  # return_type: `wallet_balance_record_array`
-  list_unspent_balances: (account_name, symbol) ->
-    @rpc.request('wallet_list_unspent_balances', [account_name, symbol]).then (response) ->
-      response.result
-
-  # Lists the total balances of all accounts sorted by account and asset
-  # parameters: 
-  #   account_name `account_name` - the account to get a balance for, '*' or ''.  If '*' or '' then all accounts will be returned
-  # return_type: `map<account_name, map<asset_symbol, share_type>>`
+  #   account_name `account_name` - the account to get a balance for, or leave empty for all accounts
+  # return_type: `account_balance_summary_type`
   account_balance: (account_name) ->
     @rpc.request('wallet_account_balance', [account_name]).then (response) ->
       response.result
@@ -420,8 +432,8 @@ class WalletAPI
   #   real_amount `amount_to_withdraw` - the amount to withdraw
   #   string `memo` - memo to add to transaction
   # return_type: `signed_transaction`
-  withdraw_delegate_pay: (delegate_name, to_account_name, amount_to_withdraw, memo) ->
-    @rpc.request('wallet_withdraw_delegate_pay', [delegate_name, to_account_name, amount_to_withdraw, memo]).then (response) ->
+  delegate_withdraw_pay: (delegate_name, to_account_name, amount_to_withdraw, memo) ->
+    @rpc.request('wallet_delegate_withdraw_pay', [delegate_name, to_account_name, amount_to_withdraw, memo]).then (response) ->
       response.result
 
   # Used to set the priority fee for new transactions. Return current fee if no parameter is provided.
@@ -442,6 +454,29 @@ class WalletAPI
   # return_type: `signed_transaction`
   market_submit_bid: (from_account_name, quantity, quantity_symbol, quote_price, quote_symbol) ->
     @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, quote_price, quote_symbol]).then (response) ->
+      response.result
+
+  # Used to place a request to sell a quantity of assets at a price specified in another asset
+  # parameters: 
+  #   account_name `from_account_name` - the account that will provide funds for the ask
+  #   real_amount `quantity` - the quantity of items you would like to sell
+  #   asset_symbol `quantity_symbol` - the type of items you would like to sell
+  #   real_amount `quote_price` - the price you would like to sell
+  #   asset_symbol `quote_symbol` - the type of asset you would like to be paid
+  # return_type: `signed_transaction`
+  market_submit_ask: (from_account_name, quantity, quantity_symbol, quote_price, quote_symbol) ->
+    @rpc.request('wallet_market_submit_ask', [from_account_name, quantity, quantity_symbol, quote_price, quote_symbol]).then (response) ->
+      response.result
+
+  # Used to place a request to short sell a quantity of assets at a price specified
+  # parameters: 
+  #   account_name `from_account_name` - the account that will provide funds for the ask
+  #   real_amount `quantity` - the quantity of items you would like to sell
+  #   real_amount `quote_price` - the price you would like to sell
+  #   asset_symbol `quote_symbol` - the type of asset you would like to be paid
+  # return_type: `signed_transaction`
+  market_submit_short: (from_account_name, quantity, quote_price, quote_symbol) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, quantity, quote_price, quote_symbol]).then (response) ->
       response.result
 
   # List an order list of a specific market
@@ -506,10 +541,27 @@ class WalletAPI
   # Enable or disable block production for a particular delegate account
   # parameters: 
   #   string `delegate_name` - The delegate to enable/disable block production for; ALL for all delegate accounts
-  #   bool `enable` - true to enable block production, false otherwise
+  #   bool `enabled` - true to enable block production, false otherwise
   # return_type: `void`
-  enable_delegate_block_production: (delegate_name, enable) ->
-    @rpc.request('wallet_enable_delegate_block_production', [delegate_name, enable]).then (response) ->
+  delegate_set_block_production: (delegate_name, enabled) ->
+    @rpc.request('wallet_delegate_set_block_production', [delegate_name, enabled]).then (response) ->
+      response.result
+
+  # Enable or disable wallet transaction scanning
+  # parameters: 
+  #   bool `enabled` - true to enable transaction scanning, false otherwise
+  # return_type: `void`
+  delegate_set_transaction_scanning: (enabled) ->
+    @rpc.request('wallet_delegate_set_transaction_scanning', [enabled]).then (response) ->
+      response.result
+
+  # Signs the provided message digest with the account key
+  # parameters: 
+  #   string `signing_account` - Name of the account to sign the message with
+  #   sha256 `hash` - SHA256 digest of the message to sign
+  # return_type: `signature`
+  sign_hash: (signing_account, hash) ->
+    @rpc.request('wallet_sign_hash', [signing_account, hash]).then (response) ->
       response.result
 
 
