@@ -129,8 +129,9 @@ class Wallet
     refresh_transactions: (account_name) ->
         account_name_key = account_name || "*"
         @blockchain.refresh_asset_records().then () =>
-            @wallet_api.account_transaction_history(account_name).then (result) =>
+            @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
+                console.log result
                 angular.forEach result, (val, key) =>
                     @transactions[account_name_key].push
                         block_num: val.block_num
@@ -164,7 +165,7 @@ class Wallet
             deferred.resolve(@transactions[account_name_key])
             return deferred.promise
         else
-            @wallet_api.account_transaction_history(account_name).then (result) =>
+            @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
                 angular.forEach result, (val, key) =>
                     blktrx=val.block_num + "." + val.trx_num
@@ -212,6 +213,9 @@ class Wallet
           @refresh_accounts().then =>
               @refresh_transactions()
           response.result
+
+    wallet_account_transaction_history: (account_name) ->
+        @wallet_api.account_transaction_history(account_name, 0, -1)
 
     wallet_unlock: (password)->
         @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>
