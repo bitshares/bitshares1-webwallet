@@ -5,13 +5,9 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
        oldname=$scope.f.name
        
    $scope.ku = ->
-       console.log('old', oldname)
-       console.log('new', $scope.f.name)
-       valid=/[a-z]+(?:\-*[a-z0-9])*$/.test($scope.f.name)
+       valid=/[a-z]+(?:\-*[a-z0-9])*$/.test($scope.f.name) && $scope.f.name.length<63 || $scope.f.name is ""
        if(!valid)
            $scope.f.name=oldname
-       console.log('valid', valid)
-       console.log('err', $scope.errorMsg)
 
     $scope.createAccount = ->
         #gravatarDisplayName is put on the scope from the controller
