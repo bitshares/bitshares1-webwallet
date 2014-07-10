@@ -27,6 +27,9 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
             Blockchain.get_blocks_with_missed(head_block - 20, 20).then (blocks) =>
                 $scope.blocks = blocks
 
+    Blockchain.get_last_block_round().then (last_block_round) ->
+        $scope.last_block_round = last_block_round
+
     watch_for = ->
         Info.info.last_block_time
 

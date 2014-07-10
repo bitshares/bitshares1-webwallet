@@ -27,6 +27,7 @@ angular.module("app").controller "BlocksByRoundController", ($scope, $location, 
 
         Blockchain.get_blocks_with_missed($scope.start, $scope.round_count).then (result) ->
             $scope.blocks = result
+            $scope.end = $scope.start + result.length - 1
     
     Blockchain.get_last_block_round().then (last_block_round) ->
         $scope.last_block_round = last_block_round + 1

@@ -99,28 +99,8 @@ class Blockchain
             @q.all({ head_num: @blockchain_api.get_blockcount(), config: @get_config() }).then (results) =>
                 console.log results
                 @recent_blocks.last_block_round = Math.floor((results.head_num - 1) / (results.config.page_count))
+                @block_head_num = results.head_num
                 return @recent_blocks.last_block_round
-                
-    refresh_recent_blocks: ->
-        @blockchain_api.get_blockcount().then (current_head_num) =>
-            if current_head_num > @block_head_num
-                begin = current_head_num - @recent_blocks_count
-                if begin < 1 then begin = 1
-
-                @q.all({blocks: @blockchain_api.list_blocks(begin + 1, @recent_blocks_count), config: @get_config()}).then (results) =>
-                    @recent_blocks.value = results.blocks
-                    if @recent_blocks.value.length > 0
-                        @recent_blocks.last_block_timestamp = @recent_blocks.value[@recent_blocks.value.length-1].timestamp
-                    @recent_blocks.last_block_round = Math.floor((current_head_num - 1) / (results.config.page_count))
-
-                    block_numbers = []
-                    for block in @recent_blocks.value
-                        block_numbers.push [block.block_num]
-                    @rpc.request("batch", ["blockchain_get_block_signee", block_numbers]).then (response) =>
-                        delegate_names = response.result
-                        for i in [0...delegate_names.length]
-                            @recent_blocks.value[i].delegate_name = delegate_names[i]
-                    @block_head_num = current_head_num
 
     ##
     # Delegates
