@@ -22,6 +22,10 @@
 	color: #fff;
 }
 
+.popover {
+  max-width: 476px;
+}
+
 /*Change the size here*/
 div.tooltip-inner {
     max-width: 350px;
