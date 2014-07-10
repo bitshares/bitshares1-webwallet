@@ -197,56 +197,7 @@
     </tab>
     <tab ng-show='account.is_my_account'>
     <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'edit' | translate }}</tab-heading>
-		<div class='row'>
-			<div class="col-sm-2 m-top">
-				<gravatar-image data-gravatar-email="$parent.edit.newemail" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
-				<br>
-				<p class="text-center lead">
-					{{gravatarDisplayName}}
-				</p>
-			</div>
-			<div class="col-sm-10">
-				<form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
-					<div class="form-group m-top">
-					  	<div class="form-group row">
-					  		<label for="email" class="col-sm-1 control-label" translate>email</label>
-							<div class="col-sm-6">
-					    		<input ng-model="$parent.edit.newemail" type="text" class="form-control" placeholder="Optional Email"/>
-					  		</div>
-					  	</div>
-					  	<div class="form-group row">
-					  		<label for="website" class="col-sm-1 control-label" translate>website</label>
-							<div class="col-sm-6">
-					    		<input focus ng-model="$parent.edit.newwebsite" type="text" class="form-control" placeholder="Website"/>
-					  		</div>
-					  	</div>
-						<div ng-repeat="pair in $parent.edit.pairs">
-						  	<div class="form-group row">
-								<div class="col-sm-1">
-						    		<input focus type="text" ng-model="pair.key" class="form-control" placeholder="Key"/>
-						  		</div>
-								<div class="col-sm-6">
-						    		<input focus type="text" ng-model="pair.val" class="form-control" placeholder="Value"/>
-						  		</div>
-						  		<div class="col-sm-2">
-						    		<button type="button" class="btn btn-warning" ng-click="removeKeyVal($index)"><i class="fa fa-times fa-fw"></i></button>
-						  		</div>
-					  		</div>
-					  	</div>
-					  	<div class="form-group row">
-						  	<div class="col-sm-offset-1 col-sm-2">
-                                <button type="button" class="btn btn-success" ng-click="addKeyVal()"><i class="fa fa-plus fa-fw"></i> {{ 'account.add_field' | translate}}</button>
-					  		</div>
-				  		</div>
-						<div class="form-group row">
-					  		<div class="col-sm-offset-1 col-sm-2">
-					    		<button class="btn btn-primary" type="submit" translate>save</button>
-					  		</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
+        <div ng-controller="EditLocalController" ng-include src="'editlocal.html'"></div>
     </tab>
 </tabset>
 </div>

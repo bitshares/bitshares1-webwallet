@@ -2,18 +2,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
-    #$scope.accounts = Wallet.receive_accounts
-    #$scope.account.balances = Wallet.balances[name]
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
-    console.log('act')
-    console.log(Wallet.accounts[name])
-
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = "XTS"
 
-    #Wallet.refresh_accounts()
     $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file : "", password : ""}
     
@@ -21,20 +15,23 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.p={}
     $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
 
-    refresh_account = ->
-        Wallet.get_account(name).then (acct) ->
-            $scope.account = acct
+    Wallet.refresh_account(name)
+    Wallet.refresh_balances()
+
+    $scope.$watch ->
+        Wallet.accounts[name]
+    , ->
+        if Wallet.accounts[name]
+            acct = Wallet.accounts[name]
+            $scope.account = Wallet.accounts[name]
             $scope.balances = Wallet.balances[name]
             Wallet.refresh_transactions_on_update()
-            $scope.edit={}
-            if acct.private_data
-                $scope.edit.newemail = acct.private_data.gui_data.email
-                $scope.edit.newwebsite = acct.private_data.gui_data.website
-                if (acct.private_data.gui_custom_data_pairs)
-                  $scope.edit.pairs = acct.private_data.gui_custom_data_pairs
-                else
-                  $scope.edit.pairs=[]
-    refresh_account()
+
+    $scope.$watch ->
+        Wallet.balances[name]
+    , ->
+        if Wallet.balances[name]
+            $scope.balances = Wallet.balances[name]
 
     Blockchain.get_config().then (config) ->
         $scope.memo_size_max = config.memo_size_max
@@ -46,14 +43,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Your private key was successfully imported."
             refresh_account()
 
-
-
     $scope.import_wallet = ->
         WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
             Growl.notice "The wallet was successfully imported."
-            refresh_account()
+            Wallet.refresh_account(name)
 
     yesSend = ->
         WalletAPI.transfer($scope.amount, $scope.symbol, $scope.account.name, $scope.payto, $scope.memo).then (response) ->
@@ -61,7 +56,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.amount = ""
             $scope.memo = ""
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
-            refresh_account()
+            Wallet.refresh_account(name)
             $scope.t_active=true
 
     $scope.send = ->
@@ -142,21 +137,4 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.updateUser = (newName) ->
         Wallet.wallet_rename_account(name, newName).then ->
             $location.path("/accounts/"+newName)
-
-
-    #Edit section
-
-    $scope.addKeyVal = ->
-        if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
-            $scope.edit.pairs.push {'key': null, 'value': null}
-        else
-            Growl.error 'Fill out empty fields first'
-
-    $scope.removeKeyVal = (index) ->
-        $scope.edit.pairs.splice(index, 1)
-    
-    $scope.submitEditAccount = ->
-        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
-            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
-            refresh_account()
 
