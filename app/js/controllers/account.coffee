@@ -31,16 +31,18 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         Wallet.accounts[name]
     , ->
         if Wallet.accounts[name]
-            acct = Wallet.accounts[name]
             $scope.account = Wallet.accounts[name]
-            $scope.balances = Wallet.balances[name]
-            Wallet.refresh_transactions_on_update()
 
     $scope.$watch ->
         Wallet.balances[name]
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
+
+    $scope.$watchCollection ->
+        Wallet.transactions
+    , () ->
+        Wallet.refresh_account(name)
 
     Blockchain.get_config().then (config) ->
         $scope.memo_size_max = config.memo_size_max
@@ -50,14 +52,14 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
             $scope.private_key.value = ""
             Growl.notice "", "Your private key was successfully imported."
-            refresh_account()
+            Wallet.refresh_transactions_on_update()
 
     $scope.import_wallet = ->
         WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
             Growl.notice "The wallet was successfully imported."
-            Wallet.refresh_account(name)
+            Wallet.refresh_transactions_on_update()
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
@@ -65,7 +67,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.transfer_info.amount = ""
             $scope.transfer_info.memo = ""
             Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
-            Wallet.refresh_account(name)
+            Wallet.refresh_transactions_on_update()
             $scope.t_active=true
 
     $scope.send = ->

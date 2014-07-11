@@ -43,6 +43,8 @@ class Wallet
                     if (!@nonZeroBalance && amount>0)
                         @nonZeroBalance=true
                     @blockchain.get_asset(symbol).then (asset_record) =>
+                        if !@balances[name]
+                            @balances[name] = {}
                         @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
 
     count_my_accounts: ->
@@ -73,7 +75,7 @@ class Wallet
     refresh_account: (name) ->
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
-            @refresh_transactions_on_update()
+            @refresh_balances()
 
     refresh_accounts: ->
         @wallet_api.list_accounts().then (result) =>
