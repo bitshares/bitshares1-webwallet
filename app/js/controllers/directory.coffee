@@ -39,7 +39,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
 
 
   $scope.isFavorite = (r)->
-      $scope.contacts[r.name] && $scope.contacts[r.name].private_data && $scope.contacts[r.name].private_data.gui_data.favorite
+      $scope.contacts[r.name] && $scope.contacts[r.name].is_favorite
 
   $scope.formatRegDate = (d) ->
       if d == $scope.genesis_date
@@ -51,12 +51,5 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
     Wallet.wallet_add_contact_account(name, address).then ()->
         # TODO: move to wallet service
         Wallet.refresh_accounts().then ()->
-            if (Wallet.accounts[name].private_data)
-                private_data=Wallet.accounts[name].private_data
-            else
-                private_data={}
-            if !(private_data.gui_data)
-                private_data.gui_data={}
-            private_data.gui_data.favorite=!(private_data.gui_data.favorite)
-            Wallet.account_update_private_data(name, private_data).then ->
+            WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
                 Wallet.refresh_accounts()

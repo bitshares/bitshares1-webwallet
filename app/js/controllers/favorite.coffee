@@ -17,7 +17,7 @@ angular.module("app").controller "FavoriteController", ($scope, $state, $locatio
         $scope.refresh_contacts()
 
     $scope.isFavorite = (account)->
-      account.private_data && account.private_data.gui_data.favorite
+      account.is_favorite
 
     $scope.toggleFavorite = (name) ->
         $modal.open
@@ -29,13 +29,5 @@ angular.module("app").controller "FavoriteController", ($scope, $state, $locatio
                 action: -> -> yesToggleFavorite(name)
 
     yesToggleFavorite = (name)->
-        Wallet.refresh_accounts().then ()->
-            if (Wallet.accounts[name].private_data)
-                private_data=Wallet.accounts[name].private_data
-            else
-                private_data={}
-            if !(private_data.gui_data)
-                private_data.gui_data={}
-            private_data.gui_data.favorite=!(private_data.gui_data.favorite)
-            Wallet.account_update_private_data(name, private_data).then ->
-                Wallet.refresh_accounts()
+        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
+            Wallet.refresh_accounts()
