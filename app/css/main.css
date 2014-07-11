@@ -258,15 +258,15 @@ footer {
 }
 
 footer.normal-state {
-	background-color: #034860;
+	background-color: #c4e6a9;
 }
 
 footer.warning-state {
-	background-color: #fc9a24;
+	background-color: #d9b856;
 }
 
 footer.severe-state {
-	background-color: #be0000;
+	background-color: #c6a4a4;
 }
 
 footer p {
