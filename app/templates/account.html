@@ -1,7 +1,6 @@
-<div class="row head-bg  p-inner">
+<div ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
 
 	<div class="col-sm-2">
-	
 		<gravatar-image  data-gravatar-email="account.private_data.gui_data.email" data-gravatar-size="512" data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive" ng-if="!account.public_data"></gravatar-image>
 
         <img class="img-responsive" src="https://secure.gravatar.com/avatar/{{account.public_data.gravatarID}}?s=512&amp;r=pg&amp;d=mm" ng-if="!!account.public_data">
@@ -49,6 +48,36 @@
 		          <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
 		        </div>
 	    	</div>
+	    	<table  class="table table-striped table-acc-balance" ng-show="account.delegate_info">
+	          <thead>
+	          <tr>
+	          	<th>APPROVAL</th>
+	              <th>Reliability</th>
+	              <th>Blocks Produced</th>
+	              <th>PAY RATE</th>
+	            <th>Pay Balance</th>
+	          </tr>
+	          </thead>
+	          <tbody>
+	             <tr>
+	             <td>
+                <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ account.delegate_info.votes_for | formatVotes}}">
+					<span ng-switch-when='true'>&#60;0.01%</span>
+					<span ng-switch-default>{{ (account.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+				</span>
+              </td>
+              <td ng-switch on='account.delegate_info.blocks_produced>0 || account.delegate_info.blocks_missed>0'>
+                <span ng-switch-when='true'>{{ account.delegate_info.blocks_produced/(account.delegate_info.blocks_produced + account.delegate_info.blocks_missed)*100 | number:2 }}%</span>
+                <span ng-switch-default>Unknown</span>
+              </td>
+              <td>{{ account.delegate_info.blocks_produced }}</td>
+              <td>{{ account.delegate_info.pay_rate }}%</td>
+	                <td>
+	                    {{account.delegate_info.pay_balance}}
+	                </td>
+	             </tr>
+	          </tbody>
+	        </table>
     	</div>
   	</div>
   
@@ -67,7 +96,8 @@
                 </td>
              </tr>
           </tbody>
-        </table></div>
+        </table>
+        </div>
     </div>
 </div>
 <hr>
