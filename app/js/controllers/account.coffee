@@ -148,12 +148,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
 
     $scope.accountSuggestions = (input) ->
-        console.log(input)
         Wallet.blockchain_list_accounts(input, 10).then (response) ->
-            #code to make local and global accounts data structures consistents
-            newresponse=(item.name for item in response)
-            allAccounts=newresponse.concat(Object.keys(Wallet.accounts))
-            $filter('filter')(allAccounts, input)
+            result = Object.keys(Wallet.accounts)
+            for n in response
+                if !Wallet.accounts[n.name]
+                    result.push n.name
+            $filter('filter')(result, input)
 
     #x-editable
     $scope.updateUser = (newName) ->
