@@ -135,9 +135,10 @@ class Wallet
                 @transactions[account_name_key] = []
                 angular.forEach result, (val, key) =>
                     @transactions[account_name_key].push
+                        is_virtual: val.is_virtual
+                        is_confirmed: val.is_confirmed
                         block_num: val.block_num
                         trx_num: val.trx_num
-                        #trx_num: Number(key) + 1
                         time: @utils.toDate(val.received_time)
                         amount: val.amount
                         amount_asset : @utils.asset(val.amount.amount, @blockchain.asset_records[val.amount.asset_id])
