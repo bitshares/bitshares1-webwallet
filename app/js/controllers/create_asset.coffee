@@ -1,10 +1,11 @@
-angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, $modal, Growl, BlockchainAPI, RpcService, Utils, Blockchain, Wallet) ->
+angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, $modal, Growl, BlockchainAPI, RpcService, Utils, Info, Blockchain, Wallet) ->
 
     $scope.name = $stateParams.name
+    $scope.asset_reg_fee = Info.info.asset_reg_fee
     $scope.create_asset =
         symbol : ""
         asset_name : ""
-        description : "" 
+        description : ""
         memo : ""
         max_share_supply : 1000000000000000
         precision : 1000000
@@ -29,8 +30,8 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will create asset " + $scope.create_asset.symbol + " with max supply " + $scope.create_asset.max_share_supply + " and precision " + $scope.create_asset.precision
-                action: -> 
+                message: -> "This will create asset " + $scope.create_asset.symbol + " with max supply " + $scope.create_asset.max_share_supply + " and precision " + $scope.create_asset.precision + ".\n This will cost you " + $scope.asset_reg_fee + "."
+                action: ->
                     ->
                         RpcService.request('wallet_asset_create', [$scope.create_asset.symbol, $scope.create_asset.asset_name, $scope.name, $scope.create_asset.description, $scope.create_asset.memo, $scope.create_asset.max_share_supply, $scope.create_asset.precision]).then (response) ->
                           $scope.create_asset.symbol = ""

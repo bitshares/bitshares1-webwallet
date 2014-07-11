@@ -51,10 +51,13 @@
         </div>
 
         <div class="form-group">
-        <label for="precision" class="col-sm-2 control-label">Precision</label>
-        <div class="col-md-7">
-            <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="'$value > 0'" id="precision"/>
-       </div>
+            <label for="precision" class="col-sm-2 control-label">Precision</label>
+            <div class="col-md-7">
+                <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="{valid_precision: '$value > 0 && ($value == 1 || $value % 10 == 0)'}" id="precision"/>
+           </div>
+            <div ng-show="!create_asset_form.precision.$pristine && create_asset_form.precision.$error.valid_precision" class="text-danger">
+                Precision must be greater than 0 and must be a power of 10 (or 1).
+            </div>
         </div>
 
         <div class="form-group row">
