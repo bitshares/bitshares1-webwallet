@@ -24,13 +24,19 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
 
   $scope.contacts = {}
   $scope.refresh_contacts = ->
-      Wallet.refresh_accounts().then () ->
           $scope.contacts = {}
           angular.forEach Wallet.accounts, (v, k) ->
               if Utils.is_registered(v)
                   $scope.contacts[k] = v
 
-  $scope.refresh_contacts()
+  Wallet.refresh_accounts().then ->
+    $scope.refresh_contacts()
+
+  $scope.$watchCollection ->
+        Wallet.accounts
+    , ->
+        $scope.refresh_contacts()
+
 
   $scope.isFavorite = (r)->
       $scope.contacts[r.name] && $scope.contacts[r.name].private_data && $scope.contacts[r.name].private_data.gui_data.favorite
@@ -53,4 +59,4 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
                 private_data.gui_data={}
             private_data.gui_data.favorite=!(private_data.gui_data.favorite)
             Wallet.account_update_private_data(name, private_data).then ->
-                $scope.refresh_contacts()
+                Wallet.refresh_accounts()

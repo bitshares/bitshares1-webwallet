@@ -78,6 +78,7 @@ class Wallet
             @refresh_balances()
 
     refresh_accounts: ->
+        @accounts = {}
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
                 @populate_account(val)

@@ -2,14 +2,19 @@ angular.module("app").controller "FavoriteController", ($scope, $state, $locatio
     $scope.contacts = []
 
     $scope.refresh_contacts = ->
-        WalletAPI.list_accounts().then (contacts) =>
-            $scope.contacts = []
+        $scope.contacts = []
 
-            for c in contacts
-                if !c.is_my_account and @isFavorite(c)
-                    $scope.contacts.push c
+        for n, c of Wallet.accounts
+            if !c.is_my_account and @isFavorite(c)
+                $scope.contacts.push c
 
-    $scope.refresh_contacts()
+    Wallet.refresh_accounts().then -> 
+        $scope.refresh_contacts()
+
+    $scope.$watchCollection ->
+        Wallet.accounts
+    , ->
+        $scope.refresh_contacts()
 
     $scope.isFavorite = (account)->
       account.private_data && account.private_data.gui_data.favorite
@@ -33,4 +38,4 @@ angular.module("app").controller "FavoriteController", ($scope, $state, $locatio
                 private_data.gui_data={}
             private_data.gui_data.favorite=!(private_data.gui_data.favorite)
             Wallet.account_update_private_data(name, private_data).then ->
-                $scope.refresh_contacts()
+                Wallet.refresh_accounts()

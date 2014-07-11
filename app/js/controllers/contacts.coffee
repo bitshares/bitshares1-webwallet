@@ -2,27 +2,32 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
     $scope.contacts = []
 
     $scope.refresh_contacts = ->
-        WalletAPI.list_accounts().then (contacts) ->
-            $scope.contacts = []
+        $scope.contacts = []
 
-            for c in contacts
-                if !c.is_my_account and !Utils.is_registered(c)
-                    $scope.contacts.push c
+        for n, c of Wallet.accounts
+            if !c.is_my_account and !Utils.is_registered(c)
+                $scope.contacts.push c
 
-    $scope.refresh_contacts()
+    Wallet.refresh_accounts().then ->
+        $scope.refresh_contacts()
+    
+    $scope.$watchCollection ->
+        Wallet.accounts
+    , ->
+        $scope.refresh_contacts()
 
     $scope.deleteContact = (name) ->
         WalletAPI.remove_contact_account(name).then ->
-            $scope.refresh_contacts()
+            Wallet.refresh_accounts()
 
     $scope.newContactModal = ->
         modal = $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactController"
         modal.result.then ()->
-            $scope.refresh_contacts()
+            Wallet.refresh_accounts()
         , ()->
-            $scope.refresh_contacts()
+            Wallet.refresh_accounts()
 
     $scope.toggleFavorite = (name)->
         Wallet.refresh_accounts().then ()->
@@ -34,10 +39,4 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
                 private_data.gui_data={}
             private_data.gui_data.favorite=!(private_data.gui_data.favorite)
             Wallet.account_update_private_data(name, private_data).then ->
-                $scope.refresh_contacts()
-
-###
-  $scope.sendHimFunds = (contact) ->
-    Shared.contactName = contact.entity.Label.name
-    $state.go "transfer"
-###
+                Wallet.refresh_accounts()
