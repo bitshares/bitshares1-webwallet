@@ -16,6 +16,18 @@ angular.module("app.directives").directive "pwCheck", ->
         ctrl.$setValidity "pwmatch", v
 
 
+angular.module("app.directives").directive "inputName", ->
+  require: "ngModel"
+  template: '<input popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus">'
+  restrict: "E"
+  link: (scope, elem, attrs, ngModel) ->
+      elem.on("click", ->
+          console.log(ngModel.$viewValue)
+          ngModel.$setViewValue(ngModel.$viewValue+'1')
+          scope.$apply()
+      )
+
+
 angular.module("app.directives").directive "uncapitalize", ->
   require: "ngModel"
   link: (scope, element, attrs, modelCtrl) ->
