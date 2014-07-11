@@ -26,7 +26,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.account = acct
         if $scope.account.delegate_info
             #Precision should not be hardcoded
-            $scope.account.delegate_info.pay_balance=Utils.newAsset($scope.account.delegate_info.pay_balance, 'XTS', 100000)
+            $scope.account.delegate_info.pay_balance_asset=Utils.newAsset($scope.account.delegate_info.pay_balance, 'XTS', 100000)
         
     Wallet.refresh_account(name)
 
