@@ -73,7 +73,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.transfer_info.payto = ""
             $scope.transfer_info.amount = ""
             $scope.transfer_info.memo = ""
-            Growl.notice "", "Transaction broadcasted (#{angular.toJson(response.result)})"
+            console.log response
+            Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
             $scope.t_active=true
 
