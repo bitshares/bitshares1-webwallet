@@ -24,7 +24,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
-        console.log($scope.account.delegate_info)
+        if $scope.account.delegate_info
+            #Precision should not be hardcoded
+            $scope.account.delegate_info.pay_balance_asset=Utils.newAsset($scope.account.delegate_info.pay_balance, 'XTS', 100000)
         
     Wallet.refresh_account(name)
 
