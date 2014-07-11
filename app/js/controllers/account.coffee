@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService) ->
 
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
@@ -24,8 +24,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
+        console.log($scope.account.delegate_info)
         
     Wallet.refresh_account(name)
+
+    #This should be cached
+    RpcService.request('blockchain_get_asset', ['XTS']).then (response) =>
+        $scope.current_xts_supply=response.result.current_share_supply
 
     $scope.$watch ->
         Wallet.accounts[name]

@@ -157,6 +157,11 @@ a:hover, a:focus, {
 	background-size: cover;
 }
 
+.head-bg-delegate {
+	background: #0c3146 url('../img/delegate-background.png') no-repeat left top;
+	background-size: cover;
+}
+
 .header {
 	border-bottom: 1px solid #d5d8d9;
 }
