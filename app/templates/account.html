@@ -48,7 +48,7 @@
 		          <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
 		        </div>
 	    	</div>
-	    	<table  class="table table-striped table-acc-balance" ng-show="account.delegate_info">
+	    	<table  class="table table-striped table-acc-balance" ng-if="account.delegate_info">
 	          <thead>
 	          <tr>
 	          	<th>APPROVAL</th>
