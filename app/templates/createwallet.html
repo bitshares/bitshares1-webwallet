@@ -96,22 +96,21 @@
          <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
               <div class="row">
                    <div class="description">
-
-                    <h4 translate>wallet.create_new_wallet</h4>
-                    <p translate>wallet.info</p>
-                    <br>
+                      <h4 translate>wallet.create_new_wallet</h4>
+                      <p translate>wallet.info</p>
+                    </div>
                     <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
 
                       <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
                              placeholder="Password"
                              required autofocus ng-minlength="9" ng-maxlength="255" />
 
-                      <div ng-show="wform.sp.$error.minlength" class="text-danger">Password is too short. It must be more than 8 characters.</div>
-                      <div ng-show="wform.sp.$error.maxlength" class="text-danger">Password is too long. It can be at most 255 characters.</div>
-                      <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger">Password is required.</div>
+                      <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
+                      <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
+                      <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
                       <br> 
                     </div>
-                </div>
+              </div>
               <div class="row spacedrow">
                   <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
 
@@ -119,7 +118,7 @@
                            id="confirm_spending_password"
                            placeholder="Confirm Password" required pw-check="spending_password" />
                     
-                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger">Fields do not match.</div>
+                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
                     <br>
                   </div>
               </div>
@@ -128,7 +127,6 @@
                     <div class="form-group row">
                       <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
                     </div>
-                   </div>
               </div>
          </form>
 
