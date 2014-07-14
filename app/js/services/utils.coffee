@@ -12,6 +12,8 @@ servicesModule.factory "Utils", ->
         precision: precision
 
     formatAsset: (asset) ->
+        if not asset
+            return ""
         parts = (asset.amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         parts.join(".") + " " + asset.symbol

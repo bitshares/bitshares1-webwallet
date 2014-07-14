@@ -1,4 +1,4 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, WalletAPI, Shared, RpcService, Blockchain, Info, Utils, md5) ->
   $scope.symbolOptions = []
   $scope.delegate_reg_fee = Info.info.delegate_reg_fee
   $scope.priority_fee = Info.info.priority_fee
@@ -8,6 +8,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   
   #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
   $scope.symbol = 'XTS'
+
   
   
   refresh_accounts = ->
@@ -21,6 +22,10 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
             $scope.accounts.push([name, bals])
 
     $scope.m.payfrom= $scope.accounts[0]
+
+  WalletAPI.set_priority_fee().then (result) ->
+    asset_type = Blockchain.asset_records[result.asset_id]
+    $scope.priority_fee = Utils.asset(result.amount, asset_type)
 
   Wallet.get_accounts().then ->
     refresh_accounts()
