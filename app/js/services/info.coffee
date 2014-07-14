@@ -45,7 +45,7 @@ class Info
 
     watch_for_updates: =>
         @interval (=>
-            if false and !@is_refreshing
+            if !@is_refreshing
                 @refresh_info()
         ), 2500
 
