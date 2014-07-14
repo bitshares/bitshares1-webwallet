@@ -6,3 +6,7 @@ angular.module("app").controller "AccountBalancesController", ($scope, $location
     $scope.utils = Utils
 
     $scope.formatAsset = Utils.formatAsset
+
+    Wallet.refresh_accounts().then ->
+        $scope.accounts = Wallet.accounts
+        $scope.balances = Wallet.balances

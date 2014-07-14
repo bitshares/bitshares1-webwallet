@@ -4,13 +4,13 @@ class Wallet
 
     balances: {}
 
+    asset_balances : {}
+
     transactions: {}
 
     approved_delegates: {}
 
     timeout: 60000
-
-    nonZeroBalance: false
 
     pendingRegistrations: {}
     
@@ -33,19 +33,27 @@ class Wallet
                 @check_if_locked()
 
     refresh_balances: ->
-        @wallet_api.account_balance("").then (result) =>
-            angular.forEach result, (name_bal_pair) =>
+        requests =
+            account_balances : @wallet_api.account_balance("")
+            refresh_assets: @blockchain.refresh_asset_records()
+        @q.all(requests).then (results) =>
+            @balances = {}
+            @asset_balances = {}
+            angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1][0]
                 angular.forEach balances, (symbol_amt_pair) =>
                     symbol = symbol_amt_pair[0]
                     amount = symbol_amt_pair[1]
-                    if (!@nonZeroBalance && amount>0)
-                        @nonZeroBalance=true
-                    @blockchain.get_asset(symbol).then (asset_record) =>
-                        if !@balances[name]
-                            @balances[name] = {}
-                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
+                    @balances[name] = @balances[name] || {}
+                    @balances[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+                    asset_id = @blockchain.symbol2records[symbol].id
+                    @asset_balances[asset_id] = @asset_balances[asset_id] || 0
+                    @asset_balances[asset_id] = @asset_balances[asset_id] + amount
+            angular.forEach @accounts, (acct) =>
+                if acct.is_my_account and !@balances[acct.name]
+                    @balances[acct.name] =
+                        "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
 
     count_my_accounts: ->
         accounts = 0
@@ -63,9 +71,6 @@ class Wallet
 
     # turn raw rpc return value into nice object
     populate_account: (val) ->
-        if not @balances[val.name]
-            @balances[val.name] =
-                "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
         @approved_delegates[val.name] = val.approved
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
@@ -100,6 +105,15 @@ class Wallet
     account_update_private_data: (name, privateData) ->
         @wallet_api.account_update_private_data(name, privateData).then (result) =>
             @refresh_accounts()
+
+    get_accounts: () ->
+        if Object.keys(@accounts).length > 0
+            deferred = @q.defer()
+            deferred.resolve(@accounts)
+            return deferred.promise
+        else
+            @refresh_accounts().then =>
+                return @accounts
 
     get_account: (name) ->
         @refresh_balances()

@@ -130,7 +130,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 Wallet.refresh_accounts()
             
     $scope.regDial = ->
-        if Wallet.nonZeroBalance
+        if Wallet.asset_balances[0]
           $modal.open
             templateUrl: "registration.html"
             controller: "RegistrationController"

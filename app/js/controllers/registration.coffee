@@ -11,19 +11,21 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   
   
   refresh_accounts = ->
-    RpcService.request('wallet_account_balance').then (response) ->
-      $scope.accounts = []
+    $scope.accounts = []
+    angular.forEach Wallet.balances, (balances, name) ->
+        bals = []
+        angular.forEach balances, (asset, symbol) ->
+            if asset.amount
+                bals.push asset
+        if bals.length
+            $scope.accounts.push([name, bals])
 
-      Blockchain.refresh_asset_records().then ()->
-          $scope.formated_balances = []
-          angular.forEach response.result, (account) ->
-            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1][0])
-            console.log balances
-            $scope.accounts.push([account[0], balances])
-            console.log $scope.accounts
-          $scope.m.payfrom= $scope.accounts[0]
+    $scope.m.payfrom= $scope.accounts[0]
 
-  refresh_accounts()
+  Wallet.get_accounts().then ->
+    refresh_accounts()
+
+  #TODO watch accounts
 
   $scope.cancel = ->
     $modalInstance.dismiss "cancel"
