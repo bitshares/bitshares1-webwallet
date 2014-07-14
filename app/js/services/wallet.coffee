@@ -36,7 +36,7 @@ class Wallet
         @wallet_api.account_balance("").then (result) =>
             angular.forEach result, (name_bal_pair) =>
                 name = name_bal_pair[0]
-                balances = name_bal_pair[1]
+                balances = name_bal_pair[1][0]
                 angular.forEach balances, (symbol_amt_pair) =>
                     symbol = symbol_amt_pair[0]
                     amount = symbol_amt_pair[1]
@@ -232,11 +232,7 @@ class Wallet
     open: ->
         @rpc.request('wallet_open', ['default']).then (response) =>
           response.result
-
-    wallet_account_balance: ->
-        @rpc.request('wallet_account_balance').then (response) ->
-          response.result
-
+    
     get_block: (block_num)->
         @rpc.request('blockchain_get_block', [block_num]).then (response) ->
           response.result

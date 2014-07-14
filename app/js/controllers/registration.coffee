@@ -17,7 +17,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
       Blockchain.refresh_asset_records().then ()->
           $scope.formated_balances = []
           angular.forEach response.result, (account) ->
-            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1])
+            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1][0])
             console.log balances
             $scope.accounts.push([account[0], balances])
             console.log $scope.accounts

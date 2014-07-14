@@ -33,10 +33,8 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
       Blockchain.refresh_asset_records().then ()->
           $scope.formated_balances = []
           angular.forEach response.result, (account) ->
-            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1])
-            console.log balances
+            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1][0])
             $scope.accounts.push([account[0], balances])
-            console.log $scope.accounts
           $scope.m.payfrom= $scope.accounts[0]
 
     refresh_accounts()

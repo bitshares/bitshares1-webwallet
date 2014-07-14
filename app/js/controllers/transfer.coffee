@@ -12,9 +12,8 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
 
       Blockchain.refresh_asset_records().then ()->
           angular.forEach response.result, (account) ->
-            
             result = account[0] + " | "
-            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1])
+            balances = (Utils.newAsset(balance[1], balance[0], Blockchain.symbol2records[balance[0]].precision) for balance in account[1][0])
             $scope.accounts.push([account[0], balances])
 
             angular.forEach account[1], (asset) ->

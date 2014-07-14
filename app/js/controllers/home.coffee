@@ -30,11 +30,6 @@ angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log
 
     $scope.$watch(watch_for, on_update, true)
 
-
-    Wallet.wallet_account_balance().then (balance)->
-        console.log(balance)
-
-
     Wallet.get_balance().then (balance)->
         $scope.balance_amount = balance.amount
         $scope.balance_asset_type = balance.asset_type
