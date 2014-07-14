@@ -21,7 +21,7 @@
 				<div class="form-group row">
 					<label for="name" class="col-sm-1 control-label">Name</label>
 					<div class="col-sm-6">
-			    		<input ng-blur="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus" ng-keydown='kd()' ng-change='ku()' name="wp" uncapitalize id="wallet_name" autofocus ng-model="f.name" type="text" class="form-control" placeholder="Account Name (Required)"/>
+			    		<input-name ng-model="f.name"/>
 			  		</div>
 			  	</div>
 			  	<div class="form-group row">

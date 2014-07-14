@@ -17,16 +17,30 @@ angular.module("app.directives").directive "pwCheck", ->
 
 
 angular.module("app.directives").directive "inputName", ->
-  require: "ngModel"
-  template: '<input popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus">'
+  template: '<input placeholder="Account Name (Required)" autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus" ng-keydown="kd()" ng-change="ku()" uncapitalize type="text" class="form-control">'
   restrict: "E"
+  scope:
+    ngModel: "="
+  controller: ($scope, $element) ->
+    oldname=$scope.ngModel
+    $scope.kd = ->
+        oldname=$scope.ngModel
+       
+    $scope.ku = ->
+        valid=/^[a-z]+(?:[a-z0-9\-])*$/.test($scope.ngModel) && $scope.ngModel.length<63 || $scope.ngModel is ""
+        if(!valid)
+            $scope.ngModel=oldname
+
+    $scope.removeTrailingDashes = ->
+        $scope.ngModel = $scope.ngModel.replace(/\-+$/, "")
+  ###
   link: (scope, elem, attrs, ngModel) ->
       elem.on("click", ->
           console.log(ngModel.$viewValue)
           ngModel.$setViewValue(ngModel.$viewValue+'1')
           scope.$apply()
       )
-
+###
 
 angular.module("app.directives").directive "uncapitalize", ->
   require: "ngModel"
