@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | orderBy:'time':true" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | orderBy:'time':true | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}">{{ t.time | prettyDate }}</a></td>
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td ng-if="t.is_virtual">Virtual</td>

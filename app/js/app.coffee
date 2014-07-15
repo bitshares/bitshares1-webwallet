@@ -95,6 +95,12 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     url: '/accounts'
     templateUrl: "accounts.html"
     controller: "AccountsController"
+  
+  accounttrxs = 
+    name: 'accounttrxs'
+    url: '/accounttrxs'
+    templateUrl: "accounttrxs.html"
+    controller: "AccountTrxsController"
 
   directory =
     name: 'directory'
@@ -150,5 +156,5 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     templateUrl: "unlockwallet.html"
     controller: "UnlockWalletController"
 
-  $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
+  $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(accounttrxs).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
 
