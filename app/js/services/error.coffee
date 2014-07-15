@@ -26,10 +26,6 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, S
         $location.path("/home")
       else if error_msg.match(/No such wallet exists/)
         $location.path("/createwallet")
-      else if error_msg.match(/is_open\(\)\:/)
-        promise = $rootScope.open_wallet_and_repeat_request("open_wallet", response.config.data)
-      else if error_msg.match(/The wallet's spending key must be unlocked before executing this command/)
-        promise = $rootScope.open_wallet_and_repeat_request("unlock_wallet", response.config.data)
       method = response.config.data?.method
       error_msg = if method then "In method '#{method}': #{error_msg}" else error_msg
 
