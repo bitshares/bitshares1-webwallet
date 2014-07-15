@@ -111,7 +111,13 @@
 <div class="col-sm-12 p-top">
 <tabset>
     <tab active="$parent.t_active">
-    <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.transactions' | translate }}</tab-heading>
+    <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
+    <div class="col-sm-12">
+        <div class="pull-right">
+            <a class="btn btn-primary btn-success btn-top-right" href="#/accounttrxs"><i class="fa fa-cubes"></i>
+           {{'account.load_more_trxs' | translate}}...</a>
+        </div>
+    </div>
       <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
     </tab>
     <tab ng-show="account.is_my_account">
