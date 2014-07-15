@@ -54,7 +54,24 @@ class Blockchain
             @blockchain_api.get_asset(id).then (result) =>
                 record = @populate_asset_record result
                 return record
-                
+
+    get_markets: ->
+        markets = []
+        markets_hash = {}
+        angular.forEach @asset_records, (asset1) =>
+            angular.forEach @asset_records, (asset2) =>
+                if asset1.id > asset2.id
+                    value = asset1.symbol + "/" + asset2.symbol
+                    markets_hash[value] = value
+                else if asset2.id > asset1.id
+                    value = asset2.symbol + "/" + asset1.symbol
+                    markets_hash[value] = value
+        angular.forEach markets_hash, (key, value) ->
+            markets.push value
+        #console.log markets
+        markets
+
+
     # Asset records
     # # # # #
 

@@ -3,7 +3,9 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
-app = angular.module("app", ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap", "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate"])
+app = angular.module("app",
+    ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
+     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate"])
 
 #app.run [
 #  "$idle"
@@ -31,7 +33,7 @@ app.run ($rootScope, $location, $idle, $interval, editableOptions, editableTheme
         $rootScope.loading = true
         if i
             $rootScope.progress = 0
-            
+
         promise.finally ->
             $rootScope.loading = false
             if i
@@ -44,117 +46,125 @@ app.run ($rootScope, $location, $idle, $interval, editableOptions, editableTheme
     $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
-  $translateProvider.useStaticFilesLoader
-    prefix: 'locale-',
-    suffix: '.json'
-  $translateProvider.preferredLanguage('en')
-  
-  $idleProvider.idleDuration(600)
-  $idleProvider.warningDuration(60)
+    $translateProvider.useStaticFilesLoader
+        prefix: 'locale-',
+        suffix: '.json'
+    $translateProvider.preferredLanguage('en')
 
-  $urlRouterProvider.otherwise('/home')
+    $idleProvider.idleDuration(600)
+    $idleProvider.warningDuration(60)
 
-  home =
-    name: 'home'
-    url: '/home'
-    templateUrl: "home.html"
-    controller: "HomeController"
+    $urlRouterProvider.otherwise('/home')
 
-  help =
-    name: 'help'
-    url: '/help'
-    templateUrl: "help.html"
-    controller: "HelpController"
+    home =
+        name: 'home'
+        url: '/home'
+        templateUrl: "home.html"
+        controller: "HomeController"
 
-  preferences =
-    name: 'preferences'
-    url: '/preferences'
-    templateUrl: "preferences.html"
-    controller: "PreferencesController"
+    help =
+        name: 'help'
+        url: '/help'
+        templateUrl: "help.html"
+        controller: "HelpController"
 
-  proposals =
-    name: 'proposals'
-    url: '/proposals'
-    templateUrl: "proposals.html"
-    controller: "ProposalsController"
+    preferences =
+        name: 'preferences'
+        url: '/preferences'
+        templateUrl: "preferences.html"
+        controller: "PreferencesController"
 
-  console =
-    name: 'console'
-    url: '/console'
-    templateUrl: "console.html"
-    controller: "ConsoleController"
+    proposals =
+        name: 'proposals'
+        url: '/proposals'
+        templateUrl: "proposals.html"
+        controller: "ProposalsController"
 
-  createaccount =
-    name: 'createaccount'
-    url: '/create/account'
-    templateUrl: "createaccount.html"
-    controller: "CreateAccountController"
+    console =
+        name: 'console'
+        url: '/console'
+        templateUrl: "console.html"
+        controller: "ConsoleController"
 
-  accounts =
-    name: 'accounts'
-    url: '/accounts'
-    templateUrl: "accounts.html"
-    controller: "AccountsController"
-  
-  accounttrxs = 
-    name: 'accounttrxs'
-    url: '/accounttrxs'
-    templateUrl: "accounttrxs.html"
-    controller: "AccountTrxsController"
+    createaccount =
+        name: 'createaccount'
+        url: '/create/account'
+        templateUrl: "createaccount.html"
+        controller: "CreateAccountController"
 
-  directory =
-    name: 'directory'
-    url: '/directory'
-    templateUrl: "directory.html"
-    controller: "DirectoryController"
+    accounts =
+        name: 'accounts'
+        url: '/accounts'
+        templateUrl: "accounts.html"
+        controller: "AccountsController"
 
-  editaccount =
-    name: 'editaccount'
-    url: '/accounts/:name/edit'
-    templateUrl: "editaccount.html"
-    controller: "EditAccountController"
+    directory =
+        name: 'directory'
+        url: '/directory'
+        templateUrl: "directory.html"
+        controller: "DirectoryController"
 
-  account =
-    name: 'account'
-    url: '/accounts/:name'
-    templateUrl: "account.html"
-    controller: "AccountController"
+    editaccount =
+        name: 'editaccount'
+        url: '/accounts/:name/edit'
+        templateUrl: "editaccount.html"
+        controller: "EditAccountController"
 
-  blocks =
-    name: 'blocks'
-    url: '/blocks?withtrxs'
-    templateUrl: "blocks.html"
-    controller: "BlocksController"
+    account =
+        name: 'account'
+        url: '/accounts/:name'
+        templateUrl: "account.html"
+        controller: "AccountController"
 
-  createwallet =
-    name: 'createwallet'
-    url: '/createwallet'
-    templateUrl: "createwallet.html"
-    controller: "CreateWalletController"
+    blocks =
+        name: 'blocks'
+        url: '/blocks?withtrxs'
+        templateUrl: "blocks.html"
+        controller: "BlocksController"
 
-  block =
-    name: 'block'
-    url:  '/blocks/:number'
-    templateUrl: "block.html"
-    controller: "BlockController"
+    createwallet =
+        name: 'createwallet'
+        url: '/createwallet'
+        templateUrl: "createwallet.html"
+        controller: "CreateWalletController"
 
-  blocksbyround =
-    name: 'blocksbyround'
-    url: '/blocks/round/:round?withtrxs'
-    templateUrl: "blocksbyround.html"
-    controller: "BlocksByRoundController"
+    block =
+        name: 'block'
+        url: '/blocks/:number'
+        templateUrl: "block.html"
+        controller: "BlockController"
 
-  transaction =
-    name: 'transaction'
-    url:  '/tx/:id'
-    templateUrl: "transaction.html"
-    controller: "TransactionController"
+    blocksbyround =
+        name: 'blocksbyround'
+        url: '/blocks/round/:round?withtrxs'
+        templateUrl: "blocksbyround.html"
+        controller: "BlocksByRoundController"
 
-  unlockwallet =
-    name: 'unlockwallet'
-    url:  '/unlockwallet'
-    templateUrl: "unlockwallet.html"
-    controller: "UnlockWalletController"
+    transaction =
+        name: 'transaction'
+        url: '/tx/:id'
+        templateUrl: "transaction.html"
+        controller: "TransactionController"
 
-  $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount).state(console).state(editaccount).state(accounts).state(accounttrxs).state(blocks).state(createwallet).state(account).state(directory).state(block).state(transaction).state(blocksbyround)
+    unlockwallet =
+        name: 'unlockwallet'
+        url: '/unlockwallet'
+        templateUrl: "unlockwallet.html"
+        controller: "UnlockWalletController"
 
+    markets =
+        name: 'markets'
+        url: '/markets'
+        templateUrl: "markets.html"
+        controller: "MarketsController"
+
+    market =
+        name: 'market'
+        url: '/market/:name/:account'
+        templateUrl: "market.html"
+        controller: "MarketController"
+
+
+    $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount)
+    .state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory)
+    .state(block).state(transaction).state(blocksbyround).state(markets).state(market)

@@ -16,3 +16,6 @@
 	margin-top: 40px;
 }
 
+body.fixed_header .wrapper {
+	padding-top: 0;
+}
