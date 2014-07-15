@@ -15,9 +15,16 @@ angular.module("app.directives").directive "pwCheck", ->
         v = elem.val() is $(firstPassword).val()
         ctrl.$setValidity "pwmatch", v
 
+angular.module("app.directives").directive "ngEnter", ->
+  (scope, element, attrs) ->
+      element.bind "keydown keypress", (event) ->
+        if event.which is 13
+          scope.$apply ->
+            scope.$eval attrs.ngEnter
+
 
 angular.module("app.directives").directive "inputName", ->
-  template: '<input placeholder="Account Name (Required)" autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus" ng-keydown="kd()" ng-change="ku()" uncapitalize type="text" class="form-control">'
+  template: '<input placeholder="Account Name (Required)" autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()" ng-enter="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-trigger="focus" ng-keydown="kd()" ng-change="ku()" uncapitalize type="text" class="form-control">'
   restrict: "E"
   scope:
     ngModel: "="
