@@ -13,7 +13,7 @@
                     <label for="private_info" class="col-sm-4">Update public settings(on chain):</label>
                 </div>
                 <div class="form-group row">
-                    <label for="contact_address" class="col-sm-1 control-label">Pay with registration fee: ?? </label>
+                    <label for="contact_address" class="col-sm-1 control-label">Pay from:  </label>
                     <div class="col-sm-6">
                         <select ng-show="accounts.length > 0" ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>
                     </div>
