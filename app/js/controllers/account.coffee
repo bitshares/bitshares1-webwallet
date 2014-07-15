@@ -58,7 +58,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.import_key = ->
         WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
             $scope.private_key.value = ""
-            Growl.notice "", "Your private key was successfully imported."
+            if response == name
+                Growl.notice "", "Your private key was successfully imported."
+            else
+                Growl.notice "", "Private key already belongs to another account: \"" + response + "\"."
             Wallet.refresh_transactions_on_update()
 
     $scope.import_wallet = ->
