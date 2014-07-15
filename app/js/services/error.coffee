@@ -26,6 +26,8 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, S
         $location.path("/home")
       else if error_msg.match(/No such wallet exists/)
         $location.path("/createwallet")
+      else if response.data.error.code==0
+        console.log('wallet not open')
       method = response.config.data?.method
       error_msg = if method then "In method '#{method}': #{error_msg}" else error_msg
 
@@ -34,7 +36,8 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, S
 
     console.log "#{error_msg.substring(0, 512)} (#{response.status})", response
     method_in_dont_report_list = method and (dont_report_methods.filter (x) -> x == method).length > 0
-    if !promise and !method_in_dont_report_list
+    #response.data.error.code!=0 is handled externally
+    if !promise and !method_in_dont_report_list and response.data.error.code!=0
       Shared.message = "RPC Server Error: " + error_msg.split("\n")[0]
       #Growl.error "RPC Server Error", "#{error_msg.substring(0,512)} (#{response.status})"
     return (if promise then promise else $q.reject(response))
