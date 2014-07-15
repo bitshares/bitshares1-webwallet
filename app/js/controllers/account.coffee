@@ -148,8 +148,3 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                     result.push n.name
             $filter('filter')(result, input)
 
-    #x-editable
-    $scope.updateUser = (newName) ->
-        Wallet.wallet_rename_account(name, newName).then ->
-            $location.path("/accounts/"+newName)
-

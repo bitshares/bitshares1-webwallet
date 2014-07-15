@@ -2,12 +2,12 @@
     <div class="col-sm-2 m-top">
     </div>
     <div class="col-sm-10">
-        <form class="form-horizontal" role="form" name="wform" ng-submit="submitEditAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+        <form class="form-horizontal" role="form" ng-submit="changeName()">
             <div class="form-group m-top">
                 <div class="form-group row">
                     <label for="email" class="col-sm-1 control-label" translate>Name</label>
                     <div class="col-sm-6">
-                        <input-name ng-model="edit.newemail"/>
+                        <input-name ng-model="model.newName"/>
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-lg btn-primary"><i class="fa fa-check fa-lg"></i></button>

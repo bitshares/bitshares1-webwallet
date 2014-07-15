@@ -1,5 +1,7 @@
 angular.module("app").controller "EditLocalController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain) ->
     name = $stateParams.name
+    $scope.model={}
+    $scope.model.newName=$stateParams.name
 
     $scope.$watch ->
         Wallet.accounts[name]
@@ -28,3 +30,7 @@ angular.module("app").controller "EditLocalController", ($scope, $filter, $locat
 
     $scope.removeKeyVal = (index) ->
         $scope.edit.pairs.splice(index, 1)
+
+    $scope.changeName = (newName) ->
+        Wallet.wallet_rename_account(name, $scope.model.newName).then ->
+            $location.path("/accounts/"+$scope.model.newName)
