@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
 
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
@@ -6,13 +6,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.account = Wallet.accounts[name]
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
-    $scope.symbol = "XTS"
+    $scope.symbol = Info.symbol
 
     $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file : "", password : ""}
     $scope.transfer_info = 
         amount : 0
-        symbol : "XTS"
+        symbol : Info.symbol
         payto : ""
         memo : ""
     
@@ -25,14 +25,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
         if $scope.account.delegate_info
-            #Precision should not be hardcoded
-            $scope.account.delegate_info.pay_balance_asset=Utils.newAsset($scope.account.delegate_info.pay_balance, 'XTS', 100000)
+            Blockchain.get_asset(0).then (asset_type) ->
+                $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
         
     Wallet.refresh_account(name)
 
-    #This should be cached
-    RpcService.request('blockchain_get_asset', ['XTS']).then (response) =>
-        $scope.current_xts_supply=response.result.current_share_supply
+    Blockchain.get_asset(0).then (asset_type) =>
+        $scope.current_xts_supply = asset_type.current_share_supply
 
     $scope.$watch ->
         Wallet.accounts[name]

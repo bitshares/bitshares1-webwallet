@@ -24,7 +24,7 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
     $scope.m.delegate=false
 
     #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
-    $scope.symbol = 'XTS'
+    $scope.symbol = Info.symbol
 
     refresh_accounts = ->
         $scope.accounts = []

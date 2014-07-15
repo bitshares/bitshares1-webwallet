@@ -36,6 +36,7 @@ class Wallet
         requests =
             account_balances : @wallet_api.account_balance("")
             refresh_assets: @blockchain.refresh_asset_records()
+            main_asset: @blockchain.get_asset(0)
         @q.all(requests).then (results) =>
             @balances = {}
             @asset_balances = {}
@@ -52,8 +53,8 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
                 if acct.is_my_account and !@balances[acct.name]
-                    @balances[acct.name] =
-                        "XTS": @utils.newAsset(0, "XTS", 1000000) #TODO move to utils/config
+                    @balances[acct.name] = {}
+                    @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
 
     count_my_accounts: ->
         accounts = 0
@@ -161,7 +162,7 @@ class Wallet
                         to: val.to_account
                         memo: val.memo_message
                         id: val.trx_id
-                        fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
+                        fee: @utils.asset(val.fees, @blockchain.asset_records[0])
                         vote: "N/A"
                 @transactions[account_name_key]
 
@@ -182,22 +183,23 @@ class Wallet
             deferred.resolve(@transactions[account_name_key])
             return deferred.promise
         else
-            @wallet_account_transaction_history(account_name).then (result) =>
-                @transactions[account_name_key] = []
-                angular.forEach result, (val, key) =>
-                    blktrx=val.block_num + "." + val.trx_num
-                    @transactions[account_name_key].push
-                        block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
-                        #trx_num: Number(key) + 1
-                        time: new Date(val.received_time*1000)
-                        amount: val.amount
-                        from: val.from_account
-                        to: val.to_account
-                        memo: val.memo_message
-                        id: val.trx_id.substring 0, 8
-                        fee: @utils.newAsset(val.fees, "XTS", 1000000) #TODO
-                        vote: "N/A"
-                @transactions[account_name_key]
+            @blockchain.get_asset(0).then (main_asset) ->
+                @wallet_account_transaction_history(account_name).then (result) =>
+                    @transactions[account_name_key] = []
+                    angular.forEach result, (val, key) =>
+                        blktrx=val.block_num + "." + val.trx_num
+                        @transactions[account_name_key].push
+                            block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
+                            #trx_num: Number(key) + 1
+                            time: new Date(val.received_time*1000)
+                            amount: val.amount
+                            from: val.from_account
+                            to: val.to_account
+                            memo: val.memo_message
+                            id: val.trx_id.substring 0, 8
+                            fee: @utils.asset(val.fees, main_asset)
+                            vote: "N/A"
+                    @transactions[account_name_key]
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password])

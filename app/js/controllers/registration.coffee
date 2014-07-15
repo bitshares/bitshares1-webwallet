@@ -7,7 +7,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   $scope.m.delegate=false
   
   #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
-  $scope.symbol = 'XTS'
+  $scope.symbol = Info.symbol
 
   
   

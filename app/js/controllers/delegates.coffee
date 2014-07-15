@@ -8,10 +8,8 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     Blockchain.refresh_delegates()
 
 
-    RpcService.request('blockchain_get_asset', ['XTS']).then (response) =>
-        $scope.current_xts_supply=response.result.current_share_supply
-
-    #blockchain_get_asset_record  XTS
+    Blockchain.get_asset(0).then (asset_type) =>
+        $scope.current_xts_supply = asset_type.current_share_supply
 
     $scope.toggleVoteUp = (name) ->
         if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1

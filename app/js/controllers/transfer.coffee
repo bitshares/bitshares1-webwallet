@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared, Utils, Blockchain) ->
+angular.module("app").controller "TransferController", ($scope, $location, $state, RpcService, Wallet, Growl, Shared, Utils, Blockchain, Info) ->
 
   $scope.payto = Shared.contactName
   $scope.symbolOptions = []
@@ -20,7 +20,7 @@ angular.module("app").controller "TransferController", ($scope, $location, $stat
     $scope.payfrom= $scope.accounts[0]
     angular.forEach symbols, (v, symbol) ->
           $scope.symbolOptions.push symbol
-    $scope.symbol = "XTS"
+    $scope.symbol = Info.symbol
 
   Wallet.get_accounts().then ->
     refresh_accounts()
