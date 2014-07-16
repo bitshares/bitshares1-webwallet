@@ -23,12 +23,13 @@ class Wallet
         if result.state == "open"
             if result.locked
                 @location.path("/unlockwallet")
-            @get_setting('timeout').then (result) =>
-                if result && result.value
-                    @timeout=result.value
-                    @idle._options().idleDuration=@timeout
-                    @idle.watch()
-                    console.log('@idle._options()', @idle._options())
+            else
+                @get_setting('timeout').then (result) =>
+                    if result && result.value
+                        @timeout=result.value
+                        @idle._options().idleDuration=@timeout
+                        @idle.watch()
+                        console.log('@idle._options()', @idle._options())
         else
             @open().then =>
                 #redirection
