@@ -2,7 +2,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
   $scope.currentPath = $location.path()
-  
+
+  $scope.current_path_includes = (str)->
+      $scope.currentPath.indexOf(str) >= 0
+
   $scope.$watch ->
         $location.path()
     , -> 
