@@ -11,9 +11,9 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     , -> 
         $scope.currentPath = $location.path()
         if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
+            stopIdleWatch()
             $scope.bodyclass = "splash"
             $scope.unlockwallet = true
-            stoptIdleWatch()
         else
             # TODO update bodyclass by watching unlockwallet
             startIdleWatch()
