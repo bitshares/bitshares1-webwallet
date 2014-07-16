@@ -18,15 +18,17 @@ angular.module("app").controller "EditLocalController", ($scope, $filter, $locat
                   $scope.edit.pairs=[]
 
     $scope.submitEditAccount = ->
-        Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
-            console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
+        if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
+            Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
             Wallet.refresh_account(name)
+        else
+            Growl.error 'Fill out empty keys first', ''
 
     $scope.addKeyVal = ->
         if $scope.edit.pairs.length is 0 || $scope.edit.pairs[$scope.edit.pairs.length-1].key
             $scope.edit.pairs.push {'key': null, 'value': null}
         else
-            Growl.error 'Fill out empty fields first'
+            Growl.error 'Fill out empty keys first', ''
 
     $scope.removeKeyVal = (index) ->
         $scope.edit.pairs.splice(index, 1)
