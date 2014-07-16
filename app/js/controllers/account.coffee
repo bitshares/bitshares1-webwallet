@@ -12,10 +12,11 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.wallet_info = {file : "", password : ""}
     $scope.transfer_info = 
         amount : 0
-        symbol : Info.symbol
+        symbol : "Symbol not set"
         payto : ""
         memo : ""
-    
+
+    console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
     $scope.p={}
@@ -45,6 +46,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
+            $scope.transfer_info.symbol=Object.keys(Wallet.balances[name])[0]
 
     $scope.$watchCollection ->
         Wallet.transactions
