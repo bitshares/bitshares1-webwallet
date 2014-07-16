@@ -22,6 +22,7 @@
 	color: #fff;
 }
 
+
 .popover {
   max-width: 476px;
 }
@@ -48,9 +49,7 @@ a.white:hover {
 	text-shadow: 0 1px 2px black;
 }
 
-tab-heading {
-	color:inherit;
-}
+
 
 .green {
 	color: #84ce84;
@@ -150,6 +149,14 @@ a:hover, a:focus, {
 
 .nav-tabs > li > a{
 	color:black;
+}
+
+tab-heading {
+	color:inherit;
+}
+
+.nav-tabs > li.active > a {
+	color: rgb(40,169,246);
 }
 
 /* Buttons & Elements */
