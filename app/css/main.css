@@ -48,6 +48,10 @@ a.white:hover {
 	text-shadow: 0 1px 2px black;
 }
 
+tab-heading {
+	color:inherit;
+}
+
 .green {
 	color: #84ce84;
 }
@@ -140,8 +144,12 @@ a:hover, a:focus, {
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	color: #115176;
 	cursor: pointer;
+	color:rgb(40,169,246);
+}
+
+.nav-tabs > li > a{
+	color:black;
 }
 
 /* Buttons & Elements */
