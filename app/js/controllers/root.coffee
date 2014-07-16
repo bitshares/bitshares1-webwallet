@@ -13,8 +13,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
             $scope.bodyclass = "splash"
             $scope.unlockwallet = true
+            stoptIdleWatch()
         else
             # TODO update bodyclass by watching unlockwallet
+            startIdleWatch()
             $scope.bodyclass = "splash"
             $scope.unlockwallet = false
             Wallet.check_wallet_status()
@@ -58,13 +60,13 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     Wallet.wallet_lock().then ->
         $location.path("/unlockwallet")
 
-  $scope.start = ->
+  startIdleWatch = ->
     closeModals()
     $idle.watch()
     $scope.started = true
     return
 
-  $scope.stop = ->
+  stopIdleWatch = ->
     closeModals()
     $idle.unwatch()
     $scope.started = false
