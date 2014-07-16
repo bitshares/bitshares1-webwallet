@@ -9,6 +9,9 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
       $scope.wrongPass = true
     )
 
+    $scope.keydown = ->
+        $scope.wrongPass = false
+
     i = $interval ->
         Wallet.wallet_get_info().then (info)->
             $rootScope.updateProgress Math.floor(info.wallet_scan_progress * 100)
