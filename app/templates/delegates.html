@@ -1,10 +1,13 @@
 
+<div class="pull-right">
+      <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Unvote all' class="fa fa-eraser"></i> Unvote all</button>
+    </div>
+
 <div class="row">
     <div class="col-sm-3">
-    <br>
     <input type="text" class="form-control" ng-model="search.name" placeholder='Filter'>
-    <br>
     </div>
+    
 </div>
 <div class="row">
     <div class="col-lg-6">
@@ -42,7 +45,7 @@
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
-                    <i class="green"
+                    <i class="green" tooltip="{{(approved_delegates[del.name]) ? 'Click to vote up' : 'Click to unvote'}}"
                        ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
                   </button>
                 </div>

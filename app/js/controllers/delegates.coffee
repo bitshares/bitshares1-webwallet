@@ -16,3 +16,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             Wallet.set_trust(name, 1)
         else
             Wallet.set_trust(name, 0)
+
+    $scope.unvoteAll = ->
+        angular.forEach Wallet.approved_delegates, (value, key) ->
+            Wallet.set_trust(key, 0)
