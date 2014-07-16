@@ -13,6 +13,8 @@ class Wallet
     timeout: 60000
 
     pendingRegistrations: {}
+
+    current_account: null
     
     console.log('executing wallet')
 
@@ -266,6 +268,20 @@ class Wallet
               name: val.name
               owner_key: val.owner_key
           reg
+
+    get_current_or_first_account: ->
+        get_first_account = =>
+            for k,v of @accounts
+                return v
+            return null
+        deferred = @q.defer()
+        if @current_account
+            deferred.resolve(@current_account)
+        else if @accounts.length > 0
+            deferred.resolve(get_first_account())
+        else @refresh_accounts().then =>
+            deferred.resolve(get_first_account())
+        return deferred.promise
 
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @log.info "---- Wallet Constructor ----"

@@ -169,4 +169,43 @@ class Blockchain
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]
 
+    price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
+        #@blockchain_api.market_price_history(quote_symbol, base_symbol, start_time, duration, granularity).then (result) ->
+        #    console.log 'price_history -----', result
+        json = '''
+        [[
+        "20200101T175300",{
+          "highest_bid": {
+            "ratio": "0.045",
+            "quote_asset_id": 1,
+            "base_asset_id": 0
+          },
+          "lowest_ask": {
+            "ratio": "0.0656",
+            "quote_asset_id": 1,
+            "base_asset_id": 0
+          },
+          "volume": 1
+        }
+        ],
+        "20200101T175400",{
+          "highest_bid": {
+            "ratio": "0.045",
+            "quote_asset_id": 1,
+            "base_asset_id": 0
+          },
+          "lowest_ask": {
+            "ratio": "0.0656",
+            "quote_asset_id": 1,
+            "base_asset_id": 0
+          },
+          "volume": 1
+        }
+        ]
+        '''
+        deferred = @q.defer()
+        deferred.resolve(JSON.parse(json))
+        return deferred.promise
+
+
 angular.module("app").service("Blockchain", ["Client", "NetworkAPI", "RpcService", "BlockchainAPI", "Utils", "$q", "$interval", Blockchain])

@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketsController", ($scope, $location, Blockchain) ->
+angular.module("app").controller "MarketsController", ($scope, $location, Wallet, Blockchain) ->
     $scope.selected_market = null
 
     Blockchain.refresh_asset_records().then ->
@@ -6,5 +6,6 @@ angular.module("app").controller "MarketsController", ($scope, $location, Blockc
 
     $scope.$watch 'selected_market', (newMarket, oldMarket) ->
         if newMarket and newMarket != oldMarket
-            #$scope.current_market = newMarket
-            $location.path("market/" + $scope.selected_market.replace('/',':') + "/no:account")
+            Wallet.get_current_or_first_account().then (account)->
+                account_name = if account then account.name else 'no:account'
+                $location.path("market/#{$scope.selected_market.replace('/',':')}/#{account_name}")

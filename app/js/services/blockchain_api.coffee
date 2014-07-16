@@ -80,7 +80,7 @@ class BlockchainAPI
 
   # Retrieves the record for the given account name or ID
   # parameters: 
-  #   string `account` - account name or account ID to retrieve
+  #   string `account` - account name, ID, or public key to retrieve the record for
   # return_type: `optional_account_record`
   get_account: (account) ->
     @rpc.request('blockchain_get_account', [account]).then (response) ->
@@ -140,6 +140,15 @@ class BlockchainAPI
     @rpc.request('blockchain_market_list_shorts', [quote_symbol, limit]).then (response) ->
       response.result
 
+  # Returns the covers side of the order book for a given market
+  # parameters: 
+  #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
+  #   uint32_t `limit` - the maximum number of items to return, -1 for all
+  # return_type: `market_order_array`
+  market_list_covers: (quote_symbol, limit) ->
+    @rpc.request('blockchain_market_list_covers', [quote_symbol, limit]).then (response) ->
+      response.result
+
   # Returns the long and short sides of the order book for a given market
   # parameters: 
   #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
@@ -148,6 +157,29 @@ class BlockchainAPI
   # return_type: `pair<market_order_array,market_order_array>`
   market_order_book: (quote_symbol, base_symbol, limit) ->
     @rpc.request('blockchain_market_order_book', [quote_symbol, base_symbol, limit]).then (response) ->
+      response.result
+
+  # Returns a list of recently filled orders in a given market, in reverse order of execution.
+  # parameters: 
+  #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
+  #   asset_symbol `base_symbol` - the item being bought in this market
+  #   uint32_t `skip_count` - Number of transactions before head block to skip in listing
+  #   uint32_t `limit` - The maximum number of transactions to list
+  # return_type: `market_transaction_array`
+  market_order_history: (quote_symbol, base_symbol, skip_count, limit) ->
+    @rpc.request('blockchain_market_order_history', [quote_symbol, base_symbol, skip_count, limit]).then (response) ->
+      response.result
+
+  # Returns a list of price spreads in the given timeframe for the specified market.
+  # parameters: 
+  #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
+  #   asset_symbol `base_symbol` - the item being bought in this market
+  #   timestamp `start_time` - The time to begin getting price history for
+  #   time_interval_in_seconds `duration` - The maximum time period to get price history for
+  #   market_history_key::time_granularity `granularity` - The frequency of price updates (each_block, each_hour, or each_day)
+  # return_type: `market_history_points`
+  market_price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
+    @rpc.request('blockchain_market_price_history', [quote_symbol, base_symbol, start_time, duration, granularity]).then (response) ->
       response.result
 
   # Returns a list of the current round's active delegates in signing order
@@ -175,6 +207,14 @@ class BlockchainAPI
   # return_type: `block_record_array`
   list_blocks: (first_block_number, limit) ->
     @rpc.request('blockchain_list_blocks', [first_block_number, limit]).then (response) ->
+      response.result
+
+  # Returns any delegates who were supposed to produce a given block number but didn't
+  # parameters: 
+  #   uint32_t `block_number` - The block to examine
+  # return_type: `account_name_array`
+  list_missing_block_delegates: (block_number) ->
+    @rpc.request('blockchain_list_missing_block_delegates', [block_number]).then (response) ->
       response.result
 
   # dumps the fork data to graphviz format
@@ -208,6 +248,14 @@ class BlockchainAPI
   # return_type: `string`
   get_block_signee: (block_number) ->
     @rpc.request('blockchain_get_block_signee', [block_number]).then (response) ->
+      response.result
+
+  # Returns a list of market transactions executed on a given block.
+  # parameters: 
+  #   uint32_t `block_number` - Block to get market operations for.
+  # return_type: `market_transaction_array`
+  list_market_transactions: (block_number) ->
+    @rpc.request('blockchain_list_market_transactions', [block_number]).then (response) ->
       response.result
 
 
