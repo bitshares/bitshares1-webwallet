@@ -153,6 +153,15 @@ class Wallet
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
                 angular.forEach result, (val, key) =>
+                    account_running_balances = []
+                    global_running_balances = []
+                    angular.forEach val.running_balances, (item) =>
+                        asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                        account_running_balances.push( asset )
+                        global_running_balances.push( asset )
+                        console.log asset
+                        console.log val
+                            
                     @transactions[account_name_key].push
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
@@ -165,8 +174,10 @@ class Wallet
                         to: val.to_account
                         memo: val.memo_message
                         id: val.trx_id
-                        fee: @utils.asset(val.fees, @blockchain.asset_records[0])
+                        fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
                         vote: "N/A"
+                        account_running_balances: account_running_balances
+                        global_running_balances: global_running_balances
                 @transactions[account_name_key]
 
     refresh_transactions_on_new_block: () ->

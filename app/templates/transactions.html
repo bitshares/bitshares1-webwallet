@@ -8,6 +8,7 @@
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
+        <th translate>th.balance</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,9 @@
         <td><a href="#/tx/{{t.id}}">{{ t.memo }}</a></td>
         <td><span class="bold text-success">{{ t.amount_asset | formatAsset }}</span></td>
         <td>{{ t.fee | formatAsset}}</td>
+        <td>
+            <span ng-repeat="balance in t.global_running_balances">{{ balance | formatAsset}}</span>
+        </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>
