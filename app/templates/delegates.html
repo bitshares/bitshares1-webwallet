@@ -23,7 +23,7 @@
               <th>APPROVAL</th>
               <th>Reliability</th>
               <th>Blocks Produced</th>
-              <th>D. PAY RATE</th>
+              <th class='hideableCol'>PAY RATE</th>
               <th>APPROVE</th>
             </tr>
           </thead>
@@ -41,7 +41,7 @@
                 <span ng-switch-default>Unknown</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced }}</td>
-              <td>{{ del.delegate_info.pay_rate }}%</td>
+              <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
@@ -72,7 +72,7 @@
               <th>APPROVAL</th>
               <th>Reliability</th>
               <th>Blocks Produced</th>
-              <th>DELEGATE PAY RATE</th>
+              <th class='hideableCol'>PAY RATE</th>
               <th>APPROVE</th>
             </tr>
           </thead>
@@ -90,7 +90,7 @@
                 <span ng-switch-default>Unknown</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced }}</td>
-              <td>{{ del.delegate_info.pay_rate }}%</td>
+              <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
