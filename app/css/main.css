@@ -326,11 +326,11 @@ footer .logo img {
 }
 
 input.ng-dirty.ng-invalid {
-	border: 1px solid red;
+	border: 1px solid #f00;
 }
 
 input.ng-dirty.ng-valid {
-	border: 1px solid green;
+	border: 1px solid #77B7EA;
 }
 
 .loading-overlay {
@@ -379,4 +379,14 @@ input.ng-dirty.ng-valid {
 	font-size: 18px;
 	position: relative;
 	top: 4px;
+}
+
+.no-lr-padding {
+       padding-left: 0;
+       padding-right: 0;
+}
+
+span.cell {
+       line-height: 34px;
+       /*padding-left: 10px;*/
 }
