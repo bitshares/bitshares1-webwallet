@@ -155,13 +155,13 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     markets =
         name: 'markets'
         url: '/markets'
-        templateUrl: "markets.html"
+        templateUrl: "market/markets.html"
         controller: "MarketsController"
 
     market =
         name: 'market'
         url: '/market/:name/:account'
-        templateUrl: "market.html"
+        templateUrl: "market/market.html"
         controller: "MarketController"
 
 

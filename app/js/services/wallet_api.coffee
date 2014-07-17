@@ -46,52 +46,52 @@ class WalletAPI
     @rpc.request('wallet_get_name').then (response) ->
       response.result
 
-  # Loads the private key into the specified account
+  # Loads the private key into the specified account. Returns which account it was actually imported to.
   # parameters: 
   #   wif_private_key `wif_key` - A private key in bitcoin Wallet Import Format (WIF)
   #   account_name `account_name` - the name of the account the key should be imported into, if null then the key must belong to an active account
   #   bool `create_new_account` - If true, the wallet will attempt to create a new account for the name provided rather than import the key into an existing account
   #   bool `rescan` - If true, the wallet will rescan the blockchain looking for transactions that involve this private key
-  # return_type: `void`
+  # return_type: `account_name`
   import_private_key: (wif_key, account_name, create_new_account, rescan) ->
     @rpc.request('wallet_import_private_key', [wif_key, account_name, create_new_account, rescan]).then (response) ->
       response.result
 
-  # Imports a bitcoin wallet
+  # Imports a Bitcoin Core or BitShares PTS wallet
   # parameters: 
-  #   filename `wallet_filename` - the path to the bitcoin wallet you would like to import.
-  #   passphrase `passphrase` - the bitcoin wallet's password, not your bitshares wallet password.
-  #   account_name `account_name` - the account name to receive the contents of the wallet, you must create this account first if it does not exist.
+  #   filename `wallet_filename` - the Bitcoin/PTS wallet file path
+  #   passphrase `passphrase` - the imported wallet's password
+  #   account_name `account_name` - the account to receive the contents of the wallet
   # return_type: `void`
   import_bitcoin: (wallet_filename, passphrase, account_name) ->
     @rpc.request('wallet_import_bitcoin', [wallet_filename, passphrase, account_name]).then (response) ->
       response.result
 
-  # Imports a armory wallet
+  # Imports an Armory wallet
   # parameters: 
-  #   filename `wallet_filename` - the armory wallet
-  #   passphrase `passphrase` - the wallet's password
-  #   account_name `account_name` - the account name to receive the contents of the wallet
+  #   filename `wallet_filename` - the Armory wallet file path
+  #   passphrase `passphrase` - the imported wallet's password
+  #   account_name `account_name` - the account to receive the contents of the wallet
   # return_type: `void`
   import_armory: (wallet_filename, passphrase, account_name) ->
     @rpc.request('wallet_import_armory', [wallet_filename, passphrase, account_name]).then (response) ->
       response.result
 
-  # Imports a electrum wallet
+  # Imports an Electrum wallet
   # parameters: 
-  #   filename `wallet_filename` - the electrum wallet
-  #   passphrase `passphrase` - the wallet's password
-  #   account_name `account_name` - the account name to receive the contents of the wallet
+  #   filename `wallet_filename` - the Electrum wallet file path
+  #   passphrase `passphrase` - the imported wallet's password
+  #   account_name `account_name` - the account to receive the contents of the wallet
   # return_type: `void`
   import_electrum: (wallet_filename, passphrase, account_name) ->
     @rpc.request('wallet_import_electrum', [wallet_filename, passphrase, account_name]).then (response) ->
       response.result
 
-  # Imports a multibit wallet
+  # Imports a Multibit wallet
   # parameters: 
-  #   filename `wallet_filename` - the multibit wallet
-  #   passphrase `passphrase` - the wallet's password
-  #   account_name `account_name` - the account name to receive the contents of the wallet
+  #   filename `wallet_filename` - the Multibit wallet file path
+  #   passphrase `passphrase` - the imported wallet's password
+  #   account_name `account_name` - the account to receive the contents of the wallet
   # return_type: `void`
   import_multibit: (wallet_filename, passphrase, account_name) ->
     @rpc.request('wallet_import_multibit', [wallet_filename, passphrase, account_name]).then (response) ->
@@ -136,12 +136,13 @@ class WalletAPI
 
   # Lists transaction history for the specified account
   # parameters: 
-  #   string `account_name` - the name of the account for which the transaction history will be returned, example: alice
+  #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
   #   uint32_t `start_block_num` - the earliest block number to list transactions from; 0 to include all transactions starting from genesis
   #   uint32_t `end_block_num` - the latest block to list transaction from; -1 to include all transactions ending at the head block
+  #   string `asset_symbol` - only include transactions involving the specified asset, or "" to include all
   # return_type: `pretty_transactions`
-  account_transaction_history: (account_name, start_block_num, end_block_num) ->
-    @rpc.request('wallet_account_transaction_history', [account_name, start_block_num, end_block_num]).then (response) ->
+  account_transaction_history: (account_name, start_block_num, end_block_num, asset_symbol) ->
+    @rpc.request('wallet_account_transaction_history', [account_name, start_block_num, end_block_num, asset_symbol]).then (response) ->
       response.result
 
   # Clear "stuck" pending transactions from the wallet.
@@ -226,14 +227,6 @@ class WalletAPI
     @rpc.request('wallet_add_contact_account', [account_name, account_key]).then (response) ->
       response.result
 
-  # Return a pretty JSON representation of a transaction
-  # parameters: 
-  #   signed_transaction `transaction` - the transaction to pretty-print
-  # return_type: `pretty_transaction`
-  get_pretty_transaction: (transaction) ->
-    @rpc.request('wallet_get_pretty_transaction', [transaction]).then (response) ->
-      response.result
-
   # Sends given amount to the given address, assumes shares in DAC.  This transfer will occur using multiple transactions as necessary to maximize your privacy, but will be more costly.
   # parameters: 
   #   real_amount `amount_to_transfer` - the amount of shares to transfer, will be multiplied by the precision associated by asset_symbol
@@ -282,7 +275,7 @@ class WalletAPI
   #   account_name `pay_from_account` - the account from which fees will be paid
   #   json_variant `public_data` - public data about the account
   #   uint32_t `delegate_pay_rate` - A value between 0 and 100 for delegates, 255 for non delegates
-  # return_type: `transaction_record`
+  # return_type: `signed_transaction`
   account_register: (account_name, pay_from_account, public_data, delegate_pay_rate) ->
     @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, delegate_pay_rate]).then (response) ->
       response.result
@@ -301,10 +294,11 @@ class WalletAPI
   #   account_name `account_name` - the account that will be updated
   #   account_name `pay_from_account` - the account from which fees will be paid
   #   json_variant `public_data` - public data about the account
-  #   uint32_t `delegate_pay_rate` - percent to pay delegate, 0 to 100 or 255 if not a delegate
-  # return_type: `transaction_record`
-  account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate) ->
-    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate]).then (response) ->
+  #   uint8_t `delegate_pay_rate` - delegate pay rate: 0 to 100 if updating or upgrading to a delegate, and 255 for a normal account
+  #   string `new_active_key` - update account's active key, or leave blank to leave current key in place
+  # return_type: `signed_transaction`
+  account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate, new_active_key) ->
+    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate, new_active_key]).then (response) ->
       response.result
 
   # Lists all accounts associated with this wallet
@@ -449,11 +443,11 @@ class WalletAPI
   #   account_name `from_account_name` - the account that will provide funds for the bid
   #   real_amount `quantity` - the quantity of items you would like to buy
   #   asset_symbol `quantity_symbol` - the type of items you would like to buy
-  #   real_amount `quote_price` - the price you would like to pay
-  #   asset_symbol `quote_symbol` - the type of asset you would like to pay with
+  #   real_amount `base_price` - the price you would like to pay
+  #   asset_symbol `base_symbol` - the type of asset you would like to pay with
   # return_type: `signed_transaction`
-  market_submit_bid: (from_account_name, quantity, quantity_symbol, quote_price, quote_symbol) ->
-    @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, quote_price, quote_symbol]).then (response) ->
+  market_submit_bid: (from_account_name, quantity, quantity_symbol, base_price, base_symbol) ->
+    @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, base_price, base_symbol]).then (response) ->
       response.result
 
   # Used to place a request to sell a quantity of assets at a price specified in another asset
@@ -461,32 +455,43 @@ class WalletAPI
   #   account_name `from_account_name` - the account that will provide funds for the ask
   #   real_amount `quantity` - the quantity of items you would like to sell
   #   asset_symbol `quantity_symbol` - the type of items you would like to sell
-  #   real_amount `quote_price` - the price you would like to sell
-  #   asset_symbol `quote_symbol` - the type of asset you would like to be paid
+  #   real_amount `base_price` - the price you would like to sell
+  #   asset_symbol `base_symbol` - the type of asset you would like to be paid
   # return_type: `signed_transaction`
-  market_submit_ask: (from_account_name, quantity, quantity_symbol, quote_price, quote_symbol) ->
-    @rpc.request('wallet_market_submit_ask', [from_account_name, quantity, quantity_symbol, quote_price, quote_symbol]).then (response) ->
+  market_submit_ask: (from_account_name, quantity, quantity_symbol, base_price, base_symbol) ->
+    @rpc.request('wallet_market_submit_ask', [from_account_name, quantity, quantity_symbol, base_price, base_symbol]).then (response) ->
       response.result
 
   # Used to place a request to short sell a quantity of assets at a price specified
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
   #   real_amount `quantity` - the quantity of items you would like to sell
-  #   real_amount `quote_price` - the price you would like to sell
-  #   asset_symbol `quote_symbol` - the type of asset you would like to be paid
+  #   real_amount `base_price` - the price you would like to sell
+  #   asset_symbol `base_symbol` - the type of asset you would like to be paid
   # return_type: `signed_transaction`
-  market_submit_short: (from_account_name, quantity, quote_price, quote_symbol) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, quantity, quote_price, quote_symbol]).then (response) ->
+  market_submit_short: (from_account_name, quantity, base_price, base_symbol) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, quantity, base_price, base_symbol]).then (response) ->
+      response.result
+
+  # Used to place a request to cover an existing short position
+  # parameters: 
+  #   account_name `from_account_name` - the account that will provide funds for the ask
+  #   real_amount `quantity` - the quantity of items you would like to cover
+  #   asset_symbol `quantity_symbol` - the type of asset you are covering (ie: USD)
+  #   address `order_id` - the order ID you would like to cover
+  # return_type: `signed_transaction`
+  market_cover: (from_account_name, quantity, quantity_symbol, order_id) ->
+    @rpc.request('wallet_market_cover', [from_account_name, quantity, quantity_symbol, order_id]).then (response) ->
       response.result
 
   # List an order list of a specific market
   # parameters: 
-  #   asset_symbol `quote_symbol` - the quote symbol of the market
   #   asset_symbol `base_symbol` - the base symbol of the market
+  #   asset_symbol `quote_symbol` - the quote symbol of the market
   #   int64_t `limit` - the maximum number of items to return
-  # return_type: `market_order_status_array`
-  market_order_list: (quote_symbol, base_symbol, limit) ->
-    @rpc.request('wallet_market_order_list', [quote_symbol, base_symbol, limit]).then (response) ->
+  # return_type: `market_order_array`
+  market_order_list: (base_symbol, quote_symbol, limit) ->
+    @rpc.request('wallet_market_order_list', [base_symbol, quote_symbol, limit]).then (response) ->
       response.result
 
   # Cancel an order
@@ -499,7 +504,7 @@ class WalletAPI
 
   # Reveals the private key corresponding to an address or public key
   # parameters: 
-  #   string `address_or_public_key` - a public key or address (based on hash of public key) of the private key
+  #   string `address_or_public_key` - a public key or address (quoted on hash of public key) of the private key
   # return_type: `string`
   dump_private_key: (address_or_public_key) ->
     @rpc.request('wallet_dump_private_key', [address_or_public_key]).then (response) ->
@@ -559,9 +564,27 @@ class WalletAPI
   # parameters: 
   #   string `signing_account` - Name of the account to sign the message with
   #   sha256 `hash` - SHA256 digest of the message to sign
-  # return_type: `signature`
+  # return_type: `compact_signature`
   sign_hash: (signing_account, hash) ->
     @rpc.request('wallet_sign_hash', [signing_account, hash]).then (response) ->
+      response.result
+
+  # Initiates the login procedure by providing a BitShares Login URL
+  # parameters: 
+  #   string `server_account` - Name of the account of the server. The user will be shown this name as the site he is logging into.
+  # return_type: `string`
+  login_start: (server_account) ->
+    @rpc.request('wallet_login_start', [server_account]).then (response) ->
+      response.result
+
+  # Completes the login procedure by finding the user's public account key and shared secret
+  # parameters: 
+  #   public_key `server_key` - The one-time public key from wallet_login_start.
+  #   public_key `client_key` - The client's one-time public key.
+  #   compact_signature `client_signature` - The client's signature of the shared secret.
+  # return_type: `variant`
+  login_finish: (server_key, client_key, client_signature) ->
+    @rpc.request('wallet_login_finish', [server_key, client_key, client_signature]).then (response) ->
       response.result
 
 
