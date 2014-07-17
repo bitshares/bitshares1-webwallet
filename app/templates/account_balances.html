@@ -10,14 +10,14 @@
 			</tr>
 			</thead>
 			<tbody>
-                <tr ng-repeat="a in accounts">
-                    <td ng-show='a.is_my_account'>         
-                       <a style="text-decoration: none;" href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</i></b></a>
+                <tr ng-repeat="a in accounts" ng-show='a.is_my_account'>
+                    <td>         
+                       <a style="text-decoration: none;" class='my-account-link' href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</b></a>
                     </td>
-                    <td ng-show='a.is_my_account'>
+                    <td>
                         <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
                     </td>
-                    <td ng-show='a.is_my_account'>{{a.registration_date | prettyDate}}</td>
+                    <td>{{a.registration_date | prettyDate}}</td>
                 </tr>
                
 			</tbody>
