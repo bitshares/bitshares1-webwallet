@@ -274,7 +274,7 @@ footer {
 	height: 36px;
 	background-color: #f5f5f5;
 	padding: 0;
-    font-size: 13px;
+  font-size: 13px;
 }
 
 footer.normal-state {
@@ -291,7 +291,7 @@ footer.severe-state {
 
 footer p {
 	margin: 12px 24px 0 0;
-	color: #fff;
+	color: #000;
 	bottom: 6px;
 	position: relative;
 	float: right;

@@ -12,7 +12,7 @@
 			<tbody>
                 <tr ng-repeat="a in accounts">
                     <td ng-show='a.is_my_account'>         
-                       <a style="text-decoration: none;" class="btn btn-primary" href="#/accounts/{{a.name}}">{{a.name}} <i class="fa fa-angle-right"></i></a>
+                       <a style="text-decoration: none;" href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</i></b></a>
                     </td>
                     <td ng-show='a.is_my_account'>
                         <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>

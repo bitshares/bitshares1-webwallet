@@ -2,31 +2,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.unlockwallet = false
   $scope.bodyclass = "cover"
   $scope.currentPath = $location.path()
-<<<<<<< HEAD
-=======
-  
-  $scope.current_path_includes = (str)->
-      $scope.currentPath.indexOf(str) >= 0
-
-  $scope.$watch ->
-        $location.path()
-    , -> 
-        $scope.currentPath = $location.path()
-        if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
-            $scope.bodyclass = "splash"
-            $scope.unlockwallet = true
-        else
-            # TODO update bodyclass by watching unlockwallet
-            $scope.bodyclass = "splash"
-            $scope.unlockwallet = false
-            Wallet.check_wallet_status()
->>>>>>> FETCH_HEAD
 
   $scope.current_path_includes = (str)->
       $scope.currentPath.indexOf(str) >= 0
 
-  
-  
   Wallet.check_wallet_status()
   
   
