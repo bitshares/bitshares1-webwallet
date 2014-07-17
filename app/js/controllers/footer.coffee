@@ -23,12 +23,13 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
   on_update = (info) ->
     connections = info.network_connections
     $scope.connections = connections
-    if connections == 0
-      $scope.connections_str = "Not connected to the network"
+    if connections > 1
+      $scope.connections_str = "#{connections} network connections"
     else if connections == 1
       $scope.connections_str = "1 network connection"
     else
-      $scope.connections_str = "#{connections} network connections"
+      $scope.connections_str = "Not connected to the network"
+      
 
     if connections < 4
       $scope.connections_img = "/img/signal_#{connections}.png"
