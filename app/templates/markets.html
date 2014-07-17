@@ -1,0 +1,26 @@
+<div class="header">
+  <div class="col-sm-12 market-selector">
+    <h3 class="header-title">Market</h3>
+  </div>
+</div>
+
+<div class="main-content">
+  <div class="row">
+    <form class="col-sm-12 form-horizontal" role="form">
+
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="market_selector">Select market</label>
+        <div class="col-sm-3">
+          <input id="market_selector" type="text"
+                 ng-model="selected_market"
+                 typeahead="value for value in markets | filter:$viewValue"
+                 typeahead-editable="false"
+                 typeahead-append-to-body="true"
+                 class="form-control"
+                 placeholder="Select Market">
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

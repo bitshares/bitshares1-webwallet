@@ -1,0 +1,37 @@
+<form name="sell_form" class="form-horizontal" role="form" ng-submit="submit_sell_form()" novalidate>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Balance</label>
+    <div class="col-sm-6"><span class="cell">{{sell.balance | formatAssetPrice}}</span></div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{sell.price_symbol}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label" for="sell_quantity">Quantity</label>
+    <div class="col-sm-6">
+      <input ng-model="sell.quantity"
+             type="number" required
+             class="form-control"
+             id="sell_quantity"
+             placeholder="0.0">
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{sell.quantity_symbol}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label" for="sell_price">Price</label>
+    <div class="col-sm-6">
+      <input ng-model="sell.price"
+             type="number" required
+             class="form-control"
+             id="sell_price"
+             placeholder="0.0">
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{market_name}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Total</label>
+    <div class="col-sm-6">
+      <span class="cell" ng-show="sell_form.$valid">{{sell.quantity * sell.price}}</span>
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{sell.price_symbol}}</span></div>
+  </div>
+  <button type="submit" class="btn btn-primary">Sell {{sell.quantity_symbol}}</button>
+</form>

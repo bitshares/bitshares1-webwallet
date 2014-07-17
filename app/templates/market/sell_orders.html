@@ -1,0 +1,16 @@
+<table class="table table-striped table-hover market-table">
+  <thead>
+    <tr>
+      <th>QUANTITY ({{sell.quantity_symbol}})</th>
+      <th>PRICE ({{sell.price_symbol}})</th>
+      <th>COST ({{sell.price_symbol}})</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="order in sell_orders">
+      <td>{{order.quantity | formatAssetPrice}}</td>
+      <td>{{order.price | formatAssetPrice}}</td>
+      <td>{{order.cost | formatAssetPrice}}</td>
+    </tr>
+  </tbody>
+</table>

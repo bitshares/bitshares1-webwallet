@@ -396,11 +396,21 @@ input.ng-dirty.ng-valid {
 }
 
 .no-lr-padding {
-       padding-left: 0;
-       padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 span.cell {
-       line-height: 34px;
-       /*padding-left: 10px;*/
+  line-height: 34px;
+  /*padding-left: 10px;*/
 }
+
+.market-table td {
+	font-size: 12px;
+	text-align: left !important;
+}
+
+.market-table th {
+	text-align: left !important;
+}
+

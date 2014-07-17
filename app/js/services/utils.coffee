@@ -14,15 +14,26 @@ servicesModule.factory "Utils", ->
     formatAsset: (asset) ->
         if not asset
             return ""
-        parts = (asset.amount / asset.precision).toString().split(".")
+        amount = if asset.precision < 1.0 then asset.amount else Math.round(asset.amount)
+        parts = (amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        parts.push('00') if parts.length == 1
         parts.join(".") + " " + asset.symbol
 
     formatAssetPrice: (asset) ->
         if not asset
             return ""
-        parts = (asset.amount / asset.precision).toString().split(".")
+        amount = if asset.precision < 1.0 then asset.amount else Math.round(asset.amount)
+        parts = ( amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        parts.push('00') if parts.length == 1
+        parts[1] += '0' if parts[1].length == 1
+        parts.join(".")
+
+    formatMoney: (value) ->
+        parts = value.toString().split(".")
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        parts.push('00') if parts.length == 1
         parts.join(".")
     
     toDate: (t) ->
