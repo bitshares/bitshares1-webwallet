@@ -68,9 +68,12 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     
     if info.alert_level == "green"
       $scope.alert_level = "normal-state"
+      $scope.alert_level_msg = ''
     else if info.alert_level == "yellow"
       $scope.alert_level = "warning-state"
+      $scope.alert_level_msg = 'Network problems'
     else
       $scope.alert_level = "severe-state"
+      $scope.alert_level_msg = 'Severe network problems'
 
   $scope.$watch(watch_for, on_update, true)

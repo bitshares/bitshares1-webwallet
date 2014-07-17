@@ -5,6 +5,7 @@
     <span>{{message}}</span>
 </p>
 <p class="pull-right m-bottom">
+	<span><b>{{alert_level_msg}} </b>| </span>
     <span> {{blockchain_last_sync_info}} </span>
 	<span class="blockchain-status " ng-switch on="blockchain_status">
 		<i class="fa fa-check" ng-switch-when="synced"
