@@ -8,6 +8,8 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
   $scope.q =
     name: ""
   $scope.delegate_active_hash_map=Blockchain.delegate_active_hash_map
+  $scope.delegate_inactive_hash_map=Blockchain.delegate_inactive_hash_map
+  console.log('$scope.delegate_inactive_hash_map',$scope.delegate_inactive_hash_map)
   
   $scope.$watch ()->
     $scope.q.name
