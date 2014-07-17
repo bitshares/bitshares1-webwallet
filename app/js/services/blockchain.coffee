@@ -105,6 +105,7 @@ class Blockchain
                 for i in [0...blocks.length]
                     blocks[i].delegate_name = signers[i]
                     blocks[i].timestamp = @utils.toDate(blocks[i].timestamp)
+                    blocks[i].latency = blocks[i].latency/1000000
                     for j in [0...missed[i].length]
                         timestamp = new Date(+blocks[i].timestamp - ((missed[i].length - j)) * (1000 * config.block_interval))
                         merged.push
