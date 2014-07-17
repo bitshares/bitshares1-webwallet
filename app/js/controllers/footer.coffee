@@ -33,8 +33,10 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
 
     if connections < 4
       $scope.connections_img = "/img/signal_#{connections}.png"
-    else
+    else if connections >= 4
       $scope.connections_img = "/img/signal_4.png"
+    else
+      $scope.connections_img = "/img/signal_0.png"
 
     $scope.wallet_unlocked = info.wallet_unlocked
 
