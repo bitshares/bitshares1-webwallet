@@ -7,7 +7,8 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
     numberOfPages : 0
   $scope.q =
     name: ""
-
+  $scope.delegate_active_hash_map=Blockchain.delegate_active_hash_map
+  
   $scope.$watch ()->
     $scope.q.name
   , ()->
@@ -20,6 +21,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
   Blockchain.list_accounts().then (reg) ->
     $scope.reg = reg
     $scope.p.numberOfPages = Math.ceil($scope.reg.length/$scope.p.pageSize)
+    console.log('Blockchain.active_delegates',Blockchain.active_delegates)
 
 
   $scope.contacts = {}
