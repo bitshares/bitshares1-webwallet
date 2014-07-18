@@ -9,11 +9,11 @@
 		margin: 0;
 		padding: 0;
 	}
-	
+
     .description {
 		font-size: 12px;
     }
-	
+
 	.start-wrapper {
 		border: 0px solid #333;
 		width: 400px;
@@ -24,7 +24,7 @@
 		margin-left: -200px;
 		margin-top: -100px;
 	}
-	
+
 	.str-top {
 		height: 80px;
 		text-align: center;
@@ -32,22 +32,28 @@
 		    -webkit-background-clip: padding-box; /* for Safari */
 		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 	}
-	
+
 	.str-top img { margin-bottom: 24px; }
-	
+
 	.str-content {
 		text-align: center;
-		padding: 20px 10px 5px;
+		padding: 20px 10px 5px 0;
 		cursor: pointer;
-		
+
 	}
 
     .str-arrow {
-        display:block;
-        margin-left:auto;
-        margin-right:auto;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+      width: 20px;
+      text-decoration: none;
+      padding-bottom: 5px;
     }
-	
+    .str-arrow:hover {
+      text-decoration: none;
+    }
+
 	.str-bottom {
 		height: 40px;
         padding: 25px;
@@ -55,18 +61,16 @@
 		border-top: 1px solid rgba(255, 255, 255, .5);
 		    -webkit-background-clip: padding-box; /* for Safari */
 		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-		
+
 	}
-	
+
 	.str-bottom img { margin-top: 24px; }
-	
-    p {
+
+    .description p {
         text-align: center;
         text-shadow: 1px 2px 2px #0e434f;
-        
     }
-	
-	
+
     .input {
         width: 200px;
     }
@@ -83,57 +87,77 @@
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
-    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
-    <div class="description" collapse="descriptionCollapsed">
-        <p translate>unlock.desc_content_1</p>
-        <p translate>unlock.desc_content_2</p>
 
+  <div ng-switch="license_accepted">
+    <div ng-switch-when="false">
+      <div class="license">
+      <h4>End User License Agreement</h4>
+       <div class="license-body description">
+      <p>You're not actually reading this, are you? Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam interdum pulvinar nibh. Maecenas eget nunc in justo rhoncus aliquam. Phasellus nisl mi, convallis ut, lacinia vel, sodales tempus, ante. Praesent eros. Aenean feugiat fringilla odio. Donec porttitor volutpat elit. Proin metus justo, accumsan vitae, egestas nec, porttitor nec, felis. Nam vel odio a arcu consectetuer fringilla. Vivamus eget arcu eget nisi adipiscing egestas. Donec venenatis pretium sem. Etiam nec sapien. Cras mauris. Maecenas vitae dui quis nisl tincidunt faucibus. Curabitur ut elit. Pellentesque vel lacus vulputate mauris sodales imperdiet. Donec vitae ipsum. Duis volutpat tincidunt velit. Nulla facilisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse molestie varius mi.</p>
+<p>Pellentesque fermentum. Nullam pellentesque imperdiet augue. Etiam fermentum, massa sit amet dictum dapibus, tellus ligula pretium quam, ut facilisis arcu nulla vel dui. Cras id dui. Suspendisse non felis. Donec vitae leo. Nunc nisi. Aenean pellentesque. Phasellus ornare sapien id elit. Fusce ultrices dui vitae nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vestibulum ornare, augue vel adipiscing aliquam, massa dolor tincidunt elit, quis venenatis leo turpis id urna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed consectetuer, lectus sit amet eleifend adipiscing, erat nisl pharetra orci, eget dignissim quam diam eu nulla. Quisque sed sem. Integer sollicitudin elementum est.</p>
+<p>Curabitur sodales turpis sit amet lorem. Ut et nisi. Integer dignissim dictum purus. Vivamus magna. Curabitur scelerisque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In venenatis mollis nibh. Ut faucibus feugiat dui. Proin vel justo et nulla vestibulum convallis. Morbi tellus. Nam tincidunt purus nec lectus. Phasellus sollicitudin. Phasellus pede. Morbi justo. Phasellus vulputate. Vestibulum pulvinar ipsum vitae nibh.</p>
+<p>Bla bla bla, and lastly, I agree to buy Caitlin a cup of coffee. No froo-froo double half caf soy skinny vanilla caramel toffee mocha, just coffee. Perferably Kona.</p>
+      </div>
+      <input type="checkbox" ng-click="accept_license()"> I accept the terms of the license agreement
+      </div>
     </div>
-    <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
+    <div ng-switch-default>
 
-    <div class="str-bottom">
+      <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
+      <div class="description" collapse="descriptionCollapsed">
+          <p translate>unlock.desc_content_1</p>
+          <p translate>unlock.desc_content_2</p>
 
-         <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
-              <div class="row">
-                   <div class="description">
-                      <h4 translate>wallet.create_new_wallet</h4>
-                      <p translate>wallet.info</p>
+      </div>
+
+      <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}" ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
+
+      <div class="str-bottom">
+
+           <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
+                <div class="row">
+                     <div class="description">
+                        <h4 translate>wallet.create_new_wallet</h4>
+                        <p translate>wallet.info</p>
+                      </div>
+                      <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+
+                        <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
+                               placeholder="Password"
+                               required autofocus ng-minlength="9" ng-maxlength="255" />
+
+                        <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
+                        <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
+                        <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
+                        <br>
+                      </div>
+                </div>
+                <div class="row spacedrow">
+                    <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
+
+                      <input tabindex="2" ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
+                             id="confirm_spending_password"
+                             placeholder="Confirm Password" required pw-check="spending_password" />
+
+                      <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
+                      <br>
                     </div>
-                    <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+                </div>
 
-                      <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
-                             placeholder="Password"
-                             required autofocus ng-minlength="9" ng-maxlength="255" />
-
-                      <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
-                      <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
-                      <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
-                      <br> 
-                    </div>
-              </div>
-              <div class="row spacedrow">
-                  <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
-
-                    <input tabindex="2" ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
-                           id="confirm_spending_password"
-                           placeholder="Confirm Password" required pw-check="spending_password" />
-                    
-                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
-                    <br>
-                  </div>
-              </div>
-
-              <div class="row spacedrow">
-                    <div class="form-group row">
-                      <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
-                    </div>
-              </div>
-         </form>
+                <div class="row spacedrow">
+                      <div class="form-group row">
+                        <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
+                      </div>
+                </div>
+           </form>
 
 
 
-		<img src="img/bts-icon-white-transparent.png" />
-    </div>
+      <img src="img/bts-icon-white-transparent.png" />
+      </div>
+
+   </div>
+   </div>
 </section>
 </body>
 

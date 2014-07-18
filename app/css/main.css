@@ -411,3 +411,14 @@ span.cell {
        line-height: 34px;
        /*padding-left: 10px;*/
 }
+
+.license {
+	padding-top: 20px;
+	text-align: center;
+}
+
+.license-body {
+	height: 400px;
+	overflow-y: scroll;
+	margin: 24px 0;
+}
