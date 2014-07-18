@@ -189,14 +189,21 @@
         <tabset class="p-inner">
           <tab heading="Import Private Key">
             <form class="form-horizontal" role="form" ng-submit="import_key()">
-              <div class="form-group">
+              <div class="form-group row">
                 <label for="pk_value" class="col-sm-2 control-label" translate>account.priv_key</label>
                 <div class="col-sm-9">
                   <input ng-model="private_key.value" type="text" class="form-control" id="pk_value"
                          placeholder="Private Key"/>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group row">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div class="checkbox">
+                    <label> <input ng-model='model.rescan' type="checkbox"> Rescan blockchain </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-primary" translate>account.import_key</button>
                 </div>

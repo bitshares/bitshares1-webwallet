@@ -152,24 +152,21 @@ class Wallet
         @blockchain.refresh_asset_records().then () =>
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
+                console.log result
                 angular.forEach result, (val, key) =>
-                    account_running_balances = []
-                    global_running_balances = []
-                    angular.forEach val.running_balances, (item) =>
-                        asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                        account_running_balances.push( asset )
-                        global_running_balances.push( asset )
-                        console.log asset
-                        console.log val
-                    
                     ledger_entries = []
-
                     angular.forEach val.ledger_entries, (entry) =>
+                        running_balances = []
+                        angular.forEach entry.running_balances, (item) =>
+                            asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                            running_balances.push asset
+
                         ledger_entries.push
                             from: entry.from_account
                             to: entry.to_account
                             amount: entry.amount.amount
                             amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
+                            running_balances: running_balances
                             memo: entry.memo
 
                     @transactions[account_name_key].push
@@ -182,8 +179,6 @@ class Wallet
                         id: val.trx_id
                         fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
                         vote: "N/A"
-                        account_running_balances: account_running_balances
-                        global_running_balances: global_running_balances
                 @transactions[account_name_key]
 
     refresh_transactions_on_new_block: () ->
