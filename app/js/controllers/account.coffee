@@ -10,7 +10,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.symbol = Info.symbol
 
     $scope.trust_level = Wallet.approved_delegates[name]
-    $scope.wallet_info = {file : "", password : ""}
+    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
     $scope.transfer_info =
         amount : 0
         symbol : "Symbol not set"
@@ -68,10 +68,17 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Wallet.refresh_transactions_on_update()
 
     $scope.import_wallet = ->
-        WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
+        promise = null
+        switch $scope.wallet_info.type
+            when 'Bitcoin' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Multibit' then promise = WalletAPI.import_multibit($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Electrum' then promise = WalletAPI.import_electrum($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Armory' then promise = WalletAPI.import_armory($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+        promise?.then (response) ->
+            $scope.wallet_info.type = 'Bitcoin'
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
-            Growl.notice "The wallet was successfully imported."
+            Growl.notice "","The wallet was successfully imported."
             Wallet.refresh_transactions_on_update()
 
     yesSend = ->

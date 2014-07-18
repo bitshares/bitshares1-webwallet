@@ -126,7 +126,16 @@
                    <input ng-model="transfer_info.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
                </div>
                  <div class="col-md-2">
-                   <select class="form-control" id='symbol' ng-model="transfer_info.symbol" ng-options="k as k for (k, v) in $parent.balances"></select> 
+                   <div class="btn-group" dropdown is-open="status.isopen">
+                     <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
+                       {{transfer_info.symbol}} <span class="caret"></span>
+                     </button>
+                     <ul class="dropdown-menu" role="menu">
+                       <li ng-repeat="(k, v) in $parent.balances">
+                        <a ng-click="transfer_info.symbol=k; status.isopen=false">{{k}}</a>
+                       </li>
+                     </ul>
+                   </div>
                  </div>
               </div>
 
@@ -187,11 +196,17 @@
             <div class="form-group">
              <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_type</label>
              <div class="col-sm-9">
-                <select name="menu">
-                <option value="1">Bitcoin</option>
-                <option value="2">Multibit</option>
-                <option value="3">Electrum</option>
-                </select>
+               <div class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
+                  {{wallet_info.type}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a ng-click="wallet_info.type = 'Bitcoin'; status.isopen = false">Bitcoin</a></li>
+                  <li><a ng-click="wallet_info.type = 'Multibit'; status.isopen = false">Multibit</a></li>
+                  <li><a ng-click="wallet_info.type = 'Electrum'; status.isopen = false">Electrum</a></li>
+                  <li><a ng-click="wallet_info.type = 'Armory'; status.isopen = false">Armory</a></li>
+                </ul>
+              </div>
              </div>
             </div>
             <div class="form-group">
