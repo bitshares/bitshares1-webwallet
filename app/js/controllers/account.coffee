@@ -20,8 +20,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
-    $scope.p={}
-    $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
+    $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
 
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
