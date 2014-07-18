@@ -21,7 +21,6 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     Info.info
 
   on_update = (info) ->
-    console.log('info', info)
     connections = info.network_connections
     $scope.connections = connections
     if connections > 1
