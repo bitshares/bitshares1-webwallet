@@ -1,5 +1,6 @@
 angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
 
+    Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
     $scope.utils = Utils
@@ -10,7 +11,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file : "", password : ""}
-    $scope.transfer_info = 
+    $scope.transfer_info =
         amount : 0
         symbol : "Symbol not set"
         payto : ""
@@ -89,7 +90,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto
+                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + Info.info.priority_fee + "."
                 action: -> yesSend
 
     $scope.newContactModal = ->
