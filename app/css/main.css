@@ -23,12 +23,14 @@
 }
 
 .delegate-active-link{
-	font-family:impact;
+	font-family:"Georgia";
+	font-size:140%;
 }
 
 .delegate-inactive-link{
-	font-family:impact;
+	font-family:"Georiga";
 	font-style:italic;
+	font-size:150%;
 }
 
 .my-account-link{
