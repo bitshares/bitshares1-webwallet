@@ -1,0 +1,37 @@
+<form name="buy_form" class="form-horizontal" role="form" ng-submit="submit_buy_form()">
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Balance</label>
+    <div class="col-sm-6"><span class="cell">{{buy.balance | formatAssetPrice}}</span></div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{buy.price_symbol}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label" for="buy_quantity">Quantity</label>
+    <div class="col-sm-6">
+      <input ng-model="buy.quantity"
+             type="number" required
+             class="form-control"
+             id="buy_quantity"
+             placeholder="0.0">
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{buy.quantity_symbol}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label" for="buy_price">Price</label>
+    <div class="col-sm-6">
+      <input ng-model="buy.price"
+             type="number" required
+             class="form-control"
+             id="buy_price"
+             placeholder="0.0">
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{market_name}}</span></div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-3 control-label">Total</label>
+    <div class="col-sm-6">
+      <span class="cell" ng-show="buy_form.$valid">{{buy.quantity * buy.price}}</span>
+    </div>
+    <div class="col-sm-3 no-lr-padding"><span class="cell">{{buy.price_symbol}}</span></div>
+  </div>
+  <button type="submit" class="btn btn-primary">Buy {{buy.quantity_symbol}}</button>
+</form>

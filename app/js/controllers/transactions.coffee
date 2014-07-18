@@ -1,11 +1,12 @@
 angular.module("app").controller "TransactionsController", ($scope, $attrs, $location, $stateParams, $state, Wallet, Utils, Info, Blockchain) ->
-
     $scope.name = $stateParams.name || "*"
     $scope.transactions = Wallet.transactions
     $scope.account_transactions = Wallet.transactions[$scope.name]
     $scope.utils = Utils
     $scope.pending_only = false
     $scope.warning = ""
+
+    $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0
 
     if $attrs.model and $attrs.model = "pending_only"
         $scope.pending_only = true

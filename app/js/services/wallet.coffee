@@ -103,8 +103,8 @@ class Wallet
 
     create_account: (name, privateData) ->
         @wallet_api.account_create(name, privateData).then (result) =>
-            console.log(result)
             @refresh_accounts()
+            result
 
     account_update_private_data: (name, privateData) ->
         @wallet_api.account_update_private_data(name, privateData).then (result) =>
@@ -152,32 +152,33 @@ class Wallet
         @blockchain.refresh_asset_records().then () =>
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
+                console.log result
                 angular.forEach result, (val, key) =>
-                    account_running_balances = []
-                    global_running_balances = []
+                    running_balances = []
                     angular.forEach val.running_balances, (item) =>
                         asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                        account_running_balances.push( asset )
-                        global_running_balances.push( asset )
-                        console.log asset
-                        console.log val
-                            
+                        running_balances.push asset
+
+                    ledger_entries = []
+                    angular.forEach val.ledger_entries, (entry) =>
+                        ledger_entries.push
+                            from: entry.from_account
+                            to: entry.to_account
+                            amount: entry.amount.amount
+                            amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
+                            memo: entry.memo
+
                     @transactions[account_name_key].push
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
                         block_num: val.block_num
                         trx_num: val.trx_num
                         time: @utils.toDate(val.received_time)
-                        amount: val.amount
-                        amount_asset : @utils.asset(val.amount.amount, @blockchain.asset_records[val.amount.asset_id])
-                        from: val.from_account
-                        to: val.to_account
-                        memo: val.memo_message
+                        ledger_entries: ledger_entries
+                        running_balances: running_balances
                         id: val.trx_id
                         fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
                         vote: "N/A"
-                        account_running_balances: account_running_balances
-                        global_running_balances: global_running_balances
                 @transactions[account_name_key]
 
     refresh_transactions_on_new_block: () ->

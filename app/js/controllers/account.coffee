@@ -1,5 +1,6 @@
 angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
 
+    Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
     $scope.utils = Utils
@@ -7,10 +8,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = Info.symbol
+    $scope.model = {}
+    $scope.model.rescan = true
 
     $scope.trust_level = Wallet.approved_delegates[name]
-    $scope.wallet_info = {file : "", password : ""}
-    $scope.transfer_info = 
+    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
+    $scope.transfer_info =
         amount : 0
         symbol : "Symbol not set"
         payto : ""
@@ -19,8 +22,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
-    $scope.p={}
-    $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
+    $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
 
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
@@ -58,7 +60,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
-        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
+        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name, false, $scope.model.rescan).then (response) ->
             $scope.private_key.value = ""
             if response == name
                 Growl.notice "", "Your private key was successfully imported."
@@ -67,10 +69,17 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Wallet.refresh_transactions_on_update()
 
     $scope.import_wallet = ->
-        WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
+        promise = null
+        switch $scope.wallet_info.type
+            when 'Bitcoin' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Multibit' then promise = WalletAPI.import_multibit($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Electrum' then promise = WalletAPI.import_electrum($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Armory' then promise = WalletAPI.import_armory($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+        promise?.then (response) ->
+            $scope.wallet_info.type = 'Bitcoin'
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
-            Growl.notice "The wallet was successfully imported."
+            Growl.notice "","The wallet was successfully imported."
             Wallet.refresh_transactions_on_update()
 
     yesSend = ->
@@ -89,7 +98,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto
+                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + Info.info.priority_fee + "."
                 action: -> yesSend
 
     $scope.newContactModal = ->

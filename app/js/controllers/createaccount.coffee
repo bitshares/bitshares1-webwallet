@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, Growl) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, $http, Wallet, Growl) ->
     $scope.f={}
 
     $scope.createAccount = ->
@@ -6,6 +6,5 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
         console.log($scope.gravatarDisplayName)
         name=$scope.f.name
         #$scope.notes was removed
-        Wallet.create_account(name, {'gui_data':{'gravatarDisplayName': $scope.gravatarDisplayName, 'email': $scope.email}}).then ->
-            Growl.notice "", "Account (#{name}) created"
+        Wallet.create_account(name, {'gui_data':{'gravatarDisplayName': $scope.gravatarDisplayName, 'email': $scope.email}}).then (pubkey)=>
             $location.path("accounts/" + name)

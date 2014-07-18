@@ -105,6 +105,7 @@ class Blockchain
                 for i in [0...blocks.length]
                     blocks[i].delegate_name = signers[i]
                     blocks[i].timestamp = @utils.toDate(blocks[i].timestamp)
+                    blocks[i].latency = blocks[i].latency/1000000
                     for j in [0...missed[i].length]
                         timestamp = new Date(+blocks[i].timestamp - ((missed[i].length - j)) * (1000 * config.block_interval))
                         merged.push
@@ -134,7 +135,9 @@ class Blockchain
     inactive_delegates: []
 
     id_delegates: {}
-
+    delegate_active_hash_map: {}
+    delegate_inactive_hash_map: {}
+	
     # TODO: finish this mapping, may be in some config or settings
     type_name_map :
             withdraw_op_type : "Withdraw Operation"
@@ -165,10 +168,12 @@ class Blockchain
             for i in [0 ... results.config.delegate_num]
                 @active_delegates[i] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]
+                @delegate_active_hash_map[@active_delegates[i].name]=true
             for i in [results.config.delegate_num ... results.dels.length]
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]
-
+                @delegate_inactive_hash_map[@inactive_delegates[i-results.config.delegate_num].name]=true
+                
     price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
         #@blockchain_api.market_price_history(quote_symbol, base_symbol, start_time, duration, granularity).then (result) ->
         #    console.log 'price_history -----', result

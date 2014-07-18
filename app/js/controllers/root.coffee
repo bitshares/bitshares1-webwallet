@@ -6,8 +6,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
   $scope.current_path_includes = (str)->
       $scope.currentPath.indexOf(str) >= 0
 
-  
-  
   Wallet.check_wallet_status()
   
   

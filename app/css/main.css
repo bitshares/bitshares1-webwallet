@@ -16,6 +16,27 @@
 
 }
 
+@media (min-width: 1200px) and (max-width: 1400px) {
+	.hideableCol {
+		display:none;
+	}
+}
+
+.delegate-active-link{
+	font-family:"Georgia";
+	font-size:140%;
+}
+
+.delegate-inactive-link{
+	font-family:"Georiga";
+	font-style:italic;
+	font-size:150%;
+}
+
+.my-account-link{
+	color:green;
+}
+
 /* Colors & Gradients */
 
 .white, a.white {
@@ -274,7 +295,7 @@ footer {
 	height: 36px;
 	background-color: #f5f5f5;
 	padding: 0;
-    font-size: 13px;
+  font-size: 13px;
 }
 
 footer.normal-state {
@@ -291,7 +312,7 @@ footer.severe-state {
 
 footer p {
 	margin: 12px 24px 0 0;
-	color: #fff;
+	color: #000;
 	bottom: 6px;
 	position: relative;
 	float: right;
@@ -326,11 +347,11 @@ footer .logo img {
 }
 
 input.ng-dirty.ng-invalid {
-	border: 1px solid red;
+	border: 1px solid #f00;
 }
 
 input.ng-dirty.ng-valid {
-	border: 1px solid green;
+	border: 1px solid #77B7EA;
 }
 
 .loading-overlay {
@@ -379,4 +400,14 @@ input.ng-dirty.ng-valid {
 	font-size: 18px;
 	position: relative;
 	top: 4px;
+}
+
+.no-lr-padding {
+       padding-left: 0;
+       padding-right: 0;
+}
+
+span.cell {
+       line-height: 34px;
+       /*padding-left: 10px;*/
 }

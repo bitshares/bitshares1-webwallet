@@ -23,46 +23,56 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
   on_update = (info) ->
     connections = info.network_connections
     $scope.connections = connections
-    if connections == 0
-      $scope.connections_str = "Not connected to the network"
+    if connections > 1
+      $scope.connections_str = "#{connections} network connections"
     else if connections == 1
       $scope.connections_str = "1 network connection"
     else
-      $scope.connections_str = "#{connections} network connections"
+      $scope.connections_str = "Not connected"
+      
 
     if connections < 4
       $scope.connections_img = "/img/signal_#{connections}.png"
-    else
+    else if connections >= 4
       $scope.connections_img = "/img/signal_4.png"
+    else
+      $scope.connections_img = "/img/signal_0.png"
 
     $scope.wallet_unlocked = info.wallet_unlocked
 
-    if info.last_block_time
-      seconds_diff = (Date.now() - Utils.toDate(info.last_block_time).getTime()) / 1000
-      hours_diff = Math.floor seconds_diff / 3600
-      minutes_diff = (Math.floor seconds_diff / 60) % 60
-      hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
-      minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
-      
-      Blockchain.get_config().then (config) ->
-          $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
-          $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
-          $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
-          $scope.blockchain_last_block_num = info.last_block_num
-          if seconds_diff > (config.block_interval + 2)
-            $scope.blockchain_last_sync_info = "Last block is synced " + info.blockchain_head_block_age + " "
-          else
-            $scope.blockchain_last_sync_info = "Blocks are synced "
+    if connections > 0
+      if info.last_block_time
+        seconds_diff = (Date.now() - Utils.toDate(info.last_block_time).getTime()) / 1000
+        hours_diff = Math.floor seconds_diff / 3600
+        minutes_diff = (Math.floor seconds_diff / 60) % 60
+        hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
+        minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
+        
+        Blockchain.get_config().then (config) ->
+            $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
+            $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
+            $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
+            $scope.blockchain_last_block_num = info.last_block_num
+            if seconds_diff > (config.block_interval + 2)
+              $scope.blockchain_last_sync_info = "Last block is synced " + info.blockchain_head_block_age + " "
+            else
+              $scope.blockchain_last_sync_info = "Blocks are synced "
+      else
+        $scope.blockchain_status = "off"
+        $scope.blockchain_last_sync_info = " Blocks are syncing ..."
     else
       $scope.blockchain_status = "off"
-      $scope.blockchain_last_sync_info = " Blocks are syncing ..."
+      $scope.blockchain_last_sync_info = "Not connected "
 
     
     if info.alert_level == "green"
       $scope.alert_level = "normal-state"
+      $scope.alert_level_msg = ''
     else if info.alert_level == "yellow"
       $scope.alert_level = "warning-state"
+      $scope.alert_level_msg = 'Network problems | '
     else
       $scope.alert_level = "severe-state"
+      $scope.alert_level_msg = 'Severe network problems | '
 
   $scope.$watch(watch_for, on_update, true)

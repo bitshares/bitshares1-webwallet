@@ -17,6 +17,13 @@ servicesModule.factory "Utils", ->
         parts = (asset.amount / asset.precision).toString().split(".")
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         parts.join(".") + " " + asset.symbol
+
+    formatAssetPrice: (asset) ->
+        if not asset
+            return ""
+        parts = (asset.amount / asset.precision).toString().split(".")
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        parts.join(".")
     
     toDate: (t) ->
         new Date(@toUTCDate(t))

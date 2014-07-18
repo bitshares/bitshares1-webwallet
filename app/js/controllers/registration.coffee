@@ -37,13 +37,11 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
     payrate = if $scope.m.delegate then $scope.m.payrate else 255
-    if $scope.account.private_data.gui_data.email
+    if $scope.account.private_data?.gui_data?.email
         gravatarMD5 = md5.createHash($scope.account.private_data.gui_data.email)
     else
         gravatarMD5 = ""
     console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
     Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
       $modalInstance.close("ok")
-      Wallet.pendingRegistrations[$scope.account.name]="pending"
-      $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name]
-      console.log('pending', Wallet.pendingRegistrations, 'loc', $scope.p.pendingRegistration)
+      $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name] = "pending"

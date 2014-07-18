@@ -258,6 +258,15 @@ class BlockchainAPI
     @rpc.request('blockchain_list_market_transactions', [block_number]).then (response) ->
       response.result
 
+  # Returns the status of a particular market, including any trading errors.
+  # parameters: 
+  #   asset_symbol `quote_symbol` - quote symbol
+  #   asset_symbol `base_symbol` - base symbol
+  # return_type: `market_status`
+  market_status: (quote_symbol, base_symbol) ->
+    @rpc.request('blockchain_market_status', [quote_symbol, base_symbol]).then (response) ->
+      response.result
+
 
 
 angular.module("app").service("BlockchainAPI", ["$q", "$log", "RpcService", BlockchainAPI])

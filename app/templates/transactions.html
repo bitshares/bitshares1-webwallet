@@ -8,7 +8,7 @@
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
-        <th translate>th.balance</th>
+        <th translate ng-show="showBalances">th.balance</th>
       </tr>
     </thead>
     <tbody>
@@ -16,13 +16,32 @@
         <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td ng-if="t.is_virtual">Virtual</td>
-        <td><p class="long-shorten-text-l"><a href="#/accounts/{{t.from}}">{{ t.from }}</a></p></td>
-        <td><p class="long-shorten-text-l"><a href="#/accounts/{{t.to}}">{{ t.to }}</a></p></td>
-        <td><a href="#/tx/{{t.id}}">{{ t.memo }}</a></td>
-        <td><span class="bold text-success">{{ t.amount_asset | formatAsset }}</span></td>
+        <td>
+            <span ng-repeat="entry in t.ledger_entries">
+                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span> </br>
+            </span>
+        </td>
+        <td>
+            <span ng-repeat="entry in t.ledger_entries">
+                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span> </br>
+            </span>
+        </td>
+        <td>
+            <span ng-repeat="entry in t.ledger_entries">
+                <span class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></span> </br>
+            </span>
+        </td>
+        <td>
+            <span ng-repeat="entry in t.ledger_entries">
+                <span ng-show="entry.from == account.name" class="bold text-danger">-{{ entry.amount_asset | formatAsset }}</span>
+                <span ng-show="entry.from != account.name" class="bold text-success">{{ entry.amount_asset | formatAsset }}</span> </br>
+            </span>
+        </td>
         <td>{{ t.fee | formatAsset}}</td>
         <td>
-            <span ng-repeat="balance in t.global_running_balances">{{ balance | formatAsset}}</span>
+            <span ng-show="showBalances" ng-repeat="balance in t.running_balances">
+                <span>{{ balance | formatAsset}}</span> </br>
+            </span>
         </td>
       </tr>
       <tr ng-if="warning">

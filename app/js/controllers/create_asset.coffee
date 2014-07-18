@@ -9,7 +9,7 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
             asset_name : ""
             description : ""
             memo : ""
-            max_share_supply : 1000000000000000
+            max_share_supply : 1000000000
             precision : 1000000
 
         # TODO validate that this symbol has not already been created
@@ -27,6 +27,9 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                 false
 
         $scope.create = ->
+            if $scope.create_asset.max_share_supply * $scope.create_asset.precision > 1000000000000000
+                Growl.error "", "You need to specify a lower precision or fewer shares."
+                return
             $modal.open
                 templateUrl: "dialog-confirmation.html"
                 controller: "DialogConfirmationController"
@@ -40,7 +43,7 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                               $scope.create_asset.asset_name = ""
                               $scope.create_asset.description = ""
                               $scope.create_asset.memo = ""
-                              $scope.create_asset.max_share_supply = 1000000000000000
+                              $scope.create_asset.max_share_supply = 1000000000
                               $scope.create_asset.precision = 1000000
                               Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
                               Wallet.refresh_transactions_on_update()

@@ -23,13 +23,13 @@
               <th>APPROVAL</th>
               <th>Reliability</th>
               <th>Blocks Produced</th>
-              <th>D. PAY RATE</th>
+              <th class='hideableCol'>PAY RATE</th>
               <th>APPROVE</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="del in active_delegates | filter:search">
-                <td><a href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
+                <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
 					<span ng-switch-when='true'>&#60;0.01%</span>
@@ -41,7 +41,7 @@
                 <span ng-switch-default>Unknown</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced }}</td>
-              <td>{{ del.delegate_info.pay_rate }}%</td>
+              <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
@@ -72,13 +72,13 @@
               <th>APPROVAL</th>
               <th>Reliability</th>
               <th>Blocks Produced</th>
-              <th>DELEGATE PAY RATE</th>
+              <th class='hideableCol'>PAY RATE</th>
               <th>APPROVE</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="del in inactive_delegates | filter:search">
-                <td><a href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
+                <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
                   <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
   					<span ng-switch-when='true'>&#60;0.01%</span>
@@ -90,7 +90,7 @@
                 <span ng-switch-default>Unknown</span>
               </td>
               <td>{{ del.delegate_info.blocks_produced }}</td>
-              <td>{{ del.delegate_info.pay_rate }}%</td>
+              <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
