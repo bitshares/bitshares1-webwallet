@@ -8,6 +8,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = Info.symbol
+    $scope.model = {}
+    $scope.model.rescan = true
 
     $scope.trust_level = Wallet.approved_delegates[name]
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
@@ -59,7 +61,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
-        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
+        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name, false, $scope.model.rescan).then (response) ->
             $scope.private_key.value = ""
             if response == name
                 Growl.notice "", "Your private key was successfully imported."
