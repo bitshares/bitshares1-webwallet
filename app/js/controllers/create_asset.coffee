@@ -27,6 +27,9 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                 false
 
         $scope.create = ->
+            if $scope.create_asset.max_share_supply * $scope.create_asset.precision > 1000000000000000
+                Growl.error "", "You need to specify a lower precision or fewer shares."
+                return
             $modal.open
                 templateUrl: "dialog-confirmation.html"
                 controller: "DialogConfirmationController"
