@@ -18,27 +18,30 @@
         <td ng-if="t.is_virtual">Virtual</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <p class="long-shorten-text-l"><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></p>
+                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span> </br>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <p class="long-shorten-text-l"><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></p>
+                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span> </br>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <p class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></p>
+                <span class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></span> </br>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span class="bold text-success">{{ entry.amount_asset | formatAsset }}</span>
+                <span ng-show="entry.from == account.name" class="bold text-danger">-{{ entry.amount_asset | formatAsset }}</span>
+                <span ng-show="entry.from != account.name" class="bold text-success">{{ entry.amount_asset | formatAsset }}</span> </br>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
-        <td ng-show="showBalances" ng-repeat="entry in t.ledger_entries">
-            <span ng-repeat="balance in entry.running_balances">{{ balance | formatAsset}}</span>
+        <td>
+            <span ng-show="showBalances" ng-repeat="balance in t.running_balances">
+                <span>{{ balance | formatAsset}}</span> </br>
+            </span>
         </td>
       </tr>
       <tr ng-if="warning">

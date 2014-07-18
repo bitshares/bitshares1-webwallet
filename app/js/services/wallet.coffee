@@ -154,19 +154,18 @@ class Wallet
                 @transactions[account_name_key] = []
                 console.log result
                 angular.forEach result, (val, key) =>
+                    running_balances = []
+                    angular.forEach val.running_balances, (item) =>
+                        asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                        running_balances.push asset
+
                     ledger_entries = []
                     angular.forEach val.ledger_entries, (entry) =>
-                        running_balances = []
-                        angular.forEach entry.running_balances, (item) =>
-                            asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                            running_balances.push asset
-
                         ledger_entries.push
                             from: entry.from_account
                             to: entry.to_account
                             amount: entry.amount.amount
                             amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
-                            running_balances: running_balances
                             memo: entry.memo
 
                     @transactions[account_name_key].push
@@ -176,6 +175,7 @@ class Wallet
                         trx_num: val.trx_num
                         time: @utils.toDate(val.received_time)
                         ledger_entries: ledger_entries
+                        running_balances: running_balances
                         id: val.trx_id
                         fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
                         vote: "N/A"
