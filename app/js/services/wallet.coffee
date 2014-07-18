@@ -103,8 +103,8 @@ class Wallet
 
     create_account: (name, privateData) ->
         @wallet_api.account_create(name, privateData).then (result) =>
-            console.log(result)
             @refresh_accounts()
+            result
 
     account_update_private_data: (name, privateData) ->
         @wallet_api.account_update_private_data(name, privateData).then (result) =>
