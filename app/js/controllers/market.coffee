@@ -2,9 +2,7 @@ class TradeData
     constructor: ->
         @balance = null
         @quantity = null
-        @quantity_symbol = null
         @price = null
-        @price_symbol = null
 
 angular.module("app").controller "MarketController", ($scope, $stateParams, $modal, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl) ->
     account_name = $stateParams.account
@@ -17,17 +15,16 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
     base_asset = null
 
     buy = new TradeData
-    buy.quantity_symbol = quote_symbol
-    buy.price_symbol = base_symbol
-
     sell = new TradeData
-    sell.quantity_symbol = base_symbol
-    sell.price_symbol = quote_symbol
+    short = new TradeData
 
+    $scope.quote_symbol = quote_symbol
+    $scope.base_symbol = base_symbol
     $scope.market_url_name = market_url_name
     $scope.market_name = market_name
     $scope.buy = buy
     $scope.sell = sell
+    $scope.short = short
     $scope.balances = {}
     $scope.market_name = market_name
 
@@ -41,14 +38,16 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             $scope.account = true
             $scope.account_selector_title = account_name
             account_balances = Wallet.balances[account_name]
-            buy.balance = account_balances[buy.price_symbol]
+            buy.balance = account_balances[base_symbol]
+            short.balance = account_balances[base_symbol]
+            sell.balance = account_balances[quote_symbol]
 
     Blockchain.refresh_asset_records().then ->
         quote_asset = Blockchain.get_asset(quote_symbol)
         base_asset = Blockchain.get_asset(base_symbol)
         #console.log "Assets", quote_asset, base_asset
 
-        BlockchainAPI.market_list_asks(buy.quantity_symbol, buy.price_symbol, 10).then (results)->
+        BlockchainAPI.market_list_asks(quote_symbol, base_symbol, 10).then (results)->
             orders = []
             for order in results
                 o = {}
@@ -64,7 +63,7 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
                 orders.push o
             $scope.sell_orders = orders
 
-        BlockchainAPI.market_list_bids(buy.quantity_symbol, buy.price_symbol, 10).then (results)->
+        BlockchainAPI.market_list_bids(quote_symbol, base_symbol, 10).then (results)->
             orders = []
             for order in results
                 o = {}
@@ -79,6 +78,23 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
                 o.cost.precision = quote_asset.precision
                 orders.push o
             $scope.buy_orders = orders
+
+        BlockchainAPI.market_list_shorts(quote_symbol, 10).then (results)->
+            shorts = []
+            console.log results
+            for order in results
+                o = {}
+                o.quantity = {}
+                o.quantity.amount = order.state.balance
+                o.quantity.precision = base_asset.precision
+                o.price = {}
+                o.price.amount = order.market_index.order_price.ratio * base_asset.precision
+                o.price.precision = quote_asset.precision
+                o.cost = {}
+                o.cost.amount = order.state.balance * order.market_index.order_price.ratio
+                o.cost.precision = quote_asset.precision
+                shorts.push o
+            $scope.short_orders = shorts
 
         BlockchainAPI.market_price_history(quote_symbol, base_symbol, '20140715T000000', 10000000, 'each_block').then (results)->
             console.log 'price_history ------->', results
@@ -106,10 +122,10 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will place a request to buy #{buy.quantity} #{buy.quantity_symbol} for #{buy.quantity * buy.price} #{buy.price_symbol}"
+                message: -> "This will place a request to buy #{buy.quantity} #{quote_symbol} for #{buy.quantity * buy.price} #{base_symbol}"
                 action: ->
                     ->
-                        WalletAPI.market_submit_bid(account_name, buy.quantity, buy.quantity_symbol, buy.price, buy.price_symbol).then ->
+                        WalletAPI.market_submit_bid(account_name, buy.quantity, quote_symbol, buy.price, base_symbol).then ->
                             Growl.notice "", "Your bid request was successfully placed."
 
     $scope.submit_sell_form = ->
@@ -122,8 +138,24 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will place a request to sell #{sell.quantity} #{sell.quantity_symbol} for #{sell.quantity * sell.price} #{sell.price_symbol}"
+                message: -> "This will place a request to sell #{sell.quantity} #{quote_symbol} for #{sell.quantity * sell.price} #{base_symbol}"
                 action: ->
                     ->
-                        WalletAPI.market_submit_ask(account_name, sell.quantity, sell.quantity_symbol, sell.price, sell.price_symbol).then ->
+                        WalletAPI.market_submit_ask(account_name, sell.quantity, quote_symbol, sell.price, base_symbol).then ->
+                            Growl.notice "", "Your ask was successfully placed."
+                            
+    $scope.submit_short_form = ->
+        if !@sell_form.$valid
+            Growl.error "", "Your short cannot be placed. Please fix errors on the short form."
+            return
+        short = $scope.short
+        $modal.open
+            templateUrl: "dialog-confirmation.html"
+            controller: "DialogConfirmationController"
+            resolve:
+                title: -> "Are you sure?"
+                message: -> "This will place a request to short #{short.quantity} #{quote_symbol} for #{short.quantity * short.price} #{base_symbol}"
+                action: ->
+                    ->
+                        WalletAPI.market_submit_ask(account_name, sell.quantity, quote_symbol, sell.price, base_symbol).then ->
                             Growl.notice "", "Your ask was successfully placed."
