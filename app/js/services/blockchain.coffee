@@ -173,7 +173,7 @@ class Blockchain
             for i in [results.config.delegate_num ... results.dels.length]
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
                 @id_delegates[results.dels[i].id] = results.dels[i]
-                @delegate_inactive_hash_map[@inactive_delegates[i].name]=true
+                @delegate_inactive_hash_map[@inactive_delegates[i-results.config.delegate_num].name]=true
                 
     price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
         #@blockchain_api.market_price_history(quote_symbol, base_symbol, start_time, duration, granularity).then (result) ->

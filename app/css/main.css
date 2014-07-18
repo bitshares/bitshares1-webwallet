@@ -22,8 +22,13 @@
 	}
 }
 
-.delegate-link{
-	color:red;
+.delegate-active-link{
+	font-family:impact;
+}
+
+.delegate-inactive-link{
+	font-family:impact;
+	font-style:italic;
 }
 
 .my-account-link{

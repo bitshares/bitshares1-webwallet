@@ -8,7 +8,7 @@
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
-        <th translate>th.balance</th>
+        <th translate ng-show="showBalances">th.balance</th>
       </tr>
     </thead>
     <tbody>
@@ -37,7 +37,7 @@
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
-        <td>
+        <td ng-show="showBalances">
             <span ng-repeat="balance in t.global_running_balances">{{ balance | formatAsset}}</span>
         </td>
       </tr>

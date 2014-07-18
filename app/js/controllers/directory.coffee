@@ -8,6 +8,10 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
   $scope.q =
     name: ""
   $scope.delegate_active_hash_map=Blockchain.delegate_active_hash_map
+  $scope.delegate_inactive_hash_map=Blockchain.delegate_inactive_hash_map
+  $scope.accounts=Wallet.accounts
+  Wallet.refresh_accounts().then ->
+    $scope.accounts=Wallet.accounts
   
   $scope.$watch ()->
     $scope.q.name
