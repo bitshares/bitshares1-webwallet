@@ -9,11 +9,11 @@
 		margin: 0;
 		padding: 0;
 	}
-	
+
     .description {
 		font-size: 12px;
     }
-	
+
 	.start-wrapper {
 		border: 0px solid #333;
 		width: 400px;
@@ -24,7 +24,7 @@
 		margin-left: -200px;
 		margin-top: -100px;
 	}
-	
+
 	.str-top {
 		height: 80px;
 		text-align: center;
@@ -32,22 +32,28 @@
 		    -webkit-background-clip: padding-box; /* for Safari */
 		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
 	}
-	
+
 	.str-top img { margin-bottom: 24px; }
-	
+
 	.str-content {
 		text-align: center;
-		padding: 20px 10px 5px;
+		padding: 20px 10px 5px 0;
 		cursor: pointer;
-		
+
 	}
 
     .str-arrow {
-        display:block;
-        margin-left:auto;
-        margin-right:auto;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+      width: 20px;
+      text-decoration: none;
+      padding-bottom: 5px;
     }
-	
+    .str-arrow:hover {
+      text-decoration: none;
+    }
+
 	.str-bottom {
 		height: 40px;
         padding: 25px;
@@ -55,18 +61,16 @@
 		border-top: 1px solid rgba(255, 255, 255, .5);
 		    -webkit-background-clip: padding-box; /* for Safari */
 		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-		
+
 	}
-	
+
 	.str-bottom img { margin-top: 24px; }
-	
-    p {
+
+    .description p {
         text-align: center;
         text-shadow: 1px 2px 2px #0e434f;
-        
     }
-	
-	
+
     .input {
         width: 200px;
     }
@@ -83,57 +87,72 @@
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
-    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
-    <div class="description" collapse="descriptionCollapsed">
-        <p translate>unlock.desc_content_1</p>
-        <p translate>unlock.desc_content_2</p>
 
+  <div ng-switch="license_accepted">
+    <div ng-switch-when="false">
+      <div class="license">
+      <h4>END USER AGREEMENT</h4>
+       <div class="license-body description">
+        <div ng-include src="'licenseagreement.html'"></div>
+      </div>
+      <input type="checkbox" ng-click="accept_license()"> I accept the terms of the license agreement
+      </div>
     </div>
-    <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
+    <div ng-switch-default>
 
-    <div class="str-bottom">
+      <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
+      <div class="description" collapse="descriptionCollapsed">
+          <p translate>unlock.desc_content_1</p>
+          <p translate>unlock.desc_content_2</p>
+      </div>
 
-         <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid)" novalidate>
-              <div class="row">
-                   <div class="description">
-                      <h4 translate>wallet.create_new_wallet</h4>
-                      <p translate>wallet.info</p>
+      <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}" ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
+
+      <div class="str-bottom">
+
+           <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid, spending_password)" novalidate>
+                <div class="row">
+                     <div class="description">
+                        <h4 translate>wallet.create_new_wallet</h4>
+                        <p translate>wallet.info</p>
+                      </div>
+                      <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+
+                        <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
+                               placeholder="Password"
+                               required autofocus ng-minlength="9" ng-maxlength="255" />
+                        <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
+                        <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
+                        <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
+                        <br>
+                      </div>
+                </div>
+                <div class="row spacedrow">
+                    <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
+
+                      <input tabindex="2" ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
+                             id="confirm_spending_password"
+                             placeholder="Confirm Password" required pw-check="spending_password" />
+
+                      <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
+                      <br>
                     </div>
-                    <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
+                </div>
 
-                      <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
-                             placeholder="Password"
-                             required autofocus ng-minlength="9" ng-maxlength="255" />
-
-                      <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
-                      <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
-                      <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
-                      <br> 
-                    </div>
-              </div>
-              <div class="row spacedrow">
-                  <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
-
-                    <input tabindex="2" ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
-                           id="confirm_spending_password"
-                           placeholder="Confirm Password" required pw-check="spending_password" />
-                    
-                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
-                    <br>
-                  </div>
-              </div>
-
-              <div class="row spacedrow">
-                    <div class="form-group row">
-                      <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
-                    </div>
-              </div>
-         </form>
+                <div class="row spacedrow">
+                      <div class="form-group row">
+                        <button tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
+                      </div>
+                </div>
+           </form>
 
 
 
-		<img src="img/bts-icon-white-transparent.png" />
-    </div>
+      <img src="img/bts-icon-white-transparent.png" />
+      </div>
+
+   </div>
+   </div>
 </section>
 </body>
 

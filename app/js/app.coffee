@@ -51,7 +51,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         suffix: '.json'
     $translateProvider.preferredLanguage('en')
 
-    $idleProvider.idleDuration(600)
+    $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
 
     $urlRouterProvider.otherwise('/home')
