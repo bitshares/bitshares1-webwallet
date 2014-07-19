@@ -10,7 +10,8 @@ class Wallet
 
     approved_delegates: {}
 
-    timeout: 60000
+    # set in constructor
+    timeout: null
 
     pendingRegistrations: {}
 
@@ -299,5 +300,6 @@ class Wallet
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
+        @timeout=@idle._options().idleDuration+''
 
 angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
