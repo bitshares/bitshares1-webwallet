@@ -171,7 +171,7 @@
             </div>
             <div class="form-group row">
               <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-credit-card fa-lg fa-fw"></i>
                   {{'account.send'|translate}}
                 </button>
               </div>
@@ -189,12 +189,13 @@
 
         <tabset class="p-inner">
           <tab heading="Import Private Key">
-            <form class="form-horizontal" role="form" ng-submit="import_key()">
-              <div class="form-group row">
+            <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
+              <div class="form-group row" ng-class="{ 'has-error' : import_key_form.key.$invalid && !import_key_form.key.$pristine }">
                 <label for="pk_value" class="col-sm-2 control-label" translate>account.priv_key</label>
                 <div class="col-sm-9">
-                  <input ng-model="private_key.value" type="text" class="form-control" id="pk_value"
+                  <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
                          placeholder="Private Key"/>
+                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger small">Error parsing WIF private key</div>
                 </div>
               </div>
               <div class="form-group row">
@@ -209,7 +210,6 @@
                   <button type="submit" class="btn btn-primary" translate>account.import_key</button>
                 </div>
               </div>
-
             </form>
           </tab>
           <tab heading="Import Wallet">

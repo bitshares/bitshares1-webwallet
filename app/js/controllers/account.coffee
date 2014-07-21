@@ -60,6 +60,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
+        form = @import_key_form
+        form.key.$invalid = false
         WalletAPI.import_private_key($scope.private_key.value, $scope.account.name, false, $scope.model.rescan).then (response) ->
             $scope.private_key.value = ""
             if response == name
@@ -67,6 +69,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             else
                 Growl.notice "", "Private key already belongs to another account: \"" + response + "\"."
             Wallet.refresh_transactions_on_update()
+        , (response) ->
+            form.key.$invalid = true
 
     $scope.import_wallet = ->
         form = @import_wallet_form
