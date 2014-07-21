@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="header">
-        	<h3 class="header-title">Block #{{number}}</h3>
+            <h3 class="header-title">{{ 'block' | translate }} #{{number}}</h3>
         	
 		</div>
 	</div>
@@ -14,7 +14,7 @@
 		      <table class="table table-striped table-hover table-bordered">
 		
 		         <tr>
-		             <th colspan="2"><b>Summary</b></th>
+		             <th colspan="2"><b translate>summary</b></th>
 		         </tr>
 		          <tbody>
 		         <tr>
@@ -98,13 +98,11 @@
    		<div class="row">
            <div class="col-sm-12">
            		<div class="header">
-                      		<h3 class="header-title">Transactions</h3>
+                      		<h3 class="header-title" translate>transactions</h3>
                		
                	<div class=" col-sm-12 pull-right p-inner">
-               	       Filter transactions by operation:&nbsp;<input ng-model="operation_filter" type="text"/>
+                    {{ "info_filter_by_op" | translate }}:&nbsp;<input ng-model="operation_filter" type="text"/>
                	    </div>
-               	
-               		
                 </div>
            </div>
    		</div>
@@ -116,12 +114,12 @@
    		<table class="table table-striped table-hover">
    			<thead>
    			<tr>
-   				<th>Transaction ID</th>
-   				<th>Withdraw Amount</th>
-   				<th>Deposit Amount</th>
-   				<th>Net Delegate Votes</th>
-   				<th>Operation Types</th>
-                   <th>Fee</th>
+   				<th translate>th.trx_id</th>
+   				<th translate>th.withdraw_amount</th>
+   				<th translate>th.deposit_amount</th>
+   				<th translate>th.net_delegate_approval</th>
+   				<th translate>th.operation_types</th>
+                <th translate>th.fee</th>
    			</tr>
    			</thead>
 
@@ -141,7 +139,7 @@
                 <td><div ng-repeat="b in t.balance"><span>{{ b[2] | formatAsset }}</span><br></div></td>
 			</tr>
             <tr ng-if=" block.transactions.length == 0 ">
-                <td><span>There are no transactions in this block.</span></td>
+                <td><span translate>info_no_trx</span></td>
                 <td colspan="5"/>
 			</tr>
 

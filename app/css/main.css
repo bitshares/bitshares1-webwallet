@@ -23,12 +23,14 @@
 }
 
 .delegate-active-link{
-	font-family:impact;
+	font-family:"Georgia";
+	font-size:140%;
 }
 
 .delegate-inactive-link{
-	font-family:impact;
+	font-family:"Georiga";
 	font-style:italic;
+	font-size:150%;
 }
 
 .my-account-link{
@@ -348,9 +350,9 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
-input.ng-dirty.ng-valid {
-	border: 1px solid #77B7EA;
-}
+/*input.ng-dirty.ng-valid {*/
+	/*border: 1px solid #77B7EA;*/
+/*}*/
 
 .loading-overlay {
 	height: 80px;
@@ -419,3 +421,13 @@ span.cell {
 	text-align: left !important;
 }
 
+.license {
+	padding-top: 20px;
+	text-align: center;
+}
+
+.license-body {
+	height: 300px;
+	overflow-y: scroll;
+	margin: 24px 0;
+}

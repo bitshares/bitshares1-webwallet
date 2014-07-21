@@ -3,7 +3,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
     $scope.refresh_contacts = ->
         $scope.contacts = []
-
         for n, c of Wallet.accounts
             if !c.is_my_account and !Utils.is_registered(c)
                 $scope.contacts.push c
@@ -30,13 +29,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
             Wallet.refresh_accounts()
 
     $scope.toggleFavorite = (name)->
-        Wallet.refresh_accounts().then ()->
-            if (Wallet.accounts[name].private_data)
-                private_data=Wallet.accounts[name].private_data
-            else
-                private_data={}
-            if !(private_data.gui_data)
-                private_data.gui_data={}
-            private_data.gui_data.favorite=!(private_data.gui_data.favorite)
-            Wallet.account_update_private_data(name, private_data).then ->
-                Wallet.refresh_accounts()
+        private_data = Wallet.accounts[name].private_data || {gui_data: {favorite: false}}
+        private_data.gui_data.favorite = !private_data.gui_data.favorite
+        Wallet.account_update_private_data(name, private_data)

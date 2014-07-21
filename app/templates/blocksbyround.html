@@ -19,7 +19,7 @@
             	<div class="checkbox pull-right">
             	<label>
             		<div class="checker">
-            			<input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs"> Only show blocks with transactions</input>
+                        <input type="checkbox" name="filter_trxs" ng-model="filter_zero_trxs"> {{"info_trx_only"| translate}}</input>
             		</div>
             	</label>
             </div>
@@ -28,27 +28,23 @@
 	</div>
 </div>
 
-
-
-
-
 <div class="main-content">
 
       <table class="table table-striped table-hover">
          <thead>
          <tr>
-            <th>Height</th>
-            <th>Time</th>
-            <th>Transaction Count</th>
-            <th>Delegate</th>
-            <th>Latency</th>
-            <th>Size</th>
+            <th translate>height</th>
+            <th translate>time</th>
+            <th translate>trx_count</th>
+            <th translate>delegate</th>
+            <th translate>latency</th>
+            <th translate>size</th>
          </tr>
          </thead>
          <tbody>
              <tr ng-repeat="block in blocks | orderBy:'timestamp':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
                 <td ng-if="block.block_num!=-2"><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
-                <td ng-if="block.block_num==-2" class="text-danger">Missing Block</td>
+                <td ng-if="block.block_num==-2" class="text-danger" translate>missin_block</td>
                 <td>
                    {{ block.timestamp | prettyDate}}&emsp;
                 </td>
@@ -70,5 +66,4 @@
 
          </tbody>
       </table>
-  
 </div>

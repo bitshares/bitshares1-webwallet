@@ -8,20 +8,22 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = Info.symbol
+    $scope.model = {}
+    $scope.model.rescan = true
 
     $scope.trust_level = Wallet.approved_delegates[name]
-    $scope.wallet_info = {file : "", password : ""}
+    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
     $scope.transfer_info =
         amount : 0
         symbol : "Symbol not set"
         payto : ""
         memo : ""
+        vote : "Random Subset"
 
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
-    $scope.p={}
-    $scope.p.pendingRegistration = Wallet.pendingRegistrations[name]
+    $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
 
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
@@ -59,20 +61,41 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
-        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name).then (response) ->
+        form = @import_key_form
+        form.key.$invalid = false
+        WalletAPI.import_private_key($scope.private_key.value, $scope.account.name, false, $scope.model.rescan).then (response) ->
             $scope.private_key.value = ""
             if response == name
                 Growl.notice "", "Your private key was successfully imported."
             else
                 Growl.notice "", "Private key already belongs to another account: \"" + response + "\"."
             Wallet.refresh_transactions_on_update()
+        , (response) ->
+            form.key.$invalid = true
 
     $scope.import_wallet = ->
-        WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name).then (response) ->
+        form = @import_wallet_form
+        form.path.$invalid = false
+        form.pass.$invalid = false
+        promise = null
+        switch $scope.wallet_info.type
+            when 'Bitcoin' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Multibit' then promise = WalletAPI.import_multibit($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Electrum' then promise = WalletAPI.import_electrum($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Armory' then promise = WalletAPI.import_armory($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+        promise?.then (response) ->
+            $scope.wallet_info.type = 'Bitcoin'
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
-            Growl.notice "The wallet was successfully imported."
+            Growl.notice "","The wallet was successfully imported."
             Wallet.refresh_transactions_on_update()
+        , (response) ->
+            if response.data.error.code == 13
+                form.path.error_message = "No such file or directory"
+                form.path.$invalid = true
+            else if response.data.error.code == 0 and response.data.error.message.match(/decrypt/)
+                form.pass.error_message = "Unable to decrypt wallet"
+                form.pass.$invalid = true
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
@@ -83,6 +106,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
             $scope.t_active=true
+        ,
+        (error) ->
+            if (error.data.error.code==20005)
+                Growl.error "Unknown receive account",""
+            if (error.data.error.code==20010)
+                Growl.error "Insufficient funds",""
 
     $scope.send = ->
         $modal.open

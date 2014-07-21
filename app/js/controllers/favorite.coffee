@@ -1,4 +1,4 @@
-angular.module("app").controller "FavoriteController", ($scope, $state, $location, $modal, $q, $http, $rootScope, RpcService, WalletAPI, Shared, Utils, Wallet) ->
+angular.module("app").controller "FavoriteController", ($scope, $state, $location, $modal, $q, $http, $rootScope, WalletAPI, Utils, Wallet) ->
     $scope.contacts = []
 
     $scope.refresh_contacts = ->

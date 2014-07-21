@@ -24,7 +24,15 @@ angular.module("app.directives").directive "myNgEnter", ->
 
 
 angular.module("app.directives").directive "inputName", ->
-  template: '<input placeholder="Account Name (Required)" autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()" my-ng-enter="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash.  It can be at most 63 characters long.  Invalid characters are blocked and letters are lowercased automatically."  popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()" ng-change="ku()" uncapitalize type="text" class="form-control">'
+  template: '''
+        <input id="name" placeholder="Account Name (Required)"
+        autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()"
+        my-ng-enter="removeTrailingDashes()"
+        popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash."
+        popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()"
+        ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1">
+        <div ng-show="$parent.f.error_message" class="text-danger small">{{$parent.f.error_message}}</div>
+    '''
   restrict: "E"
   scope:
     ngModel: "="
@@ -34,12 +42,13 @@ angular.module("app.directives").directive "inputName", ->
         oldname=$scope.ngModel
        
     $scope.ku = ->
-        valid=/^[a-z]+(?:[a-z0-9\-])*$/.test($scope.ngModel) && $scope.ngModel.length<63 || $scope.ngModel is ""
+        return unless $scope.ngModel
+        valid = /^[a-z]+(?:[a-z0-9\-])*$/.test($scope.ngModel) && $scope.ngModel.length<63
         if(!valid)
             $scope.ngModel=oldname
 
     $scope.removeTrailingDashes = ->
-        $scope.ngModel = $scope.ngModel.replace(/\-+$/, "")
+        $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
   ###
   link: (scope, elem, attrs, ngModel) ->
       elem.on("click", ->

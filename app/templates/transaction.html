@@ -52,12 +52,12 @@
             </tr>
             <tr>
                 <td colspan="4" align="left">
-                    <span class="pull-left">Net Delegate Vote Update</span>
+                    <span class="pull-left">Net Delegate Approval Update</span>
                 </td>
             </tr>
             <tr ng-repeat="vote in t.net_delegate_votes">
                 <td>Delegate:&nbsp;<a href="#/accounts/{{ vote[3] }}">{{ vote[3] }}</a></td>
-                <td>Vote For Change:&nbsp;{{ vote[2] | formatAsset }}</td>
+                <td>Approval change:&nbsp;{{ vote[2] | formatAsset }}</td>
             </tr>
         </tbody>
         </table>
