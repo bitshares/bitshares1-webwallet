@@ -350,9 +350,9 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
-input.ng-dirty.ng-valid {
-	border: 1px solid #77B7EA;
-}
+/*input.ng-dirty.ng-valid {*/
+	/*border: 1px solid #77B7EA;*/
+/*}*/
 
 .loading-overlay {
 	height: 80px;

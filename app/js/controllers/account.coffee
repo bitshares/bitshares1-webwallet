@@ -69,6 +69,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Wallet.refresh_transactions_on_update()
 
     $scope.import_wallet = ->
+        form = @import_wallet_form
+        form.path.$invalid = false
+        form.pass.$invalid = false
         promise = null
         switch $scope.wallet_info.type
             when 'Bitcoin' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
@@ -81,6 +84,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.wallet_info.password = ""
             Growl.notice "","The wallet was successfully imported."
             Wallet.refresh_transactions_on_update()
+        , (response) ->
+            if response.data.error.code == 13
+                form.path.error_message = "No such file or directory"
+                form.path.$invalid = true
+            else if response.data.error.code == 0 and response.data.error.message.match(/decrypt/)
+                form.pass.error_message = "Unable to decrypt wallet"
+                form.pass.$invalid = true
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
