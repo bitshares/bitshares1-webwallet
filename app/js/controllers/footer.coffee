@@ -70,7 +70,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
       $scope.alert_level_msg = ''
     else if info.alert_level == "yellow"
       $scope.alert_level = "warning-state"
-      $scope.alert_level_msg = 'Network problems | '
+      $scope.alert_level_msg = 'Caution | '
     else
       $scope.alert_level = "severe-state"
       $scope.alert_level_msg = 'Severe network problems | '
