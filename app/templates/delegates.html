@@ -1,6 +1,6 @@
 
 <div class="pull-right">
-      <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Unvote all' class="fa fa-eraser"></i> Unvote all</button>
+      <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Un-approve all' class="fa fa-eraser"></i> Un-approve all</button>
     </div>
 
 <div class="row">
@@ -31,7 +31,7 @@
             <tr ng-repeat="del in active_delegates | filter:search">
                 <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
-                <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
+                <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Approval: {{ del.delegate_info.votes_for | formatVotes}}">
 					<span ng-switch-when='true'>&#60;0.01%</span>
 					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
 				</span>
@@ -80,7 +80,7 @@
             <tr ng-repeat="del in inactive_delegates | filter:search">
                 <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
-                  <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Votes for: {{ del.delegate_info.votes_for | formatVotes}}">
+                  <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip="Approval: {{ del.delegate_info.votes_for | formatVotes}}">
   					<span ng-switch-when='true'>&#60;0.01%</span>
   					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
   				</span>
