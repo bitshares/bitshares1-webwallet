@@ -105,6 +105,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
             $scope.t_active=true
+        ,
+        (error) ->
+            if (error.data.error.code==20005)
+                Growl.error "Unknown receive account",""
+            if (error.data.error.code==20010)
+                Growl.error "Insufficient funds",""
 
     $scope.send = ->
         $modal.open
