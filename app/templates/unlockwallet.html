@@ -42,9 +42,15 @@
 	}
 
     .str-arrow {
-        display:block;
-        margin-left:auto;
-        margin-right:auto;
+      display:block;
+      margin-left:auto;
+      margin-right:auto;
+      width: 20px;
+      text-decoration: none;
+      padding-bottom: 10px;
+    }
+    .str-arrow:hover {
+      text-decoration: none;
     }
 
 	.str-bottom {
@@ -79,7 +85,7 @@
         </p>
     </div>
 
-    <img class="str-arrow" ng-click="descriptionCollapsed = !descriptionCollapsed" src="img/down-triangle.png" />
+    <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}" ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
 
     <div class="str-bottom">
 
