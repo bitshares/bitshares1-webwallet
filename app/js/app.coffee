@@ -49,7 +49,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',
         suffix: '.json'
-    $translateProvider.preferredLanguage('en')
+    lang = window.navigator.language
+    if lang == "en-US" or lang =="en-EN"
+        lang = "en"
+    
+    $translateProvider.preferredLanguage(lang)
 
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
