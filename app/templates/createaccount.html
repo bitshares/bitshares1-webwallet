@@ -1,7 +1,7 @@
 	<div class="col-sm-12">
 <div class="header">
 
-		<h3 class="header-title">Create Account</h3>
+		<h3 class="header-title" translate>accounts.create_account</h3>
 	</div>
 </div>
 <div class="row">
@@ -19,21 +19,21 @@
 			
 			
 				<div class="form-group row">
-					<label for="name" class="col-sm-1 control-label">Name</label>
+					<label for="name" class="col-sm-1 control-label" translate>name</label>
 					<div class="col-sm-6">
 			    		<input-name autofocus ng-model="f.name"/>
 			  		</div>
 			  	</div>
 			  	<div class="form-group row">
-			  		<label for="email" class="col-sm-1 control-label">Email</label>
+			  		<label for="email" class="col-sm-1 control-label" translate>email</label>
 					<div class="col-sm-6">
 			    		<input ng-model="email" type="text" class="form-control" placeholder="Optional Email"/>
 			  		</div>
 			  	</div>
 				<div class="form-group row">
 			  		<div class="col-sm-offset-1 col-sm-2" >
-			    		<button ng-if="f.name.length > 0" class="btn btn-success" type="submit">Create</button>
-			    		<button ng-if="!f.name.length" tooltip-placement="bottom" tooltip='Cannot create account without a name' class="btn btn-default" type="button">Create</button>
+			    		<button ng-if="f.name.length > 0" class="btn btn-success" type="submit" translate>create</button>
+			    		<button ng-if="!f.name.length" tooltip-placement="bottom" tooltip='Cannot create account without a name' class="btn btn-default" type="button" translate>create</button>
 			  		</div>
 			  		<div class="col-sm-4">
 					</div>
@@ -46,17 +46,14 @@
 		<div class="form-group">
 		  	<div class="form-group row">
 				<div class="col-sm-offset-1 col-sm-6">
-		    		<h4>Privacy Statement</h4>
+		    		<h4 translate>privacy_statement</h4>
             <p>
-            <b><i>Your privacy is critically important to us.</i></b>
+            <b><i translate>info_privacy</i></b>
             </p>
-            <p> 
-            Your email address is only used for the purpose of identifying your <a target="_blank" href="http://gravatar.com">Gravatar</a> account which
-            can be tied to your BitShares XT account.  This helps you and others verify that your transactions are sending funds to the
-            expected individual.  
-            </p>
-            <p>
-            Your email is not shared with anyone and no one will be able to send you spam.  
+            <p> {{'privacy.email_warning1' | translate}}
+            <a target="_blank" href="http://gravatar.com">Gravatar</a> {{ "privacy.email_warning2" | translate }}  </p>
+            <p translate>
+            privacy.email_warning3
             </p>
 		  		</div>
 			</div>

@@ -9,15 +9,15 @@
     <div class="main-content">
       <tabset>
         <tab>
-          <tab-heading><i class="fa fa-star fa-lg"></i> Favorites</tab-heading>
+        <tab-heading><i class="fa fa-star fa-lg"></i> {{ 'directory.favorites' | translate }}</tab-heading>
           <div ng-controller="FavoriteController" ng-include src="'favorite.html'"></div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-users fa-lg"></i> Unregistered</tab-heading>
+        <tab-heading><i class="fa fa-users fa-lg"></i> {{ 'directory.unregistered' | translate }}</tab-heading>
           <div ng-controller="ContactsController" ng-include src="'contacts.html'"></div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-globe fa-lg"></i> Registered</tab-heading>
+        <tab-heading><i class="fa fa-globe fa-lg"></i> {{ 'directory.registered'| translate }}</tab-heading>
           <div class="main-content">
             <div class="row">
               <div class="col-sm-3">
@@ -42,8 +42,8 @@
                       <tr>
 						<th></th>
                         <th></th>
-                        <th>NAME</th>
-                        <th>REGISTRATION DATE</th>
+                        <th translate>th.name</th>
+                        <th translate>th.registration_date</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -64,11 +64,11 @@
           </div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-flag fa-lg"></i> Delegates</tab-heading>
+        <tab-heading><i class="fa fa-flag fa-lg"></i> {{ "delegates" | translate }}</tab-heading>
           <div ng-controller="DelegatesController" ng-include src="'delegates.html'"></div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-renren fa-lg"></i> Assets</tab-heading>
+        <tab-heading><i class="fa fa-renren fa-lg"></i> {{ "assets" | translate }}</tab-heading>
           <div ng-controller="AssetsController" ng-include src="'assets.html'"></div>
         </tab>
       </tabset>
