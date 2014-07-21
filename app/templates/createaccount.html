@@ -14,26 +14,24 @@
 				</p>
 			</div>
 			<div class="col-sm-10">
-	<form name="createaccount" class="form-horizontal" role="form" ng-submit="createaccount.$valid && createAccount()" ng-class="{ 'has-error' : createaccount.wp.$invalid && !createaccount.wp.$pristine }">
+	<form name="createaccount" class="form-horizontal" role="form" ng-submit="createaccount.$valid && createAccount()" novalidate>
 		<div class="form-group m-top">
-			
-			
-				<div class="form-group row">
+				<div class="form-group row" ng-class="{ 'has-error' : (createaccount.name.$invalid || f.error_message) && !createaccount.name.$pristine }">
 					<label for="name" class="col-sm-1 control-label" translate>name</label>
-					<div class="col-sm-6">
-			    		<input-name autofocus ng-model="f.name"/>
-			  		</div>
+            <div class="col-sm-6">
+              <input-name autofocus ng-model="f.name"/>
+            </div>
 			  	</div>
-			  	<div class="form-group row">
+			  	<div class="form-group row" ng-class="{ 'has-error' : createaccount.email.$invalid && !createaccount.name.$pristine }">
 			  		<label for="email" class="col-sm-1 control-label" translate>email</label>
 					<div class="col-sm-6">
-			    		<input ng-model="email" type="text" class="form-control" placeholder="Optional Email"/>
+			    		<input id="email" ng-model="email" name="email" type="email" class="form-control" placeholder="Optional Email"/>
+              <div ng-show="createaccount.email.$invalid && !createaccount.email.$pristine" class="text-danger small">Email should be valid</div>
 			  		</div>
 			  	</div>
 				<div class="form-group row">
 			  		<div class="col-sm-offset-1 col-sm-2" >
-			    		<button ng-if="f.name.length > 0" class="btn btn-success" type="submit" translate>create</button>
-			    		<button ng-if="!f.name.length" tooltip-placement="bottom" tooltip='Cannot create account without a name' class="btn btn-default" type="button" translate>create</button>
+			    		<button ng-disabled="!createaccount.$valid" class="btn btn-primary" type="submit" translate>create</button>
 			  		</div>
 			  		<div class="col-sm-4">
 					</div>
