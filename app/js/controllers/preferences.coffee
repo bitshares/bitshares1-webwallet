@@ -8,9 +8,12 @@ angular.module("app").controller "PreferencesController", ($scope, $location, Wa
         $scope.model.timeout = Wallet.timeout
 
     $scope.updatePreferences = ->
+        if $scope.model.timeout < 15
+            $scope.model.timeout = 15
+        if $scope.model.timeout > 99999999
+            $scope.model.timeout = 99999999
         Wallet.timeout = $scope.model.timeout
         $idle._options().idleDuration=Wallet.timeout
         console.log($idle._options())
         Wallet.set_setting('timeout', $scope.model.timeout).then (r) ->
-            console.log('t sumbitted')
             Growl.notice "", "Preferences Updated"
