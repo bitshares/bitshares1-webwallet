@@ -115,9 +115,10 @@
     <tabset>
       <tab active="$parent.t_active">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
-        <div class="col-sm-12">
-        </div>
         <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
+      </tab>
+      <tab ng-if="account.delegate_info">
+        <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
       </tab>
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
