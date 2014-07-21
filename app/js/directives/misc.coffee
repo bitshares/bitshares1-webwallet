@@ -31,6 +31,7 @@ angular.module("app.directives").directive "inputName", ->
         popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash."
         popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1">
+        <div ng-show="$parent.f.error_message" class="text-danger small">{{$parent.f.error_message}}</div>
     '''
   restrict: "E"
   scope:
