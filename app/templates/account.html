@@ -57,7 +57,8 @@
           <tr>
             <th translate>th.approval</th>
             <th translate>th.reliability</th>
-            <th translate>th.blk_produced</th>
+            <th translate ng-if='account.delegate_info.blocks_produced>0' >th.blk_produced</th>
+            <th translate ng-if='account.delegate_info.blocks_produced==0' >th.blk_missed</th>
             <th translate>th.pay_rate</th>
             <th translate>th.pay_balance</th>
           </tr>
@@ -75,7 +76,8 @@
               <span ng-switch-when='true'>{{ account.delegate_info.blocks_produced/(account.delegate_info.blocks_produced + account.delegate_info.blocks_missed)*100 | number:2 }}%</span>
               <span ng-switch-default translate>unknown</span>
             </td>
-            <td>{{ account.delegate_info.blocks_produced }}</td>
+            <td ng-if='account.delegate_info.blocks_produced>0'>{{ account.delegate_info.blocks_produced }}</td>
+            <td ng-if='account.delegate_info.blocks_produced==0'>{{ account.delegate_info.blocks_missed }}</td>
             <td>{{ account.delegate_info.pay_rate }}%</td>
             <td>
               {{account.delegate_info.pay_balance_asset | formatAsset}}
