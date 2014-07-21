@@ -135,7 +135,7 @@
                 <input ng-model="transfer_info.amount" type="text" class="form-control" placeholder="0.0" id="amount"
                        ui-validate="'$value > 0'" required/>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-1">
                 <div class="btn-group" dropdown is-open="status.isopen">
                   <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
                     {{transfer_info.symbol}} <span class="caret"></span>
@@ -143,6 +143,20 @@
                   <ul class="dropdown-menu" role="menu">
                     <li ng-repeat="(k, v) in $parent.balances">
                       <a ng-click="transfer_info.symbol=k; status.isopen=false">{{k}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="btn-group" dropdown is-open="status2.isopen">
+                  <button type="button" class="btn dropdown-toggle">
+                    {{transfer_info.vote}} <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>
+                      <a ng-click="transfer_info.vote='Random Subset'; status2.isopen=false">Random Subset</a>
+                      <a ng-click="transfer_info.vote='None'; status2.isopen=false">None</a>
+                      <a ng-click="transfer_info.vote='Exact'; status2.isopen=false">Exact</a>
                     </li>
                   </ul>
                 </div>

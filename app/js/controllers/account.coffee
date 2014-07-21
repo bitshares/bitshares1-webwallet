@@ -18,6 +18,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         symbol : "Symbol not set"
         payto : ""
         memo : ""
+        vote : "Random Subset"
 
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
