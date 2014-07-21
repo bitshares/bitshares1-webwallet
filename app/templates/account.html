@@ -19,7 +19,7 @@
       </button>
 			<span ng-switch on="account.delegate_info">
 	  			<button ng-switch-default ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary"
-                  tooltip="Toggle vote up">
+                  tooltip="Toggle approval">
             <i ng-class="(trust_level && trust_level > 0) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
           </button>
 	  			<button ng-switch-when="null" style='color:grey' class="btn btn-sm btn-link" disabled="true">
@@ -66,7 +66,7 @@
           <tr>
             <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
-                      tooltip="Votes for: {{ account.delegate_info.votes_for | formatVotes}}">
+                      tooltip="Approval: {{ account.delegate_info.votes_for | formatVotes}}">
 					<span ng-switch-when='true'>&#60;0.01%</span>
 					<span ng-switch-default>{{ (account.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
 				</span>
@@ -223,7 +223,7 @@
                       {{wallet_info.type}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a ng-click="wallet_info.type = 'Bitcoin'; status.isopen = false">Bitcoin</a></li>
+                      <li><a ng-click="wallet_info.type = 'Bitcoin'; status.isopen = false">Bitcoin/PTS</a></li>
                       <li><a ng-click="wallet_info.type = 'Multibit'; status.isopen = false">Multibit</a></li>
                       <li><a ng-click="wallet_info.type = 'Electrum'; status.isopen = false">Electrum</a></li>
                       <li><a ng-click="wallet_info.type = 'Armory'; status.isopen = false">Armory</a></li>

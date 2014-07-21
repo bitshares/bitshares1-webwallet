@@ -43,7 +43,7 @@
         "delegate_signature": "Delegate Signature"
     },
     "blocks": {
-        "load_more_blocks": "Loading more blocks",
+        "load_more_blocks": "Load more blocks",
         "info": "More detailed info about blocks",
         "trxs_only": "Only show blocks with transactions"    
     },
