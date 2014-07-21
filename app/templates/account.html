@@ -55,11 +55,11 @@
       <table class="table table-striped table-acc-balance" ng-if="account.delegate_info">
         <thead>
           <tr>
-            <th>APPROVAL</th>
-            <th>Reliability</th>
-            <th>Blocks Produced</th>
-            <th>PAY RATE</th>
-            <th>Pay Balance</th>
+            <th translate>th.approval</th>
+            <th translate>th.reliability</th>
+            <th translate>th.blk_produced</th>
+            <th translate>th.pay_rate</th>
+            <th translate>th.pay_balance</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +73,7 @@
             </td>
             <td ng-switch on='account.delegate_info.blocks_produced>0 || account.delegate_info.blocks_missed>0'>
               <span ng-switch-when='true'>{{ account.delegate_info.blocks_produced/(account.delegate_info.blocks_produced + account.delegate_info.blocks_missed)*100 | number:2 }}%</span>
-              <span ng-switch-default>Unknown</span>
+              <span ng-switch-default translate>unknown</span>
             </td>
             <td>{{ account.delegate_info.blocks_produced }}</td>
             <td>{{ account.delegate_info.pay_rate }}%</td>
@@ -199,7 +199,7 @@
               <div class="form-group row">
                 <div class="col-sm-offset-2 col-sm-10">
                   <div class="checkbox">
-                    <label> <input ng-model='model.rescan' type="checkbox"> Rescan blockchain </label>
+                      <label> <input ng-model='model.rescan' type="checkbox"> {{ 'account.rescan_blockchain' | translate }}</label>
                   </div>
                 </div>
               </div>
