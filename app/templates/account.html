@@ -119,6 +119,8 @@
       </tab>
       <tab ng-if="account.delegate_info">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
+        <hr>
+        Blocks produced / missed : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
       </tab>
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
