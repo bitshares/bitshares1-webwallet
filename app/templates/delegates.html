@@ -1,5 +1,5 @@
 <div class="pull-right">
-    <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Un-approve all' class="fa fa-eraser"></i> {{ "un_approve_all" | translate }}</button>
+    <button tooltip='unapprove all' ng-click="unvoteAll()" class="btn btn-success"><i class="fa fa-eraser"></i> {{ "un_approve_all" | translate }}</button>
     </div>
 
 <div class="row">
@@ -59,7 +59,7 @@
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
-                    <i class="green" tooltip="{{(approved_delegates[del.name]) ? 'Click to disapprove' : 'Click to approve'}}"
+                    <i class="green" tooltip="{{(approved_delegates[del.name]) ? 'Click to unapprove' : 'Click to approve'}}"
                        ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
                   </button>
                 </div>
@@ -108,7 +108,7 @@
               <td>
                 <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-xs btn-link ">
-                    <i class="green" tooltip="{{(approved_delegates[del.name]) ? 'Click to disapprove' : 'Click to approve'}}"
+                    <i class="green" tooltip="{{(approved_delegates[del.name]) ? 'Click to unapprove' : 'Click to approve'}}"
                        ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'" tooltip-placement='left'></i>
                   </button>
                 </div>
