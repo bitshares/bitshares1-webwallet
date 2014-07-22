@@ -3,9 +3,15 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.active_delegates = Blockchain.active_delegates
     $scope.inactive_delegates = Blockchain.inactive_delegates
     $scope.approved_delegates = Wallet.approved_delegates
+    $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
 
     Wallet.refresh_accounts()
-    Blockchain.refresh_delegates()
+    Blockchain.refresh_delegates().then ->
+        $scope.active_delegates = Blockchain.active_delegates
+        $scope.inactive_delegates = Blockchain.inactive_delegates
+        $scope.approved_delegates = Wallet.approved_delegates
+        $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
+        
 
 
     Blockchain.get_asset(0).then (asset_type) =>
