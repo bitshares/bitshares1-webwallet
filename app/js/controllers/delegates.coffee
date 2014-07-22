@@ -12,11 +12,10 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
         $scope.current_xts_supply = asset_type.current_share_supply
 
     $scope.toggleVoteUp = (name) ->
-        if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
-            Wallet.set_trust(name, 1)
-        else
-            Wallet.set_trust(name, 0)
+        approve = !Wallet.approved_delegates[name]
+        Wallet.approve_delegate(name, approve).then ->
+            $scope.trust_level = approve
 
     $scope.unvoteAll = ->
         angular.forEach Wallet.approved_delegates, (value, key) ->
-            Wallet.set_trust(key, 0)
+            Wallet.approve_delegate(key, false)

@@ -136,7 +136,7 @@ class Wallet
                     acct = @populate_account(result)
                     return acct
 
-    set_trust: (name, approve) ->
+    approve_delegate: (name, approve) ->
         @approved_delegates[name] = approve
         @wallet_api.approve_delegate(name, approve).then () =>
             @refresh_account(name)

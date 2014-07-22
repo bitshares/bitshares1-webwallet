@@ -11,7 +11,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.model = {}
     $scope.model.rescan = true
 
-    $scope.trust_level = Wallet.approved_delegates[name]
+    $scope.trust_level = false
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
     $scope.transfer_info =
         amount : 0
@@ -38,7 +38,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
         
-    Wallet.refresh_account(name)
+    Wallet.refresh_account(name).then ->
+        $scope.trust_level = Wallet.approved_delegates[name]
 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
@@ -152,16 +153,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                     
 
     $scope.toggleVoteUp = ->
-        if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
-            console.log "setting trust..."
-            Wallet.set_trust(name, true).then (approved) =>
-                console.log "TODO if setting trust failed then alert user"
-                #if trust == false then do stuff
-                $scope.trust_level = true
-        else
-            # TODO see above
-            Wallet.set_trust(name, false).then (approved) =>
-                $scope.trust_level = false
+        approve = !Wallet.approved_delegates[name]
+        Wallet.approve_delegate(name, approve).then ->
+            $scope.trust_level = approve
 
     $scope.toggleFavorite = ->
         address = $scope.account.owner_key

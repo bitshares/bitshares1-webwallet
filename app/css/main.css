@@ -204,6 +204,10 @@ tab-heading {
 	background-size: cover;
 }
 
+.head-bg-delegate .primary {
+	color: #fff;
+}
+
 .header {
 	border-bottom: 1px solid #d5d8d9;
 }
