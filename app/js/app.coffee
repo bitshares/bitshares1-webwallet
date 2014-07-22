@@ -51,7 +51,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         suffix: '.json'
     lang = window.navigator.language
     if lang == "zh-CN"
-        lang = "en"
+        lang = "zh-CN"
     else
         lang = "en"
     
