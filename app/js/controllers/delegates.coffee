@@ -1,9 +1,16 @@
-angular.module("app").controller "DelegatesController", ($scope, $location, $state, Growl, Blockchain, Wallet, RpcService) ->
+angular.module("app").controller "DelegatesController", ($scope, $location, $state, Growl, Blockchain, Wallet, RpcService, Info) ->
 
     $scope.active_delegates = Blockchain.active_delegates
     $scope.inactive_delegates = Blockchain.inactive_delegates
     $scope.approved_delegates = Wallet.approved_delegates
     $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
+    $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+
+    $scope.$watch ()->
+        Info.info
+    , ()->
+        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+    ,true
 
     Wallet.refresh_accounts()
     Blockchain.refresh_delegates().then ->

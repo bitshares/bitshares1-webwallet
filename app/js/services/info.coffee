@@ -28,6 +28,7 @@ class Info
                     @info.blockchain_head_block_age = data.blockchain_head_block_age
                     @info.income_per_block = data.blockchain_delegate_pay_rate
                     @info.share_supply = data.blockchain_share_supply
+                    @info.blockchain_delegate_pay_rate = data.blockchain_delegate_pay_rate
                 else
                     @info.wallet_unlocked = data.wallet_unlocked
 
