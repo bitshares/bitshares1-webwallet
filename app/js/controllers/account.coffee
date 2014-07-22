@@ -10,7 +10,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.symbol = Info.symbol
     $scope.model = {}
     $scope.model.rescan = true
-    $scope.magic_unicorn = magic_unicorn
+    $scope.magic_unicorn = magic_unicorn?
 
     $scope.trust_level = false
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
