@@ -25,10 +25,10 @@ angular.module("app.directives").directive "myNgEnter", ->
 
 angular.module("app.directives").directive "inputName", ->
   template: '''
-        <input id="name" placeholder="Account Name (Required)"
-        autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()"
+        <input id="name" ng-trim="false" placeholder="Account Name (Required)"
+        autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
-        popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash."
+        popover="Only lowercase alphanumeric characters, dots, and dashes.  Must start with a letter and cannot end with a dash.  Read more in help."
         popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1">
         <div ng-show="$parent.f.error_message" class="text-danger small">{{$parent.f.error_message}}</div>
@@ -43,12 +43,23 @@ angular.module("app.directives").directive "inputName", ->
        
     $scope.ku = ->
         return unless $scope.ngModel
-        valid = /^[a-z]+(?:[a-z0-9\-])*$/.test($scope.ngModel) && $scope.ngModel.length<63
-        if(!valid)
-            $scope.ngModel=oldname
+        subnames=$scope.ngModel.split('.')
+        i = 0
+        last = subnames.length - 1
+        while i < last
+            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[i]) && $scope.ngModel.length<63
+            if(!valid)
+                $scope.ngModel=oldname
+                break
+            ++i
+        if(subnames[last] != '')
+            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[last]) && $scope.ngModel.length<63
+            if(!valid)
+                $scope.ngModel=oldname
 
-    $scope.removeTrailingDashes = ->
+    $scope.removeTrailing = ->
         $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
+        $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
   ###
   link: (scope, elem, attrs, ngModel) ->
       elem.on("click", ->
