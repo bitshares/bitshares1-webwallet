@@ -78,6 +78,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         , (response) ->
             form.key.$invalid = true
 
+    $scope.select_file = ->
+        $scope.wallet_info.file = magic_unicorn.prompt_user_to_open_file()
+
     $scope.import_wallet = ->
         form = @import_wallet_form
         form.path.$invalid = false
