@@ -32,7 +32,7 @@
     "tip": {
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
-        "pay_with_info": "Registering costs XTS, Pay with",
+        "pay_with_info": "Registering costs BTSX, Pay with",
         "reg_as_delegate": "Registered as delegate",
         "reg_delegate_tip": "Registering as delegate costs a lot of XTS"
     },
