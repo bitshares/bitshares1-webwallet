@@ -18,7 +18,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         symbol : "Symbol not set"
         payto : ""
         memo : ""
-        vote : "Random Subset"
+        vote : 'vote_random'
+
+    $scope.vote_options =
+        vote_none: "None"
+        vote_all: "All"
+        vote_random: "Random subset"
 
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
@@ -98,7 +103,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 form.pass.$invalid = true
 
     yesSend = ->
-        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
+        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
             $scope.transfer_info.payto = ""
             $scope.transfer_info.amount = ""
             $scope.transfer_info.memo = ""

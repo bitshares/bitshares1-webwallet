@@ -149,14 +149,12 @@
               </div>
               <div class="col-md-2">
                 <div class="btn-group" dropdown is-open="status2.isopen">
-                  <button type="button" class="btn dropdown-toggle">
-                    {{transfer_info.vote}} <span class="caret"></span>
+                  <button type="button" class="btn dropdown-toggle" tooltip='Vote for'>
+                    {{vote_options[transfer_info.vote]}} <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a ng-click="transfer_info.vote='Random Subset'; status2.isopen=false">Random Subset</a>
-                      <a ng-click="transfer_info.vote='None'; status2.isopen=false">None</a>
-                      <a ng-click="transfer_info.vote='Exact'; status2.isopen=false">Exact</a>
+                    <li ng-repeat="(k, v) in $parent.vote_options">
+                      <a ng-click="transfer_info.vote=k; status2.isopen=false">{{v}}</a>
                     </li>
                   </ul>
                 </div>
