@@ -11,7 +11,11 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     , ()->
         $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
     ,true
-
+    ###
+    Info.refresh_info().then ->
+        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+        console.log('Info.info.blockchain_delegate_pay_rate',Info.info.blockchain_delegate_pay_rate)
+    ###
     Wallet.refresh_accounts()
     Blockchain.refresh_delegates().then ->
         $scope.active_delegates = Blockchain.active_delegates

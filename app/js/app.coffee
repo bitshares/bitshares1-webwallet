@@ -110,6 +110,12 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "directory.html"
         controller: "DirectoryController"
 
+    delegates =
+        name: 'delegates'
+        url: '/delegates'
+        templateUrl: "delegates.html"
+        controller: "DelegatesController"
+
     editaccount =
         name: 'editaccount'
         url: '/accounts/:name/edit'
@@ -173,4 +179,4 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount)
     .state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory)
-    .state(block).state(transaction).state(blocksbyround).state(markets).state(market)
+    .state(block).state(transaction).state(blocksbyround).state(markets).state(market).state(delegates)
