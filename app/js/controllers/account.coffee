@@ -5,6 +5,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     name = $stateParams.name
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
+    if $scope.account.delegate_info
+        Blockchain.get_asset(0).then (asset_type) ->
+            $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
     $scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.symbol = Info.symbol
