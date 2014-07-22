@@ -93,6 +93,12 @@ a.white:hover {
 	color: #01bbf4;
 }
 
+
+.btn-primary[disabled] {
+	background-color: #eee;
+	color: #888;
+}
+
 .bg-secondary {
 	background: -webkit-linear-gradient(45deg, #102a44 0%, #1d799a 100%) repeat-y #004280;
 	background: -moz-linear-gradient(45deg, #102a44 0%, #1d799a 100%) repeat-y #004280;
@@ -266,6 +272,10 @@ li.stat {
 }
 
 /* Directory  */
+
+.directory-add-contact {
+	margin-top: 12px;
+}
 
 .gridStyle {
 	border: 1px solid rgb(212, 212, 212);

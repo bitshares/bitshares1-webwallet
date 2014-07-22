@@ -130,7 +130,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.newContactModal = ->
       $modal.open
         templateUrl: "newcontact.html"
-        controller: "NewContactAddrController"
+        controller: "NewContactController"
         resolve:
             addr: ->
                 ""
@@ -142,7 +142,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
       if payto and payto.value and $scope.addr_symbol and (payto.value.indexOf $scope.addr_symbol) == 0 and payto.value.length == $scope.addr_symbol.length + 50
           $modal.open
             templateUrl: "newcontact.html"
-            controller: "NewContactAddrController"
+            controller: "NewContactController"
             resolve:
                 addr: ->
                     payto.value

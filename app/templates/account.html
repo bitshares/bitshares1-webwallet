@@ -211,7 +211,7 @@
                 <div class="col-sm-9">
                   <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
                          placeholder="Private Key"/>
-                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger small">Error parsing WIF private key</div>
+                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger">Error parsing WIF private key</div>
                 </div>
               </div>
               <div class="form-group row">
@@ -252,7 +252,7 @@
                 <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_path</label>
                 <div class="col-sm-9">
                   <input ng-model="wallet_info.file" name="path" type="text" class="form-control" id="wallet_file" placeholder="" />
-                  <div ng-show="import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine" class="text-danger small">{{import_wallet_form.path.error_message}}</div>
+                  <div ng-show="import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine" class="text-danger">{{import_wallet_form.path.error_message}}</div>
                 </div>
               </div>
               <div class="form-group" ng-class="{ 'has-error' : import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine }">
@@ -260,7 +260,7 @@
                 <div class="col-sm-9">
                   <input ng-model="wallet_info.password" name="pass" type="password" class="form-control" id="wallet_password"
                          placeholder="Password"/>
-                  <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger small">{{import_wallet_form.pass.error_message}}</div>
+                  <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger">{{import_wallet_form.pass.error_message}}</div>
                 </div>
               </div>
               <div class="form-group">

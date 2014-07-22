@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, $http, Wallet, Growl) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, $http, Wallet) ->
     $scope.f = { error_message: null }
     $scope.account_error_message = "empty"
 
@@ -12,4 +12,4 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
             $location.path("accounts/" + name)
         , (response) ->
             if response.data.error.code == 10
-                $scope.f.error_message = response.data.error.message?.match(/\: ([\w\s]+)\./)[1]
+                $scope.f.error_message = response.data.error.message?.match(/\: ([\w\s\d]+)\./)[1]
