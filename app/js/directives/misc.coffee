@@ -43,17 +43,20 @@ angular.module("app.directives").directive "inputName", ->
        
     $scope.ku = ->
         return unless $scope.ngModel
+        if ($scope.ngModel.length>=63)
+            $scope.ngModel=oldname
+            return
         subnames=$scope.ngModel.split('.')
         i = 0
         last = subnames.length - 1
         while i < last
-            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[i]) && $scope.ngModel.length<63
+            valid = /^[a-z]+(?:[a-z0-9\-])*[a-z0-9]$/.test(subnames[i])
             if(!valid)
                 $scope.ngModel=oldname
                 break
             ++i
         if(subnames[last] != '')
-            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[last]) && $scope.ngModel.length<63
+            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[last])
             if(!valid)
                 $scope.ngModel=oldname
 
