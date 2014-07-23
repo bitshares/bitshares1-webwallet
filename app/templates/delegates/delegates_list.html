@@ -12,7 +12,7 @@
     <td><b>Maximum delegate pay per block:</b></td> <td><b>{{blockchain_delegate_pay_rate}}</b></td>
     </tr>
     <tr>
-    <td><b>Average active delegate pay rate:</b> </td> <td> <b> {{avg_act_del_pay_rate}}</b> % </td>
+    <td><b>Average active delegate pay rate:</b> </td> <td> <b> {{avg_act_del_pay_rate | number:2}}</b> % </td>
     </tr>
     </table>
     </div>
@@ -32,6 +32,7 @@
       <table style='width:100%' class="table table-striped table-hover">
         <thead>
           <tr style="text-transform: uppercase;">
+
             <th translate>th.name</th>
             <th translate>th.approval</th>
             <th translate>th.reliability</th>
