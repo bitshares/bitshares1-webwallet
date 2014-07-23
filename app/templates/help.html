@@ -8,12 +8,25 @@
 			<h3 class="header-title">Help</h3>
 		</div>
 	</div>
-</div>
-	<table class="table table-striped table-hover">
+	<div class='col-sm-12'>
+		<h3>Valid names</h3>
+		Only lowercase alphanumeric characters, dots, and dashes are allowed.  Names must start with a letter and cannot end with a dash.
+		The characters, which are delimited by dots, have to form a valid name.
+		Dots cannot be consecutive or be at start or end of the name.
+		<hr>
+		<h3>Network Issues</h3>
+		<h4>Caution</h4>
+		<b>Caution</b> is displayed when delegate participation rate drops below 80%.
+		<h4>Severe network problems</h4>
+		<b>Severe network problems</b> is displayed when delegate participation rate drops below 60%.  Low delegate participation makes blockchain forks likely.
+		<hr>
+		<h3>About</h3>
+		<table class="table table-striped table-hover">
         <tbody>
 			<tr ng-repeat="(key, value) in about">
 			  <td> {{key}} </td> <td> {{ value }} </td>
 			</tr>
         </tbody>
     </table>
+	</div>
 </div>

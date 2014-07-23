@@ -1,11 +1,7 @@
-<!--<ol class="breadcrumb">-->
- <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
- <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
-<!--</ol>-->
 <div class="row">
 	<div class="col-sm-12">
 		<div class="header">	
-			<h3 class="header-title">Console</h3>
+			<h3 class="header-title" translate>index.console</h3>
 		</div>
 	</div>
 </div>
@@ -13,11 +9,12 @@
 <div class="main-content">
 <form ng-submit='submit()'>
 <div>
-	<input id='cmd' ng-model="command" typeahead="state for state in states | filter:$viewValue | limitTo:16" autofocus placeholder="Type a command and hit Enter" ng-trim="false" class="form-control" id="spending_password">
+	<input id='cmd' ng-model="console_state.command" typeahead="state for state in console_state.states | filter:$viewValue | limitTo:16" autofocus placeholder="Type a command and hit Enter" ng-trim="false" class="form-control" id="spending_password">
 </div>
 </form>
 <hr>
-<div ng-repeat="output in outputs track by $index">
+
+<div ng-repeat="output in console_state.outputs track by $index">
 	<pre>{{output}}</pre>
 </div>
 <br><br>

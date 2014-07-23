@@ -1,5 +1,8 @@
 <div class="col-sm-12">
   <div class="header">
+    <button type="submit" ng-click='newContactModal()' class="btn btn-primary pull-right directory-add-contact">
+      <i class="fa fa-plus fa-fw"></i>Add Contact
+    </button>
     <h3 class="header-title">Directory</h3>
   </div>
 </div>
@@ -9,15 +12,15 @@
     <div class="main-content">
       <tabset>
         <tab>
-          <tab-heading><i class="fa fa-star fa-lg"></i> Favorites</tab-heading>
+        <tab-heading><i class="fa fa-star fa-lg"></i> {{ 'directory.favorites' | translate }}</tab-heading>
           <div ng-controller="FavoriteController" ng-include src="'favorite.html'"></div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-users fa-lg"></i> Unregistered</tab-heading>
+        <tab-heading><i class="fa fa-users fa-lg"></i> {{ 'directory.unregistered' | translate }}</tab-heading>
           <div ng-controller="ContactsController" ng-include src="'contacts.html'"></div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-globe fa-lg"></i> Registered</tab-heading>
+        <tab-heading><i class="fa fa-globe fa-lg"></i> {{ 'directory.registered'| translate }}</tab-heading>
           <div class="main-content">
             <div class="row">
               <div class="col-sm-3">
@@ -42,16 +45,17 @@
                       <tr>
 						<th></th>
                         <th></th>
-                        <th>NAME</th>
-                        <th>REGISTRATION DATE</th>
+                        <th translate>th.name</th>
+                        <th translate>th.registration_date</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr ng-repeat="r in reg | filter:q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
-                      	<td style='width:1%;white-space:nowrap'><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm" /></td>
+                      	<td style='width:1%;white-space:nowrap'>
+                          <gravatar-image gravatar-email="{{r.name}}" gravatar-default="wavatar"></gravatar-image>
+                        </td>
                         <td style='width:1%;white-space:nowrap'>
-                          <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
-</button>
+                          <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i></button>
                         </td>
                         <td><a ng-class="{'delegate-active-link' : delegate_active_hash_map[r.name], 'delegate-inactive-link' : delegate_inactive_hash_map[r.name], 'my-account-link': accounts[r.name].is_my_account}" href="#/accounts/{{r.name}}">{{ r.name }}</a></td>
                         <td>{{ formatRegDate(r.registration_date) }}</td>
@@ -64,11 +68,7 @@
           </div>
         </tab>
         <tab>
-          <tab-heading><i class="fa fa-flag fa-lg"></i> Delegates</tab-heading>
-          <div ng-controller="DelegatesController" ng-include src="'delegates.html'"></div>
-        </tab>
-        <tab>
-          <tab-heading><i class="fa fa-renren fa-lg"></i> Assets</tab-heading>
+        <tab-heading><i class="fa fa-renren fa-lg"></i> {{ "assets" | translate }}</tab-heading>
           <div ng-controller="AssetsController" ng-include src="'assets.html'"></div>
         </tab>
       </tabset>

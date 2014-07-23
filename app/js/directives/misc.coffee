@@ -1,4 +1,4 @@
-angular.module("app.directives").directive "focusMe", ($timeout) ->
+angular.module("app.directives", []).directive "focusMe", ($timeout) ->
   scope:
     trigger: "@focusMe"
   link: (scope, element) ->
@@ -24,7 +24,16 @@ angular.module("app.directives").directive "myNgEnter", ->
 
 
 angular.module("app.directives").directive "inputName", ->
-  template: '<input placeholder="Account Name (Required)" autofocus ng-model="$parent.ngModel" ng-blur="removeTrailingDashes()" my-ng-enter="removeTrailingDashes()" popover="Name can only contain lowercase alphanumeric characters and dashes, must start with a letter, and cannot end with a dash."  popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()" ng-change="ku()" uncapitalize type="text" class="form-control">'
+  template: '''
+        <input id="name" ng-trim="false" placeholder="Account Name (Required)"
+        autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
+        my-ng-enter="removeTrailingDashes()"
+        popover="Only lowercase alphanumeric characters, dots, and dashes.  Must start with a letter and cannot end with a dash.  Read more in help."
+        popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()"
+        ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1">
+        <span class="help-block text-muted" ng-show="!$parent.f.error_message">Note: Account names cannot be transferred.</span>
+        <span class="help-block text-danger" ng-show="$parent.f.error_message">{{$parent.f.error_message}}</span>
+    '''
   restrict: "E"
   scope:
     ngModel: "="
@@ -34,12 +43,27 @@ angular.module("app.directives").directive "inputName", ->
         oldname=$scope.ngModel
        
     $scope.ku = ->
-        valid=/^[a-z]+(?:[a-z0-9\-])*$/.test($scope.ngModel) && $scope.ngModel.length<63 || $scope.ngModel is ""
-        if(!valid)
+        return unless $scope.ngModel
+        if ($scope.ngModel.length>=63)
             $scope.ngModel=oldname
+            return
+        subnames=$scope.ngModel.split('.')
+        i = 0
+        last = subnames.length - 1
+        while i < last
+            valid = /^[a-z]+(?:[a-z0-9\-])*[a-z0-9]$/.test(subnames[i])
+            if(!valid)
+                $scope.ngModel=oldname
+                break
+            ++i
+        if(subnames[last] != '')
+            valid = /^[a-z]+(?:[a-z0-9\-])*$/.test(subnames[last])
+            if(!valid)
+                $scope.ngModel=oldname
 
-    $scope.removeTrailingDashes = ->
-        $scope.ngModel = $scope.ngModel.replace(/\-+$/, "")
+    $scope.removeTrailing = ->
+        $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
+        $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
   ###
   link: (scope, elem, attrs, ngModel) ->
       elem.on("click", ->
@@ -92,7 +116,7 @@ angular.module("app.directives").directive "loadingIndicator", ->
   <div ng-show="loading" class='loading-overlay'>
     <div class='loading-panel'>
       <div class="spinner-container"></div>
-      <div><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
+      <div class="transactions-progress"><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
     </div>
   </div>
   """
@@ -108,4 +132,10 @@ angular.module("app.directives").directive "watchChange", ->
     element.on 'input', ->
         scope.$apply ->
             scope.onchange()
+
+# TODO: finish this directive and use it instead of gravatarImage directive
+angular.module("app.directives").directive 'gravatar', ->
+    restrict: 'E'
+    replace: true
+    template: "<img src=''/>"
 

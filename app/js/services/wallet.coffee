@@ -136,7 +136,7 @@ class Wallet
                     acct = @populate_account(result)
                     return acct
 
-    set_trust: (name, approve) ->
+    approve_delegate: (name, approve) ->
         @approved_delegates[name] = approve
         @wallet_api.approve_delegate(name, approve).then () =>
             @refresh_account(name)
@@ -250,7 +250,7 @@ class Wallet
           response.result
 
     wallet_account_transaction_history: (account_name) ->
-        @wallet_api.account_transaction_history(account_name, 0, -1)
+        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
     wallet_unlock: (password)->
         @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>

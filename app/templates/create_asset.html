@@ -1,8 +1,8 @@
 <div class="row p-inner">
 <div class="col-sm-12">
 <div class="header">
-<h3 class="header-title">Create A New Asset</h3>
-<p class="header-info">Fees for creating a new asset: {{asset_reg_fee}}</p>
+<h3 class="header-title" translate>asset.create_new_asset</h3>
+<p class="header-info"> {{ 'info_create_asset_fee' | translate }}: {{asset_reg_fee}}</p>
 
     </div>
 </div>
@@ -12,24 +12,24 @@
 <div class="container m-top">
     <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" >
         <div class="form-group row">
-            <label for="symbol" class="col-sm-2 control-label">Symbol</label>
+            <label for="symbol" class="col-sm-2 control-label" translate>symbol</label>
             <div class="col-md-3">
                 <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="Symbol" id="symbol" required/>
             </div>
             <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
-                <span>The Symbol shoud be 3-5 uppercase characters</span>
+                <span translate>tip.validate_symbol</span>
             </div>
         </div>
 
         <div class="form-group">
-          <label for="asset_name" class="col-sm-2 control-label">Asset Name</label>
+          <label for="asset_name" class="col-sm-2 control-label" translate>asset_name</label>
           <div class="col-md-5">
             <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="Asset Name" id="asset_name" required></input>
           </div>
         </div>
 
        <div class="form-group">
-        <label for="description" class="col-sm-2 control-label">Description</label>
+        <label for="description" class="col-sm-2 control-label" translate>description</label>
 
         <div class="col-md-5">
          <input ng-model="create_asset.description" type="text" class="form-control" placeholder="Description" id="descripion"/>
@@ -37,32 +37,30 @@
        </div>
 
        <div class="form-group">
-        <label for="memo" class="col-sm-2 control-label">Memo Data</label>
+        <label for="memo" class="col-sm-2 control-label" translate>memo_data</label>
         <div class="col-md-5">
          <input ng-model="create_asset.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo" id="memo"/>
        </div>
         </div>
 
         <div class="form-group">
-        <label for="max_share_supply" class="col-sm-2 control-label">Maximum Share Supply</label>
+        <label for="max_share_supply" class="col-sm-2 control-label" translate>maximum_share_supply</label>
         <div class="col-md-6">
             <input ng-model="create_asset.max_share_supply" type="text" class="form-control" ui-validate="'$value > 0'" placeholder="" id="max_share_supply"/>
         </div>
         </div>
 
         <div class="form-group">
-            <label for="precision" class="col-sm-2 control-label">Precision</label>
+            <label for="precision" class="col-sm-2 control-label" translate>precision</label>
             <div class="col-md-7">
                 <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="{valid_precision: '$value > 0 && ($value == 1 || $value % 10 == 0)'}" id="precision"/>
            </div>
-            <div ng-show="!create_asset_form.precision.$pristine && create_asset_form.precision.$error.valid_precision" class="text-danger">
-                Precision must be greater than 0 and must be a power of 10 (or 1).
-            </div>
+            <div ng-show="!create_asset_form.precision.$pristine && create_asset_form.precision.$error.valid_precision" class="text-danger" translate>tip.validate_precision</div>
         </div>
 
         <div class="form-group row">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> Create</button>
+                <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{ "create" | translate }}</button>
             </div>
         </div>
     </form>

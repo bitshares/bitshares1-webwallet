@@ -1,9 +1,41 @@
 {
+    "ok": "确认",
+    "cancel": "取消",
     "edit": "编辑",
     "save": "保存",
     "email": "Email",
+    "name": "账户名",
     "website": "网站",
     "unlock": "解锁",
+    "unknown": "未知",
+    "assets": "资产",
+    "summary": "概况",
+    "create": "创建",
+    "transactions": "交易",
+    "privacy_statement": "隐私申明",
+    "block": "块",
+    "info_filter_by_op": "根据操作过滤交易",
+    "info_no_trx": "这个块中没有交易",
+    "info_trx_only": "只显示那些有交易的块",
+    "missing_block": "缺失块",
+    "info_create_asset_fee": "创建资产手续费",
+    "info_privacy": "你的隐私对我们极为重要",
+    "symbol": "符号",
+    "delegates": "代理",
+    "asset_name": "资产名称",
+    "description": "描述",
+    "memo_data": "消息数据",
+    "maximum_share_supply": "最大股份供应",
+    "precision": "精度",
+    "create": "创建",
+    "un_approve_all": "取消所有投票",
+    "tip": {
+        "validate_symbol": "符号必须是3-5个大写字母",
+        "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
+        "pay_with_info": "注册需要花费交易费, 使用",
+        "reg_as_delegate": "注册成为代理",
+        "reg_delegate_tip": "请注意注册成为代理需要花费不少交易费"
+    },
     "th": {
         "date": "日期",
         "from": "发自",
@@ -22,12 +54,24 @@
         "maximum_share_supply": "最大供给数量",
         "collected_fees": "已产生的交易费",
         "registration_date": "注册日期",
+        "registered_time": "注册时间",
         "height": "高度",
         "time": "时间",
         "trx_count": "交易数量",
         "delegate": "代理",
         "latency": "延迟",
-        "size": "大小"
+        "size": "大小",
+        "approval": "同意",
+        "reliability": "稳定性",
+        "blk_produced": "产出块数",
+        "pay_rate": "支付百分比",
+        "pay_balance": "支付结余",
+        "trx_id": "交易ID",
+        "withdraw_amount": "取出数量",
+        "deposit_amount": "存入数量",
+        "net_delegate_approval": "网络代理投票",
+        "operation_types": "操作类型",
+        "approve": "投票支持"
     },
     "block": {
         "trx_count": "交易数量",
@@ -63,6 +107,7 @@
         "overview": "概况",
         "my_account": "我的账户",
         "directory": "目录",
+        "market": "市场",
         "block_explorer": "区块浏览",
         "preferences": "选项",
         "console": "控制台",
@@ -75,6 +120,9 @@
         "reg_date": "注册日期",
         "balances": "余额",
         "transactions": "交易",
+        "recent_trxs": "最近交易",
+        "load_more_trxs": "查看更多交易...",
+        "all_trxs": "所有交易历史",
         "transfer": "转账",
         "amount": "数量",
         "to": "发往",
@@ -90,11 +138,25 @@
         "wallet_path": "钱包文件路径",
         "wallet_password": "钱包密码",
         "import_wallet": "导入钱包",
-        "add_field": "添加字段"
+        "add_field": "添加字段",
+        "rescan_blockchain": "重新扫描区块链"
     },
     "accounts": {
         "create_account": "创建账户",
         "accounts": "账户",
         "info": "点击用户名以或许更多账户信息"
+    },
+    "asset": {
+        "create_new_asset": "创建新资产"
+    },
+    "privacy": {
+        "email_warning1": "你的邮件地址只会被用来识别",
+        "email_warning2": "绑定你BitSares X账户的地址，这可以帮助其他人来识别你的交易并且发送交易给正确的人.",
+        "email_warning3": "你的邮件地址不会被其他任何人知道，其他人也无法给你发送垃圾邮件."
+    },
+    "directory": {
+        "favorites": "收藏",
+        "unregistered": "非注册",
+        "registered": "注册"
     }
 }

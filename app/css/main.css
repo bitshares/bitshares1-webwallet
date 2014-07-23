@@ -93,6 +93,12 @@ a.white:hover {
 	color: #01bbf4;
 }
 
+
+.btn-primary[disabled] {
+	background-color: #eee;
+	color: #888;
+}
+
 .bg-secondary {
 	background: -webkit-linear-gradient(45deg, #102a44 0%, #1d799a 100%) repeat-y #004280;
 	background: -moz-linear-gradient(45deg, #102a44 0%, #1d799a 100%) repeat-y #004280;
@@ -198,6 +204,10 @@ tab-heading {
 	background-size: cover;
 }
 
+.head-bg-delegate .primary {
+	color: #fff;
+}
+
 .header {
 	border-bottom: 1px solid #d5d8d9;
 }
@@ -266,6 +276,10 @@ li.stat {
 }
 
 /* Directory  */
+
+.directory-add-contact {
+	margin-top: 12px;
+}
 
 .gridStyle {
 	border: 1px solid rgb(212, 212, 212);
@@ -350,16 +364,19 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
-input.ng-dirty.ng-valid {
-	border: 1px solid #77B7EA;
-}
+/*input.ng-dirty.ng-valid {*/
+	/*border: 1px solid #77B7EA;*/
+/*}*/
 
 .loading-overlay {
-	height: 80px;
+	height: 100px;
 	width: 100%;
 	position: fixed;
 	bottom: 50px;
 	z-index: 1 !important;
+}
+
+.loading-overlay .transactions-progress  {
 }
 
 .loading-panel {

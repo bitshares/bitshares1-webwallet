@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateWalletController", ($scope, $rootScope, $modal, $log, $location, RpcService, Wallet) ->
+angular.module("app").controller "CreateWalletController", ($scope, $rootScope, $modal, $log, $location, RpcService, Wallet, Growl) ->
     $scope.wallet_name = "default"
     $scope.spending_password = ""
     $scope.descriptionCollapsed = true
@@ -13,4 +13,4 @@ angular.module("app").controller "CreateWalletController", ($scope, $rootScope, 
                 $location.path("/create/account")
             $rootScope.showLoadingIndicator promise
         else
-            alert "Please properly fill up the form below"
+            Growl.error "", "Unable to create a wallet. Please fill up the form below."

@@ -1,19 +1,22 @@
- <div class="modal-header">
+<div class="modal-header">
   <h3 class="modal-title">New Contact</h3>
- </div>
- <form name="newcontact" role="form" ng-submit="ok()" ng-submit="newcontact.$valid && create()">
- <div class="modal-body">
-  <div class="form-group">
-   <label for="contact_name">Name</label>
-   <input ng-model="$parent.name" focus-me class="form-control" id="contact_name" placeholder="Name" ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>
-   <br>
-   <label for="contact_address">Account Key</label>
-   <!--TODO: validation with XTS and length-->
-   <input ng-model="$parent.address" class="form-control" id="contact_address" placeholder="Address" required>
+</div>
+<form name="newcontact" role="form" ng-submit="ok()" ng-submit="newcontact.$valid && create()">
+  <div class="modal-body">
+    <div class="form-group" ng-class="{ 'has-error' : newcontact.name.$invalid && !newcontact.name.$pristine }">
+        <label for="contact_name">Name</label>
+        <input ng-model="$parent.name" name="name" focus-me class="form-control"
+              id="contact_name" placeholder="Name" ng-maxlength="63"
+              ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
+      <label for="address">Public Key</label>
+      <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Address" required>
+      <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
+    </div>
   </div>
- </div>
- </form>
- <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="ok()">OK</button>
+</form>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; OK &nbsp;</button>
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
- </div>
+</div>

@@ -1,11 +1,12 @@
 <div class="pull-left logo">
     <img src="/img/xt-icon.png" />
+    <span><b>Test Network</b></span>
 </div>
 <p class="pull-left">
     <span>{{message}}</span>
 </p>
 <p class="pull-right m-bottom">
-	<span><b>{{alert_level_msg}}</b></span>
+	<span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
     <span> {{blockchain_last_sync_info}} </span>
 	<span class="blockchain-status " ng-switch on="blockchain_status">
 		<i class="fa fa-check" ng-switch-when="synced"
