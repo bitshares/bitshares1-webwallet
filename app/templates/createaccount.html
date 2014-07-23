@@ -7,7 +7,8 @@
 <div class="row">
 <div class="col-md-12 p-inner m-top">
 	<div class="col-sm-2 m-top">
-				<gravatar-image data-gravatar-email="email" data-gravatar-size="512" data-gravatar-rating="g" data-gravatar-default="mm" data-gravatar-secure="true" data-gravatar-css-class="img-responsive"></gravatar-image>
+				<gravatar-image gravatar-email="'email'" gravatar-size="512" gravatar-rating="g" gravatar-default="mm"
+                        gravatar-secure="true" gravatar-css-class="img-responsive"></gravatar-image>
 				<br>
 				<p style='display:none' class="text-center lead">
 				{{gravatarDisplayName}}
@@ -16,24 +17,23 @@
 			<div class="col-sm-10">
 	<form name="createaccount" class="form-horizontal" role="form" ng-submit="createaccount.$valid && createAccount()" novalidate>
 		<div class="form-group m-top">
-            Note: Account names cannot be transferred.
 				<div class="form-group row" ng-class="{ 'has-error' : (createaccount.name.$invalid || f.error_message) && !createaccount.name.$pristine }">
 					<label for="name" class="col-sm-1 control-label" translate>name</label>
             <div class="col-sm-6">
               <input-name autofocus ng-model="f.name"/>
             </div>
 			  	</div>
-			  	<div class="form-group row" ng-class="{ 'has-error' : createaccount.email.$invalid && !createaccount.name.$pristine }">
-			  		<label for="email" class="col-sm-1 control-label" translate>email</label>
-					<div class="col-sm-6">
-			    		<input id="email" ng-model="email" name="email" type="email" class="form-control" placeholder="Optional Email"/>
-              <div ng-show="createaccount.email.$invalid && !createaccount.email.$pristine" class="text-danger">Email should be valid</div>
-			  		</div>
-			  	</div>
+			  	<!--<div class="form-group row" ng-class="{ 'has-error' : createaccount.email.$invalid && !createaccount.name.$pristine }">-->
+			  		<!--<label for="email" class="col-sm-1 control-label" translate>email</label>-->
+					<!--<div class="col-sm-6">-->
+			    		<!--<input id="email" ng-model="email" name="email" type="email" class="form-control" placeholder="Optional Email"/>-->
+              <!--<div ng-show="createaccount.email.$invalid && !createaccount.email.$pristine" class="text-danger">Email should be valid</div>-->
+			  		<!--</div>-->
+			  	<!--</div>-->
 			  	<div class="form-group row">
 			  		<label for="website" class="col-sm-1 control-label" translate>website</label>
 					<div class="col-sm-6">
-			    		<input ng-model="website" name="website" class="form-control" placeholder="Website"/>
+			    		<input ng-model="website" name="website" class="form-control" placeholder="Optional Website"/>
 			  		</div>
 			  	</div>
 				<div class="form-group row">

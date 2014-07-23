@@ -3,6 +3,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
+    $scope.account_name = name
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
     $scope.balances = Wallet.balances[name]
@@ -34,6 +35,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
+        $scope.account_name = acct.name
         Wallet.current_account = acct
         if $scope.account.delegate_info
             Blockchain.get_asset(0).then (asset_type) ->
