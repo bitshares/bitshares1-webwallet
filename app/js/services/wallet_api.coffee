@@ -137,19 +137,21 @@ class WalletAPI
   # Lists transaction history for the specified account
   # parameters: 
   #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
+  #   string `asset_symbol` - only include transactions involving the specified asset, or "" to include all
+  #   int32_t `limit` - limit the number of returned transactions; negative for most recent and positive for least recent. 0 does not limit
   #   uint32_t `start_block_num` - the earliest block number to list transactions from; 0 to include all transactions starting from genesis
   #   uint32_t `end_block_num` - the latest block to list transaction from; -1 to include all transactions ending at the head block
-  #   string `asset_symbol` - only include transactions involving the specified asset, or "" to include all
   # return_type: `pretty_transactions`
-  account_transaction_history: (account_name, start_block_num, end_block_num, asset_symbol) ->
-    @rpc.request('wallet_account_transaction_history', [account_name, start_block_num, end_block_num, asset_symbol]).then (response) ->
+  account_transaction_history: (account_name, asset_symbol, limit, start_block_num, end_block_num) ->
+    @rpc.request('wallet_account_transaction_history', [account_name, asset_symbol, limit, start_block_num, end_block_num]).then (response) ->
       response.result
 
-  # Clear "stuck" pending transactions from the wallet.
+  # Removes the specified transaction record from your transaction history. USE WITH CAUTION! Rescan cannot reconstruct all transaction details
   # parameters: 
+  #   string `transaction_id` - the id (or id prefix) of the transaction record
   # return_type: `void`
-  clear_pending_transactions:  ->
-    @rpc.request('wallet_clear_pending_transactions').then (response) ->
+  remove_transaction: (transaction_id) ->
+    @rpc.request('wallet_remove_transaction', [transaction_id]).then (response) ->
       response.result
 
   # Return any errors for your currently pending transactions
@@ -227,11 +229,11 @@ class WalletAPI
     @rpc.request('wallet_add_contact_account', [account_name, account_key]).then (response) ->
       response.result
 
-  # Sends given amount to the given address, assumes shares in DAC.  This transfer will occur using multiple transactions as necessary to maximize your privacy, but will be more costly.
+  # Sends given amount to the given address.  This transfer will occur using multiple transactions as necessary to maximize your privacy, but will be more costly.
   # parameters: 
   #   real_amount `amount_to_transfer` - the amount of shares to transfer, will be multiplied by the precision associated by asset_symbol
   #   asset_symbol `asset_symbol` - the asset to transfer
-  #   sending_account_name `from_account_name` - the source account(s) to draw the shares from
+  #   sending_account_name `from_account_name` - the source account to draw the shares from
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
   # return_type: `signed_transaction_array`
@@ -239,16 +241,31 @@ class WalletAPI
     @rpc.request('wallet_multipart_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message]).then (response) ->
       response.result
 
-  # Sends given amount to the given address, assumes shares in DAC.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
+  # Sends given amount to the given account, with the from field set to the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
   # parameters: 
   #   real_amount `amount_to_transfer` - the amount of shares to transfer
   #   asset_symbol `asset_symbol` - the asset to transfer
-  #   sending_account_name `from_account_name` - the source account(s) to draw the shares from
+  #   sending_account_name `from_account_name` - the source account to draw the shares from
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random] 
   # return_type: `signed_transaction`
-  transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message) ->
-    @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message]).then (response) ->
+  transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method) ->
+    @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
+      response.result
+
+  # Sends given amount to the given name, with the from field set to a different account than the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
+  # parameters: 
+  #   real_amount `amount_to_transfer` - the amount of shares to transfer
+  #   asset_symbol `asset_symbol` - the asset to transfer
+  #   sending_account_name `paying_account_name` - the source account to draw the shares from
+  #   sending_account_name `from_account_name` - the account to show the recipient as being the sender (requires account's private key to be in wallet). Leave empty to send anonymously.
+  #   receive_account_name `to_account_name` - the account to transfer the shares to
+  #   string `memo_message` - a memo to store with the transaction
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random] 
+  # return_type: `signed_transaction`
+  transfer_from: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method) ->
+    @rpc.request('wallet_transfer_from', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
       response.result
 
   # Scans the blockchain history for operations relevant to this wallet.
@@ -267,6 +284,14 @@ class WalletAPI
   # return_type: `void`
   scan_transaction: (block_num, transaction_id) ->
     @rpc.request('wallet_scan_transaction', [block_num, transaction_id]).then (response) ->
+      response.result
+
+  # Rebroadcasts the specified transaction
+  # parameters: 
+  #   string `transaction_id` - the id (or id prefix) of the transaction
+  # return_type: `void`
+  rebroadcast_transaction: (transaction_id) ->
+    @rpc.request('wallet_rebroadcast_transaction', [transaction_id]).then (response) ->
       response.result
 
   # Updates the data published about a given account
@@ -295,10 +320,9 @@ class WalletAPI
   #   account_name `pay_from_account` - the account from which fees will be paid
   #   json_variant `public_data` - public data about the account
   #   uint8_t `delegate_pay_rate` - delegate pay rate: 0 to 100 if updating or upgrading to a delegate, and 255 for a normal account
-  #   string `new_active_key` - update account's active key, or leave blank to leave current key in place
   # return_type: `signed_transaction`
-  account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate, new_active_key) ->
-    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate, new_active_key]).then (response) ->
+  account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate) ->
+    @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate]).then (response) ->
       response.result
 
   # Lists all accounts associated with this wallet

@@ -250,7 +250,7 @@ class Wallet
           response.result
 
     wallet_account_transaction_history: (account_name) ->
-        @wallet_api.account_transaction_history(account_name, 0, -1)
+        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
     wallet_unlock: (password)->
         @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>
