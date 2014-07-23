@@ -1,4 +1,4 @@
-angular.module("app.directives").directive "focusMe", ($timeout) ->
+angular.module("app.directives", []).directive "focusMe", ($timeout) ->
   scope:
     trigger: "@focusMe"
   link: (scope, element) ->
@@ -31,7 +31,8 @@ angular.module("app.directives").directive "inputName", ->
         popover="Only lowercase alphanumeric characters, dots, and dashes.  Must start with a letter and cannot end with a dash.  Read more in help."
         popover-append-to-body="true" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1">
-        <div ng-show="$parent.f.error_message" class="text-danger">{{$parent.f.error_message}}</div>
+        <span class="help-block text-muted" ng-show="!$parent.f.error_message">Note: Account names cannot be transferred.</span>
+        <span class="help-block text-danger" ng-show="$parent.f.error_message">{{$parent.f.error_message}}</span>
     '''
   restrict: "E"
   scope:
@@ -131,4 +132,10 @@ angular.module("app.directives").directive "watchChange", ->
     element.on 'input', ->
         scope.$apply ->
             scope.onchange()
+
+# TODO: finish this directive and use it instead of gravatarImage directive
+angular.module("app.directives").directive 'gravatar', ->
+    restrict: 'E'
+    replace: true
+    template: "<img src=''/>"
 
