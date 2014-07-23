@@ -116,7 +116,7 @@ angular.module("app.directives").directive "loadingIndicator", ->
   <div ng-show="loading" class='loading-overlay'>
     <div class='loading-panel'>
       <div class="spinner-container"></div>
-      <div><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
+      <div class="transactions-progress"><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
     </div>
   </div>
   """

@@ -369,11 +369,14 @@ input.ng-dirty.ng-invalid {
 /*}*/
 
 .loading-overlay {
-	height: 80px;
+	height: 100px;
 	width: 100%;
 	position: fixed;
 	bottom: 50px;
 	z-index: 1 !important;
+}
+
+.loading-overlay .transactions-progress  {
 }
 
 .loading-panel {
