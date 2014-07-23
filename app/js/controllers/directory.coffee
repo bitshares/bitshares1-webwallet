@@ -27,8 +27,6 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
     Blockchain.list_accounts().then (reg) ->
         $scope.reg = reg
         $scope.p.numberOfPages = Math.ceil($scope.reg.length / $scope.p.pageSize)
-        console.log('Blockchain.active_delegates', Blockchain.active_delegates)
-
 
     $scope.contacts = {}
     $scope.refresh_contacts = ->
