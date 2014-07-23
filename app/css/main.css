@@ -275,6 +275,11 @@ li.stat {
 	font-weight: 100;
 }
 
+.trasfer-to-gravatar {
+	position: relative;
+	left: 50px;
+}
+
 /* Directory  */
 
 .directory-add-contact {

@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
 
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
@@ -12,6 +12,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.model = {}
     $scope.model.rescan = true
     $scope.magic_unicorn = magic_unicorn?
+    $scope.gravatar_account_name = 'email'
 
     $scope.trust_level = false
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
@@ -64,6 +65,11 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         Wallet.transactions
     , () ->
         Wallet.refresh_account(name)
+
+    $scope.$watch ->
+        $scope.transfer_info.payto
+    , ->
+        $scope.gravatar_account_name = $scope.transfer_info.payto
 
     Blockchain.get_config().then (config) ->
         $scope.memo_size_max = config.memo_size_max
@@ -179,10 +185,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
 
     $scope.accountSuggestions = (input) ->
-        Wallet.blockchain_list_accounts(input, 10).then (response) ->
-            result = Object.keys(Wallet.accounts)
-            for n in response
-                if !Wallet.accounts[n.name]
-                    result.push n.name
-            $filter('filter')(result, input)
-
+        deferred = $q.defer()
+        deferred.resolve(Object.keys(Wallet.accounts))
+        return deferred.promise
