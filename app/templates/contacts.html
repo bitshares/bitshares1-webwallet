@@ -24,7 +24,7 @@
           <tbody>
             <tr ng-repeat="c in contacts | filter:q">
               <td style='width:1%;white-space:nowrap'>
-                <gravatar-image gravatar-email="{{c.name}}" gravatar-default="identicon"></gravatar-image>
+                <gravatar-image gravatar-email="{{c.name}}" gravatar-default="wavatar"></gravatar-image>
               </td>
               <td style='width:1%;white-space:nowrap'>
                 <button ng-click="toggleFavorite(c.name)" class="btn btn-link btn-sm">
