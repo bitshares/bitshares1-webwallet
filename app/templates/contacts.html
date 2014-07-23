@@ -24,7 +24,9 @@
           <tbody>
             <tr ng-repeat="c in contacts | filter:q">
               <td style='width:1%;white-space:nowrap'>
-                <gravatar-image gravatar-email="{{c.name}}" gravatar-default="wavatar"></gravatar-image>
+                  <div class="avatar-40">
+                    <img src="https://robohash.org/{{c.name}}?size=40x40" height="40" width="40"/>
+                  </div>
               </td>
               <td style='width:1%;white-space:nowrap'>
                 <button ng-click="toggleFavorite(c.name)" class="btn btn-link btn-sm">

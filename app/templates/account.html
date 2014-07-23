@@ -1,9 +1,9 @@
 <div ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
 
   <div class="col-sm-2">
-    <gravatar-image gravatar-email="{{account_name}}" gravatar-size="512"
-                    gravatar-rating="pg" gravatar-default="wavatar" gravatar-secure="true"
-                    gravatar-css-class="img-responsive"></gravatar-image>
+    <div class="avatar-150">
+      <img src="https://robohash.org/{{account_name}}?size=150x150" height="150" width="150"/>
+    </div>
     <br/>
     <div class="text-center">
       <button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
@@ -123,12 +123,8 @@
         <br/>
         <div class="row">
           <div class="col-md-2">
-               <gravatar-image gravatar-email="gravatar_account_name" gravatar-size="512"
-                    gravatar-rating="pg" gravatar-default="wavatar" gravatar-secure="true"
-                    gravatar-css-class="img-responsive trasfer-to-gravatar" ng-if="gravatar_account_name"></gravatar-image>
-                <gravatar-image gravatar-email="'email'" gravatar-size="512"
-                    gravatar-rating="pg" gravatar-default="mm" gravatar-secure="true"
-                    gravatar-css-class="img-responsive trasfer-to-gravatar" ng-if="!gravatar_account_name"></gravatar-image>
+               <img class="trasfer-to-avatar" src="https://robohash.org/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
+               <img class="trasfer-to-avatar" src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
           </div>
           <div class="col-md-10" id="transfer-form">
             <form name="my_transfer_form" class="form-horizontal" role="form"
