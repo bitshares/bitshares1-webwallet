@@ -6,6 +6,13 @@ class BlockchainAPI
     #@log.info "---- Network API Constructor ----"
 
 
+  # Returns true if the local blockchain is synced with the network; false otherwise
+  # parameters: 
+  # return_type: `bool`
+  is_synced:  ->
+    @rpc.request('blockchain_is_synced').then (response) ->
+      response.result
+
   # Returns hash of block in best-block-chain at index provided
   # parameters: 
   #   uint32_t `block_number` - index of the block, example: 42
