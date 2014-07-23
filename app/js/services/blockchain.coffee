@@ -138,7 +138,8 @@ class Blockchain
     id_delegates: {}
     delegate_active_hash_map: {}
     delegate_inactive_hash_map: {}
-	
+    avg_act_del_pay_rate=0
+
     # TODO: finish this mapping, may be in some config or settings
     type_name_map :
         withdraw_op_type : "Withdraw Operation"
@@ -166,11 +167,14 @@ class Blockchain
 
     refresh_delegates: ->
         # TODO: delegates paginator is needed
+        @avg_act_del_pay_rate=0
         @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_config()}).then (results) =>
             for i in [0 ... results.config.delegate_num]
                 @active_delegates[i] = @populate_delegate(results.dels[i], true)
                 @id_delegates[results.dels[i].id] = results.dels[i]
                 @delegate_active_hash_map[@active_delegates[i].name]=true
+                @avg_act_del_pay_rate+=@active_delegates[i].delegate_info.pay_rate
+            @avg_act_del_pay_rate=@avg_act_del_pay_rate/results.config.delegate_num
             for i in [results.config.delegate_num ... results.dels.length]
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i], false)
                 @id_delegates[results.dels[i].id] = results.dels[i]

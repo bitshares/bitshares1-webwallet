@@ -53,8 +53,7 @@
                       <tr ng-repeat="r in reg | filter:q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
                       	<td style='width:1%;white-space:nowrap'><img src="http://www.gravatar.com/avatar/{{r.public_data.gravatarID}}?d=mm&r=g" /></td>
                         <td style='width:1%;white-space:nowrap'>
-                          <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
-</button>
+                          <button ng-click="addToContactsAndToggleFavorite(r.name, r.owner_key)" class="btn btn-link btn-sm"><i ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i></button>
                         </td>
                         <td><a ng-class="{'delegate-active-link' : delegate_active_hash_map[r.name], 'delegate-inactive-link' : delegate_inactive_hash_map[r.name], 'my-account-link': accounts[r.name].is_my_account}" href="#/accounts/{{r.name}}">{{ r.name }}</a></td>
                         <td>{{ formatRegDate(r.registration_date) }}</td>
@@ -66,7 +65,6 @@
             </div>
           </div>
         </tab>
-        <tab>
         <tab>
         <tab-heading><i class="fa fa-renren fa-lg"></i> {{ "assets" | translate }}</tab-heading>
           <div ng-controller="AssetsController" ng-include src="'assets.html'"></div>
