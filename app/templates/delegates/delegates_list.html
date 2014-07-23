@@ -80,7 +80,15 @@
           <small>Standby Delegates</small>
         </h5>
       </div>
-
+      <div class="col-sm-12">
+              <ul class="pagination pagination-sm">
+                    <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0"> First</a></li>
+                    <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">Previous</a></li> 
+                    <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
+                    <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">Next</a></li>
+                    <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">Last</a></li>
+                </ul>
+              </div>
       <div>
         <table class="table table-hover">
           <thead>
@@ -95,8 +103,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="del in inactive_delegates | filter:search">
-              <td>{{ $index + active_delegates.length + 1}}</td>
+            <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
+              <td>{{ $index + active_delegates.length + 1 + p.currentPage * p.pageSize}}</td>
               <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
               <td>
                   <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
