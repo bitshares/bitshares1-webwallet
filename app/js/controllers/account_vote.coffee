@@ -1,7 +1,8 @@
 angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
     $scope.votes=[]
     
-    console.log('bllll', Blockchain.asset_records[Object.keys(Blockchain.asset_records)[0]])
+    smb=Blockchain.asset_records[Object.keys(Blockchain.asset_records)[0]]
+    console.log(smb)
     WalletAPI.account_vote_summary().then (data) ->
         console.log('account_vote_summary', data)
         console.log($scope.balances)
@@ -21,13 +22,13 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 Growl.error "Insufficient funds",""
 
     $scope.updateVotes = ->
-        console.log('sym', Info.symbol)
+        console.log('symmmm', Info.symbol)
         console.log(Info.info.priority_fee)
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + ($scope.balances[Info.symbol.symbol]-Info.info.priority_fee) + " " + Info.symbol + " to " + $scope.account.name + ". It will charge a fee of " + Info.info.priority_fee + " " + Info.symbol + "."
+                message: -> "This will send " + ($scope.balances[smb]-Info.info.priority_fee) + " " + smb + " to " + $scope.account.name + ". It will charge a fee of " + Info.info.priority_fee + " " + smb + "."
                 action: -> yesSend
         
