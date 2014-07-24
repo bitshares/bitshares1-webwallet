@@ -1,22 +1,36 @@
+<div class="container-fluid">
 <div class="modal-header">
   <h3 class="modal-title">New Contact</h3>
 </div>
-<form name="newcontact" role="form" ng-submit="ok()" ng-submit="newcontact.$valid && create()">
-  <div class="modal-body">
-    <div class="form-group" ng-class="{ 'has-error' : newcontact.name.$invalid && !newcontact.name.$pristine }">
-        <label for="contact_name">Name</label>
-        <input ng-model="$parent.name" name="name" focus-me class="form-control"
-              id="contact_name" placeholder="Name" ng-maxlength="63"
-              ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>
-    </div>
-    <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
-      <label for="address">Public Key</label>
-      <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Address" required>
-      <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
+<div class="row">
+  <div class="col-md-2">
+    <div class="avatar">
+      <br/>
+      <img src="https://robohash.org/{{$parent.name}}?size=100x100" height="100" width="100" ng-if="$parent.name"/>
+      <img src="img/user.png" height="100" width="100" ng-if="!$parent.name"/>
     </div>
   </div>
-</form>
-<div class="modal-footer">
-  <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; OK &nbsp;</button>
-  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <div class="col-md-10">
+    <form name="newcontact" role="form" ng-submit="ok()">
+      <div class="modal-body">
+        <div class="form-group" ng-class="{ 'has-error' : (newcontact.account_name.$invalid || newcontact.account_name.error_message) && !newcontact.account_name.$pristine }">
+            <!--<input ng-model="$parent.name" name="name" focus-me class="form-control"-->
+                  <!--id="contact_name" placeholder="Name" ng-maxlength="63"-->
+                  <!--ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>-->
+            <label for="account_name" class="control-label" translate>name</label>
+            <input-name autofocus ng-model="$parent.name" form-name="newcontact" show-note-1="false" show-note-2="true"/>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
+          <label for="address">Public Key</label>
+          <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Address" required>
+          <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; OK &nbsp;</button>
+      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+  </div>
 </div>
+ </div>

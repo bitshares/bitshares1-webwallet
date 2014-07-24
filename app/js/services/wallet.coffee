@@ -17,8 +17,6 @@ class Wallet
 
     current_account: null
     
-    console.log('executing wallet')
-
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
         if result.state == "open"
@@ -30,7 +28,6 @@ class Wallet
                         @timeout=result.value
                         @idle._options().idleDuration=@timeout
                         @idle.watch()
-                        console.log('@idle._options()', @idle._options())
         else
             @open().then =>
                 #redirection
@@ -153,7 +150,6 @@ class Wallet
         @blockchain.refresh_asset_records().then () =>
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
-                console.log result
                 angular.forEach result, (val, key) =>
                     running_balances = []
                     angular.forEach val.running_balances, (item) =>
@@ -227,7 +223,6 @@ class Wallet
 
     get_wallet_name: ->
         @rpc.request('wallet_get_name').then (response) =>
-          console.log "---- current wallet name: ", response.result
           @wallet_name = response.result
     
     wallet_get_info: ->
@@ -298,7 +293,6 @@ class Wallet
         return deferred.promise
 
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
-        @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @timeout=@idle._options().idleDuration+''
 

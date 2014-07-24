@@ -276,7 +276,7 @@ li.stat {
 	font-weight: 100;
 }
 
-.trasfer-to-avatar {
+.move-right-50px {
 	position: relative;
 	left: 50px;
 }
@@ -368,6 +368,10 @@ footer .logo img {
 
 input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
+}
+
+.form-group.has-error span.text-muted {
+	color: #c4c4c4;
 }
 
 /*input.ng-dirty.ng-valid {*/

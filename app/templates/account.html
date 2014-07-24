@@ -123,8 +123,10 @@
         <br/>
         <div class="row">
           <div class="col-md-2">
-               <img class="trasfer-to-avatar" src="https://robohash.org/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
-               <img class="trasfer-to-avatar" src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
+            <div class="avatar move-right-50px">
+               <img src="https://robohash.org/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
+               <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
+            </div>
           </div>
           <div class="col-md-10" id="transfer-form">
             <form name="my_transfer_form" class="form-horizontal" role="form"
