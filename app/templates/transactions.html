@@ -15,7 +15,6 @@
       <tr ng-repeat="t in account_transactions | orderBy:'time':true | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
-        <td ng-if="t.is_virtual">Virtual</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span class="long-shorten-text-l"><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span> </br>
