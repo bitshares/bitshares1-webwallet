@@ -13,11 +13,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.model.rescan = true
     $scope.magic_unicorn = magic_unicorn?
     $scope.gravatar_account_name = 'email'
+    my_transfer_form = null
 
     $scope.trust_level = false
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
     $scope.transfer_info =
-        amount : 0
+        amount : null
         symbol : "Symbol not set"
         payto : ""
         memo : ""
@@ -127,11 +128,14 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         ,
         (error) ->
             if (error.data.error.code==20005)
-                Growl.error "Unknown receive account",""
+                my_transfer_form.payto.error_message = "Unknown receive account"
             if (error.data.error.code==20010)
-                Growl.error "Insufficient funds",""
+                my_transfer_form.amount.error_message = "Insufficient funds"
 
     $scope.send = ->
+        my_transfer_form = @my_transfer_form
+        my_transfer_form.amount.error_message = null
+        my_transfer_form.payto.error_message = null
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"

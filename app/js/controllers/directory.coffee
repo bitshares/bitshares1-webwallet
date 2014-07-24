@@ -61,7 +61,6 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
                     Wallet.refresh_accounts()
 
     $scope.newContactModal = ->
-        console.log '----->newContactModal'
         $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactController"

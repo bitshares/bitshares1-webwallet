@@ -23,8 +23,6 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             delegate = Blockchain.all_delegates[key]
             if delegate
                 $scope.approved_delegates_list.push delegate
-            else
-                console.log "cannot find approved delegate #{key}"
 
     $scope.$watch ()->
         Info.info

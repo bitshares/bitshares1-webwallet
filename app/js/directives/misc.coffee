@@ -25,7 +25,7 @@ angular.module("app.directives").directive "myNgEnter", ->
 
 angular.module("app.directives").directive "inputName", ->
     template: '''
-        <input id="account_name" name="account_name" ng-trim="false" placeholder="Account Name (Required)"
+        <input autofocus id="account_name" name="account_name" ng-trim="false" placeholder="Account Name (Required)"
         autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
         popover="Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash."
