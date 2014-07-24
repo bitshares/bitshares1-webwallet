@@ -1,13 +1,23 @@
 angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
     $scope.votes=[]
     balMinusFee=0
+    $scope.approved_delegates = Wallet.approved_delegates
+
+    Wallet.refresh_accounts().then ->
+        $scope.approved_delegates = Wallet.approved_delegates
+
+    $scope.toggleVoteUp = (name) ->
+        approve = !Wallet.approved_delegates[name]
+        Wallet.approve_delegate(name, approve).then ->
+            $scope.trust_level = approve
+
     WalletAPI.account_vote_summary($scope.account_name).then (data) ->
         console.log('account_vote_summary', data)
         console.log($scope.balances)
         $scope.votes=data
 
     yesSend = ->
-        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account.name, $scope.account.name, 'Transfer for voting', 'vote_all').then (response) ->
+        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, 'Transfer for voting', 'vote_all').then (response) ->
             console.log response
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
@@ -27,6 +37,6 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account.name + ". It will charge a fee of " + Info.info.priority_fee / myBal.precision + " " + Info.symbol + "."
+                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Info.info.priority_fee / myBal.precision + " " + Info.symbol + "."
                 action: -> yesSend
         

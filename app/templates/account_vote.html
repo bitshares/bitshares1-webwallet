@@ -10,6 +10,10 @@
 			<tr ng-repeat="vote in votes">
 				<td>{{vote[0]}}</td>
 				<td>{{vote[1]}}</td>
-				<td><i class='fa fa-thumbs-up fa-2x'></i></td>
+				<td><button ng-click="toggleVoteUp(vote[0])" class="btn btn-xs btn-link ">
+                  <i class="green" tooltip-placement="left"
+                     tooltip="{{(approved_delegates[vote[0]]) ? 'Click to disapprove' : 'Click to approve'}}"
+                     ng-class="(approved_delegates[vote[0]]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>
+                </button></td>
 			</tr>
 		</table>
