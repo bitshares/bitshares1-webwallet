@@ -62,6 +62,9 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
 
     $scope.newContactModal = ->
         console.log '----->newContactModal'
-        modal = $modal.open
+        $modal.open
             templateUrl: "newcontact.html"
             controller: "NewContactController"
+            resolve:
+                addr: null
+                action: null
