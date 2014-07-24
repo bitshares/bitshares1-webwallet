@@ -1,7 +1,7 @@
 angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
     $scope.votes=[]
     balMinusFee=0
-    WalletAPI.account_vote_summary().then (data) ->
+    WalletAPI.account_vote_summary($scope.account.name).then (data) ->
         console.log('account_vote_summary', data)
         console.log($scope.balances)
         $scope.votes=data
