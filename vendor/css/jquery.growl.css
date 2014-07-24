@@ -26,7 +26,7 @@
   filter: alpha(opacity=90);
   position: relative;
 	border-radius: 2px;
-	box-shadow: 2px 2px 2px #aaa;
+	/*box-shadow: 2px 2px 2px #aaa;*/
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out; }

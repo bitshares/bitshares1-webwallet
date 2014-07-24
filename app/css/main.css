@@ -370,6 +370,10 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
+.form-group.has-error span.text-muted {
+	color: #c4c4c4;
+}
+
 /*input.ng-dirty.ng-valid {*/
 	/*border: 1px solid #77B7EA;*/
 /*}*/
