@@ -190,5 +190,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.accountSuggestions = (input) ->
         deferred = $q.defer()
-        deferred.resolve(Object.keys(Wallet.accounts))
+        ret = Object.keys(Wallet.accounts)
+        angular.forEach ret, (name) ->
+            if Wallet.accounts[name].is_favorite || Wallet.accounts[name].is_my_account
+                ret.push name
+        deferred.resolve(ret)
         return deferred.promise
