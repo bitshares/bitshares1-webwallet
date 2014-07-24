@@ -286,7 +286,7 @@
       </tab>
       <tab ng-show='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>Vote</tab-heading>
-        Vote
+          <div ng-controller="AccountVoteController" ng-include src="'account_vote.html'"></div>
       </tab>
     </tabset>
   </div>

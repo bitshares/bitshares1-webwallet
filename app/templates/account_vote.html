@@ -1,0 +1,15 @@
+		<div class='pull-right'>
+			<button type="button" ng-click='updateVotes()' tooltip='The account will transfer its enitre balance (minus transaction fee) to itself' class="btn btn-lg btn-primary"><i class="fa fa-undo fa-lg"></i> Update Votes</button>
+		</div>
+		<table class="table table-striped table-hover">
+			<tr>
+				<th>Delegate</th>
+				<th>Current Votes</th>
+				<th>Furute Votes</th>
+			</tr>
+			<tr ng-repeat="vote in votes">
+				<td>{{vote[0]}}</td>
+				<td>{{vote[1]}}</td>
+				<td><i class='fa fa-thumbs-up fa-2x'></i></td>
+			</tr>
+		</table>
