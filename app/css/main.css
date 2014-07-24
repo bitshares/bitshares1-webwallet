@@ -370,8 +370,13 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
-.form-group.has-error span.text-muted {
-	color: #c4c4c4;
+.form-group span.text-muted {
+	color: #999;
+}
+
+.has-error .input-group-addon, .input-group-addon {
+	border: none;
+	color: #fff;
 }
 
 /*input.ng-dirty.ng-valid {*/
@@ -454,10 +459,10 @@ span.cell {
 
 .avatar-40 {
 	width: 40px;
-	height: 40px;
+	margin: 0 auto;
 }
 
 .avatar-150 {
 	width: 150px;
-	height: 150px;
+	margin: 0 auto;
 }

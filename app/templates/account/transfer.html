@@ -2,19 +2,19 @@
 <div class="row">
   <div class="col-md-2">
     <div class="avatar move-right-50px">
-       <img src="https://robohash.org/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
+       <img src="https://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
        <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
     </div>
   </div>
   <div class="col-md-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form"
           ng-submit="my_transfer_form.$valid && send()" novalidate>
-      <div class="form-group row" ng-class="{ 'has-error' : my_transfer_form.amount.error_message }">
+      <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
         <div class="col-md-2">
           <input class="form-control" ng-model="transfer_info.amount" name="amount" type="number" class="form-control" placeholder="0.0" id="amount"
                  ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && my_transfer_form.amount.$dirty">Wrong amount</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine">Wrong amount</span>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
         </div>
         <div class="col-md-1">
@@ -43,7 +43,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
         <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
         <div class="col-md-5">
           <div class="input-group">
@@ -52,14 +52,14 @@
                    typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}"
                    typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="my_transfer_form.payto.error_message = null"/>
-            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success">
+            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;Contact'>
             <i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user fa-lg"></i></span>
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
         <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
         <div class="col-md-5">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
