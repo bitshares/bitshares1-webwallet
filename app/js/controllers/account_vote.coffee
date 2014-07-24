@@ -1,7 +1,7 @@
 angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
     $scope.votes=[]
     balMinusFee=0
-    WalletAPI.account_vote_summary($scope.account.name).then (data) ->
+    WalletAPI.account_vote_summary($scope.account_name).then (data) ->
         console.log('account_vote_summary', data)
         console.log($scope.balances)
         $scope.votes=data
@@ -21,12 +21,12 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
 
     $scope.updateVotes = ->
         myBal=$scope.balances[Info.symbol]
-        balMinusFee=myBal.amount / myBal.precision - Info.info.priority_fee.split(' ')[0]
+        balMinusFee=myBal.amount / myBal.precision - Info.info.priority_fee / myBal.precision
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account.name + ". It will charge a fee of " + Info.info.priority_fee + " " + "."
+                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account.name + ". It will charge a fee of " + Info.info.priority_fee / myBal.precision + " " + Info.symbol + "."
                 action: -> yesSend
         
