@@ -17,7 +17,7 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
         $scope.votes=data
 
     yesSend = ->
-        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, 'Transfer for voting', 'vote_all').then (response) ->
+        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, 'Transfer for voting', $scope.transfer_info.vote).then (response) ->
             console.log response
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()

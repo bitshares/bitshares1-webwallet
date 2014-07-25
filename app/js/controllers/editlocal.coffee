@@ -9,7 +9,7 @@ angular.module("app").controller "EditLocalController", ($scope, $filter, $locat
         if Wallet.accounts[name]
             acct = Wallet.accounts[name]
             $scope.edit={}
-            if acct.private_data
+            if acct.private_data && acct.private_data.gui_data
                 $scope.edit.newemail = acct.private_data.gui_data.email
                 $scope.edit.newwebsite = acct.private_data.gui_data.website
                 if (acct.private_data.gui_custom_data_pairs)
