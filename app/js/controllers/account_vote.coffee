@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
+angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain, Growl) ->
     $scope.votes=[]
     balMinusFee=0
     $scope.approved_delegates = Wallet.approved_delegates

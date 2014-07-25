@@ -39,7 +39,14 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         $scope.account = acct
         if (typeof $scope.account.private_data != 'object' || $scope.account.private_data == null)
             $scope.account.private_data = {}
-            console.log('null or not object', $scope.account.private_data)
+        vote_stng=$scope.account.private_data.account_vote_setting
+        if (vote_stng == 'vote_random' || vote_stng == 'vote_all' || vote_stng == 'vote_none' )
+            $scope.transfer_info.vote=vote_stng
+        $scope.$watch('transfer_info.vote', (newValue, oldValue) ->
+            if (newValue != oldValue) 
+                $scope.account.private_data.account_vote_setting=$scope.transfer_info.vote
+                WalletAPI.account_update_private_data(name, $scope.account.private_data)
+        )
         $scope.account_name = acct.name
         Wallet.current_account = acct
         if $scope.account.delegate_info
