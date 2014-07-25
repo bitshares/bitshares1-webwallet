@@ -10,11 +10,10 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
         approve = !Wallet.approved_delegates[name]
         Wallet.approve_delegate(name, approve).then ->
             $scope.trust_level = approve
-
-    WalletAPI.account_vote_summary($scope.account_name).then (data) ->
-        console.log('account_vote_summary', data)
-        console.log($scope.balances)
-        $scope.votes=data
+    $scope.$watch('$scope.balances[Info.symbol]', ->
+        WalletAPI.account_vote_summary($scope.account_name).then (data) ->
+            $scope.votes=data
+    )
 
     yesSend = ->
         WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, 'Transfer for voting', $scope.transfer_info.vote).then (response) ->
