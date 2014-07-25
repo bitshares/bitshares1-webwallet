@@ -100,7 +100,6 @@ angular.module("app.directives").directive "numonly", ->
     link: (scope, element, attr, ngModelCtrl) ->
         fromUser = (text) ->
             transformedInput = text.replace(/[^0-9]/g, "")
-            console.log transformedInput
             if transformedInput isnt text
                 element.css('background-color', 'pink');
                 setTimeout (->
@@ -108,7 +107,23 @@ angular.module("app.directives").directive "numonly", ->
                 ), 500
                 ngModelCtrl.$setViewValue transformedInput
                 ngModelCtrl.$render()
-            transformedInput # or return Number(transformedInput)
+            transformedInput
+        ngModelCtrl.$parsers.push fromUser
+        return
+
+angular.module("app.directives").directive "decimalonly", ->
+    require: "ngModel"
+    link: (scope, element, attr, ngModelCtrl) ->
+        fromUser = (text) ->
+            transformedInput = text.replace(/[^0-9\.]/g, "")
+            if transformedInput isnt text
+                element.css('background-color', 'pink');
+                setTimeout (->
+                    element.css('background-color', 'none');
+                ), 500
+                ngModelCtrl.$setViewValue transformedInput
+                ngModelCtrl.$render()
+            transformedInput
         ngModelCtrl.$parsers.push fromUser
         return
 
