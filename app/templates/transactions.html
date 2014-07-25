@@ -32,14 +32,15 @@
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-show="entry.from == account.name" class="bold text-danger">-{{ entry.amount_asset | formatAsset }}</span>
-                <span ng-show="entry.from != account.name" class="bold text-success">{{ entry.amount_asset | formatAsset }}</span> </br>
+                <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
+                <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
+                <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
         <td>
             <span ng-show="showBalances" ng-repeat="balance in t.running_balances">
-                <span class="bold text-danger">{{ balance | formatAsset}}</span> </br>
+                <span class="bold text-danger">{{ balance | formatAsset}}</span> <br>
             </span>
         </td>
       </tr>
