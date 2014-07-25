@@ -25,9 +25,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         vote : 'vote_random'
 
     $scope.vote_options =
-        vote_none: "None"
-        vote_all: "All"
-        vote_random: "Random subset"
+        vote_none: "Vote None"
+        vote_all: "Vote All"
+        vote_random: "Vote Random Subset"
 
     console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
