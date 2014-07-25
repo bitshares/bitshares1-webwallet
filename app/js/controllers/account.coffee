@@ -37,6 +37,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
+        if (typeof $scope.account.private_data != 'object' || $scope.account.private_data == null)
+            $scope.account.private_data = {}
+            console.log('null or not object', $scope.account.private_data)
         $scope.account_name = acct.name
         Wallet.current_account = acct
         if $scope.account.delegate_info
