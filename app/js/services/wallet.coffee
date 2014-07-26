@@ -17,6 +17,9 @@ class Wallet
 
     current_account: null
     
+    #Long time
+    backendTimeout: 999999
+    
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
         if result.state == "open"
@@ -248,7 +251,7 @@ class Wallet
         @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
     wallet_unlock: (password)->
-        @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>
+        @rpc.request('wallet_unlock', [@backendTimeout, password]).then (response) =>
           response.result
 
     check_if_locked: ->

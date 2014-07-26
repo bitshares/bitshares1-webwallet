@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain) ->
+angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain, Growl) ->
     $scope.votes=[]
     balMinusFee=0
     $scope.approved_delegates = Wallet.approved_delegates
@@ -10,14 +10,13 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
         approve = !Wallet.approved_delegates[name]
         Wallet.approve_delegate(name, approve).then ->
             $scope.trust_level = approve
-
-    WalletAPI.account_vote_summary($scope.account_name).then (data) ->
-        console.log('account_vote_summary', data)
-        console.log($scope.balances)
-        $scope.votes=data
+    $scope.$watch('$scope.balances[Info.symbol]', ->
+        WalletAPI.account_vote_summary($scope.account_name).then (data) ->
+            $scope.votes=data
+    )
 
     yesSend = ->
-        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, 'Transfer for voting', $scope.transfer_info.vote).then (response) ->
+        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, $scope.transfer_info.vote, $scope.transfer_info.vote).then (response) ->
             console.log response
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
