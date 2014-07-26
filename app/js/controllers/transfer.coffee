@@ -1,14 +1,14 @@
 angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, Wallet, WalletAPI, Blockchain, Utils, Info, Growl) ->
     Info.refresh_info()
     $scope.utils = Utils
-    $scope.account_from_name = account_from_name = $stateParams.from
-    account = $scope.$parent?.$parent?.acount
+    $scope.balances = []
     $scope.show_from_section = true
-    if $scope.$parent.$parent?.account_name
+    if $scope.account_name
         $scope.show_from_section = false
-        $scope.account_from_name = account_from_name = $scope.$parent.$parent?.account_name
+        $scope.account_from_name = account_from_name = $scope.account_name
+    else
+        $scope.account_from_name = account_from_name = $stateParams.from
     $scope.gravatar_account_name = null
-    $scope.balances = Wallet.balances[$scope.account_from_name]
     $scope.transfer_info = { memo: '', symbol: Info.symbol}
     $scope.memo_size_max = 19
     $scope.addr_symbol = null
@@ -18,10 +18,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         Wallet.get_current_or_first_account().then (account)->
             $scope.account_from_name = account_from_name = account.name
             Wallet.refresh_account(account_from_name).then (acct)->
-                $scope.transfer_info.symbol=Object.keys(Wallet.balances[account_from_name])[0]
+                $scope.balances = Wallet.balances[account_from_name]
+                $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
     else
         Wallet.refresh_account(account_from_name).then (acct)->
-            $scope.transfer_info.symbol=Object.keys(Wallet.balances[account_from_name])[0]
+            $scope.balances = Wallet.balances[account_from_name]
+            $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
 
     Blockchain.get_config().then (config) ->
         $scope.memo_size_max = config.memo_size_max
