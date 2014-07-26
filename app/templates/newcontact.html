@@ -22,7 +22,7 @@
         </div>
         <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
           <label for="address">Public Key</label>
-          <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Address" required>
+          <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Public Key (Required)" required>
           <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
         </div>
       </div>

@@ -59,11 +59,3 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
             Wallet.refresh_accounts().then ()->
                 WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
                     Wallet.refresh_accounts()
-
-    $scope.newContactModal = ->
-        $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactController"
-            resolve:
-                addr: null
-                action: null

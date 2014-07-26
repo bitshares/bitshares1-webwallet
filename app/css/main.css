@@ -38,6 +38,10 @@
 	text-decoration: none !important;
 }
 
+.pointer {
+	cursor: pointer;
+}
+
 /* Colors & Gradients */
 
 .white, a.white {
