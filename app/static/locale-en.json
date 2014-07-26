@@ -1,29 +1,40 @@
 {
+    "ok": "OK",
+    "cancel": "Cancel",
     "edit": "Edit",
     "save": "Save",
     "email": "Email",
+    "name": "Name",
     "website": "Website",
     "unlock": "Unlock",
     "unknown": "Unknown",
     "assets": "Assets",
     "summary": "Summary",
+    "create": "Create",
     "transactions": "Transactions",
+    "privacy_statement": "Privacy Statement",
     "block": "Block",
     "info_filter_by_op": "Filter transactions by operation",
     "info_no_trx": "There are no transactions in this block.",
     "info_trx_only": "Only show blocks with transactions",
     "missing_block": "Missing Block",
     "info_create_asset_fee": "Fees for creating a new asset",
+    "info_privacy": "Your privacy is critically important to us.",
     "symbol": "Symbol",
+    "delegates": "Delegates",
     "asset_name": "Asset Name",
     "description": "Description",
     "memo_data": "Memo Data",
     "maximum_share_supply": "Maximum Share Supply",
     "precision": "Precision",
     "create": "Create",
+    "un_approve_all": "Un-approve all",
     "tip": {
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
-        "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1)."
+        "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
+        "pay_with_info": "Registering costs BTSX, Pay with",
+        "reg_as_delegate": "Registered as delegate",
+        "reg_delegate_tip": "Registering as delegate costs a lot of XTS"
     },
     "th": {
         "date": "DATE",
@@ -43,6 +54,7 @@
         "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
         "collected_fees": "COLLECTED FEES",
         "registration_date": "REGISTRATION DATE",
+        "registered_time": "Registered Time",
         "height": "Height",
         "time": "Time",
         "trx_count": "Transaction Count",
@@ -58,7 +70,8 @@
         "withdraw_amount": "Withdraw Amount",
         "deposit_amount": "Deposit Amount",
         "net_delegate_approval": "Net Delegate Approval",
-        "operation_types": "Operation Types"
+        "operation_types": "Operation Types",
+        "approve": "APPROVE"
     },
     "block": {
         "trx_count": "Number of Transactions",
@@ -94,6 +107,7 @@
         "overview": "Overview",
         "my_account": "My Accounts",
         "directory": "Directory",
+        "delegates": "Delegates",
         "market": "Market",
         "block_explorer": "Block Explorer",
         "preferences": "Preferences",
@@ -135,5 +149,15 @@
     },
     "asset": {
         "create_new_asset": "Create A New Asset"
+    },
+    "privacy": {
+        "email_warning1": "Your email address is only used for the purpose of identifying your",
+        "email_warning2": "account which can be tied to your BitShares XT account.  This helps you and others verify that your transactions are sending funds to the expected individual. ",
+        "email_warning3": "Your email is not shared with anyone and no one will be able to send you spam. "
+    },
+    "directory": {
+        "favorites": "Favorites",
+        "unregistered": "Unregistered",
+        "registered": "Registered"
     }
 }

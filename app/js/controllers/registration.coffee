@@ -12,16 +12,15 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   
   
   refresh_accounts = ->
-    $scope.accounts = []
+    $scope.accounts = {}
     angular.forEach Wallet.balances, (balances, name) ->
         bals = []
         angular.forEach balances, (asset, symbol) ->
             if asset.amount
                 bals.push asset
         if bals.length
-            $scope.accounts.push([name, bals])
-
-    $scope.m.payfrom= $scope.accounts[0]
+            $scope.accounts[name]=[name, bals]
+    $scope.m.payfrom= if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
 
   WalletAPI.set_priority_fee().then (result) ->
     asset_type = Blockchain.asset_records[result.asset_id]

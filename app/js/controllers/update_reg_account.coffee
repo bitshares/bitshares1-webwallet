@@ -8,8 +8,8 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
             acct = Wallet.accounts[name]
             $scope.edit={}
             if acct.private_data
-                $scope.edit.newemail = acct.private_data.gui_data.email
-                $scope.edit.newwebsite = acct.private_data.gui_data.website
+                $scope.edit.newemail = acct.private_data.gui_data?.email
+                $scope.edit.newwebsite = acct.private_data.gui_data?.website
                 if (acct.private_data.gui_custom_data_pairs)
                   $scope.edit.pairs = acct.private_data.gui_custom_data_pairs
                 else

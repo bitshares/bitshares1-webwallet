@@ -1,4 +1,4 @@
-angular.module("app").controller "ContactsController", ($scope, $state, $location, $modal, $q, $http, $rootScope, RpcService, WalletAPI, Shared, Utils, Wallet) ->
+angular.module("app").controller "ContactsController", ($scope, $state, $location, $q, $http, $rootScope, RpcService, WalletAPI, Shared, Utils, Wallet) ->
     $scope.contacts = []
 
     $scope.refresh_contacts = ->
@@ -17,15 +17,6 @@ angular.module("app").controller "ContactsController", ($scope, $state, $locatio
 
     $scope.deleteContact = (name) ->
         WalletAPI.remove_contact_account(name).then ->
-            Wallet.refresh_accounts()
-
-    $scope.newContactModal = ->
-        modal = $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactController"
-        modal.result.then ()->
-            Wallet.refresh_accounts()
-        , ()->
             Wallet.refresh_accounts()
 
     $scope.toggleFavorite = (name)->

@@ -1,78 +1,100 @@
-<!--<ol class="breadcrumb">-->
- <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
- <!--<li><i class="fa fa-sign-out fa-fw"></i> Transfer</li>-->
-<!--</ol>-->
-
-<div class="header">
- <div class="col-md-12">
-     <!--<h3 class="header-title">Transfer</h3>-->
- </div>
-</div>
-
-<div class="main-content">
-
-	
-
- <div id="transfer-form">
-  <form name="transfer_form" class="form-horizontal" role="form" ng-submit="transfer_form.$valid && send()" >
-  	<!--
-  	<div class="form-group row">
-  		<label for="payfrom" class="col-sm-2 control-label">From</label>
-        <span class="dropdown">
-	      <a href class="dropdown-toggle btn btn-default col-md-5">
-	        Click me for a dropdown, yo!<span class="caret"></span>
-	      </a><br>
-	      <ul class="dropdown-menu">
-	        <li ng-repeat="account in accounts">
-	          <a href>{{account}}</a>
-	        </li>
-	      </ul>
-	    </span>
-     </div>-->
-
-
-    <div class="form-group row">
-        <label for="amount" class="col-sm-2 control-label">Amount</label>
-	    <div class="col-md-3">
-            <input ng-model="amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'"required/>
-	    </div>
-      	<div class="col-md-2">
-        	<select class="form-control" id='symbol' ng-model="symbol" ng-options="symbol for symbol in symbolOptions"></select>
-      	</div>
-     </div>
-
-
-    <div class="form-group">
-      <label for="payfrom" class="col-sm-2 control-label">From</label>
-      <div class="col-md-5">
-        <select ng-model="payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select>
+<div class="row head-bg p-inner" ng-if="show_from_section">
+  <div class="col-sm-2">
+    <div class="avatar-150">
+      <img src="http://robohash.org/set_any/bgset_any/{{account_from_name}}?size=150x150" height="150" width="150"/>
+    </div>
+  </div>
+  <div class="col-sm-10">
+    <div class="header p-inner ">
+      <div class="reg-date" style="" class="white-shadow">
+        <div style='color:white;font-size:200%'>From: <b>{{account_from_name}}</b></div>
       </div>
     </div>
-
-   <div class="form-group">
-    <label for="payto" class="col-sm-2 control-label">To</label>
-
-    <div class="col-md-5">
-     <input ng-model="payto" type="text" class="form-control" placeholder="Contact Name" id="payto" required/>
-    </div>
-   </div>
-
-
-
-   <div class="form-group">
-    <label for="memo" class="col-sm-2 control-label">Memo</label>
-    <div class="col-md-5">
-     <input ng-model="memo" type="text" class="form-control" placeholder="Memo" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" id="memo"/>
-    </div>
-   </div>
-		<div class="form-group row">
-			<div class="col-sm-offset-2 col-sm-10">
-				<button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-credit-card fa-lg fa-fw"></i> Send</button>
-			</div>
-		</div>
-  </form>
- </div>
-
+  </div>
 </div>
 
+<hr ng-if="show_from_section"/>
+<br/>
+
+<div class="row">
+  <div class="col-md-2">
+    <div class="avatar move-right-50px">
+       <img src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
+       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
+    </div>
+  </div>
+  <div class="col-md-10" id="transfer-form">
+    <form name="my_transfer_form" class="form-horizontal" role="form"
+          ng-submit="my_transfer_form.$valid && send()" novalidate>
+      <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
+        <!-- amount -->
+        <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
+        <div class="col-md-2">
+          <input class="form-control" ng-model="transfer_info.amount" name="amount" type="number" class="form-control" placeholder="0.0" id="amount"
+                 ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine">Wrong amount</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
+        </div>
+        <!-- asset selector -->
+        <div class="col-md-1">
+          <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
+              {{transfer_info.symbol}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="(k, v) in balances">
+                <a ng-click="transfer_info.symbol=k; status.isopen=false">{{k}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- vote options -->
+        <div class="col-md-2">
+          <div class="btn-group" dropdown is-open="status2.isopen">
+            <button type="button" class="btn dropdown-toggle" tooltip='Vote for'>
+              {{vote_options[transfer_info.vote]}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="(k, v) in vote_options">
+                <a ng-click="transfer_info.vote=k; status2.isopen=false">{{v}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- pay to -->
+      <div class="form-group" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
+        <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
+        <div class="col-md-5">
+          <div class="input-group">
+            <input ng-model="transfer_info.payto" name="payto" type="text"
+                   class="form-control" placeholder="Contact Name" id="payto"
+                   typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}"
+                   typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
+                   required ng-change="my_transfer_form.payto.error_message = null"/>
+            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;Contact'>
+            <i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user fa-lg"></i></span>
+          </div>
+          <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
+        </div>
+      </div>
+      <!-- memo -->
+      <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
+        <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
+        <div class="col-md-5">
+          <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
+                 ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo"
+                 id="memo"/>
+          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">Memo size shouldn't exceed {{memo_size_max}} characters</span>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
+            {{'account.send'|translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

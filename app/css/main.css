@@ -33,8 +33,13 @@
 	font-size:150%;
 }
 
-.my-account-link{
-	color:green;
+.my-account-link, .my-account-link:hover {
+	/*color:green;*/
+	text-decoration: none !important;
+}
+
+.pointer {
+	cursor: pointer;
 }
 
 /* Colors & Gradients */
@@ -91,6 +96,12 @@ a.white:hover {
 
 .primary {
 	color: #01bbf4;
+}
+
+
+.btn-primary[disabled] {
+	background-color: #eee;
+	color: #888;
 }
 
 .bg-secondary {
@@ -198,6 +209,10 @@ tab-heading {
 	background-size: cover;
 }
 
+.head-bg-delegate .primary {
+	color: #fff;
+}
+
 .header {
 	border-bottom: 1px solid #d5d8d9;
 }
@@ -265,7 +280,16 @@ li.stat {
 	font-weight: 100;
 }
 
+.move-right-50px {
+	position: relative;
+	left: 50px;
+}
+
 /* Directory  */
+
+.directory-add-contact {
+	margin-top: 12px;
+}
 
 .gridStyle {
 	border: 1px solid rgb(212, 212, 212);
@@ -350,16 +374,28 @@ input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;
 }
 
+.form-group span.text-muted {
+	color: #999;
+}
+
+.has-error .input-group-addon, .input-group-addon {
+	border: none;
+	color: #fff;
+}
+
 /*input.ng-dirty.ng-valid {*/
 	/*border: 1px solid #77B7EA;*/
 /*}*/
 
 .loading-overlay {
-	height: 80px;
+	height: 100px;
 	width: 100%;
 	position: fixed;
 	bottom: 50px;
 	z-index: 1 !important;
+}
+
+.loading-overlay .transactions-progress  {
 }
 
 .loading-panel {
@@ -430,4 +466,15 @@ span.cell {
 	height: 300px;
 	overflow-y: scroll;
 	margin: 24px 0;
+}
+
+/* avatars */
+.avatar-40 {
+	width: 40px;
+	margin: 0 auto;
+}
+
+.avatar-150 {
+	width: 150px;
+	margin: 0 auto;
 }

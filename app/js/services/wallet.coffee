@@ -17,8 +17,9 @@ class Wallet
 
     current_account: null
     
-    console.log('executing wallet')
-
+    #Long time
+    backendTimeout: 999999
+    
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
         if result.state == "open"
@@ -30,7 +31,6 @@ class Wallet
                         @timeout=result.value
                         @idle._options().idleDuration=@timeout
                         @idle.watch()
-                        console.log('@idle._options()', @idle._options())
         else
             @open().then =>
                 #redirection
@@ -136,7 +136,7 @@ class Wallet
                     acct = @populate_account(result)
                     return acct
 
-    set_trust: (name, approve) ->
+    approve_delegate: (name, approve) ->
         @approved_delegates[name] = approve
         @wallet_api.approve_delegate(name, approve).then () =>
             @refresh_account(name)
@@ -153,7 +153,6 @@ class Wallet
         @blockchain.refresh_asset_records().then () =>
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
-                console.log result
                 angular.forEach result, (val, key) =>
                     running_balances = []
                     angular.forEach val.running_balances, (item) =>
@@ -227,7 +226,6 @@ class Wallet
 
     get_wallet_name: ->
         @rpc.request('wallet_get_name').then (response) =>
-          console.log "---- current wallet name: ", response.result
           @wallet_name = response.result
     
     wallet_get_info: ->
@@ -250,10 +248,10 @@ class Wallet
           response.result
 
     wallet_account_transaction_history: (account_name) ->
-        @wallet_api.account_transaction_history(account_name, 0, -1)
+        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
     wallet_unlock: (password)->
-        @rpc.request('wallet_unlock', [@timeout, password]).then (response) =>
+        @rpc.request('wallet_unlock', [@backendTimeout, password]).then (response) =>
           response.result
 
     check_if_locked: ->
@@ -298,7 +296,6 @@ class Wallet
         return deferred.promise
 
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
-        @log.info "---- Wallet Constructor ----"
         @wallet_name = ""
         @timeout=@idle._options().idleDuration+''
 

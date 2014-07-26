@@ -26,7 +26,7 @@
   filter: alpha(opacity=90);
   position: relative;
 	border-radius: 2px;
-	box-shadow: 2px 2px 2px #aaa;
+	/*box-shadow: 2px 2px 2px #aaa;*/
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out; }
@@ -68,9 +68,15 @@
   .growl .growl-close {
     cursor: pointer;
     float: right;
+<<<<<<< HEAD
     font-size: 18px;
+=======
+    font-size: 24px;
+>>>>>>> develop
     line-height: 24px;
     font-weight: normal;
+		position: relative;
+		top: -7px;
     font-family: helvetica, verdana, sans-serif; }
   .growl .growl-title {
     font-size: 18px;

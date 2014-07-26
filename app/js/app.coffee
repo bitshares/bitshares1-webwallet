@@ -50,7 +50,9 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         prefix: 'locale-',
         suffix: '.json'
     lang = window.navigator.language
-    if lang == "en-US" or lang =="en-EN"
+    if lang == "zh-CN"
+        lang = "zh-CN"
+    else
         lang = "en"
     
     $translateProvider.preferredLanguage(lang)
@@ -107,6 +109,12 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: '/directory'
         templateUrl: "directory.html"
         controller: "DirectoryController"
+
+    delegates =
+        name: 'delegates'
+        url: '/delegates'
+        templateUrl: "delegates/delegates.html"
+        controller: "DelegatesController"
 
     editaccount =
         name: 'editaccount'
@@ -168,7 +176,12 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "market/market.html"
         controller: "MarketController"
 
+    transfer =
+        name: 'transfer'
+        url: '/transfer?from&to'
+        templateUrl: "transfer.html"
+        controller: "TransferController"
 
     $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount)
     .state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory)
-    .state(block).state(transaction).state(blocksbyround).state(markets).state(market)
+    .state(delegates).state(block).state(transaction).state(blocksbyround).state(markets).state(market).state(transfer)

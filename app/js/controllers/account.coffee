@@ -1,39 +1,45 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
 
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
+    $scope.account_name = name
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
-    $scope.balances = Wallet.balances[name]
+    #$scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
-    $scope.symbol = Info.symbol
     $scope.model = {}
     $scope.model.rescan = true
+    $scope.magic_unicorn = magic_unicorn?
 
-    $scope.trust_level = Wallet.approved_delegates[name]
-    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
-    $scope.transfer_info =
-        amount : 0
-        symbol : "Symbol not set"
-        payto : ""
-        memo : ""
-        vote : "Random Subset"
+    $scope.trust_level = false
 
-    console.log('tinfo', $scope.transfer_info)
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
+    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
 
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
+        if (typeof $scope.account.private_data != 'object' || $scope.account.private_data == null)
+            $scope.account.private_data = {}
+        vote_stng=$scope.account.private_data.account_vote_setting
+        if (vote_stng == 'vote_random' || vote_stng == 'vote_all' || vote_stng == 'vote_none' )
+            $scope.transfer_info.vote=vote_stng
+        $scope.$watch('transfer_info.vote', (newValue, oldValue) ->
+            if (newValue != oldValue) 
+                $scope.account.private_data.account_vote_setting=$scope.transfer_info.vote
+                WalletAPI.account_update_private_data(name, $scope.account.private_data)
+        )
+        $scope.account_name = acct.name
         Wallet.current_account = acct
         if $scope.account.delegate_info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
-        
-    Wallet.refresh_account(name)
+
+    Wallet.refresh_account(name).then ->
+        $scope.trust_level = Wallet.approved_delegates[name]
 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
@@ -49,16 +55,11 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
-            $scope.transfer_info.symbol=Object.keys(Wallet.balances[name])[0]
 
     $scope.$watchCollection ->
         Wallet.transactions
     , () ->
         Wallet.refresh_account(name)
-
-    Blockchain.get_config().then (config) ->
-        $scope.memo_size_max = config.memo_size_max
-        $scope.addr_symbol = config.symbol
 
     $scope.import_key = ->
         form = @import_key_form
@@ -72,6 +73,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Wallet.refresh_transactions_on_update()
         , (response) ->
             form.key.$invalid = true
+
+    $scope.select_file = ->
+        $scope.wallet_info.file = magic_unicorn.prompt_user_to_open_file('Please open your wallet')
 
     $scope.import_wallet = ->
         form = @import_wallet_form
@@ -97,73 +101,17 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 form.pass.error_message = "Unable to decrypt wallet"
                 form.pass.$invalid = true
 
-    yesSend = ->
-        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account.name, $scope.transfer_info.payto, $scope.transfer_info.memo).then (response) ->
-            $scope.transfer_info.payto = ""
-            $scope.transfer_info.amount = ""
-            $scope.transfer_info.memo = ""
-            console.log response
-            Growl.notice "", "Transfer transaction broadcasted"
-            Wallet.refresh_transactions_on_update()
-            $scope.t_active=true
-        ,
-        (error) ->
-            if (error.data.error.code==20005)
-                Growl.error "Unknown receive account",""
-            if (error.data.error.code==20010)
-                Growl.error "Insufficient funds",""
-
-    $scope.send = ->
-        $modal.open
-            templateUrl: "dialog-confirmation.html"
-            controller: "DialogConfirmationController"
-            resolve:
-                title: -> "Are you sure?"
-                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + Info.info.priority_fee + "."
-                action: -> yesSend
-
-    $scope.newContactModal = ->
-      $modal.open
-        templateUrl: "newcontact.html"
-        controller: "NewContactAddrController"
-        resolve:
-            addr: ->
-                ""
-            action: ->
-                (contact)->
-                    $scope.transfer_info.payto = contact
-
-    $scope.addContactFromTo = ->
-      if payto and payto.value and $scope.addr_symbol and (payto.value.indexOf $scope.addr_symbol) == 0 and payto.value.length == $scope.addr_symbol.length + 50
-          $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactAddrController"
-            resolve:
-                addr: ->
-                    payto.value
-                action: ->
-                    (contact)->
-                        $scope.transfer_info.payto = contact
-                    
-
     $scope.toggleVoteUp = ->
-        if name not of Wallet.approved_delegates or Wallet.approved_delegates[name] < 1
-            console.log "setting trust..."
-            Wallet.set_trust(name, true).then (approved) =>
-                console.log "TODO if setting trust failed then alert user"
-                #if trust == false then do stuff
-                $scope.trust_level = true
-        else
-            # TODO see above
-            Wallet.set_trust(name, false).then (approved) =>
-                $scope.trust_level = false
+        approve = !Wallet.approved_delegates[name]
+        Wallet.approve_delegate(name, approve).then ->
+            $scope.trust_level = approve
 
     $scope.toggleFavorite = ->
         address = $scope.account.owner_key
         Wallet.wallet_add_contact_account(name, address).then ()->
             WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
                 Wallet.refresh_accounts()
-            
+
     $scope.regDial = ->
         if Wallet.asset_balances[0]
           $modal.open
@@ -172,12 +120,4 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             scope: $scope
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
-
-    $scope.accountSuggestions = (input) ->
-        Wallet.blockchain_list_accounts(input, 10).then (response) ->
-            result = Object.keys(Wallet.accounts)
-            for n in response
-                if !Wallet.accounts[n.name]
-                    result.push n.name
-            $filter('filter')(result, input)
 

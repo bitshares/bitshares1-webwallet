@@ -39,7 +39,7 @@ angular.module('angularjs-gravatardirective.directives')
                 // watch to notify us when the value changes
                 scope.$watch(attrs.gravatarEmail, function (value) {
                     // let's do nothing if the value comes in empty, null or undefined
-                    if ((value !== null) && (value !== undefined) && (value !== '') && (null !== value.match(/.*@.*\..{2}/))) {
+                    if ((value !== null) && (value !== undefined) && (value !== '') ) {
                         
                         getGravatarImage(value);
                         // Get Gravatar Displayname

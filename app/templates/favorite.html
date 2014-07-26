@@ -12,13 +12,17 @@
               <tr>
                 <th></th>
                 <th></th>
-                <th>NAME</th>
-                <th>Registered Time</th>
+                <th translate>th.name</th>
+                <th translate>th.registered_time</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="c in contacts | filter:q">
-                <td style='width:1%;white-space:nowrap'><img src="http://www.gravatar.com/avatar/{{c.public_data.gravatarID}}?d=mm&r=g" /></td>
+                <td style='width:1%;white-space:nowrap'>
+                   <div class="avatar-40">
+                      <img src="http://robohash.org/set_any/bgset_any/{{c.name}}?size=40x40" height="40" width="40"/>
+                   </div>
+                </td>
                 <td style='width:1%;white-space:nowrap'>
                   <button ng-click="toggleFavorite(c.name)" class="btn btn-link btn-sm">
                       <i ng-class="(c.is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>

@@ -1,19 +1,11 @@
 <div ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
 
   <div class="col-sm-2">
-    <gravatar-image data-gravatar-email="account.private_data.gui_data.email" data-gravatar-size="512"
-                    data-gravatar-rating="pg" data-gravatar-default="mm" data-gravatar-secure="true"
-                    data-gravatar-css-class="img-responsive" ng-if="!account.public_data"></gravatar-image>
-
-    <img class="img-responsive"
-         src="https://secure.gravatar.com/avatar/{{account.public_data.gravatarID}}?s=512&r=g&d=mm"
-         ng-if="!!account.public_data">
-
-    <div class="text-center p-inner white-shadow">
-      {{gravatarDisplayName}}
+    <div class="avatar-150">
+      <img src="http://robohash.org/set_any/bgset_any/{{account_name}}?size=150x150" height="150" width="150"/>
     </div>
-
-    <div class="text-center">
+    <br/>
+    <div class="text-center avatar-150">
       <button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
         <i ng-class="(account.is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
       </button>
@@ -124,78 +116,11 @@
         <hr>
         Blocks produced / missed : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
       </tab>
+
+      <!-- transfer tab -->
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
-        <div id="transfer-form p-inner">
-          <form name="my_transfer_form" class="form-horizontal p-inner" role="form"
-                ng-submit="my_transfer_form.$valid && send()">
-            <div class="form-group row">
-              <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
-              <div class="col-md-3">
-                <input ng-model="transfer_info.amount" type="text" class="form-control" placeholder="0.0" id="amount"
-                       ui-validate="'$value > 0'" required/>
-              </div>
-              <div class="col-md-1">
-                <div class="btn-group" dropdown is-open="status.isopen">
-                  <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
-                    {{transfer_info.symbol}} <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li ng-repeat="(k, v) in $parent.balances">
-                      <a ng-click="transfer_info.symbol=k; status.isopen=false">{{k}}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="btn-group" dropdown is-open="status2.isopen">
-                  <button type="button" class="btn dropdown-toggle">
-                    {{transfer_info.vote}} <span class="caret"></span>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>
-                      <a ng-click="transfer_info.vote='Random Subset'; status2.isopen=false">Random Subset</a>
-                      <a ng-click="transfer_info.vote='None'; status2.isopen=false">None</a>
-                      <a ng-click="transfer_info.vote='Exact'; status2.isopen=false">Exact</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
-              <div class="col-md-5">
-                <div class="input-group">
-
-                  <input ng-model="transfer_info.payto" watch-change="addContactFromTo()" type="text"
-                         class="form-control" placeholder="Contact Name" id="payto"
-                         typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}"
-                         typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
-                         required/> <span ng-click='newContactModal()' type="button"
-                                          class=" input-group-addon btn white btn-success"><i
-                    class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user fa-lg"></i></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
-              <div class="col-md-5">
-                <input ng-model="transfer_info.memo" type="text" class="form-control"
-                       ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo"
-                       id="memo"/>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-credit-card fa-lg fa-fw"></i>
-                  {{'account.send'|translate}}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <div ng-controller="TransferController" ng-include src="'transfer.html'"></div>
       </tab>
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
@@ -213,7 +138,7 @@
                 <div class="col-sm-9">
                   <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
                          placeholder="Private Key"/>
-                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger small">Error parsing WIF private key</div>
+                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger">Error parsing WIF private key</div>
                 </div>
               </div>
               <div class="form-group row">
@@ -236,7 +161,7 @@
             <form name="import_wallet_form" class="form-horizontal" role="form" ng-submit="import_wallet()">
               <div class="form-group">
                 <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_type</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 input-group">
                   <div class="btn-group" dropdown is-open="status.isopen">
                     <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
                       {{wallet_info.type}} <span class="caret"></span>
@@ -252,20 +177,21 @@
               </div>
               <div class="form-group" ng-class="{ 'has-error' : import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine }">
                 <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_path</label>
-                <div class="col-sm-9">
-                  <input ng-model="wallet_info.file" name="path" type="text" class="form-control" id="wallet_file" placeholder="" />
-                  <div ng-show="import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine" class="text-danger small">{{import_wallet_form.path.error_message}}</div>
+                <div class="col-sm-9 input-group">
+                  <input ng-model="wallet_info.file" name="path" type="text" class="form-control" id="wallet_file" placeholder=""/>
+                  <span ng-click='select_file()' ng-show="magic_unicorn" type="button" class="input-group-addon btn white btn-success">Select File..</span>
+                  <div ng-show="import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine" class="text-danger">{{import_wallet_form.path.error_message}}</div>
                 </div>
               </div>
               <div class="form-group" ng-class="{ 'has-error' : import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine }">
                 <label for="wallet_password" class="col-sm-2 control-label" translate>account.wallet_password</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 input-group">
                   <input ng-model="wallet_info.password" name="pass" type="password" class="form-control" id="wallet_password"
                          placeholder="Password"/>
-                  <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger small">{{import_wallet_form.pass.error_message}}</div>
+                  <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger">{{import_wallet_form.pass.error_message}}</div>
                 </div>
               </div>
-              <div class="form-group">
+              <div class="form-group input-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-primary" translate>account.import_wallet</button>
                 </div>
@@ -281,6 +207,10 @@
              ng-if="!utils.is_registered(account)"></div>
         <div ng-controller="UpdateRegAccountController" ng-include src="'update-reg-account.html'"
              ng-if="utils.is_registered(account)"></div>
+      </tab>
+      <tab ng-show='account.is_my_account'>
+        <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>Vote</tab-heading>
+          <div ng-controller="AccountVoteController" ng-include src="'account_vote.html'"></div>
       </tab>
     </tabset>
   </div>

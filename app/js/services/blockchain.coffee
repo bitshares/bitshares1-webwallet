@@ -134,44 +134,50 @@ class Blockchain
 
     active_delegates: []
     inactive_delegates: []
+    all_delegates: {}
 
     id_delegates: {}
     delegate_active_hash_map: {}
     delegate_inactive_hash_map: {}
-	
+    avg_act_del_pay_rate=0
+
     # TODO: finish this mapping, may be in some config or settings
     type_name_map :
-            withdraw_op_type : "Withdraw Operation"
-            deposit_op_type : "Deposit Operation"
-            create_asset_op_type : "Create Asset Operation"
-            update_asset_op_type : "Update Asset Operation"
-            withdraw_pay_op_type : "Withdraw Pay Operation"
-            register_account_op_type : "Register Account Operation"
-            update_account_op_type : "Update Account Operation"
-            issue_asset_op_type : "Issue Asset Operation"
-            submit_proposal_op_type : "Submit Proposal Operation"
-            vote_proposal_op_type : "Vote Proposal Operation"
-            bid_op_type : "Bid Operation"
-            ask_op_type : "Ask Operation"
-            short_op_type : "Short Operation"
-            cover_op_type : "Cover Operation"
-            add_collateral_op_type : "Add Collateral Operation"
-            remove_collateral_op_type : "Remove Collateral Operation"
-
+        withdraw_op_type : "Withdraw Operation"
+        deposit_op_type : "Deposit Operation"
+        create_asset_op_type : "Create Asset Operation"
+        update_asset_op_type : "Update Asset Operation"
+        withdraw_pay_op_type : "Withdraw Pay Operation"
+        register_account_op_type : "Register Account Operation"
+        update_account_op_type : "Update Account Operation"
+        issue_asset_op_type : "Issue Asset Operation"
+        submit_proposal_op_type : "Submit Proposal Operation"
+        vote_proposal_op_type : "Vote Proposal Operation"
+        bid_op_type : "Bid Operation"
+        ask_op_type : "Ask Operation"
+        short_op_type : "Short Operation"
+        cover_op_type : "Cover Operation"
+        add_collateral_op_type : "Add Collateral Operation"
+        remove_collateral_op_type : "Remove Collateral Operation"
 
     # TODO
-    populate_delegate: (record) ->
+    populate_delegate: (record, active) ->
+        record.active = active
+        @all_delegates[record.name] = record
         record
 
     refresh_delegates: ->
         # TODO: delegates paginator is needed
+        @avg_act_del_pay_rate=0
         @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_config()}).then (results) =>
             for i in [0 ... results.config.delegate_num]
-                @active_delegates[i] = @populate_delegate(results.dels[i])
+                @active_delegates[i] = @populate_delegate(results.dels[i], true)
                 @id_delegates[results.dels[i].id] = results.dels[i]
                 @delegate_active_hash_map[@active_delegates[i].name]=true
+                @avg_act_del_pay_rate+=@active_delegates[i].delegate_info.pay_rate
+            @avg_act_del_pay_rate=@avg_act_del_pay_rate/results.config.delegate_num
             for i in [results.config.delegate_num ... results.dels.length]
-                @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i])
+                @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i], false)
                 @id_delegates[results.dels[i].id] = results.dels[i]
                 @delegate_inactive_hash_map[@inactive_delegates[i-results.config.delegate_num].name]=true
                 

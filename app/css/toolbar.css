@@ -1,0 +1,32 @@
+.navbar {
+  min-height: 36px;
+	height: 36px;
+}
+
+.navbar-main {
+	/*left: 190px;*/
+	padding-left: 190px;
+	padding-right: 10px;
+}
+
+.navbar-main.navbar-main .navbar-nav {
+	float: left;
+}
+
+.left-panel {
+}
+
+.right-panel {
+	float: right;
+}
+
+.navbar-default.navbar-main .navbar-nav > li > a {
+	padding: 8px 10px;
+}
+
+.navbar-default.navbar-main .navbar-nav > li > a > .fa {
+  font-size: 14px;
+	font-weight: lighter;
+  margin-right: 2px;
+}
+
