@@ -33,5 +33,10 @@
     </div>
     <div class="col-sm-3 no-lr-padding"><span class="cell">{{base_symbol}}</span></div>
   </div>
-  <button type="submit" class="btn btn-primary">Sell {{quote_symbol}}</button>
+  <div class="form-group">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-9">
+      <button type="submit" class="btn btn-primary" ng-disabled="!sell_form.$valid">Sell {{quote_symbol}}</button>
+    </div>
+  </div>
 </form>
