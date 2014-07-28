@@ -4,8 +4,7 @@
       <tr>
         <th translate>AVATAR</th>
         <th translate>th.date</th>
-        <th translate>th.from</th>
-        <th translate>th.to</th>
+        <th><span translate>th.from</span> <i class='fa fa-long-arrow-right'></i> <span translate>th.to</span></th>
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
@@ -26,12 +25,9 @@
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span> <br>
-            </span>
-        </td>
-        <td>
-            <span ng-repeat="entry in t.ledger_entries">
-                <span class="long-shorten-text-l"><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span> <br>
+                <span ><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
+                <i class='fa fa-long-arrow-right'></i>
+                <span><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
             </span>
         </td>
         <td>
