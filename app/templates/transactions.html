@@ -3,12 +3,12 @@
     <thead>
       <tr>
         <th translate>AVATAR</th>
-        <th translate>th.date</th>
         <th><span translate>th.from</span> <i class='fa fa-long-arrow-right'></i> <span translate>th.to</span></th>
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
         <th translate ng-show="showBalances">th.balance</th>
+        <th translate>th.date</th>
       </tr>
     </thead>
     <tbody>
@@ -21,7 +21,6 @@
               </div>
             </span>
         </td>
-        <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
@@ -50,12 +49,12 @@
                 </span>
             </span>
         </td>
+        <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>
         <td colspan="6"></td>
       </tr>
-
     </tbody>
   </table>
 </div>
