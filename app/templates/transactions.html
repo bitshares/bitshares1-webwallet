@@ -48,7 +48,7 @@
         </td>
         <td>{{ t.fee | formatAsset}}</td>
         <td>
-            <span ng-show="showBalances" ng-repeat="balance in t.running_balances">
+            <span ng-show="showBalances" ng-repeat="balance in t.ledger_entries[0].running_balances">
                 <span class="bold text-danger">{{ balance | formatAsset}}</span> <br>
             </span>
         </td>
