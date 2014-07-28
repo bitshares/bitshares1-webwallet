@@ -6,7 +6,7 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
     BlockchainAPI.get_block($scope.number).then (result) ->
         $scope.block = result
         $scope.block.transaction_count = result.user_transaction_ids.length
-        BlockchainAPI.get_blockhash($scope.number).then (block_hash) ->
+        BlockchainAPI.get_block_hash($scope.number).then (block_hash) ->
             $scope.block.block_hash = block_hash
 
             BlockchainAPI.get_block_transactions(block_hash).then (transactions) ->

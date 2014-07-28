@@ -120,8 +120,8 @@ class WalletAPI
   # parameters: 
   #   filename `json_filename` - the full path and filename of JSON file to generate, example: /path/to/exported_wallet.json
   # return_type: `void`
-  export_to_json: (json_filename) ->
-    @rpc.request('wallet_export_to_json', [json_filename]).then (response) ->
+  backup_create: (json_filename) ->
+    @rpc.request('wallet_backup_create', [json_filename]).then (response) ->
       response.result
 
   # Creates a new wallet from an exported JSON file
@@ -130,8 +130,8 @@ class WalletAPI
   #   wallet_name `wallet_name` - name of the wallet to create
   #   passphrase `imported_wallet_passphrase` - passphrase of the imported wallet
   # return_type: `void`
-  create_from_json: (json_filename, wallet_name, imported_wallet_passphrase) ->
-    @rpc.request('wallet_create_from_json', [json_filename, wallet_name, imported_wallet_passphrase]).then (response) ->
+  backup_restore: (json_filename, wallet_name, imported_wallet_passphrase) ->
+    @rpc.request('wallet_backup_restore', [json_filename, wallet_name, imported_wallet_passphrase]).then (response) ->
       response.result
 
   # Lists transaction history for the specified account
@@ -150,8 +150,8 @@ class WalletAPI
   # parameters: 
   #   string `transaction_id` - the id (or id prefix) of the transaction record
   # return_type: `void`
-  remove_transaction: (transaction_id) ->
-    @rpc.request('wallet_remove_transaction', [transaction_id]).then (response) ->
+  transaction_remove: (transaction_id) ->
+    @rpc.request('wallet_transaction_remove', [transaction_id]).then (response) ->
       response.result
 
   # Return any errors for your currently pending transactions
@@ -229,18 +229,6 @@ class WalletAPI
     @rpc.request('wallet_add_contact_account', [account_name, account_key]).then (response) ->
       response.result
 
-  # Sends given amount to the given address.  This transfer will occur using multiple transactions as necessary to maximize your privacy, but will be more costly.
-  # parameters: 
-  #   real_amount `amount_to_transfer` - the amount of shares to transfer, will be multiplied by the precision associated by asset_symbol
-  #   asset_symbol `asset_symbol` - the asset to transfer
-  #   sending_account_name `from_account_name` - the source account to draw the shares from
-  #   receive_account_name `to_account_name` - the account to transfer the shares to
-  #   string `memo_message` - a memo to store with the transaction
-  # return_type: `signed_transaction_array`
-  multipart_transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message) ->
-    @rpc.request('wallet_multipart_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message]).then (response) ->
-      response.result
-
   # Sends given amount to the given account, with the from field set to the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
   # parameters: 
   #   real_amount `amount_to_transfer` - the amount of shares to transfer
@@ -248,7 +236,7 @@ class WalletAPI
   #   sending_account_name `from_account_name` - the source account to draw the shares from
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random] 
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `signed_transaction`
   transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method) ->
     @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
@@ -262,7 +250,7 @@ class WalletAPI
   #   sending_account_name `from_account_name` - the account to show the recipient as being the sender (requires account's private key to be in wallet). Leave empty to send anonymously.
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random] 
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `signed_transaction`
   transfer_from: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method) ->
     @rpc.request('wallet_transfer_from', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
@@ -282,16 +270,16 @@ class WalletAPI
   #   uint32_t `block_num` - the block containing the transaction
   #   string `transaction_id` - the id (or id prefix) of the transaction
   # return_type: `void`
-  scan_transaction: (block_num, transaction_id) ->
-    @rpc.request('wallet_scan_transaction', [block_num, transaction_id]).then (response) ->
+  transaction_scan: (block_num, transaction_id) ->
+    @rpc.request('wallet_transaction_scan', [block_num, transaction_id]).then (response) ->
       response.result
 
   # Rebroadcasts the specified transaction
   # parameters: 
   #   string `transaction_id` - the id (or id prefix) of the transaction
   # return_type: `void`
-  rebroadcast_transaction: (transaction_id) ->
-    @rpc.request('wallet_rebroadcast_transaction', [transaction_id]).then (response) ->
+  transaction_rebroadcast: (transaction_id) ->
+    @rpc.request('wallet_transaction_rebroadcast', [transaction_id]).then (response) ->
       response.result
 
   # Updates the data published about a given account
@@ -404,29 +392,6 @@ class WalletAPI
     @rpc.request('wallet_asset_issue', [amount, symbol, to_account_name, memo_message]).then (response) ->
       response.result
 
-  # Submit a proposal to the delegates for voting
-  # parameters: 
-  #   account_name `delegate_account_name` - the delegate account proposing the issue
-  #   string `subject` - the subject of the proposal
-  #   string `body` - the body of the proposal
-  #   string `proposal_type` - the type of the proposal
-  #   json_variant `data` - the name of the account to receive the shares
-  # return_type: `signed_transaction`
-  submit_proposal: (delegate_account_name, subject, body, proposal_type, data) ->
-    @rpc.request('wallet_submit_proposal', [delegate_account_name, subject, body, proposal_type, data]).then (response) ->
-      response.result
-
-  # Vote on a proposal
-  # parameters: 
-  #   account_name `name` - the name of the account to vote with
-  #   proposal_id `proposal_id` - the id of the proposal to vote on
-  #   vote_type `vote` - your vote
-  #   string `message` - comment to go along with vote
-  # return_type: `signed_transaction`
-  vote_proposal: (name, proposal_id, vote, message) ->
-    @rpc.request('wallet_vote_proposal', [name, proposal_id, vote, message]).then (response) ->
-      response.result
-
   # Lists the total asset balances for the specified account
   # parameters: 
   #   account_name `account_name` - the account to get a balance for, or leave empty for all accounts
@@ -526,12 +491,12 @@ class WalletAPI
     @rpc.request('wallet_market_cancel_order', [order_id]).then (response) ->
       response.result
 
-  # Reveals the private key corresponding to an address or public key
+  # Reveals the private key corresponding to an account, public key, or address
   # parameters: 
-  #   string `address_or_public_key` - a public key or address (quoted on hash of public key) of the private key
+  #   string `input` - an account name, public key, or address (quoted hash of public key)
   # return_type: `string`
-  dump_private_key: (address_or_public_key) ->
-    @rpc.request('wallet_dump_private_key', [address_or_public_key]).then (response) ->
+  dump_private_key: (input) ->
+    @rpc.request('wallet_dump_private_key', [input]).then (response) ->
       response.result
 
   # Returns the allocation of votes by this account
@@ -540,14 +505,6 @@ class WalletAPI
   # return_type: `account_vote_summary`
   account_vote_summary: (account_name) ->
     @rpc.request('wallet_account_vote_summary', [account_name]).then (response) ->
-      response.result
-
-  # returns the private key for this account in WIF format
-  # parameters: 
-  #   account_name `account_name` - the name of the account key to export
-  # return_type: `string`
-  account_export_private_key: (account_name) ->
-    @rpc.request('wallet_account_export_private_key', [account_name]).then (response) ->
       response.result
 
   # Set a property in the GUI settings DB
@@ -609,6 +566,23 @@ class WalletAPI
   # return_type: `variant`
   login_finish: (server_key, client_key, client_signature) ->
     @rpc.request('wallet_login_finish', [server_key, client_key, client_signature]).then (response) ->
+      response.result
+
+  # Publishes the current wallet delegate slate to the public data associated with the account
+  # parameters: 
+  #   account_name `account_name` - The account to publish the slate ID under
+  # return_type: `signed_transaction`
+  publish_slate: (account_name) ->
+    @rpc.request('wallet_publish_slate', [account_name]).then (response) ->
+      response.result
+
+  # Attempts to recover accounts created after last backup was taken and returns number of successful recoveries. Use if you have restored from backup and are missing accounts.
+  # parameters: 
+  #   int32_t `accounts_to_recover` - The number of accounts to attept to recover
+  #   int32_t `maximum_number_of_attempts` - The maximum number of keys to generate trying to recover accounts
+  # return_type: `int32_t`
+  recover_accounts: (accounts_to_recover, maximum_number_of_attempts) ->
+    @rpc.request('wallet_recover_accounts', [accounts_to_recover, maximum_number_of_attempts]).then (response) ->
       response.result
 
 

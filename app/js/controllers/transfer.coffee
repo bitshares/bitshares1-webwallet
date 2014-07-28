@@ -25,7 +25,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.balances = Wallet.balances[account_from_name]
             $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
 
-    Blockchain.get_config().then (config) ->
+    Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
         $scope.addr_symbol = config.symbol
 

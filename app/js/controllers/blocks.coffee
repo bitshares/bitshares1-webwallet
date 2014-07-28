@@ -23,7 +23,7 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
         console.log blocks
 
     refresh_blocks = ->
-        BlockchainAPI.get_blockcount().then (head_block) =>
+        BlockchainAPI.get_block_count().then (head_block) =>
             Blockchain.get_blocks_with_missed(head_block - 20, 20).then (blocks) =>
                 $scope.blocks = blocks
 

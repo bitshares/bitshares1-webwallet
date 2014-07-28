@@ -23,7 +23,7 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
 
     $scope.utils = Utils
 
-    Blockchain.get_config().then (config) ->
+    Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
 
     
