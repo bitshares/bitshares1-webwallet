@@ -22,8 +22,8 @@ class Wallet
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
-        if result.state == "open"
-            if result.locked
+        if result.open
+            if not result.unlocked
                 @location.path("/unlockwallet")
             else
                 @get_setting('timeout').then (result) =>
@@ -256,7 +256,7 @@ class Wallet
 
     check_if_locked: ->
         @rpc.request('wallet_get_info').then (response) =>
-            if response.result.locked
+            if not response.result.unlocked
                 @location.path("/unlockwallet")
 
     open: ->

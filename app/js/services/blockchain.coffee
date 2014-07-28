@@ -7,13 +7,13 @@ class Blockchain
     #  Blockchain Config
     config : {}
 
-    get_config : () ->
+    get_info : () ->
         if Object.keys(@config).length > 0
             deferred = @q.defer()
             deferred.resolve(@config)
             return deferred.promise
         else
-            @rpc.request("blockchain_get_config", []).then (result) =>
+            @rpc.request("blockchain_get_info", []).then (result) =>
                 @config = result.result
                 @config.page_count = 20
                 return @config
@@ -83,7 +83,7 @@ class Blockchain
         last_block_round : 0
 
     get_blocks_with_missed: (first_block, blocks_to_fetch) ->
-        @blockchain_api.get_blockcount().then (head_block) =>
+        @blockchain_api.get_block_count().then (head_block) =>
             if first_block > head_block
                 def = @q.defer()
                 def.resolve([])
@@ -94,7 +94,7 @@ class Blockchain
                 blocks: @blockchain_api.list_blocks(first_block, blocks_to_fetch)
                 signers: @rpc.request("batch", ["blockchain_get_block_signee", [i] for i in [first_block...first_block+blocks_to_fetch]])
                 missed: @rpc.request("batch", ["blockchain_list_missing_block_delegates", [i] for i in [first_block...first_block+blocks_to_fetch]])
-                config: @get_config()
+                config: @get_info()
             @q.all(requests).then (results) =>
                 blocks = results.blocks
                 missed = results.missed.result
@@ -121,7 +121,7 @@ class Blockchain
             deferred.resolve(@recent_blocks.last_block_round)
             return deferred.promise
         else
-            @q.all({ head_num: @blockchain_api.get_blockcount(), config: @get_config() }).then (results) =>
+            @q.all({ head_num: @blockchain_api.get_block_count(), config: @get_info() }).then (results) =>
                 console.log results
                 @recent_blocks.last_block_round = Math.floor((results.head_num - 1) / (results.config.page_count))
                 @block_head_num = results.head_num
@@ -168,7 +168,7 @@ class Blockchain
     refresh_delegates: ->
         # TODO: delegates paginator is needed
         @avg_act_del_pay_rate=0
-        @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_config()}).then (results) =>
+        @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_info()}).then (results) =>
             for i in [0 ... results.config.delegate_num]
                 @active_delegates[i] = @populate_delegate(results.dels[i], true)
                 @id_delegates[results.dels[i].id] = results.dels[i]

@@ -31,7 +31,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 else
                     $scope.no_account = true
 
-    Blockchain.get_config().then (config) ->
+    Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
         $scope.addr_symbol = config.symbol
 

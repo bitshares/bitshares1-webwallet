@@ -48,7 +48,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
         hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
         minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
         
-        Blockchain.get_config().then (config) ->
+        Blockchain.get_info().then (config) ->
             $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
             $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
             $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"

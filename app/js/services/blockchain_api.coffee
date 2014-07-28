@@ -6,6 +6,13 @@ class BlockchainAPI
     #@log.info "---- Network API Constructor ----"
 
 
+  # Returns current blockchain information and parameters
+  # parameters: 
+  # return_type: `json_object`
+  get_info:  ->
+    @rpc.request('blockchain_get_info').then (response) ->
+      response.result
+
   # Returns true if the local blockchain is synced with the network; false otherwise
   # parameters: 
   # return_type: `bool`
@@ -17,15 +24,15 @@ class BlockchainAPI
   # parameters: 
   #   uint32_t `block_number` - index of the block, example: 42
   # return_type: `block_id_type`
-  get_blockhash: (block_number) ->
-    @rpc.request('blockchain_get_blockhash', [block_number]).then (response) ->
+  get_block_hash: (block_number) ->
+    @rpc.request('blockchain_get_block_hash', [block_number]).then (response) ->
       response.result
 
   # Returns the number of blocks in the longest block chain
   # parameters: 
   # return_type: `uint32_t`
-  get_blockcount:  ->
-    @rpc.request('blockchain_get_blockcount').then (response) ->
+  get_block_count:  ->
+    @rpc.request('blockchain_get_block_count').then (response) ->
       response.result
 
   # Returns information about blockchain security level
