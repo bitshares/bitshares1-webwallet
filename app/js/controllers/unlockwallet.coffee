@@ -14,7 +14,7 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
 
     i = $interval ->
         Wallet.wallet_get_info().then (info)->
-            $rootScope.updateProgress Math.floor(info.wallet_scan_progress * 100)
+            $rootScope.updateProgress Math.floor(info.scan_progress * 100)
         , 2000
     $rootScope.showLoadingIndicator promise, i
 
