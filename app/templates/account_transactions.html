@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th translate>AVATAR</th>
-        <th><span translate>th.from</span> <i class='fa fa-long-arrow-right'></i> <span translate>th.to</span></th>
+        <th>To / From</th>
         <th translate>th.memo</th>
         <th translate>th.amount</th>
         <th translate>th.fee</th>
@@ -24,9 +24,9 @@
         <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
-                <i class='fa fa-long-arrow-right'></i>
-                <span><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
+                <span ng-if="account.name==entry.to && account.name!=entry.from">From <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
+                <span ng-if="account.name==entry.from && account.name!=entry.to">To <a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
+                <span ng-if="account.name==entry.to && account.name==entry.from">To <a href="#/accounts/{{account.name}}">self</a></span>
             </span>
         </td>
         <td>
