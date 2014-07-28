@@ -33,9 +33,9 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     return
 
   $scope.$on "$idleTimeout", ->
-    closeModals()
-    Wallet.wallet_lock().then ->
-        $location.path("/unlockwallet")
+#    closeModals()
+#    Wallet.wallet_lock().then ->
+#        $location.path("/unlockwallet")
 
   startIdleWatch = ->
     closeModals()

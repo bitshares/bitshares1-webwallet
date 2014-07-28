@@ -1,5 +1,5 @@
 .body {
-	margin-top: 36px;
+	margin-top: 40px;
 }
 
 .content {
@@ -14,7 +14,7 @@
 	width: 190px;
 	position: fixed;
 	margin-top: 0;
-	top: 36px;
+	top: 40px;
 }
 
 body.fixed_header .wrapper {

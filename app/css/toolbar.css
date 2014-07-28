@@ -1,19 +1,24 @@
 .navbar {
   min-height: 36px;
-	height: 36px;
+  height: 36px;
 }
 
 .navbar-main {
 	/*left: 190px;*/
-	padding-left: 190px;
-	padding-right: 10px;
+	/*padding-left: 190px;*/
+	/*padding-right: 10px;*/
 }
 
 .navbar-main.navbar-main .navbar-nav {
 	float: left;
 }
 
+.logo-panel {
+    width: 190px;
+}
+
 .left-panel {
+
 }
 
 .right-panel {
@@ -26,7 +31,15 @@
 
 .navbar-default.navbar-main .navbar-nav > li > a > .fa {
   font-size: 14px;
-	font-weight: lighter;
+  font-weight: lighter;
   margin-right: 2px;
 }
 
+.back-button {
+    margin-left: 10px;
+}
+
+li[disabled] a {
+    display: none;
+    color: #eee;
+}

@@ -1,5 +1,6 @@
 angular.module("app").controller "ToolbarController", ($scope, $window, $modal, $location) ->
-    $scope.back = ()->
+
+    $scope.back = ->
         $window.history.back()
 
     $scope.newContactModal = ->
