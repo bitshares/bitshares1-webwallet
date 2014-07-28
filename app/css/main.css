@@ -265,6 +265,14 @@ li.stat {
 	background: none;
 }
 
+.account-from {
+    font-size: 22px;
+    color: #fff;
+    padding-right: 8px;
+    position: relative;
+    top: 4px;
+}
+
 /* Account Details */
 
 .bg-dark {
@@ -319,7 +327,8 @@ footer {
 	height: 36px;
 	background-color: #f5f5f5;
 	padding: 0;
-  font-size: 13px;
+    padding-top: 2px;
+    font-size: 13px;
 }
 
 footer.normal-state {
@@ -366,9 +375,16 @@ footer .blockchain-status > i {
 }
 
 footer .logo img {
-	width: 32px;
+    height: 32px;
 	margin: 2px 0 0 8px;
+    padding-right: 5px;
 }
+
+footer .logo span {
+    position: relative;
+    top: 4px;
+}
+
 
 input.ng-dirty.ng-invalid {
 	border: 1px solid #f00;

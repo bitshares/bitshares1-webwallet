@@ -3,27 +3,33 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.utils = Utils
     $scope.balances = []
     $scope.show_from_section = true
+    $scope.account_from_name = account_from_name = $stateParams.from
     if $scope.account_name
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
-    else
-        $scope.account_from_name = account_from_name = $stateParams.from
     $scope.gravatar_account_name = null
-    $scope.transfer_info = { memo: '', symbol: Info.symbol}
+    $scope.transfer_info = { payto: $stateParams.to, memo: '', symbol: Info.symbol}
     $scope.memo_size_max = 19
     $scope.addr_symbol = null
     my_transfer_form = null
+    $scope.no_account = false
 
-    unless account_from_name
-        Wallet.get_current_or_first_account().then (account)->
-            $scope.account_from_name = account_from_name = account.name
-            Wallet.refresh_account(account_from_name).then (acct)->
+    Wallet.refresh_accounts().then ->
+        $scope.accounts = Wallet.accounts
+        if account_from_name
+            if $scope.accounts[account_from_name]
                 $scope.balances = Wallet.balances[account_from_name]
                 $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
-    else
-        Wallet.refresh_account(account_from_name).then (acct)->
-            $scope.balances = Wallet.balances[account_from_name]
-            $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+            else
+                scope.no_account = true
+        else
+            Wallet.get_current_or_first_account().then (account)->
+                if account
+                    $scope.account_from_name = account_from_name = account.name
+                    $scope.balances = Wallet.balances[account_from_name]
+                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+                else
+                    $scope.no_account = true
 
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
@@ -35,10 +41,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.gravatar_account_name = $scope.transfer_info.payto
 
     $scope.transfer_info =
-        amount : null
-        symbol : "Symbol not set"
-        payto : ""
-        memo : ""
+        amount : $stateParams.amount
+        symbol: $stateParams.currency || Info.symbol
+        payto : $stateParams.to
+        memo :  $stateParams.memo
         vote : 'vote_random'
 
     $scope.vote_options =

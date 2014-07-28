@@ -1,15 +1,51 @@
+<div ng-switch="no_account">
+<div ng-switch-when="true">
+  <div class="row">
+    <p class="no-account-selected-note">Account not found</p>
+  </div>
+</div>
+<div ng-switch-default>
+
 <div class="row head-bg p-inner" ng-if="show_from_section">
   <div class="col-sm-2">
     <div class="avatar-150">
       <img src="http://robohash.org/set_any/bgset_any/{{account_from_name}}?size=150x150" height="150" width="150"/>
     </div>
   </div>
-  <div class="col-sm-10">
+  <div class="col-sm-5">
     <div class="header p-inner ">
       <div class="reg-date" style="" class="white-shadow">
-        <div style='color:white;font-size:200%'>From: <b>{{account_from_name}}</b></div>
+
+        <span class="account-from">From:</span>
+        <div class="btn-group" dropdown is-open="status.isopen1">
+          <button type="button" class="btn btn-primary dropdown-toggle">{{account_from_name}} <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="(key,account) in accounts">
+              <a ui-sref="transfer({from: '{{account.name}}'})">{{account.name}}</a>
+            </li>
+          </ul>
+        </div>
+
       </div>
     </div>
+  </div>
+  <div class="col-sm-5">
+      <div class="pull-right p-inner">
+          <table class="table table-striped table-acc-balance">
+              <thead>
+              <tr>
+                  <th><h3 class="header-title text-muted" translate>account.balances</h3></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="(symbol, asset) in balances">
+                  <td>
+                      {{asset | formatAsset}}
+                  </td>
+              </tr>
+              </tbody>
+          </table>
+      </div>
   </div>
 </div>
 
@@ -30,7 +66,7 @@
         <!-- amount -->
         <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
         <div class="col-md-2">
-          <input class="form-control" ng-model="transfer_info.amount" name="amount" type="number" class="form-control" placeholder="0.0" id="amount"
+          <input class="form-control" ng-model="transfer_info.amount" name="amount" type="text" class="form-control" placeholder="0.0" id="amount"
                  ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine">Wrong amount</span>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
@@ -98,3 +134,9 @@
     </form>
   </div>
 </div>
+
+
+</div>
+</div>
+
+
