@@ -29,14 +29,8 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
       $scope.connections_str = "1 network connection"
     else
       $scope.connections_str = "Not connected"
-      
 
-    if connections < 4
-      $scope.connections_img = "/img/signal_#{connections}.png"
-    else if connections >= 4
-      $scope.connections_img = "/img/signal_4.png"
-    else
-      $scope.connections_img = "/img/signal_0.png"
+    $scope.connections_class = if connections < 4 then "signal-#{connections}" else "signal-4"
 
     $scope.wallet_unlocked = info.wallet_unlocked
 
