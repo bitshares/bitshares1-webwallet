@@ -24,7 +24,10 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
 
     refresh_blocks = ->
         BlockchainAPI.get_block_count().then (head_block) =>
-            Blockchain.get_blocks_with_missed(head_block - 20, 20).then (blocks) =>
+            start = head_block - 20
+            if start < 0
+                start = 0
+            Blockchain.get_blocks_with_missed(start, 20).then (blocks) =>
                 $scope.blocks = blocks
 
     Blockchain.get_last_block_round().then (last_block_round) ->
