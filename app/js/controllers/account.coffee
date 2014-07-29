@@ -108,7 +108,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.toggleVoteUp = ->
         approve = !Wallet.approved_delegates[name]
-        Wallet.approve_delegate(name, approve).then ->
+        Wallet.approve_account(name, approve).then ->
             $scope.trust_level = approve
 
     $scope.toggleFavorite = ->

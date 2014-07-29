@@ -138,7 +138,7 @@ class Wallet
 
     approve_delegate: (name, approve) ->
         @approved_delegates[name] = approve
-        @wallet_api.approve_delegate(name, approve).then () =>
+        @wallet_api.account_set_approval(name, approve).then () =>
             @refresh_account(name)
             @approved_delegates[name]  # return result in b/c it might have failed
     
