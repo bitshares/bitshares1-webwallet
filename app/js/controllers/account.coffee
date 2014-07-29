@@ -12,7 +12,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.model.rescan = true
     $scope.magic_unicorn = magic_unicorn?
 
-    $scope.trust_level = false
 
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
@@ -40,8 +39,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
-    Wallet.refresh_account(name).then ->
-        $scope.trust_level = Wallet.approved_delegates[name]
+    Wallet.refresh_account(name)
 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
@@ -107,9 +105,13 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 form.pass.$invalid = true
 
     $scope.toggleVoteUp = ->
-        approve = !Wallet.approved_delegates[name]
-        Wallet.approve_account(name, approve).then ->
-            $scope.trust_level = approve
+        newApproval=0
+        if ($scope.account.approved>0)
+            newApproval=-1
+        if ($scope.account.approved==0)
+            newApproval=1
+        Wallet.approve_account(name, newApproval).then ->
+            $scope.account.approved=newApproval
 
     $scope.toggleFavorite = ->
         address = $scope.account.owner_key

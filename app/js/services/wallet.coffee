@@ -141,6 +141,11 @@ class Wallet
         @wallet_api.account_set_approval(name, approve).then () =>
             @refresh_account(name)
             @approved_delegates[name]  # return result in b/c it might have failed
+
+    approve_account: (name, approve) ->
+        @accounts[name].approved = approve
+        @wallet_api.account_set_approval(name, approve).then (response) =>
+            console.log('approved', response)
     
     refresh_transactions_on_update: () ->
         @refresh_transactions()
