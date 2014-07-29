@@ -83,8 +83,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     $scope.newContactModal = ->
         $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactController"
+            templateUrl: "newcontactmodal.html"
+            controller: "NewContactModalController"
             resolve:
                 addr: ->
                     ""

@@ -128,7 +128,7 @@
       <!-- transfer tab -->
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
-        <div ng-controller="TransferController" ng-include src="'transfer.html'"></div>
+        <div ng-controller="TransferController" ng-include src="'transfer.html'" ng-if="account.is_my_account"></div>
       </tab>
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>

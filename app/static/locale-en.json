@@ -27,7 +27,7 @@
     "memo_data": "Memo Data",
     "maximum_share_supply": "Maximum Share Supply",
     "precision": "Precision",
-    "create": "Create",
+    "create_account": "Create Account",
     "un_approve_all": "Un-approve all",
     "tip": {
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
