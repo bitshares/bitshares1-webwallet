@@ -3,6 +3,9 @@ angular.module("app").controller "ToolbarController", ($scope, $window, $modal, 
     $scope.back = ->
         $window.history.back()
 
+    $scope.forward = ->
+        $window.history.forward()
+
 #    $scope.newContactModal = ->
 #        $modal.open
 #            templateUrl: "newcontactmodal.html"
