@@ -1,13 +1,17 @@
 angular.module("app").controller "ToolbarController", ($scope, $window, $modal, $location) ->
-    $scope.back = ()->
+
+    $scope.back = ->
         $window.history.back()
 
-    $scope.newContactModal = ->
-        $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactController"
-            resolve:
-                addr: -> null
-                action: ->
-                    (contact)->
-                        $location.path "accounts/#{contact}"
+    $scope.forward = ->
+        $window.history.forward()
+
+#    $scope.newContactModal = ->
+#        $modal.open
+#            templateUrl: "newcontactmodal.html"
+#            controller: "NewContactModalController"
+#            resolve:
+#                addr: -> null
+#                action: ->
+#                    (contact)->
+#                        $location.path "accounts/#{contact}"

@@ -1,5 +1,5 @@
 angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
-
+    
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
@@ -17,8 +17,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
-    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin'}
-
+    $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
+    Blockchain.refresh_delegates().then ->
+        $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
+    
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
@@ -49,6 +51,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     , ->
         if Wallet.accounts[name]
             $scope.account = Wallet.accounts[name]
+            if $scope.account.delegate_info
+                Blockchain.get_asset(0).then (asset_type) ->
+                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
     $scope.$watch ->
         Wallet.balances[name]
@@ -83,12 +88,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         form.pass.$invalid = false
         promise = null
         switch $scope.wallet_info.type
-            when 'Bitcoin' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'Bitcoin/PTS' then promise = WalletAPI.import_bitcoin($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
             when 'Multibit' then promise = WalletAPI.import_multibit($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
             when 'Electrum' then promise = WalletAPI.import_electrum($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
             when 'Armory' then promise = WalletAPI.import_armory($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
         promise?.then (response) ->
-            $scope.wallet_info.type = 'Bitcoin'
+            $scope.wallet_info.type = 'Bitcoin/PTS'
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
             Growl.notice "","The wallet was successfully imported."

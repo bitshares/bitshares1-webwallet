@@ -178,10 +178,17 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     transfer =
         name: 'transfer'
-        url: '/transfer?from&to'
+        url: '/transfer?from&to&amount&memo&currency'
         templateUrl: "transfer.html"
         controller: "TransferController"
+
+    newcontact =
+        name: 'newcontact'
+        url: '/newcontact?name&key'
+        templateUrl: "newcontact.html"
+        controller: "NewContactController"
 
     $stateProvider.state(home).state(help).state(preferences).state(unlockwallet).state(proposals).state(createaccount)
     .state(console).state(editaccount).state(accounts).state(blocks).state(createwallet).state(account).state(directory)
     .state(delegates).state(block).state(transaction).state(blocksbyround).state(markets).state(market).state(transfer)
+    .state(newcontact)

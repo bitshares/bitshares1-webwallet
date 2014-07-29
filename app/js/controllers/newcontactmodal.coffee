@@ -1,17 +1,22 @@
-angular.module("app").controller "NewContactController", ($scope, $location, $stateParams, Wallet) ->
-    $scope.account_name = $stateParams.name
-    $scope.address = $stateParams.key
+angular.module("app").controller "NewContactModalController", ($scope, $modalInstance, Wallet, addr, action) ->
+    $scope.name = ''
+    $scope.address = addr if addr
 
-    $scope.createContact = ->
+    $scope.cancel = ->
+        $modalInstance.dismiss "cancel"
+
+    $scope.ok = ->
         form = @newcontact
-        form.account_name.$invalid = false
-        form.account_name.error_message = null
         form.address.$invalid = false
+        form.account_name.$invalid = false
         form.address.error_message = null
-        Wallet.wallet_add_contact_account($scope.account_name, $scope.address).then (response) ->
+        form.account_name.error_message = null
+        Wallet.wallet_add_contact_account($scope.name, $scope.address).then (response) ->
             Wallet.refresh_accounts()
-            $location.path "accounts/#{$scope.account_name}"
+            $modalInstance.close("ok")
+            action($scope.name) if action
         , (response) ->
+            form.address.$invalid = true
             if response.data.error.code == 10 and response.data.error.message
                 message = response.data.error.message.replace(/(\r\n|\n|\r)/gm,'')
                 regex_match = message.match(/Assert\sException.+\:\s?(.+)/i)

@@ -1,5 +1,4 @@
 <div ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
-
   <div class="col-sm-2">
     <div class="avatar-150">
       <img src="http://robohash.org/set_any/bgset_any/{{account_name}}?size=150x150" height="150" width="150"/>
@@ -22,6 +21,7 @@
   </div>
 
   <div class="col-sm-10">
+
     <div class="header p-inner ">
       <div ng-switch on="account.registration_date">
         <div ng-switch-when="19700101T000000">
@@ -44,7 +44,14 @@
           <br> <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
         </div>
       </div>
-      <table class="table table-striped table-acc-balance" ng-if="account.delegate_info">
+      <div ng-if="account.delegate_info">
+      <div class='white-shadow' ng-if="active_delegate">
+        Active delegate
+      </div>
+      <div class='white-shadow' ng-if="!active_delegate">
+        Standby delegate
+      </div>
+      <table class="table table-striped table-acc-balance">
         <thead>
           <tr>
             <th translate>th.approval</th>
@@ -72,11 +79,12 @@
             <td ng-if='account.delegate_info.blocks_produced==0'>{{ account.delegate_info.blocks_missed }}</td>
             <td>{{ account.delegate_info.pay_rate }}%</td>
             <td>
-              {{account.delegate_info.pay_balance_asset | formatAsset}}
+                {{account.delegate_info.pay_balance_asset | formatAsset}}
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
     </div>
   </div>
 
@@ -99,17 +107,18 @@
     </div>
   </div>
 </div>
-<hr>
+
+<div class="main-content">
 <div class="row">
 
   <!--<button class="btn btn-primary"><i class="fa fa-file-excel-o fa-lg fa-fw"></i> Issue assets</button>
   <button class="btn btn-primary">Free Registration</button> -->
 
-  <div class="col-sm-12 p-top">
+  <div class="col-sm-12">
     <tabset>
       <tab active="$parent.t_active">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
-        <div class="p-inner" ng-controller="TransactionsController" ng-include src="'transactions.html'"></div>
+        <div class="p-inner" ng-controller="TransactionsController" ng-include src="'account_transactions.html'"></div>
       </tab>
       <tab ng-if="account.delegate_info">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
@@ -120,7 +129,7 @@
       <!-- transfer tab -->
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
-        <div ng-controller="TransferController" ng-include src="'transfer.html'"></div>
+        <div ng-controller="TransferController" ng-include src="'transfer.html'" ng-if="account.is_my_account"></div>
       </tab>
       <tab ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
@@ -167,7 +176,7 @@
                       {{wallet_info.type}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      <li><a ng-click="wallet_info.type = 'Bitcoin'; status.isopen = false">Bitcoin/PTS</a></li>
+                      <li><a ng-click="wallet_info.type = 'Bitcoin/PTS'; status.isopen = false">Bitcoin/PTS</a></li>
                       <li><a ng-click="wallet_info.type = 'Multibit'; status.isopen = false">Multibit</a></li>
                       <li><a ng-click="wallet_info.type = 'Electrum'; status.isopen = false">Electrum</a></li>
                       <li><a ng-click="wallet_info.type = 'Armory'; status.isopen = false">Armory</a></li>
@@ -214,4 +223,5 @@
       </tab>
     </tabset>
   </div>
+</div>
 </div>

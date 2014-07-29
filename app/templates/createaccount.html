@@ -1,55 +1,47 @@
-	<div class="col-sm-12">
-<div class="header">
-		<h3 class="header-title" translate>accounts.create_account</h3>
-	</div>
+<div class="col-sm-12">
+  <div class="header">
+    <h3 class="header-title" translate>accounts.create_account</h3>
+  </div>
 </div>
+
 <div class="row">
-<div class="col-md-12 p-inner">
-	<div class="col-sm-3 m-top">
-    <div class="avatar move-right-50px">
-      <img src="http://robohash.org/set_any/bgset_any/{{f.name}}?size=150x150" height="150" width="150" ng-if="f.name" tooltip="Your RoboHash is a security feature that helps you verify account names visually"/>
-      <img src="img/user.png" height="150" width="150" ng-if="!f.name"/>
+
+    <div class="col-sm-3 m-top">
+      <div class="avatar col-lg-offset-3 col-md-offset-2">
+        <img src="http://robohash.org/set_any/bgset_any/{{f.name}}?size=150x150" height="150" width="150" ng-if="f.name"
+             tooltip="Your RoboHash is a security feature that helps you verify account names visually"/> <img
+          src="img/user.png" height="150" width="150" ng-if="!f.name"/>
+      </div>
     </div>
-	</div>
-	<div class="col-sm-9">
-	<form name="createaccount" class="form-horizontal" role="form" ng-submit="createaccount.$valid && createAccount()" novalidate>
-		<div class="form-group m-top">
-				<div class="form-group row" ng-class="{ 'has-error' : (createaccount.account_name.$invalid || createaccount.account_name.error_message) && !createaccount.account_name.$pristine }">
-					<label for="account_name" class="col-sm-1 control-label" translate>name</label>
-          <div class="col-sm-6">
-            <input-name autofocus ng-model="f.name" form-name="createaccount" show-note-1="true" show-note-2="false"/>
+
+    <div class="col-sm-9">
+
+      <form name="createaccount" class="form-horizontal m-top" role="form" ng-submit="createaccount.$valid && createAccount()"
+            novalidate>
+        <div class="form-group m-top">
+          <div class="form-group row"
+               ng-class="{ 'has-error' : (createaccount.account_name.$invalid || createaccount.account_name.error_message) && !createaccount.account_name.$pristine }">
+            <label for="account_name" class="col-sm-2 control-label">Account Name</label>
+            <div class="col-sm-10 col-md-9 col-lg-6">
+              <input-name autofocus ng-model="f.name" form-name="createaccount" show-note-1="true" show-note-2="false"/>
+            </div>
           </div>
-			  	</div>
-			  	<!--<div class="form-group row" ng-class="{ 'has-error' : createaccount.email.$invalid && !createaccount.name.$pristine }">-->
-			  		<!--<label for="email" class="col-sm-1 control-label" translate>email</label>-->
-					<!--<div class="col-sm-6">-->
-			    		<!--<input id="email" ng-model="email" name="email" type="email" class="form-control" placeholder="Optional Email"/>-->
-              <!--<div ng-show="createaccount.email.$invalid && !createaccount.email.$pristine" class="text-danger">Email should be valid</div>-->
-			  		<!--</div>-->
-			  	<!--</div>-->
-			  	<div class="form-group row">
-			  		<label for="website" class="col-sm-1 control-label" translate>website</label>
-					<div class="col-sm-6">
-			    		<input ng-model="website" name="website" class="form-control" placeholder="Optional Website"/>
-			  		</div>
-			  	</div>
-				<div class="form-group row">
-			  		<div class="col-sm-offset-1 col-sm-2" >
-			    		<button ng-disabled="!createaccount.$valid" class="btn btn-primary" type="submit" translate>create</button>
-			  		</div>
-			  		<div class="col-sm-4">
-					</div>
-			  	</div>
-			 </div>
-  		
-	</form>
-	
-	<form class="form-horizontal">
-		<div class="form-group">
-		  	<div class="form-group row">
-				<div class="col-sm-offset-1 col-sm-6">
-			</div>
-		</div>
-	</form>
-	</div>
-</div></div>
+          <div class="form-group row">
+            <label for="website" class="col-sm-2 control-label" translate>website</label>
+            <div class="col-sm-10 col-md-9 col-lg-6">
+              <input id="website" ng-model="website" name="website" class="form-control" placeholder="Optional Website"/>
+            </div>
+          </div>
+          <div class="form-group row m-top">
+            <div class="col-sm-offset-2 col-sm-2">
+              <button ng-disabled="!createaccount.$valid" class="btn btn-primary" type="submit" translate>create_account</button>
+            </div>
+            <div class="col-sm-4">
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+</div>

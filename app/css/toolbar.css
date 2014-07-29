@@ -1,19 +1,49 @@
 .navbar {
   min-height: 36px;
-	height: 36px;
+  height: 36px;
 }
 
 .navbar-main {
 	/*left: 190px;*/
-	padding-left: 190px;
-	padding-right: 10px;
+	/*padding-left: 190px;*/
+	/*padding-right: 10px;*/
+	background-color: #f5f5f5 !important;
 }
 
 .navbar-main.navbar-main .navbar-nav {
 	float: left;
 }
 
+.logo-panel {
+  width: 190px;
+	height: 36px;
+	background-color: #e2e2e2;
+	text-align: center;
+}
+
+.logo-panel > ul {
+	padding: 0;
+	margin: 0 auto;
+	height: 36px;
+}
+
+.logo-panel > ul > li {
+	display: inline;
+}
+.logo-panel > ul > li > a {
+ color: #393939;
+ line-height: 36px;
+ font-size: 16px;
+ text-decoration: none;
+}
+
+li > a:hover, li.active > a  {
+	color: #01bbf4 !important;
+	background-color: transparent !important;
+}
+
 .left-panel {
+
 }
 
 .right-panel {
@@ -26,7 +56,12 @@
 
 .navbar-default.navbar-main .navbar-nav > li > a > .fa {
   font-size: 14px;
-	font-weight: lighter;
+  font-weight: lighter;
   margin-right: 2px;
 }
 
+
+li[disabled] a {
+    display: none;
+    color: #eee;
+}

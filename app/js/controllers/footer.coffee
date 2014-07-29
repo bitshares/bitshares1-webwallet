@@ -29,14 +29,8 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
       $scope.connections_str = "1 network connection"
     else
       $scope.connections_str = "Not connected"
-      
 
-    if connections < 4
-      $scope.connections_img = "/img/signal_#{connections}.png"
-    else if connections >= 4
-      $scope.connections_img = "/img/signal_4.png"
-    else
-      $scope.connections_img = "/img/signal_0.png"
+    $scope.connections_class = if connections < 4 then "signal-#{connections}" else "signal-4"
 
     $scope.wallet_unlocked = info.wallet_unlocked
 
@@ -48,7 +42,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
         hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
         minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
         
-        Blockchain.get_config().then (config) ->
+        Blockchain.get_info().then (config) ->
             $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
             $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
             $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"

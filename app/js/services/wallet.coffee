@@ -22,8 +22,8 @@ class Wallet
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
-        if result.state == "open"
-            if result.locked
+        if result.open
+            if not result.unlocked
                 @location.path("/unlockwallet")
             else
                 @get_setting('timeout').then (result) =>
@@ -154,19 +154,20 @@ class Wallet
             @wallet_account_transaction_history(account_name).then (result) =>
                 @transactions[account_name_key] = []
                 angular.forEach result, (val, key) =>
-                    running_balances = []
-                    angular.forEach val.running_balances, (item) =>
-                        asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                        running_balances.push asset
 
                     ledger_entries = []
                     angular.forEach val.ledger_entries, (entry) =>
+                        running_balances = []
+                        angular.forEach entry.running_balances, (item) =>
+                            asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                            running_balances.push asset
                         ledger_entries.push
                             from: entry.from_account
                             to: entry.to_account
                             amount: entry.amount.amount
                             amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
                             memo: entry.memo
+                            running_balances: running_balances
 
                     @transactions[account_name_key].push
                         is_virtual: val.is_virtual
@@ -175,7 +176,6 @@ class Wallet
                         trx_num: val.trx_num
                         time: @utils.toDate(val.received_time)
                         ledger_entries: ledger_entries
-                        running_balances: running_balances
                         id: val.trx_id
                         fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
                         vote: "N/A"
@@ -256,7 +256,7 @@ class Wallet
 
     check_if_locked: ->
         @rpc.request('wallet_get_info').then (response) =>
-            if response.result.locked
+            if not response.result.unlocked
                 @location.path("/unlockwallet")
 
     open: ->
