@@ -18,13 +18,16 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
         app_history.push {state: fromState.name, params: fromState} if fromState.name
 
     $rootScope.history_back = ->
-        return if app_history.length == 0 or window.history.length == 0
+        return false if app_history.length == 0 or window.history.length == 0
         history_counter = 0
         loop
-            history_counter -= 1
+            history_counter += 1
             prev_page = app_history.pop()
+            break unless prev_page
             break unless prev_page.state == "createwallet" or prev_page.state == "unlockwallet"
-        $window.history.go(history_counter)
+        return false if window.history.length < history_counter
+        $window.history.go(0 - history_counter)
+        return true
 
     $rootScope.history_forward = ->
         $window.history.forward()

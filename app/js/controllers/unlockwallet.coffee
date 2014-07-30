@@ -1,10 +1,11 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, Wallet) ->
+angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, Wallet) ->
     $scope.descriptionCollapsed = true
     $scope.wrongPass = false
     $scope.submitForm = ->
         $scope.wrongPass = false
         promise = Wallet.wallet_unlock($scope.spending_password).then(() ->
-            $scope.history_back()
+            res = $scope.history_back()
+            $location.path('/home') unless res
         , (error) ->
             $scope.wrongPass = true
         )

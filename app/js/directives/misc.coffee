@@ -160,3 +160,13 @@ angular.module("app.directives").directive 'gravatar', ->
     replace: true
     template: "<img src=''/>"
 
+
+angular.module("app.directives").directive "focus", ($timeout) ->
+  scope:
+    trigger: "@focus"
+  link: (scope, element) ->
+    scope.$watch "trigger", (value) ->
+      if value is "true"
+        $timeout ->
+          element[0].focus()
+
