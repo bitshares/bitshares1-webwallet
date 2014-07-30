@@ -18,12 +18,6 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
         $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
         $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
 
-        $scope.approved_delegates_list = []
-        angular.forEach Wallet.approved_delegates, (value, key) ->
-            delegate = Blockchain.all_delegates[key]
-            if delegate
-                $scope.approved_delegates_list.push delegate
-
     $scope.$watch ()->
         Info.info
     , ()->
@@ -40,11 +34,13 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
 
     $scope.toggleVoteUp = (name) ->
         newApproval=1
-        if ($scope.accounts[name].approved>0)
+        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
             newApproval=-1
-        if ($scope.accounts[name].approved<0)
+        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
             newApproval=0
-        Wallet.approve_account(name, newApproval).then ->
+        Wallet.approve_account(name, newApproval).then (res)->
+            if (!$scope.accounts[name])
+                $scope.accounts[name]={}
             $scope.accounts[name].approved=newApproval
 
     $scope.unvoteAll = ->
