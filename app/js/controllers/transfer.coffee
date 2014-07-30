@@ -19,7 +19,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         if account_from_name
             if $scope.accounts[account_from_name]
                 $scope.balances = Wallet.balances[account_from_name]
-                $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+                $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances
             else
                 scope.no_account = true
         else
@@ -27,7 +27,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 if account
                     $scope.account_from_name = account_from_name = account.name
                     $scope.balances = Wallet.balances[account_from_name]
-                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances
                 else
                     $scope.no_account = true
 

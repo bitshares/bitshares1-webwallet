@@ -7,25 +7,27 @@ app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
      "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate"])
 
-#app.run [
-#  "$idle"
-#  ($idle) ->
-#    $idle.watch()
-#]
-
-app.run ($rootScope, $location, $idle, $interval, editableOptions, editableThemes) ->
-    history = []
+app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
+    app_history = []
 
     editableOptions.theme = 'default'
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
     editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
 
-    $rootScope.$on '$locationChangeSuccess', ()->
-        history.push $location.$$path
+    $rootScope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
+        app_history.push {state: fromState.name, params: fromState} if fromState.name
 
-    $rootScope.history_back = ()->
-        prevUrl = if history.length > 1 then history.splice(-2)[0] else "/home"
-        $location.path(prevUrl)
+    $rootScope.history_back = ->
+        return if app_history.length == 0 or window.history.length == 0
+        history_counter = 0
+        loop
+            history_counter -= 1
+            prev_page = app_history.pop()
+            break unless prev_page.state == "createwallet" or prev_page.state == "unlockwallet"
+        $window.history.go(history_counter)
+
+    $rootScope.history_forward = ->
+        $window.history.forward()
 
     $rootScope.loading = false
     $rootScope.progress = 100

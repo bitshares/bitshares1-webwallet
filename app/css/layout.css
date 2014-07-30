@@ -16,6 +16,7 @@
 	position: fixed;
 	margin-top: 0;
 	top: 36px;
+	padding-top: 10px;
 }
 
 body.fixed_header .wrapper {
