@@ -17,6 +17,8 @@ class Wallet
     
     #Long time
     backendTimeout: 999999
+
+    approved_delegates: {}
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
@@ -74,6 +76,7 @@ class Wallet
 
     # turn raw rpc return value into nice object
     populate_account: (val) ->
+        @approved_delegates[val.name] = val.approved
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
         @accounts[acct.name] = acct
