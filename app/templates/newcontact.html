@@ -1,36 +1,49 @@
-<div class="container-fluid">
-<div class="modal-header">
-  <h3 class="modal-title">New Contact</h3>
+<div class="col-sm-12">
+  <div class="header">
+    <h3 class="header-title">New Contact</h3>
+  </div>
 </div>
+
 <div class="row">
-  <div class="col-md-2">
-    <div class="avatar">
-      <br/>
-      <img src="https://robohash.org/{{$parent.name}}?size=100x100" height="100" width="100" ng-if="$parent.name"/>
-      <img src="img/user.png" height="100" width="100" ng-if="!$parent.name"/>
-    </div>
-  </div>
-  <div class="col-md-10">
-    <form name="newcontact" role="form" ng-submit="ok()">
-      <div class="modal-body">
-        <div class="form-group" ng-class="{ 'has-error' : (newcontact.account_name.$invalid || newcontact.account_name.error_message) && !newcontact.account_name.$pristine }">
-            <!--<input ng-model="$parent.name" name="name" focus-me class="form-control"-->
-                  <!--id="contact_name" placeholder="Name" ng-maxlength="63"-->
-                  <!--ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required autofocus>-->
-            <label for="account_name" class="control-label" translate>name</label>
-            <input-name autofocus ng-model="$parent.name" form-name="newcontact" show-note-1="false" show-note-2="true"/>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
-          <label for="address">Public Key</label>
-          <input ng-model="$parent.address" name="address" class="form-control" id="address" placeholder="Address" required>
-          <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
-        </div>
+
+    <div class="col-sm-3 m-top">
+      <div class="avatar col-lg-offset-3 col-md-offset-2">
+        <img src="http://robohash.org/set_any/bgset_any/{{account_name}}?size=150x150" height="150" width="150" ng-if="account_name"
+             tooltip="Your RoboHash is a security feature that helps you verify account names visually"/>
+        <img src="img/user.png" height="150" width="150" ng-if="!account_name"/>
       </div>
-    </form>
-    <div class="modal-footer">
-      <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; OK &nbsp;</button>
-      <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
-  </div>
+
+    <div class="col-sm-9">
+
+      <form name="newcontact" class="form-horizontal m-top" role="form" ng-submit="newcontact.$valid && createContact()"
+            novalidate>
+        <div class="form-group m-top">
+          <div class="form-group row"
+               ng-class="{ 'has-error' : (newcontact.account_name.$invalid || newcontact.account_name.error_message) && !newcontact.account_name.$pristine }">
+            <label for="account_name" class="col-sm-2 control-label">Contact Name</label>
+            <div class="col-sm-10 col-md-9 col-lg-6">
+              <input-name autofocus focus ng-model="account_name" form-name="newcontact" show-note-1="false" show-note-2="false"/>
+            </div>
+          </div>
+          <div class="form-group row"
+              ng-class="{ 'has-error' : (newcontact.address.$invalid || newcontact.address.error_message) && !newcontact.address.$pristine }">
+            <label for="address" class="col-sm-2 control-label">Public Key</label>
+            <div class="col-sm-10 col-md-9 col-lg-6">
+              <input id="address" ng-model="address" name="address" class="form-control" placeholder="Public Key"/>
+              <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
+            </div>
+          </div>
+          <div class="form-group row m-top">
+            <div class="col-sm-offset-2 col-sm-2">
+              <button ng-disabled="!newcontact.$valid" class="btn btn-primary" type="submit">Add Contact</button>
+            </div>
+            <div class="col-sm-4">
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
 </div>
- </div>

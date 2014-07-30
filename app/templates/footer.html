@@ -1,8 +1,8 @@
 <div class="pull-left logo">
-    <img src="/img/xt-icon.png" />
+    <img src="/img/logo-ico.svg" height="32"/>
 </div>
 <p class="pull-left">
-    <span>{{message}}</span>
+    <span>{{message}}&nbsp;{{scan_progress_info}}</span>
 </p>
 <p class="pull-right m-bottom">
 	<span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
@@ -16,8 +16,22 @@
        tooltip-placement="left"></i>
 		<i ng-switch-default></i>
 	</span>
-	<img class="connections" ng-src="{{connections_img}}" alt="network connections"
-       tooltip="{{connections_str}}"
-       tooltip-placement="left"
-       height="24" width="24"/>
+  <span tooltip="{{connections_str}}" tooltip-placement="left">
+  <svg height="16" width="16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+       class="{{connections_class}}">
+    <g class="connection" transform="translate(-61.0002,-257)">
+      <path class="bar-4" d="m 73,257 0,1.5 0,12 0,1.5 3,0 0,-1.5 0,-12 0,-1.5 -3,0 z" fill="#999"/>
+      <path class="bar-3" d="m 69,260 0,1.5 0,9  0,1.5 3,0 0,-1.5 0,-9  0,-1.5 -3,0 z" fill="#999"/>
+      <path class="bar-2" d="m 65,263 0,1.5 0,6  0,1.5 3,0 0,-1.5 0,-6  0,-1.5 -3,0 z" fill="#999"/>
+      <path class="bar-1" d="m 61,266 0,1.5 0,3  0,1.5 3,0 0,-1.5 0,-3  0,-1.5 -3,0 z" fill="#999"/>
+    </g>
+    <g class="no-connection">
+      <line x1="0" y1="16" x2="16" y2="2" stroke="black" stroke-width="1"/>
+      <line x1="16" y1="2" x2="16" y2="16" stroke="black" stroke-width="1"/>
+      <line x1="16" y1="16" x2="0" y2="16" stroke="black" stroke-width="1"/>
+   </g>
+  </svg>
+  </span>
+
+
 </p>

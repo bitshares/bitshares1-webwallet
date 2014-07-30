@@ -25,7 +25,7 @@ angular.module("app.directives").directive "myNgEnter", ->
 
 angular.module("app.directives").directive "inputName", ->
     template: '''
-        <input id="account_name" name="account_name" ng-trim="false" placeholder="Account Name (Required)"
+        <input autofocus id="account_name" name="account_name" ng-trim="false" placeholder="Name (Required)"
         autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
         popover="Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash."
@@ -100,7 +100,6 @@ angular.module("app.directives").directive "numonly", ->
     link: (scope, element, attr, ngModelCtrl) ->
         fromUser = (text) ->
             transformedInput = text.replace(/[^0-9]/g, "")
-            console.log transformedInput
             if transformedInput isnt text
                 element.css('background-color', 'pink');
                 setTimeout (->
@@ -108,7 +107,23 @@ angular.module("app.directives").directive "numonly", ->
                 ), 500
                 ngModelCtrl.$setViewValue transformedInput
                 ngModelCtrl.$render()
-            transformedInput # or return Number(transformedInput)
+            transformedInput
+        ngModelCtrl.$parsers.push fromUser
+        return
+
+angular.module("app.directives").directive "decimalonly", ->
+    require: "ngModel"
+    link: (scope, element, attr, ngModelCtrl) ->
+        fromUser = (text) ->
+            transformedInput = text.replace(/[^0-9\.]/g, "")
+            if transformedInput isnt text
+                element.css('background-color', 'pink');
+                setTimeout (->
+                    element.css('background-color', 'none');
+                ), 500
+                ngModelCtrl.$setViewValue transformedInput
+                ngModelCtrl.$render()
+            transformedInput
         ngModelCtrl.$parsers.push fromUser
         return
 
@@ -144,4 +159,9 @@ angular.module("app.directives").directive 'gravatar', ->
     restrict: 'E'
     replace: true
     template: "<img src=''/>"
+
+
+angular.module("app.directives").directive "focus", ($timeout) ->
+    link: (scope, element) ->
+        $timeout -> element[0].focus()
 

@@ -1,0 +1,15 @@
+<div class="nav navbar-nav logo-panel">
+    <ul>
+      <li class="back-button"><a class="pointer back-button" ng-click="back()" tooltip="Back" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-left"></i> &nbsp; </a></li>
+      <li class="back-button"><a class="pointer" ng-click="forward()" tooltip="Forward" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-right"></i> &nbsp; </a></li>
+    </ul>
+</div>
+
+<ul class="nav navbar-nav left-panel">
+   <li ng-class="{active: current_path_includes('transfer')}"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>Transfer</a></li>
+   <li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>Add Contact</a></li>
+</ul>
+
+<ul class="nav navbar-nav pull-right">
+    <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
+</ul>

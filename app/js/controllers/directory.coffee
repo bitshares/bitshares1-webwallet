@@ -21,7 +21,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
         $scope.p.numberOfPages = Math.ceil(($filter("filter") $scope.reg, $scope.q).length / $scope.p.pageSize)
         $scope.p.currentPage = 0
 
-    Blockchain.get_config().then (config) ->
+    Blockchain.get_info().then (config) ->
         $scope.genesis_date = config.genesis_timestamp
 
     Blockchain.list_accounts().then (reg) ->
@@ -59,12 +59,3 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
             Wallet.refresh_accounts().then ()->
                 WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
                     Wallet.refresh_accounts()
-
-    $scope.newContactModal = ->
-        console.log '----->newContactModal'
-        $modal.open
-            templateUrl: "newcontact.html"
-            controller: "NewContactController"
-            resolve:
-                addr: null
-                action: null

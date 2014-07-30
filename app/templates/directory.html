@@ -1,8 +1,8 @@
 <div class="col-sm-12">
   <div class="header">
-    <button type="submit" ng-click='newContactModal()' class="btn btn-primary pull-right directory-add-contact">
-      <i class="fa fa-plus fa-fw"></i>Add Contact
-    </button>
+    <!--<button type="submit" ng-click='newContactModal()' class="btn btn-primary pull-right directory-add-contact">-->
+      <!--<i class="fa fa-plus fa-fw"></i>Add Contact-->
+    <!--</button>-->
     <h3 class="header-title">Directory</h3>
   </div>
 </div>
@@ -53,7 +53,7 @@
                       <tr ng-repeat="r in reg | filter:q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
                       	<td style='width:1%;white-space:nowrap'>
                           <div class="avatar-40">
-                            <img src="https://robohash.org/{{r.name}}?size=40x40" height="40" width="40"/>
+                            <img src="http://robohash.org/set_any/bgset_any/{{r.name}}?size=40x40" height="40" width="40"/>
                           </div>
                         </td>
                         <td style='width:1%;white-space:nowrap'>

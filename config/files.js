@@ -58,7 +58,9 @@ module.exports = function(lineman) {
         //TODO: make main.css compatible with ng-grid
         "app/css/main.css",
         "app/css/layout.css",
-        "app/css/my-ng-grid.css"
+        "app/css/my-ng-grid.css",
+        "app/css/toolbar.css",
+        "app/css/footer.css"
       ]
     }
 
