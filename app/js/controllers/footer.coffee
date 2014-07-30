@@ -5,6 +5,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
   $scope.blockchain_last_block_num = 0
   $scope.alert_level = "normal-state"
   $scope.message = ""
+  $scope.scan_progress_info = ""
 
 
   $scope.$watch ()->
@@ -57,6 +58,11 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     else
       $scope.blockchain_status = "off"
       $scope.blockchain_last_sync_info = "Not connected "
+
+    if info.wallet_scan_progress and info.wallet_scan_progress < 1
+      $scope.scan_progress_info = "Transaction scanning progress is " + Math.floor(info.wallet_scan_progress * 100) + "%"
+    else
+      $scope.scan_progress_info = ""
 
     
     if info.alert_level == "green"

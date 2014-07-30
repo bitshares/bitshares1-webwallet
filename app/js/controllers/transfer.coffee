@@ -15,7 +15,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.no_account = false
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts = Wallet.accounts
+        $scope.accounts = {}
+
+        angular.forEach Wallet.accounts, (acct, name) ->
+            if acct.is_my_account
+                $scope.accounts[name] = acct
+
         if account_from_name
             if $scope.accounts[account_from_name]
                 $scope.balances = Wallet.balances[account_from_name]

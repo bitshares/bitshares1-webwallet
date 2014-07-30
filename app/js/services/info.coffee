@@ -29,6 +29,7 @@ class Info
                     @info.income_per_block = data.blockchain_delegate_pay_rate
                     @info.share_supply = data.blockchain_share_supply
                     @info.blockchain_delegate_pay_rate = data.blockchain_delegate_pay_rate
+                    @info.wallet_scan_progress = data.wallet_scan_progress
                 else
                     @info.wallet_unlocked = data.wallet_unlocked
 
