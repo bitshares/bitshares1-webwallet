@@ -4,7 +4,8 @@ class TradeData
         @quantity = null
         @price = null
 
-angular.module("app").controller "MarketController", ($scope, $stateParams, $modal, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl) ->
+angular.module("app").controller "MarketController", ($scope, $stateParams, $modal, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils) ->
+    formatMoney = Utils.formatMoney
     account_name = $stateParams.account
     market_url_name = $stateParams.name
     market_name = market_url_name.replace(':', '/')
@@ -29,6 +30,15 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
     $scope.market_name = market_name
 
     $scope.sell_orders = []
+
+    clear_form = (form) ->
+        form.$error.message = null if form.$error.message
+        for key of form
+            continue if /^(\$|_)/.test key
+            control = form[key]
+            control.$setPristine true
+            control.$valid = true
+            control.$error.message = null if control.$error.message
 
     Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
@@ -113,48 +123,44 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
 
 
     $scope.submit_buy_form = ->
-        if !@buy_form.$valid
-            Growl.error "", "Your bid cannot be placed. Please fix errors on the buy form."
-            return
+        form = @buy_form
         buy = $scope.buy
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will place a request to buy #{buy.quantity} #{quote_symbol} for #{buy.quantity * buy.price} #{base_symbol}"
+                message: -> "This will place a request to buy #{formatMoney(buy.quantity)} #{quote_symbol} for #{formatMoney(buy.quantity * buy.price)} #{base_symbol}"
                 action: ->
                     ->
                         WalletAPI.market_submit_bid(account_name, buy.quantity, quote_symbol, buy.price, base_symbol).then ->
+                            buy.quantity = buy.price = ''
+                            clear_form(form)
                             Growl.notice "", "Your bid request was successfully placed."
+                        , (error) ->
+                            form.$error.message = error.data.error.message
 
     $scope.submit_sell_form = ->
-        if !@sell_form.$valid
-            Growl.error "", "Your ask cannot be placed. Please fix errors on the sell form."
-            return
         sell = $scope.sell
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will place a request to sell #{sell.quantity} #{quote_symbol} for #{sell.quantity * sell.price} #{base_symbol}"
+                message: -> "This will place a request to sell #{formatMoney(sell.quantity)} #{quote_symbol} for #{formatMoney(sell.quantity * sell.price)} #{base_symbol}"
                 action: ->
                     ->
                         WalletAPI.market_submit_ask(account_name, sell.quantity, quote_symbol, sell.price, base_symbol).then ->
                             Growl.notice "", "Your ask was successfully placed."
                             
     $scope.submit_short_form = ->
-        if !@sell_form.$valid
-            Growl.error "", "Your short cannot be placed. Please fix errors on the short form."
-            return
         short = $scope.short
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will place a request to short #{short.quantity} #{quote_symbol} for #{short.quantity * short.price} #{base_symbol}"
+                message: -> "This will place a request to short #{formatMoney(short.quantity)} #{quote_symbol} for #{formatMoney(short.quantity * short.price)} #{base_symbol}"
                 action: ->
                     ->
                         WalletAPI.market_submit_ask(account_name, sell.quantity, quote_symbol, sell.price, base_symbol).then ->
