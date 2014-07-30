@@ -48,3 +48,15 @@
     </div>
   </div>
 </form>
+
+<form ng-app="app" name="form1" class="form-horizontal" role="form" ng-submit="submit_test()" novalidate>
+    <div form-hgroup label="Example 1" addon="{{quote_symbol}}">
+       <input type="text" name="example" ng-model="buy.quantity"
+              type="number"
+              ui-validate="'$value > 0'"
+              class="form-control" required />
+    </div>
+    <div form-hgroup-error></div>
+    <button form-hgroup-submit-btn>Buy {{quote_symbol}}</button>
+</form>
+<button ng-click="clear_form1()">Clear Form</button>

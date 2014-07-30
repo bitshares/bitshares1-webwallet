@@ -40,6 +40,15 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             control.$valid = true
             control.$error.message = null if control.$error.message
 
+    $scope.clear_form1 = ->
+        console.log "clear form"
+        clear_form(@form1)
+
+    $scope.submit_test = ->
+        form = @form1
+        form.example.$error.message = "some field error, please fix me"
+        form.$error.message = "some error, please fix me"
+
     Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
         $scope.account = false
