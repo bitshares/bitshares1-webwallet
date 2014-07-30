@@ -289,7 +289,8 @@ class Wallet
     get_current_or_first_account: ->
         get_first_account = =>
             for k,v of @accounts
-                return v
+                if v.is_my_account
+                    return v
             return null
         deferred = @q.defer()
         if @current_account
