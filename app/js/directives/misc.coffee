@@ -162,11 +162,6 @@ angular.module("app.directives").directive 'gravatar', ->
 
 
 angular.module("app.directives").directive "focus", ($timeout) ->
-  scope:
-    trigger: "@focus"
-  link: (scope, element) ->
-    scope.$watch "trigger", (value) ->
-      if value is "true"
-        $timeout ->
-          element[0].focus()
+    link: (scope, element) ->
+        $timeout -> element[0].focus()
 

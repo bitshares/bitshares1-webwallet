@@ -23,7 +23,7 @@
                ng-class="{ 'has-error' : (newcontact.account_name.$invalid || newcontact.account_name.error_message) && !newcontact.account_name.$pristine }">
             <label for="account_name" class="col-sm-2 control-label">Contact Name</label>
             <div class="col-sm-10 col-md-9 col-lg-6">
-              <input-name autofocus ng-model="account_name" form-name="newcontact" show-note-1="false" show-note-2="false"/>
+              <input-name autofocus focus ng-model="account_name" form-name="newcontact" show-note-1="false" show-note-2="false"/>
             </div>
           </div>
           <div class="form-group row"
