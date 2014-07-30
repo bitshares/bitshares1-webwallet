@@ -105,11 +105,11 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 form.pass.$invalid = true
 
     $scope.toggleVoteUp = ->
-        newApproval=0
+        newApproval=1
         if ($scope.account.approved>0)
             newApproval=-1
-        if ($scope.account.approved==0)
-            newApproval=1
+        if ($scope.account.approved<0)
+            newApproval=0
         Wallet.approve_account(name, newApproval).then ->
             $scope.account.approved=newApproval
 
