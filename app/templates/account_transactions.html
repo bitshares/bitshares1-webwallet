@@ -16,8 +16,8 @@
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
-                <img ng-if="account.name==entry.to" src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
-                <img ng-if="account.name!=entry.to" src="http://robohash.org/set_any/bgset_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                <img ng-if="account.name==entry.to" ng-src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
+                <img ng-if="account.name!=entry.to" ng-src="http://robohash.org/set_any/bgset_any/{{entry.to}}?size=40x40" height="40" width="40"/>
               </div>
             </span>
         </td>

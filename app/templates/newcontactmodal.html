@@ -6,7 +6,7 @@
   <div class="col-md-2">
     <div class="avatar">
       <br/>
-      <img src="http://robohash.org/set_any/bgset_any/{{$parent.name}}?size=100x100" height="100" width="100" ng-if="$parent.name"/>
+      <img ng-src="http://robohash.org/set_any/bgset_any/{{$parent.name}}?size=100x100" height="100" width="100" ng-if="$parent.name"/>
       <img src="img/user.png" height="100" width="100" ng-if="!$parent.name"/>
     </div>
   </div>
