@@ -21,7 +21,6 @@
               </div>
             </span>
         </td>
-        <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span ng-if="account.name==entry.to && account.name!=entry.from">From <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
@@ -52,7 +51,10 @@
                 </span>
             </span>
         </td>
-        <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
+        <td>
+            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
+        </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>

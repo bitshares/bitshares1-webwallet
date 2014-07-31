@@ -12,7 +12,6 @@
     </thead>
     <tbody>
       <tr ng-repeat="t in account_transactions | reverse | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
-        <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                     <img ng-src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
@@ -51,7 +50,10 @@
                 </span>
             </span>
         </td>
-        <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
+         <td>
+            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
+        </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>
