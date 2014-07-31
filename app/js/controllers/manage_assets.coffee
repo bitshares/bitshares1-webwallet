@@ -6,7 +6,9 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
     $scope.assets = []
     $scope.my_assets = []
     $scope.my_symbols = []
-    $scope.asset_reg_fee = Info.info.asset_reg_fee
+
+    Blockchain.get_asset(0).then (v)->
+        $scope.asset_reg_fee = Utils.formatAsset(Utils.asset(Info.info.asset_reg_fee, v))
     
     BlockchainAPI.get_account($scope.name).then (result) =>
         if result
