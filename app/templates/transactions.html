@@ -12,7 +12,6 @@
     </thead>
     <tbody>
       <tr ng-repeat="t in account_transactions | reverse | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
-        <td ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                     <img ng-src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
@@ -35,9 +34,12 @@
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
-                <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
+                <span ng-if="entry.amount!=0">
+                    <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
+                    <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
+                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
+                </span>
+                <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
@@ -48,7 +50,10 @@
                 </span>
             </span>
         </td>
-        <td ng-if="t.is_confirmed"><a href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a></td>
+         <td>
+            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
+        </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>

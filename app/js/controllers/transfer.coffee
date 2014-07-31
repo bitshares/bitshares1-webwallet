@@ -9,8 +9,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
 
-
-
     $scope.memo_size_max = 19
     my_transfer_form = null
     $scope.no_account = false
@@ -79,13 +77,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form = @my_transfer_form
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
-        $modal.open
-            templateUrl: "dialog-confirmation.html"
-            controller: "DialogConfirmationController"
-            resolve:
-                title: -> "Are you sure?"
-                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + Info.info.priority_fee + "."
-                action: -> yesSend
+        Blockchain.get_asset(0).then (v)->
+            priority_fee = Utils.formatAsset(Utils.asset(Info.info.priority_fee, v))
+            $modal.open
+                templateUrl: "dialog-confirmation.html"
+                controller: "DialogConfirmationController"
+                resolve:
+                    title: -> "Are you sure?"
+                    message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + priority_fee + "."
+                    action: -> yesSend
 
     $scope.newContactModal = ->
         $modal.open

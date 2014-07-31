@@ -55,7 +55,7 @@ class Info
 
     constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval) ->
         @watch_for_updates()
-        @blockchain.get_info().then (config)->
+        @blockchain.get_info().then (config) =>
             # TODO: using this have the risk of defferred object not init yet, need to make sure it is inited
             @symbol = config.symbol
 
