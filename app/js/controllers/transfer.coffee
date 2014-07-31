@@ -8,15 +8,25 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
-    $scope.transfer_info =
-        amount : $stateParams.amount
-        symbol: $stateParams.asset || Info.symbol
-        payto : $stateParams.to
-        memo :  $stateParams.memo
-        vote : 'vote_random'
+
+
+
     $scope.memo_size_max = 19
     my_transfer_form = null
     $scope.no_account = false
+
+    if (!$scope.transfer_info)
+        $scope.transfer_info =
+            amount : $stateParams.amount
+            symbol: $stateParams.asset || Info.symbol
+            payto : $stateParams.to
+            memo :  $stateParams.memo
+            vote : 'vote_random'
+
+    $scope.vote_options =
+        vote_none: "Vote None"
+        vote_all: "Vote All"
+        vote_random: "Vote Random Subset"
 
     Wallet.refresh_accounts().then ->
         $scope.accounts = {}
@@ -47,11 +57,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.transfer_info.payto
     , ->
         $scope.gravatar_account_name = $scope.transfer_info.payto
-
-    $scope.vote_options =
-        vote_none: "Vote None"
-        vote_all: "Vote All"
-        vote_random: "Vote Random Subset"
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->

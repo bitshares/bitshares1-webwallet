@@ -3,6 +3,11 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
     balMinusFee=0
     $scope.approved_delegates = Wallet.approved_delegates
 
+    $scope.vote_options =
+        vote_none: "Vote None"
+        vote_all: "Vote All"
+        vote_random: "Vote Random Subset"
+
     Wallet.refresh_accounts().then ->
         $scope.approved_delegates = Wallet.approved_delegates
 
