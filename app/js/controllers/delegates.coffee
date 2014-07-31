@@ -10,6 +10,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
     $scope.accounts = Wallet.accounts
 
+
     $q.all([Wallet.refresh_accounts(), Blockchain.refresh_delegates()]).then ->
         $scope.active_delegates = Blockchain.active_delegates
         $scope.inactive_delegates = Blockchain.inactive_delegates

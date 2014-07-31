@@ -183,7 +183,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     transfer =
         name: 'transfer'
-        url: '/transfer?from&to&amount&memo&currency'
+        url: '/transfer?from&to&amount&memo&asset'
         templateUrl: "transfer.html"
         controller: "TransferController"
 
