@@ -12,6 +12,12 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.model.rescan = true
     $scope.magic_unicorn = magic_unicorn?
 
+    $scope.transfer_info =
+        amount : null
+        symbol : "Symbol not set"
+        payto : ""
+        memo : ""
+        vote : 'vote_random'
 
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
