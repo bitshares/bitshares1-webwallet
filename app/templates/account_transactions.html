@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | orderBy:'time':true | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | reverse | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
