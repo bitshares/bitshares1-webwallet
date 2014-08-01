@@ -29,6 +29,10 @@ footer.severe-state {
 	background-color: #c6a4a4;
 }
 
+footer.other-state {
+	background-color: rgb(200,200,200);
+}
+
 footer p {
 	margin: 12px 5px 0 0;
 	color: #000;

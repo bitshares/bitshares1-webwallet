@@ -64,7 +64,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     else
       $scope.scan_progress_info = ""
 
-    
+    console.log(info.alert_level)
     if info.alert_level == "green"
       $scope.alert_level = "normal-state"
       $scope.alert_level_msg = ''
@@ -73,9 +73,13 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
       $scope.alert_level = "warning-state"
       $scope.alert_level_msg = 'Caution | '
       $scope.alert_level_tip = 'Delegate participation rate is below 90%'
-    else
+    else if info.alert_level == "red"
       $scope.alert_level = "severe-state"
       $scope.alert_level_msg = 'Severe network problems | '
       $scope.alert_level_tip = 'Delegate participation rate is below 60%'
+    else
+      $scope.alert_level = "other-state"
+      $scope.alert_level_msg = ''
+      $scope.alert_level_tip = ''
 
   $scope.$watch(watch_for, on_update, true)
