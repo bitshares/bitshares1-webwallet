@@ -30,7 +30,7 @@
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></span> <br>
+                <span class="long-shorten-text-l">{{ entry.memo }}</span> <br>
             </span>
         </td>
         <td>
@@ -38,7 +38,7 @@
                 <span ng-if="entry.amount!=0">
                     <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
+                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
                 </span>
                 <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
