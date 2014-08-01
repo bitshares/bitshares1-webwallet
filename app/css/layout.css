@@ -1,12 +1,18 @@
 .body {
 	margin-top: 36px;
+	height: 100%;
+}
+
+.wrapper {
+	height: 100%;
 }
 
 .content {
 	background: none;
-	overflow: hidden;
+	overflow-y: scroll;
 	zoom: 1;
 	margin-top: 0;
+	height: 100%;
 }
 
 .sidebar {
