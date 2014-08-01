@@ -1,62 +1,12 @@
 <form name="buy_form" class="form-horizontal" role="form" ng-submit="submit_buy_form()" novalidate>
-  <div class="form-group">
-    <label class="col-sm-3 control-label">Balance</label>
-    <div class="col-sm-6"><span class="cell">{{buy.balance | formatAssetPrice}}</span></div>
-    <div class="col-sm-3 no-lr-padding"><span class="cell">{{base_symbol}}</span></div>
+  <div form-hgroup-value label="Balance" show-value="true" data-symbol="{{base_symbol}}">{{buy.balance | formatAssetPrice}}</div>
+  <div form-hgroup label="Quantity" addon="{{quote_symbol}}">
+    <input-positive-number name="buy_quantity" ng-model="buy.quantity" />
   </div>
-  <div class="form-group" ng-class="{ 'has-error' : (buy_form.buy_quantity.$error.message || !buy_form.buy_quantity.$valid) && !buy_form.buy_quantity.$pristine}">
-    <label class="col-sm-3 control-label" for="buy_quantity">Quantity</label>
-    <div class="col-sm-6">
-      <input name="buy_quantity" ng-model="buy.quantity"
-             type="number" required
-             class="form-control"
-             id="buy_quantity"
-             placeholder="0.0" ui-validate="'$value > 0'">
-      <span class="help-block text-danger" ng-show="buy_form.buy_quantity.$error.message">{{buy_form.buy_quantity.$error.message}}</span>
-    </div>
-    <div class="col-sm-3 no-lr-padding"><span class="cell">{{quote_symbol}}</span></div>
+  <div form-hgroup label="Price" addon="{{market_name}}">
+    <input-positive-number name="buy_price" ng-model="buy.price" required="true" />
   </div>
-  <div class="form-group" ng-class="{ 'has-error' : (buy_form.buy_price.$error.message || !buy_form.buy_price.$valid) && !buy_form.buy_price.$pristine}">
-    <label class="col-sm-3 control-label" for="buy_price">Price</label>
-    <div class="col-sm-6">
-      <input name="buy_price" ng-model="buy.price"
-             type="number" required
-             class="form-control"
-             id="buy_price"
-             placeholder="0.0" ui-validate="'$value > 0'">
-    </div>
-    <div class="col-sm-3 no-lr-padding"><span class="cell">{{market_name}}</span></div>
-  </div>
-  <div class="form-group">
-    <label class="col-sm-3 control-label">Total</label>
-    <div class="col-sm-6">
-      <span class="cell" ng-show="buy_form.$valid">{{buy.quantity * buy.price | formatMoney}}</span>
-    </div>
-    <div class="col-sm-3 no-lr-padding"><span class="cell">{{base_symbol}}</span></div>
-  </div>
-  <div class="form-group" ng-show="buy_form.$error.message">
-    <div class="col-sm-12">
-      <div class="form-error alert alert-danger">
-            <i class="fa fa-exclamation"></i> &nbsp; &nbsp;
-            {{buy_form.$error.message}}
-      </div>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-offset-3 col-sm-9">
-      <button type="submit" class="btn btn-primary" ng-disabled1="!buy_form.$valid">Buy {{quote_symbol}}</button>
-    </div>
-  </div>
+  <div form-hgroup-value label="Total" data-symbol="{{base_symbol}}" show-value="{{buy_form.$valid}}">{{buy.quantity * buy.price | formatMoney}}</div>
+  <div form-hgroup-error></div>
+  <button form-hgroup-submit-btn>Buy {{quote_symbol}}</button>
 </form>
-
-<form ng-app="app" name="form1" class="form-horizontal" role="form" ng-submit="submit_test()" novalidate>
-    <div form-hgroup label="Example 1" addon="{{quote_symbol}}">
-       <input type="text" name="example" ng-model="buy.quantity"
-              type="number"
-              ui-validate="'$value > 0'"
-              class="form-control" required />
-    </div>
-    <div form-hgroup-error></div>
-    <button form-hgroup-submit-btn>Buy {{quote_symbol}}</button>
-</form>
-<button ng-click="clear_form1()">Clear Form</button>

@@ -21,19 +21,20 @@ angular.module("app.directives", []).directive "formHgroup", ->
     link: (scope, element, attrs, formController) ->
         formName = formController.$name
         fieldName = element.find(":input").attr("name")
+        field = scope.$parent[formName][fieldName]
+        field.clear_errors = ->
+            scope.has_error = false
+            scope.error_message = field.$error.message = ''
         id = "fgh_#{formName}_#{fieldName}"
         element.find(":input").attr("id", id)
         scope.for = id
-
         watchExpression = "#{formName}.#{fieldName}.$viewValue"
         scope.$parent.$watch watchExpression, (value) ->
-            field = scope.$parent[formName][fieldName]
             scope.has_error = !field.$valid and !field.$pristine
-
         errorExpression = "#{formName}.#{fieldName}.$error.message"
-        scope.$parent.$watch errorExpression, (value) ->
-            scope.error_message = value
-            scope.has_error = scope.has_error or !!value
+        scope.$parent.$watch errorExpression, (error_message) ->
+            scope.error_message = error_message
+            scope.has_error = scope.has_error or !!error_message
 
 angular.module("app.directives").directive "formHgroupSubmitBtn", ->
     template: '''
@@ -72,3 +73,18 @@ angular.module("app.directives").directive "formHgroupError", ->
         watchExpression = formController.$name + ".$error.message"
         scope.$watch watchExpression, (value) ->
             scope.error_message = value
+
+angular.module("app.directives").directive "formHgroupValue", ->
+    template: '''
+    <div class="form-group">
+        <label class="col-sm-3 control-label">{{label}}</label>
+        <div class="col-sm-6"><span class="cell" ng-show="showValue"><span ng-transclude></span></span></div>
+        <div class="col-sm-3 no-lr-padding"><span class="cell">{{symbol}}</span></div>
+    </div>
+    '''
+    replace: true
+    transclude: true
+    scope:
+        symbol: "@"
+        label: "@"
+        showValue: "@"

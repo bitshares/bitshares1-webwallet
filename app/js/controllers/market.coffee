@@ -31,22 +31,19 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
 
     $scope.sell_orders = []
 
-    clear_form = (form) ->
+    clear_form_errors = (form) ->
         form.$error.message = null if form.$error.message
         for key of form
             continue if /^(\$|_)/.test key
             control = form[key]
             control.$setPristine true
-            control.$valid = true
-            control.$error.message = null if control.$error.message
-
-    $scope.clear_form1 = ->
-        console.log "clear form"
-        clear_form(@form1)
+            control.clear_errors() if control && control.clear_errors
 
     $scope.submit_test = ->
-        form = @form1
-        form.example.$error.message = "some field error, please fix me"
+        form = @buy_form
+        clear_form_errors(form)
+        form.buy_quantity.$error.message = "some field error, please fix me"
+        form.buy_price.$error.message = "another field error, please fix me"
         form.$error.message = "some error, please fix me"
 
     Wallet.refresh_accounts().then ->
@@ -58,6 +55,7 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             $scope.account_selector_title = account_name
             account_balances = Wallet.balances[account_name]
             buy.balance = account_balances[base_symbol]
+            console.log "-----", base_symbol, account_balances, buy.balance
             short.balance = account_balances[base_symbol]
             sell.balance = account_balances[quote_symbol]
 

@@ -45,3 +45,19 @@ angular.module("app.directives").directive "inputName", ->
         $scope.removeTrailing = ->
             $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
             $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
+
+angular.module("app.directives").directive "inputPositiveNumber", ->
+    template: '''
+        <input class="form-control" ui-validate="'validate($value)'" placeholder="0.0" />
+    '''
+    restrict: "E"
+    replace: true
+    require: "^form"
+    scope:
+        ngModel: "="
+        name: "@"
+        required: "@"
+    controller: ($scope, $element) ->
+        $scope.validate = (value) ->
+            return true if (!value and !$scope.required)
+            return $.isNumeric(value) and value >= 0
