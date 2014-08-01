@@ -30,7 +30,11 @@
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-if="account.name==entry.to && account.name!=entry.from">From <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
+                <span ng-if="account.name==entry.to && account.name!=entry.from">
+                    From
+                    <a ng-if="entry.from.charAt(0) !== 'X'" href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                    <a ng-if="entry.from.charAt(0) === 'X'"class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
+                </span>
                 <span ng-if="account.name==entry.from && account.name!=entry.to">To <a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
                 <span ng-if="account.name==entry.to && account.name==entry.from">To <a href="#/accounts/{{account.name}}">self</a></span>
             </span>
