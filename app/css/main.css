@@ -63,7 +63,7 @@ a:focus {
 
 /*Change the size here*/
 div.tooltip-inner {
-    max-width: 350px;
+    max-width: 550px;
 }
 
 /*Turn off spinner (arrows for numbers)*/
