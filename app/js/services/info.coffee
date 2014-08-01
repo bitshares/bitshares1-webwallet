@@ -28,7 +28,8 @@ class Info
                     @info.blockchain_head_block_age = data.blockchain_head_block_age
                     @info.income_per_block = data.blockchain_delegate_pay_rate
                     @info.share_supply = data.blockchain_share_supply
-                    @info.blockchain_delegate_pay_rate = data.blockchain_delegate_pay_rate
+                    @blockchain.get_asset(0).then (v)=>
+                        @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
                     @info.wallet_scan_progress = data.wallet_scan_progress
                 else
                     @info.wallet_unlocked = data.wallet_unlocked
@@ -53,10 +54,10 @@ class Info
                 @refresh_info()
         ), 2500
 
-    constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval) ->
+    constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval, @utils) ->
         @watch_for_updates()
         @blockchain.get_info().then (config) =>
             # TODO: using this have the risk of defferred object not init yet, need to make sure it is inited
             @symbol = config.symbol
 
-angular.module("app").service("Info", ["$q", "$log", "$location", "Growl", "CommonAPI", "Blockchain", "BlockchainAPI", "$interval", Info])
+angular.module("app").service("Info", ["$q", "$log", "$location", "Growl", "CommonAPI", "Blockchain", "BlockchainAPI", "$interval", "Utils", Info])
