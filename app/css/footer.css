@@ -13,6 +13,10 @@ footer {
   font-size: 13px;
 }
 
+footer .icon {
+	padding-left: 5px;
+}
+
 footer.normal-state {
 	background-color: #c4e6a9;
 }
@@ -26,7 +30,7 @@ footer.severe-state {
 }
 
 footer p {
-	margin: 12px 24px 0 0;
+	margin: 12px 5px 0 0;
 	color: #000;
 	bottom: 6px;
 	position: relative;
@@ -61,6 +65,9 @@ footer .logo img {
 	  margin: 0 0 0 8px;
     padding-right: 5px;
 }
+
+.connection { display: none; }
+.no-connection { display: none; }
 
 .signal-1 .bar-1 { fill: #222; }
 .signal-2 .bar-1 { fill: #222; }

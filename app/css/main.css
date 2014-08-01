@@ -22,6 +22,14 @@
 	}
 }
 
+a, * {
+ cursor: default !important;
+}
+
+a:focus {
+  outline: 0;
+}
+
 .delegate-active-link{
 	font-family:"Georgia";
 	font-size:140%;

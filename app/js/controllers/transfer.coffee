@@ -8,18 +8,35 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
-    $scope.transfer_info = { payto: $stateParams.to, memo: '', symbol: Info.symbol}
+
     $scope.memo_size_max = 19
-    $scope.addr_symbol = null
     my_transfer_form = null
     $scope.no_account = false
 
+    if (!$scope.transfer_info)
+        $scope.transfer_info =
+            amount : $stateParams.amount
+            symbol: $stateParams.asset || Info.symbol
+            payto : $stateParams.to
+            memo :  $stateParams.memo
+            vote : 'vote_random'
+
+    $scope.vote_options =
+        vote_none: "Vote None"
+        vote_all: "Vote All"
+        vote_random: "Vote Random Subset"
+
     Wallet.refresh_accounts().then ->
-        $scope.accounts = Wallet.accounts
+        $scope.accounts = {}
+
+        angular.forEach Wallet.accounts, (acct, name) ->
+            if acct.is_my_account
+                $scope.accounts[name] = acct
+
         if account_from_name
             if $scope.accounts[account_from_name]
                 $scope.balances = Wallet.balances[account_from_name]
-                $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+                $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
             else
                 scope.no_account = true
         else
@@ -27,30 +44,17 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 if account
                     $scope.account_from_name = account_from_name = account.name
                     $scope.balances = Wallet.balances[account_from_name]
-                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0]
+                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
                 else
                     $scope.no_account = true
 
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
-        $scope.addr_symbol = config.symbol
 
     $scope.$watch ->
         $scope.transfer_info.payto
     , ->
         $scope.gravatar_account_name = $scope.transfer_info.payto
-
-    $scope.transfer_info =
-        amount : $stateParams.amount
-        symbol: $stateParams.currency || Info.symbol
-        payto : $stateParams.to
-        memo :  $stateParams.memo
-        vote : 'vote_random'
-
-    $scope.vote_options =
-        vote_none: "Vote None"
-        vote_all: "Vote All"
-        vote_random: "Vote Random Subset"
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
@@ -73,13 +77,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form = @my_transfer_form
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
-        $modal.open
-            templateUrl: "dialog-confirmation.html"
-            controller: "DialogConfirmationController"
-            resolve:
-                title: -> "Are you sure?"
-                message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + Info.info.priority_fee + "."
-                action: -> yesSend
+        Blockchain.get_asset(0).then (v)->
+            priority_fee = Utils.formatAsset(Utils.asset(Info.info.priority_fee, v))
+            $modal.open
+                templateUrl: "dialog-confirmation.html"
+                controller: "DialogConfirmationController"
+                resolve:
+                    title: -> "Are you sure?"
+                    message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + priority_fee + "."
+                    action: -> yesSend
 
     $scope.newContactModal = ->
         $modal.open
@@ -91,18 +97,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact
-
-#    $scope.addContactFromTo = ->
-#        if payto and payto.value and $scope.addr_symbol and (payto.value.indexOf $scope.addr_symbol) == 0 and payto.value.length == $scope.addr_symbol.length + 50
-#            $modal.open
-#                templateUrl: "newcontact.html"
-#                controller: "NewContactController"
-#                resolve:
-#                    addr: ->
-#                        payto.value
-#                    action: ->
-#                        (contact)->
-#                            $scope.transfer_info.payto = contact
 
     $scope.accountSuggestions = (input) ->
         deferred = $q.defer()

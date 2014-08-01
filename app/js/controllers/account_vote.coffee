@@ -1,15 +1,27 @@
 angular.module("app").controller "AccountVoteController", ($scope, Wallet, WalletAPI, Info, $modal, Blockchain, Growl) ->
     $scope.votes=[]
     balMinusFee=0
-    $scope.approved_delegates = Wallet.approved_delegates
+    $scope.accounts = Wallet.accounts
+
+    $scope.vote_options =
+        vote_none: "Vote None"
+        vote_all: "Vote All"
+        vote_random: "Vote Random Subset"
 
     Wallet.refresh_accounts().then ->
-        $scope.approved_delegates = Wallet.approved_delegates
+        $scope.accounts = Wallet.accounts
 
     $scope.toggleVoteUp = (name) ->
-        approve = !Wallet.approved_delegates[name]
-        Wallet.approve_delegate(name, approve).then ->
-            $scope.trust_level = approve
+        newApproval=1
+        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
+            newApproval=-1
+        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
+            newApproval=0
+        Wallet.approve_account(name, newApproval).then (res)->
+            if (!$scope.accounts[name])
+                $scope.accounts[name]={}
+            $scope.accounts[name].approved=newApproval
+
     $scope.$watch('$scope.balances[Info.symbol]', ->
         WalletAPI.account_vote_summary($scope.account_name).then (data) ->
             $scope.votes=data

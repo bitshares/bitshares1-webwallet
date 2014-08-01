@@ -29,6 +29,7 @@ class Info
                     @info.income_per_block = data.blockchain_delegate_pay_rate
                     @info.share_supply = data.blockchain_share_supply
                     @info.blockchain_delegate_pay_rate = data.blockchain_delegate_pay_rate
+                    @info.wallet_scan_progress = data.wallet_scan_progress
                 else
                     @info.wallet_unlocked = data.wallet_unlocked
 
@@ -54,7 +55,7 @@ class Info
 
     constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval) ->
         @watch_for_updates()
-        @blockchain.get_info().then (config)->
+        @blockchain.get_info().then (config) =>
             # TODO: using this have the risk of defferred object not init yet, need to make sure it is inited
             @symbol = config.symbol
 

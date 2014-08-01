@@ -8,8 +8,6 @@ class Wallet
 
     transactions: {}
 
-    approved_delegates: {}
-
     # set in constructor
     timeout: null
 
@@ -76,7 +74,6 @@ class Wallet
 
     # turn raw rpc return value into nice object
     populate_account: (val) ->
-        @approved_delegates[val.name] = val.approved
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
         @accounts[acct.name] = acct
@@ -136,11 +133,8 @@ class Wallet
                     acct = @populate_account(result)
                     return acct
 
-    approve_delegate: (name, approve) ->
-        @approved_delegates[name] = approve
-        @wallet_api.approve_delegate(name, approve).then () =>
-            @refresh_account(name)
-            @approved_delegates[name]  # return result in b/c it might have failed
+    approve_account: (name, approve) ->
+        @wallet_api.account_set_approval(name, approve)
     
     refresh_transactions_on_update: () ->
         @refresh_transactions()
@@ -284,7 +278,8 @@ class Wallet
     get_current_or_first_account: ->
         get_first_account = =>
             for k,v of @accounts
-                return v
+                if v.is_my_account
+                    return v
             return null
         deferred = @q.defer()
         if @current_account

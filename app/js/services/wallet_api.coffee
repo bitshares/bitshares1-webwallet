@@ -211,13 +211,21 @@ class WalletAPI
     @rpc.request('wallet_account_set_favorite', [account_name, is_favorite]).then (response) ->
       response.result
 
-  # Updates your approval for the specified delegate
+  # Updates your approval of the specified account
   # parameters: 
-  #   account_name `delegate_name` - the name of the delegate to set approval for
-  #   bool `approved` - true to approve and false otherwise
-  # return_type: `bool`
-  approve_delegate: (delegate_name, approved) ->
-    @rpc.request('wallet_approve_delegate', [delegate_name, approved]).then (response) ->
+  #   account_name `account_name` - the name of the account to set approval for
+  #   int8_t `approval` - 1, 0, or -1 respectively for approve, neutral, or disapprove
+  # return_type: `int8_t`
+  account_set_approval: (account_name, approval) ->
+    @rpc.request('wallet_account_set_approval', [account_name, approval]).then (response) ->
+      response.result
+
+  # Returns your approval of the specified account
+  # parameters: 
+  #   account_name `account_name` - the name of the account to get approval for
+  # return_type: `int8_t`
+  account_get_approval: (account_name) ->
+    @rpc.request('wallet_account_get_approval', [account_name]).then (response) ->
       response.result
 
   # Add new account for sending payments
