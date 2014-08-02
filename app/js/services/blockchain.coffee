@@ -1,7 +1,6 @@
 class Blockchain
 
     constructor: (@client, @network, @rpc, @blockchain_api, @utils, @q, @interval) ->
-        console.log "blockchain constructor"
 
     # # # # #
     #  Blockchain Config

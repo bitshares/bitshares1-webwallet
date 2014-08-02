@@ -1,76 +1,77 @@
 angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared, Info) ->
-  $scope.unlockwallet = false
-  $scope.bodyclass = "cover"
-  $scope.currentPath = $location.path()
+    $scope.unlockwallet = false
+    $scope.bodyclass = "cover"
+    $scope.currentPath = $location.path()
 
-  $scope.current_path_includes = (str)->
-      $scope.currentPath.indexOf(str) >= 0
+    $scope.current_path_includes = (str)->
+        $scope.currentPath.indexOf(str) >= 0
 
-  Wallet.check_wallet_status()
-  
-  
-  $scope.started = false
+    Wallet.check_wallet_status()
+    Info.watch_for_updates()
 
-  closeModals = ->
-    if $scope.warning
-      $scope.warning.close()
-      $scope.warning = null
-    if $scope.timedout
-      $scope.timedout.close()
-      $scope.timedout = null
-    return
-  $scope.started = false
-  $scope.$on "$idleStart", ->
-    closeModals()
-    $scope.warning = $modal.open(
-      templateUrl: "warning-dialog.html"
-      windowClass: "modal-danger"
-    )
-    return
+    $scope.started = false
 
-  $scope.$on "$idleEnd", ->
-    closeModals()
-    return
+    closeModals = ->
+        if $scope.warning
+            $scope.warning.close()
+            $scope.warning = null
+        if $scope.timedout
+            $scope.timedout.close()
+            $scope.timedout = null
+        return
+    $scope.started = false
+    $scope.$on "$idleStart", ->
+        closeModals()
+        $scope.warning = $modal.open(
+            templateUrl: "warning-dialog.html"
+            windowClass: "modal-danger"
+        )
+        return
 
-  $scope.$on "$idleTimeout", ->
+    $scope.$on "$idleEnd", ->
+        closeModals()
+        return
+
+    $scope.$on "$idleTimeout", ->
 #    closeModals()
 #    Wallet.wallet_lock().then ->
 #        $location.path("/unlockwallet")
 
-  startIdleWatch = ->
-    closeModals()
-    $idle.watch()
-    $scope.started = true
-    return
+    startIdleWatch = ->
+        closeModals()
+        $idle.watch()
+        $scope.started = true
+        return
 
-  stopIdleWatch = ->
-    closeModals()
-    $idle.unwatch()
-    $scope.started = false
-    return
+    stopIdleWatch = ->
+        closeModals()
+        $idle.unwatch()
+        $scope.started = false
+        return
 
-  #$idle._options().idleDuration=Wallet.timeout
-  console.log(Wallet.timeout)
-  
-  open_wallet = (mode) ->
-    $rootScope.cur_deferred = $q.defer()
-    $modal.open
-      templateUrl: "openwallet.html"
-      controller: "OpenWalletController"
-      resolve:
-        return: -> mode
-    $rootScope.cur_deferred.promise
+    #$idle._options().idleDuration=Wallet.timeout
+    console.log(Wallet.timeout)
 
-  $scope.wallet_action = (mode) ->
-    open_wallet(mode)
+    open_wallet = (mode) ->
+        $rootScope.cur_deferred = $q.defer()
+        $modal.open
+            templateUrl: "openwallet.html"
+            controller: "OpenWalletController"
+            resolve:
+                return: ->
+                    mode
+        $rootScope.cur_deferred.promise
 
-  $scope.lock = ->
-    Wallet.wallet_lock().then ->
-      $location.path("/unlockwallet")
+    $scope.wallet_action = (mode) ->
+        open_wallet(mode)
 
-  $scope.$watch ->
+    $scope.lock = ->
+        Wallet.wallet_lock().then ->
+            $location.path("/unlockwallet")
+
+    $scope.$watch ->
         $location.path()
-    , -> 
+    , ->
         $scope.currentPath = $location.path()
         if $location.path() == "/unlockwallet" || $location.path() == "/createwallet"
             stopIdleWatch()
@@ -83,10 +84,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             $scope.unlockwallet = false
             Wallet.check_wallet_status()
 
-  $scope.$watch ->
+    $scope.$watch ->
         Info.info.wallet_unlocked
     , (unlocked)->
-        if Info.info.wallet_open and !Info.info.wallet_unlocked 
+        if Info.info.wallet_open and !Info.info.wallet_unlocked
             ($scope.lock || angular.noop)()
     , true
   

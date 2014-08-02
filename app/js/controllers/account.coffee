@@ -10,7 +10,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
-    $scope.magic_unicorn = magic_unicorn?
 
     $scope.transfer_info =
         amount : null

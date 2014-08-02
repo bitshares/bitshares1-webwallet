@@ -13,23 +13,28 @@
     <tbody>
       <tr ng-repeat="t in account_transactions | reverse | limitTo: 20" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td>
-            <span ng-repeat="entry in t.ledger_entries">
-                    <img ng-src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
-                <span ><a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
-
+            <span ng-repeat="entry in t.ledger_entries" class='lead'>
+                <span ng-if="entry.from.charAt(0) !== 'X'">
+                    <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
+                    <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                </span>
+                <span ng-if="entry.from.charAt(0) === 'X'">
+                    <img ng-src="img/user.png" height="40" width="40"/>
+                    <a class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
+                </span>
                 <i class='fa fa-long-arrow-right fa-lg'></i>
                 <span ng-if='entry.from == entry.to'>
                     <a href="#/accounts/{{entry.to}}">self</a>
                 </span>
                 <span ng-if='entry.from != entry.to'>
-                    <img src="http://robohash.org/set_any/bgset_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                    <img src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
                 <span><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
                 </span>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></span> <br>
+                <span class="long-shorten-text-l">{{ entry.memo }}</span> <br>
             </span>
         </td>
         <td>
@@ -37,7 +42,7 @@
                 <span ng-if="entry.amount!=0">
                     <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
+                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
                 </span>
                 <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>

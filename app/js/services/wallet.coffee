@@ -292,6 +292,6 @@ class Wallet
 
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @wallet_name = ""
-        @timeout=@idle._options().idleDuration+''
+        @timeout = @idle._options().idleDuration
 
 angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])

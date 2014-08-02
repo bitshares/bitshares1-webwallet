@@ -1,17 +1,18 @@
 servicesModule = angular.module("app.services", [])
 
-servicesModule.config ($httpProvider) ->
+servicesModule.config ($provide, $httpProvider) ->
     $httpProvider.interceptors.push('myHttpInterceptor')
+    $provide.decorator "$exceptionHandler", ($delegate) ->
+        (exception, cause) ->
+            if magic_unicorn?
+                stack = exception.stack.replace(/randomuser\:[\w\d]+\@[\d\.]+\:\d+/gm, "localhost").replace(/(\r\n|\n|\r)/gm,"\n ○ ")
+                magic_unicorn.log_message "js erorr: #{exception.message}\n#{stack}"
+            else
+                $delegate(exception, cause)
 
-servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, Shared) ->
+servicesModule.factory "myHttpInterceptor", ($q, $location, Growl, Shared) ->
     dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block",
                            "wallet_get_account"]
-
-    #  request: (config) ->
-    #    config
-    #
-    #  response: (response) ->
-    #    response
 
     responseError: (response) ->
         promise = null
@@ -34,7 +35,11 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, S
         else if response.message
             error_msg = response.message
 
-        console.log "RPC Server Error: #{error_msg.substring(0, 512)} (#{response.status})", response
+        error_msg = error_msg.substring(0, 512)
+        console.log "RPC Server Error: #{error_msg} (#{response.status})"
+        if magic_unicorn?
+            magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})")
+
         method_in_dont_report_list = method and (dont_report_methods.filter (x) ->
             x == method).length > 0
         #response.data.error.code!=0 is handled externally

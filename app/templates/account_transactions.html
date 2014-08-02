@@ -16,21 +16,32 @@
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
-                <img ng-if="account.name==entry.to" ng-src="http://robohash.org/set_any/bgset_any/{{entry.from}}?size=40x40" height="40" width="40"/>
-                <img ng-if="account.name!=entry.to" ng-src="http://robohash.org/set_any/bgset_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                <img ng-if="account.name!=entry.to" ng-src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                <span ng-if="account.name==entry.to">
+                    <span ng-if="entry.from.charAt(0) !== 'X'">
+                        <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
+                    </span>
+                    <span ng-if="entry.from.charAt(0) === 'X'">
+                        <img ng-src="img/user.png" height="40" width="40"/>
+                    </span>
+                </span>
               </div>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-if="account.name==entry.to && account.name!=entry.from">From <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a></span>
+                <span ng-if="account.name==entry.to && account.name!=entry.from">
+                    From
+                    <a ng-if="entry.from.charAt(0) !== 'X'" href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                    <a ng-if="entry.from.charAt(0) === 'X'"class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
+                </span>
                 <span ng-if="account.name==entry.from && account.name!=entry.to">To <a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
                 <span ng-if="account.name==entry.to && account.name==entry.from">To <a href="#/accounts/{{account.name}}">self</a></span>
             </span>
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span class="long-shorten-text-l"><a href="#/tx/{{t.id}}">{{ entry.memo }}</a></span> <br>
+                <span class="long-shorten-text-l">{{ entry.memo }}</span> <br>
             </span>
         </td>
         <td>
@@ -38,7 +49,7 @@
                 <span ng-if="entry.amount!=0">
                     <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span> <br>
+                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
                 </span>
                 <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
