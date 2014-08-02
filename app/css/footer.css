@@ -14,7 +14,7 @@ footer {
 }
 
 footer .icon {
-	padding-left: 5px;
+	padding-left: 10px;
 }
 
 footer.normal-state {
@@ -34,7 +34,7 @@ footer.other-state {
 }
 
 footer p {
-	margin: 12px 5px 0 0;
+	margin: 12px 12px 0 0;
 	color: #000;
 	bottom: 6px;
 	position: relative;
