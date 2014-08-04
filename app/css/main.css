@@ -184,8 +184,9 @@ a:hover, a:focus, {
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	cursor: pointer;
+	/*cursor: pointer;*/
 	color:rgb(40,169,246);
+	border-bottom: 1px solid #fff;
 }
 
 .nav-tabs > li > a{
@@ -198,6 +199,7 @@ tab-heading {
 
 .nav-tabs > li.active > a {
 	color: rgb(40,169,246);
+	border-bottom: 1px solid #fff;
 }
 
 /* Buttons & Elements */

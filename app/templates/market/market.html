@@ -1,23 +1,23 @@
 <div class="col-sm-12">
-<div class="header m-bottom">
-  <div class="account-selector pull-right">
-    <span class="title">Account &nbsp;</span>
-    <div class="btn-group" dropdown is-open="status.isopen">
-      <button type="button" class="btn btn-primary dropdown-toggle">
-        {{account ? account.name : 'Select Account'}} <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li ng-repeat="(key,a) in accounts">
-          <a ui-sref="market({name: '{{market.url}}', account: '{{a.name}}' })">{{a.name}}</a>
-        </li>
-      </ul>
+  <div class="header m-bottom">
+    <div class="account-selector pull-right">
+      <span class="title">Account &nbsp;</span>
+      <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn btn-primary dropdown-toggle">
+          {{account ? account.name : 'Select Account'}} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li ng-repeat="(key,a) in accounts">
+            <a ui-sref="market({name: '{{market.url}}', account: '{{a.name}}' })">{{a.name}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <h3 class="header-title"><span popover="{{market.quantity_symbol}} description here">{{market.quantity_symbol}}</span> / {{market.base_symbol}}</h3>
   </div>
-  <h3 class="header-title">{{market.name}}</h3>
-</div>
 </div>
 
-<div class="main-content" ng-switch on="account">
+<div class="main-content market" ng-switch on="account">
   <div ng-switch-when="false">
     <p class="no-account-selected-note">No account selected, please select account</p>
   </div>
@@ -27,41 +27,64 @@
 
   <div ng-switch-default>
     <div class="row">
+
       <div class="col-sm-6">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title">Buy <strong>{{market.quantity_symbol}}</strong></h3>
-          </div>
-          <div class="panel-body">
-            <div ng-include src="'market/buy_form.html'"></div>
-          </div>
-        </div>
+
+        <tabset>
+          <tab heading="Buy {{market.quantity_symbol}}">
+            <div class="panel ">
+              <div class="panel-heading">
+                <!--<h3 class="panel-title">Buy <strong>{{market.quantity_symbol}}</strong></h3>-->
+              </div>
+              <div class="panel-body">
+                <div ng-include src="'market/buy_form.html'"></div>
+              </div>
+            </div>
+          </tab>
+
+           <tab heading="Sell {{market.quantity_symbol}}">
+             <div class="panel ">
+               <div class="panel-heading">
+                 <!--<h3 class="panel-title">Sell <strong>{{market.quantity_symbol}}</strong></h3>-->
+               </div>
+               <div class="panel-body">
+                 <div ng-include src="'market/sell_form.html'"></div>
+               </div>
+             </div>
+          </tab>
+
+          <tab heading="Short {{market.quantity_symbol}}">
+             <div class="panel ">
+               <div class="panel-heading">
+                 <!--<h3 class="panel-title">Short <strong>{{market.quantity_symbol}}</strong></h3>-->
+               </div>
+               <div class="panel-body">
+                 <div ng-include src="'market/short_form.html'"></div>
+               </div>
+             </div>
+          </tab>
+
+        </tabset>
+
       </div>
 
       <div class="col-sm-6">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title">Sell <strong>{{market.quantity_symbol}}</strong></h3>
+        <div class="col-sm-12">
+          <div class="panel">
+            <div class="panel-heading">
+              <h3 class="panel-title">Trade History</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-include src="'market/trade_history.html'"></div>
+            </div>
           </div>
-          <div class="panel-body">
-            <div ng-include src="'market/sell_form.html'"></div>
-          </div>
-        </div>
       </div>
 
-      <!--<div class="col-sm-4">-->
-        <!--<div class="panel ">-->
-          <!--<div class="panel-heading">-->
-            <!--<h3 class="panel-title">Short <strong>{{market.quantity_symbol}}</strong></h3>-->
-          <!--</div>-->
-          <!--<div class="panel-body">-->
-            <!--<div ng-include src="'market/short_form.html'"></div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
+      </div>
 
     </div>
 
+    <br/>
     <div class="row">
 
       <div class="col-sm-6">
@@ -86,31 +109,10 @@
         </div>
       </div>
 
-      <!--<div class="col-sm-4">-->
-        <!--<div class="panel ">-->
-          <!--<div class="panel-heading">-->
-            <!--<h3 class="panel-title">Short Orders</h3>-->
-          <!--</div>-->
-          <!--<div class="panel-body">-->
-            <!--<div ng-include src="'market/short_orders.html'"></div>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
 
     </div>
 
     <div class="row">
-
-      <div class="col-sm-12">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title">Trade History</h3>
-          </div>
-          <div class="panel-body">
-            <div ng-include src="'market/trade_history.html'"></div>
-          </div>
-        </div>
-      </div>
 
     </div>
 

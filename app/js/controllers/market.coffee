@@ -10,7 +10,9 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
     $scope.bids = MarketService.bids
     $scope.asks = MarketService.asks
     $scope.shorts = MarketService.shorts
+    $scope.trades = MarketService.trades
     $scope.unconfirmed = { bid: null, ask: null }
+    MarketService.watch_for_updates()
 
     promise = Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts

@@ -1,3 +1,8 @@
+.market .panel {
+	border: none;
+	margin-bottom: 20px;
+}
+
 .market-selector h3 {
 	width: 120px;
 	float: left;
@@ -50,7 +55,7 @@ span.cell {
 }
 
 div.fixed-height-table {
-	max-height: 260px;
+	max-height: 400px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

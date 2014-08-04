@@ -1,5 +1,6 @@
 class TradeData
     constructor: ->
+        @timestamp = null
         @quantity = null
         @price = null
         @cost = 0.0
@@ -25,7 +26,7 @@ class MarketService
 
     id_sequence: 0
 
-    constructor: (@q, @wallet, @blockchain) ->
+    constructor: (@q, @interval, @wallet, @blockchain) ->
         #console.log "MarketService constructor: ", @
 
     init: (market_name) ->
@@ -65,5 +66,22 @@ class MarketService
     cancel_ask: (id) ->
         remove_array_element_by_id(@asks,id)
 
+    pull_data: ->
+        #console.log "--- pull_data ---"
+        if @asks.length > 0
+            e = @asks.pop()
+            e.timestamp = new Date()
+            @trades.push e
+        if @bids.length > 0
+            e = @bids.pop()
+            e.timestamp = new Date()
+            @trades.push e
 
-angular.module("app").service("MarketService", ["$q", "Wallet", "Blockchain",  MarketService])
+    watch_for_updates: =>
+        @interval (=>
+            if !@is_refreshing
+                @pull_data()
+        ), 4000
+
+
+angular.module("app").service("MarketService", ["$q", "$interval", "Wallet", "Blockchain",  MarketService])
