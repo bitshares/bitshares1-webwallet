@@ -1,14 +1,16 @@
 servicesModule = angular.module("app.services", [])
 
-servicesModule.config ($provide, $httpProvider) ->
+servicesModule.config ($httpProvider, $provide) ->
     $httpProvider.interceptors.push('myHttpInterceptor')
-    $provide.decorator "$exceptionHandler", ($delegate) ->
+
+    $provide.decorator "$exceptionHandler", ["$delegate", (delegate) ->
         (exception, cause) ->
             if magic_unicorn?
                 stack = exception.stack.replace(/randomuser\:[\w\d]+\@[\d\.]+\:\d+/gm, "localhost").replace(/(\r\n|\n|\r)/gm,"\n ○ ")
                 magic_unicorn.log_message "js erorr: #{exception.message}\n#{stack}"
             else
-                $delegate(exception, cause)
+                delegate(exception, cause)
+    ]
 
 servicesModule.factory "myHttpInterceptor", ($q, $location, Growl, Shared) ->
     dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block",
