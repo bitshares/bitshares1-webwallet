@@ -49,9 +49,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         $scope.started = false
         return
 
-    #$idle._options().idleDuration=Wallet.timeout
-    console.log(Wallet.timeout)
-
     open_wallet = (mode) ->
         $rootScope.cur_deferred = $q.defer()
         $modal.open
@@ -90,5 +87,11 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         if Info.info.wallet_open and !Info.info.wallet_unlocked
             ($scope.lock || angular.noop)()
     , true
-  
-  
+
+    $scope.clear_form_errors = (form) ->
+        form.$error.message = null if form.$error.message
+        for key of form
+            continue if /^(\$|_)/.test key
+            control = form[key]
+            control.$setPristine true
+            control.clear_errors() if control && control.clear_errors

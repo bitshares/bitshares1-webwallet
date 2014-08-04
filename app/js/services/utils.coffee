@@ -35,6 +35,10 @@ servicesModule.factory "Utils", ->
         parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         parts.push('00') if parts.length == 1
         parts.join(".")
+
+    assetValue: (asset) ->
+        return 0.0 unless asset
+        asset.amount / asset.precision
     
     toDate: (t) ->
         new Date(@toUTCDate(t))

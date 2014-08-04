@@ -38,9 +38,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
     $rootScope.progress = 100
     $rootScope.showLoadingIndicator = (promise, i) ->
         $rootScope.loading = true
-        if i
-            $rootScope.progress = 0
-
+        $rootScope.progress = 0
         promise.finally ->
             $rootScope.loading = false
             if i

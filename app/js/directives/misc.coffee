@@ -78,8 +78,8 @@ angular.module("app.directives").directive "loadingIndicator", ->
         loading: '=loadingIndicator'
         progress: '=progressIndicator'
     template: """
-      <div ng-show="loading" class='loading-overlay'>
-        <div class='loading-panel'>
+      <div ng-show="loading" class="loading-overlay" ng-class="{'with-progress': progress > 0}">
+        <div class="loading-panel">
           <div class="spinner-container"></div>
           <div class="transactions-progress"><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
         </div>

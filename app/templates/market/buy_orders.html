@@ -1,16 +1,26 @@
-<table class="table table-striped table-hover market-table">
-  <thead>
-    <tr>
-      <th>QUANTITY ({{base_symbol}})</th>
-      <th>PRICE ({{quote_symbol}}/{{base_symbol}})</th>
-      <th>COST ({{quote_symbol}})</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="order in buy_orders">
-      <td>{{order.quantity | formatAssetPrice}}</td>
-      <td>{{order.price | formatAssetPrice}}</td>
-      <td>{{order.cost | formatAssetPrice}}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="fixed-height-table">
+  <table class="table table-striped table-hover market-table fixed-height">
+    <thead>
+      <tr>
+        <th>PRICE ({{market.name}})</th>
+        <th>QUANTITY ({{market.quantity_symbol}})</th>
+        <th>TOTAL ({{market.base_symbol}})</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-if="unconfirmed.bid" class="unconfirmed">
+        <td>{{unconfirmed.bid.price | formatMoney}}</td>
+        <td>{{unconfirmed.bid.quantity | formatMoney}}</td>
+        <td>{{unconfirmed.bid.cost | formatMoney}}</td>
+        <td><button class="btn btn-success btn-xs" ng-click="confirm_bid()">Confirm</button></td>
+      </tr>
+      <tr ng-repeat="bid in bids track by $index" ng-class="{cancelable: bid.cancelable}">
+        <td>{{bid.price | formatMoney}}</td>
+        <td>{{bid.quantity | formatMoney}}</td>
+        <td>{{bid.cost | formatMoney}}</td>
+        <td><button class="btn btn-warning btn-xs" ng-click="cancel_bid(bid.id)">Cancel</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
