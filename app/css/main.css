@@ -56,6 +56,9 @@ a:focus {
 	color: #fff;
 }
 
+.panel {
+ padding-bottom: 0;
+}
 
 .popover {
   max-width: 476px;
@@ -181,20 +184,17 @@ a:hover, a:focus, {
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	cursor: pointer;
 	color:rgb(40,169,246);
+	border-bottom: 1px solid #fff !important;
 }
 
 .nav-tabs > li > a{
-	color:black;
-}
-
-tab-heading {
-	color:inherit;
+	color: black;
 }
 
 .nav-tabs > li.active > a {
 	color: rgb(40,169,246);
+	border-bottom: 1px solid #fff;
 }
 
 /* Buttons & Elements */
@@ -337,14 +337,23 @@ input.ng-dirty.ng-invalid {
 /*}*/
 
 .loading-overlay {
-	height: 100px;
+	height: 80px;
 	width: 100%;
 	position: fixed;
 	bottom: 50px;
 	z-index: 1 !important;
 }
 
+.loading-overlay.with-progress {
+	height: 100px;
+}
+
 .loading-overlay .transactions-progress  {
+	display: none;
+}
+
+.loading-overlay.with-progress .transactions-progress  {
+	display: block;
 }
 
 .loading-panel {
@@ -354,47 +363,6 @@ input.ng-dirty.ng-invalid {
 	opacity: 0.4;
 	margin: 0 auto;
 	border-radius: 5px;
-}
-
-/* Market */
-
-.market-selector h3 {
-	width: 120px;
-	float: left;
-}
-
-.market-selector .form-group {
-	width: 120px;
-	float: left;
-	position: relative;
-	top: 12px;
-}
-
-.no-account-selected-note {
-	margin: 40px auto;
-	font-size: 36px;
-	color: #888;
-	text-align: center;
-}
-
-.account-selector {
-	margin: 12px 60px 0 0;
-}
-
-.account-selector .title {
-	font-size: 18px;
-	position: relative;
-	top: 4px;
-}
-
-.no-lr-padding {
-       padding-left: 0;
-       padding-right: 0;
-}
-
-span.cell {
-       line-height: 34px;
-       /*padding-left: 10px;*/
 }
 
 .license {
@@ -409,7 +377,6 @@ span.cell {
 }
 
 /* avatars */
-
 .avatar-40 {
 	width: 40px;
 	margin: 0 auto;

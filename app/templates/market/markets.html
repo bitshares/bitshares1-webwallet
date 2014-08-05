@@ -1,24 +1,26 @@
 <div class="col-sm-12">
 		<div class="header">
-			<h3 class="header-title">Market Coming Soon</h3>
+			<h3 class="header-title">Markets</h3>
 		</div>
 </div>
 
 <div class="main-content">
-        <div class="row">
-          <div class='col-sm-6'>
-            <br/>
-            <p>
-            The GUI for markets is not yet available. BitShares X will support two types of tradeable assets:
-            <p>
-            Traditional user-issued assets let anyone issue an asset which can trade against any other asset on the BitShares X platform.
-            </p>
-            <p>
-            Market-pegged assets are an experimental type of asset which are pegged to the value of a real-world asset using a mechanism similar to a prediction market. They are lent into existence to anyone who takes a short position on that asset using BTSX as collateral.
-            </p>
-            <p>
-Markets for user-issued assets are available via the console. Markets for market-pegged BitAssets are in development and will be available after a hard fork.
-            </p>
+      <div class="row">
+      <form class="col-sm-12 form-horizontal  m-top" role="form">
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="market_selector">Select market</label>
+          <div class="col-sm-3">
+            <input id="market_selector" type="text"
+                   ng-model="selected_market"
+                   typeahead="value for value in markets | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-append-to-body="true"
+                   class="form-control"
+                   placeholder="Select Market">
+          </div>
         </div>
-        </div>
+
+    </form>
+    </div>
 </div>

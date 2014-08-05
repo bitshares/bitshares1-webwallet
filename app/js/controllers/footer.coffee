@@ -64,7 +64,6 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     else
       $scope.scan_progress_info = ""
 
-    console.log(info.alert_level)
     if info.alert_level == "green"
       $scope.alert_level = "normal-state"
       $scope.alert_level_msg = ''

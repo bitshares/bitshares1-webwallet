@@ -68,7 +68,11 @@
   .growl .growl-close {
     cursor: pointer;
     float: right;
+<<<<<<< HEAD
+    font-size: 18px;
+=======
     font-size: 24px;
+>>>>>>> develop
     line-height: 24px;
     font-weight: normal;
 		position: relative;
