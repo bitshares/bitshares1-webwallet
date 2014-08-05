@@ -97,17 +97,21 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact
+    
+    $scope.onSelect = ($item, $model, $label) ->
+        console.log('selected!',$item, $model, $label)
 
     $scope.accountSuggestions = (input) ->
+        console.log('model', $scope.transfer_info.payto)
         console.log('suggest', input)
         deferred = $q.defer()
         ret = []
         Blockchain.list_accounts(input).then (response) ->
-            angular.forEach response, (val) ->
+            angular.forEach Wallet.accounts, (val) ->
                 if val.name.substring(0, input.length) == input
                     console.log(val.name.substring(0, input.length),"=",input)
                     ret.push val.name
-            angular.forEach Wallet.accounts, (val) ->
+            angular.forEach response, (val) ->
                 if val.name.substring(0, input.length) == input
                     console.log(val.name.substring(0, input.length),"=",input)
                     ret.push val.name
