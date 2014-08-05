@@ -110,11 +110,11 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             angular.forEach Wallet.accounts, (val) ->
                 if val.name.substring(0, input.length) == input
                     console.log(val.name.substring(0, input.length),"=",input)
-                    ret.push val.name
+                    ret.push {'name': val.name, 'is_favorite': val.is_favorite}
             angular.forEach response, (val) ->
                 if val.name.substring(0, input.length) == input
                     console.log(val.name.substring(0, input.length),"=",input)
-                    ret.push val.name
+                    ret.push {'name': val.name}
             if ret.length == 0
                 $scope.gravatar_account_name = ""
             deferred.resolve(ret)
