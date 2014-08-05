@@ -69,127 +69,111 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp = $stateProvider
 
-    sp.state
-        name: 'home'
-        url: '/home'
+    sp.state "home",
+        url: "/home"
         templateUrl: "home.html"
         controller: "HomeController"
 
-    sp.state
-        name: 'help'
-        url: '/help'
+    sp.state "help",
+        url: "/help"
         templateUrl: "help.html"
         controller: "HelpController"
 
-    sp.state
-        name: 'preferences'
-        url: '/preferences'
+    sp.state "preferences",
+        url: "/preferences"
         templateUrl: "preferences.html"
         controller: "PreferencesController"
 
-    sp.state
-        name: 'proposals'
-        url: '/proposals'
+    sp.state "proposals",
+        url: "/proposals"
         templateUrl: "proposals.html"
         controller: "ProposalsController"
 
-    sp.state
-        name: 'console'
-        url: '/console'
+    sp.state "console",
+        url: "/console"
         templateUrl: "console.html"
         controller: "ConsoleController"
 
-    sp.state
-        name: 'createaccount'
-        url: '/create/account'
+    sp.state "createaccount",
+        url: "/create/account"
         templateUrl: "createaccount.html"
         controller: "CreateAccountController"
 
-    sp.state
-        name: 'accounts'
-        url: '/accounts'
+    sp.state "accounts",
+        url: "/accounts"
         templateUrl: "accounts.html"
         controller: "AccountsController"
 
-    sp.state
-        name: 'directory'
-        url: '/directory'
+    sp.state "directory",
+        url: "/directory"
         templateUrl: "directory.html"
         controller: "DirectoryController"
 
-    sp.state
-        name: 'delegates'
-        url: '/delegates'
+    sp.state "delegates",
+        url: "/delegates"
         templateUrl: "delegates/delegates.html"
         controller: "DelegatesController"
 
-    sp.state
-        name: 'editaccount'
-        url: '/accounts/:name/edit'
+    sp.state "editaccount",
+        url: "/accounts/:name/edit"
         templateUrl: "editaccount.html"
         controller: "EditAccountController"
 
-    sp.state
-        name: 'account'
-        url: '/accounts/:name'
+    sp.state "account",
+        url: "/accounts/:name"
         templateUrl: "account.html"
         controller: "AccountController"
 
-    sp.state
-        name: 'blocks'
-        url: '/blocks?withtrxs'
+    sp.state "blocks",
+        url: "/blocks?withtrxs"
         templateUrl: "blocks.html"
         controller: "BlocksController"
 
-    sp.state
-        name: 'createwallet'
-        url: '/createwallet'
+    sp.state "createwallet",
+        url: "/createwallet"
         templateUrl: "createwallet.html"
         controller: "CreateWalletController"
 
-    sp.state
-        name: 'block'
-        url: '/blocks/:number'
+    sp.state "block",
+        url: "/blocks/:number"
         templateUrl: "block.html"
         controller: "BlockController"
 
-    sp.state
-        name: 'blocksbyround'
-        url: '/blocks/round/:round?withtrxs'
+    sp.state "blocksbyround",
+        url: "/blocks/round/:round?withtrxs"
         templateUrl: "blocksbyround.html"
         controller: "BlocksByRoundController"
 
-    sp.state
-        name: 'transaction'
-        url: '/tx/:id'
+    sp.state "transaction",
+        url: "/tx/:id"
         templateUrl: "transaction.html"
         controller: "TransactionController"
 
-    sp.state
-        name: 'unlockwallet'
-        url: '/unlockwallet'
+    sp.state "unlockwallet",
+        url: "/unlockwallet"
         templateUrl: "unlockwallet.html"
         controller: "UnlockWalletController"
 
-    sp.state
-        name: 'markets'
-        url: '/markets'
+    sp.state "markets",
+        url: "/markets"
         templateUrl: "market/markets.html"
         controller: "MarketsController"
 
-    sp.state "market", { url: "/market/:name/:account", templateUrl: "market/market.html", controller: "MarketController" }
+    sp.state "market",
+        url: "/market/:name/:account"
+        templateUrl: "market/market.html"
+        controller: "MarketController"
+
     sp.state "market.buy", { url: "/buy", templateUrl: "market/buy.html" }  
     sp.state "market.sell", { url: "/sell", templateUrl: "market/sell.html" }  
     sp.state "market.short", { url: "/short", templateUrl: "market/short.html" }  
 
-    sp.state
-        name: 'transfer'
-        url: '/transfer?from&to&amount&memo&asset'
+    sp.state "transfer",
+        url: "/transfer?from&to&amount&memo&asset"
         templateUrl: "transfer.html"
         controller: "TransferController"
 
-    sp.state
-        name: 'newcontact'
-        url: '/newcontact?name&key'
+    sp.state "newcontact",
+        url: "/newcontact?name&key"
         templateUrl: "newcontact.html"
         controller: "NewContactController"

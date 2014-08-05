@@ -13,13 +13,16 @@
         <td>{{unconfirmed.ask.price | formatMoney}}</td>
         <td>{{unconfirmed.ask.quantity | formatMoney}}</td>
         <td>{{unconfirmed.ask.cost | formatMoney}}</td>
-        <td><button class="btn btn-success btn-xs" ng-click="confirm_ask()">Confirm</button></td>
+        <td>
+          <button class="btn btn-success btn-xs" ng-click="confirm_ask()">Confirm</button>
+          <button class="btn btn-danger btn-xs" ng-click="cancel_ask(0)">Cancel</button>
+        </td>
       </tr>
       <tr ng-repeat="ask in asks track by $index" ng-class="{cancelable: ask.cancelable}">
         <td>{{ask.price | formatMoney}}</td>
         <td>{{ask.quantity | formatMoney}}</td>
         <td>{{ask.cost | formatMoney}}</td>
-        <td><button class="btn btn-warning btn-xs" ng-click="cancel_ask(ask.id)">Cancel</button></td>
+        <td><button class="btn btn-danger btn-xs" ng-click="cancel_ask(ask.id)">Cancel</button></td>
       </tr>
     </tbody>
   </table>

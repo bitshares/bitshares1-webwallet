@@ -64,15 +64,15 @@ class MarketService
                 market.quantity_asset = results[0]
                 market.base_asset = results[1]
             #console.log "---- market: ", market
-#        @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
-#            market.reverse = true
-#            @helper.read_market_data(market, result)
-#            console.log "market_status--->", result
-#        , =>
-#            @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
-#                market.reverse = false
-#                @helper.read_market_data(market, result)
-#                console.log "market_status reverse --->", result
+        @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
+            market.reverse = true
+            @helper.read_market_data(market, result)
+            console.log "market_status--->", result
+        , =>
+            @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
+                market.reverse = false
+                @helper.read_market_data(market, result)
+                console.log "market_status reverse --->", result
 
     add_bid: (bid) ->
         @id_sequence += 1
@@ -90,7 +90,7 @@ class MarketService
         @asks.push ask
 
     cancel_ask: (id) ->
-        remove_array_element_by_id(@asks,id)
+        helper.remove_array_element_by_id(@asks,id)
 
     pull_data: ->
         #console.log "--- pull_data ---"

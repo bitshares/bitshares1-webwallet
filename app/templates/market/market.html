@@ -8,7 +8,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           <li ng-repeat="(key,a) in accounts">
-            <a ui-sref="market({account: '{{a.name}}'})">{{a.name}}</a>
+            <a ui-sref="market.buy({account: '{{a.name}}'})">{{a.name}}</a>
           </li>
         </ul>
       </div>
@@ -16,7 +16,7 @@
     <h3 class="header-title">
       <span tooltip="{{market.quantity_symbol}} short description.." tooltip-placement="right">{{market.quantity_symbol}}</span>
       / <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
-      <a ui-sref="market({name: '{{market.reverse_url}}'})"
+      <a ui-sref="market.buy({name: '{{market.reverse_url}}'})"
          class="small" tooltip="Swap currencies" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
     </h3>
   </div>
@@ -34,23 +34,18 @@
     <div class="row">
 
       <div class="col-sm-6">
-
-      <tabset>
-        <tab ng-repeat="t in tabs" heading="{{t.heading}}" select="go(t.route)" active="t.active">
-          <div class="panel">
-            <div class="panel-heading">
+        <tabset>
+          <tab ng-repeat="t in tabs" heading="{{t.heading}}" select="goto_tab(t.route)" active="t.active">
+            <div class="panel">
+              <div class="panel-body">
+                <div ui-view></div>
+              </div>
             </div>
-            <div class="panel-body">
-              <div ui-view></div>
-            </div>
-          </div>
-        </tab>
-      </tabset>
-
+          </tab>
+        </tabset>
       </div>
 
       <div class="col-sm-6">
-        <div class="col-sm-12">
           <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Trade History</h3>
@@ -59,8 +54,6 @@
               <div ng-include src="'market/trades.html'"></div>
             </div>
           </div>
-      </div>
-
       </div>
 
     </div>

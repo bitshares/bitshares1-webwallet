@@ -2,13 +2,11 @@ angular.module("app.directives", []).directive "formHgroup", ->
     template: '''
     <div class="form-group" ng-class="{ 'has-error': has_error }">
         <label class="col-sm-3 control-label" for="{{for}}">{{label}}</label>
-        <div class="col-sm-9">
-            <div class="input-group">
-                <span ng-transclude></span>
-                <span class="input-group-addon">{{addon}}</span>
-            </div>
-            <span class="help-block text-danger" ng-show="error_message">{{error_message}}</span>
+        <div class="input-group col-sm-9 col-md-6">
+            <span ng-transclude></span>
+            <span class="input-group-addon">{{addon}}</span>
         </div>
+        <span class="help-block text-danger" ng-show="error_message">{{error_message}}</span>
     </div>
     '''
     replace: true
@@ -78,8 +76,8 @@ angular.module("app.directives").directive "formHgroupValue", ->
     template: '''
     <div class="form-group">
         <label class="col-sm-3 control-label">{{label}}</label>
-        <div class="col-sm-6"><span class="cell" ng-show="showValue"><span ng-transclude></span></span></div>
-        <div class="col-sm-3 no-lr-padding"><span class="cell">{{symbol}}</span></div>
+        <div class="col-sm-9 col-md-6"><span class="cell" ng-show="showValue"><span ng-transclude></span> {{symbol}}</span></div>
+
     </div>
     '''
     replace: true

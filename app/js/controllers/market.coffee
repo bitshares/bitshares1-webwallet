@@ -1,30 +1,8 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
-    #$scope.tabs = [tab == 'buy', tab == 'sell', tab == 'short']
+    return unless $stateParams.name and $stateParams.account
 
-    $scope.go = (route) ->
-        $state.go route
-
-    $scope.active = (route) ->
-        $state.is route
-
-    $scope.tabs = [
-        {
-            heading: "Buy"
-            route: "market.buy"
-        }
-        {
-            heading: "Sell"
-            route: "market.sell"
-        }
-        {
-            heading: "Short"
-            route: "market.short"
-        }
-    ]
-    
-    $scope.$on "$stateChangeSuccess", ->
-        $scope.tabs.forEach (tab) ->
-            tab.active = $scope.active(tab.route)
+    console.log "$state: ", $state
+    console.log "$stateParams: ", $stateParams
 
     account_name = $stateParams.account
     market_name = $stateParams.name.replace('-', '/')
@@ -40,6 +18,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.trades = MarketService.trades
     $scope.unconfirmed = { bid: null, ask: null }
     MarketService.watch_for_updates()
+
+    # tabs
+    tabsym = $scope.market.quantity_symbol
+    $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
+    $scope.goto_tab = (route) -> $state.go route
+    $scope.active_tab = (route) -> $state.is route
+    $scope.$on "$stateChangeSuccess", ->
+        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
     promise = Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
