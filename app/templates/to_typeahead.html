@@ -1,6 +1,7 @@
 <a>
   <img ng-src="http://robohash.org/set_any/{{match.label.name}}?size=32x32" height="32" width="32"/>
   {{match.label.name}}
-  <i ng-class="(match.label.is_favorite) ? 'fa fa-star fa-lg' : 'fa fa-star-o fa-lg'"></i>
-  <i ng-if="!account.approved || account.approved==0" class='fa fa-thumbs-o-up fa-lg'></i>
+  <i ng-if='match.label.is_favorite' class="fa fa-star fa-lg"></i>
+  <i ng-if="match.label.approved>0" class='fa fa-thumbs-up fa-lg'></i>
+  <i ng-if="match.label.approved<0" class='fa fa-thumbs-down fa-lg'></i>
 </a>

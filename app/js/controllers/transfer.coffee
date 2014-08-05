@@ -108,7 +108,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             console.log('Wallet.accounts', Wallet.accounts)
             angular.forEach Wallet.accounts, (val) ->
                 if val.name.substring(0, input.length) == input
-                    ret.push {'name': val.name, 'is_favorite': val.is_favorite}
+                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
             console.log('response', response)
             angular.forEach response, (val) ->
                 if val.name.substring(0, input.length) == input
