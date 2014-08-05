@@ -24,7 +24,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
     Blockchain.get_info().then (config) ->
         $scope.genesis_date = config.genesis_timestamp
 
-    Blockchain.list_accounts().then (reg) ->
+    Blockchain.list_accounts(null, 1776).then (reg) ->
         $scope.reg = reg
         $scope.p.numberOfPages = Math.ceil($scope.reg.length / $scope.p.pageSize)
 
