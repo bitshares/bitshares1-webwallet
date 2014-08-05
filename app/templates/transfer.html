@@ -104,7 +104,7 @@
           <div class="input-group">
             <input ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="Contact Name" id="payto"
-                   typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}"
+                   typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="my_transfer_form.payto.error_message = null"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;Contact'>

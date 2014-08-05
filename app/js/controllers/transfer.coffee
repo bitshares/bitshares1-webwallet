@@ -99,10 +99,20 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         $scope.transfer_info.payto = contact
 
     $scope.accountSuggestions = (input) ->
+        console.log('suggest', input)
         deferred = $q.defer()
-        ret = Object.keys(Wallet.accounts)
-        angular.forEach ret, (name) ->
-            if Wallet.accounts[name].is_favorite || Wallet.accounts[name].is_my_account
-                ret.push name
-        deferred.resolve(ret)
+        ret = []
+        Blockchain.list_accounts(input).then (response) ->
+            angular.forEach response, (val) ->
+                if val.name.substring(0, input.length) == input
+                    console.log(val.name.substring(0, input.length),"=",input)
+                    ret.push val.name
+            angular.forEach Wallet.accounts, (val) ->
+                if val.name.substring(0, input.length) == input
+                    console.log(val.name.substring(0, input.length),"=",input)
+                    ret.push val.name
+            if ret.length == 0
+                $scope.gravatar_account_name = ""
+            deferred.resolve(ret)
+        console.log('ret', ret)
         return deferred.promise
