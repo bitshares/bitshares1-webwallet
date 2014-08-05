@@ -1,7 +1,6 @@
 class Client
 
     constructor: (@common, @network, @blockchain, @q, @interval) ->
-        console.log "Client constructor"
         #@interval @refresh_status, 3000
     
     status:

@@ -13,7 +13,10 @@
         <td>{{unconfirmed.bid.price | formatMoney}}</td>
         <td>{{unconfirmed.bid.quantity | formatMoney}}</td>
         <td>{{unconfirmed.bid.cost | formatMoney}}</td>
-        <td><button class="btn btn-success btn-xs" ng-click="confirm_bid()">Confirm</button></td>
+        <td>
+          <button class="btn btn-success btn-xs" ng-click="confirm_bid()">Confirm</button>
+          <button class="btn btn-danger btn-xs" ng-click="cancel_bid(0)">Cancel</button>
+        </td>
       </tr>
       <tr ng-repeat="bid in bids track by $index" ng-class="{cancelable: bid.cancelable}">
         <td>{{bid.price | formatMoney}}</td>

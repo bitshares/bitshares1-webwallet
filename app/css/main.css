@@ -184,17 +184,12 @@ a:hover, a:focus, {
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	/*cursor: pointer;*/
 	color:rgb(40,169,246);
-	border-bottom: 1px solid #fff;
+	border-bottom: 1px solid #fff !important;
 }
 
 .nav-tabs > li > a{
-	color:black;
-}
-
-tab-heading {
-	color:inherit;
+	color: black;
 }
 
 .nav-tabs > li.active > a {

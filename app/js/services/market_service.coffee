@@ -1,4 +1,5 @@
 class TradeData
+
     constructor: ->
         @timestamp = null
         @quantity = null
@@ -7,9 +8,25 @@ class TradeData
         @cancelable = false
         @id = null
 
+
+class MarketHelper
+
+    remove_array_element_by_id: (array, id) ->
+        for index, value of array
+            if value.id == id
+                array.splice(index, 1)
+                break
+
+    read_market_data: (market, data) ->
+        market.bid_depth = data.bid_depth
+        market.ask_depth = data.ask_depth
+        market.avg_price_24h = data.avg_price_24h
+
 class MarketService
 
     TradeData: TradeData
+
+    helper: new MarketHelper
 
     market:
         name: ''
@@ -17,7 +34,12 @@ class MarketService
         quantity_asset: null
         base_symbol: ''
         base_asset: null
+        reverse: false
         url: ''
+        reverse_url: ''
+        bid_depth: 0.0
+        ask_depth: 0.0
+        avg_price_24h: 0.0
 
     asks: []
     bids: []
@@ -26,7 +48,7 @@ class MarketService
 
     id_sequence: 0
 
-    constructor: (@q, @interval, @wallet, @blockchain) ->
+    constructor: (@q, @interval, @wallet, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
 
     init: (market_name) ->
@@ -35,18 +57,22 @@ class MarketService
         market_symbols = market.name.split('/')
         market.quantity_symbol = market_symbols[0]
         market.base_symbol = market_symbols[1]
-        market.url = "#{market.quantity_symbol}:#{market.base_symbol}"
+        market.url = "#{market.quantity_symbol}-#{market.base_symbol}"
+        market.reverse_url = "#{market.base_symbol}-#{market.quantity_symbol}"
         @blockchain.refresh_asset_records().then =>
             @q.all([@blockchain.get_asset(market.quantity_symbol), @blockchain.get_asset(market.base_symbol)]).then (results) ->
                 market.quantity_asset = results[0]
                 market.base_asset = results[1]
             #console.log "---- market: ", market
-
-    remove_array_element_by_id = (array, id) ->
-        for index, value of array
-            if value.id == id
-                array.splice(index, 1)
-                break
+#        @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
+#            market.reverse = true
+#            @helper.read_market_data(market, result)
+#            console.log "market_status--->", result
+#        , =>
+#            @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
+#                market.reverse = false
+#                @helper.read_market_data(market, result)
+#                console.log "market_status reverse --->", result
 
     add_bid: (bid) ->
         @id_sequence += 1
@@ -55,7 +81,7 @@ class MarketService
         @bids.push bid
 
     cancel_bid: (id) ->
-        remove_array_element_by_id(@bids,id)
+        helper.remove_array_element_by_id(@bids,id)
 
     add_ask: (ask) ->
         @id_sequence += 1
@@ -84,4 +110,4 @@ class MarketService
         ), 4000
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "Wallet", "Blockchain",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "Wallet", "Blockchain",  "BlockchainAPI",  MarketService])

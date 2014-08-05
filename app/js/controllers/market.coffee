@@ -1,6 +1,33 @@
-angular.module("app").controller "MarketController", ($scope, $stateParams, $modal, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
+    #$scope.tabs = [tab == 'buy', tab == 'sell', tab == 'short']
+
+    $scope.go = (route) ->
+        $state.go route
+
+    $scope.active = (route) ->
+        $state.is route
+
+    $scope.tabs = [
+        {
+            heading: "Buy"
+            route: "market.buy"
+        }
+        {
+            heading: "Sell"
+            route: "market.sell"
+        }
+        {
+            heading: "Short"
+            route: "market.short"
+        }
+    ]
+    
+    $scope.$on "$stateChangeSuccess", ->
+        $scope.tabs.forEach (tab) ->
+            tab.active = $scope.active(tab.route)
+
     account_name = $stateParams.account
-    market_name = $stateParams.name.replace(':', '/')
+    market_name = $stateParams.name.replace('-', '/')
     MarketService.init market_name
     $scope.market = MarketService.market
     $scope.bid = new MarketService.TradeData
@@ -25,8 +52,13 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
             quantity_balance: Utils.assetValue(account_balances[$scope.market.quantity_symbol])
             base_balance: Utils.assetValue(account_balances[$scope.market.base_symbol])
         #console.log "---- account: ", $scope.account
-
     $scope.showLoadingIndicator promise, 0
+
+#    $scope.$watch 'tabs', (new_value) ->
+#        return if (new_value.reduce (x,y) -> x + y) > 1
+#        current_tab = if new_value[0] then 'buy' else if new_value[1] then 'sell' else 'short'
+#        $location.search tab: current_tab if $stateParams.tab != current_tab
+#    , true
 
     $scope.submit_bid = ->
         form = @buy_form
@@ -54,6 +86,9 @@ angular.module("app").controller "MarketController", ($scope, $stateParams, $mod
         MarketService.add_bid(bid)
 
     $scope.cancel_bid = (id) ->
+        if id == 0
+            $scope.unconfirmed.bid = null
+            return
         MarketService.cancel_bid(id)
 
     $scope.confirm_ask = ->
