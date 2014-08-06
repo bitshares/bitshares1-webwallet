@@ -117,6 +117,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     else
                         ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
             ret.sort(compare)
+            
             deferred.resolve(ret)
         return deferred.promise
 
@@ -124,3 +125,14 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         return -1  if a.name < b.name
         return 1  if a.name > b.name
         0
+
+    $scope.toggleVoteUpContact = (name) ->
+        newApproval=1
+        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
+            newApproval=-1
+        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
+            newApproval=0
+        Wallet.approve_account(name, newApproval).then (res)->
+            if (!$scope.accounts[name])
+                $scope.accounts[name]={}
+            $scope.accounts[name].approved=newApproval

@@ -54,8 +54,25 @@
 <div class="row m-top">
   <div class="col-md-2">
     <div class="avatar move-right-50px">
-       <img ng-src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
-       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
+      <div style='width:150px;padding:0px;margin:0px'ng-if="gravatar_account_name && gravatar_account_name">
+        <img class="avatar-150" ng-src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
+        <br/><br>
+        <div class="avatar-150 text-center" ng-if='gravatar_account_name!=account.name'>
+          <button ng-click="toggleFavoriteContact(gravatar_account_name)" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
+            <i ng-class="(accounts[gravatar_account_name].is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
+          </button>
+          <button ng-click="toggleVoteUpContact(gravatar_account_name)" class="btn btn-sm btn-link primary"
+                  tooltip="Toggle approval">
+            <i ng-if="accounts[gravatar_account_name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+            <i ng-if="!accounts[gravatar_account_name].approved || accounts[gravatar_account_name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+            <i ng-if="accounts[gravatar_account_name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+          </button>
+        </div>
+        <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='gravatar_account_name==account.name'>
+          <b>Self</b>
+        </div>
+      </div>
+      <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
     </div>
   </div>
   <div class="col-md-10" id="transfer-form">
