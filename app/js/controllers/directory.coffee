@@ -53,7 +53,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
         else
             $filter("prettyDate")(d)
 
-    $scope.addToContactsAndToggleFavorite = (name) ->
+    $scope.toggleFavorite = (name) ->
         is_favorite=true
         if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
             is_favorite=false
