@@ -51,11 +51,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
 
-    $scope.$watch ->
-        $scope.transfer_info.payto
-    , ->
-        $scope.gravatar_account_name = $scope.transfer_info.payto
-
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
             $scope.transfer_info.payto = ""
@@ -101,12 +96,14 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.onSelect = ($item, $model, $label) ->
         console.log('selected!',$item, $model, $label)
         $scope.transfer_info.payto=$label.name
+        $scope.gravatar_account_name = $scope.transfer_info.payto
 
     $scope.accountSuggestions = (input) ->
         nItems=10
         deferred = $q.defer()
         ret = []
         regHash={}
+        $scope.gravatar_account_name = ""
         Blockchain.list_accounts(input, nItems).then (response) ->
             angular.forEach response, (val) ->
                 if val.name.substring(0, input.length) == input
@@ -119,8 +116,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
                     else
                         ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
-            if ret.length == 0
-                $scope.gravatar_account_name = ""
             ret.sort(compare)
             deferred.resolve(ret)
         return deferred.promise
