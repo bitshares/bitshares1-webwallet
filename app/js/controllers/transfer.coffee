@@ -102,18 +102,29 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         console.log('selected!',$item, $model, $label)
 
     $scope.accountSuggestions = (input) ->
+        nItems=10
         deferred = $q.defer()
         ret = []
-        Blockchain.list_accounts(input, 10).then (response) ->
-            console.log('Wallet.accounts', Wallet.accounts)
-            angular.forEach Wallet.accounts, (val) ->
-                if val.name.substring(0, input.length) == input
-                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
-            console.log('response', response)
+        regHash={}
+        Blockchain.list_accounts(input, nItems).then (response) ->
             angular.forEach response, (val) ->
                 if val.name.substring(0, input.length) == input
-                    ret.push {'name': val.name}
+                    regHash[val.name]=true
+                    if !Wallet.accounts[val.name]
+                        ret.push {'name': val.name}
+            angular.forEach Wallet.accounts, (val) ->
+                if val.name.substring(0, input.length) == input
+                    if (regHash[val.name])
+                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
+                    else
+                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
             if ret.length == 0
                 $scope.gravatar_account_name = ""
+            ret.sort(compare)
             deferred.resolve(ret)
         return deferred.promise
+
+    compare = (a, b) ->
+        return -1  if a.name < b.name
+        return 1  if a.name > b.name
+        0
