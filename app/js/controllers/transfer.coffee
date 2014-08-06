@@ -27,7 +27,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_random: "Vote Random Subset"
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts = {}
+        $scope.accounts = Wallet.accounts
 
         angular.forEach Wallet.accounts, (acct, name) ->
             if acct.is_my_account
@@ -133,6 +133,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         if ($scope.accounts[name] && $scope.accounts[name].approved<0)
             newApproval=0
         Wallet.approve_account(name, newApproval).then (res)->
-            if (!$scope.accounts[name])
-                $scope.accounts[name]={}
-            $scope.accounts[name].approved=newApproval
+            Wallet.refresh_account(name).then () ->
+                $scope.accounts=Wallet.accounts
+
+    $scope.toggleFavoriteContact = (name) ->
+        is_favorite=true
+        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
+            is_favorite=false
+        WalletAPI.account_set_favorite(name, is_favorite).then () ->
+            Wallet.refresh_account(name).then () ->
+                $scope.accounts=Wallet.accounts
