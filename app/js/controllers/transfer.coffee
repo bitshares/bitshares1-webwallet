@@ -100,6 +100,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     
     $scope.onSelect = ($item, $model, $label) ->
         console.log('selected!',$item, $model, $label)
+        $scope.transfer_info.payto=$label.name
 
     $scope.accountSuggestions = (input) ->
         nItems=10
