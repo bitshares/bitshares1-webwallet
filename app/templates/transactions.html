@@ -16,7 +16,8 @@
             <span ng-repeat="entry in t.ledger_entries" class='lead'>
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
-                    <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                    <a href="#/accounts/{{entry.from}}" ng-if="entry.from[0] != entry.from[0].toUpperCase()">{{ entry.from }}</a>
+                    <span ng-if="entry.from[0] == entry.from[0].toUpperCase()">{{ entry.from }}</span>
                 </span>
                 <span ng-if="entry.from.charAt(0) === 'X'">
                     <img ng-src="img/user.png" height="40" width="40"/>
@@ -28,7 +29,10 @@
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <img src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
-                <span><a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
+                    <span>
+                        <a href="#/accounts/{{entry.to}}" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
+                        <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>
+                    </span>
                 </span>
             </span>
         </td>
