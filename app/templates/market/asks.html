@@ -10,19 +10,19 @@
     </thead>
     <tbody>
       <tr ng-if="unconfirmed.ask" class="unconfirmed">
-        <td>{{unconfirmed.ask.price | formatMoney}}</td>
-        <td>{{unconfirmed.ask.quantity | formatMoney}}</td>
-        <td>{{unconfirmed.ask.cost | formatMoney}}</td>
+        <td>{{unconfirmed.ask.price | currency : ''}}</td>
+        <td>{{unconfirmed.ask.quantity}}</td>
+        <td>{{unconfirmed.ask.cost | currency : ''}}</td>
         <td>
           <button class="btn btn-success btn-xs" ng-click="confirm_ask()">Confirm</button>
           <button class="btn btn-danger btn-xs" ng-click="cancel_ask(0)">Cancel</button>
         </td>
       </tr>
       <tr ng-repeat="ask in asks track by $index" ng-class="{cancelable: ask.cancelable}">
-        <td>{{ask.price | formatMoney}}</td>
+        <td>{{ask.price | currency : ''}}</td>
         <td>{{ask.quantity | formatMoney}}</td>
-        <td>{{ask.cost | formatMoney}}</td>
-        <td><button class="btn btn-danger btn-xs" ng-click="cancel_ask(ask.id)">Cancel</button></td>
+        <td>{{ask.cost | currency : ''}}</td>
+        <td><button class="btn btn-danger btn-xs" ng-click="cancel_ask(ask.id)" ng-show="ask.cancelable">Cancel</button></td>
       </tr>
     </tbody>
   </table>

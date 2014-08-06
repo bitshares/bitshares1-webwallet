@@ -1,12 +1,10 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
-    return unless $stateParams.name and $stateParams.account
-
-    console.log "$state: ", $state
-    console.log "$stateParams: ", $stateParams
-
-    account_name = $stateParams.account
+    $scope.account_name = account_name = $stateParams.account
     market_name = $stateParams.name.replace('-', '/')
-    MarketService.init market_name
+
+    MarketService.init(market_name).then ->
+        MarketService.watch_for_updates()
+
     $scope.market = MarketService.market
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
@@ -17,7 +15,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.shorts = MarketService.shorts
     $scope.trades = MarketService.trades
     $scope.unconfirmed = { bid: null, ask: null }
-    MarketService.watch_for_updates()
 
     # tabs
     tabsym = $scope.market.quantity_symbol
@@ -69,7 +66,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.confirm_bid = ->
         bid = $scope.unconfirmed.bid
         $scope.unconfirmed.bid = null
-        MarketService.add_bid(bid)
+        MarketService.add_bid(bid, true)
 
     $scope.cancel_bid = (id) ->
         if id == 0
@@ -80,7 +77,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.confirm_ask = ->
         ask = $scope.unconfirmed.ask
         $scope.unconfirmed.ask = null
-        MarketService.add_ask(ask)
+        MarketService.add_ask(ask, true)
 
     $scope.cancel_ask = (id) ->
         MarketService.cancel_ask(id)

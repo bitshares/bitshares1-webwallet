@@ -37,6 +37,11 @@
 	padding-right: 0;
 }
 
+.no-lr-margin {
+	margin-left: 0;
+	margin-right: 0;
+}
+
 span.cell {
 	line-height: 34px;
 }

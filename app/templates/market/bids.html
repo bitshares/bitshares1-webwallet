@@ -10,19 +10,19 @@
     </thead>
     <tbody>
       <tr ng-if="unconfirmed.bid" class="unconfirmed">
-        <td>{{unconfirmed.bid.price | formatMoney}}</td>
-        <td>{{unconfirmed.bid.quantity | formatMoney}}</td>
-        <td>{{unconfirmed.bid.cost | formatMoney}}</td>
+        <td>{{unconfirmed.bid.price | currency : ''}}</td>
+        <td>{{unconfirmed.bid.quantity }}</td>
+        <td>{{unconfirmed.bid.cost | currency : ''}}</td>
         <td>
           <button class="btn btn-success btn-xs" ng-click="confirm_bid()">Confirm</button>
           <button class="btn btn-danger btn-xs" ng-click="cancel_bid(0)">Cancel</button>
         </td>
       </tr>
       <tr ng-repeat="bid in bids track by $index" ng-class="{cancelable: bid.cancelable}">
-        <td>{{bid.price | formatMoney}}</td>
-        <td>{{bid.quantity | formatMoney}}</td>
-        <td>{{bid.cost | formatMoney}}</td>
-        <td><button class="btn btn-danger btn-xs" ng-click="cancel_bid(bid.id)">Cancel</button></td>
+        <td>{{bid.price | currency : ''}}</td>
+        <td>{{bid.quantity}}</td>
+        <td>{{bid.cost | currency : ''}}</td>
+        <td><button class="btn btn-danger btn-xs" ng-click="cancel_bid(bid.id)" ng-show="bid.cancelable">Cancel</button></td>
       </tr>
     </tbody>
   </table>

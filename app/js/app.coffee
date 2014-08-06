@@ -160,6 +160,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         controller: "MarketsController"
 
     sp.state "market",
+        abstract: true
         url: "/market/:name/:account"
         templateUrl: "market/market.html"
         controller: "MarketController"

@@ -37,7 +37,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
 angular.module("app.directives").directive "formHgroupSubmitBtn", ->
     template: '''
     <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-9">
+        <div class="col-sm-offset-3 col-sm-9 no-lr-padding">
             <button type="submit" class="btn btn-primary"><span ng-transclude></span></button>
         </div>
     </div>
@@ -77,7 +77,6 @@ angular.module("app.directives").directive "formHgroupValue", ->
     <div class="form-group">
         <label class="col-sm-3 control-label">{{label}}</label>
         <div class="col-sm-9 col-md-6"><span class="cell" ng-show="showValue"><span ng-transclude></span> {{symbol}}</span></div>
-
     </div>
     '''
     replace: true
