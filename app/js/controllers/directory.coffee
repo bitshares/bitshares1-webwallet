@@ -53,9 +53,9 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
         else
             $filter("prettyDate")(d)
 
-    $scope.addToContactsAndToggleFavorite = (name, address) ->
-        Wallet.wallet_add_contact_account(name, address).then ()->
-            # TODO: move to wallet service
-            Wallet.refresh_accounts().then ()->
-                WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-                    Wallet.refresh_accounts()
+    $scope.addToContactsAndToggleFavorite = (name) ->
+        is_favorite=true
+        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
+            is_favorite=false
+        WalletAPI.account_set_favorite(name, is_favorite).then ()->
+            Wallet.refresh_accounts()
