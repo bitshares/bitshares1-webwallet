@@ -25,14 +25,16 @@
           <div ng-switch on="p.pendingRegistration">
             <div ng-switch-when='pending'>
               <div class="pull-right" translate>account.reg_pending</div>
-              <div style='color:white;font-size:300%'>{{account.name}}</div>
+              <span style='color:white;font-size:300%'>{{account.name}}</span>
+              &nbsp;&nbsp; <i tooltip='Registration pending.  Not registered yet.' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
             <div ng-switch-default>
               <div class="pull-right">
                 <a style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
                     class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
               </div>
-              <div style='color:white;font-size:300%'>{{account.name}}</div>
+              <span style='color:white;font-size:300%'>{{account.name}}</span>
+              &nbsp;&nbsp; <i tooltip='Not registered on the blockchain' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
           </div>
         </div>
