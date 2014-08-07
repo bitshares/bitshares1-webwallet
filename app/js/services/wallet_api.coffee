@@ -134,6 +134,14 @@ class WalletAPI
     @rpc.request('wallet_backup_restore', [json_filename, wallet_name, imported_wallet_passphrase]).then (response) ->
       response.result
 
+  # Enables or disables automatic wallet backups
+  # parameters: 
+  #   bool `enabled` - true to enable and false to disable
+  # return_type: `bool`
+  set_automatic_backups: (enabled) ->
+    @rpc.request('wallet_set_automatic_backups', [enabled]).then (response) ->
+      response.result
+
   # Lists transaction history for the specified account
   # parameters: 
   #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
@@ -218,14 +226,6 @@ class WalletAPI
   # return_type: `int8_t`
   account_set_approval: (account_name, approval) ->
     @rpc.request('wallet_account_set_approval', [account_name, approval]).then (response) ->
-      response.result
-
-  # Returns your approval of the specified account
-  # parameters: 
-  #   account_name `account_name` - the name of the account to get approval for
-  # return_type: `int8_t`
-  account_get_approval: (account_name) ->
-    @rpc.request('wallet_account_get_approval', [account_name]).then (response) ->
       response.result
 
   # Add new account for sending payments
@@ -319,6 +319,16 @@ class WalletAPI
   # return_type: `signed_transaction`
   account_update_registration: (account_name, pay_from_account, public_data, delegate_pay_rate) ->
     @rpc.request('wallet_account_update_registration', [account_name, pay_from_account, public_data, delegate_pay_rate]).then (response) ->
+      response.result
+
+  # Updates the specified account's active key and broadcasts the transaction.
+  # parameters: 
+  #   account_name `account_to_update` - The name of the account to update the active key of.
+  #   account_name `pay_from_account` - The account from which fees will be paid.
+  #   string `new_active_key` - WIF private key to update active key to. If empty, a new key will be generated.
+  # return_type: `signed_transaction`
+  account_update_active_key: (account_to_update, pay_from_account, new_active_key) ->
+    @rpc.request('wallet_account_update_active_key', [account_to_update, pay_from_account, new_active_key]).then (response) ->
       response.result
 
   # Lists all accounts associated with this wallet
@@ -427,9 +437,9 @@ class WalletAPI
     @rpc.request('wallet_delegate_withdraw_pay', [delegate_name, to_account_name, amount_to_withdraw, memo]).then (response) ->
       response.result
 
-  # Used to set the priority fee for new transactions. Return current fee if no parameter is provided.
+  # Set the priority fee to add to new transactions
   # parameters: 
-  #   real_amount `fee` - the wallet priority fee to be set
+  #   real_amount `fee` - the wallet priority fee to set
   # return_type: `asset`
   set_priority_fee: (fee) ->
     @rpc.request('wallet_set_priority_fee', [fee]).then (response) ->
@@ -544,9 +554,9 @@ class WalletAPI
   # Enable or disable wallet transaction scanning
   # parameters: 
   #   bool `enabled` - true to enable transaction scanning, false otherwise
-  # return_type: `void`
-  delegate_set_transaction_scanning: (enabled) ->
-    @rpc.request('wallet_delegate_set_transaction_scanning', [enabled]).then (response) ->
+  # return_type: `bool`
+  set_transaction_scanning: (enabled) ->
+    @rpc.request('wallet_set_transaction_scanning', [enabled]).then (response) ->
       response.result
 
   # Signs the provided message digest with the account key
@@ -591,6 +601,16 @@ class WalletAPI
   # return_type: `int32_t`
   recover_accounts: (accounts_to_recover, maximum_number_of_attempts) ->
     @rpc.request('wallet_recover_accounts', [accounts_to_recover, maximum_number_of_attempts]).then (response) ->
+      response.result
+
+  # publishes a price feed for BitAssets, only active delegates may do this
+  # parameters: 
+  #   account_name `delegate_account` - the delegate to publish the price under
+  #   real_amount `price` - the number of this asset per XTS
+  #   asset_symbol `asset_symbol` - the type of asset being priced
+  # return_type: `signed_transaction`
+  publish_price_feed: (delegate_account, price, asset_symbol) ->
+    @rpc.request('wallet_publish_price_feed', [delegate_account, price, asset_symbol]).then (response) ->
       response.result
 
 

@@ -51,6 +51,13 @@ class BlockchainAPI
     @rpc.request('blockchain_list_accounts', [first_account_name, limit]).then (response) ->
       response.result
 
+  # Returns a list of recently registered accounts
+  # parameters: 
+  # return_type: `account_record_array`
+  list_recently_registered_accounts:  ->
+    @rpc.request('blockchain_list_recently_registered_accounts').then (response) ->
+      response.result
+
   # Returns registered assets starting with a given name upto a the limit provided
   # parameters: 
   #   asset_symbol `first_symbol` - the prefix of the first asset symbol name to include
@@ -63,8 +70,8 @@ class BlockchainAPI
   # Return a list of transactions that are not yet in a block.
   # parameters: 
   # return_type: `signed_transaction_array`
-  get_pending_transactions:  ->
-    @rpc.request('blockchain_get_pending_transactions').then (response) ->
+  list_pending_transactions:  ->
+    @rpc.request('blockchain_list_pending_transactions').then (response) ->
       response.result
 
   # Get detailed information about an in-wallet transaction
@@ -106,6 +113,22 @@ class BlockchainAPI
   # return_type: `optional_asset_record`
   get_asset: (asset) ->
     @rpc.request('blockchain_get_asset', [asset]).then (response) ->
+      response.result
+
+  # Retrieves all current feeds for the given asset
+  # parameters: 
+  #   string `asset` - asset ticker symbol or ID to retrieve
+  # return_type: `feed_record_list`
+  get_feeds_for_asset: (asset) ->
+    @rpc.request('blockchain_get_feeds_for_asset', [asset]).then (response) ->
+      response.result
+
+  # Retrieves all current feeds published by the given delegate
+  # parameters: 
+  #   string `delegate_name` - the name of the delegate to list feeds from
+  # return_type: `feed_record_list`
+  get_feeds_from_delegate: (delegate_name) ->
+    @rpc.request('blockchain_get_feeds_from_delegate', [delegate_name]).then (response) ->
       response.result
 
   # Returns the list of proposals
