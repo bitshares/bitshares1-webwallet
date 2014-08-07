@@ -73,7 +73,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
         Blockchain.get_asset(0).then (v)->
-            priority_fee = Utils.formatAsset(Utils.asset(Info.info.priority_fee, v))
+            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
             $modal.open
                 templateUrl: "dialog-confirmation.html"
                 controller: "DialogConfirmationController"
