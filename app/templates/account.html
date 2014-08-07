@@ -121,8 +121,11 @@
       </tab>
       <tab ng-if="account.delegate_info">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
-        <hr>
+        <br>
         Blocks produced / missed : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
+        <br>
+        <h3>Price Feeds</h3>
+        <div ng-controller="AccountDelegatePriceFeeds" ng-include src="'account_delegate_price_feeds.html'"></div>
       </tab>
 
       <!-- transfer tab -->
