@@ -17,9 +17,12 @@ class Wallet
     
     #Long time
     backendTimeout: 999999
+
+    info: {}
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
+        @info.priority_fee = result.priority_fee
         if result.open
             if not result.unlocked
                 @location.path("/unlockwallet")
