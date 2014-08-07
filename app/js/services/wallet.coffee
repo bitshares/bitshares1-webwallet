@@ -22,7 +22,6 @@ class Wallet
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
-        @info.priority_fee = result.priority_fee
         if result.open
             if not result.unlocked
                 @location.path("/unlockwallet")
@@ -227,6 +226,7 @@ class Wallet
     
     wallet_get_info: ->
         @rpc.request('wallet_get_info').then (response) =>
+            @info.priority_fee = response.result.priority_fee
             response.result
 
     wallet_add_contact_account: (name, address) ->

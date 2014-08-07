@@ -11,6 +11,7 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
     $scope.$watch ->
         Wallet.info.priority_fee
     , ->
+        console.log('Wallet.info.priority_fee',Wallet.info.priority_fee)
         Blockchain.get_asset(0).then (v)->
             pf_obj = Utils.asset(Wallet.info.priority_fee, v)
             $scope.model.priority_fee = pf_obj.amount.amount / pf_obj.precision
@@ -27,4 +28,5 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         $idle._options().idleDuration=Wallet.timeout
         pf = $scope.model.priority_fee
         $q.all([Wallet.set_setting('timeout', $scope.model.timeout), WalletAPI.set_priority_fee(pf)]).then (r) ->
+            Wallet.wallet_get_info()
             Growl.notice "Preferences Updated",""
