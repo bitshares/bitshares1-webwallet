@@ -22,10 +22,12 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 $scope.accounts[name]={}
             $scope.accounts[name].approved=newApproval
 
-    $scope.$watch('$scope.balances[Info.symbol]', ->
-        WalletAPI.account_vote_summary($scope.account_name).then (data) ->
-            $scope.votes=data
-    )
+    $scope.$watch ->
+        Wallet.balances[$scope.account_name][Info.symbol].amount
+    , (cur, old) ->
+        if (cur>0)
+            WalletAPI.account_vote_summary($scope.account_name).then (data) ->
+                $scope.votes=data
 
     yesSend = ->
         WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, $scope.transfer_info.vote, $scope.transfer_info.vote).then (response) ->
