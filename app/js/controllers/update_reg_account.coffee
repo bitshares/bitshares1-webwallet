@@ -19,10 +19,9 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
     $scope.symbolOptions = []
 
     $scope.$watch ->
-        Wallet.info.delegate_reg_fee
+        Info.info.delegate_reg_fee
     , ->
         Blockchain.get_asset(0).then (v)->
-            console.log('Info.info.delegate_reg_fee',Info.info.delegate_reg_fee)
             $scope.delegate_reg_fee = Utils.formatAsset(Utils.asset( Info.info.delegate_reg_fee, v) )
             $scope.priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
     $scope.m={}
