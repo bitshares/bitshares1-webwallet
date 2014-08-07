@@ -1,7 +1,7 @@
 angular.module("app").filter "prettyDate", (Utils)->
     (date) ->
         if not date
-            console.log "attempting to prettify null date"
+            #console.log "attempting to prettify null date"
             return ""
 
         if date.valueOf() == "19700101T000000"
@@ -15,7 +15,7 @@ angular.module("app").filter "prettyDate", (Utils)->
 angular.module("app").filter "prettyRecentDate", (Utils)->
     (date) ->
         if not date
-            console.log "attempting to prettify null date"
+            #console.log "attempting to prettify null date"
             return ""
 
         if date.valueOf() == "19700101T000000"

@@ -65,14 +65,14 @@ div.fixed-height-table {
 	overflow-x: hidden;
 }
 
-.market-table tr.unconfirmed td {
+.market-table tr.canceled td {
 	background-color: #f4d7d6 !important;
 }
 
-.market-table tr.cancelable td {
+.market-table tr.unconfirmed td {
 	background-color: #faf1e3 !important;
 }
 
-.market-table tr.posted td {
-	background-color: #dff2df !important;
-}
+/*.market-table tr.posted td {*/
+	/*background-color: #dff2df !important;*/
+/*}*/

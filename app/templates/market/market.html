@@ -15,7 +15,7 @@
     </div>
     <h3 class="header-title">
       <span tooltip="{{market.quantity_symbol}} short description.." tooltip-placement="right">{{market.quantity_symbol}}</span>
-      / <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
+      : <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
       <a ui-sref="market.buy({account: '{{account_name}}', name: '{{market.inverted_url}}'})"
          class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
     </h3>
@@ -48,10 +48,10 @@
       <div class="col-sm-6">
           <div class="panel">
             <div class="panel-heading">
-              <h3 class="panel-title">Trade History</h3>
+              <h3 class="panel-title">Open Orders</h3>
             </div>
             <div class="panel-body">
-              <div ng-include src="'market/trades.html'"></div>
+              <div ng-include src="'market/orders.html'"></div>
             </div>
           </div>
       </div>
@@ -62,12 +62,12 @@
     <div class="row">
 
       <div class="col-sm-6">
-        <div class="panel ">
+       <div class="panel ">
           <div class="panel-heading">
-            <h3 class="panel-title">Sell Orders</h3>
+            <h3 class="panel-title">Buy Orders (Bids)</h3>
           </div>
           <div class="panel-body">
-            <div ng-include src="'market/asks.html'"></div>
+            <div ng-include src="'market/bids.html'"></div>
           </div>
         </div>
       </div>
@@ -75,10 +75,10 @@
       <div class="col-sm-6">
         <div class="panel ">
           <div class="panel-heading">
-            <h3 class="panel-title">Buy Orders</h3>
+            <h3 class="panel-title">Sell Orders (Asks)</h3>
           </div>
           <div class="panel-body">
-            <div ng-include src="'market/bids.html'"></div>
+            <div ng-include src="'market/asks.html'"></div>
           </div>
         </div>
       </div>
@@ -87,7 +87,16 @@
     </div>
 
     <div class="row">
-
+      <div class="col-sm-12">
+        <div class="panel ">
+          <div class="panel-heading">
+            <h3 class="panel-title">Orders History</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-include src="'market/trades.html'"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

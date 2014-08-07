@@ -2,27 +2,16 @@
   <table class="table table-striped table-hover market-table fixed-height">
     <thead>
       <tr>
-        <th>PRICE ({{market.name}})</th>
+        <th>PRICE ({{market.price_symbol}})</th>
         <th>QUANTITY ({{market.quantity_symbol}})</th>
         <th>TOTAL ({{market.base_symbol}})</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-if="unconfirmed.ask" class="unconfirmed">
-        <td>{{unconfirmed.ask.price | currency : ''}}</td>
-        <td>{{unconfirmed.ask.quantity}}</td>
-        <td>{{unconfirmed.ask.cost | currency : ''}}</td>
-        <td>
-          <button class="btn btn-success btn-xs" ng-click="confirm_ask()">Confirm</button>
-          <button class="btn btn-danger btn-xs" ng-click="cancel_ask(0)">Cancel</button>
-        </td>
-      </tr>
-      <tr ng-repeat="ask in asks track by $index" ng-class="{cancelable: ask.cancelable}">
-        <td>{{ask.price | currency : ''}}</td>
-        <td>{{ask.quantity | formatMoney}}</td>
-        <td>{{ask.cost | currency : ''}}</td>
-        <td><button class="btn btn-danger btn-xs" ng-click="cancel_ask(ask.id)" ng-show="ask.cancelable">Cancel</button></td>
+      <tr ng-repeat="ask in asks track by $index">
+        <td>{{ask.price}}</td>
+        <td>{{ask.quantity}}</td>
+        <td>{{ask.cost}}</td>
       </tr>
     </tbody>
   </table>

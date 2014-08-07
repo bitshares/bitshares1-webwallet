@@ -1,9 +1,11 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
     $scope.account_name = account_name = $stateParams.account
-    market_name = $stateParams.name.replace('-', '/')
+    market_name = $stateParams.name
 
     MarketService.init(market_name).then ->
         MarketService.watch_for_updates()
+    , ->
+        Growl.error "", "Cannot initialize the market module, the selected market may not exist."
 
     $scope.market = MarketService.market
     $scope.bid = new MarketService.TradeData
@@ -14,6 +16,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.asks = MarketService.asks
     $scope.shorts = MarketService.shorts
     $scope.trades = MarketService.trades
+    $scope.orders = MarketService.orders
     $scope.unconfirmed = { bid: null, ask: null }
 
     # tabs
@@ -37,11 +40,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #console.log "---- account: ", $scope.account
     $scope.showLoadingIndicator promise, 0
 
-#    $scope.$watch 'tabs', (new_value) ->
-#        return if (new_value.reduce (x,y) -> x + y) > 1
-#        current_tab = if new_value[0] then 'buy' else if new_value[1] then 'sell' else 'short'
-#        $location.search tab: current_tab if $stateParams.tab != current_tab
-#    , true
+    $scope.cancel_order = (id) ->
+        MarketService.cancel_order(id).then ->
+             Growl.notice "", "Your order was canceled."
 
     $scope.submit_bid = ->
         form = @buy_form
@@ -51,7 +52,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         if bid.cost > $scope.account.base_balance
             form.bid_quantity.$error.message = "Insufficient funds"
             return
-        $scope.unconfirmed.bid = bid
+        bid.type = "bid_order"
+        MarketService.add_unconfirmed_order(bid)
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -61,26 +63,42 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 #        if ask.cost > $scope.account.quantity_balance
 #            form.ask_quantity.$error.message = "Insufficient funds"
 #            return
-        $scope.unconfirmed.ask = ask
+        ask.type = "ask_order"
+        MarketService.add_unconfirmed_order(ask)
 
-    $scope.confirm_bid = ->
-        bid = $scope.unconfirmed.bid
-        $scope.unconfirmed.bid = null
-        MarketService.add_bid(bid, true)
+    $scope.confirm_order = (id) ->
+        MarketService.confirm_order(id, $scope.account).then ->
+            Growl.notice "", "Your order was successfully placed."
+        , (error) ->
+            console.log "--- $scope.confirm_order error: ", error
+            Growl.error "", "Order failed."
 
-    $scope.cancel_bid = (id) ->
-        if id == 0
-            $scope.unconfirmed.bid = null
-            return
-        MarketService.cancel_bid(id)
-
-    $scope.confirm_ask = ->
-        ask = $scope.unconfirmed.ask
-        $scope.unconfirmed.ask = null
-        MarketService.add_ask(ask, true)
-
-    $scope.cancel_ask = (id) ->
-        MarketService.cancel_ask(id)
+#    $scope.confirm_bid = ->
+#        bid = $scope.unconfirmed.bid
+#        $scope.unconfirmed.bid = null
+#        MarketService.post_bid(bid, $scope.account).then ->
+#            Growl.notice "", "Your bid was successfully placed."
+#        , (error) ->
+#            console.log "--- $scope.confirm_bid error: ", error
+#            Growl.error "", "Bid failed."
+#
+#    $scope.cancel_bid = (id) ->
+#        if id == 0
+#            $scope.unconfirmed.bid = null
+#            return
+#        MarketService.cancel_bid(id)
+#
+#    $scope.confirm_ask = ->
+#        ask = $scope.unconfirmed.ask
+#        $scope.unconfirmed.ask = null
+#        MarketService.post_ask(ask, $scope.account).then ->
+#            Growl.notice "", "Your ask order was successfully placed."
+#        , (error) ->
+#            console.log "--- $scope.confirm_ask error: ", error
+#            Growl.error "", "Ask order failed."
+#
+#    $scope.cancel_ask = (id) ->
+#        MarketService.cancel_ask(id)
 
     $scope.submit_test = ->
         form = @buy_form

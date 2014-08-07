@@ -1,0 +1,35 @@
+<div class="fixed-height-table">
+<table class="table table-striped table-hover market-table">
+  <thead>
+    <tr>
+      <th>TYPE</th>
+      <th>PRICE ({{market.price_symbol}})</th>
+      <th>QUANTITY ({{market.quantity_symbol}})</th>
+      <th>TOTAL ({{market.base_symbol}})</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="o in orders track by $index" id="order_{{o.id}}" class="{{o.status}}">
+      <td>{{o.type}}</td>
+      <td>{{o.price}}</td>
+      <td>{{o.quantity | currency : ''}}</td>
+      <td>{{o.cost | currency : ''}}</td>
+      <td>
+        <span ng-switch on="o.status">
+          <span ng-switch-when="unconfirmed">
+            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button><br/>
+            <button class="btn btn-success btn-xs" ng-click="confirm_order(o.id)">Confirm</button>
+          </span>
+          <span ng-switch-when="canceled">
+            Canceling..
+          </span>
+          <span ng-switch-default>
+            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button><br/>
+          </span>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

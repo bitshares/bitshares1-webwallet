@@ -2,18 +2,18 @@
 <table class="table table-striped table-hover market-table">
   <thead>
     <tr>
-      <th>TIME</th>
+      <th>TYPE</th>
       <th>PRICE ({{market.name}})</th>
-      <th>QUANTITY ({{market.quantity_symbol}})</th>
-      <th>TOTAL ({{market.base_symbol}})</th>
+      <th>PAID ({{market.quantity_symbol}})</th>
+      <th>RECEIVED ({{market.base_symbol}})</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="t in trades track by $index">
-      <td>{{t.timestamp | prettyDate}}</td>
-      <td>{{t.price | formatMoney}}</td>
-      <td>{{t.quantity | formatMoney}}</td>
-      <td>{{t.cost | formatMoney}}</td>
+      <td>{{t.type}}</td>
+      <td>{{t.price}}</td>
+      <td>{{t.paid}}</td>
+      <td>{{t.received}}</td>
     </tr>
   </tbody>
 </table>

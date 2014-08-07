@@ -3,10 +3,10 @@
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="bid_quantity" ng-model="bid.quantity" />
   </div>
-  <div form-hgroup label="Price" addon="{{market.name}}">
+  <div form-hgroup label="Price" addon="{{market.price_symbol}}">
     <input-positive-number name="bid_price" ng-model="bid.price" required="true" />
   </div>
-  <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{buy_form.$valid}}">{{bid.quantity * bid.price | formatMoney}}</div>
+  <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{buy_form.$valid}}">{{bid.quantity * bid.price | currency : ''}}</div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn>Buy {{market.quantity_symbol}}</button>
 </form>
