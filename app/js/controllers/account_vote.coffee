@@ -42,7 +42,7 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
 
     $scope.updateVotes = ->
         myBal=$scope.balances[Info.symbol]
-        balMinusFee=myBal.amount / myBal.precision - Info.info.priority_fee / myBal.precision
+        balMinusFee=myBal.amount / myBal.precision - Wallet.info.priority_fee.amount / myBal.precision
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
