@@ -17,8 +17,8 @@ class Blockchain
                 @config.page_count = 20
                 return @config
 
-    list_accounts: ->
-        @rpc.request('blockchain_list_accounts').then (response) ->
+    list_accounts: (start_name, limit) ->
+        @rpc.request('blockchain_list_accounts', [start_name, limit]).then (response) ->
             reg = []
             angular.forEach response.result, (val, key) =>
                 reg.push

@@ -24,7 +24,7 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
     Blockchain.get_info().then (config) ->
         $scope.genesis_date = config.genesis_timestamp
 
-    Blockchain.list_accounts().then (reg) ->
+    Blockchain.list_accounts(null, 1776).then (reg) ->
         $scope.reg = reg
         $scope.p.numberOfPages = Math.ceil($scope.reg.length / $scope.p.pageSize)
 
@@ -53,9 +53,9 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
         else
             $filter("prettyDate")(d)
 
-    $scope.addToContactsAndToggleFavorite = (name, address) ->
-        Wallet.wallet_add_contact_account(name, address).then ()->
-            # TODO: move to wallet service
-            Wallet.refresh_accounts().then ()->
-                WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-                    Wallet.refresh_accounts()
+    $scope.toggleFavorite = (name) ->
+        is_favorite=true
+        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
+            is_favorite=false
+        WalletAPI.account_set_favorite(name, is_favorite).then ()->
+            Wallet.refresh_accounts()
