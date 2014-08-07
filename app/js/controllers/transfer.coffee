@@ -87,8 +87,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             templateUrl: "newcontactmodal.html"
             controller: "NewContactModalController"
             resolve:
-                addr: ->
-                    ""
+                contact_name: ->
+                    $scope.transfer_info.payto
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact

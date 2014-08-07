@@ -1,6 +1,6 @@
-angular.module("app").controller "NewContactModalController", ($scope, $modalInstance, Wallet, addr, action) ->
-    $scope.name = ''
-    $scope.address = addr if addr
+angular.module("app").controller "NewContactModalController", ($scope, $modalInstance, Wallet, contact_name, action) ->
+    $scope.name = contact_name if contact_name
+    $scope.address = ''
 
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"
