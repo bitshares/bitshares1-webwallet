@@ -219,7 +219,7 @@
         <div ng-controller="UpdateRegAccountController" ng-include src="'update-reg-account.html'"
              ng-if="utils.is_registered(account)"></div>
       </tab>
-      <tab ng-show='account.is_my_account'>
+      <tab ng-if='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>Vote</tab-heading>
           <div ng-controller="AccountVoteController" ng-include src="'account_vote.html'"></div>
       </tab>
