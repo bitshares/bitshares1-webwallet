@@ -12,7 +12,7 @@
             <th translate>th.name</th>
             <th translate>th.desc</th>
             <!--<th translate>Public Data</th>-->
-            <th>Issuer account ID</th>
+            <th translate>th.issue_account</th>
             <th translate>th.precision</th>
             <th translate>th.current_share_supply</th>
             <th translate>th.maximum_share_supply</th>
@@ -30,7 +30,10 @@
             </td>
             <td>{{ symbol2records[ticker].description }}</td>
             <td>
-               {{symbol2records[ticker].issuer_account_id }}
+               {{ }}
+               <a href="#/accounts/{{ asset.account_name }}" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer }} </a>
+                <span ng-if="symbol2records[ticker].issuer_account_id == -2">MARKET</span>
+                <span ng-if="symbol2records[ticker].id == 0">None</span>
             </td>
             <td>
                 {{ symbol2records[ticker].precision }} 
