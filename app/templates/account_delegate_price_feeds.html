@@ -7,7 +7,7 @@
 	</tr>
 	</thead>
 	<tbody>
-        <tr ng-repeat="feed in feeds">
+        <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
             <td>
               {{feed.asset_symbol}}
             </td>
