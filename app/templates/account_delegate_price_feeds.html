@@ -9,13 +9,13 @@
 	<tbody>
         <tr ng-repeat="feed in feeds">
             <td>
-              feed.asset_symbol
+              {{feed.asset_symbol}}
             </td>
             <td>
-              feed.price 
+              {{feed.price.toFixed(Math.log10(symbol2records[feed.asset_symbol].precision))}}
             </td>
             <td>
-              feed.last_update
+              {{feed.last_update | prettyDate}}
             </td>
         </tr>
 	</tbody>
