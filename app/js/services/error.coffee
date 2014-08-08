@@ -1,17 +1,20 @@
 servicesModule = angular.module("app.services", [])
 
-servicesModule.config ($httpProvider) ->
+servicesModule.config ($httpProvider, $provide) ->
     $httpProvider.interceptors.push('myHttpInterceptor')
 
-servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, Shared) ->
-    dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block",
-                           "wallet_get_account"]
+    $provide.decorator "$exceptionHandler", ["$delegate", (delegate) ->
+        (exception, cause) ->
+            if magic_unicorn?
+                stack = exception.stack.replace(/randomuser\:[\w\d]+\@[\d\.]+\:\d+/gm, "localhost").replace(/(\r\n|\n|\r)/gm,"\n ○ ")
+                magic_unicorn.log_message "js erorr: #{exception.message}\n#{stack}"
+            else
+                delegate(exception, cause)
+    ]
 
-    #  request: (config) ->
-    #    config
-    #
-    #  response: (response) ->
-    #    response
+servicesModule.factory "myHttpInterceptor", ($q, $location, Growl, Shared) ->
+    dont_report_methods = ["wallet_open", "wallet_unlock", "walletpassphrase", "get_info", "blockchain_get_block",
+                           "wallet_get_account", "blockchain_market_status"]
 
     responseError: (response) ->
         promise = null
@@ -34,9 +37,13 @@ servicesModule.factory "myHttpInterceptor", ($q, $rootScope, $location, Growl, S
         else if response.message
             error_msg = response.message
 
-        console.log "RPC Server Error: #{error_msg.substring(0, 512)} (#{response.status})", response
-        method_in_dont_report_list = method and (dont_report_methods.filter (x) ->
-            x == method).length > 0
+        error_msg = error_msg.substring(0, 512)
+        console.log "RPC Server Error: #{error_msg} (#{response.status})"
+        if magic_unicorn?
+            magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})")
+
+        method_in_dont_report_list = (method and (dont_report_methods.filter (x) ->
+            x == method).length > 0)
         #response.data.error.code!=0 is handled externally
         if !promise and !method_in_dont_report_list and response.data.error?.code != 0
             Shared.message = "RPC Server Error: " + error_msg.split("\n")[0]

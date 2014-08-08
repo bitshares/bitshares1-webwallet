@@ -27,7 +27,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_random: "Vote Random Subset"
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts = {}
+        $scope.accounts = Wallet.accounts
 
         angular.forEach Wallet.accounts, (acct, name) ->
             if acct.is_my_account
@@ -51,11 +51,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
 
-    $scope.$watch ->
-        $scope.transfer_info.payto
-    , ->
-        $scope.gravatar_account_name = $scope.transfer_info.payto
-
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
             $scope.transfer_info.payto = ""
@@ -78,7 +73,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
         Blockchain.get_asset(0).then (v)->
-            priority_fee = Utils.formatAsset(Utils.asset(Info.info.priority_fee, v))
+            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
             $modal.open
                 templateUrl: "dialog-confirmation.html"
                 controller: "DialogConfirmationController"
@@ -92,17 +87,59 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             templateUrl: "newcontactmodal.html"
             controller: "NewContactModalController"
             resolve:
-                addr: ->
-                    ""
+                contact_name: ->
+                    $scope.transfer_info.payto
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact
+    
+    $scope.onSelect = ($item, $model, $label) ->
+        console.log('selected!',$item, $model, $label)
+        $scope.transfer_info.payto=$label.name
+        $scope.gravatar_account_name = $scope.transfer_info.payto
 
     $scope.accountSuggestions = (input) ->
+        nItems=10
         deferred = $q.defer()
-        ret = Object.keys(Wallet.accounts)
-        angular.forEach ret, (name) ->
-            if Wallet.accounts[name].is_favorite || Wallet.accounts[name].is_my_account
-                ret.push name
-        deferred.resolve(ret)
+        ret = []
+        regHash={}
+        $scope.gravatar_account_name = ""
+        Blockchain.list_accounts(input, nItems).then (response) ->
+            angular.forEach response, (val) ->
+                if val.name.substring(0, input.length) == input
+                    regHash[val.name]=true
+                    if !Wallet.accounts[val.name]
+                        ret.push {'name': val.name}
+            angular.forEach Wallet.accounts, (val) ->
+                if val.name.substring(0, input.length) == input
+                    if (regHash[val.name])
+                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
+                    else
+                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
+            ret.sort(compare)
+            
+            deferred.resolve(ret)
         return deferred.promise
+
+    compare = (a, b) ->
+        return -1  if a.name < b.name
+        return 1  if a.name > b.name
+        0
+
+    $scope.toggleVoteUpContact = (name) ->
+        newApproval=1
+        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
+            newApproval=-1
+        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
+            newApproval=0
+        Wallet.approve_account(name, newApproval).then (res)->
+            Wallet.refresh_account(name).then () ->
+                $scope.accounts=Wallet.accounts
+
+    $scope.toggleFavoriteContact = (name) ->
+        is_favorite=true
+        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
+            is_favorite=false
+        WalletAPI.account_set_favorite(name, is_favorite).then () ->
+            Wallet.refresh_account(name).then () ->
+                $scope.accounts=Wallet.accounts

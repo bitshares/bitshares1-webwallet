@@ -25,14 +25,16 @@
           <div ng-switch on="p.pendingRegistration">
             <div ng-switch-when='pending'>
               <div class="pull-right" translate>account.reg_pending</div>
-              <div style='color:white;font-size:300%'>{{account.name}}</div>
+              <span style='color:white;font-size:300%'>{{account.name}}</span>
+              &nbsp;&nbsp; <i tooltip='Registration pending.  Not registered yet.' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
             <div ng-switch-default>
               <div class="pull-right">
                 <a style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
                     class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
               </div>
-              <div style='color:white;font-size:300%'>{{account.name}}</div>
+              <span style='color:white;font-size:300%'>{{account.name}}</span>
+              &nbsp;&nbsp; <i tooltip='Not registered on the blockchain' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
           </div>
         </div>
@@ -119,8 +121,11 @@
       </tab>
       <tab ng-if="account.delegate_info">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
-        <hr>
+        <br>
         Blocks produced / missed : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
+        <br>
+        <h3>Price Feeds</h3>
+        <div ng-controller="AccountDelegatePriceFeeds" ng-include src="'account_delegate_price_feeds.html'"></div>
       </tab>
 
       <!-- transfer tab -->
@@ -132,11 +137,11 @@
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
         <div ng-controller="ManageAssetsController" ng-include src="'manage_assets.html'"></div>
       </tab>
-      <tab ng-show="account.is_my_account">
+      <tab>
         <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> {{ 'account.advanced' | translate }}</tab-heading>
         <div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
 
-        <tabset class="p-inner">
+        <tabset ng-show="account.is_my_account" class="p-inner">
           <tab heading="Import Private Key">
             <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
               <div class="form-group row" ng-class="{ 'has-error' : import_key_form.key.$invalid && !import_key_form.key.$pristine }">
@@ -214,7 +219,7 @@
         <div ng-controller="UpdateRegAccountController" ng-include src="'update-reg-account.html'"
              ng-if="utils.is_registered(account)"></div>
       </tab>
-      <tab ng-show='account.is_my_account'>
+      <tab ng-if='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>Vote</tab-heading>
           <div ng-controller="AccountVoteController" ng-include src="'account_vote.html'"></div>
       </tab>

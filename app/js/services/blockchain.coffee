@@ -1,7 +1,6 @@
 class Blockchain
 
     constructor: (@client, @network, @rpc, @blockchain_api, @utils, @q, @interval) ->
-        console.log "blockchain constructor"
 
     # # # # #
     #  Blockchain Config
@@ -18,8 +17,8 @@ class Blockchain
                 @config.page_count = 20
                 return @config
 
-    list_accounts: ->
-        @rpc.request('blockchain_list_accounts').then (response) ->
+    list_accounts: (start_name, limit) ->
+        @rpc.request('blockchain_list_accounts', [start_name, limit]).then (response) ->
             reg = []
             angular.forEach response.result, (val, key) =>
                 reg.push
@@ -46,6 +45,7 @@ class Blockchain
                 @populate_asset_record record
 
     get_asset: (id) ->
+        return @symbol2records[id] if !$.isNumeric(id)
         if @asset_records[id]
             deferred = @q.defer()
             deferred.resolve(@asset_records[id])
@@ -61,10 +61,10 @@ class Blockchain
         angular.forEach @asset_records, (asset1) =>
             angular.forEach @asset_records, (asset2) =>
                 if asset1.id > asset2.id
-                    value = asset1.symbol + "/" + asset2.symbol
+                    value = asset1.symbol + ":" + asset2.symbol
                     markets_hash[value] = value
                 else if asset2.id > asset1.id
-                    value = asset2.symbol + "/" + asset1.symbol
+                    value = asset2.symbol + ":" + asset1.symbol
                     markets_hash[value] = value
         angular.forEach markets_hash, (key, value) ->
             markets.push value

@@ -54,8 +54,25 @@
 <div class="row m-top">
   <div class="col-md-2">
     <div class="avatar move-right-50px">
-       <img src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150" ng-if="gravatar_account_name"/>
-       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
+      <div style='width:150px;padding:0px;margin:0px'ng-if="gravatar_account_name && gravatar_account_name">
+        <img class="avatar-150" ng-src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
+        <br/><br>
+        <div class="avatar-150 text-center" ng-if='gravatar_account_name!=account.name'>
+          <button ng-click="toggleFavoriteContact(gravatar_account_name)" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
+            <i ng-class="(accounts[gravatar_account_name].is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
+          </button>
+          <button ng-click="toggleVoteUpContact(gravatar_account_name)" class="btn btn-sm btn-link primary"
+                  tooltip="Toggle approval">
+            <i ng-if="accounts[gravatar_account_name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+            <i ng-if="!accounts[gravatar_account_name].approved || accounts[gravatar_account_name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+            <i ng-if="accounts[gravatar_account_name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+          </button>
+        </div>
+        <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='gravatar_account_name==account.name'>
+          <b>Self</b>
+        </div>
+      </div>
+      <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
     </div>
   </div>
   <div class="col-md-10" id="transfer-form">
@@ -104,11 +121,15 @@
           <div class="input-group">
             <input ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="Contact Name" id="payto"
-                   typeahead="state as state for state in accountSuggestions($viewValue) | filter:{name: $viewValue}"
-                   typeahead-append-to-body='true' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
+                   typeahead="state for state in accountSuggestions($viewValue)"
+                   typeahead-append-to-body='true' typeahead-on-select='onSelect($item, $model, $label)' typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="my_transfer_form.payto.error_message = null"/>
-            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;Contact'>
-            <i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user fa-lg"></i></span>
+            <span ng-if='!gravatar_account_name' ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;contact' tooltip-placement='right'>
+              <i class="fa fa-book fa-lg fa-fw"></i>
+            </span>
+            <span ng-if='gravatar_account_name' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip='Cannot add contact.  Account name exists.'>
+              <i class="fa fa-book fa-lg fa-fw"></i>
+            </span>
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
         </div>

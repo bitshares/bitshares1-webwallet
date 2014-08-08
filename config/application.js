@@ -31,13 +31,13 @@ module.exports = function(lineman) {
       // requests for paths that don't match a static asset in ./generated will be forwarded to
       // whatever service might be running on the specified port.
       //
-      pushState: true,
-      apiProxy: {
-         prefix: '/rpc',
-         enabled: true,
-         host: 'localhost',
-         port: 9989
-      }
+//      pushState: true,
+//      apiProxy: {
+//         prefix: '/rpc',
+//         enabled: true,
+//         host: 'localhost',
+//         port: 9989
+//      }
     }
 
     // Sass

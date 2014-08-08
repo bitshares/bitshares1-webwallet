@@ -1,0 +1,8 @@
+.form-error {
+	margin-bottom: 0;
+}
+
+.has-error .input-group-addon, .input-group-addon {
+	color: #777;
+	width: 80px;
+}

@@ -22,10 +22,12 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 $scope.accounts[name]={}
             $scope.accounts[name].approved=newApproval
 
-    $scope.$watch('$scope.balances[Info.symbol]', ->
-        WalletAPI.account_vote_summary($scope.account_name).then (data) ->
-            $scope.votes=data
-    )
+    $scope.$watch ->
+        Wallet.balances[$scope.account_name][Info.symbol].amount
+    , (cur, old) ->
+        if (cur>0)
+            WalletAPI.account_vote_summary($scope.account_name).then (data) ->
+                $scope.votes=data
 
     yesSend = ->
         WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, $scope.transfer_info.vote, $scope.transfer_info.vote).then (response) ->
@@ -42,12 +44,12 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
 
     $scope.updateVotes = ->
         myBal=$scope.balances[Info.symbol]
-        balMinusFee=myBal.amount / myBal.precision - Info.info.priority_fee / myBal.precision
+        balMinusFee=myBal.amount / myBal.precision - Wallet.info.priority_fee.amount / myBal.precision
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Info.info.priority_fee / myBal.precision + " " + Info.symbol + "."
+                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Wallet.info.priority_fee.amount / myBal.precision + " " + Info.symbol + "."
                 action: -> yesSend
         

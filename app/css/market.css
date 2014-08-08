@@ -1,0 +1,83 @@
+.market .panel {
+	border: none;
+	margin-bottom: 20px;
+}
+
+.market-selector h3 {
+	width: 120px;
+	float: left;
+}
+
+.market-selector .form-group {
+	width: 120px;
+	float: left;
+	position: relative;
+	top: 12px;
+}
+
+.no-account-selected-note {
+	margin: 40px auto;
+	font-size: 36px;
+	color: #888;
+	text-align: center;
+}
+
+.account-selector {
+	margin: 12px 60px 0 0;
+}
+
+.account-selector .title {
+	font-size: 18px;
+	position: relative;
+	top: 4px;
+}
+
+.no-lr-padding {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.no-lr-margin {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+span.cell {
+	line-height: 34px;
+}
+
+.market-table {
+	width: 100%;
+}
+
+.market-table td {
+	font-size: 12px;
+	text-align: left !important;
+}
+
+.market-table th {
+	text-align: left !important;
+}
+
+.market-table button.btn-xs {
+	display: table-cell;
+	width: 5em;
+}
+
+div.fixed-height-table {
+	max-height: 300px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.market-table tr.canceled td {
+	background-color: #f4d7d6 !important;
+}
+
+.market-table tr.unconfirmed td {
+	background-color: #faf1e3 !important;
+}
+
+/*.market-table tr.posted td {*/
+	/*background-color: #dff2df !important;*/
+/*}*/

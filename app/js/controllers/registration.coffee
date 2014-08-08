@@ -5,9 +5,12 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   $scope.m.payrate=50
   $scope.m.delegate=false
 
-  Blockchain.get_asset(0).then (v)->
-    $scope.delegate_reg_fee = Utils.formatAsset(Utils.asset( Info.info.delegate_reg_fee, v) )
-    $scope.priority_fee = Utils.formatAsset(Utils.asset(Info.info.priority_fee, v))
+  $scope.$watch ->
+      Wallet.info.priority_fee
+  , ->
+    Blockchain.get_asset(0).then (v)->
+      $scope.delegate_reg_fee = Utils.formatAsset(Utils.asset( Info.info.delegate_reg_fee, v) )
+      $scope.priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
   
   #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
   $scope.symbol = Info.symbol
@@ -24,10 +27,6 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         if bals.length
             $scope.accounts[name]=[name, bals]
     $scope.m.payfrom= if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
-
-  WalletAPI.set_priority_fee().then (result) ->
-    asset_type = Blockchain.asset_records[result.asset_id]
-    $scope.priority_fee = Utils.asset(result.amount, asset_type)
 
   Wallet.get_accounts().then ->
     refresh_accounts()

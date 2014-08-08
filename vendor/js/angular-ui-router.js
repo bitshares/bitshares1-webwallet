@@ -1893,6 +1893,8 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory,           $
      * {@link ui.router.state.$state#methods_go $state.go}.
      */
     $state.transitionTo = function transitionTo(to, toParams, options) {
+//        console.log("---- transitionTo -----> ", to, toParams, options);
+//        console.log("<---- transitionTo -----", getStackTrace());
       toParams = toParams || {};
       options = extend({
         location: true, inherit: false, relative: null, notify: true, reload: false, $retry: false
