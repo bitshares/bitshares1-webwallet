@@ -1,45 +1,30 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
-    console.log "reloading........."
-
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
+    console.log "MarketController........."
     $scope.account_name = account_name = $stateParams.account
-    market_name = $stateParams.name
-    MarketService.init(market_name).then ->
-        MarketService.watch_for_updates()
-    , ->
-        Growl.error "", "Cannot initialize the market module, the selected market may not exist."
 
-    $scope.market = MarketService.market
-    set_actual_market = (market) -> $scope.actual_market = market
-    MarketService.on_actual_market_changed = set_actual_market
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
     $scope.account = null
-    $scope.bids = MarketService.bids
-    $scope.asks = MarketService.asks
-    $scope.shorts = MarketService.shorts
-    $scope.covers = MarketService.covers
-    $scope.trades = MarketService.trades
-    $scope.orders = MarketService.orders
-    $scope.unconfirmed = { bid: null, ask: null }
 
-    $scope.is_refreshing = false
-    if MarketService.loading_promise
-        $scope.is_refreshing = true
-        $scope.showLoadingIndicator MarketService.loading_promise, 0
-        MarketService.loading_promise.finally -> $scope.is_refreshing = false
-    #$scope.state_name = $state.current.name
-
-    # tabs
-    tabsym = $scope.market.quantity_symbol
-    $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
-    $scope.goto_tab = (route) -> $state.go route
-    $scope.active_tab = (route) -> $state.is route
-    $scope.$on "$stateChangeSuccess", ->
-        #$scope.state_name = $state.current.name
-        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
+    market_name = $stateParams.name
+    promise = MarketService.init(market_name).then (market) ->
+        MarketService.watch_for_updates()
+        $scope.market = market
+        $scope.actual_market = market.actual_market
+        $scope.market_inverted_url = MarketService.inverted_url
+        $scope.bids = MarketService.bids
+        $scope.asks = MarketService.asks
+        $scope.shorts = MarketService.shorts
+        $scope.covers = MarketService.covers
+        $scope.trades = MarketService.trades
+        $scope.orders = MarketService.orders
+    , (error) ->
+        Growl.error "", error
+    $scope.showLoadingIndicator $q.all([promise,MarketService.loading_promise]), 0
 
     promise = Wallet.refresh_accounts().then ->
+        $scope.is_refreshing = false
         $scope.accounts = Wallet.accounts
         if account_name == 'no:account'
             $scope.account = false
@@ -47,9 +32,22 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         account_balances = Wallet.balances[account_name]
         $scope.account =
             name: account_name
-            quantity_balance: Utils.assetValue(account_balances[$scope.market.quantity_symbol])
-            base_balance: Utils.assetValue(account_balances[$scope.market.base_symbol])
+            quantity_balance: Utils.assetValue(account_balances[MarketService.quantity_symbol])
+            base_balance: Utils.assetValue(account_balances[MarketService.base_symbol])
     $scope.showLoadingIndicator promise, 0
+
+    # tabs
+    tabsym = MarketService.quantity_symbol
+    $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
+    $scope.goto_tab = (route) -> $state.go route
+    $scope.active_tab = (route) -> $state.is route
+    $scope.$on "$stateChangeSuccess", ->
+        #$scope.state_name = $state.current.name
+        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
+
+    $scope.flip_market = ->
+        console.log "flip market"
+        $state.go('^.buy', {name: MarketService.inverted_url})
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
