@@ -8,10 +8,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="bid in bids track by $index" ng-class="{cancelable: bid.cancelable}">
-        <td>{{bid.price}}</td>
-        <td>{{bid.quantity}}</td>
-        <td>{{bid.cost}}</td>
+      <tr ng-repeat="o in bids | orderBy:'price':true" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
+        <td>{{o.price | formatDecimal}}</td>
+        <td>{{o.quantity | formatDecimal : market.quantity_decimals}}</td>
+        <td>{{o.cost | formatDecimal : market.base_decimals}}</td>
       </tr>
     </tbody>
   </table>

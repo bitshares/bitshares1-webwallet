@@ -36,6 +36,27 @@ servicesModule.factory "Utils", ->
         parts.push('00') if parts.length == 1
         parts.join(".")
 
+
+    truncateTrailing9s: (value) ->
+        parts = (value + "").split('.')
+        return value if parts.length < 2
+        fractional_part = parts[1]
+        return value if fractional_part.length < 7
+        len = fractional_part.replace(/9*$/,'').length
+        len = 1 if len == 0
+        value.toFixed(len)
+
+    formatDecimal: (value, decPlaces) ->
+        n = @truncateTrailing9s(value)
+        return n unless decPlaces
+        # decPlaces = (if isNaN(decPlaces = Math.abs(decPlaces)) then 2 else decPlaces)
+        decSeparator = "." # decSeparator = (if decSeparator is `undefined` then "." else decSeparator)
+        thouSeparator = "," # thouSeparator = (if thouSeparator is `undefined` then "," else thouSeparator)
+        sign = (if n < 0 then "-" else "")
+        i = parseInt(n = Math.abs(+n or 0).toFixed(decPlaces)) + ""
+        j = (if (j = i.length) > 3 then j % 3 else 0)
+        sign + ((if j then i.substr(0, j) + thouSeparator else "")) + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + ((if decPlaces then decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) else ""))
+
     assetValue: (asset) ->
         return 0.0 unless asset
         asset.amount / asset.precision

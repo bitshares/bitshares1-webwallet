@@ -59,8 +59,13 @@ span.cell {
 	text-align: left !important;
 }
 
+.market-table button.btn-xs {
+	display: table-cell;
+	width: 5em;
+}
+
 div.fixed-height-table {
-	max-height: 400px;
+	max-height: 300px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }

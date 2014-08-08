@@ -10,16 +10,17 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="o in orders track by $index" id="order_{{o.id}}" class="{{o.status}}">
+    <tr ng-repeat="o in orders track by $index" id="order_{{o.id}}" class="{{o.status}}"
+        ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
       <td>{{o.type}}</td>
-      <td>{{o.price}}</td>
-      <td>{{o.quantity | currency : ''}}</td>
-      <td>{{o.cost | currency : ''}}</td>
+      <td>{{o.price | formatDecimal}}</td>
+      <td>{{o.quantity | formatDecimal : market.quantity_decimals}}</td>
+      <td>{{o.cost | formatDecimal : market.base_decimals}}</td>
       <td>
         <span ng-switch on="o.status">
           <span ng-switch-when="unconfirmed">
-            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button><br/>
-            <button class="btn btn-success btn-xs" ng-click="confirm_order(o.id)">Confirm</button>
+            <button class="btn btn-primary btn-xs confirm" ng-click="confirm_order(o.id)">Confirm</button>
+            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button>
           </span>
           <span ng-switch-when="canceled">
             Canceling..

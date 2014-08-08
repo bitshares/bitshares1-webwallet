@@ -17,7 +17,7 @@
       <span tooltip="{{market.quantity_symbol}} short description.." tooltip-placement="right">{{market.quantity_symbol}}</span>
       : <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
       <a ui-sref="market.buy({account: '{{account_name}}', name: '{{market.inverted_url}}'})"
-         class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
+         class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account && !is_refreshing"><i class="fa fa-retweet fa-fw"></i></a>
     </h3>
   </div>
 </div>
@@ -59,30 +59,62 @@
     </div>
 
     <br/>
-    <div class="row">
 
-      <div class="col-sm-6">
-       <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title">Buy Orders (Bids)</h3>
+    <div ng-switch on="state_name">
+
+      <div class="row" ng-switch-when="market.short">
+        <div class="col-sm-6">
+          <!--<div class="panel ">-->
+            <!--<div class="panel-heading">-->
+              <!--<h3 class="panel-title">Cover Orders</h3>-->
+            <!--</div>-->
+            <!--<div class="panel-body">-->
+              <!--<div ng-include src="'market/covers.html'"></div>-->
+            <!--</div>-->
+          <!--</div>-->
+          <div class="panel ">
+            <div class="panel-heading">
+              <h3 class="panel-title">Buy Orders (Bids)</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-include src="'market/bids.html'"></div>
+            </div>
           </div>
-          <div class="panel-body">
-            <div ng-include src="'market/bids.html'"></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel ">
+            <div class="panel-heading">
+              <h3 class="panel-title">Short Orders</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-include src="'market/shorts.html'"></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="col-sm-6">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title">Sell Orders (Asks)</h3>
+      <div class="row" ng-switch-default>
+        <div class="col-sm-6">
+          <div class="panel ">
+            <div class="panel-heading">
+              <h3 class="panel-title">Buy Orders (Bids)</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-include src="'market/bids.html'"></div>
+            </div>
           </div>
-          <div class="panel-body">
-            <div ng-include src="'market/asks.html'"></div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel ">
+            <div class="panel-heading">
+              <h3 class="panel-title">Sell Orders (Asks and Shorts)</h3>
+            </div>
+            <div class="panel-body">
+              <div ng-include src="'market/asks.html'"></div>
+            </div>
           </div>
         </div>
       </div>
-
 
     </div>
 

@@ -1,20 +1,18 @@
-<div class="fixed-height-table">
-<table class="table table-striped table-hover market-table">
+<table class="table table-striped market-table">
   <thead>
     <tr>
       <th>TYPE</th>
-      <th>PRICE ({{market.name}})</th>
-      <th>PAID ({{market.quantity_symbol}})</th>
-      <th>RECEIVED ({{market.base_symbol}})</th>
+      <th>PRICE ({{actual_market.price_symbol}})</th>
+      <th>PAID ({{actual_market.quantity_symbol}})</th>
+      <th>RECEIVED ({{actual_market.base_symbol}})</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="t in trades track by $index">
+    <tr ng-repeat="t in trades">
       <td>{{t.type}}</td>
-      <td>{{t.price}}</td>
-      <td>{{t.paid}}</td>
-      <td>{{t.received}}</td>
+      <td>{{t.price | formatDecimal}}</td>
+      <td>{{t.paid | formatDecimal : actual_market.quantity_decimals}}</td>
+      <td>{{t.received | formatDecimal : actual_market.base_decimals}}</td>
     </tr>
   </tbody>
 </table>
-</div>
