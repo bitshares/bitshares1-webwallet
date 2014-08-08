@@ -12,7 +12,7 @@
               {{feed.asset_symbol}}
             </td>
             <td>
-              {{feed.price.toFixed(Math.log10(symbol2records[feed.asset_symbol].precision))}}
+              {{ feed.price | formatDecimal:symbol2records[feed.asset_symbol].precision}}
             </td>
             <td>
               {{feed.last_update | prettyDate}}
