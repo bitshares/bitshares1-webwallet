@@ -124,6 +124,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "account.html"
         controller: "AccountController"
 
+    sp.state "asset",
+        url: "/assets/:ticker"
+        templateUrl: "asset.html"
+        controller: "AssetController"
+
     sp.state "blocks",
         url: "/blocks?withtrxs"
         templateUrl: "blocks.html"
