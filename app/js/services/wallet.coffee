@@ -17,6 +17,8 @@ class Wallet
     
     #Long time
     backendTimeout: 999999
+
+    info: {}
     
     check_wallet_status : ()->
       @wallet_get_info().then (result) =>
@@ -224,6 +226,7 @@ class Wallet
     
     wallet_get_info: ->
         @rpc.request('wallet_get_info').then (response) =>
+            @info.priority_fee = response.result.priority_fee
             response.result
 
     wallet_add_contact_account: (name, address) ->

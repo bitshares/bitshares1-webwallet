@@ -18,7 +18,6 @@ class Info
         @is_refreshing = true
         @common_api.get_info().then (data) =>
             #console.log "watch_for_updates get_info:>", data
-            @symbol = data.symbol
             if data.blockchain_head_block_num > 0
                 @info.network_connections = data.network_num_connections
                 @info.wallet_open = data.wallet_open
@@ -42,6 +41,7 @@ class Info
                 @info.asset_reg_fee = data.asset_reg_fee
                 @info.priority_fee = data.priority_fee
                 @is_refreshing = false
+                @symbol = data.symbol
         , =>
             @is_refreshing = false
             @info.network_connections = 0

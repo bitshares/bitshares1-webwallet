@@ -8,7 +8,7 @@ class NetworkAPI
 
   # Attempts add or remove <node> from the peer list or try a connection to <node> once
   # parameters: 
-  #   ip_endpoint `node` - The node (see network_get_peer_info for nodes), example: 192.168.1.5:5678
+  #   string `node` - The node (see network_get_peer_info for nodes), example: 192.168.1.5:5678
   #   std::string `command` - 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once, example: add
   # return_type: `void`
   add_node: (node, command) ->
