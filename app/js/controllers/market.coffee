@@ -1,7 +1,5 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
-    console.log "MarketController........."
     $scope.account_name = account_name = $stateParams.account
-
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
@@ -11,7 +9,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     promise = MarketService.init(market_name).then (market) ->
         MarketService.watch_for_updates()
         $scope.market = market
-        $scope.actual_market = market.actual_market
+        $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
         $scope.asks = MarketService.asks
@@ -45,9 +43,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
+    $scope.$on "$destroy", ->
+        MarketService.stop_updates()
+
     $scope.flip_market = ->
         console.log "flip market"
-        $state.go('^.buy', {name: MarketService.inverted_url})
+        $state.go('^.buy', {name: $scope.market.inverted_url})
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
@@ -63,6 +64,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             form.bid_quantity.$error.message = "Insufficient funds"
             return
         bid.type = "bid_order"
+        $scope.account.base_balance -= bid.cost
         MarketService.add_unconfirmed_order(bid)
 
     $scope.submit_ask = ->
@@ -70,8 +72,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         ask = $scope.ask
         ask.cost = ask.quantity * ask.price
-        if ask.cost > $scope.account.quantity_balance
-            form.ask_quantity.$error.message = "Insufficient funds"
+        if ask.quantity > $scope.account.quantity_balance
+            form.ask_quantity.$error.message = "Insufficient balance"
             return
         ask.type = "ask_order"
         MarketService.add_unconfirmed_order(ask)
@@ -88,7 +90,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         MarketService.add_unconfirmed_order(short)
 
     $scope.confirm_order = (id) ->
-        MarketService.confirm_order(id, $scope.account).then ->
+        MarketService.confirm_order(id, $scope.account).then (order) ->
+            if order.type == "bid_order" or order.type == "ask_order"
+                $scope.account.base_balance -= order.cost
+            else if order.type == "ask_order"
+                $scope.account.quantity_balance -= order.cost
             Growl.notice "", "Your order was successfully placed."
         , (error) ->
             console.log "--- $scope.confirm_order error: ", error
@@ -102,9 +108,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         order.price = data.price
         order.quantity = data.quantity
 
-#    $scope.submit_test = ->
-#        form = @buy_form
-#        $scope.clear_form_errors(form)
-#        form.bid_quantity.$error.message = "some field error, please fix me"
-#        form.bid_price.$error.message = "another field error, please fix me"
-#        form.$error.message = "some error, please fix me"
+    $scope.submit_test = ->
+        form = @buy_form
+        $scope.clear_form_errors(form)
+        form.bid_quantity.$error.message = "some field error, please fix me"
+        form.bid_price.$error.message = "another field error, please fix me"
+        form.$error.message = "some error, please fix me"

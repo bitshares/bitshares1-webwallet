@@ -5,15 +5,15 @@
         <th>TYPE</th>
         <th>PRICE ({{market.price_symbol}})</th>
         <th>QUANTITY ({{market.quantity_symbol}})</th>
-        <th>TOTAL ({{market.base_symbol}})</th>
+        <th>COST ({{market.base_symbol}})</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="o in asks | orderBy:'price':false" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
         <td>{{o.type}}</td>
         <td>{{o.price | formatDecimal}}</td>
-        <td>{{o.quantity | formatDecimal : market.quantity_decimals}}</td>
-        <td>{{o.cost | formatDecimal : market.base_decimals}}</td>
+        <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
+        <td>{{o.cost | formatDecimal : market.base_precision}}</td>
       </tr>
     </tbody>
   </table>

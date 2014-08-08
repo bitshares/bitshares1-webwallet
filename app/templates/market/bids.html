@@ -10,8 +10,8 @@
     <tbody>
       <tr ng-repeat="o in bids | orderBy:'price':true" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
         <td>{{o.price | formatDecimal}}</td>
-        <td>{{o.quantity | formatDecimal : market.quantity_decimals}}</td>
-        <td>{{o.cost | formatDecimal : market.base_decimals}}</td>
+        <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
+        <td>{{o.cost | formatDecimal : market.base_precision}}</td>
       </tr>
     </tbody>
   </table>

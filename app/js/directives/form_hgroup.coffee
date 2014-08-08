@@ -6,7 +6,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
             <span ng-transclude></span>
             <span class="input-group-addon">{{addon}}</span>
         </div>
-        <span class="help-block text-danger" ng-show="error_message">{{error_message}}</span>
+        <div class="col-sm-offset-3" ng-show="error_message"><span class="help-block text-danger">{{error_message}}</span></div>
     </div>
     '''
     replace: true

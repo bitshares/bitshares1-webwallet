@@ -64,6 +64,10 @@ span.cell {
 	width: 5em;
 }
 
+.market-table button.btn-xs {
+	margin: 0.1em 0;
+}
+
 div.fixed-height-table {
 	max-height: 300px;
 	overflow-y: scroll;
@@ -81,3 +85,14 @@ div.fixed-height-table {
 /*.market-table tr.posted td {*/
 	/*background-color: #dff2df !important;*/
 /*}*/
+.market-stats .stat {
+	text-align: left;
+	font-size: 10px;
+	overflow: hidden;
+	padding: 5px 10px;
+}
+.market-stats .stat .value {
+	font-size: 12px;
+	color: #888;
+	letter-spacing: normal;
+}
