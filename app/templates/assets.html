@@ -28,10 +28,10 @@
             <tr ng-repeat="asset in assets | orderBy: 'id'">
                 <!--<td>{{ asset.id }}</td>-->
                 <td>
-                    {{ asset.symbol }}&emsp;
+                    <a href="#/assets/{{asset.symbol}}">{{asset.symbol}}</a>
                 </td>
                 <td>
-                    {{ asset.name }}&emsp;
+                    <a href="#/assets/{{asset.symbol}}">{{asset.name}}</a>
                 </td>
                 <td>{{ asset.description }}</td>
                 <!--<td>{{ asset.public_data || "" }}</td>-->
