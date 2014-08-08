@@ -49,7 +49,7 @@ servicesModule.factory "Utils", ->
     formatDecimal: (value, decPlaces) ->
         n = @truncateTrailing9s(value)
         return n unless decPlaces
-        # decPlaces = (if isNaN(decPlaces = Math.abs(decPlaces)) then 2 else decPlaces)
+        decPlaces = decPlaces.toString().length - 1 if decPlaces > 9
         decSeparator = "." # decSeparator = (if decSeparator is `undefined` then "." else decSeparator)
         thouSeparator = "," # thouSeparator = (if thouSeparator is `undefined` then "," else thouSeparator)
         sign = (if n < 0 then "-" else "")
