@@ -82,7 +82,7 @@ class MarketHelper
         market.bid_depth = data.bid_depth / ba.precision
         market.ask_depth = data.ask_depth / ba.precision
         market.avg_price_24h = @ratio_to_price(data.avg_price_24h, assets)
-        market.avg_price_24h = 1.0 / market.avg_price_24h if market.inverted
+        market.avg_price_24h = 1.0 / market.avg_price_24h if market.inverted and market.avg_price_24h > 0
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
         td = new TradeData()
@@ -160,7 +160,7 @@ class MarketService
     loading_promise: null
     updates_promise: null
 
-    constructor: (@q, @interval, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+    constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
 
     init: (market_name) ->
@@ -178,10 +178,6 @@ class MarketService
             @market = null
             @create_new_market(market_name, deferred)
 
-        deferred.promise.then (market) =>
-            console.log "---- market initialized ----", market
-            @market = market
-
         return deferred.promise
 
     create_new_market: (market_name, deferred) ->
@@ -191,7 +187,7 @@ class MarketService
         @covers = []
         @orders = []
         @trades = []
-        market = new Market()
+        @market = market = new Market()
         market.name = market_name
         market_symbols = market.name.split(':')
         @quantity_symbol = market.quantity_symbol = market_symbols[0]
@@ -205,12 +201,14 @@ class MarketService
                 console.log "-------------refresh_asset_records:",results
                 if !results[0] or !results[1]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
+                    return
                 market.quantity_asset = results[0]
                 market.quantity_precision = market.quantity_asset.precision
                 market.base_asset = results[1]
                 market.base_precision = market.base_asset.precision
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
+                market.inverted = true
                 #console.log "---- market: ", market
                 @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
                     market.inverted = true
@@ -223,7 +221,10 @@ class MarketService
                         @helper.read_market_data(market, result, market.assets_by_id)
                         console.log "market_status direct --->", result
                         deferred.resolve(market)
-                    , => deferred.reject("Cannot initialize the market module, the selected market may not exist.")
+                    , =>
+                        #deferred.reject("Cannot initialize the market module, the selected market may not exist.")
+                        deferred.resolve(market)
+                        @log.error "Couldn't retrieve market status for '#{market.name}'"
                 , => deferred.reject("Cannot initialize the market module. Failed  get assets data.")
 
     add_unconfirmed_order: (order) ->
@@ -270,7 +271,9 @@ class MarketService
             #@bids.push bid
 
     post_short: (short, account, deferred) ->
-        @wallet_api.market_submit_short(account.name, short.quantity, short.price, @market.quantity_symbol).then (result) =>
+        price = if @market.inverted then 1.0/short.price else short.price
+        console.log "---- before market_submit_short ----", account.name, short.quantity, price, @market.quantity_symbol
+        @wallet_api.market_submit_short(account.name, short.quantity, price, @market.quantity_symbol).then (result) =>
             console.log "---- add_short added ----", result
             short.status = "placed"
             deferred.resolve(short)
@@ -354,7 +357,7 @@ class MarketService
         deferred = @q.defer()
         @loading_promise = deferred.promise
         market = @market.get_actual_market()
-        console.log "--- pull_data --- market: #{market.name}, inverted: #{@market.inverted}"
+        #console.log "--- pull_data --- market: #{market.name}, inverted: #{@market.inverted}"
         promises = []
         promises.push @pull_bids(market, @market.inverted)
         promises.push @pull_asks(market, @market.inverted)
@@ -375,4 +378,4 @@ class MarketService
         @interval.cancel(@updates_promise) if @updates_promise
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "$log", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])

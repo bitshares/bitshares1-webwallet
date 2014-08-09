@@ -1,13 +1,14 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
     $scope.account_name = account_name = $stateParams.account
+    return if account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
-    $scope.account = null
+    $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
 
     market_name = $stateParams.name
-    promise = MarketService.init(market_name).then (market) ->
-        MarketService.watch_for_updates()
+    promise = MarketService.init(market_name)
+    promise.then (market) ->
         $scope.market = market
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
@@ -17,22 +18,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
-    , (error) ->
-        Growl.error "", error
-    $scope.showLoadingIndicator $q.all([promise,MarketService.loading_promise]), 0
-
-    promise = Wallet.refresh_accounts().then ->
-        $scope.is_refreshing = false
-        $scope.accounts = Wallet.accounts
-        if account_name == 'no:account'
-            $scope.account = false
-            return
-        account_balances = Wallet.balances[account_name]
-        $scope.account =
-            name: account_name
-            quantity_balance: Utils.assetValue(account_balances[MarketService.quantity_symbol])
-            base_balance: Utils.assetValue(account_balances[MarketService.base_symbol])
-    $scope.showLoadingIndicator promise, 0
+        balances = {}
+        balances[market.base_symbol] = 0.0
+        balances[market.quantity_symbol] = 0.0
+        MarketService.watch_for_updates()
+        Wallet.watch_for_account_balances account_name, balances, (updated_balances) ->
+            account.base_balance = updated_balances[market.base_symbol] / market.base_precision
+            account.quantity_balance = updated_balances[market.quantity_balance] / market.quantity_precision
+    promise.catch (error) -> Growl.error("", error)
+    $scope.showLoadingIndicator(promise, 0)
 
     # tabs
     tabsym = MarketService.quantity_symbol
@@ -45,6 +39,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.$on "$destroy", ->
         MarketService.stop_updates()
+        Wallet.watch_for_account_balance(null)
 
     $scope.flip_market = ->
         console.log "flip market"
@@ -98,7 +93,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             Growl.notice "", "Your order was successfully placed."
         , (error) ->
             console.log "--- $scope.confirm_order error: ", error
-            Growl.error "", "Order failed."
+            Growl.error "", "Order failed: " + error.data.error.message
 
     $scope.use_trade_data = (data) ->
         order = switch $state.current.name

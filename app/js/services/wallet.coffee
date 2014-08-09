@@ -297,4 +297,41 @@ class Wallet
         @wallet_name = ""
         @timeout = @idle._options().idleDuration
 
+    account_watch_name: ""
+    account_watch_promise: null
+    account_watch_busy: false
+    account_watch_results: null
+    account_watch_callback: null
+
+    pull_account_balances: ->
+        return if @account_watch_busy
+        @account_watch_busy = true
+        promise = @wallet_api.account_balance(@account_watch_name).then (result) =>
+            #console.log "=== watching for balance ", @account_watch_name, result
+            name_bal_pair = result[0]
+            balances = name_bal_pair[1][0]
+            #console.log "=== watching for balance, balances = ", balances
+            changed = false
+            angular.forEach balances, (symbol_amt_pair) =>
+                symbol = symbol_amt_pair[0]
+                if @account_watch_results[symbol] != undefined
+                    value = symbol_amt_pair[1]
+                    changed = @account_watch_results[symbol] != value
+                    @account_watch_results[symbol] = symbol_amt_pair[1]
+                    #console.log "=== watching for balance ", @account_watch_results
+            @account_watch_callback(@account_watch_results) if @account_watch_callback and changed
+        promise.finally => @account_watch_busy = false
+
+    watch_for_account_balances: (name, results, callback) ->
+        unless name
+            @interval.cancel(@account_watch_promise) if @account_watch_promise
+            return
+        @account_watch_name = name
+        @account_watch_results = results
+        @account_watch_callback = callback
+        @pull_account_balances()
+        @account_watch_promise = @interval (=>
+            @pull_account_balances()
+        ), 2600
+
 angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
