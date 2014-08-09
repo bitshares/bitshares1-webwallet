@@ -39,7 +39,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.$on "$destroy", ->
         MarketService.stop_updates()
-        Wallet.watch_for_account_balance(null)
+        Wallet.watch_for_account_balances(null)
 
     $scope.flip_market = ->
         console.log "flip market"

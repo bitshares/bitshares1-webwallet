@@ -37,6 +37,7 @@ class Market
         @ask_depth = 0.0
         @avg_price_24h = 0.0
         @assets_by_id = null
+        @error = {title: null, text: null}
     get_actual_market: ->
         return @ if !@inverted
         return @actual_market if @actual_market
@@ -56,6 +57,7 @@ class Market
         m.ask_depth = @ask_depth
         m.avg_price_24h = @avg_price_24h
         m.assets_by_id = @assets_by_id
+        m.error = @error
         @actual_market = m
         return @actual_market
 
@@ -83,6 +85,11 @@ class MarketHelper
         market.ask_depth = data.ask_depth / ba.precision
         market.avg_price_24h = @ratio_to_price(data.avg_price_24h, assets)
         market.avg_price_24h = 1.0 / market.avg_price_24h if market.inverted and market.avg_price_24h > 0
+        if data.last_error
+            market.error.title = data.last_error.message
+        else
+            market.error.text = market.error.title = null
+
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
         td = new TradeData()

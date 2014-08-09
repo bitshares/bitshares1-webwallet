@@ -32,6 +32,16 @@
         </li>
       </ul>
     </div>
+    <div class="row" ng-show="market.error.title">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-8">
+        <div class="alert alert-danger">
+          <i class="fa fa-exclamation"></i>
+          &nbsp; &nbsp; <strong>{{market.error.title}}</strong> &nbsp; &nbsp; {{market.error.text}}
+        </div>
+      </div>
+      <div class="col-sm-2">&nbsp;</div>
+    </div>
 
   </div>
 </div>
