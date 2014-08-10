@@ -1,10 +1,11 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
     $scope.account_name = account_name = $stateParams.account
     return if account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
+    current_market = null
 
     account_balances_observer =
         name: "account_balances_observer"
@@ -26,14 +27,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     market_data_observer =
         name: "market_data_observer"
-        frequency: 2600
+        frequency: 2000
         data: {context: MarketService}
         update: MarketService.pull_market_data
 
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
-        $scope.market = market
+        $scope.market = current_market = market
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
@@ -118,7 +119,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 $scope.account.quantity_balance -= order.cost
             Growl.notice "", "Your order was successfully placed."
         , (error) ->
-            console.log "--- $scope.confirm_order error: ", error
             Growl.error "", "Order failed: " + error.data.error.message
 
     $scope.use_trade_data = (data) ->
@@ -135,3 +135,34 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form.bid_quantity.$error.message = "some field error, please fix me"
         form.bid_price.$error.message = "another field error, please fix me"
         form.$error.message = "some error, please fix me"
+
+    $scope.cover_order = (order) ->
+        $modal.open
+            template: '''
+                <div class="modal-header bg-danger">
+                    <h3 class="modal-title">Cover short position</h3>
+                </div>
+                <form name="cover_form" class="form-horizontal" role="form" ng-submit="submit(order)" novalidate>
+                <div class="modal-body">
+                    <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}" class="col-sm-8">
+                      <input-positive-number name="quantity" ng-model="order.quantity" required="true" />
+                    </div>
+                </div></br></br>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Cover</button>
+                    <button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
+                </div>
+                </form>
+            '''
+            controller: ($scope, $modalInstance) ->
+                $scope.market = current_market
+                $scope.order = order
+                $scope.cancel = ->
+                    $modalInstance.dismiss "cancel"
+                $scope.submit = (order) ->
+                    form = @cover_form
+                    MarketService.cover_order(order, account).then ->
+                        $modalInstance.close("ok")
+                    , (error) ->
+                        form.quantity.$error.message = error.data.error.message
+

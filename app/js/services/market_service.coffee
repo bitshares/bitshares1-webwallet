@@ -1,4 +1,5 @@
 class TradeData
+
     constructor: ->
         @type = null
         @id = null
@@ -6,7 +7,9 @@ class TradeData
         @quantity = null
         @price = null
         @cost = 0.0
+        @collateral
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
+
     invert: ->
         td = new TradeData()
         td.type = @type
@@ -15,11 +18,14 @@ class TradeData
         td.timestamp = @timestamp
         td.quantity = @cost
         td.cost = @quantity
+        td.collateral = @collateral
         #td.price = if @price and @price > 0.0 then 1.0 / @price else 0.0
         td.price = 1.0 / @price
         return td
 
+
 class Market
+
     constructor: ->
         @actual_market = null
         @name = ''
@@ -38,6 +44,7 @@ class Market
         @avg_price_24h = 0.0
         @assets_by_id = null
         @error = {title: null, text: null}
+
     get_actual_market: ->
         return @ if !@inverted
         return @actual_market if @actual_market
@@ -60,6 +67,7 @@ class Market
         m.error = @error
         @actual_market = m
         return @actual_market
+
 
 class MarketHelper
 
@@ -92,12 +100,19 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
+        #invert_assets = !invert_assets if order.type == "cover_order"
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
         td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
-        if invert_assets
+        if order.type == "cover_order"
+            td.quantity = order.state.balance / qa.precision
+            td.cost = td.quantity * td.price
+            td.collateral = order.collateral / ba.precision
+            td.status = "cover"
+            console.log "--------- cover order: ", td
+        else if invert_assets
             td.cost = order.state.balance / ba.precision
             td.quantity = td.cost * price
         else
@@ -262,6 +277,10 @@ class MarketService
         call.catch (error) -> deferred.reject(error)
         return deferred.promise
 
+    cover_order: (order, account) ->
+        order.status = "covering"
+        @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
+
     post_bid: (bid, account, deferred) ->
         call = if !@market.inverted
             console.log "---- adding bid regular ----", bid
@@ -340,6 +359,7 @@ class MarketService
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100).then (results) =>
             for r in results
                 #console.log "---- order: ", r
+                console.log "----- market_order_list: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #td.status = "posted"
                 orders.push td
@@ -359,7 +379,6 @@ class MarketService
 
     pull_market_status: (market, iverted) ->
         @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
-            console.log "pull_market_status --->", result
             @helper.read_market_data(market, result, market.assets_by_id)
 
     pull_market_data: (data, deferred) ->
@@ -367,16 +386,15 @@ class MarketService
         self.loading_promise = deferred.promise
         market = self.market.get_actual_market()
         #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}"
-        promises = []
-        promises.push self.pull_bids(market, self.market.inverted)
-        promises.push self.pull_asks(market, self.market.inverted)
-        promises.push self.pull_shorts(market, self.market.inverted)
-        promises.push self.pull_orders(market, self.market.inverted)
-        promises.push self.pull_trades(market, self.market.inverted)
-        promises.push self.pull_market_status(market, self.market.inverted)
+        promises = [
+            self.pull_bids(market, self.market.inverted),
+            self.pull_asks(market, self.market.inverted),
+            self.pull_shorts(market, self.market.inverted),
+            self.pull_orders(market, self.market.inverted),
+            self.pull_trades(market, self.market.inverted),
+            self.pull_market_status(market, self.market.inverted)
+        ]
         self.q.all(promises).finally => deferred.resolve(true)
-
-
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
