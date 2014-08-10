@@ -1,10 +1,34 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
     $scope.account_name = account_name = $stateParams.account
     return if account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
+
+    account_balances_observer =
+        name: "account_balances_observer"
+        frequency: 2600
+        update: (data, deferred) ->
+            changed = false
+            promise = WalletAPI.account_balance(account_name)
+            promise.then (result) =>
+                name_bal_pair = result[0]
+                balances = name_bal_pair[1][0]
+                angular.forEach balances, (symbol_amt_pair) =>
+                    symbol = symbol_amt_pair[0]
+                    next if data[symbol] == undefined
+                    value = symbol_amt_pair[1]
+                    if data[symbol] != value
+                        changed = true
+                        data[symbol] = value
+            promise.finally -> deferred.resolve(changed)
+
+    market_data_observer =
+        name: "market_data_observer"
+        frequency: 2600
+        data: {context: MarketService}
+        update: MarketService.pull_market_data
 
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
@@ -18,13 +42,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
+        Observer.registerObserver(market_data_observer)
         balances = {}
         balances[market.base_symbol] = 0.0
         balances[market.quantity_symbol] = 0.0
-        MarketService.watch_for_updates()
-        Wallet.watch_for_account_balances account_name, balances, (updated_balances) ->
-            account.base_balance = updated_balances[market.base_symbol] / market.base_precision
-            account.quantity_balance = updated_balances[market.quantity_balance] / market.quantity_precision
+        account_balances_observer.data = balances
+        account_balances_observer.notify = (data) ->
+            account.base_balance = data[market.base_symbol] / market.base_precision
+            account.quantity_balance = data[market.quantity_symbol] / market.quantity_precision
+        Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise, 0)
 
@@ -38,8 +64,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
     $scope.$on "$destroy", ->
-        MarketService.stop_updates()
-        Wallet.watch_for_account_balances(null)
+        Observer.unregisterObserver(market_data_observer)
+        Observer.unregisterObserver(account_balances_observer)
 
     $scope.flip_market = ->
         console.log "flip market"

@@ -163,9 +163,9 @@ class MarketService
     trades: null
 
     id_sequence: 0
-    is_refreshing: false
+    #is_refreshing: false
     loading_promise: null
-    updates_promise: null
+    #updates_promise: null
 
     constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
@@ -176,7 +176,6 @@ class MarketService
             deferred.resolve(@market)
             return deferred.promise
 
-        @stop_updates()
         if @loading_promise
             @loading_promise.finally =>
                 @market = null
@@ -358,31 +357,26 @@ class MarketService
                 trades.push @helper.trade_history_to_order(r, market.assets_by_id)
             @helper.update_array {target: @trades, data: trades}
 
-    pull_data: ->
-        return if @is_refreshing or !@market
-        @is_refreshing = true
-        deferred = @q.defer()
-        @loading_promise = deferred.promise
-        market = @market.get_actual_market()
-        #console.log "--- pull_data --- market: #{market.name}, inverted: #{@market.inverted}"
+    pull_market_status: (market, iverted) ->
+        @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
+            console.log "pull_market_status --->", result
+            @helper.read_market_data(market, result, market.assets_by_id)
+
+    pull_market_data: (data, deferred) ->
+        self = data.context
+        self.loading_promise = deferred.promise
+        market = self.market.get_actual_market()
+        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}"
         promises = []
-        promises.push @pull_bids(market, @market.inverted)
-        promises.push @pull_asks(market, @market.inverted)
-        promises.push @pull_shorts(market, @market.inverted)
-        promises.push @pull_orders(market, @market.inverted)
-        promises.push @pull_trades(market, @market.inverted)
-        @q.all(promises).finally =>
-            @is_refreshing = false
-            deferred.resolve()
+        promises.push self.pull_bids(market, self.market.inverted)
+        promises.push self.pull_asks(market, self.market.inverted)
+        promises.push self.pull_shorts(market, self.market.inverted)
+        promises.push self.pull_orders(market, self.market.inverted)
+        promises.push self.pull_trades(market, self.market.inverted)
+        promises.push self.pull_market_status(market, self.market.inverted)
+        self.q.all(promises).finally => deferred.resolve(true)
 
-    watch_for_updates: ->
-        @pull_data()
-        @updates_promise = @interval (=>
-            @pull_data()
-        ), 2500
 
-    stop_updates:  ->
-        @interval.cancel(@updates_promise) if @updates_promise
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
