@@ -41,8 +41,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             newApproval=0
         Wallet.approve_account(name, newApproval).then (res) ->
             if (!Wallet.accounts[name])
-                Wallet.accounts[name]={}
-                Wallet.accounts[name].delegate_info=true
+                Wallet.accounts[name]=Blockchain.all_delegates[name]
             Wallet.accounts[name].approved=newApproval
 
     $scope.unvoteAll = ->
