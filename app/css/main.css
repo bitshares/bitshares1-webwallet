@@ -332,39 +332,6 @@ input.ng-dirty.ng-invalid {
 	color: #fff;
 }
 
-/*input.ng-dirty.ng-valid {*/
-	/*border: 1px solid #77B7EA;*/
-/*}*/
-
-.loading-overlay {
-	height: 80px;
-	width: 100%;
-	position: fixed;
-	bottom: 50px;
-	z-index: 1 !important;
-}
-
-.loading-overlay.with-progress {
-	height: 100px;
-}
-
-.loading-overlay .transactions-progress  {
-	display: none;
-}
-
-.loading-overlay.with-progress .transactions-progress  {
-	display: block;
-}
-
-.loading-panel {
-	height: 80px;
-	width: 300px;
-	background-color: #999;
-	opacity: 0.4;
-	margin: 0 auto;
-	border-radius: 5px;
-}
-
 .license {
 	padding-top: 20px;
 	text-align: center;

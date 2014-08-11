@@ -53,7 +53,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.quantity_symbol] / market.quantity_precision
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
-    $scope.showLoadingIndicator(promise, 0)
+    $scope.showLoadingIndicator(promise)
 
     # tabs
     tabsym = MarketService.quantity_symbol

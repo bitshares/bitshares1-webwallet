@@ -74,21 +74,19 @@ angular.module("app.directives").directive "decimalonly", ->
 angular.module("app.directives").directive "loadingIndicator", ->
     restrict: "A"
     replace: true
-    scope:
-        loading: '=loadingIndicator'
-        progress: '=progressIndicator'
+    scope: false
     template: """
-      <div ng-show="loading" class="loading-overlay" ng-class="{'with-progress': progress > 0}">
+      <div ng-show="loading_indicator.show" class="loading-overlay" ng-class="{'with-progress': loading_indicator.progress}">
         <div class="loading-panel">
-          <div class="spinner-container"></div>
-          <div class="transactions-progress"><span>Scanning transactions {{progress + "%"}}, please wait...</span></div>
+            <div class="spinner">
+              <div class="bounce1"></div>
+              <div class="bounce2"></div>
+              <div class="bounce3"></div>
+            </div>
+          <div class="progress-indicator"><span>{{loading_indicator.progress}}</span></div>
         </div>
       </div>
     """
-    link: (scope, element, attrs) ->
-        spinner = new Spinner().spin()
-        loadingContainer = element.find(".spinner-container")[0]
-        loadingContainer.appendChild spinner.el
 
 angular.module("app.directives").directive "watchChange", ->
     scope:

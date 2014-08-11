@@ -29,7 +29,7 @@
         <div class="btn-group">
                   <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="Toggle approval">
                     <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
-                    <i ng-if="!accounts[del.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+                    <i ng-if="!accounts[del.name].approved || accounts[del.name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
                     <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
                   </button>
                 </div>
