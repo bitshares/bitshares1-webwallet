@@ -39,7 +39,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             newApproval=-1
         if ($scope.accounts[name] && $scope.accounts[name].approved<0)
             newApproval=0
-        Wallet.approve_account(name, newApproval).then (res)->
+        Wallet.approve_account(name, newApproval).then (res) ->
             if (!Wallet.accounts[name])
                 Wallet.accounts[name]={}
                 Wallet.accounts[name].delegate_info=true
