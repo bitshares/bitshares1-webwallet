@@ -10,8 +10,8 @@
     <tbody>
       <tr ng-repeat="o in covers track by $index">
         <td>{{o.price | formatDecimal}}</td>
-        <td>{{o.quantity | formatDecimal : market.base_decimals}}</td>
-        <td>{{o.cost | formatDecimal : market.quantity_decimals}}</td>
+        <td>{{o.quantity | formatDecimal : market.base_precision}}</td>
+        <td>{{o.cost | formatDecimal : market.quantity_precision}}</td>
       </tr>
     </tbody>
   </table>

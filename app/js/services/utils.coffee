@@ -43,6 +43,7 @@ servicesModule.factory "Utils", ->
         fractional_part = parts[1]
         return value if fractional_part.length < 7
         len = fractional_part.replace(/9*$/,'').length
+        len = 10 if len > 10
         len = 1 if len == 0
         value.toFixed(len)
 

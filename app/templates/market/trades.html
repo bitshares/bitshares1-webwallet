@@ -11,8 +11,8 @@
     <tr ng-repeat="t in trades">
       <td>{{t.type}}</td>
       <td>{{t.price | formatDecimal}}</td>
-      <td>{{t.paid | formatDecimal : actual_market.quantity_decimals}}</td>
-      <td>{{t.received | formatDecimal : actual_market.base_decimals}}</td>
+      <td>{{t.paid | formatDecimal : actual_market.quantity_precision}}</td>
+      <td>{{t.received | formatDecimal : actual_market.base_precision}}</td>
     </tr>
   </tbody>
 </table>
