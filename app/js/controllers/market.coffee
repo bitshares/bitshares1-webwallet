@@ -18,11 +18,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 balances = name_bal_pair[1][0]
                 angular.forEach balances, (symbol_amt_pair) =>
                     symbol = symbol_amt_pair[0]
-                    next if data[symbol] == undefined
-                    value = symbol_amt_pair[1]
-                    if data[symbol] != value
-                        changed = true
-                        data[symbol] = value
+                    if data[symbol] != undefined
+                        value = symbol_amt_pair[1]
+                        if data[symbol] != value
+                            changed = true
+                            data[symbol] = value
             promise.finally -> deferred.resolve(changed)
 
     market_data_observer =

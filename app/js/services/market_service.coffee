@@ -244,9 +244,11 @@ class MarketService
                         deferred.resolve(market)
                     , =>
                         #deferred.reject("Cannot initialize the market module, the selected market may not exist.")
+                        error_message = "No orders have been placed."
+                        market.error.title = error_message
+                        @log.error error_message
                         deferred.resolve(market)
-                        @log.error "Couldn't retrieve market status for '#{market.name}'"
-                , => deferred.reject("Cannot initialize the market module. Failed  get assets data.")
+                , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
         @id_sequence += 1
