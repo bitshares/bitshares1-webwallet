@@ -62,7 +62,8 @@ module.exports = function(lineman) {
         "app/css/my-ng-grid.css",
         "app/css/toolbar.css",
         "app/css/footer.css",
-        "app/css/market.css"
+        "app/css/market.css",
+        "app/css/spinner.css"
       ]
     }
 

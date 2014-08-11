@@ -18,8 +18,7 @@
 #            deferred.resolve(changed)
 #        notify: (data) ->
 #            console.log "test1 updated data: ", data
-#            Observer.unregisterObserver(@) if data.counter > 10
-
+#            Observer.unregisterObserver(@) if observer1.counter > 10
 
 class Observer
 
