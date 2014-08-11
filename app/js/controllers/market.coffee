@@ -9,11 +9,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     account_balances_observer =
         name: "account_balances_observer"
-        frequency: 2600
+        frequency: 26000
         update: (data, deferred) ->
             changed = false
             promise = WalletAPI.account_balance(account_name)
             promise.then (result) =>
+                return if !result or result.length == 0
                 name_bal_pair = result[0]
                 balances = name_bal_pair[1][0]
                 angular.forEach balances, (symbol_amt_pair) =>
@@ -43,6 +44,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
+        tabsym = market.quantity_symbol
+        $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
         Observer.registerObserver(market_data_observer)
         balances = {}
         balances[market.base_symbol] = 0.0
@@ -54,6 +57,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
+
+    Wallet.refresh_accounts().then ->
+        $scope.accounts = Wallet.accounts
 
     # tabs
     tabsym = MarketService.quantity_symbol
@@ -75,7 +81,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
         return unless res
-        res.then -> Growl.notice "", "Your order was canceled."
+        #res.then -> Growl.notice "", "Your order was canceled."
 
     $scope.submit_bid = ->
         form = @buy_form
@@ -117,7 +123,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 $scope.account.base_balance -= order.cost
             else if order.type == "ask_order"
                 $scope.account.quantity_balance -= order.cost
-            Growl.notice "", "Your order was successfully placed."
+            #Growl.notice "", "Your order was successfully placed."
         , (error) ->
             Growl.error "", "Order failed: " + error.data.error.message
 

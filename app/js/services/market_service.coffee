@@ -128,6 +128,7 @@ class MarketHelper
         o.price = t.ask_price.ratio * (ba.precision / qa.precision)
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
+        o.timestamp = t.timestamp
         return o
 
     array_to_hash: (list) ->
@@ -361,7 +362,7 @@ class MarketService
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100).then (results) =>
             for r in results
                 #console.log "---- order: ", r
-                console.log "----- market_order_list: ", inverted, r
+                #console.log "----- market_order_list: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #td.status = "posted"
                 orders.push td
@@ -376,6 +377,7 @@ class MarketService
         trades = []
         @blockchain_api.market_order_history(market.base_symbol, market.quantity_symbol, 0, 100).then (results) =>
             for r in results
+                #console.log "------ market_order_history ------>", r
                 trades.push @helper.trade_history_to_order(r, market.assets_by_id)
             @helper.update_array {target: @trades, data: trades}
 
