@@ -16,9 +16,9 @@
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
-                <img ng-if="account.name!=entry.to" ng-src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                <img ng-if="account.name!=entry.to && entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
                 <span ng-if="account.name==entry.to">
-                    <span ng-if="entry.from.charAt(0) !== 'X'">
+                    <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
                         <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
                     </span>
                     <span ng-if="entry.from.charAt(0) === 'X'">
@@ -37,6 +37,8 @@
                 </span>
                 <span ng-if="account.name==entry.from && account.name!=entry.to">To <a href="#/accounts/{{entry.to}}">{{ entry.to }}</a></span>
                 <span ng-if="account.name==entry.to && account.name==entry.from">To <a href="#/accounts/{{account.name}}">self</a></span>
+                <span ng-if="account.name!=entry.to && account.name!=entry.from"> {{ entry.from }} <i class='fa fa-long-arrow-right fa-lg'></i> {{ entry.to }} </span>
+                <br>
             </span>
         </td>
         <td>
