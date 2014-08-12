@@ -20,7 +20,7 @@
         <div class="btn-group" dropdown is-open="status.isopen1">
           <button type="button" class="btn btn-primary dropdown-toggle">{{account_from_name}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="(key,account) in accounts">
+            <li ng-repeat="account in my_accounts">
               <a ui-sref="transfer({from: '{{account.name}}'})">{{account.name}}</a>
             </li>
           </ul>

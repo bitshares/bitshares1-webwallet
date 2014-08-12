@@ -1,6 +1,6 @@
 <form name="sell_form" class="form-horizontal" role="form" ng-submit="submit_ask()" novalidate>
   <div form-hgroup-value label="Balance" show-value="true" data-symbol="{{market.quantity_symbol}}">
-    {{account.quantity_balance | formatDecimal : market.base_decimals}}
+    {{account.quantity_balance | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="ask_quantity" ng-model="ask.quantity" required="true" />
@@ -9,7 +9,7 @@
     <input-positive-number name="ask_price" ng-model="ask.price" required="true" />
   </div>
   <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{sell_form.$valid}}">
-    {{ask.quantity * ask.price | formatDecimal : market.base_decimals}}
+    {{ask.quantity * ask.price | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn>Sell {{market.quantity_symbol}}</button>

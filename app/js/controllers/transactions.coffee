@@ -5,6 +5,10 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
     $scope.utils = Utils
     $scope.pending_only = false
     $scope.warning = ""
+    if(!$stateParams.name)
+        $scope.accounts=Wallet.accounts
+        Wallet.refresh_accounts().then ->
+            $scope.accounts=Wallet.accounts
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0
 
@@ -19,6 +23,7 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
 
     $scope.$watchCollection "transactions", () ->
         $scope.account_transactions = Wallet.transactions[$scope.name]
+        console.log('Wallet.transactions[$scope.name]', Wallet.transactions[$scope.name])
         $scope.warning = ""
         if !$scope.account_transactions || $scope.account_transactions.length == 0
             $scope.warning = if $scope.pending_only then "There are no pending transactions!" else "There are no transactions!"

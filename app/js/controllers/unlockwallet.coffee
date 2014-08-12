@@ -1,21 +1,40 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, Wallet) ->
+angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer) ->
+
+    observer =
+        name: "scanning_transactions_observer"
+        data: {progress: 0}
+        frequency: 1000
+        update: (data, deferred) ->
+            Wallet.wallet_get_info().then (info)->
+                progress = info.scan_progress * 100
+                changed = data.progress != progress
+                data.progress = progress
+                deferred.resolve(changed)
+            , -> deferred.reject()
+
     $scope.descriptionCollapsed = true
     $scope.wrongPass = false
+    $scope.keydown = -> $scope.wrongPass = false
+
     $scope.submitForm = ->
         $scope.wrongPass = false
-        promise = Wallet.wallet_unlock($scope.spending_password).then(() ->
-            res = $scope.history_back()
-            $location.path('/home') unless res
-        , (error) ->
+        deferred = $q.defer()
+        unlock_promise = Wallet.wallet_unlock($scope.spending_password)
+        console.log "------ promise ------>", unlock_promise
+        unlock_promise.then ->
+            Observer.registerObserver(observer)
+            observer.notify = (data) ->
+                console.log "scanning_transactions_observer updated data: ", data.progress
+                deferred.notify(data.progress)
+                if data.progress == 0 or data.progress >= 100 or observer.counter > 120
+                    Observer.unregisterObserver(observer)
+                    res = $scope.history_back()
+                    $location.path('/home') unless res
+                    deferred.resolve()
+
+        unlock_promise.catch ->
             $scope.wrongPass = true
-        )
+            deferred.reject()
 
-        $scope.keydown = ->
-            $scope.wrongPass = false
-
-        i = $interval ->
-            Wallet.wallet_get_info().then (info)->
-                $rootScope.updateProgress Math.floor(info.scan_progress * 100)
-            , 2000
-        $rootScope.showLoadingIndicator promise, i
+        $rootScope.showLoadingIndicator deferred.promise, "Scanning transactions {{value}}%, please wait..."
 

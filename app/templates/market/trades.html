@@ -5,14 +5,16 @@
       <th>PRICE ({{actual_market.price_symbol}})</th>
       <th>PAID ({{actual_market.quantity_symbol}})</th>
       <th>RECEIVED ({{actual_market.base_symbol}})</th>
+      <td>TIME</td>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="t in trades">
       <td>{{t.type}}</td>
       <td>{{t.price | formatDecimal}}</td>
-      <td>{{t.paid | formatDecimal : actual_market.quantity_decimals}}</td>
-      <td>{{t.received | formatDecimal : actual_market.base_decimals}}</td>
+      <td>{{t.paid | formatDecimal : actual_market.quantity_precision}}</td>
+      <td>{{t.received | formatDecimal : actual_market.base_precision}}</td>
+      <td>{{t.timestamp | prettyDate}}</td>
     </tr>
   </tbody>
 </table>

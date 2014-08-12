@@ -37,3 +37,15 @@ angular.module("app").filter "prettyRecentDate", (Utils)->
         else
             return date.toLocaleDateString "en-us"
 
+angular.module("app").filter "hoursAgo", (Utils)->
+    (date) ->
+        if not date
+            #console.log "attempting to prettify null date"
+            return ""
+
+        if not angular.isDate(date)
+            date = Utils.toDate(date)
+        diff = Date.now() - date
+
+        diff = Math.round(diff/1000/60/24)
+        return diff

@@ -34,19 +34,20 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
     $rootScope.history_forward = ->
         $window.history.forward()
 
-    $rootScope.loading = false
-    $rootScope.progress = 100
-    $rootScope.showLoadingIndicator = (promise, i) ->
-        $rootScope.loading = true
-        $rootScope.progress = 0
-        promise.finally ->
-            $rootScope.loading = false
-            if i
-                $rootScope.progress = 100
-                $interval.cancel(i)
-
-    $rootScope.updateProgress = (p) ->
-        $rootScope.progress = p
+    $rootScope.loading_indicator = {show: false,  progress: null}
+    $rootScope.showLoadingIndicator = (promise, progress = null) ->
+        li = $rootScope.loading_indicator
+        li.show = true
+        li.progress = if progress then progress.replace("{{value}}", '0') else ""
+        promise.then ->
+            li.show = false
+        , ->
+            li.show = false
+        ,  (value) ->
+            li.progress = progress.replace("{{value}}", value) if progress
+#
+#    $rootScope.updateProgress = (p) ->
+#        $rootScope.progress = p
 
     $idle.watch()
 
@@ -123,6 +124,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/accounts/:name"
         templateUrl: "account.html"
         controller: "AccountController"
+
+    sp.state "asset",
+        url: "/assets/:ticker"
+        templateUrl: "asset.html"
+        controller: "AssetController"
 
     sp.state "blocks",
         url: "/blocks?withtrxs"

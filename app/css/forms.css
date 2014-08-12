@@ -6,3 +6,7 @@
 	color: #777;
 	width: 80px;
 }
+
+.input-group-addon {
+	font-size: 12px;
+}

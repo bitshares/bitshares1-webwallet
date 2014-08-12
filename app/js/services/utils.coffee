@@ -43,13 +43,14 @@ servicesModule.factory "Utils", ->
         fractional_part = parts[1]
         return value if fractional_part.length < 7
         len = fractional_part.replace(/9*$/,'').length
+        len = 10 if len > 10
         len = 1 if len == 0
         value.toFixed(len)
 
     formatDecimal: (value, decPlaces) ->
         n = @truncateTrailing9s(value)
         return n unless decPlaces
-        # decPlaces = (if isNaN(decPlaces = Math.abs(decPlaces)) then 2 else decPlaces)
+        decPlaces = decPlaces.toString().length - 1 if decPlaces > 9
         decSeparator = "." # decSeparator = (if decSeparator is `undefined` then "." else decSeparator)
         thouSeparator = "," # thouSeparator = (if thouSeparator is `undefined` then "," else thouSeparator)
         sign = (if n < 0 then "-" else "")

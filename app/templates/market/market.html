@@ -13,13 +13,36 @@
         </ul>
       </div>
     </div>
-    <h3 class="header-title">
-      <span tooltip="{{market.quantity_symbol}} short description.." tooltip-placement="right">{{market.quantity_symbol}}</span>
-      : <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
-      <a ui-sref="market.buy({account: '{{account_name}}', name: '{{market_inverted_url}}'})"
-         class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
-      <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
-    </h3>
+
+    <div class="row">
+      <h3 class="col-sm-3 header-title">
+        <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
+        : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
+        <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
+      </h3>
+      <ul class="col-sm-5 market-stats stats">
+        <li class="stat col-sm-4">
+          <span>Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_24h}}</b><br/><em>{{market.price_symbol}}</em></span>
+        </li>
+        <li class="stat col-sm-4">
+          <span>Bid&nbsp;Depth<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
+        </li>
+        <li class="stat col-sm-4">
+          <span>Ask&nbsp;Depth<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
+        </li>
+      </ul>
+    </div>
+    <div class="row" ng-show="market.error.title">
+      <div class="col-sm-2">&nbsp;</div>
+      <div class="col-sm-8">
+        <div class="alert alert-danger">
+          <i class="fa fa-exclamation"></i>
+          &nbsp; &nbsp; <strong>{{market.error.title}}</strong> &nbsp; &nbsp; {{market.error.text}}
+        </div>
+      </div>
+      <div class="col-sm-2">&nbsp;</div>
+    </div>
+
   </div>
 </div>
 
@@ -34,7 +57,7 @@
   <div ng-switch-default>
     <div class="row">
 
-      <div class="col-sm-6">
+      <div class="col-sm-5">
         <tabset>
           <tab ng-repeat="t in tabs" heading="{{t.heading}}" ng-click="goto_tab(t.route)" active="t.active">
             <div class="panel">
@@ -46,7 +69,7 @@
         </tabset>
       </div>
 
-      <div class="col-sm-6">
+      <div class="col-sm-7">
           <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Open Orders</h3>
