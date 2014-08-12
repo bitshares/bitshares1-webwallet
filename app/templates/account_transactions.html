@@ -16,17 +16,17 @@
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
-                <img ng-if="account.name!=entry.to && entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
-                <span ng-if="account.name==entry.to">
+                <span ng-if="account.name==entry.from">
+                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{account.name}}?size=40x40" height="40" width="40"/>
+                </span>
+                <span ng-if="account.name==entry.to && account.name!=entry.from">
                     <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
                         <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
                     </span>
                     <span ng-if="entry.from.charAt(0) === 'X'">
                         <img ng-src="img/user.png" height="40" width="40"/>
                     </span>
-                </span>
-                <span ng-if="account.name==entry.from && account.name!=entry.to">
-                    <img ng-src="http://robohash.org/set_any/{{account.name}}?size=40x40" height="40" width="40"/>
                 </span>
               </div>
             </span>
