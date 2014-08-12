@@ -25,6 +25,9 @@
                         <img ng-src="img/user.png" height="40" width="40"/>
                     </span>
                 </span>
+                <span ng-if="account.name==entry.from && account.name!=entry.to">
+                    <img ng-src="http://robohash.org/set_any/{{account.name}}?size=40x40" height="40" width="40"/>
+                </span>
               </div>
             </span>
         </td>
