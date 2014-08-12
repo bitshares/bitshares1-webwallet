@@ -73,7 +73,7 @@
                     <span ng-show="entry.from != account.name && entry.to == account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from != account.name && entry.to != account.name" class="bold text-default">{{ entry.amount_asset | formatAsset }}</span>
                 </span>
-                <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
+                <span ng-if="entry.amount==0" class="bold text-warning">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>

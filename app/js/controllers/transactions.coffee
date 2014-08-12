@@ -5,6 +5,10 @@ angular.module("app").controller "TransactionsController", ($scope, $attrs, $loc
     $scope.utils = Utils
     $scope.pending_only = false
     $scope.warning = ""
+    if(!$stateParams.name)
+        $scope.accounts=Wallet.accounts
+        Wallet.refresh_accounts().then ->
+            $scope.accounts=Wallet.accounts
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0
 
