@@ -51,7 +51,8 @@
                 <span ng-if="entry.amount!=0">
                     <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="entry.from != account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
+                    <span ng-show="entry.from != account.name && entry.to == account.name" class="bold text-success">+ {{ entry.amount_asset | formatAsset }}</span>
+                    <span ng-show="entry.from != account.name && entry.to != account.name" class="bold text-default">{{ entry.amount_asset | formatAsset }}</span>
                 </span>
                 <span ng-if="entry.amount==0" class="bold text-primary">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
