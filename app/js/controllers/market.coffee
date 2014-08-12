@@ -8,6 +8,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     current_market = null
 
+    # tabs
+    tabsym = MarketService.quantity_symbol
+    $scope.tabs = []
+    $scope.goto_tab = (route) -> $state.go route
+    $scope.active_tab = (route) -> $state.is route
+    $scope.$on "$stateChangeSuccess", ->
+        #$scope.state_name = $state.current.name
+        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
+
     account_balances_observer =
         name: "account_balances_observer"
         frequency: 2600
@@ -48,7 +57,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
         tabsym = market.quantity_symbol
-        $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
+        $scope.tabs.push { heading: "Buy #{tabsym}", route: "market.buy", active: true }
+        $scope.tabs.push { heading: "Sell #{tabsym}", route: "market.sell", active: false }
+        unless market.quantity_asset.id == 0
+            $scope.tabs.push { heading: "Short #{tabsym}", route: "market.short", active: false }
         Observer.registerObserver(market_data_observer)
         balances = {}
         balances[market.base_symbol] = 0.0
@@ -65,15 +77,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.accounts.splice(0, $scope.accounts.lenght)
         for k,a of Wallet.accounts
             $scope.accounts.push a if a.is_my_account
-
-    # tabs
-    tabsym = MarketService.quantity_symbol
-    $scope.tabs = [ { heading: "Buy #{tabsym}", route: "market.buy", active: true }, { heading: "Sell #{tabsym}", route: "market.sell", active: false }, { heading: "Short #{tabsym}", route: "market.short", active: false } ]
-    $scope.goto_tab = (route) -> $state.go route
-    $scope.active_tab = (route) -> $state.is route
-    $scope.$on "$stateChangeSuccess", ->
-        #$scope.state_name = $state.current.name
-        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(market_data_observer)
