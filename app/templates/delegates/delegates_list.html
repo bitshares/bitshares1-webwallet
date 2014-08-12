@@ -44,7 +44,7 @@
             <td>
               <a class='delegate-link lead' href="#/accounts/{{del.name}}">{{ del.name }}</a>
               <br>
-              <i><a href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
+              <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
             </td>
             <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
@@ -109,7 +109,7 @@
               <td>
                 <a class='delegate-link lead' href="#/accounts/{{del.name}}">{{ del.name }}</a>
                 <br>
-                <i><a href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
+                <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
               </td>
               <td>
                   <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
