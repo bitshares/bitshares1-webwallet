@@ -1,6 +1,6 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
     $scope.account_name = account_name = $stateParams.account
-    return if account_name == 'no:account'
+    return if not account_name or account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
@@ -17,11 +17,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
+    Wallet.get_account(account.name).then (acct)->
+        Wallet.current_account = acct
+
     account_balances_observer =
         name: "account_balances_observer"
         frequency: 2600
         update: (data, deferred) ->
-            #console.log "------ account_balances_observer ------>", data
             changed = false
             promise = WalletAPI.account_balance(account_name)
             promise.then (result) =>
@@ -102,6 +104,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         bid.type = "bid_order"
         $scope.account.base_balance -= bid.cost
         MarketService.add_unconfirmed_order(bid)
+        $scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -113,6 +116,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return
         ask.type = "ask_order"
         MarketService.add_unconfirmed_order(ask)
+        $scope.ask = new MarketService.TradeData
 
     $scope.submit_short = ->
         form = @short_form
@@ -124,6 +128,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return
         short.type = "short_order"
         MarketService.add_unconfirmed_order(short)
+        $scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->

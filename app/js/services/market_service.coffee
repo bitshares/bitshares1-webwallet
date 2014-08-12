@@ -157,6 +157,12 @@ class MarketHelper
                 else
                     target.splice(tv.index, 1)
 
+    sort_array: (array, field, reverse = false) ->
+         array.sort (a, b) ->
+            a = a[field]
+            b = b[field]
+            if reverse then b - a else a - b
+
     invert_order_type: (type) ->
         return "ask_order" if type == "bid_order"
         return "bid_order" if type == "ask_order"
@@ -184,7 +190,7 @@ class MarketService
     loading_promise: null
     #updates_promise: null
 
-    constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+    constructor: (@q, @interval, @log, @filter, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
 
     init: (market_name) ->
@@ -256,7 +262,11 @@ class MarketService
         @id_sequence += 1
         order.id = @id_sequence
         order.status = "unconfirmed"
+        #console.log "------ price ------>", order.price
         @orders.unshift order
+        #sorted_orders = @filter('orderBy')(@orders, 'price', false)
+        #console.log "------ sorted_orders ------>", sorted_orders
+        @helper.sort_array(@orders, "price")
 
     cancel_order: (id) ->
         order = @helper.get_array_element_by_id(@orders, id)
@@ -280,9 +290,15 @@ class MarketService
         call.then (result) ->
             order.status = "placed"
             console.log "===== order placed: ", result
-            if result.operations and result.operations.length > 1 and result.operations[1].data?.short_index?.owner
-                console.log "===== order's new id: ", result.operations[1].data.short_index.owner
-                order.id = result.operations[1].data.short_index.owner
+            if result.operations and result.operations.length > 1
+                data = result.operations[1].data
+                if data.short_index
+                    order.id = data.short_index.owner
+                else if data.ask_index
+                    order.id = data.ask_index.owner
+                else if data.bid_index
+                    order.id = data.bid_index.owner
+                console.log "===== order new id: ", order.id
         return call
 
     cover_order: (order, account) ->
@@ -344,13 +360,14 @@ class MarketService
 
     pull_shorts: (market, inverted) ->
         shorts = []
+        dest = if inverted then @asks else @bids
         @blockchain_api.market_list_shorts(market.base_symbol, 100).then (results) =>
             for r in results
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "short"
                 shorts.push td
-            @helper.update_array {target: @asks, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
+            @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
 
     pull_orders: (market, inverted) ->
         orders = []
@@ -367,6 +384,7 @@ class MarketService
                 update: (target_el, data_el) ->
                     target_el.status = data_el.status if data_el.status
                 can_remove: (target_el) -> target_el.status != "unconfirmed"
+             @helper.sort_array(@orders, "price", false)
 
     pull_trades: (market, inverted) ->
         trades = []
@@ -396,4 +414,4 @@ class MarketService
         self.q.all(promises).finally => deferred.resolve(true)
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "$log", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
