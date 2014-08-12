@@ -283,7 +283,6 @@ class MarketService
             if result.operations and result.operations.length > 1 and result.operations[1].data?.short_index?.owner
                 console.log "===== order's new id: ", result.operations[1].data.short_index.owner
                 order.id = result.operations[1].data.short_index.owner
-        call.catch (error) -> deferred.reject(error)
         return call
 
     cover_order: (order, account) ->
