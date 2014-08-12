@@ -75,31 +75,34 @@
 </head>
 
 <body>
-<section class="start-wrapper">
-	<div class="str-top">
-    	<img src="img/xts-logo-xl-white-shadow.png" />
-	</div>
+  <section class="start-wrapper">
+    <div class="str-top">
+      <img src="img/xts-logo-xl-white-shadow.png"/>
+    </div>
     <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
     <div class="description" collapse="descriptionCollapsed">
-        <p translate>unlock.desc_content_1</p>
-        <p translate>unlock.desc_content_2
-        </p>
+      <p translate>unlock.desc_content_1</p>
+      <p translate>unlock.desc_content_2
+      </p>
     </div>
 
-    <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}" ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
+    <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}"
+       ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
 
     <div class="str-bottom">
 
-		<form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
-         	<div class="form-group">
-				<input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password" class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required focus autofocus ng-minlength="9" ng-maxlength="255">
-            <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary btn-sm" translate>unlock</button>
-        	</div>
-            <label class="text-danger" ng-show="wrongPass" translate>
-                unlock.wrong_pass
-            </label>
-    </form>
-		<img src="img/logo-ico.svg" width="64" height="64"/>
+      <form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
+        <div class="form-group">
+          <input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password"
+                 class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required focus
+                 autofocus ng-minlength="9" ng-maxlength="255">
+          <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary btn-sm"
+                  translate>unlock
+          </button>
+        </div>
+        <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
+      </form>
+      <img src="img/logo-ico.svg" width="64" height="64"/>
     </div>
-</section>
+  </section>
 </body>

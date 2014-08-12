@@ -34,10 +34,9 @@
         </section>
       </div>
     </div>
-    <div ui-view ng-if="unlockwallet" class="unlockwallet">
-    </div>
+    <div ui-view ng-if="unlockwallet" class="unlockwallet"></div>
     <div loading-indicator></div>
-    <footer ng-class="alert_level" ng-controller="FooterController">
+    <footer ng-if="!unlockwallet" ng-class="alert_level" ng-controller="FooterController">
       <div ng-include src="'footer.html'"></div>
     </footer>
   </body>

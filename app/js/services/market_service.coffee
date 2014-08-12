@@ -269,27 +269,28 @@ class MarketService
             #@helper.remove_array_element_by_id(@orders, id)
 
     confirm_order: (id, account) ->
-        deferred = @q.defer()
         order = @helper.get_array_element_by_id(@orders, id)
         order.status = "confirmed"
         call = if order.type == "bid_order"
-            @post_bid(order, account, deferred)
+            @post_bid(order, account)
         else if order.type == "ask_order"
-            @post_ask(order, account, deferred)
+            @post_ask(order, account)
         else
-            @post_short(order, account, deferred)
+            @post_short(order, account)
         call.then (result) ->
+            order.status = "placed"
+            console.log "===== order placed: ", result
             if result.operations and result.operations.length > 1 and result.operations[1].data?.short_index?.owner
                 console.log "===== order's new id: ", result.operations[1].data.short_index.owner
                 order.id = result.operations[1].data.short_index.owner
         call.catch (error) -> deferred.reject(error)
-        return deferred.promise
+        return call
 
     cover_order: (order, account) ->
         order.status = "covering"
         @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
 
-    post_bid: (bid, account, deferred) ->
+    post_bid: (bid, account) ->
         call = if !@market.inverted
             console.log "---- adding bid regular ----", bid
             @wallet_api.market_submit_bid(account.name, bid.quantity, @market.base_symbol, bid.price, @market.quantity_symbol)
@@ -297,19 +298,13 @@ class MarketService
             ibid = bid.invert()
             console.log "---- adding bid inverted ----", bid, ibid
             @wallet_api.market_submit_ask(account.name, ibid.quantity, @market.base_symbol, ibid.price, @market.quantity_symbol)
-        call.then (result) =>
-            console.log "---- add_bid added ----", result
-            bid.status = "placed"
-            deferred.resolve(result)
-            #@bids.push bid
+        return call
 
-    post_short: (short, account, deferred) ->
+    post_short: (short, account) ->
         price = if @market.inverted then 1.0/short.price else short.price
         console.log "---- before market_submit_short ----", account.name, short.quantity, price, @market.quantity_symbol
-        @wallet_api.market_submit_short(account.name, short.quantity, price, @market.quantity_symbol).then (result) =>
-            console.log "---- add_short added ----", result
-            short.status = "placed"
-            deferred.resolve(result)
+        call = @wallet_api.market_submit_short(account.name, short.quantity, price, @market.quantity_symbol)
+        return call
 
     post_ask: (ask, account, deferred) ->
         call = if !@market.inverted
@@ -319,11 +314,7 @@ class MarketService
             iask = ask.invert()
             console.log "---- adding ask inverted ----", ask, iask
             @wallet_api.market_submit_bid(account.name, iask.quantity, @market.base_symbol, iask.price, @market.quantity_symbol)
-        call.then (result) =>
-            console.log "---- add_ask added ----", result
-            ask.status = "placed"
-            #@asks.push ask
-            deferred.resolve(result)
+        return call
 
     pull_bids: (market, inverted) ->
         bids = []

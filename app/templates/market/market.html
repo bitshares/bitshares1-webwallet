@@ -16,8 +16,8 @@
 
     <div class="row">
       <h3 class="col-sm-3 header-title">
-        <span tooltip="{{market.quantity_symbol}} short description.." tooltip-placement="right">{{market.quantity_symbol}}</span>
-        : <span tooltip="{{market.base_symbol}} short description.." tooltip-placement="right">{{market.base_symbol}}</span>
+        <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
+        : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
       </h3>
       <ul class="col-sm-5 market-stats stats">
