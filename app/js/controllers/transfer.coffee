@@ -26,8 +26,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_all: "Vote All"
         vote_random: "Vote Random Subset"
 
+    $scope.my_accounts = []
     Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
+        $scope.my_accounts.splice(0, $scope.my_accounts.lenght)
+        for k,a of Wallet.accounts
+            $scope.my_accounts.push a if a.is_my_account
 
         angular.forEach Wallet.accounts, (acct, name) ->
             if acct.is_my_account

@@ -4,16 +4,19 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.bid = new MarketService.TradeData
     $scope.ask = new MarketService.TradeData
     $scope.short = new MarketService.TradeData
+    $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     current_market = null
 
     account_balances_observer =
         name: "account_balances_observer"
-        frequency: 26000
+        frequency: 2600
         update: (data, deferred) ->
+            #console.log "------ account_balances_observer ------>", data
             changed = false
             promise = WalletAPI.account_balance(account_name)
             promise.then (result) =>
+                #console.log "------ account_balances_observer result ------>", result
                 return if !result or result.length == 0
                 name_bal_pair = result[0]
                 balances = name_bal_pair[1][0]
@@ -59,7 +62,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.showLoadingIndicator(promise)
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts = Wallet.accounts
+        $scope.accounts.splice(0, $scope.accounts.lenght)
+        for k,a of Wallet.accounts
+            $scope.accounts.push a if a.is_my_account
 
     # tabs
     tabsym = MarketService.quantity_symbol

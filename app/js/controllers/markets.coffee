@@ -6,14 +6,14 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         $scope.markets = Blockchain.get_markets()
 
     WalletAPI.get_setting("recent_markets").then (result) ->
-        return unless result.value
+        return if not result or not result.value
         recent_markets.splice(0, recent_markets.length)
         recent_markets.push r for r in JSON.parse(result.value)
 
     save_to_recent_markets = (market_name) ->
         return if recent_markets.indexOf(market_name) >= 0
         recent_markets.unshift(market_name)
-        recent_markets.pop() if recent_markets.length > 5
+        recent_markets.pop() if recent_markets.length > 20
         WalletAPI.set_setting("recent_markets", JSON.stringify(recent_markets))
 
     $scope.select_market = (market) ->

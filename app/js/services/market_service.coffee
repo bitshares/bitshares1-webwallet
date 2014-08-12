@@ -107,17 +107,18 @@ class MarketHelper
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
         if order.type == "cover_order"
-            td.quantity = order.state.balance / qa.precision
-            td.cost = td.quantity * td.price
+            td.cost = order.state.balance / qa.precision
+            td.quantity = td.cost * price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
-            console.log "--------- cover order: ", td
-        else if invert_assets
-            td.cost = order.state.balance / ba.precision
-            td.quantity = td.cost * price
+            console.log "--------- cover order: ", order, td
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
+
+        if invert_assets
+            [td.cost, td.quantity] = [td.quantity, td.cost]
+
         return td
 
     trade_history_to_order: (t, assets) ->
@@ -277,6 +278,10 @@ class MarketService
             @post_ask(order, account, deferred)
         else
             @post_short(order, account, deferred)
+        call.then (result) ->
+            if result.operations and result.operations.length > 1 and result.operations[1].data?.short_index?.owner
+                console.log "===== order's new id: ", result.operations[1].data.short_index.owner
+                order.id = result.operations[1].data.short_index.owner
         call.catch (error) -> deferred.reject(error)
         return deferred.promise
 
@@ -295,7 +300,7 @@ class MarketService
         call.then (result) =>
             console.log "---- add_bid added ----", result
             bid.status = "placed"
-            deferred.resolve(bid)
+            deferred.resolve(result)
             #@bids.push bid
 
     post_short: (short, account, deferred) ->
@@ -304,7 +309,7 @@ class MarketService
         @wallet_api.market_submit_short(account.name, short.quantity, price, @market.quantity_symbol).then (result) =>
             console.log "---- add_short added ----", result
             short.status = "placed"
-            deferred.resolve(short)
+            deferred.resolve(result)
 
     post_ask: (ask, account, deferred) ->
         call = if !@market.inverted
@@ -318,7 +323,7 @@ class MarketService
             console.log "---- add_ask added ----", result
             ask.status = "placed"
             #@asks.push ask
-            deferred.resolve(ask)
+            deferred.resolve(result)
 
     pull_bids: (market, inverted) ->
         bids = []
