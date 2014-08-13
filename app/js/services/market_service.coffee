@@ -392,7 +392,7 @@ class MarketService
                 #console.log "---- order: ", r
                 #console.log "----- market_order_list: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                #td.status = "posted"
+                td.status = "posted"
                 orders.push td
             @helper.update_array
                 target: @orders
