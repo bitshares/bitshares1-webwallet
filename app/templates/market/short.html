@@ -5,7 +5,7 @@
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />
   </div>
-  <div form-hgroup label="Price" addon="{{market.price_symbol}}" help="Min {{market.min_short_price}}">
+  <div form-hgroup label="Price" addon="{{market.price_symbol}}" help="Min {{market.min_short_price}}" help-if="{{market.min_short_price}}">
     <input-positive-number name="short_price" ng-model="short.price" required="true" />
   </div>
   <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{short_form.$valid}}">

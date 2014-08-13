@@ -259,26 +259,22 @@ class MarketService
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
-                market.inverted = true
-                #console.log "---- market: ", market
-                @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
+                if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
-                    console.log "market_status inverted --->", result
+                    status_call = @blockchain_api.market_status(market.quantity_symbol, market.base_symbol)
+                else
+                    market.inverted = false
+                    status_call = @blockchain_api.market_status(market.base_symbol, market.quantity_symbol)
+                status_call.then (result) =>
+                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'} --->", result
                     @helper.read_market_data(market, result, market.assets_by_id)
                     deferred.resolve(market)
                 , =>
-                    @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
-                        market.inverted = false
-                        @helper.read_market_data(market, result, market.assets_by_id)
-                        console.log "market_status direct --->", result
-                        deferred.resolve(market)
-                    , =>
-                        #deferred.reject("Cannot initialize the market module, the selected market may not exist.")
-                        error_message = "No orders have been placed."
-                        market.error.title = error_message
-                        @log.error error_message
-                        deferred.resolve(market)
-                , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
+                    error_message = "No orders have been placed."
+                    market.error.title = error_message
+                    @log.error error_message
+                    deferred.resolve(market)
+            , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
         @id_sequence += 1
@@ -311,16 +307,9 @@ class MarketService
         else
             @post_short(order, account)
         call.then (result) ->
-            #console.log "===== order placed: ", result
-            if result.operations and result.operations.length > 1
-                data = result.operations[1].data
-                if data.short_index
-                    order.id = data.short_index.owner
-                else if data.ask_index
-                    order.id = data.ask_index.owner
-                else if data.bid_index
-                    order.id = data.bid_index.owner
-                #console.log "===== order new id: ", order.id
+            console.log "===== order placed: ", result
+            res = jsonPath.eval(result, "$.[*].data..owner")
+            order.id = res[0] if res.length == 1
         return call
 
     cover_order: (order, account) ->
@@ -364,6 +353,7 @@ class MarketService
             for r in results
                 #console.log "---- bid: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td.type = "bid"
                 bids.push td
             @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
 
