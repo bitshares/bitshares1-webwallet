@@ -46,6 +46,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 
+    market_status_observer =
+        name: "market_status_observer"
+        frequency: 3000
+        data: {context: MarketService}
+        update: MarketService.pull_market_status
+
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
@@ -61,9 +67,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         tabsym = market.quantity_symbol
         $scope.tabs.push { heading: "Buy #{tabsym}", route: "market.buy", active: true }
         $scope.tabs.push { heading: "Sell #{tabsym}", route: "market.sell", active: false }
-        unless market.quantity_asset.id == 0
+        if market.shorts_available
             $scope.tabs.push { heading: "Short #{tabsym}", route: "market.short", active: false }
         Observer.registerObserver(market_data_observer)
+        Observer.registerObserver(market_status_observer)
         balances = {}
         balances[market.base_symbol] = 0.0
         balances[market.quantity_symbol] = 0.0
@@ -82,6 +89,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(market_data_observer)
+        Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
 
     $scope.flip_market = ->
@@ -122,6 +130,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form = @short_form
         $scope.clear_form_errors(form)
         short = $scope.short
+        if short.price < $scope.market.min_short_price
+            form.short_price.$error.message = "Short price should above min price"
+            return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
             form.ask_quantity.$error.message = "Insufficient funds"
@@ -177,8 +188,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 $scope.market = current_market
                 $scope.order = order
                 $scope.cancel = ->
+                    console.log "cancel --------------------"
                     $modalInstance.dismiss "cancel"
                 $scope.submit = (order) ->
+                    console.log "submit --------------------"
                     form = @cover_form
                     MarketService.cover_order(order, account).then ->
                         $modalInstance.close("ok")
