@@ -122,6 +122,10 @@ class MarketHelper
             td.quantity = td.cost * price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
+        if order.type == "cover"
+            td.cost = order.state.balance / qa.precision
+            td.quantity = if invert_price then td.cost * td.price else td.cost / td.price
+            td.collateral = order.collateral / ba.precision
             #console.log "--------- cover order: ", order, td
         else
             td.quantity = order.state.balance / ba.precision
@@ -382,6 +386,19 @@ class MarketService
                 shorts.push td
             @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
 
+    pull_covers: (market, inverted) ->
+        covers = []
+        @blockchain_api.market_order_book(market.base_symbol, market.quantity_symbol, 100).then (results) =>
+            results = [].concat.apply(results) # flattens array of results
+            for r in results[1]
+                continue unless r.type == "cover_order"
+                #console.log "---- cover ", r
+                r.type = "cover"
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td.type = "cover"
+                covers.push td
+            @helper.update_array {target: @covers, data: covers, can_remove: (target_el) -> target_el.type == "cover" }
+
     pull_orders: (market, inverted, account_name) ->
         orders = []
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
@@ -423,6 +440,7 @@ class MarketService
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
             self.pull_shorts(market, self.market.inverted),
+            self.pull_covers(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)

@@ -94,3 +94,16 @@ div.fixed-height-table {
 	color: #888;
 	letter-spacing: normal;
 }
+
+.orders-row .panel-heading {
+	padding-right: 0;
+}
+
+.orders-row .panel-body {
+	padding-right: 0;
+}
+
+.orders-row .panel {
+	padding-right: 0;
+}
+
