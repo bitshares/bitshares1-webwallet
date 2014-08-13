@@ -4,11 +4,8 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
     $scope.createAccount = ->
         form = @createaccount
         form.account_name.error_message = null
-        #gravatarDisplayName is put on the scope from the controller
-        #console.log($scope.gravatarDisplayName)
         name=$scope.f.name
-        #$scope.notes was removed
-        Wallet.create_account(name, {'gui_data': {'email': $scope.email}}).then (pubkey)=>
+        Wallet.create_account(name, {'gui_data': {'website': $scope.website}}).then (pubkey)=>
             $location.path("accounts/" + name)
         , (response) ->
             if response.data.error.code == 10 and response.data.error.message

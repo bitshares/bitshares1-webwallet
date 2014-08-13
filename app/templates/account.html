@@ -40,7 +40,8 @@
         </div>
         <div class="reg-date" style="" class="white-shadow" ng-switch-default>
           <div style='color:white;font-size:200%'>{{account.name}}</div>
-          <br> <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i>
+          <br> <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i><br>
+          <a target="_blank" href='http://{{account.public_data.gui_data.website}}'>{{account.public_data.gui_data.website}}</a>
         </div>
       </div>
       <div ng-if="account.delegate_info">

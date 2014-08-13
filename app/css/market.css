@@ -1,18 +1,15 @@
+.market-selector {
+	margin-top: 10px;
+}
+
 .market .panel {
 	border: none;
 	margin-bottom: 20px;
 }
 
-.market-selector h3 {
-	width: 120px;
-	float: left;
-}
-
-.market-selector .form-group {
-	width: 120px;
-	float: left;
-	position: relative;
-	top: 12px;
+.markets-list {
+	list-style-type: none;
+	padding-left: 0;
 }
 
 .no-account-selected-note {

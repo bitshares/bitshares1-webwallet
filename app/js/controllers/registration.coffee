@@ -4,7 +4,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   $scope.m={}
   $scope.m.payrate=50
   $scope.m.delegate=false
-
+  console.log($scope.account)
   $scope.$watch ->
       Wallet.info.priority_fee
   , ->
@@ -38,11 +38,10 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
     payrate = if $scope.m.delegate then $scope.m.payrate else 255
-    if $scope.account.private_data?.gui_data?.email
-        gravatarMD5 = md5.createHash($scope.account.private_data.gui_data.email)
+    if $scope.account.private_data?.gui_data?.website
+        website= $scope.account.private_data.gui_data.website
     else
-        gravatarMD5 = ""
-    console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
-    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
+        website= ""
+    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gui_data':{'website': website}}, payrate).then (response) ->
       $modalInstance.close("ok")
       $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name] = "pending"

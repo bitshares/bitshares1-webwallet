@@ -1,38 +1,50 @@
 <div class="col-sm-12">
   <div class="header">
-    <h3 class="header-title">Markets</h3>
+    <div class="row">
+      <h3 class="col-sm-2 header-title">Markets</h3>
+      <div class="col-sm-2 market-selector">
+        <input type="text"
+               ng-model="selected_market"
+               typeahead="value for value in markets | filter:$viewValue"
+               typeahead-editable="false"
+               typeahead-append-to-body="true"
+               class="form-control"
+               placeholder="Search Market">
+      </div>
+    </div>
   </div>
 </div>
-
-<div class="main-content">
+<br/>
+<div class="main-content market">
+  <div class="row">&nbsp;</div>
   <div class="row">
-    <form class="col-sm-12 form-horizontal  m-top" role="form">
-      <div class="form-group">
-        <label class="col-sm-2 control-label" for="market_selector">Market</label>
-        <div class="col-sm-3">
-          <input id="market_selector" type="text"
-                 ng-model="selected_market"
-                 typeahead="value for value in markets | filter:$viewValue"
-                 typeahead-editable="false"
-                 typeahead-append-to-body="true"
-                 class="form-control"
-                 placeholder="Select Market">
+    <div class="col-sm-3">
+      <div class="panel" ng-show="recent_markets.length > 0">
+        <div class="panel-heading">
+          <h3 class="panel-title">All Markets</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="markets-list">
+            <li ng-repeat="m in markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>
+          </ul>
         </div>
       </div>
-    </form>
-  </div>
-  <div class="row">
-    <div class="col-sm-offset-2 col-sm-3">
+    </div>
+
+    <div class="col-sm-3">
       <div class="panel" ng-show="recent_markets.length > 0">
         <div class="panel-heading">
           <h3 class="panel-title">Recent Markets</h3>
         </div>
         <div class="panel-body">
-          <ul>
+          <ul class="markets-list">
             <li ng-repeat="m in recent_markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>
           </ul>
         </div>
       </div>
     </div>
+
+    <div class="col-sm-6">&nbsp;</div>
+
   </div>
 </div>

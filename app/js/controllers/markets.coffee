@@ -11,7 +11,8 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         recent_markets.push r for r in JSON.parse(result.value)
 
     save_to_recent_markets = (market_name) ->
-        return if recent_markets.indexOf(market_name) >= 0
+        index = recent_markets.indexOf(market_name)
+        recent_markets.splice(index,1) if index >= 0
         recent_markets.unshift(market_name)
         recent_markets.pop() if recent_markets.length > 20
         WalletAPI.set_setting("recent_markets", JSON.stringify(recent_markets))
