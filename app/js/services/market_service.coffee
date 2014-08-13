@@ -184,7 +184,7 @@ class MarketHelper
         res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
         return null if not res or res.length == 0
         to_account = res[0]
-        match = /^([A-Z]{3})\-(\w+)/.exec(to_account)
+        match = /^([A-Z]+)\-(\w+)/.exec(to_account)
         return null unless match
         subid = match[2]
         return null unless subid.length > 5
@@ -386,7 +386,6 @@ class MarketService
         orders = []
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                #console.log "----- market_order_list --- order: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
