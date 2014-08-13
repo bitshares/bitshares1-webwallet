@@ -172,14 +172,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 <div class="modal-header bg-danger">
                     <h3 class="modal-title">Cover short position</h3>
                 </div>
-                <form name="cover_form" class="form-horizontal" role="form" ng-submit="submit(order)" novalidate>
+                <form name="cover_form" class="form-horizontal" role="form" novalidate>
                 <div class="modal-body">
                     <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}" class="col-sm-8">
                       <input-positive-number name="quantity" ng-model="order.quantity" required="true" />
                     </div>
                 </div></br></br>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Cover</button>
+                    <button class="btn btn-primary" ng-click="submit(order)">Cover</button>
                     <button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
                 </div>
                 </form>
@@ -188,13 +188,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 $scope.market = current_market
                 $scope.order = order
                 $scope.cancel = ->
-                    console.log "cancel --------------------"
                     $modalInstance.dismiss "cancel"
                 $scope.submit = (order) ->
-                    console.log "submit --------------------"
                     form = @cover_form
                     MarketService.cover_order(order, account).then ->
-                        $modalInstance.close("ok")
+                        $modalInstance.dismiss "ok"
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
 
