@@ -79,9 +79,10 @@ div.fixed-height-table {
 	background-color: #faf1e3 !important;
 }
 
-/*.market-table tr.posted td {*/
-	/*background-color: #dff2df !important;*/
-/*}*/
+.market-table tr.pending td {
+	background-color: #e4f4d4 !important;
+}
+
 .market-stats .stat {
 	text-align: left;
 	font-size: 10px;

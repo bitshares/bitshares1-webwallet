@@ -43,7 +43,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     market_data_observer =
         name: "market_data_observer"
         frequency: 2000
-        data: {context: MarketService}
+        data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 
     market_name = $stateParams.name

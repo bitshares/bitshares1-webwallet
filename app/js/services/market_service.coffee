@@ -23,6 +23,11 @@ class TradeData
         td.price = 1.0 / @price
         return td
 
+    touch: ->
+        @timestamp = Date.now()
+    expired: ->
+        return Date.now() - @timestamp > 20000
+
 
 class Market
 
@@ -168,6 +173,18 @@ class MarketHelper
         return "bid_order" if type == "ask_order"
         return type
 
+    find_order_by_transaction: (orders, t) ->
+        res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
+        return null if not res or res.length == 0
+        to_account = res[0]
+        match = /^([A-Z]{3})\-(\w+)/.exec(to_account)
+        return null unless match
+        subid = match[2]
+        return null unless subid.length > 5
+        for o in orders
+            return o if o.id and o.id.indexOf(subid) > -1
+        return null
+
 
 class MarketService
 
@@ -186,9 +203,7 @@ class MarketService
     trades: null
 
     id_sequence: 0
-    #is_refreshing: false
     loading_promise: null
-    #updates_promise: null
 
     constructor: (@q, @interval, @log, @filter, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
@@ -227,7 +242,7 @@ class MarketService
         market.assets_by_id = {}
         @blockchain.refresh_asset_records().then =>
             @q.all([@blockchain.get_asset(market.quantity_symbol), @blockchain.get_asset(market.base_symbol)]).then (results) =>
-                console.log "-------------refresh_asset_records:",results
+                #console.log "-------------refresh_asset_records:",results
                 if !results[0] or !results[1]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
                     return
@@ -260,7 +275,7 @@ class MarketService
 
     add_unconfirmed_order: (order) ->
         @id_sequence += 1
-        order.id = @id_sequence
+        order.id = "o" + @id_sequence
         order.status = "unconfirmed"
         #console.log "------ price ------>", order.price
         @orders.unshift order
@@ -280,7 +295,8 @@ class MarketService
 
     confirm_order: (id, account) ->
         order = @helper.get_array_element_by_id(@orders, id)
-        order.status = "confirmed"
+        order.touch()
+        order.status = "pending"
         call = if order.type == "bid_order"
             @post_bid(order, account)
         else if order.type == "ask_order"
@@ -288,8 +304,7 @@ class MarketService
         else
             @post_short(order, account)
         call.then (result) ->
-            order.status = "placed"
-            console.log "===== order placed: ", result
+            #console.log "===== order placed: ", result
             if result.operations and result.operations.length > 1
                 data = result.operations[1].data
                 if data.short_index
@@ -298,11 +313,12 @@ class MarketService
                     order.id = data.ask_index.owner
                 else if data.bid_index
                     order.id = data.bid_index.owner
-                console.log "===== order new id: ", order.id
+                #console.log "===== order new id: ", order.id
         return call
 
     cover_order: (order, account) ->
-        order.status = "covering"
+        order.touch()
+        order.status = "pending"
         @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
 
     post_bid: (bid, account) ->
@@ -383,7 +399,8 @@ class MarketService
                 data: orders
                 update: (target_el, data_el) ->
                     target_el.status = data_el.status if data_el.status
-                can_remove: (target_el) -> target_el.status != "unconfirmed"
+                can_remove: (o) ->
+                    !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
              @helper.sort_array(@orders, "price", false)
 
     pull_trades: (market, inverted) ->
@@ -398,6 +415,13 @@ class MarketService
         @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
             @helper.read_market_data(market, result, market.assets_by_id)
 
+    pull_unconfirmed_transactions: (account_name) ->
+        @wallet_api.account_transaction_history(account_name).then (results) =>
+            for t in results
+                continue if t.is_confirmed
+                order = @helper.find_order_by_transaction(@orders, t)
+                order.touch() if order
+
     pull_market_data: (data, deferred) ->
         self = data.context
         self.loading_promise = deferred.promise
@@ -409,7 +433,8 @@ class MarketService
             self.pull_shorts(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted),
             self.pull_trades(market, self.market.inverted),
-            self.pull_market_status(market, self.market.inverted)
+            self.pull_market_status(market, self.market.inverted),
+            self.pull_unconfirmed_transactions(data.account_name)
         ]
         self.q.all(promises).finally => deferred.resolve(true)
 
