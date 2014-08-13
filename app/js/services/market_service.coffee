@@ -92,6 +92,7 @@ class MarketHelper
                 break
 
     ratio_to_price: (value, assets) ->
+        return 0.0 if value.base_asset_id == 0 and value.quote_asset_id == 0
         ba = assets[value.base_asset_id]
         qa = assets[value.quote_asset_id]
         return value.ratio * (ba.precision / qa.precision)
@@ -112,6 +113,7 @@ class MarketHelper
         #invert_assets = !invert_assets if order.type == "cover_order"
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
+        td.type = "margin_order" if order.type == "cover_order"
         td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
@@ -124,6 +126,7 @@ class MarketHelper
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
+            td.status = "posted"
 
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
@@ -246,7 +249,6 @@ class MarketService
         market.assets_by_id = {}
         @blockchain.refresh_asset_records().then =>
             @q.all([@blockchain.get_asset(market.quantity_symbol), @blockchain.get_asset(market.base_symbol)]).then (results) =>
-                #console.log "-------------refresh_asset_records:",results
                 if !results[0] or !results[1]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
                     return
@@ -261,8 +263,8 @@ class MarketService
                 #console.log "---- market: ", market
                 @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
                     market.inverted = true
-                    @helper.read_market_data(market, result, market.assets_by_id)
                     console.log "market_status inverted --->", result
+                    @helper.read_market_data(market, result, market.assets_by_id)
                     deferred.resolve(market)
                 , =>
                     @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
@@ -329,7 +331,7 @@ class MarketService
     post_bid: (bid, account) ->
         call = if !@market.inverted
             console.log "---- adding bid regular ----", bid
-            @wallet_api.market_submit_bid(account.name, bid.quantity, @market.base_symbol, bid.price, @market.quantity_symbol)
+            @wallet_api.market_submit_bid(account.name, bid.quantity, @market.quantity_symbol, bid.price, @market.base_symbol)
         else
             ibid = bid.invert()
             console.log "---- adding bid inverted ----", bid, ibid
@@ -363,7 +365,7 @@ class MarketService
                 #console.log "---- bid: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 bids.push td
-            @helper.update_array {target: @bids, data: bids}
+            @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
 
     pull_asks: (market, inverted) ->
         asks = []
@@ -394,10 +396,9 @@ class MarketService
         orders = []
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                #console.log "---- order: ", r
-                #console.log "----- market_order_list: ", inverted, r
+                #console.log "----- market_order_list --- order: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                td.status = "posted" if td.status != "cover"
+                #td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
                 target: @orders
@@ -405,6 +406,7 @@ class MarketService
                 update: (target_el, data_el) ->
                     target_el.status = data_el.status if data_el.status and target_el.status != "canceled"
                 can_remove: (o) ->
+                    #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
              @helper.sort_array(@orders, "price", false)
 

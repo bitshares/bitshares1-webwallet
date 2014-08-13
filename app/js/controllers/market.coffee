@@ -9,8 +9,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     current_market = null
 
     # tabs
-    tabsym = MarketService.quantity_symbol
     $scope.tabs = []
+    $scope.tabs.push { heading: "Buy", route: "market.buy", active: true }
+    $scope.tabs.push { heading: "Sell", route: "market.sell", active: false }
+    $scope.tabs.push { heading: "Short", route: "market.short", active: false }
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -65,10 +67,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
         tabsym = market.quantity_symbol
-        $scope.tabs.push { heading: "Buy #{tabsym}", route: "market.buy", active: true }
-        $scope.tabs.push { heading: "Sell #{tabsym}", route: "market.sell", active: false }
+        $scope.tabs[0].heading = "Buy #{tabsym}"
+        $scope.tabs[1].heading = "Sell #{tabsym}"
         if market.shorts_available
-            $scope.tabs.push { heading: "Short #{tabsym}", route: "market.short", active: false }
+            $scope.tabs[2].heading = "Short #{tabsym}"
+        else
+            $scope.tabs.splice(2,1)
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
         balances = {}

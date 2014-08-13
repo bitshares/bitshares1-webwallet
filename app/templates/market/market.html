@@ -124,7 +124,7 @@
         <div class="col-sm-6">
           <div class="panel ">
             <div class="panel-heading">
-              <h3 class="panel-title">Buy Orders (Bids and Shorts)</h3>
+              <h3 class="panel-title">Buy Orders ({{market.inverted ? 'Bids' : 'Bids and Shorts'}})</h3>
             </div>
             <div class="panel-body">
               <div ng-include src="'market/bids.html'"></div>
@@ -134,7 +134,7 @@
         <div class="col-sm-6">
           <div class="panel ">
             <div class="panel-heading">
-              <h3 class="panel-title">Sell Orders (Asks and Shorts)</h3>
+              <h3 class="panel-title">Sell Orders ({{market.inverted ? 'Asks and Shorts' : 'Asks'}})</h3>
             </div>
             <div class="panel-body">
               <div ng-include src="'market/asks.html'"></div>
