@@ -7,6 +7,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
             <span class="input-group-addon">{{addon}}</span>
         </div>
         <div class="col-sm-offset-3" ng-show="error_message"><span class="help-block text-danger">{{error_message}}</span></div>
+        <div class="col-sm-offset-3" ng-show="help" ng-if="helpIf"><span class="help-block">{{help}}</span></div>
     </div>
     '''
     replace: true
@@ -15,6 +16,8 @@ angular.module("app.directives", []).directive "formHgroup", ->
     scope:
         label: "@"
         addon: "@"
+        help: "@"
+        helpIf: "@"
 
     link: (scope, element, attrs, formController) ->
         formName = formController.$name

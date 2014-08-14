@@ -9,8 +9,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     current_market = null
 
     # tabs
-    tabsym = MarketService.quantity_symbol
     $scope.tabs = []
+    $scope.tabs.push { heading: "Buy", route: "market.buy", active: true }
+    $scope.tabs.push { heading: "Sell", route: "market.sell", active: false }
+    $scope.tabs.push { heading: "Short", route: "market.short", active: false }
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -46,6 +48,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 
+    market_status_observer =
+        name: "market_status_observer"
+        frequency: 3000
+        data: {context: MarketService}
+        update: MarketService.pull_market_status
+
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
@@ -59,11 +67,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
         tabsym = market.quantity_symbol
-        $scope.tabs.push { heading: "Buy #{tabsym}", route: "market.buy", active: true }
-        $scope.tabs.push { heading: "Sell #{tabsym}", route: "market.sell", active: false }
-        unless market.quantity_asset.id == 0
-            $scope.tabs.push { heading: "Short #{tabsym}", route: "market.short", active: false }
+        $scope.tabs[0].heading = "Buy #{tabsym}"
+        $scope.tabs[1].heading = "Sell #{tabsym}"
+        if market.shorts_available
+            $scope.tabs[2].heading = "Short #{tabsym}"
+        else
+            $scope.tabs.splice(2,1)
         Observer.registerObserver(market_data_observer)
+        Observer.registerObserver(market_status_observer)
         balances = {}
         balances[market.base_symbol] = 0.0
         balances[market.quantity_symbol] = 0.0
@@ -82,6 +93,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(market_data_observer)
+        Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
 
     $scope.flip_market = ->
@@ -122,6 +134,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form = @short_form
         $scope.clear_form_errors(form)
         short = $scope.short
+        if short.price < $scope.market.min_short_price
+            form.short_price.$error.message = "Short price should be above min price"
+            return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
             form.ask_quantity.$error.message = "Insufficient funds"
@@ -161,14 +176,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 <div class="modal-header bg-danger">
                     <h3 class="modal-title">Cover short position</h3>
                 </div>
-                <form name="cover_form" class="form-horizontal" role="form" ng-submit="submit(order)" novalidate>
+                <form name="cover_form" class="form-horizontal" role="form" novalidate>
                 <div class="modal-body">
                     <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}" class="col-sm-8">
                       <input-positive-number name="quantity" ng-model="order.quantity" required="true" />
                     </div>
                 </div></br></br>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Cover</button>
+                    <button class="btn btn-primary" ng-click="submit(order)">Cover</button>
                     <button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
                 </div>
                 </form>
@@ -181,7 +196,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 $scope.submit = (order) ->
                     form = @cover_form
                     MarketService.cover_order(order, account).then ->
-                        $modalInstance.close("ok")
+                        $modalInstance.dismiss "ok"
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
 

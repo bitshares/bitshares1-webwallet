@@ -25,6 +25,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_none: "Vote None"
         vote_all: "Vote All"
         vote_random: "Vote Random Subset"
+        vote_recommended: "Vote as Delegates Recommend"
 
     $scope.my_accounts = []
     Wallet.refresh_accounts().then ->
@@ -76,14 +77,17 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form = @my_transfer_form
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
-        Blockchain.get_asset(0).then (v)->
-            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
+        amount_asset = $scope.balances[$scope.transfer_info.symbol]
+        transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
+        Blockchain.get_asset(0).then (fee_asset)->
+            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, fee_asset))
+            trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: priority_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
             $modal.open
-                templateUrl: "dialog-confirmation.html"
-                controller: "DialogConfirmationController"
+                templateUrl: "dialog-transfer-confirmation.html"
+                controller: "DialogTransferConfirmationController"
                 resolve:
-                    title: -> "Are you sure?"
-                    message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + priority_fee + "."
+                    title: -> "Transfer Authorization"
+                    trx: -> trx
                     action: -> yesSend
 
     $scope.newContactModal = ->

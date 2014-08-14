@@ -47,7 +47,11 @@ class Market
         @bid_depth = 0.0
         @ask_depth = 0.0
         @avg_price_24h = 0.0
+        @highest_bid = 0.0
+        @lowest_ask = 0.0
+        @median_price = 0.0
         @assets_by_id = null
+        @shorts_available = false
         @error = {title: null, text: null}
 
     get_actual_market: ->
@@ -61,13 +65,17 @@ class Market
         m.base_symbol = @quantity_symbol
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
+        m.shorts_available = m.base_asset.id == 0
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url
         m.price_symbol = "#{@quantity_symbol}/#{@base_symbol}"
         m.bid_depth = @bid_depth
         m.ask_depth = @ask_depth
+        m.highest_bid = @highest_bid
+        m.lowest_ask = @lowest_ask
         m.avg_price_24h = @avg_price_24h
+        m.median_price = @median_price
         m.assets_by_id = @assets_by_id
         m.error = @error
         @actual_market = m
@@ -88,6 +96,7 @@ class MarketHelper
                 break
 
     ratio_to_price: (value, assets) ->
+        return 0.0 if value.base_asset_id == 0 and value.quote_asset_id == 0
         ba = assets[value.base_asset_id]
         qa = assets[value.quote_asset_id]
         return value.ratio * (ba.precision / qa.precision)
@@ -105,21 +114,22 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
-        #invert_assets = !invert_assets if order.type == "cover_order"
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
+        td.type = "margin_order" if order.type == "cover_order"
         td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
         if order.type == "cover_order"
+            cover_price = 1.0 / price
             td.cost = order.state.balance / qa.precision
-            td.quantity = td.cost * price
+            td.quantity = td.cost * cover_price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
-            console.log "--------- cover order: ", order, td
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
+            td.status = "posted"
 
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
@@ -177,7 +187,7 @@ class MarketHelper
         res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
         return null if not res or res.length == 0
         to_account = res[0]
-        match = /^([A-Z]{3})\-(\w+)/.exec(to_account)
+        match = /^([A-Z]+)\-(\w+)/.exec(to_account)
         return null unless match
         subid = match[2]
         return null unless subid.length > 5
@@ -242,7 +252,6 @@ class MarketService
         market.assets_by_id = {}
         @blockchain.refresh_asset_records().then =>
             @q.all([@blockchain.get_asset(market.quantity_symbol), @blockchain.get_asset(market.base_symbol)]).then (results) =>
-                #console.log "-------------refresh_asset_records:",results
                 if !results[0] or !results[1]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
                     return
@@ -252,26 +261,23 @@ class MarketService
                 market.base_precision = market.base_asset.precision
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
-                market.inverted = true
-                #console.log "---- market: ", market
-                @blockchain_api.market_status(market.quantity_symbol, market.base_symbol).then (result) =>
+                market.shorts_available = market.base_asset.id == 0
+                if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
+                    status_call = @blockchain_api.market_status(market.quantity_symbol, market.base_symbol)
+                else
+                    market.inverted = false
+                    status_call = @blockchain_api.market_status(market.base_symbol, market.quantity_symbol)
+                status_call.then (result) =>
+                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'} --->", result
                     @helper.read_market_data(market, result, market.assets_by_id)
-                    console.log "market_status inverted --->", result
                     deferred.resolve(market)
                 , =>
-                    @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
-                        market.inverted = false
-                        @helper.read_market_data(market, result, market.assets_by_id)
-                        console.log "market_status direct --->", result
-                        deferred.resolve(market)
-                    , =>
-                        #deferred.reject("Cannot initialize the market module, the selected market may not exist.")
-                        error_message = "No orders have been placed."
-                        market.error.title = error_message
-                        @log.error error_message
-                        deferred.resolve(market)
-                , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
+                    error_message = "No orders have been placed."
+                    market.error.title = error_message
+                    @log.error error_message
+                    deferred.resolve(market)
+            , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
         @id_sequence += 1
@@ -304,16 +310,9 @@ class MarketService
         else
             @post_short(order, account)
         call.then (result) ->
-            #console.log "===== order placed: ", result
-            if result.operations and result.operations.length > 1
-                data = result.operations[1].data
-                if data.short_index
-                    order.id = data.short_index.owner
-                else if data.ask_index
-                    order.id = data.ask_index.owner
-                else if data.bid_index
-                    order.id = data.bid_index.owner
-                #console.log "===== order new id: ", order.id
+            console.log "===== order placed: ", result
+            res = jsonPath.eval(result, "$.[*].data..owner")
+            order.id = res[0] if res.length == 1
         return call
 
     cover_order: (order, account) ->
@@ -324,7 +323,7 @@ class MarketService
     post_bid: (bid, account) ->
         call = if !@market.inverted
             console.log "---- adding bid regular ----", bid
-            @wallet_api.market_submit_bid(account.name, bid.quantity, @market.base_symbol, bid.price, @market.quantity_symbol)
+            @wallet_api.market_submit_bid(account.name, bid.quantity, @market.quantity_symbol, bid.price, @market.base_symbol)
         else
             ibid = bid.invert()
             console.log "---- adding bid inverted ----", bid, ibid
@@ -357,8 +356,10 @@ class MarketService
             for r in results
                 #console.log "---- bid: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td.type = "bid"
+                @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
-            @helper.update_array {target: @bids, data: bids}
+            @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
 
     pull_asks: (market, inverted) ->
         asks = []
@@ -371,6 +372,7 @@ class MarketService
                 #console.log "---- ask: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "ask"
+                @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
 
@@ -382,24 +384,40 @@ class MarketService
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "short"
+                if inverted
+                    @lowest_ask = td.price if td.price < @lowest_ask
+                else
+                    @highest_bid = td.price if td.price > @highest_bid
                 shorts.push td
             @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
 
-    pull_orders: (market, inverted) ->
+    pull_covers: (market, inverted) ->
+        covers = []
+        @blockchain_api.market_order_book(market.base_symbol, market.quantity_symbol, 100).then (results) =>
+            results = [].concat.apply(results) # flattens array of results
+            for r in results[1]
+                continue unless r.type == "cover_order"
+                #console.log "---- cover ", r
+                #r.type = "cover"
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
+                #td.type = "cover"
+                covers.push td
+            @helper.update_array {target: @covers, data: covers }
+
+    pull_orders: (market, inverted, account_name) ->
         orders = []
-        @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100).then (results) =>
+        @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                #console.log "---- order: ", r
-                #console.log "----- market_order_list: ", inverted, r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                td.status = "posted"
+                #td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
                 target: @orders
                 data: orders
                 update: (target_el, data_el) ->
-                    target_el.status = data_el.status if data_el.status
+                    target_el.status = data_el.status if data_el.status and target_el.status != "canceled"
                 can_remove: (o) ->
+                    #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
              @helper.sort_array(@orders, "price", false)
 
@@ -410,10 +428,6 @@ class MarketService
                 #console.log "------ market_order_history ------>", r
                 trades.push @helper.trade_history_to_order(r, market.assets_by_id)
             @helper.update_array {target: @trades, data: trades}
-
-    pull_market_status: (market, iverted) ->
-        @blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) =>
-            @helper.read_market_data(market, result, market.assets_by_id)
 
     pull_unconfirmed_transactions: (account_name) ->
         @wallet_api.account_transaction_history(account_name).then (results) =>
@@ -426,17 +440,37 @@ class MarketService
         self = data.context
         self.loading_promise = deferred.promise
         market = self.market.get_actual_market()
+        self.lowest_ask = Number.MAX_VALUE
+        self.highest_bid = 0.0
         #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}"
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
             self.pull_shorts(market, self.market.inverted),
-            self.pull_orders(market, self.market.inverted),
+            self.pull_covers(market, self.market.inverted),
+            self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
-            self.pull_market_status(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        self.q.all(promises).finally => deferred.resolve(true)
+        self.q.all(promises).finally =>
+            self.market.lowest_ask = market.lowest_ask = self.lowest_ask
+            self.market.highest_bid = market.highest_bid = self.highest_bid
+            deferred.resolve(true)
+
+    pull_market_status: (data, deferred) ->
+        self = data.context
+        market = self.market.get_actual_market()
+        self.blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) ->
+            self.helper.read_market_data(market, result, market.assets_by_id)
+            if self.market.avg_price_24h > 0
+                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 3.0 / 4.0
+            else
+                self.blockchain_api.get_feeds_for_asset(market.base_symbol).then (result) ->
+                    res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+                    if res.length > 0
+                        price = if self.market.inverted then 1.0/res[0] else res[0]
+                        self.market.median_price = market.median_price = price
+                        self.market.min_short_price = market.min_short_price = price * 3.0 / 4.0
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])

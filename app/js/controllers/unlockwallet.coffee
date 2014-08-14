@@ -20,7 +20,6 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
         $scope.wrongPass = false
         deferred = $q.defer()
         unlock_promise = Wallet.wallet_unlock($scope.spending_password)
-        console.log "------ promise ------>", unlock_promise
         unlock_promise.then ->
             Observer.registerObserver(observer)
             observer.notify = (data) ->

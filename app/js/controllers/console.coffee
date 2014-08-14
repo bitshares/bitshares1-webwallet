@@ -1,7 +1,17 @@
 angular.module("app").controller "ConsoleController", ($scope, $location, RpcService, ConsoleState) ->
    
     $scope.console_state=ConsoleState
-    
+
+    #detect tab press
+    ###
+    $scope.keydown = (e) ->
+        console.log(e)
+        if(e.which==9)
+            $scope.console_state.command='bl'
+            e.preventDefault()
+            e.stopImmediatePropagation()
+    ###
+
     if ConsoleState.states.length == 0
         RpcService.request("meta_help", []).then (response) ->
             for s in response.result

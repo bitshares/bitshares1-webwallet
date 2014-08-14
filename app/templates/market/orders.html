@@ -24,10 +24,10 @@
             <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button>
           </span>
           <span ng-switch-when="canceled">
-            Canceling..
+            canceling..
           </span>
           <span ng-switch-when="pending">
-            Pending..
+            pending..
           </span>
           <span ng-switch-when="cover">
             <button class="btn btn-success btn-xs confirm" ng-click="cover_order(o)">Cover</button>

@@ -13,14 +13,6 @@ class WalletAPI
     @rpc.request('wallet_get_info').then (response) ->
       response.result
 
-  # Opens the wallet at the given path
-  # parameters: 
-  #   filename `wallet_file` - the full path and filename of the wallet to open, example: /path/to/wallet.dat
-  # return_type: `void`
-  open_file: (wallet_file) ->
-    @rpc.request('wallet_open_file', [wallet_file]).then (response) ->
-      response.result
-
   # Opens the wallet of the given name
   # parameters: 
   #   wallet_name `wallet_name` - the name of the wallet to open
@@ -33,7 +25,7 @@ class WalletAPI
   # parameters: 
   #   wallet_name `wallet_name` - name of the wallet to create
   #   new_passphrase `new_passphrase` - a passphrase for encrypting the wallet
-  #   new_passphrase `brain_key` - a strong passphrase that will be used to generate all private keys, defaults to a large random number
+  #   brainkey `brain_key` - a strong passphrase that will be used to generate all private keys, defaults to a large random number
   # return_type: `void`
   create: (wallet_name, new_passphrase, brain_key) ->
     @rpc.request('wallet_create', [wallet_name, new_passphrase, brain_key]).then (response) ->
@@ -245,7 +237,7 @@ class WalletAPI
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
   #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `signed_transaction`
+  # return_type: `transaction_record`
   transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method) ->
     @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
       response.result
@@ -259,7 +251,7 @@ class WalletAPI
   #   receive_account_name `to_account_name` - the account to transfer the shares to
   #   string `memo_message` - a memo to store with the transaction
   #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `signed_transaction`
+  # return_type: `transaction_record`
   transfer_from: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method) ->
     @rpc.request('wallet_transfer_from', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method]).then (response) ->
       response.result
@@ -460,24 +452,24 @@ class WalletAPI
   # Used to place a request to sell a quantity of assets at a price specified in another asset
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `quantity` - the quantity of items you would like to sell
-  #   asset_symbol `quantity_symbol` - the type of items you would like to sell
-  #   real_amount `base_price` - the price you would like to sell
-  #   asset_symbol `base_symbol` - the type of asset you would like to be paid
+  #   real_amount `sell_quantity` - the quantity of items you would like to sell
+  #   asset_symbol `sell_quantity_symbol` - the type of items you would like to sell
+  #   real_amount `ask_price` - the price per unit sold.
+  #   asset_symbol `ask_price_symbol` - the type of asset you would like to be paid
   # return_type: `signed_transaction`
-  market_submit_ask: (from_account_name, quantity, quantity_symbol, base_price, base_symbol) ->
-    @rpc.request('wallet_market_submit_ask', [from_account_name, quantity, quantity_symbol, base_price, base_symbol]).then (response) ->
+  market_submit_ask: (from_account_name, sell_quantity, sell_quantity_symbol, ask_price, ask_price_symbol) ->
+    @rpc.request('wallet_market_submit_ask', [from_account_name, sell_quantity, sell_quantity_symbol, ask_price, ask_price_symbol]).then (response) ->
       response.result
 
   # Used to place a request to short sell a quantity of assets at a price specified
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `quantity` - the quantity of items you would like to sell
-  #   real_amount `base_price` - the price you would like to sell
-  #   asset_symbol `base_symbol` - the type of asset you would like to be paid
+  #   real_amount `short_quantity` - the quantity of items you would like to short sell (borrow into existance and sell)
+  #   real_amount `short_price` - the price (ie: 2.0 USD) per XTS that you would like to short at
+  #   asset_symbol `short_symbol` - the type of asset you would like to short, ie: USD
   # return_type: `signed_transaction`
-  market_submit_short: (from_account_name, quantity, base_price, base_symbol) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, quantity, base_price, base_symbol]).then (response) ->
+  market_submit_short: (from_account_name, short_quantity, short_price, short_symbol) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_price, short_symbol]).then (response) ->
       response.result
 
   # Used to place a request to cover an existing short position
@@ -496,9 +488,10 @@ class WalletAPI
   #   asset_symbol `base_symbol` - the base symbol of the market
   #   asset_symbol `quote_symbol` - the quote symbol of the market
   #   int64_t `limit` - the maximum number of items to return
+  #   account_name `account_name` - the account for which to get the orders, or 'ALL' to get them all
   # return_type: `market_order_array`
-  market_order_list: (base_symbol, quote_symbol, limit) ->
-    @rpc.request('wallet_market_order_list', [base_symbol, quote_symbol, limit]).then (response) ->
+  market_order_list: (base_symbol, quote_symbol, limit, account_name) ->
+    @rpc.request('wallet_market_order_list', [base_symbol, quote_symbol, limit, account_name]).then (response) ->
       response.result
 
   # Cancel an order
@@ -588,10 +581,11 @@ class WalletAPI
 
   # Publishes the current wallet delegate slate to the public data associated with the account
   # parameters: 
-  #   account_name `account_name` - The account to publish the slate ID under
+  #   account_name `publishing_account_name` - The account to publish the slate ID under
+  #   account_name `paying_account_name` - The account to pay transaction fees; leave empty to pay with publishing account.
   # return_type: `signed_transaction`
-  publish_slate: (account_name) ->
-    @rpc.request('wallet_publish_slate', [account_name]).then (response) ->
+  publish_slate: (publishing_account_name, paying_account_name) ->
+    @rpc.request('wallet_publish_slate', [publishing_account_name, paying_account_name]).then (response) ->
       response.result
 
   # Attempts to recover accounts created after last backup was taken and returns number of successful recoveries. Use if you have restored from backup and are missing accounts.

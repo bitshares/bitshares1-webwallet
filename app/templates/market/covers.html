@@ -3,15 +3,15 @@
     <thead>
       <tr>
         <th>PRICE ({{market.price_symbol}})</th>
-        <th>QUANTITY ({{market.base_symbol}})</th>
-        <th>TOTAL ({{market.quantity_symbol}})</th>
+        <th>TOTAL ({{actual_market.base_symbol}})</th>
+        <th>COLLATERAL ({{actual_market.quantity_symbol}})</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="o in covers track by $index">
+      <tr ng-repeat="o in covers | orderBy:'price':true" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
         <td>{{o.price | formatDecimal}}</td>
-        <td>{{o.quantity | formatDecimal : market.base_precision}}</td>
-        <td>{{o.cost | formatDecimal : market.quantity_precision}}</td>
+        <td>{{o.cost | formatDecimal : market.base_precision}}</td>
+        <td>{{o.collateral | formatDecimal : market.base_precision}}</td>
       </tr>
     </tbody>
   </table>
