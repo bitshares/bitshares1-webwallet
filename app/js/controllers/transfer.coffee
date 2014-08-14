@@ -25,6 +25,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_none: "Vote None"
         vote_all: "Vote All"
         vote_random: "Vote Random Subset"
+        vote_recommended: "Vote as Delegates Recommend"
 
     $scope.my_accounts = []
     Wallet.refresh_accounts().then ->
