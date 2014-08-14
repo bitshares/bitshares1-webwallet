@@ -13,8 +13,9 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
     $scope.q = {}
 
     $scope.$watch('q.q', ->
-        $scope.p.numberOfPages = Math.ceil(($filter("filter")($scope.account_transactions,  $scope.q.q)).length/$scope.p.pageSize)
-        $scope.p.currentPage = 0
+        if $scope.account_transactions
+            $scope.p.numberOfPages = Math.ceil(($filter("filter")($scope.account_transactions,  $scope.q.q)).length/$scope.p.pageSize)
+            $scope.p.currentPage = 0
     )
     if(!$stateParams.name)
         $scope.accounts=Wallet.accounts
@@ -33,19 +34,20 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
         Wallet.refresh_transactions_on_new_block()
 
     $scope.$watchCollection "transactions", () ->
-        $scope.account_transactions = Wallet.transactions[$scope.name]
-        $scope.p.numberOfPages = Math.ceil($scope.account_transactions.length/$scope.p.pageSize)
-        $scope.warning = ""
-        if !$scope.account_transactions || $scope.account_transactions.length == 0
-            $scope.warning = if $scope.pending_only then "There are no pending transactions!" else "There are no transactions!"
-        else if $scope.pending_only
-            have_pending = false
-            for a in $scope.account_transactions
-                if a.block_num == 0
-                    have_pending = true
-                    break
-            if !have_pending
-                $scope.warning = "There are no pending trasanctions!"
+        if Wallet.transactions[$scope.name]
+            $scope.account_transactions = Wallet.transactions[$scope.name]
+            $scope.p.numberOfPages = Math.ceil($scope.account_transactions.length/$scope.p.pageSize)
+            $scope.warning = ""
+            if !$scope.account_transactions || $scope.account_transactions.length == 0
+                $scope.warning = if $scope.pending_only then "There are no pending transactions!" else "There are no transactions!"
+            else if $scope.pending_only
+                have_pending = false
+                for a in $scope.account_transactions
+                    if a.block_num == 0
+                        have_pending = true
+                        break
+                if !have_pending
+                    $scope.warning = "There are no pending trasanctions!"
 
     $scope.$watch watch_for, on_update, true
 
