@@ -40,6 +40,7 @@ class Market
         @base_symbol = ''
         @base_asset = null
         @base_precision = 0
+        @price_precision = 0
         @inverted = true
         @url = ''
         @inverted_url = ''
@@ -65,6 +66,7 @@ class Market
         m.base_symbol = @quantity_symbol
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
+        m.price_precision = @price_precision
         m.shorts_available = m.base_asset.id == 0
         m.inverted = null
         m.url = @inverted_url
@@ -259,6 +261,7 @@ class MarketService
                 market.quantity_precision = market.quantity_asset.precision
                 market.base_asset = results[1]
                 market.base_precision = market.base_asset.precision
+                market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 100
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
@@ -283,7 +286,7 @@ class MarketService
         @id_sequence += 1
         order.id = "o" + @id_sequence
         order.status = "unconfirmed"
-        #console.log "------ price ------>", order.price
+        #console.log "------ add_unconfirmed_order ------>", order
         @orders.unshift order
         #sorted_orders = @filter('orderBy')(@orders, 'price', false)
         #console.log "------ sorted_orders ------>", sorted_orders
@@ -461,7 +464,7 @@ class MarketService
         self = data.context
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) ->
-            self.helper.read_market_data(market, result, market.assets_by_id)
+            self.helper.read_market_data(self.market, result, market.assets_by_id)
             if self.market.avg_price_24h > 0
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 3.0 / 4.0
             else

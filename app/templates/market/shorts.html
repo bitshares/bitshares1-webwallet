@@ -9,7 +9,7 @@
     </thead>
     <tbody>
       <tr ng-repeat="o in shorts track by $index">
-        <td>{{o.price | formatDecimal}}</td>
+        <td>{{o.price | formatDecimal : market.price_precision}}</td>
         <td>{{o.quantity | formatDecimal : market.base_precision}}</td>
         <td>{{o.cost | formatDecimal : market.quantity_precision}}</td>
       </tr>
