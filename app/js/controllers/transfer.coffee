@@ -76,14 +76,16 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form = @my_transfer_form
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
-        Blockchain.get_asset(0).then (v)->
-            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
+        amount_asset = $scope.balances[$scope.transfer_info.symbol]
+        transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
+        Blockchain.get_asset(0).then (fee_asset)->
+            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, fee_asset))
             $modal.open
                 templateUrl: "dialog-confirmation.html"
                 controller: "DialogConfirmationController"
                 resolve:
                     title: -> "Are you sure?"
-                    message: -> "This will send " + $scope.transfer_info.amount + " " + $scope.transfer_info.symbol + " to " + $scope.transfer_info.payto + ". It will charge a fee of " + priority_fee + "."
+                    message: -> "This will send #{transfer_amount} #{$scope.transfer_info.symbol} to #{$scope.transfer_info.payto}. It will charge a fee of #{priority_fee}."
                     action: -> yesSend
 
     $scope.newContactModal = ->

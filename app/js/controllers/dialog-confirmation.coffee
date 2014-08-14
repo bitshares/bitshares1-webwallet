@@ -1,7 +1,7 @@
 angular.module("app").controller "DialogConfirmationController", ($scope, $modalInstance, title, message, action) ->
 
     $scope.title=title
-    $scope.message=message
+    $scope.message = message
 
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"
@@ -9,4 +9,3 @@ angular.module("app").controller "DialogConfirmationController", ($scope, $modal
     $scope.ok = ->
         action()
         $modalInstance.close("ok")
-            
