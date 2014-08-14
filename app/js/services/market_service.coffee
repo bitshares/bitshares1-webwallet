@@ -453,7 +453,7 @@ class MarketService
             self.pull_unconfirmed_transactions(data.account_name)
         ]
         self.q.all(promises).finally =>
-            self.market.lowest_ask = market.lowest_ask = self.lowest_ask
+            self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
             self.market.highest_bid = market.highest_bid = self.highest_bid
             deferred.resolve(true)
 
