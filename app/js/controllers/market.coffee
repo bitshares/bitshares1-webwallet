@@ -135,7 +135,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         short = $scope.short
         if short.price < $scope.market.min_short_price
-            form.short_price.$error.message = "Short price should above min price"
+            form.short_price.$error.message = "Short price should be above min price"
             return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance

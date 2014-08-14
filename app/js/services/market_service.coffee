@@ -47,6 +47,8 @@ class Market
         @bid_depth = 0.0
         @ask_depth = 0.0
         @avg_price_24h = 0.0
+        @highest_bid = 0.0
+        @lowest_ask = 0.0
         @median_price = 0.0
         @assets_by_id = null
         @shorts_available = false
@@ -70,6 +72,8 @@ class Market
         m.price_symbol = "#{@quantity_symbol}/#{@base_symbol}"
         m.bid_depth = @bid_depth
         m.ask_depth = @ask_depth
+        m.highest_bid = @highest_bid
+        m.lowest_ask = @lowest_ask
         m.avg_price_24h = @avg_price_24h
         m.median_price = @median_price
         m.assets_by_id = @assets_by_id
@@ -353,6 +357,7 @@ class MarketService
                 #console.log "---- bid: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "bid"
+                @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
             @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
 
@@ -367,6 +372,7 @@ class MarketService
                 #console.log "---- ask: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "ask"
+                @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
 
@@ -378,6 +384,10 @@ class MarketService
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "short"
+                if inverted
+                    @lowest_ask = td.price if td.price < @lowest_ask
+                else
+                    @highest_bid = td.price if td.price > @highest_bid
                 shorts.push td
             @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
 
@@ -430,6 +440,8 @@ class MarketService
         self = data.context
         self.loading_promise = deferred.promise
         market = self.market.get_actual_market()
+        self.lowest_ask = Number.MAX_VALUE
+        self.highest_bid = 0.0
         #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}"
         promises = [
             self.pull_bids(market, self.market.inverted),
@@ -440,25 +452,25 @@ class MarketService
             self.pull_trades(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        self.q.all(promises).finally => deferred.resolve(true)
+        self.q.all(promises).finally =>
+            self.market.lowest_ask = market.lowest_ask = self.lowest_ask
+            self.market.highest_bid = market.highest_bid = self.highest_bid
+            deferred.resolve(true)
 
     pull_market_status: (data, deferred) ->
         self = data.context
         market = self.market.get_actual_market()
-        promises = [
-            self.blockchain_api.market_status(market.base_symbol, market.quantity_symbol),
-            self.blockchain_api.get_feeds_for_asset(market.base_symbol)
-        ]
-        promises[0].then (result) ->
+        self.blockchain_api.market_status(market.base_symbol, market.quantity_symbol).then (result) ->
             self.helper.read_market_data(market, result, market.assets_by_id)
-        promises[1].then (result) ->
-            res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
-            if res.length > 0
-                price = if self.market.inverted then 1.0/res[0] else res[0]
-                self.market.median_price = market.median_price = price
-                self.market.min_short_price = market.min_short_price = price * 3.0 / 4.0
-                #console.log "------ get_feeds_for_asset ------>", res[0]
-        self.q.all(promises).finally => deferred.resolve(true)
+            if self.market.avg_price_24h > 0
+                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 3.0 / 4.0
+            else
+                self.blockchain_api.get_feeds_for_asset(market.base_symbol).then (result) ->
+                    res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+                    if res.length > 0
+                        price = if self.market.inverted then 1.0/res[0] else res[0]
+                        self.market.median_price = market.median_price = price
+                        self.market.min_short_price = market.min_short_price = price * 3.0 / 4.0
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
