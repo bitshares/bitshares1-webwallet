@@ -122,11 +122,11 @@ class MarketHelper
             td.quantity = td.cost * price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
-        if order.type == "cover"
-            td.cost = order.state.balance / qa.precision
-            td.quantity = if invert_price then td.cost * td.price else td.cost / td.price
-            td.collateral = order.collateral / ba.precision
-            #console.log "--------- cover order: ", order, td
+#        if order.type == "cover"
+#            td.cost = order.state.balance / qa.precision
+#            td.quantity = if invert_price then td.cost * td.price else td.cost / td.price
+#            td.collateral = order.collateral / ba.precision
+#            #console.log "--------- cover order: ", order, td
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
@@ -393,11 +393,11 @@ class MarketService
             for r in results[1]
                 continue unless r.type == "cover_order"
                 #console.log "---- cover ", r
-                r.type = "cover"
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                td.type = "cover"
+                #r.type = "cover"
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
+                #td.type = "cover"
                 covers.push td
-            @helper.update_array {target: @covers, data: covers, can_remove: (target_el) -> target_el.type == "cover" }
+            @helper.update_array {target: @covers, data: covers }
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
