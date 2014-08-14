@@ -110,7 +110,6 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
-        #invert_assets = !invert_assets if order.type == "cover_order"
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
         td.type = "margin_order" if order.type == "cover_order"
@@ -118,15 +117,11 @@ class MarketHelper
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
         if order.type == "cover_order"
+            cover_price = 1.0 / price
             td.cost = order.state.balance / qa.precision
-            td.quantity = td.cost * price
+            td.quantity = td.cost * cover_price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
-#        if order.type == "cover"
-#            td.cost = order.state.balance / qa.precision
-#            td.quantity = if invert_price then td.cost * td.price else td.cost / td.price
-#            td.collateral = order.collateral / ba.precision
-#            #console.log "--------- cover order: ", order, td
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
