@@ -53,6 +53,8 @@ class Market
         @median_price = 0.0
         @assets_by_id = null
         @shorts_available = false
+        @orig_market = null
+        @actual_market = null
         @error = {title: null, text: null}
 
     get_actual_market: ->
@@ -80,6 +82,7 @@ class Market
         m.median_price = @median_price
         m.assets_by_id = @assets_by_id
         m.error = @error
+        m.orig_market = @
         @actual_market = m
         return @actual_market
 
@@ -197,6 +200,31 @@ class MarketHelper
             return o if o.id and o.id.indexOf(subid) > -1
         return null
 
+    date: (t) ->
+        dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
+        match = t.match(dateRE)
+        return 0 unless match
+        nums = []
+        i = 1
+        while i < match.length
+            nums.push parseInt(match[i], 10)
+            i++
+        Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5])
+
+    forceTwoDigits : (val) ->
+        if val < 10
+            return "0#{val}"
+        return val
+
+    formatUTCDate : (date) ->
+        year = date.getUTCFullYear()
+        month = @forceTwoDigits(date.getUTCMonth()+1)
+        day = @forceTwoDigits(date.getUTCDate())
+        hour = @forceTwoDigits(date.getUTCHours())
+        minute = @forceTwoDigits(date.getUTCMinutes())
+        second = @forceTwoDigits(date.getUTCSeconds())
+        return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
+
 
 class MarketService
 
@@ -213,6 +241,7 @@ class MarketService
     covers: null
     orders: null
     trades: null
+    price_history: null
 
     id_sequence: 0
     loading_promise: null
@@ -321,6 +350,7 @@ class MarketService
     cover_order: (order, account) ->
         order.touch()
         order.status = "pending"
+        console.log "------ cover_order ------>", order
         @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
 
     post_bid: (bid, account) ->
@@ -412,6 +442,7 @@ class MarketService
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
@@ -438,6 +469,27 @@ class MarketService
                 continue if t.is_confirmed
                 order = @helper.find_order_by_transaction(@orders, t)
                 order.touch() if order
+                
+    pull_price_history: (market, inverted) ->
+        start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
+        @blockchain_api.market_price_history(market.base_symbol, market.quantity_symbol, start_time, 86400).then (result) =>
+            #console.log "------ result ------>", result
+            highest_bid_data = []
+            lowest_ask_data = []
+            for t in result
+                highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
+                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
+                #lowest_ask_data.push [@helper.date(t.timestamp), t.lowest_ask]
+
+            price_history = [
+                "key": "Highest Bid",
+                "values": highest_bid_data
+            ]
+            if market.orig_market and inverted
+                market.orig_market.price_history = price_history
+            else
+                market.price_history = price_history
+
 
     pull_market_data: (data, deferred) ->
         self = data.context
@@ -453,6 +505,7 @@ class MarketService
             self.pull_covers(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
+            self.pull_price_history(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
         self.q.all(promises).finally =>

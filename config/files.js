@@ -28,7 +28,10 @@ module.exports = function(lineman) {
         "vendor/js/xeditable.js",
         "vendor/js/angular-translate.min.js",
         "vendor/js/angular-translate-loader-static-files.min.js",
-        "vendor/js/jsonpath.js"
+        "vendor/js/jsonpath.js",
+        "vendor/js/d3.js",
+        "vendor/js/nv.d3.js",
+        "vendor/js/angularjs-nvd3-directives.js"
       ],
       app: [
         "app/js/app.js",
@@ -52,7 +55,8 @@ module.exports = function(lineman) {
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
         "vendor/css/xeditable.css",
-        "vendor/css/ng-grid.css"
+        "vendor/css/ng-grid.css",
+        "vendor/css/nv.d3.css"
       ],
       app: [
         //TODO: make main.css compatible with ng-grid

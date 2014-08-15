@@ -58,6 +58,26 @@
   </div>
 
   <div ng-switch-default>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <nvd3-line-chart
+            data="market.price_history"
+            showXAxis="true"
+            showYAxis="true"
+            tooltips="false"
+            interactive="false"
+            showlegend="true"
+            height="240"
+            xAxisLabel="Time"
+            yAxisLabel="Price"
+            xAxisTickFormat="xAxisTickFormat()"
+          >
+        </nvd3-line-chart>
+      </div>
+    </div>
+
+
     <div class="row">
 
       <div class="col-md-5">

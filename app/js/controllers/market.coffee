@@ -19,6 +19,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
+    $scope.xAxisTickFormat = ->
+        return (d) ->
+            return d3.time.format('%H:%M')(new Date(d))
+
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
 
@@ -44,7 +48,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     market_data_observer =
         name: "market_data_observer"
-        frequency: 2000
+        frequency: 20000
         data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 

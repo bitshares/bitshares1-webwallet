@@ -52,6 +52,14 @@ a:focus {
 
 /* Colors & Gradients */
 
+body {
+	color: #555;
+}
+
+.table > thead > tr > th {
+	color: #aaa;
+}
+
 .white, a.white {
 	color: #fff;
 }
@@ -106,7 +114,6 @@ a.white:hover {
 .primary {
 	color: #01bbf4;
 }
-
 
 .btn-primary[disabled] {
 	background-color: #eee;
