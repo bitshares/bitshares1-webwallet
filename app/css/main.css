@@ -360,3 +360,8 @@ input.ng-dirty.ng-invalid {
 	width: 150px;
 	margin: 0 auto;
 }
+
+.clickable {
+	/*text-decoration: underline;*/
+	border-bottom: 1px dotted;
+}

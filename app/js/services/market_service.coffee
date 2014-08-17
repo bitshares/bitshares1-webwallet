@@ -9,6 +9,7 @@ class TradeData
         @cost = 0.0
         @collateral
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
+        @warning = null
 
     invert: ->
         td = new TradeData()
@@ -21,6 +22,7 @@ class TradeData
         td.collateral = @collateral
         #td.price = if @price and @price > 0.0 then 1.0 / @price else 0.0
         td.price = 1.0 / @price
+        td.warning = @warning
         return td
 
     touch: ->

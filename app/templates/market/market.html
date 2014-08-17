@@ -39,7 +39,7 @@
       <div class="col-sm-2">&nbsp;</div>
       <div class="col-sm-8">
         <div class="alert alert-danger">
-          <i class="fa fa-exclamation"></i>
+          <i class="fa fa-warning"></i>
           &nbsp; &nbsp; <strong>{{market.error.title}}</strong> &nbsp; &nbsp; {{market.error.text}}
         </div>
       </div>
@@ -61,7 +61,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <nvd3-line-chart
+        <nvd3-line-chart ng-show="false"
             data="market.price_history"
             showXAxis="true"
             showYAxis="true"

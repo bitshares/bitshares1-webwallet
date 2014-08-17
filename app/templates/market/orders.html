@@ -1,23 +1,26 @@
 <div class="fixed-height-table">
-<table class="table table-striped table-hover market-table">
-  <thead>
-    <tr>
-      <th>TYPE</th>
-      <th>PRICE ({{market.price_symbol}})</th>
-      <th>QUANTITY ({{market.quantity_symbol}})</th>
-      <th>COST ({{market.base_symbol}})</th>
-      <th>COLLATERAL (XTS)</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="o in orders track by $index" id="order_{{o.id}}" class="{{o.status}}">
-      <td>{{o.type}}</td>
-      <td>{{o.price | formatDecimal : market.price_precision}}</td>
-      <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
-      <td>{{o.cost | formatDecimal : market.base_precision}}</td>
-      <td><span ng-show="o.collateral">{{o.collateral | formatDecimal : market.base_precision}}</span></td>
-      <td>
+  <table class="table table-striped table-hover market-table">
+    <thead>
+      <tr>
+        <th>TYPE</th>
+        <th>PRICE ({{market.price_symbol}})</th>
+        <th>QUANTITY ({{market.quantity_symbol}})</th>
+        <th>COST ({{market.base_symbol}})</th>
+        <th>COLLATERAL (XTS)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="o in orders track by $index">
+      <tr class="warning alert alert-danger" ng-show="o.warning">
+        <td colspan="6"><i class="fa fa-warning"></i> <b>Warning.</b> &nbsp; {{o.warning}}</td>
+      </tr>
+      <tr id="order_{{o.id}}" class="{{o.status}}">
+        <td>{{o.type}}</td>
+        <td>{{o.price | formatDecimal : market.price_precision}}</td>
+        <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
+        <td>{{o.cost | formatDecimal : market.base_precision}}</td>
+        <td><span ng-show="o.collateral">{{o.collateral | formatDecimal : market.base_precision}}</span></td>
+        <td>
         <span ng-switch on="o.status">
           <span ng-switch-when="unconfirmed">
             <button class="btn btn-primary btn-xs confirm" ng-click="confirm_order(o.id)">Confirm</button>
@@ -36,8 +39,8 @@
             <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button><br/>
           </span>
         </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

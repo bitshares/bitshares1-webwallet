@@ -88,3 +88,13 @@ angular.module("app.directives").directive "formHgroupValue", ->
         symbol: "@"
         label: "@"
         showValue: "@"
+
+angular.module("app.directives").directive "formHgroupNote", ->
+    template: '''
+    <div class="form-group hgroup-no-top-space">
+       <div class="col-sm-offset-3"><span class="help-block"><span ng-transclude></span></span></div>
+    </div>
+    '''
+    replace: true
+    transclude: true
+    scope: false

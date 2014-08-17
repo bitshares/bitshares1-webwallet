@@ -5,11 +5,11 @@
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="ask_quantity" ng-model="ask.quantity" required="true" />
   </div>
-  <div form-hgroup label="Price" addon="{{market.price_symbol}}" help="Highest Bid {{market.highest_bid | formatDecimal : market.price_precision}} {{market.price_symbol}}" help-if="market.highest_bid">
-    <div>
-      <input-positive-number name="ask_price" ng-model="ask.price" required="true" />
-      <span>Highest Bid</span>
-    </div>
+  <div form-hgroup label="Price" addon="{{market.price_symbol}}">
+     <input-positive-number name="ask_price" ng-model="ask.price" required="true" />
+  </div>
+  <div form-hgroup-note ng-show="market.highest_bid">
+    Highest Bid <span class="clickable" ng-click="use_trade_data({price: market.highest_bid})">{{market.highest_bid | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{sell_form.$valid}}">
     {{ask.quantity * ask.price | formatDecimal : market.base_precision}}
