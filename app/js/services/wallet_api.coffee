@@ -429,9 +429,9 @@ class WalletAPI
     @rpc.request('wallet_delegate_withdraw_pay', [delegate_name, to_account_name, amount_to_withdraw, memo]).then (response) ->
       response.result
 
-  # Set the priority fee to add to new transactions
+  # Set the transaction fee to add to new transactions
   # parameters: 
-  #   real_amount `fee` - the wallet priority fee to set
+  #   real_amount `fee` - the wallet transaction fee to set
   # return_type: `asset`
   set_transaction_fee: (fee) ->
     @rpc.request('wallet_set_transaction_fee', [fee]).then (response) ->

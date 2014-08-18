@@ -3,7 +3,7 @@
 </div>
 <form role="form" class="form-horizontal" ng-submit="ok()">
     <div class="modal-body">
-        <a tooltip='Can be changed in preferences'>Priority Fee</a> for registration: {{ transaction_fee }} <br><br>
+        <a tooltip='Can be changed in preferences'>Transaction Fee</a> for registration: {{ transaction_fee }} <br><br>
         <div class="form-group">
             <label for="contact_address">Pay with</label>
             <select ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for (key, account) in accounts | filter:symbol" required></select><br>
