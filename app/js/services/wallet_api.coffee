@@ -433,8 +433,8 @@ class WalletAPI
   # parameters: 
   #   real_amount `fee` - the wallet priority fee to set
   # return_type: `asset`
-  set_priority_fee: (fee) ->
-    @rpc.request('wallet_set_priority_fee', [fee]).then (response) ->
+  set_transaction_fee: (fee) ->
+    @rpc.request('wallet_set_transaction_fee', [fee]).then (response) ->
       response.result
 
   # Used to place a request to buy a quantity of assets at a price specified in another asset
@@ -447,7 +447,7 @@ class WalletAPI
   # return_type: `signed_transaction`
   market_submit_bid: (from_account_name, quantity, quantity_symbol, base_price, base_symbol) ->
     @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, base_price, base_symbol]).then (response) ->
-      response.result
+      response.resultwallet_set_transaction_fee
 
   # Used to place a request to sell a quantity of assets at a price specified in another asset
   # parameters: 

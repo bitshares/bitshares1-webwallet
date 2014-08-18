@@ -23,7 +23,7 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
     , ->
         Blockchain.get_asset(0).then (v)->
             $scope.delegate_reg_fee = Utils.formatAsset(Utils.asset( Info.info.delegate_reg_fee, v) )
-            $scope.priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
+            $scope.transaction_fee = Utils.formatAsset(Utils.asset(Wallet.info.transaction_fee.amount, v))
     $scope.m={}
     $scope.m.payrate=50
     $scope.m.delegate=false
@@ -67,7 +67,7 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will update your account's private and public info, need to pay fee " + $scope.priority_fee + delegate_pay_rate_info + public_info_tip
+                message: -> "This will update your account's private and public info, need to pay fee " + $scope.transaction_fee + delegate_pay_rate_info + public_info_tip
                 action: ->
                     ->
                         Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->

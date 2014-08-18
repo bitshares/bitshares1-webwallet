@@ -44,12 +44,12 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
 
     $scope.updateVotes = ->
         myBal=$scope.balances[Info.symbol]
-        balMinusFee=myBal.amount / myBal.precision - Wallet.info.priority_fee.amount / myBal.precision
+        balMinusFee=myBal.amount / myBal.precision - Wallet.info.transaction_fee.amount / myBal.precision
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Wallet.info.priority_fee.amount / myBal.precision + " " + Info.symbol + "."
+                message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Wallet.info.transaction_fee.amount / myBal.precision + " " + Info.symbol + "."
                 action: -> yesSend
         

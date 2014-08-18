@@ -4,7 +4,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.balances = []
     $scope.show_from_section = true
     $scope.account_from_name = account_from_name = $stateParams.from
-    if $scope.account_name
+    if $scope.account_nametransaction_fee
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
@@ -80,8 +80,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
         Blockchain.get_asset(0).then (fee_asset)->
-            priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, fee_asset))
-            trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: priority_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
+            transaction_fee = Utils.formatAsset(Utils.asset(Wallet.info.transaction_fee.amount, fee_asset))
+            trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
             $modal.open
                 templateUrl: "dialog-transfer-confirmation.html"
                 controller: "DialogTransferConfirmationController"
