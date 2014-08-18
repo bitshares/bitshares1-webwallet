@@ -52,6 +52,14 @@ a:focus {
 
 /* Colors & Gradients */
 
+body {
+	color: #555;
+}
+
+.table > thead > tr > th {
+	color: #aaa;
+}
+
 .white, a.white {
 	color: #fff;
 }
@@ -106,7 +114,6 @@ a.white:hover {
 .primary {
 	color: #01bbf4;
 }
-
 
 .btn-primary[disabled] {
 	background-color: #eee;
@@ -183,18 +190,32 @@ a:hover, a:focus, {
 	color: #115176;
 }
 
-.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	color:rgb(40,169,246);
-	border-bottom: 1px solid #fff !important;
+/*.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {*/
+	/*color:rgb(40,169,246);*/
+	/*border-bottom: 1px solid #fff !important;*/
+/*}*/
+
+/*.nav-tabs > li > a{*/
+	/*color: black;*/
+/*}*/
+
+/*.nav-tabs > li.active > a {*/
+	/*color: rgb(40,169,246);*/
+	/*border-bottom: 1px solid #fff;*/
+/*}*/
+
+.sidebar .nav li > a {
+	border-left: solid 3px transparent;
+	padding-left: 12px;
 }
 
-.nav-tabs > li > a{
-	color: black;
+.sidebar .nav .active > a, .sidebar .nav .active > a:hover, .sidebar .nav .active > a:focus {
+	border-left: solid 3px #01bbf4;
 }
 
-.nav-tabs > li.active > a {
-	color: rgb(40,169,246);
-	border-bottom: 1px solid #fff;
+
+.sidebar .nav .active > a, .sidebar .nav .active > a:hover, .sidebar .nav .active > a:focus {
+	border-left: solid 3px #01bbf4;
 }
 
 /* Buttons & Elements */
@@ -352,4 +373,9 @@ input.ng-dirty.ng-invalid {
 .avatar-150 {
 	width: 150px;
 	margin: 0 auto;
+}
+
+.clickable {
+	/*text-decoration: underline;*/
+	border-bottom: 1px dotted;
 }

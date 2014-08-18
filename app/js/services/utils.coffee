@@ -45,7 +45,7 @@ servicesModule.factory "Utils", ->
         len = fractional_part.replace(/9*$/,'').length
         len = 10 if len > 10
         len = 1 if len == 0
-        value.toFixed(len)
+        Number(value).toFixed(len)
 
     formatDecimal: (value, decPlaces) ->
         n = @truncateTrailing9s(value)

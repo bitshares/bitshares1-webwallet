@@ -1,0 +1,16 @@
+<div class="modal-header bg-danger">
+	<h3 class="modal-title">Rename account to use it</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class='col-sm-4'>
+			<img style='margin:0px;padding:0px' ng-src="http://robohash.org/set_any/bgset_any/{{trx.to}}?size=512x512" class="img-responsive"/>
+		</div>
+		<div class='col-sm-8'>
+			Account with the name {{name}} is already registered on the blockchian.
+		</div>
+	</div>
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="ok()" translate>ok</button>
+	<button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
+</div>

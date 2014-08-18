@@ -226,7 +226,7 @@ class Wallet
     
     wallet_get_info: ->
         @rpc.request('wallet_get_info').then (response) =>
-            @info.priority_fee = response.result.priority_fee
+            @info.transaction_fee = response.result.transaction_fee
             response.result
 
     wallet_add_contact_account: (name, address) ->

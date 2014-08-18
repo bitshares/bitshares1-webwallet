@@ -5,7 +5,7 @@ window.getStackTrace = ->
 
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
-     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate"])
+     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate", 'nvd3ChartDirectives'])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     app_history = []

@@ -6,11 +6,11 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
   $scope.m.delegate=false
   console.log($scope.account)
   $scope.$watch ->
-      Wallet.info.priority_fee
+      Wallet.info.transaction_fee
   , ->
     Blockchain.get_asset(0).then (v)->
       $scope.delegate_reg_fee = Utils.formatAsset(Utils.asset( Info.info.delegate_reg_fee, v) )
-      $scope.priority_fee = Utils.formatAsset(Utils.asset(Wallet.info.priority_fee.amount, v))
+      $scope.transaction_fee = Utils.formatAsset(Utils.asset(Wallet.info.transaction_fee.amount, v))
   
   #this can be a dropdown instead of being hardcoded when paying for registration with multiple assets is possilbe
   $scope.symbol = Info.symbol

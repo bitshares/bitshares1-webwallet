@@ -39,7 +39,7 @@ class Info
             @common_api.get_config().then (data) =>
                 @info.delegate_reg_fee = data.delegate_reg_fee
                 @info.asset_reg_fee = data.asset_reg_fee
-                @info.priority_fee = data.priority_fee
+                @info.transaction_fee = data.transaction_fee
                 @is_refreshing = false
                 @symbol = data.symbol
         , =>

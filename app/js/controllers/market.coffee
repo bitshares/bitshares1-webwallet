@@ -19,6 +19,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
+    $scope.xAxisTickFormat = ->
+        return (d) ->
+            return d3.time.format('%H:%M')(new Date(d))
+
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
 
@@ -115,6 +119,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return
         bid.type = "bid_order"
         $scope.account.base_balance -= bid.cost
+        if $scope.market.lowest_ask > 0
+            price_diff = 100.0 * bid.price / $scope.market.lowest_ask - 100
+            if price_diff > 5
+                bid.warning = "Your bid price is #{Utils.formatDecimal(price_diff, 1)}% higher than the lowest ask."
         MarketService.add_unconfirmed_order(bid)
         $scope.bid = new MarketService.TradeData
 
@@ -127,6 +135,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             form.ask_quantity.$error.message = "Insufficient balance"
             return
         ask.type = "ask_order"
+        if $scope.market.highest_bid > 0
+            price_diff = 100 - 100.0 * ask.price / $scope.market.highest_bid
+            if price_diff > 5
+                ask.warning = "Your ask price is #{Utils.formatDecimal(price_diff, 1)}% lower than the highest bid."
         MarketService.add_unconfirmed_order(ask)
         $scope.ask = new MarketService.TradeData
 
@@ -139,9 +151,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
-            form.ask_quantity.$error.message = "Insufficient funds"
+            form.short_quantity.$error.message = "Insufficient funds"
             return
         short.type = "short_order"
+        if $scope.market.highest_bid > 0
+            price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
+            if price_diff > 5
+                short.warning = "Your short price is #{Utils.formatDecimal(price_diff, 1)}% lower than the highest bid."
         MarketService.add_unconfirmed_order(short)
         $scope.short = new MarketService.TradeData
 
@@ -160,8 +176,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.price = data.price
-        order.quantity = data.quantity
+        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision) if data.price
+        order.quantity = data.quantity if data.quantity
 
     $scope.submit_test = ->
         form = @buy_form
