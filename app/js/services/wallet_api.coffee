@@ -447,7 +447,7 @@ class WalletAPI
   # return_type: `signed_transaction`
   market_submit_bid: (from_account_name, quantity, quantity_symbol, base_price, base_symbol) ->
     @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, base_price, base_symbol]).then (response) ->
-      response.resultwallet_set_transaction_fee
+      response.result.wallet_set_transaction_fee
 
   # Used to place a request to sell a quantity of assets at a price specified in another asset
   # parameters: 
