@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, RpcService, Info) ->
+angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
     
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
@@ -43,6 +43,11 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         if $scope.account.delegate_info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
+
+        #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value
+        BlockchainAPI.get_account(name).then (result) ->
+            if ($scope.account.owner_key != result.owner_key)
+                Growl.error 'Rename this account to use it', 'Account with the name ' + name + ' is already registered on the blockchian.'
 
     Wallet.refresh_account(name)
 
@@ -133,3 +138,4 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
 
+    
