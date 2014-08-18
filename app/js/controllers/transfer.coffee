@@ -4,7 +4,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.balances = []
     $scope.show_from_section = true
     $scope.account_from_name = account_from_name = $stateParams.from
-    if $scope.account_nametransaction_fee
+    if $scope.account_name
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
