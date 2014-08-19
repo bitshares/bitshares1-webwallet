@@ -68,3 +68,7 @@ li[disabled] a {
     display: none;
     color: #eee;
 }
+
+.nav .lock {
+	margin-right: 10px;
+}

@@ -10,6 +10,8 @@ app = angular.module("app",
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     app_history = []
 
+    window.navigate_to = (path) -> $location.path(path)
+
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
 
     editableOptions.theme = 'default'
