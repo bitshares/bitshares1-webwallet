@@ -10,9 +10,9 @@ app = angular.module("app",
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     app_history = []
 
-    window.navigate_to = (path) -> $location.path(path)
-
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
+
+    window.navigate_to = (path) -> $location.path(path)
 
     editableOptions.theme = 'default'
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
