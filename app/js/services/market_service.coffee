@@ -234,6 +234,7 @@ class MarketService
 
     helper: new MarketHelper()
 
+    recent_markets: []
     market: null
     quantity_symbol: null
     base_symbol: null
@@ -251,7 +252,28 @@ class MarketService
     constructor: (@q, @interval, @log, @filter, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         #console.log "MarketService constructor: ", @
 
+    load_recent_markets: ->
+        return if @recent_markets.length > 0
+        @recent_markets = []
+        @wallet_api.get_setting("recent_markets").then (result) =>
+            if result and result.value
+                @recent_markets.splice(0, @recent_markets.length)
+                @recent_markets.push r for r in JSON.parse(result.value)
+
+    add_recent_market: (market_name) ->
+        index = @recent_markets.indexOf(market_name)
+        @recent_markets.splice(index,1) if index >= 0
+        market_symbols = market_name.split(':')
+        if market_symbols.length == 2
+            inverted_name = "#{market_symbols[1]}:#{market_symbols[0]}"
+            index = @recent_markets.indexOf(inverted_name)
+            @recent_markets.splice(index,1) if index >= 0
+        @recent_markets.unshift(market_name)
+        @recent_markets.pop() if @recent_markets.length > 20
+        @wallet_api.set_setting("recent_markets", JSON.stringify(@recent_markets))
+
     init: (market_name) ->
+        @add_recent_market(market_name)
         deferred = @q.defer()
         if @market and @market.name == market_name
             deferred.resolve(@market)

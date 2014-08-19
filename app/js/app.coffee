@@ -12,6 +12,8 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
 
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
 
+    window.navigate_to = (path) -> $location.path(path)
+
     editableOptions.theme = 'default'
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
     editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
