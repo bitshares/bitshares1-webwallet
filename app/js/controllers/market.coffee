@@ -194,7 +194,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 </div>
                 <form name="cover_form" class="form-horizontal" role="form" novalidate>
                 <div class="modal-body">
-                    <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}" class="col-sm-8">
+                    <div form-hgroup label="Quantity" addon="{{market.base_symbol}}" class="col-sm-8">
                       <input-positive-number name="quantity" ng-model="order.quantity" required="true" />
                     </div>
                 </div></br></br>
@@ -204,15 +204,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 </div>
                 </form>
             '''
-            controller: ($scope, $modalInstance) ->
-                $scope.market = current_market
-                $scope.order = order
-                $scope.cancel = ->
-                    $modalInstance.dismiss "cancel"
-                $scope.submit = (order) ->
+            controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
+                scope.market = current_market.actual_market or current_market
+                if !current_market.inverted
+                    order = order.invert()
+                scope.order = order
+                scope.cancel = ->
+                    modalInstance.dismiss "cancel"
+                scope.submit = (order) ->
                     form = @cover_form
                     MarketService.cover_order(order, account).then ->
-                        $modalInstance.dismiss "ok"
+                        modalInstance.dismiss "ok"
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
-
+            ]

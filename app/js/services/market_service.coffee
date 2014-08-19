@@ -374,8 +374,9 @@ class MarketService
     cover_order: (order, account) ->
         order.touch()
         order.status = "pending"
-        console.log "------ cover_order ------>", order
-        @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
+        symbol = if @market.inverted then @market.quantity_symbol else @market.base_symbol
+        console.log "------ cover_order ------>", order, symbol
+        @wallet_api.market_cover(account.name, order.quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
