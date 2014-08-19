@@ -139,14 +139,17 @@
         <div ng-controller="ManageAssetsController" ng-include src="'manage_assets.html'"></div>
       </tab>
       <tab>
-        <tab-heading><i class="fa fa-cogs fa-fw fa-lg"></i> {{ 'account.advanced' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> Keys </tab-heading>
         <div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
 
         <tabset ng-show="account.is_my_account" class="p-inner">
-          <tab heading="Import Private Key">
+          <hr>
+          <tab heading="Import WIF Key">
             <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
               <div class="form-group row" ng-class="{ 'has-error' : import_key_form.key.$invalid && !import_key_form.key.$pristine }">
-                <label for="pk_value" class="col-sm-2 control-label" translate>account.priv_key</label>
+                <label for="pk_value" class="col-sm-2 control-label">
+                    <a class="btn btn-link" onclick="magic_unicorn.open_in_external_browser('https://en.bitcoin.it/wiki/Wallet_import_format')">WIF <span translate>account.priv_key </span></a>
+                </label>
                 <div class="col-sm-9">
                   <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
                          placeholder="Private Key"/>
@@ -167,9 +170,8 @@
               </div>
             </form>
           </tab>
-          <tab heading="Import Wallet">
+          <tab heading="Import Keys from Wallet">
             <br/>
-
             <form name="import_wallet_form" class="form-horizontal" role="form" ng-submit="import_wallet()">
               <div class="form-group">
                 <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_type</label>
