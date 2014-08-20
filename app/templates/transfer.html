@@ -67,6 +67,7 @@
             <i ng-if="!accounts[gravatar_account_name].approved || accounts[gravatar_account_name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
             <i ng-if="accounts[gravatar_account_name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
           </button>
+          <button ng-if='accounts[gravatar_account_name].registration_date == "19700101T000000"' class="btn btn-sm btn-link success"><i tooltip='Not registered on the blockchain' class='fa fa-eye-slash fa-2x text-success'></i></button>
         </div>
         <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='gravatar_account_name==account.name'>
           <b>Self</b>

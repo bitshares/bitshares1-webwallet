@@ -61,22 +61,20 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <nvd3-line-chart ng-show="false"
-            data="market.price_history"
-            showXAxis="true"
-            showYAxis="true"
-            tooltips="false"
-            interactive="false"
-            showlegend="true"
-            height="240"
-            xAxisLabel="Time"
-            yAxisLabel="Price"
-            xAxisTickFormat="xAxisTickFormat()"
-          >
+        <nvd3-line-chart class="market-chart" ng-show="market.price_history.length"
+                         data="market.price_history"
+                         showXAxis="true"
+                         showYAxis="true"
+                         tooltips="true"
+                         interactive="false"
+                         showlegend="true"
+                         height="240"
+                         xAxisLabel=""
+                         yAxisLabel=""
+                         xAxisTickFormat="xAxisTickFormat()">
         </nvd3-line-chart>
       </div>
     </div>
-
 
     <div class="row">
 
@@ -105,8 +103,23 @@
 
     </div>
 
-    <br/>
+    <div class="row">
+      <div class="col-sm-12">
+        <nvd3-line-chart class="market-chart" ng-show="market.orderbook_chart_data.length > 0"
+                         data="market.orderbook_chart_data"
+                         showXAxis="true"
+                         showYAxis="true"
+                         tooltips="true"
+                         interactive="true"
+                         showlegend="true"
+                         height="180"
+                         xAxisLabel=""
+                         yAxisLabel="">
+        </nvd3-line-chart>
+      </div>
+    </div>
 
+    <br ng-show="market.orderbook_chart_data.length == 0" />
     <div ng-switch on="state_name">
 
       <div class="row" ng-switch-when="market.short">

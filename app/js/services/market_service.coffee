@@ -28,7 +28,7 @@ class TradeData
     touch: ->
         @timestamp = Date.now()
     expired: ->
-        return Date.now() - @timestamp > 20000
+        return Date.now() - @timestamp > 15000
 
 
 class Market
@@ -133,6 +133,10 @@ class MarketHelper
             td.quantity = td.cost * cover_price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
+        else if order.type == "bid_order"
+            td.cost = order.state.balance / qa.precision
+            td.quantity = td.cost / price
+            td.status = "posted"
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
@@ -245,6 +249,7 @@ class MarketService
     orders: null
     trades: null
     price_history: null
+    orderbook_chart_data = null
 
     id_sequence: 0
     loading_promise: null
@@ -351,6 +356,7 @@ class MarketService
             @helper.remove_array_element_by_id(@orders, id)
             return null
         order.status = "canceled" if order
+        console.log "---- order canceling: ", id
         @wallet_api.market_cancel_order(id).then (result) =>
             #console.log "---- order canceled: ", result
             #@helper.remove_array_element_by_id(@orders, id)
@@ -374,8 +380,8 @@ class MarketService
     cover_order: (order, account) ->
         order.touch()
         order.status = "pending"
-        console.log "------ cover_order ------>", order
-        @wallet_api.market_cover(account.name, order.quantity, @market.quantity_symbol, order.id)
+        symbol = if @market.inverted then @market.quantity_symbol else @market.base_symbol
+        @wallet_api.market_cover(account.name, order.quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
@@ -466,14 +472,15 @@ class MarketService
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
                 target: @orders
                 data: orders
                 update: (target_el, data_el) ->
-                    target_el.status = data_el.status if data_el.status and target_el.status != "canceled"
+                    if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
+                        target_el.status = data_el.status
                 can_remove: (o) ->
                     #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
@@ -492,23 +499,27 @@ class MarketService
             for t in results
                 continue if t.is_confirmed
                 order = @helper.find_order_by_transaction(@orders, t)
-                order.touch() if order
+                if order
+                    order.status = "pending"
+                    order.touch()
                 
     pull_price_history: (market, inverted) ->
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
+        precision = (market.price_precision+"").length - 1
         @blockchain_api.market_price_history(market.base_symbol, market.quantity_symbol, start_time, 86400).then (result) =>
-            #console.log "------ result ------>", result
             highest_bid_data = []
             lowest_ask_data = []
             for t in result
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
-                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
-                #lowest_ask_data.push [@helper.date(t.timestamp), t.lowest_ask]
+                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
+                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)]
+                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)]
 
-            price_history = [
-                "key": "Highest Bid",
-                "values": highest_bid_data
-            ]
+            price_history = []
+            if highest_bid_data.length > 0
+                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
+                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
+
             if market.orig_market and inverted
                 market.orig_market.price_history = price_history
             else
@@ -532,9 +543,41 @@ class MarketService
             self.pull_price_history(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        self.q.all(promises).finally =>
-            self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
-            self.market.highest_bid = market.highest_bid = self.highest_bid
+        self.q.all(promises).finally ->
+            try
+                self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
+                self.market.highest_bid = market.highest_bid = self.highest_bid
+
+                self.helper.sort_array(self.asks, "price", false)
+                self.helper.sort_array(self.bids, "price", true)
+                #console.log "------ asks ------>", self.asks
+                p_precision = (self.market.price_precision+"").length - 1
+                q_precision = (self.market.quantity_precision+"").length - 1
+                sum_asks = 0.0
+                sum_bids = 0.0
+                asks_array = []
+                bids_array = []
+                for a in self.asks
+                    sum_asks += a.quantity
+                    #console.log "------ ask ------>", a.price, sum_asks
+                    asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
+
+                for b in self.bids #.reverse()
+                    sum_bids += b.quantity
+                    #console.log "------ bid ------>", b.price, sum_bids
+                    bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
+
+                orderbook_chart_data = []
+                orderbook_chart_data.push {"key": "Bids", "area": true, color: "#2ca02c", "values": bids_array}
+                orderbook_chart_data.push {"key": "Asks", "area": true, color: "#ff7f0e", "values": asks_array}
+
+                #console.log "------ orderbook_chart_data ------>", orderbook_chart_data
+                self.market.orderbook_chart_data = orderbook_chart_data
+
+            catch e
+                console.log "!!!!!! error in pull_market_data: ", e
+
+
             deferred.resolve(true)
 
     pull_market_status: (data, deferred) ->
