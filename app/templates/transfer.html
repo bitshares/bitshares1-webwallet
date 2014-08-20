@@ -9,7 +9,7 @@
 <div class="row head-bg p-inner" ng-if="show_from_section">
   <div class="col-sm-2">
     <div class="avatar-150">
-      <img ng-src="http://robohash.org/set_any/bgset_any/{{account_from_name}}?size=150x150" height="150" width="150"/>
+      <img ng-src="http://robohash.org/set_any/{{account_from_name}}?size=150x150" height="150" width="150"/>
     </div>
   </div>
   <div class="col-sm-5">
@@ -55,7 +55,7 @@
   <div class="col-md-2">
     <div class="avatar move-right-50px">
       <div style='width:150px;padding:0px;margin:0px'ng-if="gravatar_account_name && gravatar_account_name">
-        <img class="avatar-150" ng-src="http://robohash.org/set_any/bgset_any/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
+        <img class="avatar-150" ng-src="http://robohash.org/set_any/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
         <br/><br>
         <div class="avatar-150 text-center" ng-if='gravatar_account_name!=account.name'>
           <button ng-click="toggleFavoriteContact(gravatar_account_name)" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">

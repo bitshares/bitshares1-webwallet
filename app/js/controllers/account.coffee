@@ -109,15 +109,35 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.wallet_info.type = 'Bitcoin/PTS'
             $scope.wallet_info.file = ""
             $scope.wallet_info.password = ""
-            Growl.notice "","The wallet was successfully imported."
+            $modal.open
+                templateUrl: "dialog-ok.html"
+                controller: "DialogOKController"
+                resolve:
+                    title: -> 'Success'
+                    message: -> 'Keys from ' + $scope.wallet_info.type +  ' wallet were successfully imported'
+                    bsStyle: -> 'success'
+
             Wallet.refresh_transactions_on_update()
         , (response) ->
-            if response.data.error.code == 13
+            if response.data.error.code == 13 and response.data.error.message.match(/No such file or directory/)
                 form.path.error_message = "No such file or directory"
+                form.path.$invalid = true
+            else if response.data.error.code == 13 and response.data.error.message.match(/Is a directory/)
+                form.path.error_message = "This is a directory.  A wallet file is needed."
                 form.path.$invalid = true
             else if response.data.error.code == 0 and response.data.error.message.match(/decrypt/)
                 form.pass.error_message = "Unable to decrypt wallet"
                 form.pass.$invalid = true
+            else
+                $modal.open
+                    templateUrl: "dialog-ok.html"
+                    controller: "DialogOKController"
+                    resolve:
+                        title: -> 'Error'
+                        message: -> response.data.error.message
+                        bsStyle: -> 'danger'
+
+
 
     $scope.toggleVoteUp = ->
         newApproval=1

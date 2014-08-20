@@ -15,7 +15,7 @@
         <td colspan="6"><i class="fa fa-warning"></i> <b>Warning.</b> &nbsp; {{o.warning}}</td>
       </tr>
       <tr id="order_{{o.id}}" class="{{o.status}}">
-        <td>{{o.type}}</td>
+        <td>{{o.display_type}}</td>
         <td>{{o.price | formatDecimal : market.price_precision}}</td>
         <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
         <td>{{o.cost | formatDecimal : market.base_precision}}</td>

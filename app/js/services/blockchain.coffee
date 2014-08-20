@@ -60,11 +60,13 @@ class Blockchain
         markets_hash = {}
         angular.forEach @asset_records, (asset1) =>
             angular.forEach @asset_records, (asset2) =>
+                asset1_symbol = if asset1.issuer_account_id == -2 then "Bit" + asset1.symbol else asset1.symbol
+                asset2_symbol = if asset2.issuer_account_id == -2 then "Bit" + asset2.symbol else asset2.symbol
                 if asset1.id > asset2.id
-                    value = asset1.symbol + ":" + asset2.symbol
+                    value = asset1_symbol + ":" + asset2_symbol
                     markets_hash[value] = value
                 else if asset2.id > asset1.id
-                    value = asset2.symbol + ":" + asset1.symbol
+                    value = asset2_symbol + ":" + asset1_symbol
                     markets_hash[value] = value
         angular.forEach markets_hash, (key, value) ->
             markets.push value
