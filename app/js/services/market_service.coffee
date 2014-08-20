@@ -471,7 +471,8 @@ class MarketService
         orders = []
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted,
+                    inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
@@ -484,7 +485,10 @@ class MarketService
                 can_remove: (o) ->
                     #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-             @helper.sort_array(@orders, "price", false)
+            @helper.sort_array(@orders, "price", false)
+            if magic_unicorn?
+                magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
+
 
     pull_trades: (market, inverted) ->
         trades = []
@@ -504,6 +508,7 @@ class MarketService
                     order.touch()
                 
     pull_price_history: (market, inverted) ->
+        #console.log "------ pull_price_history ------>"
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
         precision = (market.price_precision+"").length - 1
         @blockchain_api.market_price_history(market.base_symbol, market.quantity_symbol, start_time, 86400).then (result) =>
@@ -512,8 +517,8 @@ class MarketService
             for t in result
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
                 lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)]
-                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)]
+                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)/1.0]
+                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)/1.0]
 
             price_history = []
             if highest_bid_data.length > 0
@@ -532,7 +537,7 @@ class MarketService
         market = self.market.get_actual_market()
         self.lowest_ask = Number.MAX_VALUE
         self.highest_bid = 0.0
-        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}"
+        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
@@ -540,39 +545,40 @@ class MarketService
             self.pull_covers(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
-            self.pull_price_history(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        self.q.all(promises).finally ->
+        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
+
+        self.q.all(promises).finally =>
             try
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
 
                 self.helper.sort_array(self.asks, "price", false)
                 self.helper.sort_array(self.bids, "price", true)
-                #console.log "------ asks ------>", self.asks
-                p_precision = (self.market.price_precision+"").length - 1
-                q_precision = (self.market.quantity_precision+"").length - 1
-                sum_asks = 0.0
-                sum_bids = 0.0
-                asks_array = []
-                bids_array = []
-                for a in self.asks
-                    sum_asks += a.quantity
-                    #console.log "------ ask ------>", a.price, sum_asks
-                    asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
 
-                for b in self.bids #.reverse()
-                    sum_bids += b.quantity
-                    #console.log "------ bid ------>", b.price, sum_bids
-                    bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
+                if @counter % 5 == 0
+                    p_precision = (self.market.price_precision+"").length - 1
+                    q_precision = (self.market.quantity_precision+"").length - 1
+                    sum_asks = 0.0
+                    sum_bids = 0.0
+                    asks_array = []
+                    bids_array = []
+                    for a in self.asks
+                        sum_asks += a.quantity
+                        #console.log "------ ask ------>", a.price, sum_asks
+                        asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
 
-                orderbook_chart_data = []
-                orderbook_chart_data.push {"key": "Bids", "area": true, color: "#2ca02c", "values": bids_array}
-                orderbook_chart_data.push {"key": "Asks", "area": true, color: "#ff7f0e", "values": asks_array}
+                    for b in self.bids #.reverse()
+                        sum_bids += b.quantity
+                        #console.log "------ bid ------>", b.price, sum_bids
+                        bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
 
-                #console.log "------ orderbook_chart_data ------>", orderbook_chart_data
-                self.market.orderbook_chart_data = orderbook_chart_data
+                    orderbook_chart_data = []
+                    orderbook_chart_data.push {"key": "Bids", "area": true, color: "#2ca02c", "values": bids_array}
+                    orderbook_chart_data.push {"key": "Asks", "area": true, color: "#ff7f0e", "values": asks_array}
+                    #console.log "------ orderbook_chart_data ------>", orderbook_chart_data
+                    self.market.orderbook_chart_data = orderbook_chart_data
 
             catch e
                 console.log "!!!!!! error in pull_market_data: ", e
