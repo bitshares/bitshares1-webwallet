@@ -21,7 +21,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.xAxisTickFormat = ->
         return (d) ->
-            return d3.time.format('%H:%M')(new Date(d))
+            return d3.time.format('%m/%e %H:%M')(new Date(d))
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct

@@ -504,19 +504,21 @@ class MarketService
                 
     pull_price_history: (market, inverted) ->
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
+        precision = (market.price_precision+"").length - 1
         @blockchain_api.market_price_history(market.base_symbol, market.quantity_symbol, start_time, 86400).then (result) =>
-            #console.log "------ result ------>", result
             highest_bid_data = []
             lowest_ask_data = []
             for t in result
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
-                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
-                #lowest_ask_data.push [@helper.date(t.timestamp), t.lowest_ask]
+                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
+                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)]
+                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)]
 
-            price_history = [
-                "key": "Highest Bid",
-                "values": highest_bid_data
-            ]
+            price_history = []
+            if highest_bid_data.length > 0
+                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
+                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
+
             if market.orig_market and inverted
                 market.orig_market.price_history = price_history
             else
