@@ -118,6 +118,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             form.bid_quantity.$error.message = "Insufficient funds"
             return
         bid.type = "bid_order"
+        bid.display_type = "Bid"
         $scope.account.base_balance -= bid.cost
         if $scope.market.lowest_ask > 0
             price_diff = 100.0 * bid.price / $scope.market.lowest_ask - 100
@@ -135,6 +136,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             form.ask_quantity.$error.message = "Insufficient balance"
             return
         ask.type = "ask_order"
+        ask.display_type = "Ask"
         if $scope.market.highest_bid > 0
             price_diff = 100 - 100.0 * ask.price / $scope.market.highest_bid
             if price_diff > 5
@@ -154,6 +156,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             form.short_quantity.$error.message = "Insufficient funds"
             return
         short.type = "short_order"
+        short.display_type = "Short"
         if $scope.market.highest_bid > 0
             price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
             if price_diff > 5

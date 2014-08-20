@@ -10,6 +10,7 @@ class TradeData
         @collateral
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
         @warning = null
+        @display_type = null
 
     invert: ->
         td = new TradeData()
@@ -23,6 +24,7 @@ class TradeData
         #td.price = if @price and @price > 0.0 then 1.0 / @price else 0.0
         td.price = 1.0 / @price
         td.warning = @warning
+        td.display_type = @display_type
         return td
 
     touch: ->
@@ -123,7 +125,6 @@ class MarketHelper
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        td.type = "margin_order" if order.type == "cover_order"
         td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
@@ -132,6 +133,7 @@ class MarketHelper
             td.cost = order.state.balance / qa.precision
             td.quantity = td.cost * cover_price
             td.collateral = order.collateral / ba.precision
+            td.type = "margin_order"
             td.status = "cover"
         else if order.type == "bid_order"
             td.cost = order.state.balance / qa.precision
@@ -145,6 +147,8 @@ class MarketHelper
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
 
+        td.display_type = @capitalize(td.type.split("_")[0])
+
         return td
 
     trade_history_to_order: (t, assets) ->
@@ -156,6 +160,7 @@ class MarketHelper
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
         o.timestamp = t.timestamp
+        o.display_type = @capitalize(o.type.split("_")[0])
         return o
 
     array_to_hash: (list) ->
@@ -182,6 +187,9 @@ class MarketHelper
                     target.splice(tv.index, 1) if params.can_remove(tv)
                 else
                     target.splice(tv.index, 1)
+
+    capitalize: (str) ->
+        str.charAt(0).toUpperCase() + str.slice(1)
 
     sort_array: (array, field, reverse = false) ->
          array.sort (a, b) ->
@@ -494,8 +502,9 @@ class MarketService
         trades = []
         @blockchain_api.market_order_history(market.base_symbol, market.quantity_symbol, 0, 100).then (results) =>
             for r in results
-                #console.log "------ market_order_history ------>", r
-                trades.push @helper.trade_history_to_order(r, market.assets_by_id)
+                td = @helper.trade_history_to_order(r, market.assets_by_id)
+                trades.push td
+                #console.log "------ market_order_history ------>", r, td
             @helper.update_array {target: @trades, data: trades}
 
     pull_unconfirmed_transactions: (account_name) ->
