@@ -28,12 +28,12 @@ class Observer
             return if observer.busy
             observer.busy = true
             deferred = q.defer()
-            observer.counter += 1
             observer.update(observer.data, deferred)
             deferred.promise.then (data_changed) ->
                 if observer.notify and data_changed
                     observer.notify(observer.data)
             deferred.promise.finally ->
+                observer.counter += 1
                 observer.busy = false
 
     constructor: (@q, @log, @interval) ->

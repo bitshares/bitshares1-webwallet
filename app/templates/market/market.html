@@ -61,11 +61,11 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <nvd3-line-chart class="market-chart" ng-show="market.price_history.length"
+        <nvd3-line-chart class="chart price-chart" ng-show="market.price_history.length"
                          data="market.price_history"
                          showXAxis="true"
                          showYAxis="true"
-                         tooltips="true"
+                         tooltips="false"
                          interactive="false"
                          showlegend="true"
                          height="240"
@@ -105,7 +105,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <nvd3-line-chart class="market-chart" ng-show="market.orderbook_chart_data.length > 0"
+        <nvd3-line-chart class="chart orderbook-chart" ng-show="market.orderbook_chart_data.length > 0"
                          data="market.orderbook_chart_data"
                          showXAxis="true"
                          showYAxis="true"
@@ -113,6 +113,7 @@
                          interactive="true"
                          showlegend="true"
                          height="180"
+                         margin="80"
                          xAxisLabel=""
                          yAxisLabel="">
         </nvd3-line-chart>
