@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody ng-repeat="o in orders track by $index">
-      <tr class="warning alert alert-danger" ng-show="o.warning">
+      <tr class="warning alert alert-danger unconfirmed" ng-show="o.warning">
         <td colspan="6"><i class="fa fa-warning"></i> <b>Warning.</b> &nbsp; {{o.warning}}</td>
       </tr>
       <tr id="order_{{o.id}}" class="{{o.status}}">

@@ -80,12 +80,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
         balances = {}
-        balances[market.base_symbol] = 0.0
-        balances[market.quantity_symbol] = 0.0
+        balances[market.asset_base_symbol] = 0.0
+        balances[market.asset_quantity_symbol] = 0.0
         account_balances_observer.data = balances
         account_balances_observer.notify = (data) ->
-            account.base_balance = data[market.base_symbol] / market.base_precision
-            account.quantity_balance = data[market.quantity_symbol] / market.quantity_precision
+            account.base_balance = data[market.asset_base_symbol] / market.base_precision
+            account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)

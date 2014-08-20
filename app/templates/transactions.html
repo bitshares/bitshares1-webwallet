@@ -29,11 +29,11 @@
     <tbody>
       <tr ng-repeat="t in account_transactions | filter:q.q | reverse | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td>
-            <span ng-repeat="entry in t.ledger_entries" class='lead'>
+            <span ng-repeat="entry in t.ledger_entries" class="trx-from-to">
                 <!--From-->
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=40x40" height="40" width="40"/>
+                        <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=72x72" height="36" width="36"/>
                         <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
                     </span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
@@ -53,7 +53,7 @@
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">
-                        <img src="http://robohash.org/set_any/{{entry.to}}?size=40x40" height="40" width="40"/>
+                        <img src="http://robohash.org/set_any/{{entry.to}}?size=72x72" height="36" width="36"/>
                         <span>
                             <a href="#/accounts/{{entry.to}}" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
                             <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>
