@@ -206,6 +206,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             '''
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
                 scope.market = current_market.actual_market or current_market
+                original_order = order
                 if !current_market.inverted
                     order = order.invert()
                 scope.order = order
@@ -214,6 +215,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 scope.submit = (order) ->
                     form = @cover_form
                     MarketService.cover_order(order, account).then ->
+                        original_order.status = "pending"
                         modalInstance.dismiss "ok"
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message

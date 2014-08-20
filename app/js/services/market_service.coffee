@@ -28,7 +28,7 @@ class TradeData
     touch: ->
         @timestamp = Date.now()
     expired: ->
-        return Date.now() - @timestamp > 20000
+        return Date.now() - @timestamp > 15000
 
 
 class Market
@@ -133,6 +133,10 @@ class MarketHelper
             td.quantity = td.cost * cover_price
             td.collateral = order.collateral / ba.precision
             td.status = "cover"
+        else if order.type == "bid_order"
+            td.cost = order.state.balance / qa.precision
+            td.quantity = td.cost / price
+            td.status = "posted"
         else
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
@@ -351,6 +355,7 @@ class MarketService
             @helper.remove_array_element_by_id(@orders, id)
             return null
         order.status = "canceled" if order
+        console.log "---- order canceling: ", id
         @wallet_api.market_cancel_order(id).then (result) =>
             #console.log "---- order canceled: ", result
             #@helper.remove_array_element_by_id(@orders, id)
@@ -375,7 +380,6 @@ class MarketService
         order.touch()
         order.status = "pending"
         symbol = if @market.inverted then @market.quantity_symbol else @market.base_symbol
-        console.log "------ cover_order ------>", order, symbol
         @wallet_api.market_cover(account.name, order.quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
@@ -467,14 +471,15 @@ class MarketService
         @wallet_api.market_order_list(market.base_symbol, market.quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
                 target: @orders
                 data: orders
                 update: (target_el, data_el) ->
-                    target_el.status = data_el.status if data_el.status and target_el.status != "canceled"
+                    if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
+                        target_el.status = data_el.status
                 can_remove: (o) ->
                     #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
@@ -493,7 +498,9 @@ class MarketService
             for t in results
                 continue if t.is_confirmed
                 order = @helper.find_order_by_transaction(@orders, t)
-                order.touch() if order
+                if order
+                    order.status = "pending"
+                    order.touch()
                 
     pull_price_history: (market, inverted) ->
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
