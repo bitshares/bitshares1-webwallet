@@ -249,6 +249,7 @@ class MarketService
     orders: null
     trades: null
     price_history: null
+    orderbook_chart_data = null
 
     id_sequence: 0
     loading_promise: null
@@ -542,9 +543,41 @@ class MarketService
             self.pull_price_history(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        self.q.all(promises).finally =>
-            self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
-            self.market.highest_bid = market.highest_bid = self.highest_bid
+        self.q.all(promises).finally ->
+            try
+                self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
+                self.market.highest_bid = market.highest_bid = self.highest_bid
+
+                self.helper.sort_array(self.asks, "price", false)
+                self.helper.sort_array(self.bids, "price", true)
+                #console.log "------ asks ------>", self.asks
+                p_precision = (self.market.price_precision+"").length - 1
+                q_precision = (self.market.quantity_precision+"").length - 1
+                sum_asks = 0.0
+                sum_bids = 0.0
+                asks_array = []
+                bids_array = []
+                for a in self.asks
+                    sum_asks += a.quantity
+                    #console.log "------ ask ------>", a.price, sum_asks
+                    asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
+
+                for b in self.bids #.reverse()
+                    sum_bids += b.quantity
+                    #console.log "------ bid ------>", b.price, sum_bids
+                    bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
+
+                orderbook_chart_data = []
+                orderbook_chart_data.push {"key": "Bids", "area": true, color: "#2ca02c", "values": bids_array}
+                orderbook_chart_data.push {"key": "Asks", "area": true, color: "#ff7f0e", "values": asks_array}
+
+                #console.log "------ orderbook_chart_data ------>", orderbook_chart_data
+                self.market.orderbook_chart_data = orderbook_chart_data
+
+            catch e
+                console.log "!!!!!! error in pull_market_data: ", e
+
+
             deferred.resolve(true)
 
     pull_market_status: (data, deferred) ->
