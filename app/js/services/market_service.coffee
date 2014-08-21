@@ -135,7 +135,7 @@ class MarketHelper
         if order.type == "cover_order"
             cover_price = 1.0 / price
             td.cost = order.state.balance / qa.precision
-            td.quantity = td.cost * cover_price
+            td.quantity = -1.0 #td.cost * cover_price
             td.collateral = order.collateral / ba.precision
             td.type = "margin_order"
             td.status = "cover"
