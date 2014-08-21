@@ -31,13 +31,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
-            "<h4>#{key}</h4>Price #{price} #{$scope.market.price_symbol}<br/>At #{x}"
+            time = d3.time.format('%m/%e/%y %H:%M:%S')(new Date(e.point[0]))
+            "<div class='chart-tooltip'><h4>#{key}</h4><p>#{price} #{$scope.market.price_symbol}</p><p>At #{time}</p></div>"
 
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(x, $scope.market.price_precision)
             volume = Utils.formatDecimal(y, $scope.market.quantity_precision)
-            "Price: #{price} #{$scope.market.price_symbol}<br/>Volume #{volume} #{$scope.market.quantity_symbol}"
+            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{volume} #{$scope.market.quantity_symbol}</p>"
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct

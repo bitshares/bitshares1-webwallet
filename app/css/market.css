@@ -117,3 +117,23 @@ div.fixed-height-table {
 	width: 100%;
 	height: 100%;
 }
+
+.chart-tooltip {
+	background-color: #000;
+	color: #eee;
+	padding: 3px 6px 3px 6px;
+	z-index: 1000;
+}
+
+.chart-tooltip h4 {
+	font-size: 90%;
+	padding: 4px 0 4px 0;
+	margin: 0;
+}
+
+.chart-tooltip p {
+	font-size: 80%;
+	padding: 2px 0;
+	margin: 0;
+	text-align: left;
+}
