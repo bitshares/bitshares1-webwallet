@@ -35,5 +35,3 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
             $scope.wrongPass = true
             deferred.reject()
 
-        $rootScope.showLoadingIndicator deferred.promise, "Scanning transactions {{value}}%, please wait..."
-
