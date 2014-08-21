@@ -68,13 +68,14 @@
                          data="market.price_history"
                          showXAxis="true"
                          showYAxis="true"
-                         tooltips="false"
-                         interactive="false"
+                         tooltips="true"
+                         interactive="true"
                          showlegend="true"
                          height="240"
                          xAxisLabel=""
                          yAxisLabel=""
-                         xAxisTickFormat="xAxisTickFormat()">
+                         xAxisTickFormat="xAxisTickFormatPriceChart()"
+                         tooltipcontent="priceChartTooltip()">
         </nvd3-line-chart>
       </div>
     </div>
@@ -118,7 +119,10 @@
                          height="180"
                          margin="80"
                          xAxisLabel=""
-                         yAxisLabel="">
+                         yAxisLabel=""
+                         xAxisTickFormat="xAxisTickFormatOrderbookChart()"
+                         tooltips="true"
+                         tooltipcontent="orderbookChartTooltip()" >
         </nvd3-line-chart>
       </div>
     </div>
