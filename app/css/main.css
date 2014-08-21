@@ -391,3 +391,8 @@ input.ng-dirty.ng-invalid {
 	position: relative;
 	top: -5px;
 }
+
+.avatar-40 img {
+	position: relative;
+	top: -5px;
+}
