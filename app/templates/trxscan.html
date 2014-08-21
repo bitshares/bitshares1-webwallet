@@ -1,3 +1,3 @@
 Last block: {{last_block_time | prettyRecentDate}}
-<div class="pull-right"><b>Transaction scan progress<b></div>
-<progressbar max="100" value="progress" style='height:21px' animate="true" class="progress-striped active" type="success"><span>{{progress}} %</span></progressbar>
+<div ng-show="progress<100" class="pull-right"><b>Transaction scan progress<b></div>
+<progressbar ng-show="progress<100" max="100" value="progress" style='height:21px' animate="true" class="progress-striped active" type="success"><span>{{c}} %</span></progressbar>
