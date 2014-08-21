@@ -5,8 +5,11 @@
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />
   </div>
-  <div form-hgroup label="Price" addon="{{market.price_symbol}}" help="Min {{market.min_short_price | formatDecimal : market.price_precision}} {{market.price_symbol}}" help-if="{{market.min_short_price}}">
+  <div form-hgroup label="Price" addon="{{market.price_symbol}}">
     <input-positive-number name="short_price" ng-model="short.price" required="true" />
+  </div>
+  <div form-hgroup-note ng-show="market.min_short_price">
+   Range {{market.min_short_price | formatDecimal : market.price_precision}} - {{market.max_short_price | formatDecimal : market.price_precision}} {{market.price_symbol}}
   </div>
   <div form-hgroup-note ng-show="market.highest_bid">
     Highest Bid <span class="clickable" ng-click="use_trade_data({price: market.highest_bid})">{{market.highest_bid | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}

@@ -609,14 +609,16 @@ class MarketService
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id)
             if self.market.avg_price_24h > 0
-                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 3.0 / 4.0
+                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 9.0 / 10.0
+                self.market.max_short_price = market.max_short_price = self.market.avg_price_24h * 10.0 / 9.0
             else
                 self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                     res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
                     if res.length > 0
                         price = if self.market.inverted then 1.0/res[0] else res[0]
                         self.market.median_price = market.median_price = price
-                        self.market.min_short_price = market.min_short_price = price * 3.0 / 4.0
+                        self.market.max_short_price = market.min_short_price = price * 9.0 / 10
+                        self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
