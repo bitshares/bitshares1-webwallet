@@ -7,6 +7,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     current_market = null
+    price_decimals = 4
 
     # tabs
     $scope.tabs = []
@@ -19,9 +20,24 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
-    $scope.xAxisTickFormat = ->
+    $scope.xAxisTickFormatPriceChart = ->
         return (d) ->
             return d3.time.format('%m/%e %H:%M')(new Date(d))
+
+    $scope.xAxisTickFormatOrderbookChart = ->
+        return (d) ->
+            return d.toFixed(price_decimals)
+
+    $scope.priceChartTooltip = ->
+        (key, x, y, e, graph) ->
+            price = Utils.formatDecimal(y, $scope.market.price_precision)
+            "<h4>#{key}</h4>Price #{price} #{$scope.market.price_symbol}<br/>At #{x}"
+
+    $scope.orderbookChartTooltip = ->
+        (key, x, y, e, graph) ->
+            price = Utils.formatDecimal(x, $scope.market.price_precision)
+            volume = Utils.formatDecimal(y, $scope.market.quantity_precision)
+            "Price: #{price} #{$scope.market.price_symbol}<br/>Volume #{volume} #{$scope.market.quantity_symbol}"
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
@@ -77,15 +93,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.tabs[2].heading = "Short #{tabsym}"
         else
             $scope.tabs.splice(2,1)
+        price_decimals = (market.price_precision+"").length - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
         balances = {}
-        balances[market.base_symbol] = 0.0
-        balances[market.quantity_symbol] = 0.0
+        balances[market.asset_base_symbol] = 0.0
+        balances[market.asset_quantity_symbol] = 0.0
         account_balances_observer.data = balances
         account_balances_observer.notify = (data) ->
-            account.base_balance = data[market.base_symbol] / market.base_precision
-            account.quantity_balance = data[market.quantity_symbol] / market.quantity_precision
+            account.base_balance = data[market.asset_base_symbol] / market.base_precision
+            account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)

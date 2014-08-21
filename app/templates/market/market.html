@@ -6,11 +6,14 @@
         <button type="button" class="btn btn-primary dropdown-toggle">
           {{account ? account.name : 'Select Account'}} <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu">
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
           <li ng-repeat="(key,a) in accounts">
             <a ui-sref="market.buy({account: '{{a.name}}', market: '{{market.name}}'})">{{a.name}}</a>
           </li>
         </ul>
+      </div>
+      <div class="balance">
+        <span>{{account.quantity_balance | formatDecimal : market.quantity_precision}} {{market.quantity_symbol}} / {{account.base_balance | formatDecimal : market.base_precision}} {{market.base_symbol}}</span>
       </div>
     </div>
 
@@ -21,16 +24,16 @@
         <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
       </h3>
       <ul class="col-sm-6 market-stats stats">
-        <li ng-show="market.shorts_available && market.avg_price_24h == 0" class="stat col-sm-3">
+        <li ng-show="market.shorts_available && market.avg_price_24h == 0" class="stat col-sm-4">
           <span>Median&nbsp;Price<br/><b class="value">{{market.median_price}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
-        <li ng-show="market.avg_price_24h > 0" class="stat col-sm-3">
+        <li ng-show="!market.shorts_available || market.avg_price_24h > 0" class="stat col-sm-4">
           <span>1h&nbsp;Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_24h}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
-        <li class="stat col-sm-3">
+        <li class="stat col-sm-4">
           <span>Bid&nbsp;Depth<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
         </li>
-        <li class="stat col-sm-3">
+        <li class="stat col-sm-4">
           <span>Ask&nbsp;Depth<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
         </li>
       </ul>
@@ -65,13 +68,14 @@
                          data="market.price_history"
                          showXAxis="true"
                          showYAxis="true"
-                         tooltips="false"
-                         interactive="false"
+                         tooltips="true"
+                         interactive="true"
                          showlegend="true"
                          height="240"
                          xAxisLabel=""
                          yAxisLabel=""
-                         xAxisTickFormat="xAxisTickFormat()">
+                         xAxisTickFormat="xAxisTickFormatPriceChart()"
+                         tooltipcontent="priceChartTooltip()">
         </nvd3-line-chart>
       </div>
     </div>
@@ -115,7 +119,10 @@
                          height="180"
                          margin="80"
                          xAxisLabel=""
-                         yAxisLabel="">
+                         yAxisLabel=""
+                         xAxisTickFormat="xAxisTickFormatOrderbookChart()"
+                         tooltips="true"
+                         tooltipcontent="orderbookChartTooltip()" >
         </nvd3-line-chart>
       </div>
     </div>

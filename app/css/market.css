@@ -20,7 +20,12 @@
 }
 
 .account-selector {
-	margin: 12px 60px 0 0;
+	margin: 2px 4px 0 0;
+	text-align: right;
+}
+
+.balance {
+	margin-top: 2px;
 }
 
 .account-selector .title {

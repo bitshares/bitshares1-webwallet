@@ -380,3 +380,19 @@ input.ng-dirty.ng-invalid {
 	/*text-decoration: underline;*/
 	border-bottom: 1px dotted;
 }
+
+.trx-from-to {
+	font-size: 110%;
+}
+
+.trx-from-to img {
+	width: 36px;
+	height: 36px;
+	position: relative;
+	top: -5px;
+}
+
+.avatar-40 img {
+	position: relative;
+	top: -5px;
+}

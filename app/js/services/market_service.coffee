@@ -155,12 +155,13 @@ class MarketHelper
 
         return td
 
-    trade_history_to_order: (t, assets) ->
+    trade_history_to_order: (t, assets, invert_price) ->
         ba = assets[t.ask_price.base_asset_id]
         qa = assets[t.ask_price.quote_asset_id]
         o = {type: t.bid_type}
         o.id = t.ask_owner
         o.price = t.ask_price.ratio * (ba.precision / qa.precision)
+        o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
         o.timestamp = t.timestamp
@@ -508,7 +509,7 @@ class MarketService
         trades = []
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 100).then (results) =>
             for r in results
-                td = @helper.trade_history_to_order(r, market.assets_by_id)
+                td = @helper.trade_history_to_order(r, market.assets_by_id, inverted)
                 trades.push td
                 #console.log "------ market_order_history ------>", r, td
             @helper.update_array {target: @trades, data: trades}
