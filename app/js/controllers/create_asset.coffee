@@ -32,12 +32,20 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                 if $scope.create_asset.max_share_supply * $scope.create_asset.precision > 1000000000000000
                     Growl.error "", "You need to specify a lower precision or fewer shares."
                     return
+                data=
+                  title: 'Asset Creation Authorization'
+                  symbol: $scope.create_asset.symbol
+                  name: $scope.create_asset.asset_name
+                  description: $scope.create_asset.description
+                  supply:$scope.create_asset.max_share_supply.toFixed($scope.create_asset.precision.toString().length-1)
+                  issuer: $scope.name
+                  fee: $scope.asset_reg_fee
+                  memo: $scope.create_asset.memo
                 $modal.open
-                    templateUrl: "dialog-confirmation.html"
-                    controller: "DialogConfirmationController"
+                    templateUrl: "dialog-asset-confirmation.html"
+                    controller: "DialogWithDataController"
                     resolve:
-                        title: -> "Are you sure?"
-                        message: -> "This will create asset " + $scope.create_asset.symbol + " with max supply " + $scope.create_asset.max_share_supply + " and precision " + $scope.create_asset.precision + ".\n This will cost you " + $scope.asset_reg_fee + "."
+                        data: -> data
                         action: ->
                             ->
                                 RpcService.request('wallet_asset_create', [$scope.create_asset.symbol, $scope.create_asset.asset_name, $scope.name, $scope.create_asset.description, $scope.create_asset.memo, $scope.create_asset.max_share_supply, $scope.create_asset.precision]).then (response) ->
