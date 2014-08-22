@@ -57,7 +57,7 @@ servicesModule.factory "Utils", ->
         decPlaces = decPlaces.toString().length - 1 if decPlaces > 9
         if truncate0s
            fl = @fractional_part_len(n)
-           fl = 1 if fl == 0
+           fl = 2 if fl < 2
            decPlaces = fl if fl < decPlaces
         decSeparator = "." # decSeparator = (if decSeparator is `undefined` then "." else decSeparator)
         thouSeparator = "," # thouSeparator = (if thouSeparator is `undefined` then "," else thouSeparator)
