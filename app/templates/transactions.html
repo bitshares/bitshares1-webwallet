@@ -94,8 +94,9 @@
             </span>
         </td>
          <td>
-            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
-            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
+            <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
+            <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
         </td>
       </tr>
       <tr ng-if="warning">
