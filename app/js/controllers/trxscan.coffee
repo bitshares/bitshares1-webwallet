@@ -8,7 +8,6 @@ angular.module("app").controller "TrxScanController", ($scope, Info) ->
     if (Info.info && Info.info.wallet_scan_progress)
       $scope.progress=Info.info.wallet_scan_progress*100
 
-
   $scope.$watch ->
     Info.info.last_block_time
   , ->

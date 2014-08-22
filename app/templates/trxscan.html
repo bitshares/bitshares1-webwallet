@@ -1,2 +1,2 @@
 <br>
-<div ng-show="progress<100  && true" class="text-success">Updating transaction history...</div>
+<div ng-show="progress<100  && (last_block_time | secondsAgo) < 30" class="text-success">Updating transaction history...</div>
