@@ -169,6 +169,7 @@ class Wallet
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
                         block_num: val.block_num
+                        error: val.error
                         trx_num: val.trx_num
                         time: @utils.toDate(val.received_time)
                         ledger_entries: ledger_entries

@@ -4,7 +4,7 @@ angular.module("app.directives").directive "inputName", ->
         autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
         popover="Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash."
-        popover-append-to-body="false" popover-placement="top" popover-trigger="focus" ng-keydown="kd()"
+        popover-append-to-body="{{popoverAppendToBody}}" popover-placement="top" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1" ng-maxlength="63">
         <span class="help-block text-muted" ng-show="showNote1 && !formName.account_name.error_message">Note: Account names cannot be transferred.</span>
         <span class="help-block text-muted" ng-show="showNote2 && !formName.account_name.error_message">Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash.</span>
@@ -17,6 +17,7 @@ angular.module("app.directives").directive "inputName", ->
         showNote1: "="
         showNote2: "="
         popoverTrigger: "="
+        popoverAppendToBody: "="
     controller: ($scope, $element) ->
         oldname = $scope.ngModel
         $scope.kd = ->

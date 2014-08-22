@@ -49,3 +49,18 @@ angular.module("app").filter "hoursAgo", (Utils)->
 
         diff = Math.round(diff/1000/60/24)
         return diff
+
+angular.module("app").filter "secondsAgo", (Utils)->
+  (date) ->
+    if not date
+      #console.log "attempting to prettify null date"
+      return "9999999999999"
+
+    if date.valueOf() == "19700101T000000"
+      return "9999999999999"
+
+    if not angular.isDate(date)
+      date = Utils.toDate(date)
+    diff = Date.now() - date
+
+    Math.round(diff/1000)

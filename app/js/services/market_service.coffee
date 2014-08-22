@@ -334,7 +334,7 @@ class MarketService
                 market.quantity_precision = market.quantity_asset.precision
                 market.base_asset = results[1]
                 market.base_precision = market.base_asset.precision
-                market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 100
+                market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 10
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
@@ -533,8 +533,8 @@ class MarketService
             for t in result
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
                 lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)/1.0]
-                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)/1.0]
+                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
+                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
 
             price_history = []
             if highest_bid_data.length > 0
@@ -574,21 +574,32 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", true)
 
                 if @counter % 5 == 0
-                    p_precision = (self.market.price_precision+"").length - 1
-                    q_precision = (self.market.quantity_precision+"").length - 1
+#                    p_precision = (self.market.price_precision+"").length - 1
+#                    q_precision = (self.market.quantity_precision+"").length - 1
                     sum_asks = 0.0
-                    sum_bids = 0.0
+                    sum_ask_prices = 0.0
                     asks_array = []
-                    bids_array = []
+                    counter = 0
                     for a in self.asks
+                        avg_ask_price = if counter > 0 then sum_ask_prices / counter else a.price
+                        continue if a.price > 1.8 * avg_ask_price
+                        counter += 1
+                        sum_ask_prices += a.price
                         sum_asks += a.quantity
                         #console.log "------ ask ------>", a.price, sum_asks
-                        asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
+                        asks_array.push [a.price, sum_asks]
 
+                    sum_bids = 0.0
+                    sum_bid_prices = 0.0
+                    bids_array = []
+                    counter = 0
                     for b in self.bids #.reverse()
+                        avg_bid_price = if counter > 0 then sum_bid_prices / counter else b.price
+                        continue if b.price < 0.2 * avg_bid_price
+                        counter += 1
+                        sum_bid_prices += b.price
                         sum_bids += b.quantity
-                        #console.log "------ bid ------>", b.price, sum_bids
-                        bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
+                        bids_array.push [b.price, sum_bids]
 
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
@@ -609,14 +620,17 @@ class MarketService
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id)
             if self.market.avg_price_24h > 0
-                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 3.0 / 4.0
+                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 9.0 / 10.0
+                self.market.max_short_price = market.max_short_price = self.market.avg_price_24h * 10.0 / 9.0
+                self.market.price_precision = market.price_precision = 4 if self.market.avg_price_24h > 1.0
             else
                 self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                     res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
                     if res.length > 0
                         price = if self.market.inverted then 1.0/res[0] else res[0]
                         self.market.median_price = market.median_price = price
-                        self.market.min_short_price = market.min_short_price = price * 3.0 / 4.0
+                        self.market.max_short_price = market.min_short_price = price * 9.0 / 10
+                        self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])

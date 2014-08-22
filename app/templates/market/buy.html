@@ -1,6 +1,8 @@
 <form name="buy_form" class="form-horizontal" role="form" ng-submit="submit_bid()" novalidate>
   <div form-hgroup-value label="Balance" show-value="true" data-symbol="{{market.base_symbol}}">
-    {{account.base_balance | formatDecimal : market.base_precision}}
+    <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask, quantity: account.base_balance/market.lowest_ask})">
+      {{account.base_balance | formatDecimal : market.base_precision}}
+    </span>
   </div>
   <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
     <input-positive-number name="bid_quantity" ng-model="bid.quantity" />

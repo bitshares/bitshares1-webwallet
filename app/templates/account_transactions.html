@@ -3,14 +3,17 @@
         <div class="col-sm-3">
             <br> <input type="text" class="form-control" ng-model="q.q" placeholder='Filter'> <br>
         </div>
-        <div class="col-sm-6">
-            <ul class="pagination pagination-sm">
+        <div class="col-sm-3">
+            <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1">
                 <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0"> First</a></li>
                 <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">Previous</a></li> 
                 <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
                 <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">Next</a></li>
                 <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">Last</a></li>
             </ul>
+        </div>
+        <div class="col-sm-6">
+            <div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>
         </div>
     </div>
 </div>
@@ -33,12 +36,12 @@
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
                 <span ng-if="account.name==entry.from">
-                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{entry.to}}?size=80x80" height="40" width="40"/>
-                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_any/{{account.name}}?size=80x80" height="40" width="40"/>
+                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_1/{{entry.to}}?size=80x80" height="40" width="40"/>
+                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_1/{{account.name}}?size=80x80" height="40" width="40"/>
                 </span>
                 <span ng-if="account.name==entry.to && account.name!=entry.from">
                     <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=80x80" height="40" width="40"/>
+                        <img ng-src="http://robohash.org/set_1/{{entry.from}}?size=80x80" height="40" width="40"/>
                     </span>
                     <span ng-if="entry.from.charAt(0) === 'X'">
                         <img ng-src="img/user.png" height="40" width="40"/>
@@ -100,10 +103,11 @@
                 </span>
             </span>
         </td>
-        <td>
-            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
-            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
-        </td>
+          <td>
+              <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+              <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
+              <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
+          </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>

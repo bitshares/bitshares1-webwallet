@@ -1,6 +1,6 @@
 <div class="col-sm-12">
   <div class="header">
-    <div class="row">
+    <div class="row" ng-show="account_name">
       <h3 class="col-sm-2 header-title">Markets</h3>
       <div class="col-sm-2 market-selector">
         <input type="text"
@@ -15,7 +15,7 @@
   </div>
 </div>
 <br/>
-<div class="main-content market">
+<div class="main-content market" ng-show="account_name">
   <div class="row">&nbsp;</div>
   <div class="row">
     <div class="col-sm-3">
@@ -47,4 +47,12 @@
     <div class="col-sm-6">&nbsp;</div>
 
   </div>
+</div>
+
+<div class="main-content" ng-show="account_name == false">
+  <p class="no-account-selected-note">Loading..</p>
+</div>
+
+<div class="main-content" ng-show="account_name == null">
+  <p class="no-account-selected-note">No accounts found, please <a href="#/create/account">create account</a> to proceed</p>
 </div>

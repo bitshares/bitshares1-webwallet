@@ -3,7 +3,7 @@
         <div class="col-sm-3">
             <br> <input type="text" class="form-control" ng-model="q.q" placeholder='Filter'> <br>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-3">
             <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1">
                 <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0"> First</a></li>
                 <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">Previous</a></li> 
@@ -11,6 +11,9 @@
                 <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">Next</a></li>
                 <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1">Last</a></li>
             </ul>
+        </div>
+        <div class="col-sm-6">
+            <div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>
         </div>
     </div>
 </div>
@@ -33,7 +36,7 @@
                 <!--From-->
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/set_any/{{entry.from}}?size=72x72" height="36" width="36"/>
+                        <img ng-src="http://robohash.org/set_1/{{entry.from}}?size=72x72" height="36" width="36"/>
                         <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
                     </span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
@@ -53,7 +56,7 @@
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">
-                        <img src="http://robohash.org/set_any/{{entry.to}}?size=72x72" height="36" width="36"/>
+                        <img src="http://robohash.org/set_1/{{entry.to}}?size=72x72" height="36" width="36"/>
                         <span>
                             <a href="#/accounts/{{entry.to}}" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
                             <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>
@@ -91,8 +94,9 @@
             </span>
         </td>
          <td>
-            <a ng-if="t.is_confirmed" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
-            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual)">Pending</span>
+            <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
+            <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
         </td>
       </tr>
       <tr ng-if="warning">

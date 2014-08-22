@@ -23,22 +23,27 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.xAxisTickFormatPriceChart = ->
         return (d) ->
             return d3.time.format('%m/%e %H:%M')(new Date(d))
-
-    $scope.xAxisTickFormatOrderbookChart = ->
-        return (d) ->
-            return d.toFixed(price_decimals)
-
+    $scope.yAxisTickFormatPriceChart = ->
+        return (y) ->
+            precision = if y > 1000.0 then 0 else $scope.market.price_precision
+            price = Utils.formatDecimal(y, precision)
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
             time = d3.time.format('%m/%e/%y %H:%M:%S')(new Date(e.point[0]))
             "<div class='chart-tooltip'><h4>#{key}</h4><p>#{price} #{$scope.market.price_symbol}</p><p>At #{time}</p></div>"
 
+    $scope.xAxisTickFormatOrderbookChart = ->
+        return (d) ->
+            return Utils.formatDecimal(d, price_decimals, true)
+    $scope.yAxisTickFormatOrderbookChart = ->
+        return (y) ->
+            precision = if y > 1000.0 then 0 else $scope.market.quantity_precision
+            return Utils.formatDecimal(y, precision, true)
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(x, $scope.market.price_precision)
-            volume = Utils.formatDecimal(y, $scope.market.quantity_precision)
-            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{volume} #{$scope.market.quantity_symbol}</p>"
+            price = Utils.formatDecimal(x, $scope.market.price_precision, true)
+            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{y} #{$scope.market.quantity_symbol}</p>"
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
@@ -167,7 +172,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         short = $scope.short
         if short.price < $scope.market.min_short_price
-            form.short_price.$error.message = "Short price should be above min price"
+            form.short_price.$error.message = "Short price should be above min range price"
+            return
+        if short.price > $scope.market.max_short_price
+            form.short_price.$error.message = "Short price should be below max range price"
             return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
@@ -197,8 +205,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision) if data.price
-        order.quantity = data.quantity if data.quantity
+        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision, true) if data.price
+        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
 
     $scope.submit_test = ->
         form = @buy_form

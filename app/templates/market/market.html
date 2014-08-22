@@ -25,10 +25,10 @@
       </h3>
       <ul class="col-sm-6 market-stats stats">
         <li ng-show="market.shorts_available && market.avg_price_24h == 0" class="stat col-sm-4">
-          <span>Median&nbsp;Price<br/><b class="value">{{market.median_price}}</b><br/><em>{{market.price_symbol}}</em></span>
+          <span>Median&nbsp;Price<br/><b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li ng-show="!market.shorts_available || market.avg_price_24h > 0" class="stat col-sm-4">
-          <span>1h&nbsp;Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_24h}}</b><br/><em>{{market.price_symbol}}</em></span>
+          <span>1h&nbsp;Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_24h | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li class="stat col-sm-4">
           <span>Bid&nbsp;Depth<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
@@ -52,15 +52,7 @@
   </div>
 </div>
 
-<div class="main-content market" ng-switch on="account">
-  <div ng-switch-when="false">
-    <p class="no-account-selected-note">No account selected, please select account</p>
-  </div>
-
-  <div ng-switch-when="null">
-  </div>
-
-  <div ng-switch-default>
+<div class="main-content market">
 
     <div class="row">
       <div class="col-sm-12">
@@ -71,10 +63,12 @@
                          tooltips="true"
                          interactive="true"
                          showlegend="true"
+                         yaxisshowmaxmin="false"
                          height="240"
                          xAxisLabel=""
                          yAxisLabel=""
                          xAxisTickFormat="xAxisTickFormatPriceChart()"
+                         yAxisTickFormat="yAxisTickFormatPriceChart()"
                          tooltipcontent="priceChartTooltip()">
         </nvd3-line-chart>
       </div>
@@ -117,10 +111,12 @@
                          interactive="true"
                          showlegend="true"
                          height="180"
-                         margin="80"
+                         margin="60"
+                         yaxisshowmaxmin="false"
                          xAxisLabel=""
                          yAxisLabel=""
                          xAxisTickFormat="xAxisTickFormatOrderbookChart()"
+                         yAxisTickFormat="yAxisTickFormatOrderbookChart()"
                          tooltips="true"
                          tooltipcontent="orderbookChartTooltip()" >
         </nvd3-line-chart>
@@ -194,7 +190,5 @@
         </div>
       </div>
     </div>
-
-  </div>
 
 </div>
