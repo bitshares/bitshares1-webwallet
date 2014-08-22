@@ -47,16 +47,24 @@ servicesModule.factory "Utils", ->
         len = 1 if len == 0
         Number(value).toFixed(len)
 
-    formatDecimal: (value, decPlaces) ->
+    fractional_part_len: (value) ->
+        parts = (Number(value) + "").split('.')
+        return if parts.length < 2 then 0 else parts[1].length
+
+    formatDecimal: (value, decPlaces, truncate0s = false) ->
         n = @truncateTrailing9s(value)
-        return n unless decPlaces
+        #return n unless decPlaces
         decPlaces = decPlaces.toString().length - 1 if decPlaces > 9
+        if truncate0s
+           fl = @fractional_part_len(n)
+           fl = 1 if fl == 0
+           decPlaces = fl if fl < decPlaces
         decSeparator = "." # decSeparator = (if decSeparator is `undefined` then "." else decSeparator)
         thouSeparator = "," # thouSeparator = (if thouSeparator is `undefined` then "," else thouSeparator)
         sign = (if n < 0 then "-" else "")
         i = parseInt(n = Math.abs(+n or 0).toFixed(decPlaces)) + ""
         j = (if (j = i.length) > 3 then j % 3 else 0)
-        sign + ((if j then i.substr(0, j) + thouSeparator else "")) + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + ((if decPlaces then decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) else ""))
+        res = sign + ((if j then i.substr(0, j) + thouSeparator else "")) + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + ((if decPlaces then decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) else ""))
 
     assetValue: (asset) ->
         return 0.0 unless asset

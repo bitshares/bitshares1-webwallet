@@ -26,7 +26,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.xAxisTickFormatOrderbookChart = ->
         return (d) ->
-            return d.toFixed(price_decimals)
+            return Utils.formatDecimal(d, price_decimals, true)
+
+    $scope.yAxisTickFormatOrderbookChart = ->
+        return (y) ->
+            return Utils.formatDecimal(y, $scope.market.quantity_precision, true)
 
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
@@ -36,9 +40,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(x, $scope.market.price_precision)
-            volume = Utils.formatDecimal(y, $scope.market.quantity_precision)
-            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{volume} #{$scope.market.quantity_symbol}</p>"
+            price = Utils.formatDecimal(x, $scope.market.price_precision, true)
+            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{y} #{$scope.market.quantity_symbol}</p>"
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
@@ -200,7 +203,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision) if data.price
+        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision, true) if data.price
         order.quantity = data.quantity if data.quantity
 
     $scope.submit_test = ->

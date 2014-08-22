@@ -574,21 +574,32 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", true)
 
                 if @counter % 5 == 0
-                    p_precision = (self.market.price_precision+"").length - 1
-                    q_precision = (self.market.quantity_precision+"").length - 1
+#                    p_precision = (self.market.price_precision+"").length - 1
+#                    q_precision = (self.market.quantity_precision+"").length - 1
                     sum_asks = 0.0
-                    sum_bids = 0.0
+                    sum_ask_prices = 0.0
                     asks_array = []
-                    bids_array = []
+                    counter = 0
                     for a in self.asks
+                        avg_ask_price = if counter > 0 then sum_ask_prices / counter else a.price
+                        continue if a.price > 1.8 * avg_ask_price
+                        counter += 1
+                        sum_ask_prices += a.price
                         sum_asks += a.quantity
                         #console.log "------ ask ------>", a.price, sum_asks
-                        asks_array.push [Number(a.price,).toFixed(p_precision)/1.0, Number(sum_asks).toFixed(q_precision)/1.0]
+                        asks_array.push [a.price, sum_asks]
 
+                    sum_bids = 0.0
+                    sum_bid_prices = 0.0
+                    bids_array = []
+                    counter = 0
                     for b in self.bids #.reverse()
+                        avg_bid_price = if counter > 0 then sum_bid_prices / counter else b.price
+                        continue if b.price < 0.2 * avg_bid_price
+                        counter += 1
+                        sum_bid_prices += b.price
                         sum_bids += b.quantity
-                        #console.log "------ bid ------>", b.price, sum_bids
-                        bids_array.push [Number(b.price,).toFixed(p_precision)/1.0, Number(sum_bids).toFixed(q_precision)/1.0]
+                        bids_array.push [b.price, sum_bids]
 
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
