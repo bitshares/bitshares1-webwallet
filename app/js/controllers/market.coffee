@@ -25,7 +25,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return d3.time.format('%m/%e %H:%M')(new Date(d))
     $scope.yAxisTickFormatPriceChart = ->
         return (y) ->
-            price = Utils.formatDecimal(y, $scope.market.price_precision)
+            precision = if y > 1000.0 then 0 else $scope.market.price_precision
+            price = Utils.formatDecimal(y, precision)
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
@@ -37,7 +38,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             return Utils.formatDecimal(d, price_decimals, true)
     $scope.yAxisTickFormatOrderbookChart = ->
         return (y) ->
-            return Utils.formatDecimal(y, $scope.market.quantity_precision, true)
+            precision = if y > 1000.0 then 0 else $scope.market.quantity_precision
+            return Utils.formatDecimal(y, precision, true)
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(x, $scope.market.price_precision, true)
@@ -204,7 +206,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short
             else $scope.bid
         order.price = Utils.formatDecimal(data.price, $scope.market.price_precision, true) if data.price
-        order.quantity = data.quantity if data.quantity
+        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
 
     $scope.submit_test = ->
         form = @buy_form
