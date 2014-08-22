@@ -334,7 +334,7 @@ class MarketService
                 market.quantity_precision = market.quantity_asset.precision
                 market.base_asset = results[1]
                 market.base_precision = market.base_asset.precision
-                market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 100
+                market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 10
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
@@ -533,8 +533,8 @@ class MarketService
             for t in result
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
                 lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-                highest_bid_data.push [@helper.date(t.timestamp), Number(highest_bid).toFixed(precision)/1.0]
-                lowest_ask_data.push [@helper.date(t.timestamp), Number(lowest_ask).toFixed(precision)/1.0]
+                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
+                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
 
             price_history = []
             if highest_bid_data.length > 0
@@ -622,6 +622,7 @@ class MarketService
             if self.market.avg_price_24h > 0
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 9.0 / 10.0
                 self.market.max_short_price = market.max_short_price = self.market.avg_price_24h * 10.0 / 9.0
+                self.market.price_precision = market.price_precision = 4 if self.market.avg_price_24h > 1.0
             else
                 self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                     res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")

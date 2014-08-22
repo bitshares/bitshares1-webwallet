@@ -11,7 +11,7 @@
     <tbody>
       <tr ng-repeat="o in bids" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
         <td ng-show="!market.inverted">{{o.display_type}}</td>
-        <td>{{o.price | formatDecimal : market.price_precision}}</td>
+        <td>{{o.price | formatDecimal : market.price_precision : true}}</td>
         <td>{{o.quantity | formatDecimal : market.quantity_precision}}</td>
         <td>{{o.cost | formatDecimal : market.base_precision}}</td>
       </tr>

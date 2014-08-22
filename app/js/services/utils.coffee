@@ -51,7 +51,7 @@ servicesModule.factory "Utils", ->
         parts = (Number(value) + "").split('.')
         return if parts.length < 2 then 0 else parts[1].length
 
-    formatDecimal: (value, decPlaces, truncate0s = false) ->
+    formatDecimal: (value, decPlaces, truncate0s = true) ->
         n = @truncateTrailing9s(value)
         #return n unless decPlaces
         decPlaces = decPlaces.toString().length - 1 if decPlaces > 9

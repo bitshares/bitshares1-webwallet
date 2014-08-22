@@ -9,7 +9,7 @@ angular.module("app").filter "formatMoney", (Utils)->
     (asset) -> Utils.formatMoney(asset)
 
 angular.module("app").filter "formatDecimal", (Utils)->
-    (asset, decimals) -> Utils.formatDecimal(asset, decimals)
+    (asset, decimals, truncate0s) -> Utils.formatDecimal(asset, decimals, truncate0s)
 
 angular.module("app").filter "formatAccountBalance", (Blockchain, Utils) ->
     (account) ->

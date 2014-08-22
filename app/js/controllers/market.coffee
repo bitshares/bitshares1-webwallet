@@ -23,21 +23,21 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.xAxisTickFormatPriceChart = ->
         return (d) ->
             return d3.time.format('%m/%e %H:%M')(new Date(d))
-
-    $scope.xAxisTickFormatOrderbookChart = ->
-        return (d) ->
-            return Utils.formatDecimal(d, price_decimals, true)
-
-    $scope.yAxisTickFormatOrderbookChart = ->
+    $scope.yAxisTickFormatPriceChart = ->
         return (y) ->
-            return Utils.formatDecimal(y, $scope.market.quantity_precision, true)
-
+            price = Utils.formatDecimal(y, $scope.market.price_precision)
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
             time = d3.time.format('%m/%e/%y %H:%M:%S')(new Date(e.point[0]))
             "<div class='chart-tooltip'><h4>#{key}</h4><p>#{price} #{$scope.market.price_symbol}</p><p>At #{time}</p></div>"
 
+    $scope.xAxisTickFormatOrderbookChart = ->
+        return (d) ->
+            return Utils.formatDecimal(d, price_decimals, true)
+    $scope.yAxisTickFormatOrderbookChart = ->
+        return (y) ->
+            return Utils.formatDecimal(y, $scope.market.quantity_precision, true)
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(x, $scope.market.price_precision, true)
