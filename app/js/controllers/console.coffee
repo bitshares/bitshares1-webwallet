@@ -15,9 +15,7 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
     if ConsoleState.states.length == 0
         RpcService.request("meta_help", []).then (response) ->
             for s in response.result
-                # filter bitcoin apis
-                if !((s[0].indexOf "bitcoin") == 0)
-                    ConsoleState.states.push s[0] + " "
+                ConsoleState.states.push s[0] + " "
     
     if ConsoleState.outputs.length == 0
         RpcService.request('execute_command_line', ['help']).then (response) => 
