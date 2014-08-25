@@ -1,0 +1,29 @@
+<div class="col-sm-12">
+  <div class="header">
+    <!--<button type="submit" ng-click='newContactModal()' class="btn btn-primary pull-right directory-add-contact">-->
+      <!--<i class="fa fa-plus fa-fw"></i>Add Contact-->
+    <!--</button>-->
+    <h3 class="header-title">Directory</h3>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <div class="main-content">
+      <tabset>
+        <tab heading="{{ 'directory.favorites' | translate }}" ng-click="goto_tab('directory.favorites')" active="tabs[0].active">
+          <div ui-view="directory-favorites"></div>
+        </tab>
+        <tab heading="{{ 'directory.unregistered' | translate }}" ng-click="goto_tab('directory.unregistered')" active="tabs[1].active">
+          <div ui-view="directory-unregistered"></div>
+        </tab>
+        <tab heading="{{ 'directory.registered' | translate }}" ng-click="goto_tab('directory.registered')" active="tabs[2].active">
+          <div ui-view="directory-registered"></div>
+        </tab>
+        <tab heading="{{ 'assets' | translate }}" ng-click="goto_tab('directory.assets')" active="tabs[3].active">
+          <div ui-view="directory-assets"></div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

@@ -20,7 +20,7 @@
           <ul class="nav nav-stacked">
             <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
             <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>{{ 'index.my_account' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="directory"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
+            <li ng-class="{active: current_path_includes('directory')}"><a ui-sref="directory.favorites"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
             <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-flag fa-fw"></i>{{ 'index.delegates' | translate }}</a></li>
             <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>{{ 'index.market' | translate }}</a></li>
             <li ng-class="{active: current_path_includes('blocks')}"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>{{ 'index.block_explorer' | translate }}</a></li>

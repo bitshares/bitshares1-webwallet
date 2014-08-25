@@ -109,8 +109,13 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp.state "directory",
         url: "/directory"
-        templateUrl: "directory.html"
+        templateUrl: "directory/directory.html"
         controller: "DirectoryController"
+
+    sp.state "directory.favorites", { url: "/favorites", views: { 'directory-favorites': { templateUrl: 'directory/favorite.html', controller: 'FavoriteController' } } }
+    sp.state "directory.unregistered", { url: "/unregistered", views: { 'directory-unregistered': { templateUrl: 'contacts.html', controller: 'ContactsController' } } }
+    sp.state "directory.registered", { url: "/registered?letter", views: { 'directory-registered': { templateUrl: 'directory/registered.html' } } }
+    sp.state "directory.assets", { url: "/assets", views: { 'directory-assets': { templateUrl: 'directory/assets.html', controller: 'AssetsController' } } }
 
     sp.state "delegates",
         url: "/delegates"

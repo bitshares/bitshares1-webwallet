@@ -109,7 +109,7 @@ class MarketHelper
                 break
 
     ratio_to_price: (value, assets) ->
-        return 0.0 if value.base_asset_id == 0 and value.quote_asset_id == 0
+        return 0.0 if !value or (value.base_asset_id == 0 and value.quote_asset_id == 0)
         ba = assets[value.base_asset_id]
         qa = assets[value.quote_asset_id]
         return value.ratio * (ba.precision / qa.precision)

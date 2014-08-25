@@ -396,3 +396,12 @@ input.ng-dirty.ng-invalid {
 	position: relative;
 	top: -5px;
 }
+
+.pagination a.btn-primary, .pagination a.btn-primary:hover {
+	color: #fff !important;
+	background-color: #01bbf4 !important;
+}
+
+.alphabet > ul {
+	margin: 0;
+}
