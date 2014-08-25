@@ -1,4 +1,38 @@
-angular.module("app").controller "DirectoryController", ($scope, $location, $filter, $modal, Blockchain, Wallet, WalletAPI, Utils) ->
+angular.module("app").controller "DirectoryController", ($scope, $state, $location, $rootScope, $filter, $modal, Blockchain, Wallet, WalletAPI, Utils) ->
+    $scope.alphabet = "abcdefghijklmnopqrstuvwxyz"
+    $scope.first_letter = ""
+
+    # tabs
+    $scope.tabs = []
+    $scope.tabs.push { heading: "directory.favorites", route: "directory.favorites", active: true }
+    $scope.tabs.push { heading: "directory.unregistered", route: "directory.unregistered", active: false }
+    $scope.tabs.push { heading: "directory.registered", route: "directory.registered", active: false }
+    $scope.tabs.push { heading: "directory.assets", route: "directory.assets", active: false }
+    $scope.goto_tab = (route) ->
+        params = {letter: $scope.first_letter}
+        $state.go route, params
+    $scope.active_tab = (route) -> $state.is route
+    $scope.$on "$stateChangeSuccess", ->
+        if $state.current.name == "directory.registered"
+            $scope.first_letter = $state.params.letter or "a"
+        $scope.tabs.forEach (tab) ->
+            tab.active = $scope.active_tab(tab.route)
+
+    $scope.$watch ->
+        $scope.first_letter
+    , (value) ->
+        return unless value
+        $scope.q.name = ""
+        promise = Blockchain.list_accounts(value, 10000)
+        promise.then (reg) ->
+            fl_accounts = []
+            for a in reg
+                continue if a.name.lastIndexOf(value, 0) != 0
+                fl_accounts.push a
+            $scope.reg = fl_accounts
+            $scope.p.numberOfPages = Math.ceil(fl_accounts.length / $scope.p.pageSize)
+        $rootScope.showLoadingIndicator promise
+
     $scope.reg = []
     $scope.genesis_date = ""
     $scope.p =
@@ -23,10 +57,6 @@ angular.module("app").controller "DirectoryController", ($scope, $location, $fil
 
     Blockchain.get_info().then (config) ->
         $scope.genesis_date = config.genesis_timestamp
-
-    Blockchain.list_accounts(null, 1776).then (reg) ->
-        $scope.reg = reg
-        $scope.p.numberOfPages = Math.ceil($scope.reg.length / $scope.p.pageSize)
 
     $scope.contacts = {}
     $scope.refresh_contacts = ->

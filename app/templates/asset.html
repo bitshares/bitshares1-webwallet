@@ -67,7 +67,7 @@
                   {{feed.delegate_name}}
                 </td>
                 <td>
-                  {{ feed.price | formatDecimal:symbol2records[feed.asset_symbol].precision}}
+                  {{ feed.price | formatDecimal:symbol2records[ticker].precision}}
                 </td>
                 <td>
                   {{feed.last_update | prettyDate}}
