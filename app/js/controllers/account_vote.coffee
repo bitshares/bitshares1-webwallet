@@ -22,6 +22,7 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 $scope.accounts[name]={}
             $scope.accounts[name].approved=newApproval
 
+    Wallet.balances[$scope.account_name][Info.symbol] = 0.0
     $scope.$watch ->
         Wallet.balances[$scope.account_name][Info.symbol].amount
     , (cur, old) ->
