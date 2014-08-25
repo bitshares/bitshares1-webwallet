@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | filter:q.q | reverse | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td>
             <span ng-repeat="entry in t.ledger_entries" class="trx-from-to">
                 <!--From-->
