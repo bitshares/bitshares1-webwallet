@@ -46,7 +46,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
         #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value
         BlockchainAPI.get_account(name).then (result) ->
-            if ($scope.account.owner_key != result.owner_key)
+            if result and $scope.account.owner_key != result.owner_key
                 #Growl.error 'Rename this account to use it', 'Account with the name ' + name + ' is already registered on the blockchian.'
                 $modal.open
                     templateUrl: "dialog-rename.html"
