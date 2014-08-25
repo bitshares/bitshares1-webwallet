@@ -586,40 +586,26 @@ class MarketService
                 self.helper.sort_array(self.asks, "price", false)
                 self.helper.sort_array(self.bids, "price", true)
 
-                if @counter % 5 == 0
-#                    console.log "------ self.market.avg_price_1h ------>", self.market.avg_price_1h, market.avg_price_1h
-#                    p_precision = (self.market.price_precision+"").length - 1
-#                    q_precision = (self.market.quantity_precision+"").length - 1
+                if @counter % 5 == 0 and self.market.avg_price_1h and self.market.avg_price_1h > 0.0
+
                     sum_asks = 0.0
-                    sum_ask_prices = 0.0
                     asks_array = []
-                    counter = 0
                     for a in self.asks
-                        avg_ask_price = if counter > 0 then sum_ask_prices / counter else a.price
-                        continue if a.price > 1.8 * avg_ask_price
-                        counter += 1
-                        sum_ask_prices += a.price
+                        continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
                         sum_asks += a.quantity
-                        #console.log "------ ask ------>", a.price, sum_asks
                         asks_array.push [a.price, sum_asks]
 
                     sum_bids = 0.0
-                    sum_bid_prices = 0.0
                     bids_array = []
-                    counter = 0
-                    for b in self.bids #.reverse()
-                        avg_bid_price = if counter > 0 then sum_bid_prices / counter else b.price
-                        continue if b.price < 0.2 * avg_bid_price
-                        counter += 1
-                        sum_bid_prices += b.price
+                    for b in self.bids
+                        continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
                         sum_bids += b.quantity
                         bids_array.push [b.price, sum_bids]
 
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
-                        orderbook_chart_data.push {"key": "Bids", "area": true, color: "#2ca02c", "values": bids_array}
-                        orderbook_chart_data.push {"key": "Asks", "area": true, color: "#ff7f0e", "values": asks_array}
-                    #console.log "------ orderbook_chart_data ------>", orderbook_chart_data
+                        orderbook_chart_data.push {"key": "Buy #{self.market.quantity_symbol}", "area": true, color: "#2ca02c", "values": bids_array}
+                        orderbook_chart_data.push {"key": "Sell #{self.market.quantity_symbol}", "area": true, color: "#ff7f0e", "values": asks_array}
                     self.market.orderbook_chart_data = orderbook_chart_data
 
             catch e
