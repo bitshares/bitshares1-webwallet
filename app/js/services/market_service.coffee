@@ -114,16 +114,22 @@ class MarketHelper
         qa = assets[value.quote_asset_id]
         return value.ratio * (ba.precision / qa.precision)
 
-    read_market_data: (market, data, assets) ->
+    read_market_data: (market, data, assets, inverted) ->
+        actual_market = market.get_actual_market()
         ba = assets[data.base_id]
-        market.bid_depth = data.bid_depth / ba.precision
-        market.ask_depth = data.ask_depth / ba.precision
-        market.avg_price_24h = @ratio_to_price(data.avg_price_24h, assets)
-        market.avg_price_24h = 1.0 / market.avg_price_24h if market.inverted and market.avg_price_24h > 0
-        if data.last_error
-            market.error.title = data.last_error.message
+        if inverted
+            actual_market.bid_depth = market.bid_depth = data.ask_depth / ba.precision
+            actual_market.ask_depth = market.ask_depth = data.bid_depth / ba.precision
         else
-            market.error.text = market.error.title = null
+            actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
+            actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
+
+        actual_market.avg_price_24h = market.avg_price_24h = @ratio_to_price(data.avg_price_24h, assets)
+        actual_market.avg_price_24h = market.avg_price_24h = 1.0 / market.avg_price_24h if inverted and market.avg_price_24h > 0
+        if data.last_error
+            actual_market.error.title = market.error.title = data.last_error.message
+        else
+            actual_market.error.text = market.error.text = market.error.title = null
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
@@ -346,7 +352,7 @@ class MarketService
                     status_call = @blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol)
                 status_call.then (result) =>
                     console.log "market_status #{if market.inverted then 'inverted' else 'direct'} --->", result
-                    @helper.read_market_data(market, result, market.assets_by_id)
+                    @helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
                     error_message = "No orders have been placed."
@@ -494,9 +500,15 @@ class MarketService
             @helper.update_array
                 target: @orders
                 data: orders
-                update: (target_el, data_el) ->
+                update: (target_el, data_el) =>
                     if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
                         target_el.status = data_el.status
+                    target_el.type = data_el.type
+                    target_el.cost = data_el.cost
+                    target_el.quantity = data_el.quantity
+                    target_el.collateral = data_el.collateral
+                    target_el.type = data_el.type
+                    target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
                 can_remove: (o) ->
                     #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
@@ -618,7 +630,8 @@ class MarketService
         self = data.context
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
-            self.helper.read_market_data(self.market, result, market.assets_by_id)
+            self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
+            console.log "------  ------>"
             if self.market.avg_price_24h > 0
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 9.0 / 10.0
                 self.market.max_short_price = market.max_short_price = self.market.avg_price_24h * 10.0 / 9.0
