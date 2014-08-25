@@ -122,9 +122,7 @@
                         <input tabindex="1" ng-trim="false" ng-model="spending_password" name="sp" type="password" style="width:200px;" class="form-control"  id="spending_password"
                                placeholder="Password"
                                required autofocus ng-minlength="9" ng-maxlength="255" />
-                        <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
-                        <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
-                        <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
+
                       </div>
                 </div>
                 <div class="row spacedrow">
@@ -133,7 +131,6 @@
                       <input tabindex="2" ng-trim="false" ng-model="confirm_spending_password" name="csp" type="password" style="width:200px;" class="form-control"
                              id="confirm_spending_password"
                              placeholder="Confirm Password" required pw-check="spending_password" />
-                      <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Fields do not match.</div>
                     </div>
                 </div>
                 <div class="row spacedrow">
@@ -141,11 +138,16 @@
                         <button ng-disabled="loading_indicator.show" tabindex="3" type="submit" class="btn btn-primary" translate>wallet.create_wallet</button>
                       </div>
                 </div>
+               <div class="row">
+                   <br>
+                   <div ng-show="wform.sp.$error.minlength" class="text-danger small">Password is too short. It must be 9 or more characters.</div>
+                   <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
+                   <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
+                   <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Password fields do not match.</div>
+               </div>
+
            </form>
 
-
-
-      <img src="img/bts-icon-white-transparent.png" />
       </div>
 
    </div>

@@ -65,7 +65,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.transfer_info.memo = ""
             Growl.notice "", "Transfer transaction broadcasted"
             Wallet.refresh_transactions_on_update()
-            $scope.t_active=true
+            $scope.model.t_active=true
         ,
         (error) ->
             if (error.data.error.code==20005)
