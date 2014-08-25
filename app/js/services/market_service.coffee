@@ -53,7 +53,7 @@ class Market
         @price_symbol = ''
         @bid_depth = 0.0
         @ask_depth = 0.0
-        @avg_price_24h = 0.0
+        @avg_price_1h = 0.0
         @highest_bid = 0.0
         @lowest_ask = 0.0
         @median_price = 0.0
@@ -86,7 +86,7 @@ class Market
         m.ask_depth = @ask_depth
         m.highest_bid = @highest_bid
         m.lowest_ask = @lowest_ask
-        m.avg_price_24h = @avg_price_24h
+        m.avg_price_1h = @avg_price_1h
         m.median_price = @median_price
         m.assets_by_id = @assets_by_id
         m.error = @error
@@ -124,8 +124,8 @@ class MarketHelper
             actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
             actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
 
-        actual_market.avg_price_24h = market.avg_price_24h = @ratio_to_price(data.avg_price_24h, assets)
-        actual_market.avg_price_24h = market.avg_price_24h = 1.0 / market.avg_price_24h if inverted and market.avg_price_24h > 0
+        actual_market.avg_price_1h = market.avg_price_1h = @ratio_to_price(data.avg_price_1h, assets)
+        actual_market.avg_price_1h = market.avg_price_1h = 1.0 / market.avg_price_1h if inverted and market.avg_price_1h > 0
         if data.last_error
             actual_market.error.title = market.error.title = data.last_error.message
         else
@@ -487,6 +487,7 @@ class MarketService
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
+            @helper.sort_array(@covers, "price", inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
@@ -519,7 +520,7 @@ class MarketService
 
     pull_trades: (market, inverted) ->
         trades = []
-        @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 100).then (results) =>
+        @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 50).then (results) =>
             for r in results
                 td = @helper.trade_history_to_order(r, market.assets_by_id, inverted)
                 trades.push td
@@ -586,6 +587,7 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", true)
 
                 if @counter % 5 == 0
+#                    console.log "------ self.market.avg_price_1h ------>", self.market.avg_price_1h, market.avg_price_1h
 #                    p_precision = (self.market.price_precision+"").length - 1
 #                    q_precision = (self.market.quantity_precision+"").length - 1
                     sum_asks = 0.0
@@ -631,11 +633,11 @@ class MarketService
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
-            console.log "------  ------>"
-            if self.market.avg_price_24h > 0
-                self.market.min_short_price = market.min_short_price = self.market.avg_price_24h * 9.0 / 10.0
-                self.market.max_short_price = market.max_short_price = self.market.avg_price_24h * 10.0 / 9.0
-                self.market.price_precision = market.price_precision = 4 if self.market.avg_price_24h > 1.0
+            #console.log "------ pull_market_status ------>", self.market.avg_price_1h
+            if self.market.avg_price_1h > 0
+                self.market.min_short_price = market.min_short_price = self.market.avg_price_1h * 9.0 / 10.0
+                self.market.max_short_price = market.max_short_price = self.market.avg_price_1h * 10.0 / 9.0
+                self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
             else
                 self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                     res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
