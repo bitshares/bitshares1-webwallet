@@ -209,10 +209,10 @@ class Wallet
 
                     @transactions_all_by_id[val.trx_id] = transaction
 
+                    @transactions["*"].unshift transaction
                     angular.forEach involved_accounts, (val, account) =>
                         @transactions[account] ||= []
                         @transactions[account].unshift transaction
-                        @transactions["*"].unshift transaction
 
                 @transactions_loading_promise = null
                 deffered.resolve(@transactions)
