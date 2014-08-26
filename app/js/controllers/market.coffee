@@ -119,6 +119,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.accounts.push a if a.is_my_account
 
     $scope.$on "$destroy", ->
+        MarketService.orders = []#.slice(0, MarketService.orders.length)
         Observer.unregisterObserver(market_data_observer)
         Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
