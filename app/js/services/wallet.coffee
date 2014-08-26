@@ -6,7 +6,10 @@ class Wallet
 
     asset_balances : {}
 
-    transactions: { ":all:by:id:" : {}, ":last:block:": 0 }
+    transactions: {"*": []}
+    transactions_loading_promise: null
+    transactions_last_block: 0
+    transactions_all_by_id: {}
 
     # set in constructor
     timeout: null
@@ -139,64 +142,84 @@ class Wallet
         @wallet_api.account_set_approval(name, approve)
     
     refresh_transactions_on_update: () ->
-        @refresh_transactions()
-        angular.forEach @accounts, (account, name) =>
-            if account.is_my_account
-                @refresh_transactions(name)
+        #@refresh_transactions()
+#        .then ->
+#            promises = []
+#            angular.forEach @accounts, (account, name) =>
+#                if account.is_my_account
+#                    promises.push @refresh_transactions(name)
 
-    refresh_transactions: (account_name) ->
-        account_name_key = account_name || "*"
-        all_by_id = @transactions[":all:by:id:"]
-        last_block = @transactions[":last:block:"]
-        @transactions[account_name_key] = [] unless account_name_key in @transactions
-        account_transactions = @transactions[account_name_key]
-        @blockchain.refresh_asset_records().then () =>
-            @wallet_account_transaction_history(account_name, "", 0, last_block, -1).then (result) =>
-                #console.log "------ refresh_transactions ------>", account_name, result
+    refresh_transactions: ->
+        #console.log "------ refresh_transactions begin ------>", !!@transactions_loading_promise
+        return @transactions_loading_promise if @transactions_loading_promise
+        deffered = @q.defer()
 
-                angular.forEach result, (val, key) =>
+        @transactions_loading_promise = deffered.promise
 
-                    @transactions[":last:block:"] = val.block_num
-                    if val.trx_id in all_by_id
-                        transaction = all_by_id[val.trx_id]
-                    else
-                        ledger_entries = []
-                        angular.forEach val.ledger_entries, (entry) =>
-                            running_balances = []
-                            angular.forEach entry.running_balances, (item) =>
-                                asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                                running_balances.push asset
-                            ledger_entries.push
-                                from: entry.from_account
-                                to: entry.to_account
-                                amount: entry.amount.amount
-                                amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
-                                memo: entry.memo
-                                running_balances: running_balances
+        refresh_asset_records_promise = @blockchain.refresh_asset_records()
+        refresh_asset_records_promise.catch (error) =>
+            @transactions_loading_promise = null
+            deffered.reject(error)
 
-                        time = @utils.toDate(val.received_time)
-                        transaction =
-                            is_virtual: val.is_virtual
-                            is_confirmed: val.is_confirmed
-                            block_num: val.block_num
-                            error: val.error
-                            trx_num: val.trx_num
-                            time: time
-                            pretty_time: time.toLocaleString "en-us"
-                            ledger_entries: ledger_entries
-                            id: val.trx_id
-                            fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
-                            vote: "N/A"
-                            accounts: {account_name_key: true}
-                        all_by_id[val.trx_id] = transaction
+        refresh_asset_records_promise.then =>
 
-                    unless account_name_key in transaction.accounts
-                            transaction.accounts[account_name_key] = true
-                            account_transactions.unshift transaction
+            account_transaction_history_promise = @wallet_api.account_transaction_history("", "", 0, @transactions_last_block, -1)
+            account_transaction_history_promise.catch (error) =>
+                @transactions_loading_promise = null
+                deffered.reject(error)
 
-                #console.log "------ account_transactions ------>", account_transactions
+            account_transaction_history_promise.then (result) =>
 
-        return account_transactions
+                for val in result
+                    @transactions_last_block = val.block_num
+                    continue if @transactions_all_by_id[val.trx_id]
+
+                    #console.log "------ refresh_transactions ------>", val.block_num, val
+
+                    involved_accounts = {}
+                    ledger_entries = []
+                    angular.forEach val.ledger_entries, (entry) =>
+                        involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
+                        involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
+                        running_balances = []
+                        angular.forEach entry.running_balances, (item) =>
+                            asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                            running_balances.push asset
+                        ledger_entries.push
+                            from: entry.from_account
+                            to: entry.to_account
+                            amount: entry.amount.amount
+                            amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
+                            memo: entry.memo
+                            running_balances: running_balances
+
+                    time = @utils.toDate(val.received_time)
+                    transaction =
+                        is_virtual: val.is_virtual
+                        is_confirmed: val.is_confirmed
+                        block_num: val.block_num
+                        error: val.error
+                        trx_num: val.trx_num
+                        time: time
+                        pretty_time: time.toLocaleString "en-us"
+                        ledger_entries: ledger_entries
+                        id: val.trx_id
+                        fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
+                        vote: "N/A"
+
+                    @transactions_all_by_id[val.trx_id] = transaction
+
+                    angular.forEach involved_accounts, (val, account) =>
+                        @transactions[account] ||= []
+                        @transactions[account].unshift transaction
+                        @transactions["*"].unshift transaction
+
+                @transactions_loading_promise = null
+                deffered.resolve(@transactions)
+
+                #console.log "------ account_transactions finished ------>"
+
+        return @transactions_loading_promise
 
 
     refresh_transactions_on_new_block: () ->
@@ -207,33 +230,33 @@ class Wallet
 #                angular.forEach @accounts, (account, name) =>
 #                    if account.is_my_account
 #                        @refresh_transactions(name)
-
-    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
-    # TODO: sort transactions, show the most recent ones on top
-    get_transactions: (account_name) ->
-        account_name_key = account_name || "*"
-        if @transactions[account_name_key]
-            deferred = @q.defer()
-            deferred.resolve(@transactions[account_name_key])
-            return deferred.promise
-        else
-            @blockchain.get_asset(0).then (main_asset) ->
-                @wallet_account_transaction_history(account_name).then (result) =>
-                    @transactions[account_name_key] = []
-                    angular.forEach result, (val, key) =>
-                        blktrx=val.block_num + "." + val.trx_num
-                        @transactions[account_name_key].push
-                            block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
-                            #trx_num: Number(key) + 1
-                            time: new Date(val.received_time*1000)
-                            amount: val.amount
-                            from: val.from_account
-                            to: val.to_account
-                            memo: val.memo_message
-                            id: val.trx_id.substring 0, 8
-                            fee: @utils.asset(val.fees, main_asset)
-                            vote: "N/A"
-                    @transactions[account_name_key]
+#
+#    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
+#    # TODO: sort transactions, show the most recent ones on top
+#    get_transactions: (account_name) ->
+#        account_name_key = account_name || "*"
+#        if @transactions[account_name_key]
+#            deferred = @q.defer()
+#            deferred.resolve(@transactions[account_name_key])
+#            return deferred.promise
+#        else
+#            @blockchain.get_asset(0).then (main_asset) ->
+#                @wallet_account_transaction_history(account_name).then (result) =>
+#                    @transactions[account_name_key] = []
+#                    angular.forEach result, (val, key) =>
+#                        blktrx=val.block_num + "." + val.trx_num
+#                        @transactions[account_name_key].push
+#                            block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
+#                            #trx_num: Number(key) + 1
+#                            time: new Date(val.received_time*1000)
+#                            amount: val.amount
+#                            from: val.from_account
+#                            to: val.to_account
+#                            memo: val.memo_message
+#                            id: val.trx_id.substring 0, 8
+#                            fee: @utils.asset(val.fees, main_asset)
+#                            vote: "N/A"
+#                    @transactions[account_name_key]
 
     create: (wallet_name, spending_password) ->
         @rpc.request('wallet_create', [wallet_name, spending_password])
@@ -267,8 +290,8 @@ class Wallet
               @refresh_transactions()
           response.result
 
-    wallet_account_transaction_history: (account_name) ->
-        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
+#    wallet_account_transaction_history: (account_name) ->
+#        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
     wallet_unlock: (password)->
         @rpc.request('wallet_unlock', [@backendTimeout, password]).then (response) =>

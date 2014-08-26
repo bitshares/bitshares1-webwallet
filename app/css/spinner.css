@@ -4,7 +4,7 @@
 	height: 100%;
 	width: 100%;
 	position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
+  top: 0; left: 190px; bottom: 0; right: 0;
 	z-index: 1 !important;
 	/*background-color: #fff;*/
 }
@@ -26,7 +26,7 @@
 	border-radius: 5px;
 	margin: auto;
 	position: absolute;
-  top: 15%; left: 0; bottom: 0; right: 0;
+  top: 15%; left: -190px; bottom: 0; right: 0;
 }
 
 .progress-indicator {

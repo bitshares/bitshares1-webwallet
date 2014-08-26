@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | filter:q.q | reverse | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize  track by $index" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td>
             <span ng-repeat="entry in t.ledger_entries" class="trx-from-to">
                 <!--From-->
@@ -86,15 +86,15 @@
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
-        <td>
+        <td ng-show="showBalances">
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-show="showBalances" ng-repeat="balance in entry.running_balances">
+                <span ng-repeat="balance in entry.running_balances">
                     <span class="bold">{{ balance | formatAsset}}</span> <br>
                 </span>
             </span>
         </td>
          <td>
-            <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span tooltip="{{ t.time | prettyDate }}">{{ t.time | prettyRecentDate }}</span></a>
+            <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span>{{t.pretty_time}}</span></a>
             <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
             <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
         </td>
