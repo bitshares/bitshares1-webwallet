@@ -120,11 +120,15 @@
         <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
         <div class="col-md-5">
           <div class="input-group">
-            <input ng-model="transfer_info.payto" name="payto" type="text"
+            <input ng-if='model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="Contact Name" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select='onSelect($item, $model, $label)' typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="my_transfer_form.payto.error_message = null"/>
+            <input ng-if='!model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
+                 class="form-control" placeholder="Contact Name" id="payto"
+                 ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
+                 required ng-change="my_transfer_form.payto.error_message = null"/>
             <span ng-if='!gravatar_account_name' ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;contact' tooltip-placement='right'>
               <i class="fa fa-book fa-lg fa-fw"></i>
             </span>
