@@ -37,7 +37,7 @@ class Wallet
                         @idle._options().idleDuration=@timeout
                         @idle.watch()
                 @get_setting('autocomplete').then (result) =>
-                    @autocomplete=result.value
+                    @autocomplete=result.value if result
         else
             @open().then =>
                 #redirection
