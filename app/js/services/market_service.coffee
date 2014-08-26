@@ -51,6 +51,7 @@ class Market
         @url = ''
         @inverted_url = ''
         @price_symbol = ''
+        @collateral_symbol = ''
         @bid_depth = 0.0
         @ask_depth = 0.0
         @avg_price_1h = 0.0
@@ -82,6 +83,7 @@ class Market
         m.url = @inverted_url
         m.inverted_url = @url
         m.price_symbol = "#{@quantity_symbol}/#{@base_symbol}"
+        m.collateral_symbol = @collateral_symbol
         m.bid_depth = @bid_depth
         m.ask_depth = @ask_depth
         m.highest_bid = @highest_bid
@@ -333,8 +335,8 @@ class MarketService
         market.asset_quantity_symbol = market.quantity_symbol.replace("Bit", "")
         market.asset_base_symbol = market.base_symbol.replace("Bit", "")
         @blockchain.refresh_asset_records().then =>
-            @q.all([@blockchain.get_asset(market.asset_quantity_symbol), @blockchain.get_asset(market.asset_base_symbol)]).then (results) =>
-                if !results[0] or !results[1]
+            @q.all([@blockchain.get_asset(market.asset_quantity_symbol), @blockchain.get_asset(market.asset_base_symbol), @blockchain.get_asset(0)]).then (results) =>
+                if !results[0] or !results[1] or !results[2]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
                     return
                 market.quantity_asset = results[0]
@@ -345,6 +347,7 @@ class MarketService
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
+                market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
                     status_call = @blockchain_api.market_status(market.asset_quantity_symbol, market.asset_base_symbol)
