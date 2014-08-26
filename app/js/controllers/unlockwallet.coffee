@@ -1,4 +1,4 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer) ->
+angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer, Info) ->
 
 #    observer =
 #        name: "scanning_transactions_observer"
@@ -15,6 +15,13 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
     $scope.descriptionCollapsed = true
     $scope.wrongPass = false
     $scope.keydown = -> $scope.wrongPass = false
+
+    cancel = $scope.$watch ->
+      Info.info.client_version
+    , ->
+      if (Info.info.client_version)
+        cancel()
+        $scope.client_version = Info.info.client_version
 
     $scope.submitForm = ->
         $scope.wrongPass = false
