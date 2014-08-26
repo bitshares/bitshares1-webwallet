@@ -1,12 +1,18 @@
 angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle) ->
     $scope.model ={ transaction_fee: 0.0 }
     $scope.model.timeout = Wallet.timeout
+    $scope.model.autocomplete = Wallet.autocomplete
     $scope.model.symbol = ''
 
     $scope.$watch ->
         Wallet.timeout
     , ->
         $scope.model.timeout = Wallet.timeout
+
+    $scope.$watch ->
+        Wallet.autocomplete
+    , ->
+        $scope.model.autocomplete = Wallet.autocomplete
 
     $scope.$watch ->
         Wallet.info.transaction_fee
@@ -27,6 +33,6 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         Wallet.timeout = $scope.model.timeout
         $idle._options().idleDuration=Wallet.timeout
         pf = $scope.model.transaction_fee
-        $q.all([Wallet.set_setting('timeout', $scope.model.timeout), WalletAPI.set_transaction_fee(pf)]).then (r) ->
+        $q.all([Wallet.set_setting('timeout', $scope.model.timeout), WalletAPI.set_transaction_fee(pf), Wallet.set_setting('autocomplete', $scope.model.autocomplete)]).then (r) ->
             Wallet.wallet_get_info()
             Growl.notice "Preferences Updated",""

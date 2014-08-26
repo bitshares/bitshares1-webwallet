@@ -14,6 +14,8 @@ class Wallet
     # set in constructor
     timeout: null
 
+    autocomplete: true
+
     pendingRegistrations: {}
 
     current_account: null
@@ -34,6 +36,8 @@ class Wallet
                         @timeout=result.value
                         @idle._options().idleDuration=@timeout
                         @idle.watch()
+                @get_setting('autocomplete').then (result) =>
+                    @autocomplete=result.value
         else
             @open().then =>
                 #redirection
