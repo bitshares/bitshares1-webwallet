@@ -488,7 +488,7 @@ class MarketService
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
-            @helper.sort_array(@covers, "price", inverted)
+            @helper.sort_array(@covers, "price", !inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []

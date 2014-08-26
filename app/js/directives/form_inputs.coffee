@@ -49,17 +49,29 @@ angular.module("app.directives").directive "inputName", ->
             $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
 
 angular.module("app.directives").directive "inputPositiveNumber", ->
-    template: '''
-        <input class="form-control" ui-validate="'validate($value)'" placeholder="0.0" />
-    '''
+    template: '''<input class="form-control" placeholder="0.0" />'''
     restrict: "E"
     replace: true
-    require: "^form"
-    scope:
-        ngModel: "="
-        name: "@"
-        required: "@"
-    controller: ($scope, $element) ->
-        $scope.validate = (value) ->
-            return true if (!value and !$scope.required)
-            return $.isNumeric(value) and value >= 0
+    require: "ngModel"
+
+    link: (scope, elm, attrs, ctrl) ->
+
+        validator = (viewValue) ->
+            res = null
+            if /^[\d\.\,\+]+$/.test(viewValue)
+                ctrl.$setValidity "float", true
+                if $.isNumeric(viewValue)
+                    res = viewValue
+                else
+                    res = parseFloat viewValue.replace(",", "")
+            else
+                ctrl.$setValidity "float", false
+            return res
+
+        ctrl.$parsers.unshift validator
+
+        scope.$watch attrs.ngModel, (newValue) ->
+            return unless newValue
+            res = validator(newValue)
+            ctrl.$setViewValue(newValue)
+            scope.$eval(attrs.ngModel + "=" + res)
