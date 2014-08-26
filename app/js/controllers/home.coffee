@@ -1,5 +1,4 @@
 angular.module("app").controller "HomeController", ($scope, $modal, Shared, $log, RpcService, Wallet, Blockchain, Growl, Info, Utils) ->
-
     Info.refresh_info().then ->
         # TODO this code sucks
         satoshi_income = Info.info.income_per_block * (60 * 60 * 24 / 15) #TODO from config

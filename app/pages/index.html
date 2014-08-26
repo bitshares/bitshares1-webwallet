@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
-  <body class="cover fixed_header" ng-controller="RootController">
+  <body class="cover fixed_header" ng-class="{splash: unlockwallet}" ng-controller="RootController">
     <div class="wrapper" ng-if="!unlockwallet">
       <!-- TOOLBAR -->
       <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
