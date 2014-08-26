@@ -124,7 +124,8 @@ class MarketHelper
             actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
             actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
 
-        actual_market.avg_price_1h = market.avg_price_1h = @ratio_to_price(data.avg_price_1h, assets)
+        console.log "------ read_market_data ------>", data, assets
+        actual_market.avg_price_1h = market.avg_price_1h = data.avg_price_1h #@ratio_to_price(data.avg_price_1h, assets)
         actual_market.avg_price_1h = market.avg_price_1h = 1.0 / market.avg_price_1h if inverted and market.avg_price_1h > 0
         if data.last_error
             actual_market.error.title = market.error.title = data.last_error.message
