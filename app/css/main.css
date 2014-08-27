@@ -405,3 +405,11 @@ input.ng-dirty.ng-invalid {
 .alphabet > ul {
 	margin: 0;
 }
+
+.help-popover {
+	font-size: 90%;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #aaa;
+	border-bottom: 1px dotted #aaa;
+}
