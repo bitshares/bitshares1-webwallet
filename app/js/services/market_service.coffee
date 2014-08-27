@@ -402,11 +402,13 @@ class MarketService
             order.id = res[0] if res.length == 1
         return call
 
-    cover_order: (order, account) ->
+    cover_order: (order, quantity, account) ->
+        console.log "------ cover order ------>", order, quantity
         order.touch()
         order.status = "pending"
+        order.quantity -= quantity if order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        @wallet_api.market_cover(account.name, order.quantity, symbol, order.id)
+        @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
@@ -497,8 +499,7 @@ class MarketService
         orders = []
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted,
-                    inverted)
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
@@ -510,7 +511,7 @@ class MarketService
                         target_el.status = data_el.status
                     target_el.type = data_el.type
                     target_el.cost = data_el.cost
-                    target_el.quantity = data_el.quantity
+                    target_el.quantity = data_el.quantity unless target_el.status == "pending"
                     target_el.collateral = data_el.collateral
                     target_el.type = data_el.type
                     target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
