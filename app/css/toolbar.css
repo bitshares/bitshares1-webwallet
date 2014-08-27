@@ -72,3 +72,37 @@ li[disabled] a {
 .nav .lock {
 	margin-right: 10px;
 }
+
+.snapjs-right .snap-help {
+	display: none;
+}
+
+.snap-help-open {
+	display: none !important;
+	background-color: #777;
+	position: relative;
+	left: 5px;
+	padding: 4px;
+	margin: 4px;
+	box-sizing: border-box;
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.snap-help-open a {
+	padding: 0;
+	margin: 0;
+	line-height: 30px;
+}
+
+.snap-help-open i {
+	color: #fff;
+	line-height: 30px;
+}
+
+.snapjs-right .snap-help-open {
+	display: block !important;
+}

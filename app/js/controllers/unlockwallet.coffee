@@ -1,5 +1,4 @@
 angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer, Info) ->
-
 #    observer =
 #        name: "scanning_transactions_observer"
 #        data: {progress: 0}

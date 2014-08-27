@@ -12,6 +12,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.memo_size_max = 19
     my_transfer_form = null
     $scope.no_account = false
+    $scope.model.autocomplete = Wallet.autocomplete
+
+    $scope.$watch ->
+        Wallet.autocomplete
+    , ->
+        $scope.model.autocomplete = Wallet.autocomplete
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
@@ -43,7 +49,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.balances = Wallet.balances[account_from_name]
                 $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
             else
-                scope.no_account = true
+                $scope.no_account = true
         else
             Wallet.get_current_or_first_account().then (account)->
                 if account

@@ -8,36 +8,43 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
-  <body class="cover fixed_header" ng-controller="RootController">
-    <div class="wrapper" ng-if="!unlockwallet">
-      <!-- TOOLBAR -->
-      <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
-        <div ng-include src="'toolbar.html'"></div>
-      </div>
-      <!-- SIDEBAR -->
-      <div class="body">
-        <aside class="sidebar">
-          <ul class="nav nav-stacked">
-            <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>{{ 'index.my_account' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('directory')}"><a ui-sref="directory.favorites"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-flag fa-fw"></i>{{ 'index.delegates' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>{{ 'index.market' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('blocks')}"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>{{ 'index.block_explorer' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>{{ 'index.console' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="help"><i class="fa fa-question-circle fa-fw"></i>{{ 'index.help' | translate }}</a></li>
-          </ul>
-        </aside>
-        <section class="content">
-          <div ui-view></div>
-        </section>
+  <body class="cover fixed_header" ng-class="{splash: unlockwallet}" ng-controller="RootController">
+    <div snap-drawers>
+      <div snap-drawer="right">
+        <p>Help content here.</p>
       </div>
     </div>
-    <div ui-view ng-if="unlockwallet" class="unlockwallet"></div>
-    <div loading-indicator></div>
-    <footer ng-if="!unlockwallet" ng-class="alert_level" ng-controller="FooterController">
-      <div ng-include src="'footer.html'"></div>
-    </footer>
+    <div snap-content>
+      <div class="wrapper" ng-if="!unlockwallet">
+        <!-- TOOLBAR -->
+        <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
+          <div ng-include src="'toolbar.html'"></div>
+        </div>
+        <!-- SIDEBAR -->
+        <div class="body">
+          <aside class="sidebar">
+            <ul class="nav nav-stacked">
+              <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>{{ 'index.my_account' | translate }}</a></li>
+              <li ng-class="{active: current_path_includes('directory')}"><a ui-sref="directory.favorites"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-flag fa-fw"></i>{{ 'index.delegates' | translate }}</a></li>
+              <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>{{ 'index.market' | translate }}</a></li>
+              <li ng-class="{active: current_path_includes('blocks')}"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>{{ 'index.block_explorer' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>{{ 'index.console' | translate }}</a></li>
+              <li ui-sref-active="active"><a ui-sref="help"><i class="fa fa-question-circle fa-fw"></i>{{ 'index.help' | translate }}</a></li>
+            </ul>
+          </aside>
+          <section class="content">
+            <div ui-view></div>
+          </section>
+        </div>
+      </div>
+      <div ui-view ng-if="unlockwallet" class="unlockwallet"></div>
+      <div loading-indicator></div>
+      <footer ng-if="!unlockwallet" ng-class="alert_level" ng-controller="FooterController">
+        <div ng-include src="'footer.html'"></div>
+      </footer>
+    </div>
   </body>
 </html>

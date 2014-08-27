@@ -50,16 +50,36 @@ angular.module("app.directives").directive "inputName", ->
 
 angular.module("app.directives").directive "inputPositiveNumber", ->
     template: '''
-        <input class="form-control" ui-validate="'validate($value)'" placeholder="0.0" />
+        <input class="form-control" placeholder="0.0" />
     '''
     restrict: "E"
     replace: true
-    require: "^form"
-    scope:
-        ngModel: "="
-        name: "@"
-        required: "@"
-    controller: ($scope, $element) ->
-        $scope.validate = (value) ->
-            return true if (!value and !$scope.required)
-            return $.isNumeric(value) and value >= 0
+    require: "ngModel"
+
+    link: (scope, elm, attrs, ctrl) ->
+
+        validator = (viewValue) ->
+            #console.log "------ inputPositiveNumber viewValue 0 ------>", viewValue
+            res = null
+            if /^[\d\.\,\+]+$/.test(viewValue)
+                #console.log "------ inputPositiveNumber viewValue 1 ------>", viewValue
+                ctrl.$setValidity "float", true
+                if $.isNumeric(viewValue)
+                    res = parseFloat viewValue
+                else
+                    res = parseFloat viewValue.replace(",", "")
+                    #console.log "------ inputPositiveNumber viewValue 1b ------>", viewValue, res
+            else
+                #console.log "------ inputPositiveNumber viewValue 2 ------>", viewValue
+                ctrl.$setValidity "float", false
+            return res
+
+        ctrl.$parsers.unshift validator
+
+        scope.$watch attrs.ngModel, (newValue) ->
+            #console.log "------ $watch ------>", newValue
+            return unless newValue
+            res = validator(newValue)
+            #console.log "------ $setViewValue ------>", newValue, res
+            ctrl.$setViewValue(newValue)
+            scope.$eval(attrs.ngModel + "=" + res)

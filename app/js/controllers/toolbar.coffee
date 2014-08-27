@@ -1,4 +1,4 @@
-angular.module("app").controller "ToolbarController", ($scope) ->
+angular.module("app").controller "ToolbarController", ($scope, $rootScope) ->
 
     $scope.back = ->
         $scope.history_back()

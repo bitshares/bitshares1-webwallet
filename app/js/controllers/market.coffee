@@ -99,7 +99,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.tabs[2].heading = "Short #{tabsym}"
         else
             $scope.tabs.splice(2,1)
-        price_decimals = (market.price_precision+"").length - 2
+        price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
         balances = {}
@@ -119,6 +119,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.accounts.push a if a.is_my_account
 
     $scope.$on "$destroy", ->
+        MarketService.orders = []#.slice(0, MarketService.orders.length)
         Observer.unregisterObserver(market_data_observer)
         Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
@@ -217,33 +218,20 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.cover_order = (order) ->
         $modal.open
-            template: '''
-                <div class="modal-header bg-danger">
-                    <h3 class="modal-title">Cover short position</h3>
-                </div>
-                <form name="cover_form" class="form-horizontal" role="form" novalidate>
-                <div class="modal-body">
-                    <div form-hgroup label="Quantity" addon="{{market.base_symbol}}" class="col-sm-8">
-                      <input-positive-number name="quantity" ng-model="order.quantity" required="true" />
-                    </div>
-                </div></br></br>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" ng-click="submit(order)">Cover</button>
-                    <button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
-                </div>
-                </form>
-            '''
+            templateUrl: "market/cover_order_confirmation.html"
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
                 scope.market = current_market.actual_market or current_market
                 original_order = order
                 if !current_market.inverted
                     order = order.invert()
-                scope.order = order
+                scope.v = {quantity: order.quantity, total: order.quantity}
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
-                scope.submit = (order) ->
+                scope.submit = ->
                     form = @cover_form
-                    MarketService.cover_order(order, account).then ->
+                    original_order.status = "pending"
+                    MarketService.cover_order(order, scope.v.quantity, account)
+                    .then ->
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
                     , (error) ->

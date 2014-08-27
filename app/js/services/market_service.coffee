@@ -51,6 +51,7 @@ class Market
         @url = ''
         @inverted_url = ''
         @price_symbol = ''
+        @collateral_symbol = ''
         @bid_depth = 0.0
         @ask_depth = 0.0
         @avg_price_1h = 0.0
@@ -82,6 +83,7 @@ class Market
         m.url = @inverted_url
         m.inverted_url = @url
         m.price_symbol = "#{@quantity_symbol}/#{@base_symbol}"
+        m.collateral_symbol = @collateral_symbol
         m.bid_depth = @bid_depth
         m.ask_depth = @ask_depth
         m.highest_bid = @highest_bid
@@ -96,6 +98,9 @@ class Market
 
 
 class MarketHelper
+
+    filter: null
+    utils: null
 
     get_array_element_by_id: (array, id) ->
         for index, value of array
@@ -171,7 +176,7 @@ class MarketHelper
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
-        o.timestamp = t.timestamp
+        o.timestamp = @filter('prettyDate')(t.timestamp)
         o.display_type = @capitalize(o.type.split("_")[0])
         return o
 
@@ -274,7 +279,9 @@ class MarketService
     id_sequence: 0
     loading_promise: null
 
-    constructor: (@q, @interval, @log, @filter, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+    constructor: (@q, @interval, @log, @filter, @utils, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+        @helper.utils = @utils
+        @helper.filter = @filter
         #console.log "MarketService constructor: ", @
 
     load_recent_markets: ->
@@ -333,8 +340,8 @@ class MarketService
         market.asset_quantity_symbol = market.quantity_symbol.replace("Bit", "")
         market.asset_base_symbol = market.base_symbol.replace("Bit", "")
         @blockchain.refresh_asset_records().then =>
-            @q.all([@blockchain.get_asset(market.asset_quantity_symbol), @blockchain.get_asset(market.asset_base_symbol)]).then (results) =>
-                if !results[0] or !results[1]
+            @q.all([@blockchain.get_asset(market.asset_quantity_symbol), @blockchain.get_asset(market.asset_base_symbol), @blockchain.get_asset(0)]).then (results) =>
+                if !results[0] or !results[1] or !results[2]
                     deferred.reject("Cannot initialize the market module. Can't get assets data.")
                     return
                 market.quantity_asset = results[0]
@@ -345,6 +352,7 @@ class MarketService
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
+                market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
                     status_call = @blockchain_api.market_status(market.asset_quantity_symbol, market.asset_base_symbol)
@@ -399,11 +407,13 @@ class MarketService
             order.id = res[0] if res.length == 1
         return call
 
-    cover_order: (order, account) ->
+    cover_order: (order, quantity, account) ->
+        console.log "------ cover order ------>", order, quantity
         order.touch()
         order.status = "pending"
+        order.quantity -= quantity if order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        @wallet_api.market_cover(account.name, order.quantity, symbol, order.id)
+        @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
@@ -488,14 +498,13 @@ class MarketService
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
-            @helper.sort_array(@covers, "price", inverted)
+            @helper.sort_array(@covers, "price", !inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted,
-                    inverted)
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 #td.status = "posted" if td.status != "cover"
                 orders.push td
@@ -507,7 +516,7 @@ class MarketService
                         target_el.status = data_el.status
                     target_el.type = data_el.type
                     target_el.cost = data_el.cost
-                    target_el.quantity = data_el.quantity
+                    target_el.quantity = data_el.quantity unless target_el.status == "pending"
                     target_el.collateral = data_el.collateral
                     target_el.type = data_el.type
                     target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
@@ -635,4 +644,4 @@ class MarketService
                         self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])

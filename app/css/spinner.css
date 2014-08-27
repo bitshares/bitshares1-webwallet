@@ -29,6 +29,10 @@
   top: 15%; left: -190px; bottom: 0; right: 0;
 }
 
+.splash .loading-panel {
+	left: -380px;
+}
+
 .progress-indicator {
 	height: 50px;
 	vertical-align: middle;
