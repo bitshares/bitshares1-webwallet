@@ -99,6 +99,9 @@ class Market
 
 class MarketHelper
 
+    filter: null
+    utils: null
+
     get_array_element_by_id: (array, id) ->
         for index, value of array
             return value if value.id == id
@@ -173,7 +176,7 @@ class MarketHelper
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
-        o.timestamp = t.timestamp
+        o.timestamp = @filter('prettyDate')(t.timestamp)
         o.display_type = @capitalize(o.type.split("_")[0])
         return o
 
@@ -276,7 +279,9 @@ class MarketService
     id_sequence: 0
     loading_promise: null
 
-    constructor: (@q, @interval, @log, @filter, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+    constructor: (@q, @interval, @log, @filter, @utils, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
+        @helper.utils = @utils
+        @helper.filter = @filter
         #console.log "MarketService constructor: ", @
 
     load_recent_markets: ->
@@ -639,4 +644,4 @@ class MarketService
                         self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
