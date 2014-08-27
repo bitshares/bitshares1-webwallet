@@ -1,4 +1,5 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
+    $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
@@ -119,6 +120,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.accounts.push a if a.is_my_account
 
     $scope.$on "$destroy", ->
+        $scope.showContextHelp false
         MarketService.orders = []#.slice(0, MarketService.orders.length)
         Observer.unregisterObserver(market_data_observer)
         Observer.unregisterObserver(market_status_observer)

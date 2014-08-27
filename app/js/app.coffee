@@ -9,6 +9,7 @@ app = angular.module("app",
      "snap"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
+    $rootScope.context_help = {locale: "en", show: false, file: ""}
     app_history = []
 
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
@@ -48,13 +49,25 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
             li.show = false
         ,  (value) ->
             li.progress = progress.replace("{{value}}", value) if progress
+
+    $rootScope.showContextHelp = (name) ->
+        if name
+            $rootScope.context_help.show = true
+            $rootScope.context_help.file = "context_help/#{$rootScope.context_help.locale}/#{name}.html"
+        else
+            $rootScope.context_help.show = false
+            $rootScope.context_help.file = ""
 #
 #    $rootScope.updateProgress = (p) ->
 #        $rootScope.progress = p
 
     $idle.watch()
 
-app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, snapRemoteProvider) ->
+
+    snapRemoteProvider.globalOptions.disable = "left"
+    snapRemoteProvider.globalOptions.touchToDrag = false
+
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',
         suffix: '.json'
