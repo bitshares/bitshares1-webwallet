@@ -1,5 +1,5 @@
 angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
-    #$scope.showContextHelp "market"
+    $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
     $scope.bid = new MarketService.TradeData
