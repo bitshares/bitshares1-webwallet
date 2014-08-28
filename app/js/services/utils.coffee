@@ -3,8 +3,8 @@ servicesModule = angular.module("app.services")
 servicesModule.factory "Utils", ->
     asset: (amount, asset_type) ->
         amount: amount
-        symbol: asset_type.symbol
-        precision: asset_type.precision
+        symbol: if asset_type then asset_type.symbol else "NA"
+        precision: if asset_type then asset_type.precision else 0
 
     newAsset: (amount, symbol, precision) ->
         amount: amount

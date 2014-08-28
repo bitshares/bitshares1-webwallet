@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
   <body class="cover fixed_header" ng-class="{splash: unlockwallet}" ng-controller="RootController">
+    <style></style>
     <div snap-drawers>
       <div snap-drawer="right" ng-show="context_help.show">
         <div ng-include src="context_help.file"></div>
@@ -20,8 +21,8 @@
         <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
           <div ng-include src="'toolbar.html'"></div>
         </div>
-        <!-- SIDEBAR -->
         <div class="body">
+          <!-- SIDEBAR -->
           <aside class="sidebar">
             <ul class="nav nav-stacked">
               <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
