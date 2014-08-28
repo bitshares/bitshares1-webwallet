@@ -3,3 +3,8 @@
 	color: #fff;
 	padding: 10px;
 }
+
+
+.splash .snap-drawer-right {
+	display: none;
+}

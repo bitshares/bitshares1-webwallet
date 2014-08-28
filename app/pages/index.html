@@ -10,8 +10,8 @@
   </head>
   <body class="cover fixed_header" ng-class="{splash: unlockwallet}" ng-controller="RootController">
     <div snap-drawers>
-      <div snap-drawer="right">
-        <p>Help content here.</p>
+      <div snap-drawer="right" ng-show="context_help.show">
+        <div ng-include src="context_help.file"></div>
       </div>
     </div>
     <div snap-content>
