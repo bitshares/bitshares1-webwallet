@@ -3,10 +3,14 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
+$.fn.redraw = ->
+    $(this).each ->
+        redraw = this.offsetHeight
+
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
-     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate", "nvd3ChartDirectives",
-     "snap"])
+     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate",
+     "nvd3ChartDirectives"]) #,"snap"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     $rootScope.context_help = {locale: "en", show: false, file: ""}
@@ -63,10 +67,10 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
 
     $idle.watch()
 
-app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, snapRemoteProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
 
-    snapRemoteProvider.globalOptions.disable = "left"
-    snapRemoteProvider.globalOptions.touchToDrag = false
+    #snapRemoteProvider.globalOptions.disable = "left"
+    #snapRemoteProvider.globalOptions.touchToDrag = false
 
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',

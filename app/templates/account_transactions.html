@@ -98,7 +98,7 @@
         <td>{{ t.fee | formatAsset}}</td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-show="showBalances" ng-repeat="balance in entry.running_balances">
+                <span ng-show="showBalances" ng-repeat="balance in entry.running_balances[name]">
                     <span class="bold">{{ balance | formatAsset}}</span> <br>
                 </span>
             </span>

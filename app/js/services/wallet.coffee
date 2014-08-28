@@ -154,7 +154,7 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        #console.log "------ refresh_transactions begin ------>", !!@transactions_loading_promise
+        #console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 
@@ -185,10 +185,17 @@ class Wallet
                     angular.forEach val.ledger_entries, (entry) =>
                         involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
                         involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
-                        running_balances = []
-                        angular.forEach entry.running_balances, (item) =>
-                            asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                            running_balances.push asset
+                        running_balances = {}
+                        for acct in entry.running_balances
+                            account_name = acct[0]
+                            balances = acct[1]
+                            continue unless involved_accounts[account_name]
+                            #console.log "------ running_balances item ------>",account_name, balances
+                            for item in balances
+                                asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                                running_balances[account_name] ||= []
+                                running_balances[account_name].push asset
+
                         ledger_entries.push
                             from: entry.from_account
                             to: entry.to_account
