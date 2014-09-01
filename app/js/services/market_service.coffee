@@ -478,6 +478,18 @@ class MarketService
             for r in results
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                console.log "price"
+                console.log td.price
+                console.log "median"
+                console.log market.median_price
+
+                if inverted and (td.price < market.median_price)
+                    console.log "out of range short"
+                    continue
+                if (not inverted) and (td.price > market.median_price)
+                    console.log "out of range short"
+                    continue
+
                 td.type = "short"
                 if inverted
                     @lowest_ask = td.price if td.price < @lowest_ask
@@ -489,11 +501,12 @@ class MarketService
     pull_covers: (market, inverted) ->
         covers = []
         console.log " --- pull_covers"
-        @blockchain_api.market_order_book(market.asset_base_symbol, market.asset_quantity_symbol, 100).then (results) =>
-            results = [].concat.apply(results) # flattens array of results
-            for r in results[1]
+        @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
+            #console.log results
+            #results = [].concat.apply(results) # flattens array of results
+            for r in results
                 continue unless r.type == "cover_order"
-                console.log "---- cover ", r
+                # console.log "---- cover ", r
                 r.type = "cover"
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 #td.type = "cover"
