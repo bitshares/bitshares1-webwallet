@@ -9,6 +9,6 @@
 	display: none;
 }
 
-body, .snap-content, .sidebar, .body, .navbar, .nav, .content, ul, li, .panel {
-	-webkit-backface-visibility: hidden !important;
-}
+/*body, .snap-content, .sidebar, .body, .navbar, .nav, .content, ul, li, .panel {*/
+	/*-webkit-backface-visibility: hidden !important;*/
+/*}*/
