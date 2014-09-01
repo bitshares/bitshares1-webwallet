@@ -24,7 +24,7 @@
         <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
       </h3>
       <ul class="col-sm-6 market-stats stats">
-        <li ng-show="market.shorts_available && market.avg_price_1h == 0" class="stat col-sm-4">
+        <li ng-show="true || market.shorts_available" class="stat col-sm-4">
           <span>Median&nbsp;Price<br/><b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li ng-show="!market.shorts_available || market.avg_price_1h > 0" class="stat col-sm-4">

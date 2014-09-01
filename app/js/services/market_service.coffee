@@ -488,12 +488,13 @@ class MarketService
 
     pull_covers: (market, inverted) ->
         covers = []
+        console.log " --- pull_covers"
         @blockchain_api.market_order_book(market.asset_base_symbol, market.asset_quantity_symbol, 100).then (results) =>
             results = [].concat.apply(results) # flattens array of results
             for r in results[1]
                 continue unless r.type == "cover_order"
-                #console.log "---- cover ", r
-                #r.type = "cover"
+                console.log "---- cover ", r
+                r.type = "cover"
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 #td.type = "cover"
                 covers.push td
@@ -502,11 +503,13 @@ class MarketService
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
+        console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
+            console.log results
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
-                #td.status = "posted" if td.status != "cover"
+                console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
                 target: @orders
@@ -634,14 +637,13 @@ class MarketService
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_1h * 9.0 / 10.0
                 self.market.max_short_price = market.max_short_price = self.market.avg_price_1h * 10.0 / 9.0
                 self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
-            else
-                self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
-                    res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
-                    if res.length > 0
-                        price = if self.market.inverted then 1.0/res[0] else res[0]
-                        self.market.median_price = market.median_price = price
-                        self.market.max_short_price = market.min_short_price = price * 9.0 / 10
-                        self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
+            self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
+                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+                if res.length > 0
+                    price = if self.market.inverted then 1.0/res[0] else res[0]
+                    self.market.median_price = market.median_price = price
+                    self.market.max_short_price = market.min_short_price = price * 9.0 / 10
+                    self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
