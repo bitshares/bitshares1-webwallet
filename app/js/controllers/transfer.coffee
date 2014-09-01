@@ -12,12 +12,14 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.memo_size_max = 19
     my_transfer_form = null
     $scope.no_account = false
-    $scope.model.autocomplete = Wallet.autocomplete
+    #$scope.model.autocomplete = Wallet.autocomplete     #  what is this for? it breaks the transfer tab
 
+###
     $scope.$watch ->
         Wallet.autocomplete
     , ->
         $scope.model.autocomplete = Wallet.autocomplete
+        ###
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
