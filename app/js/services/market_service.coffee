@@ -156,6 +156,8 @@ class MarketHelper
             td.quantity = td.cost / price
             td.status = "posted"
         else
+            console.log "type is"
+            console.log td.type
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
             td.status = "posted"
@@ -478,17 +480,12 @@ class MarketService
             for r in results
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                console.log "price"
-                console.log td.price
-                console.log "median"
-                console.log market.median_price
 
                 if inverted and (td.price < market.median_price)
-                    console.log "out of range short"
                     continue
                 if (not inverted) and (td.price > market.median_price)
-                    console.log "out of range short"
                     continue
+
 
                 td.type = "short"
                 if inverted
@@ -523,6 +520,8 @@ class MarketService
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
+                if td.type == "short_order"
+                    console.log "HAve a short order here!"
                 orders.push td
             @helper.update_array
                 target: @orders
@@ -650,12 +649,14 @@ class MarketService
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_1h * 9.0 / 10.0
                 self.market.max_short_price = market.max_short_price = self.market.avg_price_1h * 10.0 / 9.0
                 self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
+            # override with median if it exists
             self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                 res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
                 if res.length > 0
+                    console.log "there is a feed"
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
-                    self.market.max_short_price = market.min_short_price = price * 9.0 / 10
+                    self.market.min_short_price = market.median_price
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
 
 
