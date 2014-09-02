@@ -12,32 +12,26 @@
           </li>
         </ul>
       </div>
-      <div class="balance">
-        <span>{{account.quantity_balance | formatDecimal : market.quantity_precision}} {{market.quantity_symbol}} / {{account.base_balance | formatDecimal : market.base_precision}} {{market.base_symbol}}</span>
-      </div>
     </div>
 
     <div class="row">
-      <h3 class="col-sm-3 header-title">
+      <h3 class="header-title col-sm-4">
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="small" tooltip="Flip market" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
       </h3>
-      <ul class="col-sm-6 market-stats stats">
-        <li ng-show="market.shorts_available && market.avg_price_1h == 0" class="stat col-sm-4">
-          <span>Median&nbsp;Price<br/><b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+      <ul class="row market-stats stats col-sm-4">
+        <li class="stat col-sm-6">
+          <span>{{market.quantity_symbol}}&nbsp;Balance<br/><b class="value">
+           {{account.quantity_balance | formatDecimal : market.quantity_precision}}</b></span>
         </li>
-        <li ng-show="!market.shorts_available || market.avg_price_1h > 0" class="stat col-sm-4">
-          <span>1h&nbsp;Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_1h | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-4">
-          <span>Bid&nbsp;Depth<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-4">
-          <span>Ask&nbsp;Depth<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
+        <li class="stat col-sm-6">
+          <span>{{market.base_symbol}}&nbsp;Balance<br/><b class="value">
+           {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
         </li>
       </ul>
     </div>
+
     <div class="row" ng-show="market.error.title">
       <div class="col-sm-2">&nbsp;</div>
       <div class="col-sm-8">
@@ -53,6 +47,21 @@
 </div>
 
 <div class="main-content market">
+
+      <ul class="row market-stats stats">
+        <li ng-show="true || market.shorts_available" class="stat col-sm-3">
+          <span>Median&nbsp;Price<br/><b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        </li>
+        <li ng-show="!market.shorts_available || market.avg_price_1h > 0" class="stat col-sm-3">
+          <span>1h&nbsp;Avg.&nbsp;Price<br/><b class="value">{{market.avg_price_1h | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        </li>
+        <li class="stat col-sm-3">
+          <span>Bid&nbsp;Depth<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
+        </li>
+        <li class="stat col-sm-3">
+          <span>Ask&nbsp;Depth<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
+        </li>
+      </ul>
 
     <div class="row">
       <div class="col-sm-12">
@@ -150,7 +159,7 @@
       </div>
 
       <div class="row orders-row" ng-switch-default>
-        <div class="col-lg-4 panel">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">Buy Orders ({{market.inverted ? 'Bids' : 'Bids and Shorts'}})</h3>
           </div>
@@ -158,7 +167,7 @@
             <div ng-include src="'market/bids.html'"></div>
           </div>
         </div>
-        <div class="col-lg-4 panel">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">Sell Orders ({{market.inverted ? 'Asks and Shorts' : 'Asks'}})</h3>
           </div>
@@ -166,7 +175,7 @@
             <div ng-include src="'market/asks.html'"></div>
           </div>
         </div>
-        <div class="col-lg-4 panel">
+        <div class="col-lg-4 panel" ng-show="market.margins_available">
           <div class="panel-heading">
             <h3 class="panel-title">
               Margin Orders

@@ -20,7 +20,7 @@
 }
 
 .account-selector {
-	margin: 6px 4px 0 0;
+	margin: 10px 4px 0 0;
 	text-align: right;
 }
 
@@ -88,6 +88,10 @@ div.fixed-height-table {
 	background-color: #e4f4d4 !important;
 }
 
+.stats {
+	overflow: visible;
+}
+
 .market-stats .stat {
 	text-align: left;
 	font-size: 10px;
@@ -98,6 +102,10 @@ div.fixed-height-table {
 	font-size: 12px;
 	color: #888;
 	letter-spacing: normal;
+}
+
+.header .stat {
+	margin-top: 8px;
 }
 
 .orders-row .panel-heading {
