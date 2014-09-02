@@ -210,8 +210,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision, true) if data.price
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
+        if data.price
+            makeweight = switch $state.current.name
+                when "market.sell" then -.0001
+                when "market.short" then -.0001
+                else .0001
+            price = data.price + data.price * makeweight
+            order.price = Utils.formatDecimal(price, $scope.market.price_precision, true)
 
     $scope.submit_test = ->
         form = @buy_form
