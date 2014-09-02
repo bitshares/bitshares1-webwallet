@@ -519,8 +519,7 @@ class MarketService
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
-#                if td.type == "short_order"
-#                    console.log "HAve a short order here!"
+                continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
                 orders.push td
             @helper.update_array
                 target: @orders
@@ -594,12 +593,14 @@ class MarketService
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
-            self.pull_shorts(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
-        promises.push(self.pull_covers(market, self.market.inverted)) if market.margins_available
+        if market.margins_available
+            promises.push(self.pull_shorts(market, self.market.inverted))
+            promises.push(self.pull_covers(market, self.market.inverted))
+
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
 
         self.q.all(promises).finally =>
