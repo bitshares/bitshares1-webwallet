@@ -218,6 +218,17 @@ class MarketHelper
             b = b[field]
             if reverse then b - a else a - b
 
+    sort_array2: (array, field, field2, reverse = false) ->
+         array.sort (a, b) ->
+            a = a[field]
+            b = b[field]
+            a2 = a[field2]
+            b2 = b[field2]
+            if (a == b)
+                return if reverse then b2-a2 else a2-b2
+            return if reverse then b - a else a - b
+
+
     invert_order_type: (type) ->
         return "ask_order" if type == "bid_order"
         return "bid_order" if type == "ask_order"
@@ -500,16 +511,17 @@ class MarketService
         #console.log " --- pull_covers"
         @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
             #console.log results
-            #results = [].concat.apply(results) # flattens array of results
+            results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
+                td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
-            @helper.sort_array(@covers, "price", !inverted)
+            @helper.sort_array2(@covers, "price", "quantity", !inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
@@ -652,7 +664,6 @@ class MarketService
             self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
                 res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
                 if res.length > 0
-                    console.log "there is a feed"
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
                     self.market.min_short_price = market.median_price
