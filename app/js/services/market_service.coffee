@@ -481,11 +481,8 @@ class MarketService
                 #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
 
-                if inverted and (td.price < market.median_price)
-                    continue
-                if (not inverted) and (td.price > market.median_price)
-                    continue
-
+                continue if inverted and (td.price < market.median_price)
+                continue if (not inverted) and (td.price > market.median_price)
 
                 td.type = "short"
                 if inverted
@@ -497,7 +494,7 @@ class MarketService
 
     pull_covers: (market, inverted) ->
         covers = []
-        console.log " --- pull_covers"
+        #console.log " --- pull_covers"
         @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
             #console.log results
             #results = [].concat.apply(results) # flattens array of results
@@ -513,15 +510,14 @@ class MarketService
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
-        console.log " ---- pull_orders"
+        #console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
-            console.log results
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
-                if td.type == "short_order"
-                    console.log "HAve a short order here!"
+#                if td.type == "short_order"
+#                    console.log "HAve a short order here!"
                 orders.push td
             @helper.update_array
                 target: @orders
