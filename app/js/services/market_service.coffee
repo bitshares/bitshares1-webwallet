@@ -60,6 +60,7 @@ class Market
         @median_price = 0.0
         @assets_by_id = null
         @shorts_available = false
+        @margins_available = false
         @orig_market = null
         @actual_market = null
         @error = {title: null, text: null}
@@ -79,6 +80,7 @@ class Market
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
         m.shorts_available = m.base_asset.id == 0
+        m.margins_available = m.base_asset.id == 0 or m.quantity_asset.id == 0
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url
@@ -354,6 +356,7 @@ class MarketService
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0
+                market.margins_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
                 market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
@@ -592,11 +595,11 @@ class MarketService
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
             self.pull_shorts(market, self.market.inverted),
-            self.pull_covers(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
+        promises.push(self.pull_covers(market, self.market.inverted)) if market.margins_available
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
 
         self.q.all(promises).finally =>
@@ -635,7 +638,7 @@ class MarketService
 
             deferred.resolve(true)
 
-    pull_market_status: (data) ->
+    pull_market_status: (data = null) ->
         self = data?.context or @
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->

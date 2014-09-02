@@ -159,7 +159,7 @@
       </div>
 
       <div class="row orders-row" ng-switch-default>
-        <div class="col-lg-4 panel">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">Buy Orders ({{market.inverted ? 'Bids' : 'Bids and Shorts'}})</h3>
           </div>
@@ -167,7 +167,7 @@
             <div ng-include src="'market/bids.html'"></div>
           </div>
         </div>
-        <div class="col-lg-4 panel">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">Sell Orders ({{market.inverted ? 'Asks and Shorts' : 'Asks'}})</h3>
           </div>
@@ -175,7 +175,7 @@
             <div ng-include src="'market/asks.html'"></div>
           </div>
         </div>
-        <div class="col-lg-4 panel">
+        <div class="col-lg-4 panel" ng-show="market.margins_available">
           <div class="panel-heading">
             <h3 class="panel-title">
               Margin Orders
