@@ -156,8 +156,8 @@ class MarketHelper
             td.quantity = td.cost / price
             td.status = "posted"
         else
-            console.log "type is"
-            console.log td.type
+            #console.log "type is"
+            #console.log td.type
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
             td.status = "posted"
