@@ -517,7 +517,7 @@ class MarketService
                 # console.log "---- cover ", r
                 r.type = "cover"
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
-                td.collateral = r.collateral / market.quantity_precision
+                td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
