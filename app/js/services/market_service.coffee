@@ -543,7 +543,7 @@ class MarketService
 
     pull_trades: (market, inverted) ->
         trades = []
-        @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 50).then (results) =>
+        @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
             for r in results
                 td = @helper.trade_history_to_order(r, market.assets_by_id, inverted)
                 trades.push td
@@ -562,7 +562,6 @@ class MarketService
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
-        precision = (market.price_precision+"").length - 1
         @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 86400).then (result) =>
             highest_bid_data = []
             lowest_ask_data = []

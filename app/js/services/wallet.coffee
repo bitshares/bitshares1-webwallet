@@ -154,7 +154,7 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        #console.log "------ refresh_transactions begin ------>"
+        console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 
@@ -208,6 +208,8 @@ class Wallet
                     transaction =
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
+                        is_market: val.is_market
+                        is_market_cancel: val.is_market_cancel
                         block_num: val.block_num
                         error: val.error
                         trx_num: val.trx_num
