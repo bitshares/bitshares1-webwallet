@@ -357,13 +357,14 @@ class MarketService
                 market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
-                    status_call = @blockchain_api.market_status(market.asset_quantity_symbol, market.asset_base_symbol)
+                    #status_call = @blockchain_api.market_status(market.asset_quantity_symbol, market.asset_base_symbol)
                 else
                     market.inverted = false
-                    status_call = @blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol)
-                status_call.then (result) =>
-                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'} --->", result
-                    @helper.read_market_data(market, result, market.assets_by_id, market.inverted)
+                    #status_call = @blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol)
+                #status_call.then (result) =>
+                @pull_market_status().then ->
+                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
+                    #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
                     error_message = "No orders have been placed."
@@ -478,9 +479,8 @@ class MarketService
         dest = if inverted then @asks else @bids
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
-                #console.log "---- short: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-
+                #console.log "---- short: ", td.price, market.median_price
                 continue if inverted and (td.price < market.median_price)
                 continue if (not inverted) and (td.price > market.median_price)
 
@@ -635,8 +635,8 @@ class MarketService
 
             deferred.resolve(true)
 
-    pull_market_status: (data, deferred) ->
-        self = data.context
+    pull_market_status: (data) ->
+        self = data?.context or @
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
