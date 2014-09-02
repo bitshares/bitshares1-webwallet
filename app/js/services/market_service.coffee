@@ -212,13 +212,7 @@ class MarketHelper
     capitalize: (str) ->
         str.charAt(0).toUpperCase() + str.slice(1)
 
-    sort_array: (array, field, reverse = false) ->
-         array.sort (a, b) ->
-            a = a[field]
-            b = b[field]
-            if reverse then b - a else a - b
-
-    sort_array2: (array, field, field2, reverse = false) ->
+    sort_array: (array, field, field2, reverse = false) ->
          array.sort (a, b) ->
             a = a[field]
             b = b[field]
@@ -395,7 +389,7 @@ class MarketService
         @orders.unshift order
         #sorted_orders = @filter('orderBy')(@orders, 'price', false)
         #console.log "------ sorted_orders ------>", sorted_orders
-        @helper.sort_array(@orders, "price")
+        @helper.sort_array(@orders, "price", "quantity")
 
     cancel_order: (id) ->
         order = @helper.get_array_element_by_id(@orders, id)
@@ -521,7 +515,7 @@ class MarketService
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
-            @helper.sort_array2(@covers, "price", "quantity", !inverted)
+            @helper.sort_array(@covers, "price", "quantity", !inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
@@ -548,7 +542,7 @@ class MarketService
                 can_remove: (o) ->
                     #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                     !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-            @helper.sort_array(@orders, "price", false)
+            @helper.sort_array(@orders, "price", "quantity", false)
             if magic_unicorn?
                 magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
 
@@ -619,8 +613,8 @@ class MarketService
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
 
-                self.helper.sort_array(self.asks, "price", false)
-                self.helper.sort_array(self.bids, "price", true)
+                self.helper.sort_array(self.asks, "price", "quantity", false)
+                self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 if @counter % 5 == 0 and self.market.avg_price_1h and self.market.avg_price_1h > 0.0
 
