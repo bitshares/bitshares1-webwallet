@@ -46,8 +46,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             price = Utils.formatDecimal(x, $scope.market.price_precision, true)
             "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{y} #{$scope.market.quantity_symbol}</p>"
 
-    Wallet.get_account(account.name).then (acct)->
-        Wallet.current_account = acct
+    Wallet.get_account(account.name).then (acct) ->
+        Wallet.set_current_account(acct)
 
     account_balances_observer =
         name: "account_balances_observer"
@@ -124,7 +124,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.$on "$destroy", ->
         $scope.showContextHelp false
-        MarketService.orders = []#.slice(0, MarketService.orders.length)
+        MarketService.orders = []
+        MarketService.my_trades = []
         Observer.unregisterObserver(market_data_observer)
         Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)

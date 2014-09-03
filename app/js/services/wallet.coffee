@@ -24,8 +24,12 @@ class Wallet
     backendTimeout: 999999
 
     info: {}
+
+    set_current_account: (account) ->
+        @current_account = account
+        @set_setting("current_account", account.name)
     
-    check_wallet_status : ()->
+    check_wallet_status: ->
       @wallet_get_info().then (result) =>
         if result.open
             if not result.unlocked
@@ -343,13 +347,21 @@ class Wallet
                 if v.is_my_account
                     return v
             return null
+
         deferred = @q.defer()
         if @current_account
             deferred.resolve(@current_account)
-        else if @accounts.length > 0
-            deferred.resolve(get_first_account())
-        else @refresh_accounts().then =>
-            deferred.resolve(get_first_account())
+            return deferred.promise
+
+        @get_setting("current_account").then (setting) =>
+            if setting.value
+                @get_account(setting.value).then (account) ->
+                    deferred.resolve(account)
+            else
+                if @accounts.length > 0
+                    deferred.resolve(get_first_account())
+                else @refresh_accounts().then =>
+                    deferred.resolve(get_first_account())
         return deferred.promise
 
     constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->

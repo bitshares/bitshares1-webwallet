@@ -39,7 +39,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 WalletAPI.account_update_private_data(name, $scope.account.private_data)
         )
         $scope.account_name = acct.name
-        Wallet.current_account = acct if acct.is_my_account
+        Wallet.set_current_account(acct) if acct.is_my_account
         if $scope.account.delegate_info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
