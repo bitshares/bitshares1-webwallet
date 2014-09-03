@@ -1,6 +1,6 @@
 <div class="col-sm-12">
   <div class="header">
-    <h3 class="header-title">Pending Transactions</h3>
+    <h3 class="header-title" translate>block.pending_trxs</h3>
   </div>
 </div>
 
@@ -14,7 +14,7 @@
        {{'blocks.load_more_blocks' | translate}}...</a>
   </div>
   <div class="header">
-    <h3 class="header-title">Block Explorer</h3>
+    <h3 class="header-title" translate>block.block_explorer</h3>
     <p class="header-info" translate>blocks.info</p>
 
   </div>
@@ -47,7 +47,7 @@
         <tbody>
          <tr ng-repeat="block in blocks | orderBy:'timestamp':true" ng-if=" !filter_zero_trxs || block.user_transaction_ids.length">
             <td ng-if="block.block_num!=-2"><a href="#/blocks/{{ block.block_num }}">{{ block.block_num }}</a></td>
-            <td ng-if="block.block_num==-2" class="text-danger">Missing Block</td>
+            <td ng-if="block.block_num==-2" class="text-danger" translate>block.missing_block</td>
             <td ng-if="block.block_num!=-2">
                {{ block.timestamp | prettyDate}}&emsp;
             </td>

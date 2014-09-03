@@ -12,9 +12,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     # tabs
     $scope.tabs = []
-    $scope.tabs.push { heading: "Buy", route: "market.buy", active: true }
-    $scope.tabs.push { heading: "Sell", route: "market.sell", active: false }
-    $scope.tabs.push { heading: "Short", route: "market.short", active: false }
+    $scope.tabs.push { heading: "market.buy", route: "market.buy", active: true }
+    $scope.tabs.push { heading: "market.sell", route: "market.sell", active: false }
+    $scope.tabs.push { heading: "market.short", route: "market.short", active: false }
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -44,7 +44,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(x, $scope.market.price_precision, true)
-            "<div class='chart-tooltip'><p>Price #{price} #{$scope.market.price_symbol}</p><p>Volume #{y} #{$scope.market.quantity_symbol}</p>"
+            "<div class='chart-tooltip'><p>{{'market.chart.price'|translate}} #{price} #{$scope.market.price_symbol}</p><p>{{'market.chart.volume'|translate}} #{y} #{$scope.market.quantity_symbol}</p>"
 
     Wallet.get_account(account.name).then (acct)->
         Wallet.current_account = acct
@@ -94,10 +94,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.orders = MarketService.orders
         tabsym = market.quantity_symbol
-        $scope.tabs[0].heading = "Buy #{tabsym}"
-        $scope.tabs[1].heading = "Sell #{tabsym}"
+        # market base symbol is concated in template
         if market.shorts_available
-            $scope.tabs[2].heading = "Short #{tabsym}"
+            $scope.tabs[2].heading = "market.short"
         else
             $scope.tabs.splice(2,1)
         price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
@@ -141,7 +140,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         bid = $scope.bid
         bid.cost = bid.quantity * bid.price
         if bid.cost > $scope.account.base_balance
-            form.bid_quantity.$error.message = "Insufficient funds"
+            form.bid_quantity.$error.message = 'market.tip.insufficient_balances'
             return
         bid.type = "bid_order"
         bid.display_type = "Bid"
@@ -149,7 +148,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         if $scope.market.lowest_ask > 0
             price_diff = 100.0 * bid.price / $scope.market.lowest_ask - 100
             if price_diff > 5
-                bid.warning = "Your bid price is #{Utils.formatDecimal(price_diff, 1)}% higher than the lowest ask."
+                bid.warning = "market.tip.bid_price_too_high"
+                bid.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(bid)
         $scope.bid = new MarketService.TradeData
 
@@ -159,14 +159,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         ask = $scope.ask
         ask.cost = ask.quantity * ask.price
         if ask.quantity > $scope.account.quantity_balance
-            form.ask_quantity.$error.message = "Insufficient balance"
+            form.ask_quantity.$error.message = 'market.tip.insufficient_balances'
             return
         ask.type = "ask_order"
         ask.display_type = "Ask"
         if $scope.market.highest_bid > 0
             price_diff = 100 - 100.0 * ask.price / $scope.market.highest_bid
             if price_diff > 5
-                ask.warning = "Your ask price is #{Utils.formatDecimal(price_diff, 1)}% lower than the highest bid."
+                ask.warning = "market.tip.ask_price_too_low"
+                ask.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(ask)
         $scope.ask = new MarketService.TradeData
 
@@ -175,21 +176,22 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         short = $scope.short
         if short.price < $scope.market.min_short_price
-            form.short_price.$error.message = "Short price should be above min range price"
+            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
             return
         if short.price > $scope.market.max_short_price
-            form.short_price.$error.message = "Short price should be below max range price"
+            form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
             return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
-            form.short_quantity.$error.message = "Insufficient funds"
+            form.short_quantity.$error.message = 'market.tip.insufficient_balances'
             return
         short.type = "short_order"
         short.display_type = "Short"
         if $scope.market.highest_bid > 0
             price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
             if price_diff > 5
-                short.warning = "Your short price is #{Utils.formatDecimal(price_diff, 1)}% lower than the highest bid."
+                short.warning= "market.tip.short_price_too_low"
+                short.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(short)
         $scope.short = new MarketService.TradeData
 

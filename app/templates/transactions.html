@@ -52,7 +52,7 @@
 
                 <!--To-->
                 <span ng-if='entry.from == entry.to'>
-                    <a href="#/accounts/{{entry.to}}">self</a>
+                    <a href="#/accounts/{{entry.to}}" translate>account.self</a>
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">

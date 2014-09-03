@@ -2,10 +2,10 @@
   <table class="table table-striped table-hover market-table fixed-height">
     <thead>
       <tr>
-        <th ng-show="market.inverted">TYPE</th>
-        <th>PRICE ({{market.price_symbol}})</th>
-        <th>QUANTITY ({{market.quantity_symbol}})</th>
-        <th>COST ({{market.base_symbol}})</th>
+        <th ng-show="market.inverted" translate>th.type</th>
+        <th>{{'th.order_price'|translate}} ({{market.price_symbol}})</th>
+        <th>{{'th.quantity'|translate}} ({{market.quantity_symbol}})</th>
+        <th>{{'th.cost'|translate}} ({{market.base_symbol}})</th>
       </tr>
     </thead>
     <tbody>
