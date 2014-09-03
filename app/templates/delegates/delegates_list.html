@@ -44,7 +44,7 @@
             <td>
               <a class='delegate-link lead' href="#/accounts/{{del.name}}">{{ del.name }}</a>
               <br>
-              <i ng-show="del.public_data.version"> Version: {{del.public_data.version}} </i>
+              <i ng-show="del.public_data.version"> {{ 'delegate.version' | translate }}: {{del.public_data.version}} </i>
               <br>
               <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
             </td>

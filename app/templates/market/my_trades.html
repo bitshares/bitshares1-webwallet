@@ -1,0 +1,16 @@
+<table class="table table-striped market-table">
+  <thead>
+    <tr>
+      <th>ACTION</th>
+      <th>AMOUNT</th>
+      <th>TIME</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="t in my_trades">
+      <td>{{t.memo}}</td>
+      <td>{{t.amount_asset | formatAsset}}</td>
+      <td>{{t.timestamp}}</td>
+    </tr>
+  </tbody>
+</table>

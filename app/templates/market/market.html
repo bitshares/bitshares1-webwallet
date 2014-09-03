@@ -194,13 +194,23 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-6">
         <div class="panel ">
           <div class="panel-heading">
-            <h3 class="panel-title" translate>market.orders_history</h3>
+            <h3 class="panel-title" translate>market.blockchain_orders_history</h3>
           </div>
           <div class="panel-body">
             <div ng-include src="'market/trades.html'"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel ">
+          <div class="panel-heading">
+            <h3 class="panel-title">Account Orders History</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-include src="'market/my_trades.html'"></div>
           </div>
         </div>
       </div>
