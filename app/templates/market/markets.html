@@ -1,7 +1,7 @@
 <div class="col-sm-12">
   <div class="header">
     <div class="row" ng-show="account_name">
-      <h3 class="col-sm-2 header-title">Markets</h3>
+      <h3 class="col-sm-2 header-title" translate>market.title</h3>
       <div class="col-sm-2 market-selector">
         <input type="text"
                ng-model="selected_market"
@@ -9,7 +9,7 @@
                typeahead-editable="false"
                typeahead-append-to-body="true"
                class="form-control"
-               placeholder="Search Market">
+               placeholder="{{'market.search_market'|translate}}">
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
     <div class="col-sm-3">
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title">All Markets</h3>
+          <h3 class="panel-title" translate>market.all_markets</h3>
         </div>
         <div class="panel-body">
           <ul class="markets-list">
@@ -34,7 +34,7 @@
     <div class="col-sm-3">
       <div class="panel" ng-show="recent_markets.length > 0">
         <div class="panel-heading">
-          <h3 class="panel-title">Recent Markets</h3>
+          <h3 class="panel-title" translate>market.recent_markets</h3>
         </div>
         <div class="panel-body">
           <ul class="markets-list">

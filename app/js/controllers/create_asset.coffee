@@ -33,7 +33,7 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                     Growl.error "", "You need to specify a lower precision or fewer shares."
                     return
                 data=
-                  title: 'Asset Creation Authorization'
+                  # title: 'Asset Creation Authorization'
                   symbol: $scope.create_asset.symbol
                   name: $scope.create_asset.asset_name
                   description: $scope.create_asset.description

@@ -1,78 +1,78 @@
 <div class="row">
-	<div class="col-sm-12">
-		<div class="header">
-            <h3 class="header-title">{{ 'block' | translate }} #{{number}}</h3>
-        	
-		</div>
-	</div>
+  <div class="col-sm-12">
+    <div class="header">
+            <h3 class="header-title">{{ 'block.title' | translate }} #{{number}}</h3>
+
+    </div>
+  </div>
 </div>
 
 <div class="row">
-	<div class="col-sm-12">
-		<div class="main-content">
+  <div class="col-sm-12">
+    <div class="main-content">
 
-		      <table class="table table-striped table-hover table-bordered">
-		
-		         <tr>
-		             <th colspan="2"><b translate>summary</b></th>
-		         </tr>
-		          <tbody>
-		         <tr>
-		            <td translate>block.trx_count</td>
-		            <td>
-		               {{ block.transaction_count }}&emsp;
-		           </td>
-		         </tr>
-		         <tr>
-		             <td translate>block.blk_id</td>
-		             <td>
-		                 {{ block.block_hash}}&emsp;
-		             </td>
-		         </tr>
-		         <tr>
-		            <td translate>block.prev_blk_id</td>
-		            <td>
-		               {{ block.previous }}&emsp;
-		           </td>
-		         </tr>
-		         <tr>
-		             <td translate>block.delegate_name</td>
-		             <td>
-		                 {{ block.delegate_name}}&emsp;
-		             </td>
-		         </tr>
-		          <tr>
-		            <td translate>block.timestamp</td>
-		            <td>
-		               {{ block.timestamp | prettyDate}}&emsp;
-		           </td>
-		         </tr>
-		         <tr>
-		            <td translate>block.trx_digest</td>
-		            <td>
-		               {{ block.transaction_digest }}&emsp;
-		           </td>
-		         </tr>
-		          <tr>
-		            <td translate>block.next_secret_hash</td>
-		            <td>
-		               {{ block.next_secret_hash }}&emsp;
-		           </td>
-		         </tr>
-		         <tr>
-		            <td translate>block.previous_secret</td>
-		            <td>
-		               {{ block.previous_secret }}&emsp;
-		           </td>
-		         </tr>
-		         <tr>
-		            <td translate>block.delegate_signature</td>
-		            <td>
-		               <p class="long-shorten-text-r">{{ block.delegate_signature }}&emsp;</p>
-		           </td>
-		         </tr>
-		        </tbody>
-		      </table>
+          <table class="table table-striped table-hover table-bordered">
+
+             <tr>
+                 <th colspan="2"><b translate>block.summary</b></th>
+             </tr>
+              <tbody>
+             <tr>
+                <td translate>block.trx_count</td>
+                <td>
+                   {{ block.transaction_count }}&emsp;
+               </td>
+             </tr>
+             <tr>
+                 <td translate>block.blk_id</td>
+                 <td>
+                     {{ block.block_hash}}&emsp;
+                 </td>
+             </tr>
+             <tr>
+                <td translate>block.prev_blk_id</td>
+                <td>
+                   {{ block.previous }}&emsp;
+               </td>
+             </tr>
+             <tr>
+                 <td translate>block.delegate_name</td>
+                 <td>
+                     {{ block.delegate_name}}&emsp;
+                 </td>
+             </tr>
+              <tr>
+                <td translate>block.timestamp</td>
+                <td>
+                   {{ block.timestamp | prettyDate}}&emsp;
+               </td>
+             </tr>
+             <tr>
+                <td translate>block.trx_digest</td>
+                <td>
+                   {{ block.transaction_digest }}&emsp;
+               </td>
+             </tr>
+              <tr>
+                <td translate>block.next_secret_hash</td>
+                <td>
+                   {{ block.next_secret_hash }}&emsp;
+               </td>
+             </tr>
+             <tr>
+                <td translate>block.previous_secret</td>
+                <td>
+                   {{ block.previous_secret }}&emsp;
+               </td>
+             </tr>
+             <tr>
+                <td translate>block.delegate_signature</td>
+                <td>
+                   <p class="long-shorten-text-r">{{ block.delegate_signature }}&emsp;</p>
+               </td>
+             </tr>
+            </tbody>
+          </table>
 </div></div></div>
    <!--
    <tabset>
@@ -83,36 +83,36 @@
       </tab>
    </tabset>
    -->
-   		<div class="row">
+       <div class="row">
            <div class="col-sm-12">
-           		<div class="header">
-                      		<h3 class="header-title" translate>transactions</h3>
-               		
-               	<div class=" col-sm-12 pull-right p-inner">
+               <div class="header">
+                          <h3 class="header-title" translate>transactions</h3>
+
+                 <div class=" col-sm-12 pull-right p-inner">
                     {{ "info_filter_by_op" | translate }}:&nbsp;<input ng-model="operation_filter" type="text"/>
-               	    </div>
+                     </div>
                 </div>
            </div>
-   		</div>
-      
-        
-       
+       </div>
+
+
+
    <div class="col-sm-12">
        <div id="transaction_summary">
-   		<table class="table table-striped table-hover">
-   			<thead>
-   			<tr>
-   				<th translate>th.trx_id</th>
-   				<th translate>th.withdraw_amount</th>
-   				<th translate>th.deposit_amount</th>
-   				<th translate>th.net_delegate_approval</th>
-   				<th translate>th.operation_types</th>
+       <table class="table table-striped table-hover">
+         <thead>
+         <tr>
+           <th translate>th.trx_id</th>
+           <th translate>th.withdraw_amount</th>
+           <th translate>th.deposit_amount</th>
+           <th translate>th.net_delegate_approval</th>
+           <th translate>th.operation_types</th>
                 <th translate>th.fee</th>
-   			</tr>
-   			</thead>
+         </tr>
+         </thead>
 
             <tbody>
-			<tr ng-repeat="t in block.transactions" ng-if="t.operations | filterByOperations: operation_filter ">
+      <tr ng-repeat="t in block.transactions" ng-if="t.operations | filterByOperations: operation_filter ">
                 <td><a href="#/tx/{{t.id}}">{{ t.id.substr(0,8) }}</a></td>
                 <td>
                     <div ng-repeat="withdraw in t.a_withdraws"><span>{{withdraw | formatAsset}}</span><br></div></td>
@@ -125,14 +125,14 @@
                 <td>
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>
                 <td><div ng-repeat="b in t.balance"><span>{{ b[2] | formatAsset }}</span><br></div></td>
-			</tr>
+      </tr>
             <tr ng-if=" block.transactions.length == 0 ">
                 <td><span translate>info_no_trx</span></td>
                 <td colspan="5"/>
-			</tr>
+      </tr>
 
-			</tbody>
-		</table>
-	</div>
+      </tbody>
+    </table>
+  </div>
 </div>
 </div>

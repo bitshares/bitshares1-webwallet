@@ -1,12 +1,12 @@
 <table class="table table-striped table-hover">
-	<thead>
-	<tr>
-		<th>bitASSET</th>
-		<th>Price</th>
-		<th>Last Updated</th>
-	</tr>
-	</thead>
-	<tbody>
+  <thead>
+  <tr>
+    <th translate uppercase>th.bitasset</th>
+    <th translate uppercase>th.price</th>
+    <th translate uppercase>th.last_updated</th>
+  </tr>
+  </thead>
+  <tbody>
         <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
             <td>
               {{feed.asset_symbol}}

@@ -15,9 +15,9 @@
       <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
                       tooltip="Approval: {{ del.delegate_info.votes_for | formatVotes}}">
-					<span ng-switch-when='true'>&#60;0.01%</span>
-					<span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
-				</span>
+          <span ng-switch-when='true'>&#60;0.01%</span>
+          <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+        </span>
       </td>
       <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
         <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
@@ -27,7 +27,7 @@
       <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
       <td>
         <div class="btn-group">
-                  <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="Toggle approval">
+                  <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{'account.toggle.approval'|translate}}">
                     <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
                     <i ng-if="!accounts[del.name].approved || accounts[del.name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
                     <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
