@@ -26,7 +26,18 @@
     "precision": "精度",
     "create": "创建",
     "un_approve_all": "取消所有投票",
+    "btn":{
+        "ok": "确认",
+        "cancel": "取消",
+        "edit": "编辑",
+        "save": "保存",
+        "create": "创建",
+        "confirm": "确认",
+        "update": "更新",
+        "cover": "平仓"
+    },
     "tip": {
+        "warning": "警告",
         "validate_symbol": "资产代码必须是3-5个大写字母",
         "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
         "pay_with_info": "注册需要花费交易费, 使用",
@@ -38,7 +49,9 @@
         "no_assets": "我还没有创建过任何比特资产。",
         "reg_to_create_asset": "你的账号必须是已注册账号才能创建或发行比特资产。",
         "error_parsing_wif_key": "解析 WIF 私钥时发生错误",
-        "vote_will_transfer_balance_to_self": "将本账户余额（扣除转账手续费）全部转给自己"
+        "vote_will_transfer_balance_to_self": "将本账户余额（扣除转账手续费）全部转给自己",
+        "canceling": "取消中 ...",
+        "pending": "提交中 ..."
     },
     "th": {
         "date": "日期",
@@ -82,7 +95,15 @@
         "last_updated": "最后更新时间",
         "bitasset": "比特资产",
         "avatar": "头像",
-        "rank": "排名"
+        "rank": "排名",
+        "type": "订单类型",
+        "quantity": "数量",
+        "order_price": "价格",
+        "cost": "总额",
+        "collateral": "抵押冻结",
+        "action": "操作",
+        "paid": "付出",
+        "received": "获得"
     },
     "block": {
         "title": "区块",
@@ -102,7 +123,7 @@
         "block_explorer": "区块浏览",
         "missing_block": "缺失块",
         "trx": {
-            "expired_trx": "过期交易",
+            "expired_trx": "过期的交易",
             "prev": "上一个",
             "next": "下一个",
             "transaction": "交易",
@@ -139,7 +160,7 @@
         "delegates": "受托人",
         "market": "市场",
         "block_explorer": "区块浏览",
-        "preferences": "选项",
+        "preferences": "设置",
         "console": "控制台",
         "help": "帮助",
         "lock": "加锁",
@@ -155,13 +176,59 @@
         "avg_active_delegate_pay_rate": "活跃受托人平均支付率",
         "top_delegates": "首席/活跃受托人",
         "standby_delegates": "待命受托人",
-        "votes_obtained": "得票"
+        "votes_obtained": "得票",
+        "version": "版本号"
     },
     "market": {
         "title": "市场",
         "search_market": "搜索市场",
         "all_markets": "所有市场",
-        "recent_markets": "最近访问的市场"
+        "recent_markets": "最近访问的市场",
+        "median_price": "喂价中位价",
+        "avg_price": "成交均价",
+        "bid_depth": "买方深度",
+        "ask_depth": "卖方深度",
+        "buy": "买入",
+        "sell": "卖出",
+        "ask": "卖出",
+        "short": "卖空",
+        "balance": "余额",
+        "quantity": "数量",
+        "price": "价格",
+        "total": "总计",
+        "highest_bid": "最高买价/最佳卖价",
+        "lowest_ask": "最低卖价/最佳买价",
+        "open_orders": "当前委单",
+        "blockchain_orders_history": "全网交易记录",
+        "margin_orders": "空头仓位",
+        "margin_orders_explain": "当最高买入价降到低于爆仓价，且在1小时成交均价上下10%范围内时，空头仓位将被自动强制平仓。爆仓价格是使用你的保证金的75%能够进行完全平仓的价格。当爆仓发生时，你的空头仓位保抵押金将用来从市场购回标的进行平仓，如果完全平仓后还有剩余抵押金，95%将予以退回，5%将作为手续费支付给网络。",
+        "margin_call_price_explain": "爆仓价格是使用你的保证金的75%能够进行完全平仓的价格。",
+        "flip_market": "反转市场报价",
+        "buy_orders": "买单",
+        "sell_orders": "卖单",
+        "short_orders": "卖空单",
+        "bids": "买入",
+        "asks": "卖出",
+        "bids_and_shorts": "买入及做空",
+        "asks_and_shorts": "卖出及做空",
+        "order_type": {
+            "bid_order": "买单",
+            "ask_order": "卖单",
+            "short_order": "空单",
+            "cover_order": "平仓单"
+        },
+        "tip": {
+            "insufficient_balances": "余额不足",
+            "bid_price_too_high": "你的买入价高出最低卖出价 {{value}}% 。",
+            "ask_price_too_low": "你的卖出价低于最高买入价 {{value}}% 。",
+            "short_price_too_low": "你的卖空价低于最高买入价 {{value}}% 。",
+            "short_price_should_above_min_range": "卖空价应该高于有效价格区间下限",
+            "short_price_should_below_max_range": "卖空价应该低于有效价格区间上限"
+        },
+        "chart": {
+            "price": "成交价",
+            "volume": "成交量"
+        }
     },
     "account": {
         "reg_pending": "注册申请中",
@@ -235,7 +302,8 @@
     "accounts": {
         "create_account": "创建新账户",
         "accounts": "账户",
-        "info": "点击用户名获取更多账户信息"
+        "info": "点击用户名获取更多账户信息",
+        "select_account": "Select Account"
     },
     "asset": {
         "create_new_asset": "创建新的比特资产",
@@ -268,6 +336,15 @@
         "public_key_tip": "公钥（必填项）",
         "btn_add_contact": "添加联系人"
     },
+    "pref": {
+        "title": "设置",
+        "logout_timeout": "钱包自动锁定时间（秒）",
+        "trx_fee": "交易手续费 ({{symbol}})",
+        "autocomplete_receiver": "自动补全转账接受账号"
+    },
+    "console": {
+        "type_cmd_and_enter": "输入命令并回车"
+    },
     "directive":{
         "input_name": {
             "name_tip": "名称（必填项）",
@@ -282,5 +359,17 @@
         "prev": "前一页",
         "next": "下一页",
         "last": "最后页"
+    },
+    "help": {
+        "title": "帮助",
+        "console_intro": "查询命令行使用方法，请前往”控制台“页面，输入 help 并回车。",
+        "valid_names": "有效的账户名",
+        "valid_names_intro": "只允许小写字母，点和横杠。\n必须为小写字母开头，并且不能以横杆结尾。",
+        "network_issues": "网络问题",
+        "caution": "注意",
+        "low_participation_rate_80": "显示时表示受托人参与率降低到80%以下。",
+        "severe_network_issue": "严重网络问题",
+        "low_participation_rate_60": "显示时表示受托人参与率降低到60%以下",
+        "about": "版本信息"
     }
 }

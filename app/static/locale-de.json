@@ -26,7 +26,18 @@
     "precision": "Precision",
     "create_account": "Create Account",
     "un_approve_all": "Un-approve all",
+    "btn":{
+        "ok": "OK",
+        "cancel": "Cancel",
+        "edit": "Edit",
+        "save": "Save",
+        "create": "Create",
+        "confirm": "Confirm",
+        "update": "Update",
+        "cover": "Cover"
+    },
     "tip": {
+        "warning": "Warning",
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
         "pay_with_info": "Registering costs BTSX, Pay with",
@@ -38,7 +49,9 @@
         "no_assets": "You did not create any asset yet.",
         "reg_to_create_asset": "You must be a registered account to create and issue assets.&nbsp;Please register your account first.",
         "error_parsing_wif_key": "Error parsing WIF private key",
-        "vote_will_transfer_balance_to_self": "The account will transfer its enitre balance (minus transaction fee) to itself"
+        "vote_will_transfer_balance_to_self": "The account will transfer its enitre balance (minus transaction fee) to itself",
+        "canceling": "Canceling ...",
+        "pending": "Pending ..."
     },
     "th": {
         "date": "DATUM",
@@ -81,7 +94,15 @@
         "last_updated": "Last Updated",
         "bitasset": "BitAsset",
         "avatar": "AVATAR",
-        "rank": "RANK"
+        "rank": "RANK",
+        "type": "TYPE",
+        "quantity": "QUANTITY",
+        "order_price": "Price",
+        "cost": "COST",
+        "collateral": "COLLATERAL",
+        "action": "ACTION",
+        "paid": "PAID",
+        "received": "RECEIVED"
     },
     "block": {
         "title": "Block",
@@ -152,13 +173,59 @@
         "avg_active_delegate_pay_rate": "Average active delegate pay rate",
         "top_delegates": "Top Delegates",
         "standby_delegates": "Standby Delegates",
-        "votes_obtained": "Approval"
+        "votes_obtained": "Approval",
+        "version": "Version"
     },
     "market": {
-        "title": "市场",
-        "search_market": "搜索市场",
+        "title": "Market",
+        "search_market": "Search market",
         "all_markets": "All Markets",
-        "recent_markets": "Recent Markets"
+        "recent_markets": "Recent Markets",
+        "median_price": "Median Price",
+        "avg_price": "Avg. Price",
+        "bid_depth": "Bid Depth",
+        "ask_depth": "Ask Depth",
+        "buy": "Buy",
+        "ask": "Ask",
+        "sell": "Sell",
+        "short": "Short",
+        "balance": "Balance",
+        "quantity": "Quantity",
+        "price": "Price",
+        "total": "Total",
+        "highest_bid": "Highest Bid",
+        "lowest_ask": "Lowest Ask",
+        "open_orders": "Open Orders",
+        "blockchain_orders_history": "Blockchain Orders History",
+        "margin_orders": "Margin Orders",
+        "margin_orders_explain": "Margin orders will execute automatically when the highest bid falls below the call price and is within 10% of the 1 hour moving average. The call price is the price at which 75% of your collateral is required to buy back the USD owed.  When your position is called your collateral will be used to buy BitUSD and if there is any collateral remaining after the short position is fully covered then 95% will be returned to the short, the remaining 5% will be kept by the network as fees. ",
+        "margin_call_price_explain": "The call price is the price at which 75% of your collateral is required to buy back the USD owed.",
+        "flip_market": "Flip Market",
+        "buy_orders": "Buy Orders",
+        "sell_orders": "Sell Orders",
+        "short_orders": "Short Orders",
+        "bids": "Bids",
+        "asks": "Asks",
+        "bids_and_shorts": "Bids and Shorts",
+        "asks_and_shorts": "Asks and Shorts",
+        "order_type": {
+            "bid_order": "Bid",
+            "ask_order": "Ask",
+            "short_order": "Short",
+            "cover_order": "Cover"
+        },
+        "tip": {
+            "insufficient_balances": "Insufficient balances",
+            "bid_price_too_high": "Your bid price is {{value}}% higher than the lowest ask.",
+            "ask_price_too_low": "Your ask price is {{value}}% lower than the highest bid.",
+            "short_price_too_low": "Your short price is {{value}}% lower than the highest bid.",
+            "short_price_should_above_min_range": "Short price should be above min range price",
+            "short_price_should_below_max_range": "Short price should be below max range price"
+        },
+        "chart": {
+            "price": "Price",
+            "volume": "Volume"
+        }
     },
     "account": {
         "reg_pending": "Registrierung ausstehend",
@@ -229,7 +296,8 @@
     "accounts": {
         "create_account": "Konto erstellen",
         "accounts": "Konten",
-        "info": "Klicken Sie auf einen Accountnamen um mehr Informationen über diesen zu erhalten"
+        "info": "Klicken Sie auf einen Accountnamen um mehr Informationen über diesen zu erhalten",
+        "select_account": "Select Account"
     },
     "asset": {
         "create_new_asset": "Create A New Asset",
@@ -262,6 +330,15 @@
         "public_key_tip": "Public Key (Required)",
         "btn_add_contact": "Add Contact"
     },
+    "pref": {
+        "title": "Preferences",
+        "logout_timeout": "Logout timeout, seconds",
+        "trx_fee": "Transaction Fee ({{symbol}})",
+        "autocomplete_receiver": "Autocomplete Receiver"
+    },
+    "console": {
+        "type_cmd_and_enter": "Type a command and hit Enter"
+    },
     "directive":{
         "input_name": {
             "popover": "Only2 lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
@@ -275,5 +352,17 @@
         "prev": "Previous",
         "next": "Next",
         "last": "Last"
+    },
+    "help": {
+        "title": "Help",
+        "console_intro": "For a list of commands go to the console page, type help, and press Enter.",
+        "valid_names": "Valid Names",
+        "valid_names_intro": "Only lowercase alphanumeric characters, dots, and dashes are allowed. Names must start with a letter and cannot end with a dash. The characters, which are delimited by dots, have to form a valid name. Dots cannot be consecutive or be at start or end of the name.",
+        "network_issues": "Network Issues",
+        "caution": "Caution",
+        "low_participation_rate_80": "is displayed when delegate participation rate drops below 80%.",
+        "severe_network_issue": "Severe Network Problems",
+        "low_participation_rate_60": "is displayed when delegate participation rate drops below 60%.  Low delegate participation makes blockchain forks likely.",
+        "about": "About"
     }
 }
