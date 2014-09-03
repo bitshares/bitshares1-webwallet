@@ -337,6 +337,7 @@ class MarketService
         @covers = []
         @orders = []
         @trades = []
+        @my_trades = []
         @market = market = new Market()
         market.name = market_name
         market_symbols = market.name.split(':')
@@ -556,6 +557,35 @@ class MarketService
                 #console.log "------ market_order_history ------>", r, td
             @helper.update_array {target: @trades, data: trades}
 
+    pull_my_trades: (market, inverted, account_name) ->
+        #my_trades = []
+        #@my_trades.slice(0, @my_trades.length)
+        new_trades = []
+        last_trade_block_num = 0
+        last_trade_id = null
+        if @my_trades.length > 0
+            last_trade_block_num = @my_trades[0].block_num
+            last_trade_id = @my_trades[0].id
+
+        @wallet.refresh_transactions().then =>
+            for t in @wallet.transactions[account_name]
+                #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
+                break if t.block_num < last_trade_block_num
+                continue if not t.is_market or not t.is_confirmed or t.is_virtual
+                continue unless t.ledger_entries.length > 0
+                continue if last_trade_id == t.id
+                td = {}
+                td.block_num = t.block_num
+                td.id = t.id
+                td.timestamp = t.pretty_time
+                l = t.ledger_entries[0]
+                td.memo = l.memo
+                td.amount_asset = l.amount_asset
+                new_trades.push td
+            #console.log "------ new trades ------>", new_trades
+            for t in new_trades.reverse()
+                @my_trades.unshift t
+
     pull_unconfirmed_transactions: (account_name) ->
         @wallet_api.account_transaction_history(account_name).then (results) =>
             for t in results
@@ -600,6 +630,7 @@ class MarketService
             self.pull_asks(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
+            self.pull_my_trades(market, self.market.inverted, data.account_name),
             self.pull_unconfirmed_transactions(data.account_name)
         ]
         if market.margins_available
