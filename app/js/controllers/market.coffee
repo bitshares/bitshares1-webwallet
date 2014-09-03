@@ -94,6 +94,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades
+        $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
         tabsym = market.quantity_symbol
         $scope.tabs[0].heading = "Buy #{tabsym}"
