@@ -128,8 +128,8 @@ class MarketHelper
             actual_market.bid_depth = market.bid_depth = data.ask_depth / ba.precision
             actual_market.ask_depth = market.ask_depth = data.bid_depth / ba.precision
         else
-            actual_market.ask_depth = market.bid_depth = data.bid_depth / ba.precision
-            actual_market.bid_depth = market.ask_depth = data.ask_depth / ba.precision
+            actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
+            actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
 
         console.log "------ read_market_data ------>", data, assets
         actual_market.avg_price_1h = market.avg_price_1h = data.avg_price_1h #@ratio_to_price(data.avg_price_1h, assets)
