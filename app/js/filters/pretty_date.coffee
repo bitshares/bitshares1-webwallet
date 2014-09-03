@@ -42,7 +42,7 @@ angular.module("app").filter "hoursAgo", (Utils)->
             date = Utils.toDate(date)
         diff = Date.now() - date
 
-        diff = Math.round(diff/1000/60/24)
+        diff = Math.round(diff/1000/3600)
         return diff
 
 angular.module("app").filter "secondsAgo", (Utils)->

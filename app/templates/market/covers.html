@@ -12,7 +12,9 @@
     </thead>
     <tbody>
       <tr ng-repeat="o in covers" ng-click="use_trade_data({price: o.price, quantity: o.cost})">
-        <td>{{o.price | formatDecimal : market.price_precision : true}}</td>
+        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
+          {{o.price | formatDecimal : market.price_precision : true}}
+        </td>
         <td>{{o.cost | formatDecimal : market.base_precision}}</td>
         <td>{{o.collateral | formatDecimal : market.base_precision}}</td>
       </tr>

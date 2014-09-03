@@ -69,17 +69,19 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                             data[symbol] = value
             promise.finally -> deferred.resolve(changed)
 
+
     market_data_observer =
         name: "market_data_observer"
-        frequency: 2000
+        frequency: 10000
         data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 
     market_status_observer =
         name: "market_status_observer"
-        frequency: 3000
+        frequency: 10000
         data: {context: MarketService}
         update: MarketService.pull_market_status
+
 
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
@@ -210,8 +212,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.price = Utils.formatDecimal(data.price, $scope.market.price_precision, true) if data.price
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
+        if data.price
+            makeweight = switch $state.current.name
+                when "market.sell" then -.0001
+                when "market.short" then -.0001
+                else .0001
+            price = data.price + data.price * makeweight
+            order.price = Utils.formatDecimal(price, $scope.market.price_precision, true)
 
     $scope.submit_test = ->
         form = @buy_form

@@ -17,6 +17,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
     app_history = []
 
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
+    $rootScope.magic_unicorn.log_message(navigator.userAgent) if $rootScope.magic_unicorn
 
     window.navigate_to = (path) -> $location.path(path)
 
