@@ -4,9 +4,10 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
     $scope.accounts = Wallet.accounts
 
     $scope.vote_options =
-        vote_none: "Vote None"
-        vote_all: "Vote All"
-        vote_random: "Vote Random Subset"
+        vote_none: "vote_none"
+        vote_all: "vote_all"
+        vote_random: "vote_random_subset"
+        vote_recommended: "vote_as_delegates_recommended"
 
     Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
@@ -53,4 +54,3 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 title: -> "Are you sure?"
                 message: -> "This will send " + balMinusFee + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Wallet.info.transaction_fee.amount / myBal.precision + " " + Info.symbol + "."
                 action: -> yesSend
-        

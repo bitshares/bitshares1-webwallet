@@ -1,5 +1,5 @@
 <div class="modal-header bg-danger">
-	<h3 class="modal-title">Rename account</h3>
+  <h3 class="modal-title" translate>account.rename_account</h3>
 </div>
 <form ng-submit="ok()">
     <div class="modal-body">
@@ -14,13 +14,13 @@
                 </div>
                 <br>
                 <div class="lead">
-                    Account with the name {{m.oldname}} is already registered on the blockchian.
+                  {{ 'tip.rename_account_name_existed' | translate:'{value: m.oldname}' }}
                 </div>
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-disabled='m.oldname == m.newname' translate>ok</button>
-        <button class="btn btn-warning" ng-click="cancel()" translate>cancel</button>
+        <button class="btn btn-primary" ng-disabled='m.oldname == m.newname' translate>btn.ok</button>
+        <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
     </div>
 </form>

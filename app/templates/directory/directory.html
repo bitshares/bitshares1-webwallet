@@ -3,7 +3,7 @@
     <!--<button type="submit" ng-click='newContactModal()' class="btn btn-primary pull-right directory-add-contact">-->
       <!--<i class="fa fa-plus fa-fw"></i>Add Contact-->
     <!--</button>-->
-    <h3 class="header-title">Directory</h3>
+    <h3 class="header-title" translate>directory.directory</h3>
   </div>
 </div>
 
@@ -24,7 +24,7 @@
           <div ui-view="directory-registered"></div>
         </tab>
         <tab ng-click="goto_tab('directory.assets')" active="tabs[3].active">
-          <tab-heading><i class="fa fa-renren fa-lg"></i> {{ 'assets' | translate }}</tab-heading>
+          <tab-heading><i class="fa fa-renren fa-lg"></i> {{ 'directory.assets' | translate }}</tab-heading>
           <div ui-view="directory-assets"></div>
         </tab>
       </tabset>

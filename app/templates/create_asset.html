@@ -2,7 +2,7 @@
 <div class="col-sm-12">
 <div class="header">
 <h3 class="header-title" translate>asset.create_new_asset</h3>
-<p class="header-info"> {{ 'info_create_asset_fee' | translate }}: {{asset_reg_fee}}</p>
+<p class="header-info"> {{ 'asset.info_create_asset_fee' | translate }}: {{asset_reg_fee}}</p>
 
     </div>
 </div>
@@ -12,9 +12,9 @@
 <div class="container m-top">
     <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" >
         <div class="form-group row">
-            <label for="symbol" class="col-sm-2 control-label" translate>symbol</label>
+            <label for="symbol" class="col-sm-2 control-label" translate>asset.symbol</label>
             <div class="col-md-3">
-                <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="Symbol" id="symbol" required/>
+                <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="{{'symbol'|translate}}" id="symbol" required/>
             </div>
             <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
                 <span translate>tip.validate_symbol</span>
@@ -22,36 +22,36 @@
         </div>
 
         <div class="form-group">
-          <label for="asset_name" class="col-sm-2 control-label" translate>asset_name</label>
+          <label for="asset_name" class="col-sm-2 control-label" translate>asset.asset_name</label>
           <div class="col-md-5">
-            <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="Asset Name" id="asset_name" required></input>
+            <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="{{'asset.asset_name'|translate}}" id="asset_name" required></input>
           </div>
         </div>
 
        <div class="form-group">
-        <label for="description" class="col-sm-2 control-label" translate>description</label>
+        <label for="description" class="col-sm-2 control-label" translate>asset.description</label>
 
         <div class="col-md-5">
-         <input ng-model="create_asset.description" type="text" class="form-control" placeholder="Description" id="descripion"/>
+         <input ng-model="create_asset.description" type="text" class="form-control" placeholder="{{'asset.description'|translate}}" id="descripion"/>
         </div>
        </div>
 
        <div class="form-group">
-        <label for="memo" class="col-sm-2 control-label" translate>memo_data</label>
+        <label for="memo" class="col-sm-2 control-label" translate>asset.memo_data</label>
         <div class="col-md-5">
-         <input ng-model="create_asset.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo" id="memo"/>
+         <input ng-model="create_asset.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{'memo_data'|translate}}" id="memo"/>
        </div>
         </div>
 
         <div class="form-group">
-        <label for="max_share_supply" class="col-sm-2 control-label" translate>maximum_share_supply</label>
+        <label for="max_share_supply" class="col-sm-2 control-label" translate>asset.maximum_share_supply</label>
         <div class="col-md-6">
             <input ng-model="create_asset.max_share_supply" type="text" class="form-control" ui-validate="'$value > 0'" placeholder="" id="max_share_supply"/>
         </div>
         </div>
 
         <div class="form-group">
-            <label for="precision" class="col-sm-2 control-label" translate>precision</label>
+            <label for="precision" class="col-sm-2 control-label" translate>asset.precision</label>
             <div class="col-md-7">
                 <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="0" ui-validate="{valid_precision: '$value > 0 && ($value == 1 || $value % 10 == 0)'}" id="precision"/>
            </div>
@@ -60,7 +60,7 @@
 
         <div class="form-group row">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{ "create" | translate }}</button>
+                <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{ "btn.create" | translate }}</button>
             </div>
         </div>
     </form>

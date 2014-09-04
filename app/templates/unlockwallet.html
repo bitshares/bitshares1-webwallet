@@ -96,9 +96,7 @@
           <input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password"
                  class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required focus
                  autofocus ng-minlength="9" ng-maxlength="255">
-          <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary btn-sm"
-                  translate>unlock
-          </button>
+          <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary btn-sm" translate>unlock.btn_unlock</button>
         </div>
         <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
       </form>

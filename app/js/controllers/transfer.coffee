@@ -29,10 +29,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             vote : 'vote_random'
 
     $scope.vote_options =
-        vote_none: "Vote None"
-        vote_all: "Vote All"
-        vote_random: "Vote Random Subset"
-        vote_recommended: "Vote as Delegates Recommend"
+        vote_none: "vote_none"
+        vote_all: "vote_all"
+        vote_random: "vote_random_subset"
+        vote_recommended: "vote_as_delegates_recommended"
 
     $scope.my_accounts = []
     Wallet.refresh_accounts().then ->
@@ -107,7 +107,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact
-    
+
     $scope.onSelect = ($item, $model, $label) ->
         console.log('selected!',$item, $model, $label)
         $scope.transfer_info.payto=$label.name
@@ -132,7 +132,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     else
                         ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
             ret.sort(compare)
-            
+
             deferred.resolve(ret)
         return deferred.promise
 

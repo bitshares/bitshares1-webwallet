@@ -6,7 +6,7 @@
 <div class="main-content">
   <div class="row">
     <div class="col-sm-3">
-      <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
+      <input type="text" class="form-control" ng-model="q.name" placeholder="{{ 'pagination.filter' | translate }}"> <br>
     </div>
   </div>
   <div class="row">
@@ -17,8 +17,8 @@
             <tr>
               <th></th>
               <th></th>
-              <th>NAME</th>
-              <th>Delete</th>
+              <th translate uppercase>th.name</th>
+              <th translate uppercase>th.delete</th>
             </tr>
           </thead>
           <tbody>

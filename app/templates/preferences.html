@@ -1,43 +1,43 @@
 <div class="col-sm-12">
   <div class="header">
-        <h3 class="header-title">Preferences</h3>
+        <h3 class="header-title" translate>pref.title</h3>
   </div>
 </div>
 
 <div class="main-content">
 
 <div class="row">
-	<div class="col-sm-12 m-top">
-		<form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()" ng-class="{ 'has-error' : pform.wp.$invalid && !pform.wp.$pristine }" novalidate>
-			<div class="form-group">
-					<div class="form-group row">
-						<label class="col-sm-offset-1 col-sm-3 control-label" for="timeout">Logout timeout, seconds</label>
-						<div class="col-sm-3">
-				    		<input id="timeout" numonly autofocus ng-model="model.timeout" name="timeout" class="form-control" placeholder="Timeout in seconds"/>
-				  		</div>
-				  	</div>
+  <div class="col-sm-12 m-top">
+    <form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()" ng-class="{ 'has-error' : pform.wp.$invalid && !pform.wp.$pristine }" novalidate>
+      <div class="form-group">
+          <div class="form-group row">
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="timeout" translate>pref.logout_timeout</label>
+            <div class="col-sm-3">
+                <input id="timeout" numonly autofocus ng-model="model.timeout" name="timeout" class="form-control" placeholder="Timeout in seconds"/>
+              </div>
+            </div>
 
            <div class="form-group row">
-						<label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">Transaction Fee ({{model.symbol}})</label>
-						<div class="col-sm-3">
-				    		<input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee" class="form-control" placeholder="Transaction Fee"/>
-				  		</div>
-				  	</div>
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{ 'pref.trx_fee' | translate:'{symbol: model.symbol}' }}</label>
+            <div class="col-sm-3">
+                <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee" class="form-control" placeholder="Transaction Fee"/>
+              </div>
+            </div>
                 <div class="form-group row">
-                    <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" tooltip="In the transfer form autocomplete the name of the receiver, as the user types" tooltip-placement="bottom">Autocomple receiver</label>
+                    <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" tooltip="{{ 'pref.autocomplete_info' | translate }}" tooltip-placement="bottom" translate>pref.autocomplete_receiver</label>
                     <div class="col-sm-3">
                         <input id="autocomplete" ng-model="model.autocomplete" name="autocomplete" class="form-control" type="checkbox"/>
                     </div>
                 </div>
 
-					<div class="form-group row">
-				  		<div class="col-sm-offset-4 col-sm-2">
-				    		<button class="btn btn-success" type="submit">Update</button>
-				  		</div>
-				  	</div>
-				 </div>
-		</form>
-	</div>
+          <div class="form-group row">
+              <div class="col-sm-offset-4 col-sm-2">
+                <button class="btn btn-success" type="submit" translate>btn.update</button>
+              </div>
+            </div>
+         </div>
+    </form>
+  </div>
 </div>
 
 </div>
