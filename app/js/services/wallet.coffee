@@ -84,7 +84,6 @@ class Wallet
                     @open_orders_balances[name]["BTSX"] = @utils.asset(order.state.balance, @blockchain.symbol2records["BTSX"])
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name]["USD"] = @utils.asset(order.state.balance, @blockchain.symbol2records["USD"])
-            console.log @open_orders_balances
 
 
     count_my_accounts: ->
@@ -174,7 +173,6 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 

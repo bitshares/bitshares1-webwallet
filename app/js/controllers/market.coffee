@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
     #$scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
@@ -44,7 +44,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.orderbookChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(x, $scope.market.price_precision, true)
-            "<div class='chart-tooltip'><p>{{'market.chart.price'|translate}} #{price} #{$scope.market.price_symbol}</p><p>{{'market.chart.volume'|translate}} #{y} #{$scope.market.quantity_symbol}</p>"
+            "<div class='chart-tooltip'><p>#{$filter('translate')('market.chart.price')} #{price} #{$scope.market.price_symbol}</p>" +
+            "<p>#{$filter('translate')('market.chart.volume')} #{y} #{$scope.market.quantity_symbol}</p></div>"
 
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
