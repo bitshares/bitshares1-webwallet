@@ -23,7 +23,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
                     have_pending = true
                     break
             if !have_pending
-                $scope.warning = "There are no pending trasanctions!"
+                $scope.warning = "There are no pending transactions!"
 
     if(!$stateParams.name)
         $scope.accounts=Wallet.accounts
