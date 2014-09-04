@@ -73,6 +73,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
+        if Wallet.open_orders_balances[name]
+            $scope.open_orders_balances = Wallet.open_orders_balances[name]
 
     $scope.$watchCollection ->
         Wallet.transactions

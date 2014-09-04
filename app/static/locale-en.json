@@ -120,6 +120,7 @@
         "reg": "Register",
         "reg_date": "Registration date",
         "balances": "BALANCES",
+        "open_orders": "OPEN ORDERS",
         "transactions": "Transactions",
         "recent_trxs": "Recent Transactions",
         "load_more_trxs": "Load more transactions...",
