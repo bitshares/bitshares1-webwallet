@@ -212,7 +212,7 @@
         </tabset>
       </tab>
       <tab ng-show='account.is_my_account'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'edit' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
         <div ng-controller="EditLocalController" ng-include src="'editlocal.html'"
              ng-if="!utils.is_registered(account)"></div>
         <div ng-controller="UpdateRegAccountController" ng-include src="'update-reg-account.html'"

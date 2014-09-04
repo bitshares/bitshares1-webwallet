@@ -1,42 +1,18 @@
 {
-    "ok": "OK",
-    "cancel": "Cancel",
-    "edit": "Bearbeiten",
-    "save": "Speichern",
-    "email": "Email",
-    "name": "Name",
-    "website": "Website",
     "unknown": "Unknown",
-    "assets": "Assets",
-    "create": "Create",
-    "transactions": "Transactions",
-    "privacy_statement": "Privacy Statement",
-    "info_filter_by_op": "Filter transactions by operation",
-    "info_no_trx": "There are no transactions in this block.",
-    "info_trx_only": "Only show blocks with transactions",
-    "missing_block": "Missing Block",
-    "info_create_asset_fee": "Fees for creating a new asset",
-    "info_privacy": "Your privacy is critically important to us.",
-    "symbol": "Symbol",
-    "delegates": "Delegates",
-    "asset_name": "Asset Name",
-    "description": "Description",
-    "memo_data": "Memo Data",
-    "maximum_share_supply": "Maximum Share Supply",
-    "precision": "Precision",
-    "create_account": "Create Account",
-    "un_approve_all": "Un-approve all",
     "btn":{
         "ok": "OK",
         "cancel": "Cancel",
-        "edit": "Edit",
-        "save": "Save",
+        "edit": "Bearbeiten",
+        "save": "Speichern",
         "create": "Create",
         "confirm": "Confirm",
         "update": "Update",
-        "cover": "Cover"
+        "cover": "Cover",
+        "register": "Register"
     },
     "tip": {
+        "privacy_statement": "Privacy Statement",
         "warning": "Warning",
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
@@ -45,13 +21,23 @@
         "reg_delegate_tip": "Registering as delegate costs a lot of XTS",
         "reg_pending": "Registration pending.  Not registered yet.",
         "not_reg_onchain": "Not registered on the blockchain",
-        "account_name_existed": "Cannot add contact.  Account name exists.",
+        "add_account_name_existed": "Cannot add contact.  Account name exists.",
         "no_assets": "You did not create any asset yet.",
         "reg_to_create_asset": "You must be a registered account to create and issue assets.&nbsp;Please register your account first.",
         "error_parsing_wif_key": "Error parsing WIF private key",
         "vote_will_transfer_balance_to_self": "The account will transfer its enitre balance (minus transaction fee) to itself",
         "canceling": "Canceling ...",
-        "pending": "Pending ..."
+        "pending": "Pending ...",
+        "rename_account_name_existed": "Account with the name {{value}} is already registered on the blockchian.",
+        "account_not_found": "Account not found",
+        "wrong_amount": "Wrong Amount",
+        "memo_size_exceeds": "Memo size shouldn't exceed {{value}} characters",
+        "account_note_can_be_blank": "Account notes.  Can be blank.",
+        "info_filter_by_op": "Filter transactions by operation",
+        "info_no_trx": "There are no transactions in this block.",
+        "info_trx_only": "Only show blocks with transactions",
+        "info_create_asset_fee": "Fees for creating a new asset",
+        "info_privacy": "Your privacy is critically important to us."
     },
     "th": {
         "date": "DATUM",
@@ -122,6 +108,7 @@
         "block_explorer": "Block Explorer",
         "missing_block": "Missed Block",
         "trx": {
+            "title": "Transactions",
             "expired_trx": "Expired Transaction",
             "prev": "Prev",
             "next": "Next",
@@ -174,7 +161,8 @@
         "top_delegates": "Top Delegates",
         "standby_delegates": "Standby Delegates",
         "votes_obtained": "Approval",
-        "version": "Version"
+        "version": "Version",
+        "un_approve_all": "Un-approve all"
     },
     "market": {
         "title": "Market",
@@ -209,6 +197,7 @@
         "asks": "Asks",
         "bids_and_shorts": "Bids and Shorts",
         "asks_and_shorts": "Asks and Shorts",
+        "cover_short_position": "Cover Short Position",
         "order_type": {
             "bid_order": "Bid",
             "ask_order": "Ask",
@@ -258,6 +247,7 @@
         "name": "Account Name",
         "website": "Website",
         "website_tip": "Website (Optional)",
+        "email": "电子邮件",
         "email_tip": "Email (Optional)",
         "active_delegate": "Active Delegate",
         "standby_delegate": "Standby Delegate",
@@ -293,7 +283,10 @@
         "btn_update": "Update",
         "private_data": "Private Data",
         "key": "Key",
-        "value": "Value"
+        "value": "Value",
+        "rename_account": "Rename Account",
+        "rename_account_locally": "Rename Account Locally",
+        "public_info": "Public Info"
     },
     "accounts": {
         "create_account": "Konto erstellen",
@@ -302,6 +295,14 @@
         "select_account": "Select Account"
     },
     "asset": {
+        "title": "Assets",
+        "symbol": "Symbol",
+        "asset_name": "Asset Name",
+        "description": "Description",
+        "memo_data": "Memo Data",
+        "maximum_share_supply": "Maximum Share Supply",
+        "precision": "Precision",
+        "issued_by": "Issued By",
         "create_new_asset": "Create A New Asset",
         "my_assets": "My Assets",
         "create_assets": "Create Assets",
@@ -321,7 +322,8 @@
         "directory": "Directory",
         "favorites": "Favorites",
         "unregistered": "Unregistered",
-        "registered": "Registered"
+        "registered": "Registered",
+        "assets": "Assets"
     },
     "contact": {
         "add_contact": "Add Contact",
@@ -336,7 +338,8 @@
         "title": "Preferences",
         "logout_timeout": "Logout timeout, seconds",
         "trx_fee": "Transaction Fee ({{symbol}})",
-        "autocomplete_receiver": "Autocomplete Receiver"
+        "autocomplete_receiver": "Autocomplete Receiver",
+        "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"

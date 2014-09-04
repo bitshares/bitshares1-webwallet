@@ -1,31 +1,5 @@
 {
-    "ok": "确认",
-    "cancel": "取消",
-    "edit": "编辑",
-    "save": "保存",
-    "email": "电子邮件",
-    "name": "账户名",
-    "website": "网站",
     "unknown": "未知",
-    "assets": "比特资产",
-    "create": "创建",
-    "transactions": "交易",
-    "privacy_statement": "隐私申明",
-    "info_filter_by_op": "根据操作过滤交易",
-    "info_no_trx": "这个块中没有交易",
-    "info_trx_only": "只显示那些有交易的块",
-    "missing_block": "缺失块",
-    "info_create_asset_fee": "创建比特资产手续费",
-    "info_privacy": "你的隐私对我们极为重要",
-    "symbol": "资产代码",
-    "delegates": "受托人",
-    "asset_name": "比特资产名称",
-    "description": "描述",
-    "memo_data": "消息数据",
-    "maximum_share_supply": "最大股份供应",
-    "precision": "精度",
-    "create": "创建",
-    "un_approve_all": "取消所有投票",
     "btn":{
         "ok": "确认",
         "cancel": "取消",
@@ -34,9 +8,11 @@
         "create": "创建",
         "confirm": "确认",
         "update": "更新",
-        "cover": "平仓"
+        "cover": "平仓",
+        "register": "注册"
     },
     "tip": {
+        "privacy_statement": "隐私申明",
         "warning": "警告",
         "validate_symbol": "资产代码必须是3-5个大写字母",
         "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
@@ -45,13 +21,22 @@
         "reg_delegate_tip": "请注意注册成为受托人需要花费不少交易费",
         "reg_pending": "注册申请中。",
         "not_reg_onchain": "未在区块链上注册",
-        "account_name_existed": "无法添加联系人。同名联系人已经存在.",
+        "add_account_name_existed": "无法添加联系人。同名联系人已经存在.",
         "no_assets": "我还没有创建过任何比特资产。",
         "reg_to_create_asset": "你的账号必须是已注册账号才能创建或发行比特资产。",
         "error_parsing_wif_key": "解析 WIF 私钥时发生错误",
         "vote_will_transfer_balance_to_self": "将本账户余额（扣除转账手续费）全部转给自己",
         "canceling": "取消中 ...",
-        "pending": "提交中 ..."
+        "pending": "提交中 ...",
+        "rename_account_name_existed": "账户名 {{value}} 已经在区块链上注册过了。",
+        "account_not_found": "账户未找到",
+        "wrong_amount": "数量错误",
+        "memo_size_exceeds": "消息数据不能超过 {{value}} 字节",
+        "account_note_can_be_blank": "账户备注，可以不填",
+        "info_filter_by_op": "根据操作过滤交易",
+        "info_no_trx": "这个块中没有交易",
+        "info_trx_only": "只显示那些有交易的块",
+        "info_privacy": "你的隐私对我们极为重要"
     },
     "th": {
         "date": "日期",
@@ -123,6 +108,7 @@
         "block_explorer": "区块浏览",
         "missing_block": "缺失块",
         "trx": {
+            "title": "交易",
             "expired_trx": "过期的交易",
             "prev": "上一个",
             "next": "下一个",
@@ -177,7 +163,8 @@
         "top_delegates": "首席/活跃受托人",
         "standby_delegates": "待命受托人",
         "votes_obtained": "得票",
-        "version": "版本号"
+        "version": "版本号",
+        "un_approve_all": "取消所有投票"
     },
     "market": {
         "title": "市场",
@@ -212,6 +199,7 @@
         "asks": "卖出",
         "bids_and_shorts": "买入及做空",
         "asks_and_shorts": "卖出及做空",
+        "cover_short_position": "空头仓位平仓",
         "order_type": {
             "bid_order": "买单",
             "ask_order": "卖单",
@@ -264,6 +252,7 @@
         "name": "账户名称",
         "website": "网站地址",
         "website_tip": "网站地址（可选项）",
+        "email": "电子邮件",
         "email_tip": "电子邮件（可选）",
         "active_delegate": "活跃受托人",
         "standby_delegate": "待命受托人",
@@ -299,16 +288,28 @@
         "btn_update": "更新",
         "private_data": "私有信息",
         "key": "键",
-        "value": "值"
+        "value": "值",
+        "rename_account": "账户更名",
+        "rename_account_locally": "本地更名账户",
+        "public_info": "公共信息"
     },
     "accounts": {
         "create_account": "创建新账户",
         "accounts": "账户",
         "info": "点击用户名获取更多账户信息",
-        "select_account": "Select Account"
+        "select_account": "选择账户"
     },
     "asset": {
+        "title": "比特资产",
+        "symbol": "资产代码",
+        "asset_name": "比特资产名称",
+        "description": "描述",
+        "memo_data": "消息数据",
+        "maximum_share_supply": "最大股份供应",
+        "info_create_asset_fee": "创建比特资产手续费",
+        "precision": "精度",
         "create_new_asset": "创建新的比特资产",
+        "issued_by": "发行人",
         "my_assets": "我的比特资产",
         "create_assets": "创建比特资产",
         "issue_assets": "发行比特资产",
@@ -327,7 +328,8 @@
         "directory": "目录",
         "favorites": "收藏",
         "unregistered": "非注册",
-        "registered": "注册"
+        "registered": "注册",
+        "assets": "比特资产"
     },
     "contact": {
         "add_contact": "添加联系人",
@@ -342,7 +344,8 @@
         "title": "设置",
         "logout_timeout": "钱包自动锁定时间（秒）",
         "trx_fee": "交易手续费 ({{symbol}})",
-        "autocomplete_receiver": "自动补全转账接受账号"
+        "autocomplete_receiver": "自动补全转账接受账号",
+        "autocomplete_info": "在转账表单中，当用户输入收款账户信息时，自动完成账户名称"
     },
     "console": {
         "type_cmd_and_enter": "输入命令并回车"

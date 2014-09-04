@@ -86,10 +86,10 @@
        <div class="row">
            <div class="col-sm-12">
                <div class="header">
-                          <h3 class="header-title" translate>transactions</h3>
+                          <h3 class="header-title" translate>block.trx.title</h3>
 
                  <div class=" col-sm-12 pull-right p-inner">
-                    {{ "info_filter_by_op" | translate }}:&nbsp;<input ng-model="operation_filter" type="text"/>
+                    {{ "tip.info_filter_by_op" | translate }}:&nbsp;<input ng-model="operation_filter" type="text"/>
                      </div>
                 </div>
            </div>
@@ -127,7 +127,7 @@
                 <td><div ng-repeat="b in t.balance"><span>{{ b[2] | formatAsset }}</span><br></div></td>
       </tr>
             <tr ng-if=" block.transactions.length == 0 ">
-                <td><span translate>info_no_trx</span></td>
+                <td><span translate>tip.info_no_trx</span></td>
                 <td colspan="5"/>
       </tr>
 

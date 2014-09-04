@@ -1,7 +1,7 @@
 <div ng-switch="no_account">
 <div ng-switch-when="true">
   <div class="row">
-    <p class="no-account-selected-note">Account not found</p>
+    <p class="no-account-selected-note" translate>tip.account_not_found</p>
   </div>
 </div>
 <div ng-switch-default>
@@ -85,7 +85,7 @@
         <div class="col-md-2">
           <input class="form-control" ng-model="transfer_info.amount" name="amount" type="text" class="form-control" placeholder="0.0" id="amount"
                  ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine">Wrong amount</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine" translate>tip.wrong_amount</span>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
         </div>
         <!-- asset selector -->
@@ -132,7 +132,7 @@
             <span ng-if='!gravatar_account_name' ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip="{{ 'contact.add_contact' | translate }}" tooltip-placement='right'>
               <i class="fa fa-book fa-lg fa-fw"></i>
             </span>
-            <span ng-if='gravatar_account_name' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.account_name_existed' | translate }}">
+            <span ng-if='gravatar_account_name' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">
               <i class="fa fa-book fa-lg fa-fw"></i>
             </span>
           </div>
@@ -146,7 +146,7 @@
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
                  ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{ 'account.memo' | translate }}"
                  id="memo"/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">Memo size shouldn't exceed {{memo_size_max}} characters</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">{{ 'tip.memo_size_exceeds' | translate:'{value: memo_size_max}' }}</span>
         </div>
       </div>
       <div class="form-group row">
