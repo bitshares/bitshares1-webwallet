@@ -36,7 +36,10 @@
         "info_filter_by_op": "根据操作过滤交易",
         "info_no_trx": "这个块中没有交易",
         "info_trx_only": "只显示那些有交易的块",
-        "info_privacy": "你的隐私对我们极为重要"
+        "info_privacy": "你的隐私对我们极为重要",
+        "no_pending_trxs": "没有待处理交易!",
+        "no_trxs": "没有交易!",
+        "updating_trx_history": "正在更新交易记录..."
     },
     "th": {
         "date": "日期",

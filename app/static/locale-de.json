@@ -25,7 +25,7 @@
         "no_assets": "You did not create any asset yet.",
         "reg_to_create_asset": "You must be a registered account to create and issue assets.&nbsp;Please register your account first.",
         "error_parsing_wif_key": "Error parsing WIF private key",
-        "vote_will_transfer_balance_to_self": "The account will transfer its enitre balance (minus transaction fee) to itself",
+        "vote_will_transfer_balance_to_self": "The account will transfer its entire balance (minus transaction fee) to itself",
         "canceling": "Canceling ...",
         "pending": "Pending ...",
         "rename_account_name_existed": "Account with the name {{value}} is already registered on the blockchian.",
@@ -37,7 +37,10 @@
         "info_no_trx": "There are no transactions in this block.",
         "info_trx_only": "Only show blocks with transactions",
         "info_create_asset_fee": "Fees for creating a new asset",
-        "info_privacy": "Your privacy is critically important to us."
+        "info_privacy": "Your privacy is critically important to us.",
+        "no_pending_trxs": "There are no pending transactions!",
+        "no_trxs": "There are no transactions!",
+        "updating_trx_history": "Updating transaction history..."
     },
     "th": {
         "date": "DATUM",
