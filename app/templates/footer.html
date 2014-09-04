@@ -1,9 +1,10 @@
 <div class="pull-left logo">
     <img src="/img/logo-ico.svg" height="32"/>
-    <span>Test Network</span>
+    <p>Test Network</p>
 </div>
 <p class="pull-left">
-    <span>{{message}}&nbsp;{{scan_progress_info}}</span>
+    <span>{{message}}&nbsp;{{scan_progress_info}}</span> &nbsp;
+    <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()">Enable Transaction Scanning</a></span>
 </p>
 <p class="pull-right m-bottom">
 	<span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
