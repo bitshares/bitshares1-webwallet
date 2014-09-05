@@ -10,7 +10,7 @@ $.fn.redraw = ->
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
      "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate",
-     "nvd3ChartDirectives"]) #,"snap"])
+     "nvd3ChartDirectives", "pageslide-directive"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     $rootScope.context_help = {locale: "en", show: false, file: ""}
@@ -70,15 +70,14 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
 
-    #snapRemoteProvider.globalOptions.disable = "left"
-    #snapRemoteProvider.globalOptions.touchToDrag = false
-
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',
         suffix: '.json'
     lang = window.navigator.language
     if lang == "zh-CN"
         lang = "zh-CN"
+    if lang == "de" or lang == "de-de"
+        lang = "de"
     else
         lang = "en"
     

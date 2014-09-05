@@ -31,7 +31,8 @@ module.exports = function(lineman) {
         "vendor/js/jsonpath.js",
         "vendor/js/d3.js",
         "vendor/js/nv.d3.js",
-        "vendor/js/angularjs-nvd3-directives.js"
+        "vendor/js/angularjs-nvd3-directives.js",
+        "vendor/js/angular-pageslide-directive.js"
       ],
       app: [
         "app/js/app.js",
