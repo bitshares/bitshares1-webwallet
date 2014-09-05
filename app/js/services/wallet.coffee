@@ -78,12 +78,14 @@ class Wallet
     refresh_open_order_balances: (name) ->
         if !@open_orders_balances[name]
             @open_orders_balances[name] = {}
-        @wallet_api.market_order_list("USD", "BTSX", 200, name).then (result) =>
+        @wallet_api.account_order_list(name).then (result) =>
             angular.forEach result, (order) =>
+                base = @blockchain.asset[order.market_index.order_price.base_asset_id]
+                quote = @blockchain.asset[order.market_index.order_price.quote_asset_id]
                 if order.type == "ask_order"
-                    @open_orders_balances[name]["BTSX"] = @utils.asset(order.state.balance, @blockchain.symbol2records["BTSX"])
+                    @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
                 if order.type == "bid_order" or order.type == "short_order"
-                    @open_orders_balances[name]["USD"] = @utils.asset(order.state.balance, @blockchain.symbol2records["USD"])
+                    @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
             console.log @open_orders_balances
 
 
