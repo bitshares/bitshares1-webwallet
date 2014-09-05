@@ -8,7 +8,7 @@
         "create": "创建",
         "confirm": "确认",
         "update": "更新",
-        "cover": "平仓",
+        "cover": "补仓",
         "register": "注册"
     },
     "tip": {
@@ -176,8 +176,8 @@
         "recent_markets": "最近访问的市场",
         "median_price": "喂价中位价",
         "avg_price": "成交均价",
-        "bid_depth": "买方深度",
-        "ask_depth": "卖方深度",
+        "bid_depth": "买盘深度",
+        "ask_depth": "卖盘深度",
         "buy": "买入",
         "sell": "卖出",
         "ask": "卖出",
@@ -202,7 +202,7 @@
         "asks": "卖出",
         "bids_and_shorts": "买入及做空",
         "asks_and_shorts": "卖出及做空",
-        "cover_short_position": "空头仓位平仓",
+        "cover_short_position": "空头回补",
         "order_type": {
             "bid_order": "买单",
             "ask_order": "卖单",
