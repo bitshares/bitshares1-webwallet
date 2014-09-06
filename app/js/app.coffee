@@ -78,6 +78,8 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         lang = "zh-CN"
     if lang == "de" or lang == "de-de"
         lang = "de"
+    if lang == "ru" or lang == "ru-RU"
+        lang = "ru"
     else
         lang = "en"
     
