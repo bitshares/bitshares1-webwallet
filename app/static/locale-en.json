@@ -93,8 +93,8 @@
     },
     "unlock": {
         "desc_title": "BitShares X Decentralized Exchange",
-        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) without requiring a trusted price feed. This is done with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
-        "desc_content_2": "BitShares X was launched without market functionality enabled, to make the snapshot liquid and establish a market price. It will be upgraded to include the full market functionality.",
+        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_content_2": "",
         "wrong_pass": "Wrong Password."
     },
     "wallet": {
@@ -120,6 +120,7 @@
         "reg": "Register",
         "reg_date": "Registration date",
         "balances": "BALANCES",
+        "open_orders": "OPEN ORDERS",
         "transactions": "Transactions",
         "recent_trxs": "Recent Transactions",
         "load_more_trxs": "Load more transactions...",

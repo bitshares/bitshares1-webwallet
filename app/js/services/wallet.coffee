@@ -4,6 +4,8 @@ class Wallet
 
     balances: {}
 
+    open_orders_balances: {}
+
     asset_balances : {}
 
     transactions: {"*": []}
@@ -63,9 +65,23 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
+                if acct.is_my_account
+                    @refresh_open_order_balances(acct.name)
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
+
+    refresh_open_order_balances: (name) ->
+        if !@open_orders_balances[name]
+            @open_orders_balances[name] = {}
+        @wallet_api.market_order_list("USD", "BTSX", 200, name).then (result) =>
+            angular.forEach result, (order) =>
+                if order.type == "ask_order"
+                    @open_orders_balances[name]["BTSX"] = @utils.asset(order.state.balance, @blockchain.symbol2records["BTSX"])
+                if order.type == "bid_order" or order.type == "short_order"
+                    @open_orders_balances[name]["USD"] = @utils.asset(order.state.balance, @blockchain.symbol2records["USD"])
+            console.log @open_orders_balances
+
 
     count_my_accounts: ->
         accounts = 0
@@ -154,7 +170,7 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        #console.log "------ refresh_transactions begin ------>"
+        console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 
@@ -208,6 +224,8 @@ class Wallet
                     transaction =
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
+                        is_market: val.is_market
+                        is_market_cancel: val.is_market_cancel
                         block_num: val.block_num
                         error: val.error
                         trx_num: val.trx_num

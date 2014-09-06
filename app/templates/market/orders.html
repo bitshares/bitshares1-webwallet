@@ -16,7 +16,9 @@
       </tr>
       <tr id="order_{{o.id}}" class="{{o.status}}">
         <td>{{o.display_type}}</td>
-        <td>{{o.price | formatDecimal : market.price_precision : true}}</td>
+        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
+          {{o.price | formatDecimal : market.price_precision : true}}
+        </td>
         <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
         <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <td><span ng-show="o.collateral">{{o.collateral | formatDecimal : market.base_precision}}</span></td>

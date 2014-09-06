@@ -12,6 +12,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.memo_size_max = 19
     my_transfer_form = null
     $scope.no_account = false
+    $scope.model ||= {}
     $scope.model.autocomplete = Wallet.autocomplete
 
     $scope.$watch ->

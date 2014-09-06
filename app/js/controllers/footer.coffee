@@ -23,6 +23,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
 
   on_update = (info) ->
     connections = info.network_connections
+    console.log info.blockchain_head_block_age
     $scope.connections = connections
     if connections > 1
       $scope.connections_str = "#{connections} network connections"
