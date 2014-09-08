@@ -71,6 +71,7 @@ class Wallet
             angular.forEach @accounts, (acct) =>
                 if acct.is_my_account
                     @refresh_open_order_balances(acct.name)
+                    @refresh_bonuses(acct.name)
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
@@ -78,6 +79,7 @@ class Wallet
     refresh_open_order_balances: (name) ->
         if !@open_orders_balances[name]
             @open_orders_balances[name] = {}
+        @open_order_balances[name]["BTSX"] = 0
         @wallet_api.account_order_list(name).then (result) =>
             angular.forEach result, (order) =>
                 base = @blockchain.asset[order.market_index.order_price.base_asset_id]
@@ -86,7 +88,14 @@ class Wallet
                     @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
-            console.log @open_orders_balances
+
+    refresh_bonuses: (name) ->
+        @wallet_api.account_rewards(name).then (result) =>
+            angular.forEach result, (symbol_amt_pair) =>
+                symbol = symbol_amt_pair[0]
+                amount = symbol_amt_pair[1]
+                @bonuses[name] = @bonuses[name] || {}
+                @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
 
     count_my_accounts: ->
@@ -176,7 +185,6 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 

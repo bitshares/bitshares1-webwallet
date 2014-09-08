@@ -65,9 +65,15 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
             $scope.blockchain_status = "off"
             $scope.blockchain_last_sync_info = "Not connected "
 
-        if !transaction_scanning_enabling and info.wallet_scan_progress == -1
-            $scope.transaction_scanning_disabled = true
-            $scope.scan_progress_info = "Transaction Scanning Disabled"
+        if info.wallet_scan_progress == -1
+            if info.transaction_scanning
+                if transaction_scanning_enabling
+                    $scope.scan_progress_info = "Enabling Transaction Scanning"
+                else
+                    $scope.transaction_scanning_disabled = true
+                    $scope.scan_progress_info = "Transaction Scanning Disabled"
+            else
+                $scope.scan_progress_info = "Failure during transaction scanning"
         else if info.wallet_scan_progress >= 0 and info.wallet_scan_progress < 1
             $scope.scan_progress_info = "Transaction scanning progress is " + Math.floor(info.wallet_scan_progress * 100) + "%"
         else

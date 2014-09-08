@@ -6,7 +6,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.account_name = name
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
-    #$scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
@@ -75,6 +74,8 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             $scope.balances = Wallet.balances[name]
         if Wallet.open_orders_balances[name]
             $scope.open_orders_balances = Wallet.open_orders_balances[name]
+        if Wallet.bonuses[name]
+            $scope.bonuses = Wallet.bonuses[name]
 
     $scope.$watchCollection ->
         Wallet.transactions

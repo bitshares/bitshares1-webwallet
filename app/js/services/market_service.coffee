@@ -158,8 +158,6 @@ class MarketHelper
             td.quantity = td.cost / price
             td.status = "posted"
         else
-            #console.log "type is"
-            #console.log td.type
             td.quantity = order.state.balance / ba.precision
             td.cost = td.quantity * price
             td.status = "posted"
@@ -291,7 +289,6 @@ class MarketService
     constructor: (@q, @interval, @log, @filter, @utils, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
         @helper.utils = @utils
         @helper.filter = @filter
-        #console.log "MarketService constructor: ", @
 
     load_recent_markets: ->
         return if @recent_markets.length > 0
@@ -461,7 +458,6 @@ class MarketService
             @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 100)
         call.then (results) =>
             for r in results
-                #console.log "---- bid: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
@@ -476,7 +472,6 @@ class MarketService
             @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 100)
         call.then (results) =>
             for r in results
-                #console.log "---- ask: ", r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
@@ -484,7 +479,7 @@ class MarketService
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
 
     pull_shorts: (market, inverted) ->
-        shorts = []
+        @shorts = []
         dest = if inverted then @asks else @bids
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
@@ -498,8 +493,8 @@ class MarketService
                     @lowest_ask = td.price if td.price < @lowest_ask
                 else
                     @highest_bid = td.price if td.price > @highest_bid
-                shorts.push td
-            @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
+                @shorts.push td
+            @helper.update_array {target: dest, data: @shorts, can_remove: (target_el) -> target_el.type == "short" }
 
     pull_covers: (market, inverted) ->
         covers = []
@@ -603,7 +598,6 @@ class MarketService
             lowest_ask_data = []
             average_price_data = []
             for t in result
-                console.log t
                 highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
                 lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
                 recent_average_price = if inverted then 1.0/t.recent_average_price else t.recent_average_price
@@ -649,17 +643,35 @@ class MarketService
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
 
+                shorts_reverse_sort = true
+                shorts_asset_name = self.market.base_symbol
+                shorts_color = "#278c27"
+                if self.market.inverted
+                    shorts_reverse_sort = false
+                    shorts_asset_name = self.market.quantity_symbol
+                    shorts_color = "#de6e0B"
+
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)
+                self.helper.sort_array(self.shorts, "price", "quantity", shorts_reverse_sort)
 
                 if @counter % 5 == 0 and self.market.avg_price_1h and self.market.avg_price_1h > 0.0
 
                     sum_asks = 0.0
                     asks_array = []
+
+                    sum_shorts1 = 0.0
+                    shorts_array1 = []
+
+                    sum_shorts2 = 0.0
+                    shorts_array2 = []
+
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
                         sum_asks += a.quantity
                         asks_array.push [a.price, sum_asks]
+                        sum_shorts1 += a.quantity if a.type == "short"
+                        shorts_array1.push [a.price, sum_shorts1]
 
                     sum_bids = 0.0
                     bids_array = []
@@ -667,11 +679,17 @@ class MarketService
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
                         sum_bids += b.quantity
                         bids_array.push [b.price, sum_bids]
+                        sum_shorts2 += b.quantity if b.type == "short"
+                        shorts_array2.push [b.price, sum_shorts2]
+
+
+                    shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
                         orderbook_chart_data.push {"key": "Buy #{self.market.quantity_symbol}", "area": true, color: "#2ca02c", "values": bids_array}
                         orderbook_chart_data.push {"key": "Sell #{self.market.quantity_symbol}", "area": true, color: "#ff7f0e", "values": asks_array}
+                        orderbook_chart_data.push {"key": "Short #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array}
                     self.market.orderbook_chart_data = orderbook_chart_data
 
             catch e
