@@ -71,6 +71,7 @@ class Wallet
             angular.forEach @accounts, (acct) =>
                 if acct.is_my_account
                     @refresh_open_order_balances(acct.name)
+                    @refresh_bonuses(acct.name)
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
@@ -78,12 +79,23 @@ class Wallet
     refresh_open_order_balances: (name) ->
         if !@open_orders_balances[name]
             @open_orders_balances[name] = {}
+        @open_order_balances[name]["BTSX"] = 0
+        ### TODO
         @wallet_api.market_order_list("USD", "BTSX", 200, name).then (result) =>
             angular.forEach result, (order) =>
                 if order.type == "ask_order"
                     @open_orders_balances[name]["BTSX"] = @utils.asset(order.state.balance, @blockchain.symbol2records["BTSX"])
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name]["USD"] = @utils.asset(order.state.balance, @blockchain.symbol2records["USD"])
+                    ###
+
+    refresh_bonuses: (name) ->
+        @wallet_api.account_rewards(name).then (result) =>
+            angular.forEach result, (symbol_amt_pair) =>
+                symbol = symbol_amt_pair[0]
+                amount = symbol_amt_pair[1]
+                @bonuses[name] = @bonuses[name] || {}
+                @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
 
     count_my_accounts: ->
