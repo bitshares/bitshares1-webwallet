@@ -1,14 +1,27 @@
-.snap-drawer-right {
-	background-color: #777;
-	color: #fff;
+.ng-pageslide {
+	background-color: #eee;
+}
+
+#context-help-close {
+	padding-top: 8px;
+	float: right;
+	color: #393939;
+	text-decoration: none;
+}
+
+#context-help-close:hover {
+	color: #01bbf4;
+}
+
+.context-help-content {
 	padding: 10px;
+	padding-top: 30px;
+	font-size: 14px;
+
 }
 
-
-.splash .snap-drawer-right {
-	display: none;
+.context-help-content h1 {
+	margin-top: 0;
+	font-size: 24px;
+	text-align: center;
 }
-
-/*body, .snap-content, .sidebar, .body, .navbar, .nav, .content, ul, li, .panel {*/
-	/*-webkit-backface-visibility: hidden !important;*/
-/*}*/

@@ -73,17 +73,14 @@ li[disabled] a {
 	margin-right: 10px;
 }
 
-.snapjs-right .snap-help {
-	display: none;
-}
+/*.snapjs-right .snap-help {*/
+	/*display: none;*/
+/*}*/
 
-.snap-help-open {
-	display: none !important;
-}
+/*.snap-help-open {*/
+	/*display: none !important;*/
+/*}*/
 
-.snap-help-open a > i {
-}
-
-.snapjs-right .snap-help-open {
-	display: block !important;
-}
+/*.snapjs-right .snap-help-open {*/
+	/*display: block !important;*/
+/*}*/

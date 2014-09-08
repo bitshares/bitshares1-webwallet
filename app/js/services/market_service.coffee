@@ -562,6 +562,7 @@ class MarketService
             last_trade_block_num = @my_trades[0].block_num
             last_trade_id = @my_trades[0].id
 
+        return unless @wallet.transactions[account_name]
         @wallet.refresh_transactions().then =>
             for t in @wallet.transactions[account_name]
                 #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
