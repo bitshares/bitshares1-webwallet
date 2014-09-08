@@ -380,7 +380,7 @@ class Wallet
             return deferred.promise
 
         @get_setting("current_account").then (setting) =>
-            if setting.value
+            if setting?.value
                 @get_account(setting.value).then (account) ->
                     deferred.resolve(account)
             else
