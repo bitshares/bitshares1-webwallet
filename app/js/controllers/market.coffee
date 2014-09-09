@@ -60,11 +60,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 #console.log "------ account_balances_observer result ------>", result
                 return if !result or result.length == 0
                 name_bal_pair = result[0]
-                balances = name_bal_pair[1][0]
-                angular.forEach balances, (symbol_amt_pair) =>
-                    symbol = symbol_amt_pair[0]
+                balances = name_bal_pair[1]
+                angular.forEach balances, (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    asset_record = Blockchain.asset_records[asset_id]
+                    symbol = asset_record.symbol
                     if data[symbol] != undefined
-                        value = symbol_amt_pair[1]
+                        value = asset_id_amt_pair[1]
                         if data[symbol] != value
                             changed = true
                             data[symbol] = value
