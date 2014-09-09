@@ -1,21 +1,21 @@
 <form name="buy_form" class="form-horizontal" role="form" ng-submit="submit_bid()" novalidate>
-  <div form-hgroup-value label="Balance" show-value="true" data-symbol="{{market.base_symbol}}">
+  <div form-hgroup-value label="{{'account.balances'|translate}}" show-value="true" data-symbol="{{market.base_symbol}}">
     <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask, quantity: account.base_balance/market.lowest_ask})">
       {{account.base_balance | formatDecimal : market.base_precision}}
     </span>
   </div>
-  <div form-hgroup label="Quantity" addon="{{market.quantity_symbol}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
     <input-positive-number name="bid_quantity" ng-model="bid.quantity" />
   </div>
-  <div form-hgroup label="Price" addon="{{market.price_symbol}}">
+  <div form-hgroup label="{{'market.price'|translate}}" addon="{{market.price_symbol}}">
     <input-positive-number name="bid_price" ng-model="bid.price" required="true" />
   </div>
   <div form-hgroup-note ng-show="market.lowest_ask">
-    Lowest Ask <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask})">{{market.lowest_ask | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    {{'market.lowest_ask'|translate}} <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask})">{{market.lowest_ask | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
-  <div form-hgroup-value label="Total" data-symbol="{{market.base_symbol}}" show-value="{{buy_form.$valid}}">
+  <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{market.base_symbol}}" show-value="{{buy_form.$valid}}">
     {{bid.quantity * bid.price | formatDecimal : market.price_precision}}
   </div>
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn>Buy {{market.quantity_symbol}}</button>
+  <button form-hgroup-submit-btn>{{'market.buy'|translate}} {{market.quantity_symbol}}</button>
 </form>

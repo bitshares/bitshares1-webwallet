@@ -15,7 +15,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
         $scope.p.numberOfPages = Math.ceil($scope.account_transactions.length / $scope.p.pageSize)
         $scope.warning = ""
         if !$scope.account_transactions || $scope.account_transactions.length == 0
-            $scope.warning = if $scope.pending_only then "There are no pending transactions!" else "There are no transactions!"
+            $scope.warning = if $scope.pending_only then "tip.no_pending_trxs" else "tip.no_trxs"
         else if $scope.pending_only
             have_pending = false
             for a in $scope.account_transactions
@@ -23,7 +23,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
                     have_pending = true
                     break
             if !have_pending
-                $scope.warning = "There are no pending transactions!"
+                $scope.warning = "tip.no_pending_trxs"
 
     if(!$stateParams.name)
         $scope.accounts=Wallet.accounts

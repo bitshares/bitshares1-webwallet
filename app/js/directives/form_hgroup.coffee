@@ -6,7 +6,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
             <span ng-transclude></span>
             <span class="input-group-addon">{{addon}}</span>
         </div>
-        <div class="col-sm-offset-3" ng-show="error_message"><span class="help-block text-danger">{{error_message}}</span></div>
+        <div class="col-sm-offset-3" ng-show="error_message"><span class="help-block text-danger">{{error_message | translate}}</span></div>
         <div class="col-sm-offset-3" ng-show="help" ng-if="helpIf"><span class="help-block">{{help}}</span></div>
     </div>
     '''
@@ -61,7 +61,7 @@ angular.module("app.directives").directive "formHgroupError", ->
         <div class="col-sm-12">
             <div class="form-error alert alert-danger">
                 <i class="fa fa-exclamation"></i> &nbsp; &nbsp;
-                {{error_message}}
+                {{error_message | translate}}
             </div>
         </div>
     </div>

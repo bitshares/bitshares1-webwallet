@@ -19,6 +19,7 @@
                        <a class='my-account-link' href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</b></a>
                     </td>
                     <td>
+                        <i class="fa fa-warning fa-fw danger" ng-show="warnings[a.name]" tooltip="This account is not voting with some of its stake. Consider updating your vote."></i>
                         <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
                     </td>
                     <td>{{a.registration_date | prettyDate}}</td>

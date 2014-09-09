@@ -41,6 +41,11 @@ footer p {
 	float: right;
 }
 
+footer a {
+	color: #000;
+	text-decoration: underline;
+}
+
 footer img.connections {
 	width: 24px;
 	height: 24px;

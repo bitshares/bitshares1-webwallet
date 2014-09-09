@@ -1,7 +1,7 @@
 <div ng-switch="no_account">
 <div ng-switch-when="true">
   <div class="row">
-    <p class="no-account-selected-note">Account not found</p>
+    <p class="no-account-selected-note" translate>tip.account_not_found</p>
   </div>
 </div>
 <div ng-switch-default>
@@ -16,7 +16,7 @@
     <div class="header p-inner ">
       <div>
 
-        <span class="account-from">From:</span>
+        <span class="account-from">{{ 'account.from' | translate }}:</span>
         <div class="btn-group" dropdown is-open="status.isopen1">
           <button type="button" class="btn btn-primary dropdown-toggle">{{account_from_name}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
@@ -58,19 +58,19 @@
         <img class="avatar-150" ng-src="http://robohash.org/set_1/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
         <br/><br>
         <div class="avatar-150 text-center" ng-if='gravatar_account_name!=account.name'>
-          <button ng-click="toggleFavoriteContact(gravatar_account_name)" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
+          <button ng-click="toggleFavoriteContact(gravatar_account_name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.favorite' | translate }}">
             <i ng-class="(accounts[gravatar_account_name].is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
           </button>
           <button ng-click="toggleVoteUpContact(gravatar_account_name)" class="btn btn-sm btn-link primary"
-                  tooltip="Toggle approval">
+                  tooltip="{{ 'account.toggle.approval' | translate }}">
             <i ng-if="accounts[gravatar_account_name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
             <i ng-if="!accounts[gravatar_account_name].approved || accounts[gravatar_account_name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
             <i ng-if="accounts[gravatar_account_name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
           </button>
-          <button ng-if='accounts[gravatar_account_name].registration_date == "19700101T000000"' class="btn btn-sm btn-link success"><i tooltip='Not registered on the blockchain' class='fa fa-eye-slash fa-2x text-success'></i></button>
+          <button ng-if='accounts[gravatar_account_name].registration_date == "19700101T000000"' class="btn btn-sm btn-link success"><i tooltip="{{ 'tip.not_reg_onchain' | translate }}" class='fa fa-eye-slash fa-2x text-success'></i></button>
         </div>
         <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='gravatar_account_name==account.name'>
-          <b>Self</b>
+          <b translate>account.self</b>
         </div>
       </div>
       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
@@ -85,7 +85,7 @@
         <div class="col-md-2">
           <input class="form-control" ng-model="transfer_info.amount" name="amount" type="text" class="form-control" placeholder="0.0" id="amount"
                  ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine">Wrong amount</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine" translate>tip.wrong_amount</span>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
         </div>
         <!-- asset selector -->
@@ -104,12 +104,12 @@
         <!-- vote options -->
         <div class="col-md-2">
           <div class="btn-group" dropdown is-open="status2.isopen">
-            <button type="button" class="btn dropdown-toggle" tooltip='Vote for'>
-              {{vote_options[transfer_info.vote]}} <span class="caret"></span>
+            <button type="button" class="btn dropdown-toggle" tooltip="{{ 'account.vote.vote_for' | translate }}">
+              {{ ('account.vote.' + vote_options[transfer_info.vote]) | translate }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="(k, v) in vote_options">
-                <a ng-click="transfer_info.vote=k; status2.isopen=false">{{v}}</a>
+                <a ng-click="transfer_info.vote=k; status2.isopen=false">{{ ('account.vote.' + v) | translate }}</a>
               </li>
             </ul>
           </div>
@@ -121,18 +121,18 @@
         <div class="col-md-5">
           <div class="input-group">
             <input ng-if='model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
-                   class="form-control" placeholder="Contact Name" id="payto"
+                   class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select='onSelect($item, $model, $label)' typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="my_transfer_form.payto.error_message = null"/>
             <input ng-if='!model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
-                 class="form-control" placeholder="Contact Name" id="payto"
+                 class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                  ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                  required ng-change="my_transfer_form.payto.error_message = null"/>
-            <span ng-if='!gravatar_account_name' ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip='Add&nbsp;contact' tooltip-placement='right'>
+            <span ng-if='!gravatar_account_name' ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success"  tooltip="{{ 'contact.add_contact' | translate }}" tooltip-placement='right'>
               <i class="fa fa-book fa-lg fa-fw"></i>
             </span>
-            <span ng-if='gravatar_account_name' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip='Cannot add contact.  Account name exists.'>
+            <span ng-if='gravatar_account_name' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">
               <i class="fa fa-book fa-lg fa-fw"></i>
             </span>
           </div>
@@ -144,9 +144,9 @@
         <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
         <div class="col-md-5">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
-                 ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="Memo"
+                 ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{ 'account.memo' | translate }}"
                  id="memo"/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">Memo size shouldn't exceed {{memo_size_max}} characters</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">{{ 'tip.memo_size_exceeds' | translate:'{value: memo_size_max}' }}</span>
         </div>
       </div>
       <div class="form-group row">

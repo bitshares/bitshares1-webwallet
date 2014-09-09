@@ -4,8 +4,11 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
     $scope.recent_markets = MarketService.recent_markets
     $scope.account_name = false
 
-    Wallet.get_current_or_first_account().then (account)->
+    promise = Wallet.get_current_or_first_account()
+    promise.then (account)->
         $scope.account_name = account?.name
+    $scope.showLoadingIndicator(promise)
+
 
     Blockchain.refresh_asset_records().then ->
         $scope.markets = Blockchain.get_markets()

@@ -2,20 +2,20 @@
   <table class="table table-striped table-hover market-table">
     <thead>
       <tr>
-        <th>TYPE</th>
-        <th>PRICE ({{market.price_symbol}})</th>
-        <th>QUANTITY ({{market.quantity_symbol}})</th>
-        <th>COST ({{market.base_symbol}})</th>
-        <th>COLLATERAL ({{market.collateral_symbol}})</th>
-        <th>ACTION</th>
+        <th translate>th.type</th>
+        <th>{{'th.order_price'|translate}} ({{market.price_symbol}})</th>
+        <th>{{'th.quantity'|translate}} ({{market.quantity_symbol}})</th>
+        <th>{{'th.cost'|translate}} ({{market.base_symbol}})</th>
+        <th>{{'th.collateral'|translate}} ({{market.collateral_symbol}})</th>
+        <th translate>th.action</th>
       </tr>
     </thead>
     <tbody ng-repeat="o in orders track by $index">
       <tr class="warning alert alert-danger unconfirmed" ng-show="o.warning">
-        <td colspan="6"><i class="fa fa-warning"></i> <b>Warning.</b> &nbsp; {{o.warning}}</td>
+        <td colspan="6"><i class="fa fa-warning"></i> <b>{{'tip.warning' | translate}}.</b> &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
       </tr>
       <tr id="order_{{o.id}}" class="{{o.status}}">
-        <td>{{o.display_type}}</td>
+        <td>{{('market.order_type.'+o.type) | translate}}</td>
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
@@ -25,20 +25,16 @@
         <td>
         <span ng-switch on="o.status">
           <span ng-switch-when="unconfirmed">
-            <button class="btn btn-primary btn-xs confirm" ng-click="confirm_order(o.id)">Confirm</button>
-            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button>
+            <button class="btn btn-primary btn-xs confirm" ng-click="confirm_order(o.id)" translate>btn.confirm</button>
+            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" translate>btn.cancel</button>
           </span>
-          <span ng-switch-when="canceled">
-            canceling..
-          </span>
-          <span ng-switch-when="pending">
-            pending..
-          </span>
+          <span ng-switch-when="canceled" translate>tip.canceling</span>
+          <span ng-switch-when="pending" translate>tip.pending</span>
           <span ng-switch-when="cover">
-            <button class="btn btn-success btn-xs confirm" ng-click="cover_order(o)">Cover</button>
+            <button class="btn btn-success btn-xs confirm" ng-click="cover_order(o)" translate>btn.cover</button>
           </span>
           <span ng-switch-default>
-            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)">Cancel</button><br/>
+            <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" translate>btn.cancel</button><br/>
           </span>
         </span>
         </td>

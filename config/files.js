@@ -20,8 +20,8 @@ module.exports = function(lineman) {
         //"vendor/js/angular-route.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	    "vendor/js/ui-bootstrap-tpls.js",
-	 	    "vendor/js/ng-grid-2.0.11.debug.js",
+	 	"vendor/js/ui-bootstrap-tpls.js",
+	 	"vendor/js/ng-grid-2.0.11.debug.js",
         "vendor/js/angular-idle.js",
         "vendor/js/angularjs-gravatardirective.js",
         "vendor/js/validate.js",
@@ -31,9 +31,8 @@ module.exports = function(lineman) {
         "vendor/js/jsonpath.js",
         "vendor/js/d3.js",
         "vendor/js/nv.d3.js",
-        "vendor/js/angularjs-nvd3-directives.js"
-        //"vendor/js/snap.js",
-        //"vendor/js/angular-snap.js"
+        "vendor/js/angularjs-nvd3-directives.js",
+        "vendor/js/angular-pageslide-directive.js"
       ],
       app: [
         "app/js/app.js",
@@ -59,7 +58,6 @@ module.exports = function(lineman) {
         "vendor/css/xeditable.css",
         "vendor/css/ng-grid.css",
         "vendor/css/nv.d3.css"
-        //"vendor/css/angular-snap.css"
       ],
       app: [
         //TODO: make main.css compatible with ng-grid
