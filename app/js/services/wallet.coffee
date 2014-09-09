@@ -63,7 +63,8 @@ class Wallet
                 balances = name_bal_pair[1]
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
-                    symbol = @blockchain.asset_records[asset_id].symbol
+                    asset_record = @blockchain.asset_records[asset_id]
+                    symbol = asset_record.symbol
                     amount = asset_id_amt_pair[1]
                     @balances[name] = @balances[name] || {}
                     @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
