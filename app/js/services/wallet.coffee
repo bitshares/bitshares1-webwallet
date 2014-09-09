@@ -61,11 +61,10 @@ class Wallet
             angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1]
-                angular.forEach balances, (symbol_amt_pair) =>
-                    asset_id = symbol_amt_pair[0]
-                    amount = symbol_amt_pair[1]
-                    asset_record = @blockchain.asset_records[asset_id]
-                    symbol = asset_record.symbol
+                angular.forEach balances, (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    symbol = @blockchain.asset_records[asset_id].symbol
+                    amount = asset_id_amt_pair[1]
                     @balances[name] = @balances[name] || {}
                     @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
@@ -84,18 +83,21 @@ class Wallet
         @open_order_balances[name]["BTSX"] = 0
         @wallet_api.account_order_list(name).then (result) =>
             angular.forEach result, (order) =>
-                base = @blockchain.asset[order.market_index.order_price.base_asset_id]
-                quote = @blockchain.asset[order.market_index.order_price.quote_asset_id]
+                base = @blockchain.asset_records[order.market_index.order_price.base_asset_id]
+                quote = @blockchain.asset_records[order.market_index.order_price.quote_asset_id]
                 if order.type == "ask_order"
                     @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
     refresh_bonuses: (name) ->
-        @rpc.request('wallet_account_yield', [name]).then (result) =>
-            angular.forEach result, (name, asset2amount) =>
-                angular.forEach asset2amount, (asset_id, amount) =>
-                    symbol = @blockchain.assets(asset_id)
+        @rpc.request('wallet_account_yield', []).then (response) =>
+            angular.forEach response.result, (name_balances_pair) =>
+                name = name_balances_pair[0]
+                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    symbol = @blockchain.asset_records[asset_id].symbol
+                    amount = asset_id_amt_pair[1]
                     @bonuses[name] = @bonuses[name] || {}
                     @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
