@@ -699,7 +699,7 @@ class MarketService
 
             deferred.resolve(true)
 
-    pull_market_status: (data = null, deferred) ->
+    pull_market_status: (data = null, deferred = null) ->
         self = data?.context or @
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
@@ -716,11 +716,11 @@ class MarketService
                     self.market.median_price = market.median_price = price
                     self.market.min_short_price = market.median_price
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
-                deferred.resolve(true)
+                deferred.resolve(true) if deferred
             , (error) ->
-                deferred.reject(error)
+                deferred.reject(error) if deferred
         , (error) ->
-                deferred.reject(error)
+                deferred.reject(error) if deferred
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
