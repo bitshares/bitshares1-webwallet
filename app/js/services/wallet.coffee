@@ -92,12 +92,12 @@ class Wallet
                     @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
     refresh_bonuses: (name) ->
-        @wallet_api.account_rewards(name).then (result) =>
-            angular.forEach result, (symbol_amt_pair) =>
-                symbol = symbol_amt_pair[0]
-                amount = symbol_amt_pair[1]
-                @bonuses[name] = @bonuses[name] || {}
-                @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+        @rpc.request('wallet_account_yield', [name]).then (result) =>
+            angular.forEach result, (name, asset2amount) =>
+                angular.forEach asset2amount, (asset_id, amount) =>
+                    symbol = @blockchain.assets(asset_id)
+                    @bonuses[name] = @bonuses[name] || {}
+                    @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
 
     count_my_accounts: ->
