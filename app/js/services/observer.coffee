@@ -53,7 +53,7 @@ class Observer
         @private.observers[observer.name] = observer
         observer.counter = 0
         @private.update(observer, @q)
-        if  observer.frequency == "each_block"
+        if observer.frequency == "each_block"
             @private.each_block_observers[observer.name] = observer
         else
             observer.interval_promise = @interval (=>
@@ -64,7 +64,7 @@ class Observer
         unless @private.observers[observer.name]
             @log.error("Observer.unregisterObserver: cannot find '#{observer.name}' observer")
             return
-        @interval.cancel(observer.interval_promise)
+        @interval.cancel(observer.interval_promise) if observer.interval_promise
         delete @private.observers[observer.name]
         delete @private.each_block_observers[observer.name]
 
