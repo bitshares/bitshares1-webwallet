@@ -3,6 +3,7 @@ class Wallet
     accounts: {}
 
     balances: {}
+    bonuses: {}
 
     open_orders_balances: {}
 
@@ -70,9 +71,9 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
-                #if acct.is_my_account
+                if acct.is_my_account
                     #@refresh_open_order_balances(acct.name)
-                    #@refresh_bonuses(acct.name)
+                    @refresh_bonuses(acct.name)
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
