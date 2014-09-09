@@ -52,7 +52,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     account_balances_observer =
         name: "account_balances_observer"
-        frequency: 2600
+        frequency: "each_block"
         update: (data, deferred) ->
             changed = false
             promise = WalletAPI.account_balance(account_name)
@@ -73,13 +73,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     market_data_observer =
         name: "market_data_observer"
-        frequency: 10000
+        frequency: "each_block"
         data: {context: MarketService, account_name: account.name}
         update: MarketService.pull_market_data
 
     market_status_observer =
         name: "market_status_observer"
-        frequency: 10000
+        frequency: "each_block"
         data: {context: MarketService}
         update: MarketService.pull_market_status
 
