@@ -296,7 +296,8 @@
         "value": "Value",
         "rename_account": "Rename Account",
         "rename_account_locally": "Rename Account Locally",
-        "public_info": "Public Info"
+        "public_info": "Public Info",
+        "estimated_yield": "ESTIMATED YIELD"
     },
     "accounts": {
         "create_account": "Create New Account",

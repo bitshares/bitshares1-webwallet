@@ -89,7 +89,7 @@
     "blocks": {
         "load_more_blocks": "Загрузить больше блоков",
         "info": "Больше детальной информации о блоках",
-        "trxs_only": "Показывать только блоки с транзакциями"    
+        "trxs_only": "Показывать только блоки с транзакциями"
     },
     "unlock": {
         "desc_title": "BitShares X Децентрализованная Биржа",
@@ -140,7 +140,8 @@
         "wallet_password": "Пароль Кошелька",
         "import_wallet": "Импортировать Кошелёк",
         "add_field": "Добавить Полосу",
-        "rescan_blockchain": "Заново сканировать цепочку блоков"
+        "rescan_blockchain": "Заново сканировать цепочку блоков",
+        "estimated_yield": "ESTIMATED YIELD"
     },
     "accounts": {
         "create_account": "Создать Счёт",

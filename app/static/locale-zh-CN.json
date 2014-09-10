@@ -218,8 +218,8 @@
             "short_price_should_below_max_range": "卖空价应该低于有效价格区间上限"
         },
         "chart": {
-            "price": "成交价",
-            "volume": "成交量"
+            "price": "价格",
+            "volume": "数量"
         }
     },
     "account": {
@@ -294,7 +294,8 @@
         "value": "值",
         "rename_account": "账户更名",
         "rename_account_locally": "本地更名账户",
-        "public_info": "公共信息"
+        "public_info": "公共信息",
+        "estimated_yield": "预期收益"
     },
     "accounts": {
         "create_account": "创建新账户",
