@@ -153,9 +153,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.toggleFavorite = ->
         address = $scope.account.owner_key
-        Wallet.wallet_add_contact_account(name, address).then ()->
-            WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-                Wallet.refresh_accounts()
+        #Wallet.wallet_add_contact_account(name, address).then ()->
+        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
+            Wallet.refresh_accounts()
 
     $scope.regDial = ->
         if Wallet.asset_balances[0]

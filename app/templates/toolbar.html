@@ -12,5 +12,7 @@
 
 <ul class="nav navbar-nav pull-right">
     <li class="lock"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
-    <li ng-show="context_help.show" class="context-help"><a pageslide ps-size="460px" href="#context-help">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a></li>
+    <li ng-show="context_help.show" class="context-help">
+      <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
+    </li>
 </ul>

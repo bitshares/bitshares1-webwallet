@@ -521,7 +521,8 @@ class MarketService
         #console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td = @helper.order_to_trade_data(r[1], market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td.id = r[0]
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
                 continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
