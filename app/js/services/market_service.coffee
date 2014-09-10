@@ -426,7 +426,7 @@ class MarketService
         order.status = "pending"
         order.quantity -= quantity if order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        console.log "ABOUT TO CANCEL ID"
+        console.log "ABOUT TO COVER ID"
         console.log order.id
         console.log order
         @wallet_api.market_cover(account.name, quantity, symbol, order.id)
@@ -509,7 +509,7 @@ class MarketService
         console.log "In pull_covers:"
         console.log market
         console.log account_name
-        @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quote_symbol, 100, account_name).then (results) =>
+        @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             #console.log results
             results = [].concat.apply(results) # flattens array of results
             for r in results
