@@ -96,3 +96,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             control = form[key]
             control.$setPristine true
             control.clear_errors() if control && control.clear_errors
+
+    $scope.close_context_help = ->
+        $scope.context_help.open = false

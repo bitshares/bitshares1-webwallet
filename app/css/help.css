@@ -1,16 +1,20 @@
 .ng-pageslide {
 	background-color: #eee;
+	overflow-y: scroll;
+	/*padding-right: 10px;*/
 }
 
-#context-help-close {
+.close-help-link {
 	padding-top: 8px;
+	padding-right: 5px;
 	float: right;
 	color: #393939;
 	text-decoration: none;
 }
 
-#context-help-close:hover {
+.close-help-link:hover {
 	color: #01bbf4;
+	text-decoration: none;
 }
 
 .context-help-content {
