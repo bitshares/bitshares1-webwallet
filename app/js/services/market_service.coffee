@@ -141,6 +141,7 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
+        #console.log order
         td = new TradeData()
         if order instanceof Array and order.length > 1
             td.id = order[0]
@@ -425,6 +426,9 @@ class MarketService
         order.status = "pending"
         order.quantity -= quantity if order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
+        console.log "ABOUT TO CANCEL ID"
+        console.log order.id
+        console.log order
         @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
@@ -499,16 +503,20 @@ class MarketService
                 @shorts.push td
             @helper.update_array {target: dest, data: @shorts, can_remove: (target_el) -> target_el.type == "short" }
 
-    pull_covers: (market, inverted) ->
+    pull_covers: (market, inverted, account_name) ->
         covers = []
         #console.log " --- pull_covers"
-        @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
+        console.log "In pull_covers:"
+        console.log market
+        console.log account_name
+        @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quote_symbol, 100, account_name).then (results) =>
             #console.log results
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
+                console.log r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
@@ -520,6 +528,7 @@ class MarketService
         orders = []
         #console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
+            console.log results
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
@@ -637,8 +646,8 @@ class MarketService
             self.pull_unconfirmed_transactions(data.account_name)
         ]
         if market.margins_available
-            promises.push(self.pull_shorts(market, self.market.inverted))
-            promises.push(self.pull_covers(market, self.market.inverted))
+            promises.push(self.pull_shorts(market, self.market.inverted, data.account_name))
+            promises.push(self.pull_covers(market, self.market.inverted, data.account_name))
 
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
 
@@ -717,7 +726,7 @@ class MarketService
                 if res.length > 0
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
-                    self.market.min_short_price = market.median_price
+                    self.market.min_short_price = market.min_short_price = price * 9.0 / 10.0
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
                 deferred.resolve(true) if deferred
             , (error) ->

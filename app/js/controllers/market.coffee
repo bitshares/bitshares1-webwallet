@@ -187,9 +187,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         if short.price < $scope.market.min_short_price
             form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
             return
-        if short.price > $scope.market.max_short_price
-            form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
-            return
+        #if short.price > $scope.market.max_short_price
+        #    form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
+        #    return
         short.cost = short.quantity * short.price
         if short.cost > $scope.account.base_balance
             form.short_quantity.$error.message = 'market.tip.insufficient_balances'
@@ -241,6 +241,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
                 scope.market = current_market.actual_market or current_market
                 original_order = order
+                console.log order
                 if !current_market.inverted
                     order = order.invert()
                 scope.v = {quantity: order.quantity, total: order.quantity}
