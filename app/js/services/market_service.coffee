@@ -141,6 +141,9 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
+        console.log order
+        if order[1]
+            order = order[1]
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
         td.id = order.market_index.owner
@@ -656,7 +659,7 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
                 self.helper.sort_array(self.shorts, "price", "quantity", shorts_reverse_sort)
 
-                if @counter % 5 == 0 and self.market.avg_price_1h and self.market.avg_price_1h > 0.0
+                if self.market.avg_price_1h > 0.0
 
                     sum_asks = 0.0
                     asks_array = []
@@ -699,12 +702,11 @@ class MarketService
 
             deferred.resolve(true)
 
-    pull_market_status: (data = null) ->
+    pull_market_status: (data = null, deferred = null) ->
         self = data?.context or @
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
-            #console.log "------ pull_market_status ------>", self.market.avg_price_1h
             if self.market.avg_price_1h > 0
                 self.market.min_short_price = market.min_short_price = self.market.avg_price_1h * 9.0 / 10.0
                 self.market.max_short_price = market.max_short_price = self.market.avg_price_1h * 10.0 / 9.0
@@ -717,6 +719,11 @@ class MarketService
                     self.market.median_price = market.median_price = price
                     self.market.min_short_price = market.median_price
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
+                deferred.resolve(true) if deferred
+            , (error) ->
+                deferred.reject(error) if deferred
+        , (error) ->
+                deferred.reject(error) if deferred
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])

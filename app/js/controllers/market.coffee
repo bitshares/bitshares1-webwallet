@@ -7,6 +7,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.short = new MarketService.TradeData
     $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
+    $scope.avg_price = 0
     current_market = null
     price_decimals = 4
 
@@ -28,6 +29,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         return (y) ->
             precision = if y > 1000.0 then 0 else $scope.market.price_precision
             price = Utils.formatDecimal(y, precision)
+            $scope.avg_price = MarketService.market.avg_price_1h
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
