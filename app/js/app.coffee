@@ -73,16 +73,13 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',
         suffix: '.json'
-    lang = window.navigator.language
-    if lang == "zh-CN"
-        lang = "zh-CN"
-    if lang == "de" or lang == "de-de"
-        lang = "de"
-    if lang == "ru" or lang == "ru-RU"
-        lang = "ru"
-    else
-        lang = "en"
-    
+
+    lang = switch(window.navigator.language)
+      when "zh-CN" then "zh-CN"
+      when "de", "de-de" then "de"
+      when "ru", "ru-RU" then "ru"
+      else "en"
+
     $translateProvider.preferredLanguage(lang)
 
     $idleProvider.idleDuration(1776)
