@@ -415,10 +415,8 @@ class MarketService
         else
             @post_short(order, account)
         call.then (result) ->
-            console.log "===== order placed: ", result
-            #res = jsonPath.eval(result, "$.[*].data..owner")
-            #order.id = res[0] if res.length == 1
-            order.id = result.recor
+            order.id = result.record_id
+            console.log "===== order placed: ", order.id
         return call
 
     cover_order: (order, quantity, account) ->
