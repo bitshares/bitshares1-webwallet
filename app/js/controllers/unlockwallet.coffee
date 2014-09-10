@@ -23,7 +23,7 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
       if (Info.info.client_version)
         cancel()
         $scope.client_version = Info.info.client_version
-        if $scope.client_version != "0.4.13"
+        if $scope.client_version != "0.4.14"
             $scope.update_available = true
 
 
