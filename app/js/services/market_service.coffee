@@ -141,12 +141,14 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
-        console.log order
-        if order[1]
-            order = order[1]
+        #console.log order
         td = new TradeData()
+        if order[1]
+            td.id = order[0]
+            order = order[1]
+        else
+            td.id = order.market_index.owner
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
         if order.type == "cover_order"
@@ -520,9 +522,10 @@ class MarketService
         orders = []
         #console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
+            console.log results
             for r in results
-                td = @helper.order_to_trade_data(r[1], market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                td.id = r[0]
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                #td.id = r[0]
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
                 continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
