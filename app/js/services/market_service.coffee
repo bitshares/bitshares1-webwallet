@@ -141,6 +141,9 @@ class MarketHelper
 
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
+        console.log order
+        if order[1]
+            order = order[1]
         td = new TradeData()
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
         td.id = order.market_index.owner
