@@ -724,7 +724,7 @@ class MarketService
                 if res.length > 0
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
-                    self.market.min_short_price = market.median_price
+                    self.market.min_short_price = market.min_short_price = price * 9.0 / 10.0
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
                 deferred.resolve(true) if deferred
             , (error) ->
