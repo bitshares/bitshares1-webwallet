@@ -208,7 +208,8 @@
             "bid_order": "Bid",
             "ask_order": "Ask",
             "short_order": "Short",
-            "cover_order": "Cover"
+            "cover_order": "Cover",
+            "margin_order": "Margin"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",
@@ -296,7 +297,8 @@
         "value": "Value",
         "rename_account": "Rename Account",
         "rename_account_locally": "Rename Account Locally",
-        "public_info": "Public Info"
+        "public_info": "Public Info",
+        "estimated_yield": "ESTIMATED YIELD"
     },
     "accounts": {
         "create_account": "Create New Account",

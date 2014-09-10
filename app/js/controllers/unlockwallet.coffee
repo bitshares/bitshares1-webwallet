@@ -15,12 +15,17 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
     $scope.wrongPass = false
     $scope.keydown = -> $scope.wrongPass = false
 
+    $scope.update_available = false
+
     cancel = $scope.$watch ->
       Info.info.client_version
     , ->
       if (Info.info.client_version)
         cancel()
         $scope.client_version = Info.info.client_version
+        if $scope.client_version != "0.4.13"
+            $scope.update_available = true
+
 
     $scope.submitForm = ->
         $scope.wrongPass = false
