@@ -13,7 +13,7 @@ app = angular.module("app",
      "nvd3ChartDirectives", "pageslide-directive"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
-    $rootScope.context_help = {locale: "en", show: false, file: ""}
+    $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
     app_history = []
 
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
@@ -62,9 +62,6 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
-#
-#    $rootScope.updateProgress = (p) ->
-#        $rootScope.progress = p
 
     $idle.watch()
 
