@@ -142,8 +142,12 @@ class MarketHelper
 
     order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
         td = new TradeData()
+        if order instanceof Array and order.length > 1
+            td.id = order[0]
+            order = order[1]
+        else
+            td.id = order.market_index.owner
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        td.id = order.market_index.owner
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
         td.price = if invert_price then 1.0 / price else price
         if order.type == "cover_order"
@@ -412,8 +416,9 @@ class MarketService
             @post_short(order, account)
         call.then (result) ->
             console.log "===== order placed: ", result
-            res = jsonPath.eval(result, "$.[*].data..owner")
-            order.id = res[0] if res.length == 1
+            #res = jsonPath.eval(result, "$.[*].data..owner")
+            #order.id = res[0] if res.length == 1
+            order.id = result.recor
         return call
 
     cover_order: (order, quantity, account) ->
@@ -518,8 +523,7 @@ class MarketService
         #console.log " ---- pull_orders"
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r[1], market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                td.id = r[0]
+                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                 td.status = "posted" if td.status != "cover"
                 continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
