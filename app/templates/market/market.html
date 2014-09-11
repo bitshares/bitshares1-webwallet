@@ -65,22 +65,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <nvd3-line-chart class="chart price-chart" ng-show="market.price_history.length"
-                         data="market.price_history"
-                         showXAxis="true"
-                         showYAxis="true"
-                         tooltips="true"
-                         interactive="true"
-                         showlegend="true"
-                         yaxisshowmaxmin="false"
-                         height="240"
-                         xAxisLabel=""
-                         yAxisLabel=""
-                         forcey="[0.0.5*avg_price, 1.5*avg_price]"
-                         xAxisTickFormat="xAxisTickFormatPriceChart()"
-                         yAxisTickFormat="yAxisTickFormatPriceChart()"
-                         tooltipcontent="priceChartTooltip()">
-        </nvd3-line-chart>
+        <pricechart pricedata="market.price_history" volumedata="market.volume_history"></pricechart>
       </div>
     </div>
 

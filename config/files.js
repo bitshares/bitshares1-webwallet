@@ -32,7 +32,9 @@ module.exports = function(lineman) {
         "vendor/js/d3.js",
         "vendor/js/nv.d3.js",
         "vendor/js/angularjs-nvd3-directives.js",
-        "vendor/js/angular-pageslide-directive.js"
+        "vendor/js/angular-pageslide-directive.js",
+        "vendor/js/highstock.src.js"
+        //"vendor/js/highcharts.src.js"
       ],
       app: [
         "app/js/app.js",

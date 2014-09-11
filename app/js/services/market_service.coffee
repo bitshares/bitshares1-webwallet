@@ -624,28 +624,38 @@ class MarketService
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
         start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 86400).then (result) =>
-            highest_bid_data = []
-            lowest_ask_data = []
-            average_price_data = []
-            for t in result
-                highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
-                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-                recent_average_price = if inverted then 1.0/t.recent_average_price else t.recent_average_price
-                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
-                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
-                average_price_data.push [@helper.date(t.timestamp), recent_average_price]
+        prc = (price) -> if inverted then 1.0/price else price
 
-            price_history = []
-            if highest_bid_data.length > 0
-                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
-                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
-                price_history.push {"key": "Moving Average", color: "#00eedd", "values": average_price_data}
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 86400).then (result) =>
+#            highest_bid_data = []
+#            lowest_ask_data = []
+#            average_price_data = []
+            ohlc_data = []
+            volume_data = []
+            for t in result
+                time = @helper.date(t.timestamp)
+#                highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
+#                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
+#                recent_average_price = if inverted then 1.0/t.recent_average_price else t.recent_average_price
+#                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
+#                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
+#                average_price_data.push [@helper.date(t.timestamp), recent_average_price]
+
+                ohlc_data.push [time, prc(t.opening_price), prc(t.lowest_ask), prc(t.highest_bid), prc(t.closing_price)]
+                volume_data.push [time, t.volume]
+
+#            price_history = []
+#            if highest_bid_data.length > 0
+#                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
+#                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
+#                price_history.push {"key": "Moving Average", color: "#00eedd", "values": average_price_data}
 
             if market.orig_market and inverted
-                market.orig_market.price_history = price_history
+                market.orig_market.price_history = ohlc_data
+                market.orig_market.volume_history = volume_data
             else
-                market.price_history = price_history
+                market.price_history = ohlc_data
+                market.volume_history = volume_data
 
 
     pull_market_data: (data, deferred) ->
