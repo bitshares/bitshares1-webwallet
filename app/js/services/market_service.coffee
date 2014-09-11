@@ -591,9 +591,11 @@ class MarketService
             last_trade_block_num = @my_trades[0].block_num
             last_trade_id = @my_trades[0].id
 
-        return unless @wallet.transactions[account_name]
+        toolkit_market_name = "#{market.asset_base_symbol} / #{market.asset_quantity_symbol}"
+
         @wallet.refresh_transactions().then =>
-            for t in @wallet.transactions[account_name]
+            transactions = @wallet.transactions[account_name] or []
+            for t in transactions
                 #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
                 continue if not t.is_market or not t.is_confirmed or t.is_virtual
@@ -604,6 +606,7 @@ class MarketService
                 td.id = t.id
                 td.timestamp = t.pretty_time
                 l = t.ledger_entries[0]
+                continue unless l.memo.indexOf(toolkit_market_name) > 0
                 td.memo = l.memo
                 td.amount_asset = l.amount_asset
                 new_trades.push td

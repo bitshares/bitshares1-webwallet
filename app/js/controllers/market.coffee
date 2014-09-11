@@ -28,8 +28,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.yAxisTickFormatPriceChart = ->
         return (y) ->
             precision = if y > 1000.0 then 0 else $scope.market.price_precision
-            price = Utils.formatDecimal(y, precision)
-            $scope.avg_price = MarketService.market.avg_price_1h
+            Utils.formatDecimal(y, precision)
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
@@ -101,7 +100,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
-        tabsym = market.quantity_symbol
         # market base symbol is concated in template
         if market.shorts_available
             $scope.tabs[2].heading = "market.short"
