@@ -577,7 +577,7 @@ class MarketService
         return unless @wallet.transactions[account_name]
         @wallet.refresh_transactions().then =>
             for t in @wallet.transactions[account_name]
-                #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
+                console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
                 continue if not t.is_market or not t.is_confirmed or t.is_virtual
                 continue unless t.ledger_entries.length > 0
