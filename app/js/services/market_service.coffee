@@ -30,7 +30,7 @@ class TradeData
     touch: ->
         @timestamp = Date.now()
     expired: ->
-        return Date.now() - @timestamp > 15000
+        return Date.now() - @timestamp > 2000
 
 
 class Market
@@ -232,15 +232,17 @@ class MarketHelper
         return type
 
     find_order_by_transaction: (orders, t) ->
-        res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
-        return null if not res or res.length == 0
-        to_account = res[0]
-        match = /^([A-Z]+)\-(\w+)/.exec(to_account)
-        return null unless match
-        subid = match[2]
-        return null unless subid.length > 5
+#        res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
+#        return null if not res or res.length == 0
+#        to_account = res[0]
+#        match = /^([A-Z]+)\-(\w+)/.exec(to_account)
+#        return null unless match
+#        subid = match[2]
+#        return null unless subid.length > 5
+#        for o in orders
+#            return o if o.id and o.id.indexOf(subid) > -1
         for o in orders
-            return o if o.id and o.id.indexOf(subid) > -1
+            return o if o.id == t.trx_id
         return null
 
     date: (t) ->
@@ -526,33 +528,48 @@ class MarketService
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
-        #console.log " ---- pull_orders"
-        @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
-            console.log results
-            for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
-                td.status = "posted" if td.status != "cover"
-                continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
-                orders.push td
-            @helper.update_array
-                target: @orders
-                data: orders
-                update: (target_el, data_el) =>
-                    if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
-                        target_el.status = data_el.status
-                    target_el.type = data_el.type
-                    target_el.cost = data_el.cost
-                    target_el.quantity = data_el.quantity unless target_el.status == "pending"
-                    target_el.collateral = data_el.collateral
-                    target_el.type = data_el.type
-                    target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
-                can_remove: (o) ->
-                    #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-                    !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-            @helper.sort_array(@orders, "price", "quantity", false)
-            if magic_unicorn?
-                magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
+        deferred = @q.defer()
+        @wallet_api.account_transaction_history(account_name).then (results) =>
+            for t in results
+                continue if t.is_confirmed
+                order = @helper.find_order_by_transaction(@orders, t)
+                if order
+                    order.status = "pending"
+                    order.touch()
+
+            @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
+                console.log results
+                for r in results
+                    td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                    #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                    td.status = "posted" if td.status != "cover"
+                    continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
+                    orders.push td
+                @helper.update_array
+                    target: @orders
+                    data: orders
+                    update: (target_el, data_el) =>
+                        if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
+                            target_el.status = data_el.status
+                        target_el.type = data_el.type
+                        target_el.cost = data_el.cost
+                        target_el.quantity = data_el.quantity unless target_el.status == "pending"
+                        target_el.collateral = data_el.collateral
+                        target_el.type = data_el.type
+                        target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
+                    can_remove: (o) ->
+                        #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
+                        !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
+                @helper.sort_array(@orders, "price", "quantity", false)
+                if magic_unicorn?
+                    magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
+
+                deferred.resolve(true)
+
+            , (error) -> deferred.reject(error)
+        , (error) -> deferred.reject(error)
+
+        return deferred.promise
 
 
     pull_trades: (market, inverted) ->
@@ -594,14 +611,15 @@ class MarketService
             for t in new_trades.reverse()
                 @my_trades.unshift t
 
-    pull_unconfirmed_transactions: (account_name) ->
-        @wallet_api.account_transaction_history(account_name).then (results) =>
-            for t in results
-                continue if t.is_confirmed
-                order = @helper.find_order_by_transaction(@orders, t)
-                if order
-                    order.status = "pending"
-                    order.touch()
+#    pull_unconfirmed_transactions: (account_name) ->
+#        @wallet_api.account_transaction_history(account_name).then (results) =>
+#            for t in results
+#                continue if t.is_confirmed
+#                order = @helper.find_order_by_transaction(@orders, t)
+#                if order
+#                    console.log "------ pull_unconfirmed_transactions order found ------>", order
+#                    order.status = "pending"
+#                    order.touch()
                 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
@@ -642,8 +660,8 @@ class MarketService
             self.pull_asks(market, self.market.inverted),
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
-            self.pull_my_trades(market, self.market.inverted, data.account_name),
-            self.pull_unconfirmed_transactions(data.account_name)
+            self.pull_my_trades(market, self.market.inverted, data.account_name)
+            #self.pull_unconfirmed_transactions(data.account_name)
         ]
         if market.margins_available
             promises.push(self.pull_shorts(market, self.market.inverted, data.account_name))
