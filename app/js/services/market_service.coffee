@@ -593,6 +593,7 @@ class MarketService
 
         return unless @wallet.transactions[account_name]
         @wallet.refresh_transactions().then =>
+            console.log "refreshing my transactions"
             for t in @wallet.transactions[account_name]
                 console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
@@ -654,7 +655,7 @@ class MarketService
         market = self.market.get_actual_market()
         self.lowest_ask = Number.MAX_VALUE
         self.highest_bid = 0.0
-        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
+        console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
