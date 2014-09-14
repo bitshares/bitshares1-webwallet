@@ -45,7 +45,9 @@ class Blockchain
                 @populate_asset_record record
 
     get_asset: (id) ->
-        return @symbol2records[id] if !$.isNumeric(id)
+        if !$.isNumeric(id)
+            console.log "Warning - calling get_asset with symbol instead of ID"
+            return @symbol2records[id]
         if @asset_records[id]
             deferred = @q.defer()
             deferred.resolve(@asset_records[id])

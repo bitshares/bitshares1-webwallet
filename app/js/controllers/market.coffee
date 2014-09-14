@@ -28,8 +28,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.yAxisTickFormatPriceChart = ->
         return (y) ->
             precision = if y > 1000.0 then 0 else $scope.market.price_precision
-            price = Utils.formatDecimal(y, precision)
-            $scope.avg_price = MarketService.market.avg_price_1h
+            Utils.formatDecimal(y, precision)
     $scope.priceChartTooltip = ->
         (key, x, y, e, graph) ->
             price = Utils.formatDecimal(y, $scope.market.price_precision)
@@ -101,7 +100,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
-        tabsym = market.quantity_symbol
         # market base symbol is concated in template
         if market.shorts_available
             $scope.tabs[2].heading = "market.short"
@@ -191,6 +189,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #    form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
         #    return
         short.cost = short.quantity * short.price
+        if short.cost < 100
+            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
+            return
         if short.cost > $scope.account.base_balance
             form.short_quantity.$error.message = 'market.tip.insufficient_balances'
             return
