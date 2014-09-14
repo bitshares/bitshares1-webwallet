@@ -239,7 +239,7 @@ class Wallet
                             memo: entry.memo
                             running_balances: running_balances
 
-                    time = @utils.toDate(val.received_time)
+                    time = @utils.toDate(val.timestamp)
                     transaction =
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
