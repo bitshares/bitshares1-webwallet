@@ -626,32 +626,26 @@ class MarketService
                 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
-        start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
+        start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 86400).then (result) =>
-#            highest_bid_data = []
-#            lowest_ask_data = []
-#            average_price_data = []
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600).then (result) =>
             ohlc_data = []
             volume_data = []
             for t in result
                 time = @helper.date(t.timestamp)
-#                highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
-#                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-#                recent_average_price = if inverted then 1.0/t.recent_average_price else t.recent_average_price
-#                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
-#                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
-#                average_price_data.push [@helper.date(t.timestamp), recent_average_price]
-
-                ohlc_data.push [time, prc(t.opening_price), prc(t.lowest_ask), prc(t.highest_bid), prc(t.closing_price)]
-                volume_data.push [time, t.volume]
-
-#            price_history = []
-#            if highest_bid_data.length > 0
-#                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
-#                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
-#                price_history.push {"key": "Moving Average", color: "#00eedd", "values": average_price_data}
+                o = prc(t.opening_price)
+                c = prc(t.closing_price)
+                lowest_ask = prc(t.lowest_ask)
+                highest_bid = prc(t.highest_bid)
+                h = if lowest_ask > highest_bid then lowest_ask else highest_bid
+                l = if lowest_ask < highest_bid then lowest_ask else highest_bid
+                h = o if o > h
+                h = c if c > h
+                l = o if o < l
+                l = c if c < l
+                ohlc_data.push [time, o, h, l, c]
+                volume_data.push [time, t.volume / market.quantity_asset.precision]
 
             if market.orig_market and inverted
                 market.orig_market.price_history = ohlc_data
@@ -680,7 +674,7 @@ class MarketService
             promises.push(self.pull_shorts(market, self.market.inverted, data.account_name))
             promises.push(self.pull_covers(market, self.market.inverted, data.account_name))
 
-        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
+        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 6 == 0
 
         self.q.all(promises).finally =>
             try
@@ -725,7 +719,6 @@ class MarketService
                         bids_array.push [b.price, sum_bids]
                         sum_shorts2 += b.quantity if b.type == "short"
                         shorts_array2.push [b.price, sum_shorts2]
-
 
                     shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 

@@ -65,7 +65,12 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <pricechart pricedata="market.price_history" volumedata="market.volume_history"></pricechart>
+        <pricechart
+            pricedata="market.price_history"
+            volumedata="market.volume_history"
+            volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
+            price-symbol="market.price_symbol">
+         </pricechart>
       </div>
     </div>
 
@@ -98,6 +103,13 @@
 
     <div class="row">
       <div class="col-sm-12">
+        <orderbookchart
+            buyorders="market.orderbook_chart_data[0].values"
+            sellorders="market.orderbook_chart_data[1].values"
+            volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
+            price-symbol="market.price_symbol">
+        </orderbookchart>
+
         <nvd3-line-chart class="chart orderbook-chart" ng-show="market.orderbook_chart_data.length > 0"
                          data="market.orderbook_chart_data"
                          showXAxis="true"
