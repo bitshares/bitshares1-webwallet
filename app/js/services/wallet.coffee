@@ -213,7 +213,7 @@ class Wallet
                     @transactions_last_block = val.block_num
                     continue if @transactions_all_by_id[val.trx_id]
 
-                    #console.log "------ refresh_transactions ------>", val.block_num, val
+                    console.log "------ refresh_transactions ------>", val.block_num, val
 
                     involved_accounts = {}
                     ledger_entries = []

@@ -189,6 +189,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #    form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
         #    return
         short.cost = short.quantity * short.price
+        if short.cost < 100
+            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
+            return
         if short.cost > $scope.account.base_balance
             form.short_quantity.$error.message = 'market.tip.insufficient_balances'
             return
