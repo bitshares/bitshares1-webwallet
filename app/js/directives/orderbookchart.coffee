@@ -11,6 +11,10 @@ initChart = (scope) ->
         title:
             text: null
 
+        legend:
+            verticalAlign: "top"
+            #align: "right"
+
         xAxis:
             title: "Price " + scope.priceSymbol
 
@@ -55,6 +59,10 @@ initChart = (scope) ->
             name: "Short " + scope.volumeSymbol
             data: scope.shorts
             color: scope.shortsColor
+        ,
+            name: "Short Demand"
+            data: scope.shortsOfr
+            color: "#ffff99"
         ]
 
         plotOptions:
@@ -69,6 +77,7 @@ angular.module("app.directives").directive "orderbookchart", ->
         buys: "="
         sells: "="
         shorts: "="
+        shortsOfr: "="
         shortsColor: "="
         shortsRange: "="
         volumeSymbol: "="

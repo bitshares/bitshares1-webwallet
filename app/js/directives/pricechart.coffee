@@ -76,11 +76,13 @@ initChart = (scope) ->
             type: 'candlestick'
             name: 'Price'
             data: scope.pricedata
+            zIndex: 10
         ,
             type: 'column'
             name: 'Volume'
             data: scope.volumedata
             yAxis: 1
+            zIndex: 9
         ]
 
 angular.module("app.directives").directive "pricechart", ->

@@ -11,6 +11,7 @@ class TradeData
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
         @warning = null
         @display_type = null
+        @out_of_range = false
 
     invert: ->
         td = new TradeData()
@@ -25,6 +26,7 @@ class TradeData
         td.price = 1.0 / @price
         td.warning = @warning
         td.display_type = @display_type
+        td.out_of_range = @out_of_range
         return td
 
     touch: ->
@@ -494,8 +496,8 @@ class MarketService
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log "---- short: ", td.price, market.median_price
-                continue if inverted and (td.price < market.median_price)
-                continue if (not inverted) and (td.price > market.median_price)
+                td.out_of_range = (inverted and (td.price < market.median_price)) or ((not inverted) and (td.price > market.median_price))
+                #continue if (not inverted) and (td.price > market.median_price)
 
                 td.type = "short"
                 if inverted
@@ -698,25 +700,40 @@ class MarketService
                     sum_shorts2 = 0.0
                     shorts_array2 = []
 
+                    sum_shorts3 = 0.0
+                    shorts_array3 = []
+
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
-                        sum_asks += a.quantity
-                        asks_array.push [a.price, sum_asks]
-                        sum_shorts1 += a.quantity if a.type == "short"
-                        shorts_array1.push [a.price, sum_shorts1]
+                        if a.out_of_range
+                            sum_shorts3 += a.quantity
+                            shorts_array3.push [a.price, sum_shorts3]
+                        else
+                            sum_shorts1 += a.quantity if a.type == "short"
+                            sum_asks += a.quantity unless a.out_of_range
+                            asks_array.push [a.price, sum_asks]
+                            shorts_array1.push [a.price, sum_shorts1]
 
                     sum_bids = 0.0
                     bids_array = []
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
-                        sum_bids += b.quantity
-                        bids_array.push [b.price, sum_bids]
-                        sum_shorts2 += b.quantity if b.type == "short"
-                        shorts_array2.push [b.price, sum_shorts2]
+                        if b.out_of_range
+                            sum_shorts3 += b.quantity
+                            shorts_array3.push [b.price, sum_shorts3]
+                        else
+                            sum_shorts2 += b.quantity if b.type == "short"
+                            sum_bids += b.quantity unless b.out_of_range
+                            shorts_array2.push [b.price, sum_shorts2]
+                            bids_array.push [b.price, sum_bids]
 
                     shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
                     bids_array.sort (a,b) -> a[0] - b[0]
+                    asks_array.sort (a,b) -> a[0] - b[0]
+                    shorts_array1.sort (a,b) -> a[0] - b[0]
+                    shorts_array2.sort (a,b) -> a[0] - b[0]
+                    shorts_array3.sort (a,b) -> a[0] - b[0]
 
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
@@ -729,6 +746,7 @@ class MarketService
                         orderbook_chart_data.push {"key": "Buy #{self.market.quantity_symbol}", "area": true, color: "#2ca02c", "values": bids_array}
                         orderbook_chart_data.push {"key": "Sell #{self.market.quantity_symbol}", "area": true, color: "#ff7f0e", "values": asks_array}
                         orderbook_chart_data.push {"key": "Short #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array, range: "#{short_range_begin}-#{short_range_end}"}
+                        orderbook_chart_data.push {"key": "ShortOFR #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array3}
                     self.market.orderbook_chart_data = orderbook_chart_data
 
             catch e

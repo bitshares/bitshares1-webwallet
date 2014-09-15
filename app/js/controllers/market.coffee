@@ -124,6 +124,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         for k,a of Wallet.accounts
             $scope.accounts.push a if a.is_my_account
 
+    $scope.excludeOutOfRange = (item) -> not item.out_of_range
+
     $scope.$on "$destroy", ->
         $scope.showContextHelp false
         MarketService.orders = []
