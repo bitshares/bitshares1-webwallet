@@ -60,7 +60,6 @@
         "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
         "collected_fees": "COLLECTED FEES",
         "registration_date": "REGISTRATION DATE",
-        "registered_time": "Registered Time",
         "height": "Height",
         "time": "Time",
         "trx_count": "Transaction Count",
@@ -100,7 +99,6 @@
         "trx_count": "Number of Transactions",
         "blk_id": "Block ID",
         "prev_blk_id": "Previous Block ID",
-        "block_fee_rate": "Block Fee Rate",
         "delegate_name": "Delegate Name",
         "delegate_pay_rate": "Delegate Pay Rate",
         "timestamp": "TimeStamp",
@@ -283,8 +281,8 @@
         },
         "import_wif_key": "Import WIF Key",
         "import_from_wallet": "Import Keys from Wallet",
-        "update_pub_info": "Update public settings(on chain)}",
-        "update_local_info": "Update Private Infos(stored locally)",
+        "update_pub_info": "Update public settings (on chain)",
+        "update_local_info": "Update Private Infos (stored locally)",
         "pay_from": "Pay From",
         "update_need_fund": "You need fees for update your account, but you still do not have any funds yet",
         "delegate_settings": "Delegate Settings",
@@ -358,7 +356,7 @@
     },
     "directive":{
         "input_name": {
-            "popover": "Only2 lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
+            "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
             "note1": "Note: Account names cannot be transferred.",
             "note2": "Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash."
         }
