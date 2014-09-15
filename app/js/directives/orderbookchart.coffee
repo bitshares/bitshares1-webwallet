@@ -1,5 +1,6 @@
 initChart = (scope) ->
-    console.log "------ init chart ------>", scope.avgprice1h
+    console.log "------ init chart ------>", scope.shortsColor
+
     new Highcharts.Chart
         chart:
             type: "area"
@@ -31,12 +32,16 @@ initChart = (scope) ->
 
         series: [
             name: "Buy " + scope.volumeSymbol
-            data: scope.buyorders
+            data: scope.buys
             color: "#2ca02c"
         ,
             name: "Sell " + scope.volumeSymbol
-            data: scope.sellorders
+            data: scope.sells
             color: "#ff7f0e"
+        ,
+            name: "Short " + scope.volumeSymbol
+            data: scope.shorts
+            color: scope.shortsColor
         ]
 
         plotOptions:
@@ -48,8 +53,10 @@ angular.module("app.directives").directive "orderbookchart", ->
     restrict: "E"
     replace: true
     scope:
-        buyorders: "="
-        sellorders: "="
+        buys: "="
+        sells: "="
+        shorts: "="
+        shortsColor: "="
         volumeSymbol: "="
         priceSymbol: "="
         avgprice1h: "="
@@ -64,16 +71,22 @@ angular.module("app.directives").directive "orderbookchart", ->
     link: (scope, element, attrs) ->
         chart = null
 
-        scope.$watch "buyorders", (newValue) =>
+        scope.$watch "buys", (newValue) =>
             if newValue and not chart
                 chart = initChart(scope)
             #else if chart
-            #    chart.series[0].setData newValue, true
+                #chart.series[0].setData newValue, true
         , true
 
-        scope.$watch "sellorders", (newValue) =>
+        scope.$watch "sells", (newValue) =>
             return unless chart
             #console.log "------ sellorders ------>", newValue
             #chart.series[1].setData newValue, true
+        , true
+
+        scope.$watch "shorts", (newValue) =>
+            return unless chart
+            #console.log "------ shortorders ------>", newValue
+            #chart.series[2].setData newValue, true
         , true
 

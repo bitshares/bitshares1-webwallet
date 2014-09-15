@@ -104,8 +104,10 @@
     <div class="row">
       <div class="col-sm-12">
         <orderbookchart
-            buyorders="market.orderbook_chart_data[0].values"
-            sellorders="market.orderbook_chart_data[1].values"
+            buys="market.orderbook_chart_data[0].values"
+            sells="market.orderbook_chart_data[1].values"
+            shorts="market.orderbook_chart_data[2].values"
+            shorts-color="market.orderbook_chart_data[2].color"
             volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
             price-symbol="market.price_symbol"
             avgprice1h="market.avg_price_1h">

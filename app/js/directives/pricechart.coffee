@@ -1,4 +1,5 @@
 initChart = (scope) ->
+
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
