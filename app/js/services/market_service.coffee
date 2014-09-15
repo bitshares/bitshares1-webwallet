@@ -513,7 +513,6 @@ class MarketService
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
-                console.log r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
@@ -717,11 +716,19 @@ class MarketService
 
                     shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
+                    bids_array.sort (a,b) -> a[0] - b[0]
+
                     orderbook_chart_data = []
                     if sum_asks > 0.0 or sum_bids > 0.0
+                        if self.market.inverted
+                            short_range_begin = market.min_short_price
+                            short_range_end = if asks_array.length > 0 then asks_array[asks_array.length - 1][0] else 0.0
+                        else
+                            short_range_begin = if bids_array.length > 0 then bids_array[0][0] else 0.0
+                            short_range_end = market.max_short_price
                         orderbook_chart_data.push {"key": "Buy #{self.market.quantity_symbol}", "area": true, color: "#2ca02c", "values": bids_array}
                         orderbook_chart_data.push {"key": "Sell #{self.market.quantity_symbol}", "area": true, color: "#ff7f0e", "values": asks_array}
-                        orderbook_chart_data.push {"key": "Short #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array}
+                        orderbook_chart_data.push {"key": "Short #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array, range: "#{short_range_begin}-#{short_range_end}"}
                     self.market.orderbook_chart_data = orderbook_chart_data
 
             catch e

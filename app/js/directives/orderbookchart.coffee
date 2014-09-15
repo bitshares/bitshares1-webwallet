@@ -1,5 +1,6 @@
 initChart = (scope) ->
-    console.log "------ init chart ------>", scope.shortsColor
+    console.log "------ init chart ------>", scope.shortsRange
+    [shorts_range_begin, shorts_range_end] = scope.shortsRange.split("-")
 
     new Highcharts.Chart
         chart:
@@ -13,11 +14,15 @@ initChart = (scope) ->
         xAxis:
             title: "Price " + scope.priceSymbol
 
-#            plotBands: [
-#                color: "orange" # Color value
-#                from: "26" # Start of the plot band
-#                to: "30" # End of the plot band
-#            ]
+            plotBands: [
+                color: "#eee"
+                from: shorts_range_begin
+                to: shorts_range_end
+                label:
+                    text: "Shorts Range"
+                    #align: "right"
+                #zIndex: 10
+            ]
 
             plotLines: [
                 color: "#555"
@@ -25,6 +30,14 @@ initChart = (scope) ->
                 value: scope.avgprice1h
                 width: "1"
                 label: {text: '1h Avg. Price'}
+                zIndex: 11
+            ,
+                color: "red"
+                dashStyle: "longdashdot"
+                value: scope.maxshortprice
+                width: "1"
+                label: {text: 'Shorts Limit'}
+                zIndex: 11
             ]
 
         yAxis:
@@ -57,6 +70,7 @@ angular.module("app.directives").directive "orderbookchart", ->
         sells: "="
         shorts: "="
         shortsColor: "="
+        shortsRange: "="
         volumeSymbol: "="
         priceSymbol: "="
         avgprice1h: "="
