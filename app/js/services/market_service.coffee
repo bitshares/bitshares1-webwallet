@@ -505,14 +505,9 @@ class MarketService
                 @shorts.push td
             @helper.update_array {target: dest, data: @shorts, can_remove: (target_el) -> target_el.type == "short" }
 
-    pull_covers: (market, inverted, account_name) ->
+    pull_covers: (market, inverted) ->
         covers = []
-        #console.log " --- pull_covers"
-        console.log "In pull_covers:"
-        console.log market
-        console.log account_name
-        @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
-            #console.log results
+        @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
@@ -671,8 +666,8 @@ class MarketService
             #self.pull_unconfirmed_transactions(data.account_name)
         ]
         if market.margins_available
-            promises.push(self.pull_shorts(market, self.market.inverted, data.account_name))
-            promises.push(self.pull_covers(market, self.market.inverted, data.account_name))
+            promises.push(self.pull_shorts(market, self.market.inverted))
+            promises.push(self.pull_covers(market, self.market.inverted))
 
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 6 == 0
 
