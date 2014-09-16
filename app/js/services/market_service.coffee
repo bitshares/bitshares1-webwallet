@@ -11,6 +11,7 @@ class TradeData
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
         @warning = null
         @display_type = null
+        @out_of_range = false
 
     invert: ->
         td = new TradeData()
@@ -25,6 +26,7 @@ class TradeData
         td.price = 1.0 / @price
         td.warning = @warning
         td.display_type = @display_type
+        td.out_of_range = @out_of_range
         return td
 
     touch: ->
@@ -225,6 +227,15 @@ class MarketHelper
                 return if reverse then b2-a2 else a2-b2
             return if reverse then b - a else a - b
 
+    add_to_order_book_chart_array: (array, price, volume) ->
+        if array.length == 0
+            array.push [price, volume]
+        else
+            last_element = array[array.length - 1]
+            if last_element[0] == price
+                last_element[1] = volume
+            else
+              array.push [price, volume]
 
     invert_order_type: (type) ->
         return "ask_order" if type == "bid_order"
@@ -494,8 +505,8 @@ class MarketService
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
                 #console.log "---- short: ", td.price, market.median_price
-                continue if inverted and (td.price < market.median_price)
-                continue if (not inverted) and (td.price > market.median_price)
+                td.out_of_range = (inverted and (td.price < market.avg_price_1h)) or ((not inverted) and (td.price > market.avg_price_1h))
+                #continue if (not inverted) and (td.price > market.median_price)
 
                 td.type = "short"
                 if inverted
@@ -513,7 +524,6 @@ class MarketService
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
-                #console.log r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
@@ -621,29 +631,33 @@ class MarketService
                 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
-        start_time = @helper.formatUTCDate(new Date(Date.now()-24*3600*1000))
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 86400).then (result) =>
-            highest_bid_data = []
-            lowest_ask_data = []
-            average_price_data = []
-            for t in result
-                highest_bid = if inverted then 1.0/t.highest_bid else t.highest_bid
-                lowest_ask = if inverted then 1.0/t.lowest_ask else t.lowest_ask
-                recent_average_price = if inverted then 1.0/t.recent_average_price else t.recent_average_price
-                highest_bid_data.push [@helper.date(t.timestamp), highest_bid]
-                lowest_ask_data.push [@helper.date(t.timestamp), lowest_ask]
-                average_price_data.push [@helper.date(t.timestamp), recent_average_price]
+        start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
+        prc = (price) -> if inverted then 1.0/price else price
 
-            price_history = []
-            if highest_bid_data.length > 0
-                price_history.push {"key": "Highest Bid", color: "#2ca02c", "values": highest_bid_data}
-                price_history.push {"key": "Lowest Ask", color: "#ff7f0e", "values": lowest_ask_data}
-                price_history.push {"key": "Moving Average", color: "#00eedd", "values": average_price_data}
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600).then (result) =>
+            ohlc_data = []
+            volume_data = []
+            for t in result
+                time = @helper.date(t.timestamp)
+                o = prc(t.opening_price)
+                c = prc(t.closing_price)
+                lowest_ask = prc(t.lowest_ask)
+                highest_bid = prc(t.highest_bid)
+                h = if lowest_ask > highest_bid then lowest_ask else highest_bid
+                l = if lowest_ask < highest_bid then lowest_ask else highest_bid
+                h = o if o > h
+                h = c if c > h
+                l = o if o < l
+                l = c if c < l
+                ohlc_data.push [time, o, h, l, c]
+                volume_data.push [time, t.volume / market.quantity_asset.precision]
 
             if market.orig_market and inverted
-                market.orig_market.price_history = price_history
+                market.orig_market.price_history = ohlc_data
+                market.orig_market.volume_history = volume_data
             else
-                market.price_history = price_history
+                market.price_history = ohlc_data
+                market.volume_history = volume_data
 
 
     pull_market_data: (data, deferred) ->
@@ -665,7 +679,7 @@ class MarketService
             promises.push(self.pull_shorts(market, self.market.inverted))
             promises.push(self.pull_covers(market, self.market.inverted))
 
-        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 10 == 0
+        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 6 == 0
 
         self.q.all(promises).finally =>
             try
@@ -678,7 +692,7 @@ class MarketService
                 if self.market.inverted
                     shorts_reverse_sort = false
                     shorts_asset_name = self.market.quantity_symbol
-                    shorts_color = "#de6e0B"
+                    shorts_color = "#de6e0b"
 
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)
@@ -695,31 +709,72 @@ class MarketService
                     sum_shorts2 = 0.0
                     shorts_array2 = []
 
+                    sum_shorts_demand = 0.0
+                    shorts_demand_array = []
+
+                    add_shorts_demand = true
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
-                        sum_asks += a.quantity
-                        asks_array.push [a.price, sum_asks]
-                        sum_shorts1 += a.quantity if a.type == "short"
-                        shorts_array1.push [a.price, sum_shorts1]
+                        if a.price > self.market.avg_price_1h and add_shorts_demand
+                            sum_asks += sum_shorts_demand
+                            sum_shorts1 += sum_shorts_demand
+                            self.helper.add_to_order_book_chart_array(asks_array, self.market.avg_price_1h, sum_asks)
+                            self.helper.add_to_order_book_chart_array(shorts_array1, self.market.avg_price_1h, sum_shorts1)
+                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
+                            add_shorts_demand = false
+                            #console.log "------ add_shorts ------>", a.price, self.market.avg_price_1h, sum_shorts1, sum_asks
+                        if a.out_of_range
+                            sum_shorts_demand += a.quantity
+                            self.helper.add_to_order_book_chart_array(shorts_demand_array, a.price, sum_shorts_demand)
+                        else
+                            sum_shorts1 += a.quantity if a.type == "short"
+                            sum_asks += a.quantity unless a.out_of_range
+                            self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1)
 
                     sum_bids = 0.0
                     bids_array = []
+                    sum_shorts_demand = 0.0
+                    add_shorts_demand = true
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
-                        sum_bids += b.quantity
-                        bids_array.push [b.price, sum_bids]
-                        sum_shorts2 += b.quantity if b.type == "short"
-                        shorts_array2.push [b.price, sum_shorts2]
-
+                        #console.log "------ add_shorts ------>", b.price, sum_bids
+                        if b.price < self.market.avg_price_1h and add_shorts_demand
+                            sum_bids += sum_shorts_demand
+                            sum_shorts2 += sum_shorts_demand
+                            self.helper.add_to_order_book_chart_array(bids_array, self.market.avg_price_1h, sum_bids)
+                            self.helper.add_to_order_book_chart_array(shorts_array2, self.market.avg_price_1h, sum_shorts2)
+                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
+                            add_shorts_demand = false
+                        if b.out_of_range
+                            sum_shorts_demand += b.quantity
+                            self.helper.add_to_order_book_chart_array(shorts_demand_array, b.price, sum_shorts_demand)
+                        else
+                            sum_shorts2 += b.quantity if b.type == "short"
+                            sum_bids += b.quantity unless b.out_of_range
+                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2)
+                            self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
 
                     shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
-                    orderbook_chart_data = []
-                    if sum_asks > 0.0 or sum_bids > 0.0
-                        orderbook_chart_data.push {"key": "Buy #{self.market.quantity_symbol}", "area": true, color: "#2ca02c", "values": bids_array}
-                        orderbook_chart_data.push {"key": "Sell #{self.market.quantity_symbol}", "area": true, color: "#ff7f0e", "values": asks_array}
-                        orderbook_chart_data.push {"key": "Short #{shorts_asset_name}", "area": true, color: shorts_color, "values": shorts_array}
-                    self.market.orderbook_chart_data = orderbook_chart_data
+                    bids_array.sort (a,b) -> a[0] - b[0]
+                    asks_array.sort (a,b) -> a[0] - b[0]
+                    shorts_array.sort (a,b) -> a[0] - b[0]
+                    shorts_demand_array.sort (a,b) -> a[0] - b[0]
+
+                    if self.market.inverted
+                        short_range_begin = market.min_short_price
+                        short_range_end = if asks_array.length > 0 then asks_array[asks_array.length - 1][0] else 0.0
+                    else
+                        short_range_begin = if bids_array.length > 0 then bids_array[0][0] else 0.0
+                        short_range_end = market.max_short_price
+
+                    self.market.orderbook_chart_data =
+                        bids_array: bids_array
+                        asks_array: asks_array
+                        shorts_array: shorts_array
+                        shorts_range: "#{short_range_begin}-#{short_range_end}"
+                        shorts_demand_array: shorts_demand_array
 
             catch e
                 console.log "!!!!!! error in pull_market_data: ", e
