@@ -86,16 +86,19 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.payto.error_message = null
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
-        Blockchain.get_asset(0).then (fee_asset)->
-            transaction_fee = Utils.formatAsset(Utils.asset(Wallet.info.transaction_fee.amount, fee_asset))
-            trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
-            $modal.open
-                templateUrl: "dialog-transfer-confirmation.html"
-                controller: "DialogTransferConfirmationController"
-                resolve:
-                    title: -> "Transfer Authorization"
-                    trx: -> trx
-                    action: -> yesSend
+        WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
+            transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
+            Blockchain.get_asset(transfer_asset.id).then (fee_asset)->
+                Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                    transaction_fee = Utils.formatAsset(Utils.asset(tx_fee.amount, tx_fee_asset))
+                    trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
+                    $modal.open
+                        templateUrl: "dialog-transfer-confirmation.html"
+                        controller: "DialogTransferConfirmationController"
+                        resolve:
+                            title: -> "Transfer Authorization"
+                            trx: -> trx
+                            action: -> yesSend
 
     $scope.newContactModal = ->
         $modal.open
