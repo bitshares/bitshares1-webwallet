@@ -513,7 +513,7 @@ class MarketService
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
-                console.log r
+                #console.log r
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
                 td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
@@ -747,6 +747,25 @@ class MarketService
                 deferred.resolve(true) if deferred
             , (error) ->
                 deferred.reject(error) if deferred
+
+            console.log "symbol:"
+            console.log market.asset_base_symbol
+            self.blockchain_api.market_get_asset_collateral( market.asset_base_symbol ).then (amount) =>
+                self.market.collateral = amount / market.quantity_precision
+                self.blockchain_api.get_asset( market.asset_base_symbol ).then (record) =>
+                    console.log record
+                    console.log "precision"
+                    console.log market.base_precision
+                    supply = record["current_share_supply"] / market.base_precision
+                    console.log "collateral is"
+                    console.log self.market.collateral
+                    console.log "the USD supply is:"
+                    console.log supply
+                    console.log "the price is"
+                    console.log self.market.median_price
+                    console.log self.market.collateral / self.market.median_price
+                    self.market.collateralization = 100 * ((self.market.collateral / self.market.median_price) / supply)
+
         , (error) ->
                 deferred.reject(error) if deferred
 
