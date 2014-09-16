@@ -22,32 +22,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
-    $scope.xAxisTickFormatPriceChart = ->
-        return (d) ->
-            return d3.time.format('%m/%e %H:%M')(new Date(d))
-    $scope.yAxisTickFormatPriceChart = ->
-        return (y) ->
-            precision = if y > 1000.0 then 0 else $scope.market.price_precision
-            Utils.formatDecimal(y, precision)
-    $scope.priceChartTooltip = ->
-        (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(y, $scope.market.price_precision)
-            time = d3.time.format('%m/%e/%y %H:%M:%S')(new Date(e.point[0]))
-            "<div class='chart-tooltip'><h4>#{key}</h4><p>#{price} #{$scope.market.price_symbol}</p><p>At #{time}</p></div>"
-
-    $scope.xAxisTickFormatOrderbookChart = ->
-        return (d) ->
-            return Utils.formatDecimal(d, price_decimals, true)
-    $scope.yAxisTickFormatOrderbookChart = ->
-        return (y) ->
-            precision = if y > 1000.0 then 0 else $scope.market.quantity_precision
-            return Utils.formatDecimal(y, precision, true)
-    $scope.orderbookChartTooltip = ->
-        (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(x, $scope.market.price_precision, true)
-            "<div class='chart-tooltip'><p>#{$filter('translate')('market.chart.price')} #{price} #{$scope.market.price_symbol}</p>" +
-            "<p>#{$filter('translate')('market.chart.volume')} #{y} #{$scope.market.quantity_symbol}</p></div>"
-
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 

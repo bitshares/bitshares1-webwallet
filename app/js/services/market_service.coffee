@@ -367,7 +367,7 @@ class MarketService
         @blockchain.refresh_asset_records().then =>
             @q.all([@blockchain.get_asset(market.asset_quantity_symbol), @blockchain.get_asset(market.asset_base_symbol), @blockchain.get_asset(0)]).then (results) =>
                 if !results[0] or !results[1] or !results[2]
-                    deferred.reject("Cannot initialize the market module. Can't get assets data.")
+                    deferred.reject("Cannot initialize the market module, failed to get assets data.")
                     return
                 market.quantity_asset = results[0]
                 market.quantity_precision = market.quantity_asset.precision
@@ -391,11 +391,11 @@ class MarketService
                     #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
-                    error_message = "No orders have been placed."
+                    error_message = "Cannot get market status. Probably no orders have been placed."
                     market.error.title = error_message
-                    @log.error error_message
+                    @log.error "!!! Error in pull_market_status", error_message
                     deferred.resolve(market)
-            , => deferred.reject("Cannot initialize market module. Failed to get assets data.")
+            , => deferred.reject("Cannot initialize market module, failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
         @id_sequence += 1
@@ -784,6 +784,7 @@ class MarketService
 
     pull_market_status: (data = null, deferred = null) ->
         self = data?.context or @
+        deferred ||= self.q.defer()
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
@@ -799,9 +800,9 @@ class MarketService
                     self.market.median_price = market.median_price = price
                     self.market.min_short_price = market.min_short_price = price * 9.0 / 10.0
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
-                deferred.resolve(true) if deferred
+                    #deferred.resolve(true)
             , (error) ->
-                deferred.reject(error) if deferred
+                deferred.reject(error)
 
             actual_market = self.market.actual_market
             self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
@@ -810,9 +811,14 @@ class MarketService
                     supply = record["current_share_supply"] / actual_market.base_precision
                     self.market.actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
                     console.log self.market.actual_market.collateralization
+                    deferred.resolve(true)
+            , (error) ->
+                deferred.reject(error)
 
         , (error) ->
-                deferred.reject(error) if deferred
+                deferred.reject(error)
+
+        return deferred.promise
 
 
 angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
