@@ -104,34 +104,19 @@
     <div class="row">
       <div class="col-sm-12">
         <orderbookchart
-            buys="market.orderbook_chart_data[0].values"
-            sells="market.orderbook_chart_data[1].values"
-            shorts="market.orderbook_chart_data[2].values"
-            shorts-color="market.orderbook_chart_data[2].color"
-            shorts-range="market.orderbook_chart_data[2].range"
-            shorts-ofr="market.orderbook_chart_data[3].values"
+            bids-array="market.orderbook_chart_data.bids_array"
+            asks-array="market.orderbook_chart_data.asks_array"
+            shorts-array="market.orderbook_chart_data.shorts_array"
+            shorts-range="market.orderbook_chart_data.shorts_range"
+            shorts-demand-array="market.orderbook_chart_data.shorts_demand_array"
             volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
+            volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
             price-symbol="market.price_symbol"
+            price-precision="market.price_precision"
+            inverted-market="market.inverted"
             avgprice1h="market.avg_price_1h">
         </orderbookchart>
 
-        <!--<nvd3-line-chart class="chart orderbook-chart" ng-show="market.orderbook_chart_data.length > 0"-->
-                         <!--data="market.orderbook_chart_data"-->
-                         <!--showXAxis="true"-->
-                         <!--showYAxis="true"-->
-                         <!--tooltips="true"-->
-                         <!--interactive="true"-->
-                         <!--showlegend="true"-->
-                         <!--height="180"-->
-                         <!--margin="60"-->
-                         <!--yaxisshowmaxmin="false"-->
-                         <!--xAxisLabel=""-->
-                         <!--yAxisLabel=""-->
-                         <!--xAxisTickFormat="xAxisTickFormatOrderbookChart()"-->
-                         <!--yAxisTickFormat="yAxisTickFormatOrderbookChart()"-->
-                         <!--tooltips="true"-->
-                         <!--tooltipcontent="orderbookChartTooltip()" >-->
-        <!--</nvd3-line-chart>-->
       </div>
     </div>
 

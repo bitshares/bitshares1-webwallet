@@ -1,5 +1,7 @@
+utils = null
+
 initChart = (scope) ->
-    console.log "------ init chart ------>", scope.shortsRange
+
     [shorts_range_begin, shorts_range_end] = scope.shortsRange.split("-")
 
     new Highcharts.Chart
@@ -14,6 +16,11 @@ initChart = (scope) ->
         legend:
             verticalAlign: "top"
             #align: "right"
+
+        tooltip:
+            formatter: ->
+                "<b>#{@series.name}</b><br/>Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
+
 
         xAxis:
             title: "Price " + scope.priceSymbol
@@ -49,20 +56,24 @@ initChart = (scope) ->
 
         series: [
             name: "Buy " + scope.volumeSymbol
-            data: scope.buys
+            data: scope.bidsArray
             color: "#2ca02c"
+            lineWidth: 1
         ,
             name: "Sell " + scope.volumeSymbol
-            data: scope.sells
+            data: scope.asksArray
             color: "#ff7f0e"
+            lineWidth: 1
         ,
             name: "Short " + scope.volumeSymbol
-            data: scope.shorts
-            color: scope.shortsColor
+            data: scope.shortsArray
+            color: if scope.invertedMarket then "#de6e0b" else "#278c27"
+            lineWidth: 1
         ,
             name: "Short Demand"
-            data: scope.shortsOfr
+            data: scope.shortsDemandArray
             color: "#ffff99"
+            lineWidth: 1
         ]
 
         plotOptions:
@@ -74,42 +85,49 @@ angular.module("app.directives").directive "orderbookchart", ->
     restrict: "E"
     replace: true
     scope:
-        buys: "="
-        sells: "="
-        shorts: "="
-        shortsOfr: "="
-        shortsColor: "="
+        bidsArray: "="
+        asksArray: "="
+        shortsArray: "="
+        shortsDemandArray: "="
         shortsRange: "="
         volumeSymbol: "="
+        volumePrecision: "="
         priceSymbol: "="
+        pricePrecision: "="
+        invertedMarket: "="
         avgprice1h: "="
 
-    controller: ($scope, $element, $attrs) ->
+    controller: ($scope, $element, $attrs, Utils) ->
         #console.log "orderbookchart controller"
+        utils = Utils
 
     template: "<div id=\"orderbookchart\" style=\"margin: 0 auto\"></div>"
 
     chart: null
 
     link: (scope, element, attrs) ->
+
         chart = null
 
-        scope.$watch "buys", (newValue) =>
-            if newValue and not chart
+        scope.$watch "bidsArray", (value) =>
+            if value and not chart
                 chart = initChart(scope)
-            #else if chart
-                #chart.series[0].setData newValue, true
+            else if chart
+                chart.series[0].setData value, true
         , true
 
-        scope.$watch "sells", (newValue) =>
+        scope.$watch "asksArray", (value) =>
             return unless chart
-            #console.log "------ sellorders ------>", newValue
-            #chart.series[1].setData newValue, true
+            chart.series[1].setData value, true
         , true
 
-        scope.$watch "shorts", (newValue) =>
+        scope.$watch "shortsArray", (value) =>
             return unless chart
-            #console.log "------ shortorders ------>", newValue
-            #chart.series[2].setData newValue, true
+            chart.series[2].setData value, true
+        , true
+
+        scope.$watch "shortsDemandArray", (value) =>
+            return unless chart
+            chart.series[3].setData value, true
         , true
 

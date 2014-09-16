@@ -5,7 +5,7 @@ initChart = (scope) ->
             renderTo: "pricechart"
 
         title:
-            text: "Price history "
+            text: null #"Price history "
 
         xAxis:
             type: "datetime"
@@ -20,9 +20,9 @@ initChart = (scope) ->
 
         tooltip:
             xDateFormat: "%m/%d/%Y %H:%M%p"
-            color: "#f0f"
+            #color: "#f0f"
             changeDecimals: 4
-            borderColor: "#058dc7"
+            #borderColor: "#058dc7"
 
         scrollbar:
             enabled: false

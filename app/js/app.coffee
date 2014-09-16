@@ -9,8 +9,7 @@ $.fn.redraw = ->
 
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
-     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate",
-     "nvd3ChartDirectives", "pageslide-directive"])
+     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
