@@ -730,7 +730,7 @@ class MarketService
                             sum_shorts1 += a.quantity if a.type == "short"
                             sum_asks += a.quantity unless a.out_of_range
                             self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1)
+                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1) if sum_shorts1 > 0.0
 
                     sum_bids = 0.0
                     bids_array = []
@@ -752,8 +752,8 @@ class MarketService
                         else
                             sum_shorts2 += b.quantity if b.type == "short"
                             sum_bids += b.quantity unless b.out_of_range
-                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2)
                             self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
+                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2) if sum_shorts2 > 0.0
 
                     shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
@@ -800,20 +800,21 @@ class MarketService
                     self.market.median_price = market.median_price = price
                     self.market.min_short_price = market.min_short_price = price * 9.0 / 10.0
                     self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
-                    #deferred.resolve(true)
-            , (error) ->
-                deferred.reject(error)
-
-            actual_market = self.market.actual_market
-            self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                self.market.actual_market.collateral = amount / actual_market.quantity_precision
-                self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
-                    supply = record["current_share_supply"] / actual_market.base_precision
-                    self.market.actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                    console.log self.market.actual_market.collateralization
                     deferred.resolve(true)
             , (error) ->
                 deferred.reject(error)
+
+# uncomment after Sep 16th release
+#            actual_market = self.market.actual_market or self.market
+#            self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
+#                self.market.actual_market.collateral = amount / actual_market.quantity_precision
+#                self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
+#                    supply = record["current_share_supply"] / actual_market.base_precision
+#                    self.market.actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
+#                    console.log self.market.actual_market.collateralization
+#                    deferred.resolve(true)
+#            , (error) ->
+#                deferred.reject(error)
 
         , (error) ->
                 deferred.reject(error)

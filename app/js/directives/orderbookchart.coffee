@@ -25,6 +25,22 @@ initChart = (scope) ->
         xAxis:
             title: "Price " + scope.priceSymbol
 
+            plotLines: [
+                color: "#555"
+                dashStyle: "longdashdot"
+                value: scope.avgprice1h
+                width: "1"
+                label: {text: '1h Avg. Price'}
+                zIndex: 5
+            ,
+                color: "red"
+                dashStyle: "longdashdot"
+                value: scope.maxshortprice
+                width: "1"
+                label: {text: 'Shorts Limit'}
+                zIndex: 5
+            ]
+
             plotBands: [
                 color: "#eee"
                 from: shorts_range_begin
@@ -33,22 +49,6 @@ initChart = (scope) ->
                     text: "Shorts Range"
                     #align: "right"
                 #zIndex: 10
-            ]
-
-            plotLines: [
-                color: "#555"
-                dashStyle: "longdashdot"
-                value: scope.avgprice1h
-                width: "1"
-                label: {text: '1h Avg. Price'}
-                zIndex: 11
-            ,
-                color: "red"
-                dashStyle: "longdashdot"
-                value: scope.maxshortprice
-                width: "1"
-                label: {text: 'Shorts Limit'}
-                zIndex: 11
             ]
 
         yAxis:

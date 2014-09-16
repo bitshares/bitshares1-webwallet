@@ -23,6 +23,7 @@ initChart = (scope) ->
             #color: "#f0f"
             changeDecimals: 4
             #borderColor: "#058dc7"
+            valueDecimals: (scope.volumePrecision+"").length - 1
 
         scrollbar:
             enabled: false
@@ -93,6 +94,7 @@ angular.module("app.directives").directive "pricechart", ->
         volumedata: "="
         marketName: "="
         volumeSymbol: "="
+        volumePrecision: "="
         priceSymbol: "="
 
     controller: ($scope, $element, $attrs) ->
