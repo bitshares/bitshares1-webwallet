@@ -499,8 +499,8 @@ class MarketService
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
 
     pull_shorts: (market, inverted) ->
-        @shorts = []
-        dest = if inverted then @asks else @bids
+        shorts = []
+        dest = @shorts #if inverted then @asks else @bids
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
@@ -513,8 +513,8 @@ class MarketService
                     @lowest_ask = td.price if td.price < @lowest_ask
                 else
                     @highest_bid = td.price if td.price > @highest_bid
-                @shorts.push td
-            @helper.update_array {target: dest, data: @shorts, can_remove: (target_el) -> target_el.type == "short" }
+                shorts.push td
+            @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
 
     pull_covers: (market, inverted) ->
         covers = []
@@ -806,11 +806,10 @@ class MarketService
 
             actual_market = self.market.actual_market or self.market
             self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                self.market.actual_market.collateral = amount / actual_market.quantity_precision
+                actual_market.collateral = amount / actual_market.quantity_precision
                 self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
                     supply = record["current_share_supply"] / actual_market.base_precision
-                    self.market.actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                    console.log self.market.actual_market.collateralization
+                    actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
                     deferred.resolve(true)
             , (error) ->
                 deferred.reject(error)

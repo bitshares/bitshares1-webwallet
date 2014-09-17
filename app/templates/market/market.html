@@ -171,17 +171,26 @@
           </div>
         </div>
         <div class="col-lg-4 panel" ng-show="market.margins_available">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              {{ 'market.margin_orders' | translate }}
-              &nbsp; <span class="help-popover"
-                  popover="{{ 'market.margin_orders_explain' | translate }}"
-                  popover-append-to-body="true"
-                  popover-trigger="mouseenter">?</span>
-            </h3>
-          </div>
+          <!--<div class="panel-heading">-->
+            <!--<h3 class="panel-title">-->
+              <!--{{ 'market.margin_orders' | translate }}-->
+              <!--&nbsp; <span class="help-popover"-->
+                  <!--popover="{{ 'market.margin_orders_explain' | translate }}"-->
+                  <!--popover-append-to-body="true"-->
+                  <!--popover-trigger="mouseenter">?</span>-->
+            <!--</h3>-->
+          <!--</div>-->
           <div class="panel-body">
-            <div ng-include src="'market/covers.html'"></div>
+
+            <tabset>
+              <tab heading="Margin Orders">
+                <div ng-include src="'market/covers.html'"></div>
+              </tab>
+              <tab heading="Short Orders">
+                <div ng-include src="'market/shorts.html'"></div>
+              </tab>
+            </tabset>
+
           </div>
         </div>
       </div>
