@@ -94,7 +94,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.showLoadingIndicator(promise)
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts.splice(0, $scope.accounts.lenght)
+        $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
             $scope.accounts.push a if a.is_my_account
 

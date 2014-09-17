@@ -37,7 +37,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.my_accounts = []
     Wallet.refresh_accounts().then ->
         $scope.accounts = Wallet.accounts
-        $scope.my_accounts.splice(0, $scope.my_accounts.lenght)
+        $scope.my_accounts.splice(0, $scope.my_accounts.length)
         for k,a of Wallet.accounts
             $scope.my_accounts.push a if a.is_my_account
 
