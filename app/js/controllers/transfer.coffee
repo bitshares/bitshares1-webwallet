@@ -35,7 +35,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_recommended: "vote_as_delegates_recommended"
 
     $scope.my_accounts = []
-    Wallet.refresh_accounts().then ->
+    refresh_accounts_promise = Wallet.refresh_accounts()
+    refresh_accounts_promise.then ->
         $scope.accounts = Wallet.accounts
         $scope.my_accounts.splice(0, $scope.my_accounts.length)
         for k,a of Wallet.accounts
@@ -60,6 +61,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 else
                     $scope.no_account = true
 
+    $scope.showLoadingIndicator(refresh_accounts_promise)
+    
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
 
