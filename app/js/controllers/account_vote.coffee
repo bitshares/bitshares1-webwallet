@@ -23,8 +23,10 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
                 $scope.accounts[name]={}
             $scope.accounts[name].approved=newApproval
 
-    Wallet.balances[$scope.account_name][Info.symbol] = 0.0
+#    Wallet.balances[$scope.account_name] ||= {}
+#    Wallet.balances[$scope.account_name][Info.symbol] ||= {amount: 0.0}
     $scope.$watch ->
+        return null if !Wallet.balances[$scope.account_name] or !Wallet.balances[$scope.account_name][Info.symbol]
         Wallet.balances[$scope.account_name][Info.symbol].amount
     , (cur, old) ->
         if (cur>0)
