@@ -422,6 +422,7 @@ class MarketService
         order = @helper.get_array_element_by_id(@orders, id)
         order.touch()
         order.status = "pending"
+        order.warning = null
         call = if order.type == "bid_order"
             @post_bid(order, account)
         else if order.type == "ask_order"
@@ -518,7 +519,7 @@ class MarketService
                 else
                     td.price_limit_symbol = ""
                     td.price_limit = ""
-            
+
                 td.type = "short"
                 if inverted
                     @lowest_ask = td.price if td.price < @lowest_ask
@@ -639,7 +640,7 @@ class MarketService
 #                    console.log "------ pull_unconfirmed_transactions order found ------>", order
 #                    order.status = "pending"
 #                    order.touch()
-                
+
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
         start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
@@ -697,95 +698,101 @@ class MarketService
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
 
-                shorts_reverse_sort = true
-                shorts_asset_name = self.market.base_symbol
-                shorts_color = "#278c27"
-                if self.market.inverted
-                    shorts_reverse_sort = false
-                    shorts_asset_name = self.market.quantity_symbol
-                    shorts_color = "#de6e0b"
+#                shorts_reverse_sort = true
+#                shorts_asset_name = self.market.base_symbol
+#                shorts_color = "#278c27"
+#                if self.market.inverted
+#                    shorts_reverse_sort = false
+#                    shorts_asset_name = self.market.quantity_symbol
+#                    shorts_color = "#de6e0b"
 
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)
-                self.helper.sort_array(self.shorts, "price", "quantity", shorts_reverse_sort)
+                #self.helper.sort_array(self.shorts, "price", "quantity", shorts_reverse_sort)
 
                 if self.market.avg_price_1h > 0.0
 
                     sum_asks = 0.0
                     asks_array = []
 
-                    sum_shorts1 = 0.0
-                    shorts_array1 = []
-
-                    sum_shorts2 = 0.0
-                    shorts_array2 = []
-
-                    sum_shorts_demand = 0.0
-                    shorts_demand_array = []
-
-                    add_shorts_demand = true
+#                    sum_shorts1 = 0.0
+#                    shorts_array1 = []
+#
+#                    sum_shorts2 = 0.0
+#                    shorts_array2 = []
+#
+#                    sum_shorts_demand = 0.0
+#                    shorts_demand_array = []
+#
+#                    add_shorts_demand = true
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
-                        if a.price > self.market.avg_price_1h and add_shorts_demand
-                            sum_asks += sum_shorts_demand
-                            sum_shorts1 += sum_shorts_demand
-                            self.helper.add_to_order_book_chart_array(asks_array, self.market.avg_price_1h, sum_asks)
-                            self.helper.add_to_order_book_chart_array(shorts_array1, self.market.avg_price_1h, sum_shorts1)
-                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
-                            add_shorts_demand = false
-                            #console.log "------ add_shorts ------>", a.price, self.market.avg_price_1h, sum_shorts1, sum_asks
-                        if a.out_of_range
-                            sum_shorts_demand += a.quantity
-                            self.helper.add_to_order_book_chart_array(shorts_demand_array, a.price, sum_shorts_demand)
-                        else
-                            sum_shorts1 += a.quantity if a.type == "short"
-                            sum_asks += a.quantity unless a.out_of_range
-                            self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1) if sum_shorts1 > 0.0
+                        sum_asks += a.quantity unless a.out_of_range
+                        self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+
+#                        if a.price > self.market.avg_price_1h and add_shorts_demand
+#                            sum_asks += sum_shorts_demand
+#                            sum_shorts1 += sum_shorts_demand
+#                            self.helper.add_to_order_book_chart_array(asks_array, self.market.avg_price_1h, sum_asks)
+#                            self.helper.add_to_order_book_chart_array(shorts_array1, self.market.avg_price_1h, sum_shorts1)
+#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
+#                            add_shorts_demand = false
+#                            #console.log "------ add_shorts ------>", a.price, self.market.avg_price_1h, sum_shorts1, sum_asks
+#                        if a.out_of_range
+#                            sum_shorts_demand += a.quantity
+#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, a.price, sum_shorts_demand)
+#                        else
+#                            sum_shorts1 += a.quantity if a.type == "short"
+#                            sum_asks += a.quantity unless a.out_of_range
+#                            self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+#                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1) if sum_shorts1 > 0.0
 
                     sum_bids = 0.0
                     bids_array = []
-                    sum_shorts_demand = 0.0
-                    add_shorts_demand = true
+#                    sum_shorts_demand = 0.0
+#                    add_shorts_demand = true
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
                         #console.log "------ add_shorts ------>", b.price, sum_bids
-                        if b.price < self.market.avg_price_1h and add_shorts_demand
-                            sum_bids += sum_shorts_demand
-                            sum_shorts2 += sum_shorts_demand
-                            self.helper.add_to_order_book_chart_array(bids_array, self.market.avg_price_1h, sum_bids)
-                            self.helper.add_to_order_book_chart_array(shorts_array2, self.market.avg_price_1h, sum_shorts2)
-                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
-                            add_shorts_demand = false
-                        if b.out_of_range
-                            sum_shorts_demand += b.quantity
-                            self.helper.add_to_order_book_chart_array(shorts_demand_array, b.price, sum_shorts_demand)
-                        else
-                            sum_shorts2 += b.quantity if b.type == "short"
-                            sum_bids += b.quantity unless b.out_of_range
-                            self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2) if sum_shorts2 > 0.0
+                        sum_bids += b.quantity unless b.out_of_range
+                        self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
 
-                    shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
+#                        if b.price < self.market.avg_price_1h and add_shorts_demand
+#                            sum_bids += sum_shorts_demand
+#                            sum_shorts2 += sum_shorts_demand
+#                            self.helper.add_to_order_book_chart_array(bids_array, self.market.avg_price_1h, sum_bids)
+#                            self.helper.add_to_order_book_chart_array(shorts_array2, self.market.avg_price_1h, sum_shorts2)
+#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
+#                            add_shorts_demand = false
+#                        if b.out_of_range
+#                            sum_shorts_demand += b.quantity
+#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, b.price, sum_shorts_demand)
+#                        else
+#                            sum_shorts2 += b.quantity if b.type == "short"
+#                            sum_bids += b.quantity unless b.out_of_range
+#                            self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
+#                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2) if sum_shorts2 > 0.0
+
+#                    shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
 
                     bids_array.sort (a,b) -> a[0] - b[0]
                     asks_array.sort (a,b) -> a[0] - b[0]
-                    shorts_array.sort (a,b) -> a[0] - b[0]
-                    shorts_demand_array.sort (a,b) -> a[0] - b[0]
+#                    shorts_array.sort (a,b) -> a[0] - b[0]
+#                    shorts_demand_array.sort (a,b) -> a[0] - b[0]
 
-                    if self.market.inverted
-                        short_range_begin = market.min_short_price
-                        short_range_end = if asks_array.length > 0 then asks_array[asks_array.length - 1][0] else 0.0
-                    else
-                        short_range_begin = if bids_array.length > 0 then bids_array[0][0] else 0.0
-                        short_range_end = market.max_short_price
+#                    if self.market.inverted
+#                        short_range_begin = market.min_short_price
+#                        short_range_end = if asks_array.length > 0 then asks_array[asks_array.length - 1][0] else 0.0
+#                    else
+#                        short_range_begin = if bids_array.length > 0 then bids_array[0][0] else 0.0
+#                        short_range_end = market.max_short_price
 
                     self.market.orderbook_chart_data =
                         bids_array: bids_array
                         asks_array: asks_array
-                        shorts_array: shorts_array
-                        shorts_range: "#{short_range_begin}-#{short_range_end}"
-                        shorts_demand_array: shorts_demand_array
+#                        shorts_array: shorts_array
+#                        shorts_range: "#{short_range_begin}-#{short_range_end}"
+#                        shorts_demand_array: shorts_demand_array
 
             catch e
                 console.log "!!!!!! error in pull_market_data: ", e
