@@ -504,10 +504,20 @@ class MarketService
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                #console.log "---- short: ", td.price, market.median_price
+                console.log "---- short: ", td.quantity, td.price, td.cost, market.median_price
                 td.out_of_range = (inverted and (td.price < market.avg_price_1h)) or ((not inverted) and (td.price > market.avg_price_1h))
                 #continue if (not inverted) and (td.price > market.median_price)
 
+                short_price_limit = r.state.short_price_limit
+                if short_price_limit
+                    base_asset = market.assets_by_id[short_price_limit.base_asset_id]
+                    quote_asset = market.assets_by_id[short_price_limit.quote_asset_id]
+                    td.price_limit_symbol = " #{quote_asset.symbol}/#{base_asset.symbol}"
+                    td.price_limit = short_price_limit.ratio
+                else
+                    td.price_limit_symbol = ""
+                    td.price_limit = ""
+            
                 td.type = "short"
                 if inverted
                     @lowest_ask = td.price if td.price < @lowest_ask
