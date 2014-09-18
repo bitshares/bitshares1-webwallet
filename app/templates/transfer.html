@@ -102,7 +102,7 @@
           </div>
         </div>
         <!-- vote options -->
-        <div class="col-md-2">
+        <div class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTSX'">
           <div class="btn-group" dropdown is-open="status2.isopen">
             <button type="button" class="btn dropdown-toggle" tooltip="{{ 'account.vote.vote_for' | translate }}">
               {{ ('account.vote.' + vote_options[transfer_info.vote]) | translate }} <span class="caret"></span>
@@ -149,6 +149,7 @@
           <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty">{{ 'tip.memo_size_exceeds' | translate:'{value: memo_size_max}' }}</span>
         </div>
       </div>
+      <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
           <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
@@ -156,6 +157,7 @@
           </button>
         </div>
       </div>
+      <!--{{balances[transfer_info.symbol]}}-->
     </form>
   </div>
 </div>
