@@ -108,8 +108,6 @@ class MarketService
 
     TradeData: TradeData
 
-    #helper: new MarketHelper()
-
     recent_markets: []
     market: null
     quantity_symbol: null
@@ -127,8 +125,7 @@ class MarketService
     loading_promise: null
 
     constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api, @helper) ->
-#        @helper.utils = @utils
-#        @helper.filter = @filter
+
 
     load_recent_markets: ->
         return if @recent_markets.length > 0
@@ -203,11 +200,8 @@ class MarketService
                 market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
-                    #status_call = @blockchain_api.market_status(market.asset_quantity_symbol, market.asset_base_symbol)
                 else
                     market.inverted = false
-                    #status_call = @blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol)
-                #status_call.then (result) =>
                 @pull_market_status().then ->
                     console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
                     #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
@@ -224,10 +218,7 @@ class MarketService
         @id_sequence += 1
         o.id = "o" + @id_sequence
         o.status = "unconfirmed"
-        #console.log "------ add_unconfirmed_order ------>", order
         @orders.unshift o
-        #sorted_orders = @filter('orderBy')(@orders, 'price', false)
-        #console.log "------ sorted_orders ------>", sorted_orders
         @helper.sort_array(@orders, "price", "quantity")
 
     cancel_order: (id) ->
@@ -237,9 +228,7 @@ class MarketService
             return null
         order.status = "canceled" if order
         console.log "---- order canceling: ", id
-        @wallet_api.market_cancel_order(id).then (result) =>
-            #console.log "---- order canceled: ", result
-            #@helper.remove_array_element_by_id(@orders, id)
+        @wallet_api.market_cancel_order(id)
 
     confirm_order: (id, account) ->
         order = @helper.get_array_element_by_id(@orders, id)
@@ -437,8 +426,6 @@ class MarketService
             @helper.update_array {target: @trades, data: trades}
 
     pull_my_trades: (market, inverted, account_name) ->
-        #my_trades = []
-        #@my_trades.slice(0, @my_trades.length)
         new_trades = []
         last_trade_block_num = 0
         last_trade_id = null
@@ -468,16 +455,6 @@ class MarketService
             #console.log "------ new trades ------>", new_trades
             for t in new_trades.reverse()
                 @my_trades.unshift t
-
-#    pull_unconfirmed_transactions: (account_name) ->
-#        @wallet_api.account_transaction_history(account_name).then (results) =>
-#            for t in results
-#                continue if t.is_confirmed
-#                order = @helper.find_order_by_transaction(@orders, t)
-#                if order
-#                    console.log "------ pull_unconfirmed_transactions order found ------>", order
-#                    order.status = "pending"
-#                    order.touch()
 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
@@ -523,7 +500,6 @@ class MarketService
             self.pull_orders(market, self.market.inverted, data.account_name),
             self.pull_trades(market, self.market.inverted),
             self.pull_my_trades(market, self.market.inverted, data.account_name)
-            #self.pull_unconfirmed_transactions(data.account_name)
         ]
         if market.margins_available
             promises.push(self.pull_shorts(market, self.market.inverted))
@@ -536,101 +512,32 @@ class MarketService
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
 
-#                shorts_reverse_sort = true
-#                shorts_asset_name = self.market.base_symbol
-#                shorts_color = "#278c27"
-#                if self.market.inverted
-#                    shorts_reverse_sort = false
-#                    shorts_asset_name = self.market.quantity_symbol
-#                    shorts_color = "#de6e0b"
-
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)
-                #self.helper.sort_array(self.shorts, "price", "quantity", shorts_reverse_sort)
 
                 if self.market.avg_price_1h > 0.0
 
                     sum_asks = 0.0
                     asks_array = []
 
-#                    sum_shorts1 = 0.0
-#                    shorts_array1 = []
-#
-#                    sum_shorts2 = 0.0
-#                    shorts_array2 = []
-#
-#                    sum_shorts_demand = 0.0
-#                    shorts_demand_array = []
-#
-#                    add_shorts_demand = true
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
                         sum_asks += a.quantity
                         self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
 
-#                        if a.price > self.market.avg_price_1h and add_shorts_demand
-#                            sum_asks += sum_shorts_demand
-#                            sum_shorts1 += sum_shorts_demand
-#                            self.helper.add_to_order_book_chart_array(asks_array, self.market.avg_price_1h, sum_asks)
-#                            self.helper.add_to_order_book_chart_array(shorts_array1, self.market.avg_price_1h, sum_shorts1)
-#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
-#                            add_shorts_demand = false
-#                            #console.log "------ add_shorts ------>", a.price, self.market.avg_price_1h, sum_shorts1, sum_asks
-#                        if a.out_of_range
-#                            sum_shorts_demand += a.quantity
-#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, a.price, sum_shorts_demand)
-#                        else
-#                            sum_shorts1 += a.quantity if a.type == "short"
-#                            sum_asks += a.quantity unless a.out_of_range
-#                            self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-#                            self.helper.add_to_order_book_chart_array(shorts_array1, a.price, sum_shorts1) if sum_shorts1 > 0.0
-
                     sum_bids = 0.0
                     bids_array = []
-#                    sum_shorts_demand = 0.0
-#                    add_shorts_demand = true
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
-                        #console.log "------ add_shorts ------>", b.price, sum_bids
                         sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
 
-#                        if b.price < self.market.avg_price_1h and add_shorts_demand
-#                            sum_bids += sum_shorts_demand
-#                            sum_shorts2 += sum_shorts_demand
-#                            self.helper.add_to_order_book_chart_array(bids_array, self.market.avg_price_1h, sum_bids)
-#                            self.helper.add_to_order_book_chart_array(shorts_array2, self.market.avg_price_1h, sum_shorts2)
-#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, self.market.avg_price_1h, sum_shorts_demand)
-#                            add_shorts_demand = false
-#                        if b.out_of_range
-#                            sum_shorts_demand += b.quantity
-#                            self.helper.add_to_order_book_chart_array(shorts_demand_array, b.price, sum_shorts_demand)
-#                        else
-#                            sum_shorts2 += b.quantity if b.type == "short"
-#                            sum_bids += b.quantity unless b.out_of_range
-#                            self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-#                            self.helper.add_to_order_book_chart_array(shorts_array2, b.price, sum_shorts2) if sum_shorts2 > 0.0
-
-#                    shorts_array = if sum_shorts1 > 0 then shorts_array1 else shorts_array2
-
                     bids_array.sort (a,b) -> a[0] - b[0]
                     asks_array.sort (a,b) -> a[0] - b[0]
-#                    shorts_array.sort (a,b) -> a[0] - b[0]
-#                    shorts_demand_array.sort (a,b) -> a[0] - b[0]
-
-#                    if self.market.inverted
-#                        short_range_begin = market.min_short_price
-#                        short_range_end = if asks_array.length > 0 then asks_array[asks_array.length - 1][0] else 0.0
-#                    else
-#                        short_range_begin = if bids_array.length > 0 then bids_array[0][0] else 0.0
-#                        short_range_end = market.max_short_price
 
                     self.market.orderbook_chart_data =
                         bids_array: bids_array
                         asks_array: asks_array
-#                        shorts_array: shorts_array
-#                        shorts_range: "#{short_range_begin}-#{short_range_end}"
-#                        shorts_demand_array: shorts_demand_array
 
             catch e
                 console.log "!!!!!! error in pull_market_data: ", e
@@ -659,7 +566,7 @@ class MarketService
                 self.market.median_price = market.median_price = self.market.avg_price_1h
 
             feeds_promise.finally ->
-                actual_market = self.market.actual_market or self.market
+                actual_market = self.market.get_actual_market()
                 self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
                     actual_market.collateral = amount / actual_market.quantity_precision
                     self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>

@@ -25,17 +25,20 @@ class MarketHelper
     read_market_data: (market, data, assets, inverted) ->
         actual_market = market.get_actual_market()
         ba = assets[data.base_id]
+
+        actual_market.bid_depth = data.ask_depth / ba.precision
+        actual_market.ask_depth = data.bid_depth / ba.precision
+        actual_market.avg_price_1h = data.avg_price_1h
+        actual_market.shorts_price = data.avg_price_1h
+
         if inverted
-            actual_market.bid_depth = market.bid_depth = data.ask_depth / ba.precision
-            actual_market.ask_depth = market.ask_depth = data.bid_depth / ba.precision
-        else
-            actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
-            actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
+            market.bid_depth = data.ask_depth / ba.precision
+            market.ask_depth = data.bid_depth / ba.precision
+            market.avg_price_1h = 1.0 / data.avg_price_1h
+            market.shorts_price = 1.0 / data.avg_price_1h
 
         console.log "------ read_market_data ------>", data, assets
-        actual_market.avg_price_1h = market.avg_price_1h = data.avg_price_1h #@ratio_to_price(data.avg_price_1h, assets)
-        actual_market.avg_price_1h = market.avg_price_1h = 1.0 / market.avg_price_1h if inverted and market.avg_price_1h > 0
-        actual_market.shorts_price = market.shorts_price = market.avg_price_1h
+
         if data.last_error
             actual_market.error.title = market.error.title = data.last_error.message
         else
