@@ -151,7 +151,7 @@
       </div>
 
       <div class="row orders-row" ng-switch-default>
-        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-6' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
           </div>
@@ -159,7 +159,7 @@
             <div ng-include src="'market/bids.html'"></div>
           </div>
         </div>
-        <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-6' : 'col-lg-6'">
           <div class="panel-heading">
             <h3 class="panel-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}' }}</h3>
           </div>
@@ -177,17 +177,37 @@
                   <!--popover-trigger="mouseenter">?</span>-->
             <!--</h3>-->
           <!--</div>-->
+
+        </div>
+      </div>
+      
+      <div class="row orders-row">
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-6' : 'col-lg-6'">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{
+              (!market.inverted ? 
+                ('market.short_orders'|translate:'{value: market.base_symbol}')
+              :
+                ('market.margin_orders'|translate:'{value: market.base_symbol}')
+              )
+            }}</h3>
+          </div>
           <div class="panel-body">
-
-            <tabset>
-              <tab heading="Margin Orders">
-                <div ng-include src="'market/covers.html'"></div>
-              </tab>
-              <tab heading="Short Orders">
-                <div ng-include src="'market/shorts.html'"></div>
-              </tab>
-            </tabset>
-
+            <div ng-include src="!market.inverted ? 'market/shorts.html':'market/covers.html'"></div>
+          </div>
+        </div>
+        <div class="panel" ng-class="market.margins_available ? 'col-lg-6' : 'col-lg-6'">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{
+              (!market.inverted ? 
+                ('market.margin_orders'|translate:'{value: market.base_symbol}')
+              :
+                ('market.short_orders'|translate:'{value: market.base_symbol}')
+              )
+            }}</h3>
+          </div>
+          <div class="panel-body">
+            <div ng-include src="!market.inverted ? 'market/covers.html':'market/shorts.html'"></div>
           </div>
         </div>
       </div>
