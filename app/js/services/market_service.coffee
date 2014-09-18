@@ -28,7 +28,7 @@ class TradeData
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
-        td.short_price_limit = @short_price_limit
+        td.short_price_limit = 1.0 / @short_price_limit
         return td
 
     touch: ->
@@ -62,6 +62,7 @@ class Market
         @highest_bid = 0.0
         @lowest_ask = 0.0
         @median_price = 0.0
+        @shorts_price = 0.0
         @assets_by_id = null
         @shorts_available = false
         @margins_available = false
@@ -96,199 +97,18 @@ class Market
         m.lowest_ask = @lowest_ask
         m.avg_price_1h = @avg_price_1h
         m.median_price = @median_price
+        m.shorts_price = @shorts_price
         m.assets_by_id = @assets_by_id
         m.error = @error
         m.orig_market = @
         @actual_market = m
         return @actual_market
 
-
-class MarketHelper
-
-    filter: null
-    utils: null
-
-    get_array_element_by_id: (array, id) ->
-        for index, value of array
-            return value if value.id == id
-        return null
-
-    remove_array_element_by_id: (array, id) ->
-        for index, value of array
-            if value.id == id
-                array.splice(index, 1)
-                break
-
-    ratio_to_price: (value, assets) ->
-        return 0.0 if !value or (value.base_asset_id == 0 and value.quote_asset_id == 0)
-        ba = assets[value.base_asset_id]
-        qa = assets[value.quote_asset_id]
-        return value.ratio * (ba.precision / qa.precision)
-
-    read_market_data: (market, data, assets, inverted) ->
-        actual_market = market.get_actual_market()
-        ba = assets[data.base_id]
-        if inverted
-            actual_market.bid_depth = market.bid_depth = data.ask_depth / ba.precision
-            actual_market.ask_depth = market.ask_depth = data.bid_depth / ba.precision
-        else
-            actual_market.bid_depth = market.bid_depth = data.bid_depth / ba.precision
-            actual_market.ask_depth = market.ask_depth = data.ask_depth / ba.precision
-
-        console.log "------ read_market_data ------>", data, assets
-        actual_market.avg_price_1h = market.avg_price_1h = data.avg_price_1h #@ratio_to_price(data.avg_price_1h, assets)
-        actual_market.avg_price_1h = market.avg_price_1h = 1.0 / market.avg_price_1h if inverted and market.avg_price_1h > 0
-        if data.last_error
-            actual_market.error.title = market.error.title = data.last_error.message
-        else
-            actual_market.error.text = market.error.text = market.error.title = null
-
-
-    order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type) ->
-        #console.log order
-        td = new TradeData()
-        if order instanceof Array and order.length > 1
-            td.id = order[0]
-            order = order[1]
-        else
-            td.id = order.market_index.owner
-        td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
-        td.price = if invert_price then 1.0 / price else price
-        if order.type == "cover_order"
-            cover_price = 1.0 / price
-            td.cost = order.state.balance / qa.precision
-            td.quantity = -1.0 #td.cost * cover_price
-            td.collateral = order.collateral / ba.precision
-            td.type = "margin_order"
-            td.status = "cover"
-        else if order.type == "bid_order"
-            td.cost = order.state.balance / qa.precision
-            td.quantity = td.cost / price
-            td.status = "posted"
-        else
-            td.quantity = order.state.balance / ba.precision
-            td.cost = td.quantity * price
-            td.status = "posted"
-
-        if invert_assets
-            [td.cost, td.quantity] = [td.quantity, td.cost]
-
-        td.display_type = @capitalize(td.type.split("_")[0])
-
-        return td
-
-    trade_history_to_order: (t, assets, invert_price) ->
-        ba = assets[t.ask_price.base_asset_id]
-        qa = assets[t.ask_price.quote_asset_id]
-        o = {type: t.bid_type}
-        o.id = t.ask_owner
-        o.price = t.ask_price.ratio * (ba.precision / qa.precision)
-        o.price = 1.0 / o.price if invert_price
-        o.paid = t.ask_paid.amount / ba.precision
-        o.received = t.ask_received.amount / qa.precision
-        o.timestamp = @filter('prettyDate')(t.timestamp)
-        o.display_type = @capitalize(o.type.split("_")[0])
-        return o
-
-    array_to_hash: (list) ->
-        hash = {}
-        for i, v of list
-            v.index = i
-            hash[v.id] = v
-        return hash
-
-    update_array: (params) ->
-        target = params.target
-        data = params.data
-        target_hash = @array_to_hash(target)
-        data_hash = @array_to_hash(data)
-        for i, dv of data
-            tv = target_hash[dv.id]
-            if tv
-                params.update(tv,dv) if params.update
-            else
-                target.push dv
-        for i, tv of target
-            if !data_hash[tv.id]
-                if params.can_remove
-                    target.splice(tv.index, 1) if params.can_remove(tv)
-                else
-                    target.splice(tv.index, 1)
-
-    capitalize: (str) ->
-        str.charAt(0).toUpperCase() + str.slice(1)
-
-    sort_array: (array, field, field2, reverse = false) ->
-         array.sort (a, b) ->
-            a = a[field]
-            b = b[field]
-            a2 = a[field2]
-            b2 = b[field2]
-            if (a == b)
-                return if reverse then b2-a2 else a2-b2
-            return if reverse then b - a else a - b
-
-    add_to_order_book_chart_array: (array, price, volume) ->
-        if array.length == 0
-            array.push [price, volume]
-        else
-            last_element = array[array.length - 1]
-            if last_element[0] == price
-                last_element[1] = volume
-            else
-              array.push [price, volume]
-
-    invert_order_type: (type) ->
-        return "ask_order" if type == "bid_order"
-        return "bid_order" if type == "ask_order"
-        return type
-
-    find_order_by_transaction: (orders, t) ->
-#        res = jsonPath.eval(t, "$.ledger_entries[0].to_account")
-#        return null if not res or res.length == 0
-#        to_account = res[0]
-#        match = /^([A-Z]+)\-(\w+)/.exec(to_account)
-#        return null unless match
-#        subid = match[2]
-#        return null unless subid.length > 5
-#        for o in orders
-#            return o if o.id and o.id.indexOf(subid) > -1
-        for o in orders
-            return o if o.id == t.trx_id
-        return null
-
-    date: (t) ->
-        dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
-        match = t.match(dateRE)
-        return 0 unless match
-        nums = []
-        i = 1
-        while i < match.length
-            nums.push parseInt(match[i], 10)
-            i++
-        Date.UTC(nums[0], nums[1] - 1, nums[2], nums[3], nums[4], nums[5])
-
-    forceTwoDigits : (val) ->
-        if val < 10
-            return "0#{val}"
-        return val
-
-    formatUTCDate : (date) ->
-        year = date.getUTCFullYear()
-        month = @forceTwoDigits(date.getUTCMonth()+1)
-        day = @forceTwoDigits(date.getUTCDate())
-        hour = @forceTwoDigits(date.getUTCHours())
-        minute = @forceTwoDigits(date.getUTCMinutes())
-        second = @forceTwoDigits(date.getUTCSeconds())
-        return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
-
-
 class MarketService
 
     TradeData: TradeData
 
-    helper: new MarketHelper()
+    #helper: new MarketHelper()
 
     recent_markets: []
     market: null
@@ -306,9 +126,9 @@ class MarketService
     id_sequence: 0
     loading_promise: null
 
-    constructor: (@q, @interval, @log, @filter, @utils, @wallet, @wallet_api, @blockchain, @blockchain_api) ->
-        @helper.utils = @utils
-        @helper.filter = @filter
+    constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api, @helper) ->
+#        @helper.utils = @utils
+#        @helper.filter = @filter
 
     load_recent_markets: ->
         return if @recent_markets.length > 0
@@ -482,7 +302,8 @@ class MarketService
             @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 100)
         call.then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td = new TradeData()
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
@@ -496,7 +317,8 @@ class MarketService
             @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 100)
         call.then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                td = new TradeData()
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
@@ -504,16 +326,20 @@ class MarketService
 
     pull_shorts: (market, inverted) ->
         shorts = []
-        dest = @shorts #if inverted then @asks else @bids
         short_wall = new TradeData()
+        short_wall.id = "short_wall"
         short_wall.type = "short_wall"
-        short_wall.price = market.price
+        short_wall.price = market.shorts_price
+        short_wall.cost = 0.0
+        short_wall.quantity = 0.0
+        short_wall_dest = if inverted then @asks else @bids
 
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
-                console.log "---- short: ", td.quantity, td.price, td.cost, market.median_price
-                td.out_of_range = (inverted and (td.price < market.avg_price_1h)) or ((not inverted) and (td.price > market.avg_price_1h))
+                #console.log "---- 1 short: ", r
+                td = new TradeData()
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                console.log "---- 2 short: ", td.cost, td.quantity
                 #continue if (not inverted) and (td.price > market.median_price)
 
                 short_price_limit = r.state.short_price_limit
@@ -527,12 +353,16 @@ class MarketService
                     td.price_limit = ""
 
                 td.type = "short"
-                if inverted
-                    @lowest_ask = td.price if td.price < @lowest_ask
-                else
-                    @highest_bid = td.price if td.price > @highest_bid
+#                if inverted
+#                    @lowest_ask = td.price if td.price < @lowest_ask
+#                else
+#                    @highest_bid = td.price if td.price > @highest_bid
+                short_wall.cost += td.cost
+                short_wall.quantity += td.quantity
+
                 shorts.push td
-            @helper.update_array {target: dest, data: shorts, can_remove: (target_el) -> target_el.type == "short" }
+            @helper.update_array {target: @shorts, data: shorts}
+            @helper.update_array {target: short_wall_dest, data: [short_wall]}
 
     pull_covers: (market, inverted) ->
         covers = []
@@ -542,7 +372,8 @@ class MarketService
                 continue unless r.type == "cover_order"
                 # console.log "---- cover ", r
                 r.type = "cover"
-                td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted)
+                td = new TradeData()
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
                 td.collateral = r.collateral / market.base_precision
                 #td.type = "cover"
                 covers.push td
@@ -563,7 +394,8 @@ class MarketService
             @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
                 console.log results
                 for r in results
-                    td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
+                    td = new TradeData()
+                    @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                     #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                     td.status = "posted" if td.status != "cover"
                     continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
@@ -733,7 +565,7 @@ class MarketService
 #                    add_shorts_demand = true
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
-                        sum_asks += a.quantity unless a.out_of_range
+                        sum_asks += a.quantity
                         self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
 
 #                        if a.price > self.market.avg_price_1h and add_shorts_demand
@@ -760,7 +592,7 @@ class MarketService
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
                         #console.log "------ add_shorts ------>", b.price, sum_bids
-                        sum_bids += b.quantity unless b.out_of_range
+                        sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
 
 #                        if b.price < self.market.avg_price_1h and add_shorts_demand
@@ -843,4 +675,4 @@ class MarketService
         return deferred.promise
 
 
-angular.module("app").service("MarketService", ["$q", "$interval", "$log", "$filter", "Utils", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI",  MarketService])
+angular.module("app").service("MarketService", ["$q", "$interval", "$log", "Wallet", "WalletAPI", "Blockchain",  "BlockchainAPI", "MarketHelper",  MarketService])

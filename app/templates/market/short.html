@@ -4,8 +4,7 @@
   </div>
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{market.base_symbol}}">
     <span class="clickable" ng-click="use_trade_data({price: market.highest_bid, quantity: account.base_balance / market.highest_bid})">
-      {{account.base_balance | formatDecimal : market.base_precision}}
-    </span>
+      {{account.base_balance | formatDecimal : market.base_precision}}</span>
   </div>
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />

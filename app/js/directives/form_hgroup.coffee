@@ -89,7 +89,6 @@ angular.module("app.directives").directive "formHgroupValue", ->
         label: "@"
         showValue: "@"
     compile: (element, attrs) ->
-        console.log "------ formHgroupValue compile ------>", attrs.showValue
         attrs.showValue = true if attrs.showValue == undefined
 
 angular.module("app.directives").directive "formHgroupNote", ->
