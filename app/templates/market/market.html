@@ -187,7 +187,7 @@
               (market.inverted ? 
                 ('market.margin_orders'|translate)
               :  
-                ('market.short_orders'|translate:'{value: market.base_symbol}')
+                ('market.short_orders'|translate:'{value: actual_market.base_symbol}')
               )
             }}</h3>
           </div>
