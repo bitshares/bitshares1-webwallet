@@ -156,7 +156,7 @@
       <div class="row orders-row" ng-switch-default>
         <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
-            <h3 class="panel-title">{{'market.buy_orders'|translate}} ({{ (market.inverted ? 'market.bids' : 'market.bids_and_shorts') | translate }})</h3>
+            <h3 class="panel-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
           </div>
           <div class="panel-body">
             <div ng-include src="'market/bids.html'"></div>
@@ -164,7 +164,7 @@
         </div>
         <div class="panel" ng-class="market.margins_available ? 'col-lg-4' : 'col-lg-6'">
           <div class="panel-heading">
-            <h3 class="panel-title">{{'market.sell_orders'|translate}} ({{ (market.inverted ? 'market.asks_and_shorts' : 'market.asks') | translate}})</h3>
+            <h3 class="panel-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}' }}</h3>
           </div>
           <div class="panel-body">
             <div ng-include src="'market/asks.html'"></div>
