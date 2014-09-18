@@ -158,26 +158,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form = @short_form
         $scope.clear_form_errors(form)
         short = $scope.short
-        if short.price < $scope.market.min_short_price
-            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
-            return
-        #if short.price > $scope.market.max_short_price
-        #    form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
-        #    return
-        short.cost = short.quantity * short.price
-        if short.cost < 100
-            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
-            return
-        if short.cost > $scope.account.base_balance
-            form.short_quantity.$error.message = 'market.tip.insufficient_balances'
-            return
+#        if short.price < $scope.market.min_short_price
+#            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
+#            return
+        short.cost = short.quantity * short.collateral
+#        if short.cost < 100
+#            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
+#            return
+#        if short.cost > $scope.account.base_balance
+#            form.short_quantity.$error.message = 'market.tip.insufficient_balances'
+#            return
         short.type = "short_order"
         short.display_type = "Short"
-        if $scope.market.highest_bid > 0
-            price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
-            if price_diff > 5
-                short.warning= "market.tip.short_price_too_low"
-                short.price_diff = Utils.formatDecimal(price_diff, 1)
+#        if $scope.market.highest_bid > 0
+#            price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
+#            if price_diff > 5
+#                short.warning= "market.tip.short_price_too_low"
+#                short.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(short)
         $scope.short = new MarketService.TradeData
 

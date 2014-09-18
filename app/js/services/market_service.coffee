@@ -456,8 +456,9 @@ class MarketService
 
     post_short: (short, account) ->
         price = if @market.inverted then 1.0/short.price else short.price
-        console.log "---- before market_submit_short ----", account.name, short.quantity, price, @market.quantity_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, price, @market.asset_quantity_symbol)
+        collateral_ratio = short.collateral #if @market.inverted then 1.0/short.collateral else short.collateral
+        console.log "---- before market_submit_short ----", account.name, short.quantity, collateral_ratio, price,  @market.quantity_symbol
+        call = @wallet_api.market_submit_short(account.name, short.quantity, @market.asset_quantity_symbol, collateral_ratio, price)
         return call
 
     post_ask: (ask, account, deferred) ->
