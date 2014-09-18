@@ -71,7 +71,7 @@
 
     <div class="row">
       <div class="col-sm-12">
-        <pricechart
+        <pricechart ng-show="market.price_history.length"
             pricedata="market.price_history"
             volumedata="market.volume_history"
             volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
@@ -113,9 +113,6 @@
         <orderbookchart
             bids-array="market.orderbook_chart_data.bids_array"
             asks-array="market.orderbook_chart_data.asks_array"
-            shorts-array="market.orderbook_chart_data.shorts_array"
-            shorts-range="market.orderbook_chart_data.shorts_range"
-            shorts-demand-array="market.orderbook_chart_data.shorts_demand_array"
             volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
             volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
             price-symbol="market.price_symbol"

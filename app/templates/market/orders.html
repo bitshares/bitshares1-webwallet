@@ -10,11 +10,11 @@
         <th translate>th.action</th>
       </tr>
     </thead>
-    <tbody ng-repeat="o in orders track by $index">
-      <tr class="warning alert alert-danger unconfirmed" ng-show="o.warning">
+    <tbody>
+      <tr ng-repeat-start="o in orders track by $index" class="warning alert alert-danger unconfirmed" ng-show="o.warning">
         <td colspan="6"><i class="fa fa-warning"></i> <b>{{'tip.warning' | translate}}.</b> &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
       </tr>
-      <tr id="order_{{o.id}}" class="{{o.status}}">
+      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}}">
         <td>{{('market.order_type.'+o.type) | translate}}</td>
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
           {{o.price | formatDecimal : market.price_precision : true}}
