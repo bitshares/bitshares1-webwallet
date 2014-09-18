@@ -1,4 +1,7 @@
 <form name="short_form" class="form-horizontal" role="form" ng-submit="submit_short()" novalidate>
+  <div form-hgroup-value label="Account">
+    <span>{{account.name}}</span>
+  </div>
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{market.base_symbol}}">
     <span class="clickable" ng-click="use_trade_data({price: market.highest_bid, quantity: account.base_balance / market.highest_bid})">
       {{account.base_balance | formatDecimal : market.base_precision}}
@@ -8,19 +11,19 @@
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />
   </div>
   <div form-hgroup label="Collateral Ratio" addon="{{market.price_symbol}}">
-    <input-positive-number name="short_collateral_ratio" ng-model="short.collateral" required="true" />
+    <input-positive-number name="short_collateral_ratio" ng-model="short.collateral_ratio" required="true" />
+  </div>
+  <div form-hgroup-note ng-show="market.highest_bid">
+    {{'market.median_price'|translate}} <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.median_price})">{{market.median_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup label="Price Limit" addon="{{market.price_symbol}}">
-    <input-positive-number name="short_price" ng-model="short.price" />
+    <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" />
   </div>
   <!--<div form-hgroup-note ng-show="market.min_short_price">-->
    <!--Range {{market.min_short_price | formatDecimal : market.price_precision}} - {{market.max_short_price | formatDecimal : market.price_precision}} {{market.price_symbol}}-->
   <!--</div>-->
-  <!--<div form-hgroup-note ng-show="market.highest_bid">-->
-    <!--{{'market.highest_bid'|translate}} <span class="clickable" ng-click="use_trade_data({price: market.highest_bid})">{{market.highest_bid | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}-->
-  <!--</div>-->
   <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{market.base_symbol}}" show-value="{{short_form.$valid}}">
-    {{short.quantity * short.collateral | formatDecimal : market.base_precision}}
+    {{short.quantity * short.collateral_ratio | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn>{{'market.short'|translate}} {{market.quantity_symbol}}</button>

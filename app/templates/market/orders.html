@@ -6,7 +6,7 @@
         <th>{{'th.order_price'|translate}} ({{market.price_symbol}})</th>
         <th>{{'th.quantity'|translate}} ({{market.quantity_symbol}})</th>
         <th>{{'th.cost'|translate}} ({{market.base_symbol}})</th>
-        <th>{{'th.collateral'|translate}} ({{market.collateral_symbol}})</th>
+        <!--<th>{{'th.collateral'|translate}} ({{market.collateral_symbol}})</th>-->
         <th translate>th.action</th>
       </tr>
     </thead>
@@ -21,7 +21,7 @@
         </td>
         <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
         <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : market.base_precision}}</span></td>
-        <td><span ng-show="o.collateral">{{o.collateral | formatDecimal : market.base_precision}}</span></td>
+        <!--<td><span ng-show="o.collateral">{{o.collateral | formatDecimal : market.base_precision}}</span></td>-->
         <td>
         <span ng-switch on="o.status">
           <span ng-switch-when="unconfirmed">

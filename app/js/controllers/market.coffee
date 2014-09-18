@@ -134,7 +134,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(bid)
-        $scope.bid = new MarketService.TradeData
+        #$scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -152,16 +152,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(ask)
-        $scope.ask = new MarketService.TradeData
+        #$scope.ask = new MarketService.TradeData
 
     $scope.submit_short = ->
         form = @short_form
         $scope.clear_form_errors(form)
         short = $scope.short
+        short.price = $scope.market.median_price
 #        if short.price < $scope.market.min_short_price
 #            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
 #            return
-        short.cost = short.quantity * short.collateral
+        short.cost = short.quantity * short.collateral_ratio
 #        if short.cost < 100
 #            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
 #            return
@@ -176,7 +177,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 #                short.warning= "market.tip.short_price_too_low"
 #                short.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(short)
-        $scope.short = new MarketService.TradeData
+        #$scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->
@@ -194,6 +195,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short
             else $scope.bid
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
+        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.quantity_precision, true) if data.collateral_ratio
         if data.price
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001

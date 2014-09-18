@@ -11,7 +11,8 @@ class TradeData
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
         @warning = null
         @display_type = null
-        @out_of_range = false
+        @collateral_ratio = null
+        @short_price_limit = null
 
     invert: ->
         td = new TradeData()
@@ -26,7 +27,8 @@ class TradeData
         td.price = 1.0 / @price
         td.warning = @warning
         td.display_type = @display_type
-        td.out_of_range = @out_of_range
+        td.collateral_ratio = @collateral_ratio
+        td.short_price_limit = @short_price_limit
         return td
 
     touch: ->
@@ -398,11 +400,12 @@ class MarketService
             , => deferred.reject("Cannot initialize market module, failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
+        o = angular.copy(order)
         @id_sequence += 1
-        order.id = "o" + @id_sequence
-        order.status = "unconfirmed"
+        o.id = "o" + @id_sequence
+        o.status = "unconfirmed"
         #console.log "------ add_unconfirmed_order ------>", order
-        @orders.unshift order
+        @orders.unshift o
         #sorted_orders = @filter('orderBy')(@orders, 'price', false)
         #console.log "------ sorted_orders ------>", sorted_orders
         @helper.sort_array(@orders, "price", "quantity")
@@ -456,10 +459,9 @@ class MarketService
         return call
 
     post_short: (short, account) ->
-        price = if @market.inverted then 1.0/short.price else short.price
-        collateral_ratio = short.collateral #if @market.inverted then 1.0/short.collateral else short.collateral
-        console.log "---- before market_submit_short ----", account.name, short.quantity, collateral_ratio, price,  @market.quantity_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, @market.asset_quantity_symbol, collateral_ratio, price)
+        #if @market.inverted then 1.0/short.price else short.price
+        console.log "---- before market_submit_short ----", account.name, short.quantity, short.collateral_ratio, short.short_price_limit,  @market.quantity_symbol
+        call = @wallet_api.market_submit_short(account.name, short.quantity, @market.asset_quantity_symbol, short.collateral_ratio, short.short_price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
@@ -503,6 +505,10 @@ class MarketService
     pull_shorts: (market, inverted) ->
         shorts = []
         dest = @shorts #if inverted then @asks else @bids
+        short_wall = new TradeData()
+        short_wall.type = "short_wall"
+        short_wall.price = market.price
+
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
                 td = @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted)
@@ -806,31 +812,30 @@ class MarketService
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
-            if self.market.avg_price_1h > 0
-                self.market.min_short_price = market.min_short_price = self.market.avg_price_1h * 9.0 / 10.0
-                self.market.max_short_price = market.max_short_price = self.market.avg_price_1h * 10.0 / 9.0
-                self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
+            self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
             # override with median if it exists
-            self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol).then (result) ->
+            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
+            feeds_promise.then (result) ->
                 res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
                 if res.length > 0
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
-                    self.market.min_short_price = market.min_short_price = price * 9.0 / 10.0
-                    self.market.max_short_price = market.max_short_price = price * 10.0 / 9.0
-                    #deferred.resolve(true)
-            , (error) ->
-                deferred.reject(error)
+                else
+                    self.market.median_price = market.median_price = self.market.avg_price_1h
 
-            actual_market = self.market.actual_market or self.market
-            self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                actual_market.collateral = amount / actual_market.quantity_precision
-                self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
-                    supply = record["current_share_supply"] / actual_market.base_precision
-                    actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                    deferred.resolve(true)
-            , (error) ->
-                deferred.reject(error)
+            feeds_promise.catch ->
+                self.market.median_price = market.median_price = self.market.avg_price_1h
+
+            feeds_promise.finally ->
+                actual_market = self.market.actual_market or self.market
+                self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
+                    actual_market.collateral = amount / actual_market.quantity_precision
+                    self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
+                        supply = record["current_share_supply"] / actual_market.base_precision
+                        actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
+                        deferred.resolve(true)
+                , (error) ->
+                    deferred.reject(error)
 
         , (error) ->
                 deferred.reject(error)
