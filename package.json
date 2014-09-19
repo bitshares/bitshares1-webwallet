@@ -1,20 +1,11 @@
 {
-  "name": "lineman-angular-template",
-  "title": "An HTML/JS/CSS app using Angular.JS",
+  "name": "bitshares-gui",
   "version": "0.0.1",
-  "private": true,
-  "author": {
-    "name": "John Doe",
-    "company": "ACME, Inc."
-  },
-  "devDependencies": {
-    "lineman": ">= 0.28.0",
-    "lineman-angular": ">= 0.2.0",
-    "lineman-less": "0.0.1",
-    "coffee-script": "~1.6.3"
+  "dependencies": {
+    "lineman-angular": "0.3.x"
   },
   "scripts": {
     "start": "lineman run",
-    "test": "lineman spec-ci"
+    "test": "lineman spec"
   }
 }
