@@ -74,11 +74,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
-        # market base symbol is concated in template
-        if market.shorts_available
-            $scope.tabs[2].heading = "market.short"
-        else
-            $scope.tabs.splice(2,1)
         price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
@@ -89,6 +84,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         account_balances_observer.notify = (data) ->
             account.base_balance = data[market.asset_base_symbol] / market.base_precision
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
+            account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
@@ -157,25 +153,18 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.submit_short = ->
         form = @short_form
         $scope.clear_form_errors(form)
-        short = $scope.short
-        short.price = $scope.market.median_price
-#        if short.price < $scope.market.min_short_price
-#            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
-#            return
-        short.cost = short.quantity * short.collateral_ratio
-#        if short.cost < 100
-#            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
-#            return
-#        if short.cost > $scope.account.base_balance
-#            form.short_quantity.$error.message = 'market.tip.insufficient_balances'
-#            return
+        short = angular.copy($scope.short)
+        short.price = $scope.market.shorts_price
+        console.log "------ submit_short ------>", $scope.market.inverted, short
+        if $scope.market.inverted
+            short.cost = short.quantity * short.collateral_ratio
+        else
+            short.cost = short.quantity
+            short.quantity = short.cost * short.collateral_ratio
+
         short.type = "short_order"
         short.display_type = "Short"
-#        if $scope.market.highest_bid > 0
-#            price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
-#            if price_diff > 5
-#                short.warning= "market.tip.short_price_too_low"
-#                short.price_diff = Utils.formatDecimal(price_diff, 1)
+
         MarketService.add_unconfirmed_order(short)
         #$scope.short = new MarketService.TradeData
 

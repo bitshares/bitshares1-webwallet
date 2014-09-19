@@ -65,7 +65,6 @@ class Market
         @shorts_price = 0.0
         @assets_by_id = null
         @shorts_available = false
-        @margins_available = false
         @orig_market = null
         @actual_market = null
         @error = {title: null, text: null}
@@ -84,8 +83,7 @@ class Market
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
-        m.shorts_available = m.base_asset.id == 0
-        m.margins_available = m.base_asset.id == 0 or m.quantity_asset.id == 0
+        m.shorts_available = m.base_asset.id == 0 or m.quantity_asset.id == 0
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url
@@ -195,8 +193,7 @@ class MarketService
                 market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 10
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
-                market.shorts_available = market.base_asset.id == 0
-                market.margins_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
+                market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
                 market.collateral_symbol = results[2].symbol
                 if market.quantity_asset.id > market.base_asset.id
                     market.inverted = true
@@ -269,8 +266,9 @@ class MarketService
 
     post_short: (short, account) ->
         #if @market.inverted then 1.0/short.price else short.price
-        console.log "---- before market_submit_short ----", account.name, short.quantity, short.collateral_ratio, short.short_price_limit,  @market.quantity_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, @market.asset_quantity_symbol, short.collateral_ratio, short.short_price_limit)
+        actual_market = @market.get_actual_market()
+        console.log "---- before market_submit_short ----", account.name, short.quantity, short.collateral_ratio, short.short_price_limit,  actual_market.asset_base_symbol
+        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, short.short_price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
@@ -339,7 +337,7 @@ class MarketService
                     short_price_limit_condition = (not inverted and td.short_price_limit > shorts_price) or (inverted and td.short_price_limit < shorts_price)
 
                 if short_collateral_ratio_condition and short_price_limit_condition
-                    #console.log "------ adding to short wall ------>", short_collateral_ration_condition, short_price_limit_condition, td.cost, td.quantity, td.price
+                    #console.log "------ adding to short wall ------>", short_collateral_ratio_condition, short_price_limit_condition, td.cost, td.quantity, td.price
                     short_wall.cost += td.cost
                     short_wall.quantity += td.quantity
                     if inverted
@@ -383,13 +381,11 @@ class MarketService
                     order.touch()
 
             @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
-                console.log results
                 for r in results
                     td = new TradeData()
                     @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                     #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                     td.status = "posted" if td.status != "cover"
-                    continue if (td.type == "short_order" or td.type == "cover_order") and not market.margins_available
                     orders.push td
                 @helper.update_array
                     target: @orders
@@ -503,7 +499,7 @@ class MarketService
             self.pull_trades(market, self.market.inverted),
             self.pull_my_trades(market, self.market.inverted, data.account_name)
         ]
-        if market.margins_available
+        if market.shorts_available
             promises.push(self.pull_shorts(market, self.market.inverted))
             promises.push(self.pull_covers(market, self.market.inverted))
 

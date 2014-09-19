@@ -2,25 +2,25 @@
   <div form-hgroup-value label="Account">
     <span>{{account.name}}</span>
   </div>
-  <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{market.base_symbol}}">
+  <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}}">
     <span class="clickable" ng-click="use_trade_data({price: market.highest_bid, quantity: account.base_balance / market.highest_bid})">
-      {{account.base_balance | formatDecimal : market.base_precision}}</span>
+      {{account.short_balance | formatDecimal : market.base_precision}}</span>
   </div>
-  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />
   </div>
-  <div form-hgroup label="Collateral Ratio" addon="{{market.price_symbol}}">
+  <div form-hgroup label="Collateral Ratio" addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
     <input-positive-number name="short_collateral_ratio" ng-model="short.collateral_ratio" required="true" />
   </div>
   <div form-hgroup-note ng-show="market.highest_bid">
-    Short Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.median_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    Short Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: (1.0/actual_market.shorts_price)})">{{(1.0/actual_market.shorts_price) | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup label="Price Limit" addon="{{market.price_symbol}}">
     <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" />
   </div>
-  <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{market.base_symbol}}" show-value="{{short_form.$valid}}">
+  <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{actual_market.quantity_symbol}}" show-value="{{short_form.$valid}}">
     {{short.quantity * short.collateral_ratio | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn>{{'market.short'|translate}} {{market.quantity_symbol}}</button>
-</form>
+</form>2

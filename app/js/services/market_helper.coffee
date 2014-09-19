@@ -37,7 +37,7 @@ class MarketHelper
             market.avg_price_1h = 1.0 / data.avg_price_1h
             market.shorts_price = 1.0 / data.avg_price_1h
 
-        console.log "------ read_market_data ------>", market.shorts_price, data, assets
+        #console.log "------ read_market_data ------>", market.shorts_price, data, assets
 
         if data.last_error
             actual_market.error.title = market.error.title = data.last_error.message
