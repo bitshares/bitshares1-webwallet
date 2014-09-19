@@ -49,7 +49,7 @@
 <div class="main-content market">
 
       <ul class="row market-stats stats">
-        <li ng-show="true || market.shorts_available" class="stat col-sm-2">
+        <li ng-show="has_median && market.shorts_available" class="stat col-sm-2">
           <span>{{'market.median_price'|translate}}<br/><b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li ng-show="!market.shorts_available || market.avg_price_1h > 0" class="stat col-sm-2">
