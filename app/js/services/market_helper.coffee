@@ -37,7 +37,7 @@ class MarketHelper
             market.avg_price_1h = 1.0 / data.avg_price_1h
             market.shorts_price = 1.0 / data.avg_price_1h
 
-        console.log "------ read_market_data ------>", data, assets
+        console.log "------ read_market_data ------>", market.shorts_price, data, assets
 
         if data.last_error
             actual_market.error.title = market.error.title = data.last_error.message
@@ -55,9 +55,14 @@ class MarketHelper
             td.id = order.market_index.owner
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
         price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
-        td.price = if invert_price then 1.0 / price else price
+        td.price = if invert_price and price > 0.0 then 1.0 / price else price
+
+        td.quantity = order.state.balance / ba.precision
+        td.cost = td.quantity * price
+        td.status = "posted"
+
         if order.type == "cover_order"
-            cover_price = 1.0 / price
+            #cover_price = 1.0 / price
             td.cost = order.state.balance / qa.precision
             td.quantity = -1.0 #td.cost * cover_price
             td.collateral = order.collateral / ba.precision
@@ -65,12 +70,13 @@ class MarketHelper
             td.status = "cover"
         else if order.type == "bid_order"
             td.cost = order.state.balance / qa.precision
-            td.quantity = td.cost / price
-            td.status = "posted"
-        else
-            td.quantity = order.state.balance / ba.precision
-            td.cost = td.quantity * price
-            td.status = "posted"
+            td.quantity = td.cost / price if price > 0.0
+        else if order.type == "short_order"
+            pl = order.state.short_price_limit
+            if pl
+                short_price_limit = pl.ratio * (ba.precision / qa.precision)
+                td.short_price_limit = if invert_price and short_price_limit > 0.0 then 1.0 / short_price_limit else short_price_limit
+
 
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]

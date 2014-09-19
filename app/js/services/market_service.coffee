@@ -315,39 +315,33 @@ class MarketService
 
     pull_shorts: (market, inverted) ->
         shorts = []
+        shorts_price = if inverted and market.shorts_price > 0 then 1.0 / market.shorts_price else market.shorts_price
         short_wall = new TradeData()
         short_wall.id = "short_wall"
+        short_wall.display_type = "Short Wall"
         short_wall.type = "short_wall"
-        short_wall.price = market.shorts_price
+        short_wall.price = shorts_price
         short_wall.cost = 0.0
         short_wall.quantity = 0.0
         short_wall_dest = if inverted then @asks else @bids
 
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
-                #console.log "---- 1 short: ", r
+                #console.log "---- 1 short: ", r, inverted
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
-                console.log "---- 2 short: ", td.cost, td.quantity
-                #continue if (not inverted) and (td.price > market.median_price)
-
-                short_price_limit = r.state.short_price_limit
-                if short_price_limit
-                    base_asset = market.assets_by_id[short_price_limit.base_asset_id]
-                    quote_asset = market.assets_by_id[short_price_limit.quote_asset_id]
-                    td.price_limit_symbol = " #{quote_asset.symbol}/#{base_asset.symbol}"
-                    td.price_limit = short_price_limit.ratio
-                else
-                    td.price_limit_symbol = ""
-                    td.price_limit = ""
-
                 td.type = "short"
-#                if inverted
-#                    @lowest_ask = td.price if td.price < @lowest_ask
-#                else
-#                    @highest_bid = td.price if td.price > @highest_bid
-                short_wall.cost += td.cost
-                short_wall.quantity += td.quantity
+                #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
+
+                short_collateral_ration_condition = (not inverted and td.price < shorts_price) or (inverted and td.price > shorts_price)
+                short_price_limit_condition = true
+                if td.short_price_limit
+                    short_price_limit_condition = (not inverted and td.short_price_limit > shorts_price) or (inverted and td.short_price_limit < shorts_price)
+
+                if short_collateral_ration_condition and short_price_limit_condition
+                    #console.log "------ adding to short wall ------>", short_collateral_ration_condition, short_price_limit_condition, td.cost, td.quantity, td.price
+                    short_wall.cost += td.cost
+                    short_wall.quantity += td.quantity
 
                 shorts.push td
             @helper.update_array {target: @shorts, data: shorts}

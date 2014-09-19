@@ -3,10 +3,6 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
-$.fn.redraw = ->
-    $(this).each ->
-        redraw = this.offsetHeight
-
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive"])

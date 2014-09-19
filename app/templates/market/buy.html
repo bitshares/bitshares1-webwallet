@@ -7,7 +7,7 @@
       {{account.base_balance | formatDecimal : market.base_precision}}</span>
   </div>
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
-    <input-positive-number name="bid_quantity" ng-model="bid.quantity" />
+    <input-positive-number name="bid_quantity" ng-model="bid.quantity" required="true"/>
   </div>
   <div form-hgroup label="{{'market.price'|translate}}" addon="{{market.price_symbol}}">
     <input-positive-number name="bid_price" ng-model="bid.price" required="true" />
