@@ -35,9 +35,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_recommended: "vote_as_delegates_recommended"
 
     $scope.my_accounts = []
-    Wallet.refresh_accounts().then ->
+    refresh_accounts_promise = Wallet.refresh_accounts()
+    refresh_accounts_promise.then ->
         $scope.accounts = Wallet.accounts
-        $scope.my_accounts.splice(0, $scope.my_accounts.lenght)
+        $scope.my_accounts.splice(0, $scope.my_accounts.length)
         for k,a of Wallet.accounts
             $scope.my_accounts.push a if a.is_my_account
 
@@ -60,6 +61,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 else
                     $scope.no_account = true
 
+    $scope.showLoadingIndicator(refresh_accounts_promise)
+    
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
 
@@ -86,16 +89,21 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.payto.error_message = null
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
-        Blockchain.get_asset(0).then (fee_asset)->
-            transaction_fee = Utils.formatAsset(Utils.asset(Wallet.info.transaction_fee.amount, fee_asset))
-            trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
-            $modal.open
-                templateUrl: "dialog-transfer-confirmation.html"
-                controller: "DialogTransferConfirmationController"
-                resolve:
-                    title: -> "Transfer Authorization"
-                    trx: -> trx
-                    action: -> yesSend
+        WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
+            transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
+            Blockchain.get_asset(transfer_asset.id).then (fee_asset)->
+                Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                    transaction_fee = Utils.formatAsset(Utils.asset(tx_fee.amount, tx_fee_asset))
+                    trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
+                    $modal.open
+                        templateUrl: "dialog-transfer-confirmation.html"
+                        controller: "DialogTransferConfirmationController"
+                        resolve:
+                            title: -> "Transfer Authorization"
+                            trx: -> trx
+                            action: -> yesSend
+                            xts_transfer: -> 
+                                $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTSX'
 
     $scope.newContactModal = ->
         $modal.open

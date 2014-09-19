@@ -12,27 +12,20 @@ module.exports = function(lineman) {
       vendor: [
         "vendor/js/jquery.js",
         "vendor/js/jquery.growl.js",
-        //"vendor/js/bootstrap.js",
-        //"vendor/js/jasny-bootstrap.js",
         "vendor/js/ark.js",
         "vendor/js/angular.js",
         "vendor/js/angular-resource.js",
-        //"vendor/js/angular-route.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ui-bootstrap-tpls.js",
-	 	"vendor/js/ng-grid-2.0.11.debug.js",
+	 	    "vendor/js/ng-grid-2.0.11.debug.js",
         "vendor/js/angular-idle.js",
-        "vendor/js/angularjs-gravatardirective.js",
         "vendor/js/validate.js",
         "vendor/js/xeditable.js",
         "vendor/js/angular-translate.min.js",
         "vendor/js/angular-translate-loader-static-files.min.js",
         "vendor/js/jsonpath.js",
-        "vendor/js/d3.js",
-        "vendor/js/nv.d3.js",
-        "vendor/js/angularjs-nvd3-directives.js",
-        "vendor/js/angular-pageslide-directive.js"
+        "vendor/js/angular-pageslide-directive.js",
+        "vendor/js/highstock.src.js"
       ],
       app: [
         "app/js/app.js",
@@ -52,15 +45,12 @@ module.exports = function(lineman) {
       vendor: [
         "vendor/css/jquery.growl.css",
         "vendor/css/bootstrap.css",
-        //"vendor/css/jasny-bootstrap.css",
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
         "vendor/css/xeditable.css",
-        "vendor/css/ng-grid.css",
-        "vendor/css/nv.d3.css"
+        "vendor/css/ng-grid.css"
       ],
       app: [
-        //TODO: make main.css compatible with ng-grid
         "app/css/main.css",
         "app/css/forms.css",
         "app/css/layout.css",

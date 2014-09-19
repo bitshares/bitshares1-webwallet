@@ -1,4 +1,4 @@
-angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, WalletAPI, Shared, RpcService, Blockchain, Info, Utils, md5) ->
+angular.module("app").controller "RegistrationController", ($scope, $modalInstance, Wallet, WalletAPI, Shared, RpcService, Blockchain, Info, Utils) ->
   $scope.symbolOptions = []
   
   $scope.m={}

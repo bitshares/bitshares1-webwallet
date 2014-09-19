@@ -50,17 +50,25 @@ angular.module("app.directives").directive "inputName", ->
 
 angular.module("app.directives").directive "inputPositiveNumber", ->
     template: '''
-        <input class="form-control" placeholder="0.0" />
+        <input class="form-control" placeholder="0.0 {{required ? '' : '(optional)'}}" />
     '''
     restrict: "E"
     replace: true
     require: "ngModel"
+
+    scope:
+        required: "="
+        #placeholder: "="
 
     link: (scope, elm, attrs, ctrl) ->
 
         validator = (viewValue) ->
             #console.log "------ inputPositiveNumber viewValue 0 ------>", viewValue
             res = null
+            if viewValue == "" and not scope.required
+                ctrl.$setValidity "float", true
+                return 0
+
             if /^[\d\.\,\+]+$/.test(viewValue)
                 #console.log "------ inputPositiveNumber viewValue 1 ------>", viewValue
                 ctrl.$setValidity "float", true

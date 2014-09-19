@@ -3,14 +3,9 @@ window.getStackTrace = ->
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
 
-$.fn.redraw = ->
-    $(this).each ->
-        redraw = this.offsetHeight
-
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
-     "angularjs-gravatardirective", "ui.validate", "xeditable", "pascalprecht.translate",
-     "nvd3ChartDirectives", "pageslide-directive"])
+     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
@@ -19,7 +14,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
     $rootScope.magic_unicorn.log_message(navigator.userAgent) if $rootScope.magic_unicorn
 
-    window.navigate_to = (path) -> $location.path(path)
+    window.navigate_to = (path) ->  window.location.href = "/#" + path
 
     editableOptions.theme = 'default'
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
