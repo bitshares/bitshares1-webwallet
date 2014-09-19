@@ -26,7 +26,7 @@ servicesModule.factory "myHttpInterceptor", ($q, $location, Growl, Shared) ->
             if response.status == 404
                 # TODO: should redirect to 404 page, redirect out of RootController
                 #location.href = "/404.html"
-                $location.path("/home")
+                #$location.path("/home")
             else if error_msg.match(/No such wallet exists/)
                 $location.path("/createwallet")
             else if response.data.error.code == 0
@@ -48,4 +48,5 @@ servicesModule.factory "myHttpInterceptor", ($q, $location, Growl, Shared) ->
         if !promise and !method_in_dont_report_list and response.data.error?.code != 0
             Shared.message = "RPC Server Error: " + error_msg.split("\n")[0]
         #Growl.error "RPC Server Error", "#{error_msg.substring(0,512)} (#{response.status})"
-        return (if promise then promise else $q.reject(response))
+        #return (if promise then promise else $q.reject(response))
+        return $q.reject(response)
