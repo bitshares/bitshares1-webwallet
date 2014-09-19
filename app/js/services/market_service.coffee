@@ -333,19 +333,27 @@ class MarketService
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
 
-                short_collateral_ration_condition = (not inverted and td.price < shorts_price) or (inverted and td.price > shorts_price)
+                short_collateral_ratio_condition = (not inverted and td.price < shorts_price) or (inverted and td.price > shorts_price)
                 short_price_limit_condition = true
                 if td.short_price_limit
                     short_price_limit_condition = (not inverted and td.short_price_limit > shorts_price) or (inverted and td.short_price_limit < shorts_price)
 
-                if short_collateral_ration_condition and short_price_limit_condition
+                if short_collateral_ratio_condition and short_price_limit_condition
                     #console.log "------ adding to short wall ------>", short_collateral_ration_condition, short_price_limit_condition, td.cost, td.quantity, td.price
                     short_wall.cost += td.cost
                     short_wall.quantity += td.quantity
+                    if inverted
+                        @lowest_ask = shorts_price if shorts_price < @lowest_ask
+                    else
+                        @highest_bid = shorts_price if shorts_price > @highest_bid
+
+                td.valid_short = short_collateral_ratio_condition
 
                 shorts.push td
+
             @helper.update_array {target: @shorts, data: shorts}
-            @helper.update_array {target: short_wall_dest, data: [short_wall]}
+            short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
+            @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}
 
     pull_covers: (market, inverted) ->
         covers = []
@@ -499,7 +507,7 @@ class MarketService
             promises.push(self.pull_shorts(market, self.market.inverted))
             promises.push(self.pull_covers(market, self.market.inverted))
 
-        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 6 == 0
+        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 5 == 0
 
         self.q.all(promises).finally =>
             try
@@ -509,29 +517,39 @@ class MarketService
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
+                # order book chart data
                 if self.market.avg_price_1h > 0.0
-
                     sum_asks = 0.0
                     asks_array = []
-
                     for a in self.asks
                         continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
                         sum_asks += a.quantity
                         self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-
                     sum_bids = 0.0
                     bids_array = []
                     for b in self.bids
                         continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
                         sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-
                     bids_array.sort (a,b) -> a[0] - b[0]
                     asks_array.sort (a,b) -> a[0] - b[0]
-
                     self.market.orderbook_chart_data =
                         bids_array: bids_array
                         asks_array: asks_array
+
+                # shorts collateralization chart data
+                self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
+                sum_shorts = 0.0
+                shorts_array = []
+                for s in self.shorts
+                    continue unless s.valid_short
+                    #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
+                    sum_shorts += if self.market.inverted then s.quantity else s.cost
+                    self.helper.add_to_order_book_chart_array(shorts_array, s.price, sum_shorts)
+                self.helper.add_to_order_book_chart_array(shorts_array, self.market.shorts_price, sum_shorts)
+
+                shorts_array.sort (a,b) -> a[0] - b[0]
+                self.market.shortscollat_chart_data = { array: shorts_array }
 
             catch e
                 console.log "!!!!!! error in pull_market_data: ", e

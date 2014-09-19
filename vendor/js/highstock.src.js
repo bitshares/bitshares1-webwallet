@@ -6185,8 +6185,7 @@ AxisPlotLineOrBandExtension = {
 	 * @param options {Object} The plotBand or plotLine configuration object
 	 */
 	addPlotBandOrLine: function (options, coll) {
-		var obj = new Highcharts.PlotLineOrBand(this, options).render(),
-			userOptions = this.userOptions;
+		var obj = new Highcharts.PlotLineOrBand(this, options).render(), userOptions = this.userOptions;
 
 		if (obj) { // #2189
 			// Add it to the user options for exporting and Axis.update
