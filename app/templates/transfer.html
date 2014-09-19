@@ -84,9 +84,12 @@
         <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
         <div class="col-md-2">
           <input class="form-control" ng-model="transfer_info.amount" name="amount" type="text" class="form-control" placeholder="0.0" id="amount"
-                 ui-validate="'$value > 0'" ng-change="my_transfer_form.amount.error_message = null" required/>
+                 ui-validate="'$value > 0'" 
+                 ng-change="hot_check_send_amount();" required/>
           <span class="help-block text-danger" ng-show="my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine" translate>tip.wrong_amount</span>
-          <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{my_transfer_form.amount.error_message}}</span>
+          <span class="help-block text-danger" ng-show="my_transfer_form.amount.error_message">{{
+            my_transfer_form.amount.error_message
+          }}</span>
         </div>
         <!-- asset selector -->
         <div class="col-md-1">
@@ -96,7 +99,7 @@
             </button>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="(k, v) in balances">
-                <a ng-click="transfer_info.symbol=k; status.isopen=false">{{k}}</a>
+                <a ng-click="current_transfer_symbol(k); status.isopen=false">{{k}}</a>
               </li>
             </ul>
           </div>

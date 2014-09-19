@@ -11,6 +11,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     $scope.memo_size_max = 19
     my_transfer_form = null
+    tx_fee = null
+    tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
     $scope.model.autocomplete = Wallet.autocomplete
@@ -58,6 +60,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     $scope.account_from_name = account_from_name = account.name
                     $scope.balances = Wallet.balances[account_from_name]
                     $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
+                    $scope.current_transfer_symbol $scope.transfer_info.symbol
                 else
                     $scope.no_account = true
 
@@ -65,6 +68,42 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
+    
+    #call to initialize and on symbol change
+    $scope.current_transfer_symbol = (k) ->
+        $scope.transfer_info.symbol = k
+        #console.log k
+        #Load the tx_fee and its asset object for pre form submit validation
+        WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (_tx_fee) ->
+            tx_fee = _tx_fee
+            Blockchain.get_asset(tx_fee.asset_id).then (_tx_fee_asset) ->
+                tx_fee_asset = _tx_fee_asset
+        
+        
+    # Validation prior to form submit
+    $scope.hot_check_send_amount = ->
+        my_transfer_form = @my_transfer_form
+        my_transfer_form.amount.error_message = null
+        
+        if tx_fee && tx_fee_asset #loads async
+            if tx_fee.asset_id != tx_fee_asset.id
+                console.log "ERROR hot_check[_send_amount] encountered unlike transfer and fee assets"
+                return
+            
+            #console.log "hot_check_send_amount"
+            my_transfer_form = @my_transfer_form
+            fee=tx_fee.amount/tx_fee_asset.precision
+            transfer_amount=$scope.transfer_info.amount
+            #balance = => 
+            #    _bal=$scope.balances[$scope.transfer_info.symbol]
+            #    _bal.amount/_bal.precision
+            _bal=$scope.balances[$scope.transfer_info.symbol]
+            balance = _bal.amount/_bal.precision
+            balance_after_transfer = balance - transfer_amount - fee
+            #$scope.balance_after_transfer = balance_after_transfer
+            if balance_after_transfer < 0
+                my_transfer_form.amount.error_message = "Insufficent funds"
+            
 
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
@@ -91,19 +130,18 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
             transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
-            Blockchain.get_asset(transfer_asset.id).then (fee_asset)->
-                Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
-                    transaction_fee = Utils.formatAsset(Utils.asset(tx_fee.amount, tx_fee_asset))
-                    trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
-                    $modal.open
-                        templateUrl: "dialog-transfer-confirmation.html"
-                        controller: "DialogTransferConfirmationController"
-                        resolve:
-                            title: -> "Transfer Authorization"
-                            trx: -> trx
-                            action: -> yesSend
-                            xts_transfer: -> 
-                                $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTSX'
+            Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                transaction_fee = Utils.formatAsset(Utils.asset(tx_fee.amount, tx_fee_asset))
+                trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
+                $modal.open
+                    templateUrl: "dialog-transfer-confirmation.html"
+                    controller: "DialogTransferConfirmationController"
+                    resolve:
+                        title: -> "Transfer Authorization"
+                        trx: -> trx
+                        action: -> yesSend
+                        xts_transfer: -> 
+                            $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTSX'
 
     $scope.newContactModal = ->
         $modal.open
