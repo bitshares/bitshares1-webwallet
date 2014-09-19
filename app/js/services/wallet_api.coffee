@@ -520,13 +520,13 @@ class WalletAPI
   # Used to place a request to short sell a quantity of assets at a price specified
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `short_quantity` - the quantity of items you would like to short sell (borrow into existance and sell)
-  #   real_amount `short_price` - the price (ie: 2.0 USD) per XTS that you would like to short at
+  #   real_amount `short_quantity` - the quantity of items you would like to short sell (USD you would like to sell)
   #   asset_symbol `short_symbol` - the type of asset you would like to short, ie: USD
-  #   bool `allow_stupid_short` - Allow user to place short at more than 5% above the current sell price.
+  #   real_amount `collateral_ratio` - the ratio XTS per USD that your USD will be collateralized at (ie: XTS / USD)
+  #   real_amount `short_price_limit` - maximim price (USD per XTS) that the short will execute at, if 0 then no limit will be applied
   # return_type: `transaction_record`
-  market_submit_short: (from_account_name, short_quantity, short_price, short_symbol, allow_stupid_short) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_price, short_symbol, allow_stupid_short]).then (response) ->
+  market_submit_short: (from_account_name, short_quantity, short_symbol, collateral_ratio, short_price_limit) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_symbol, collateral_ratio, short_price_limit]).then (response) ->
       response.result
 
   # Used to place a request to cover an existing short position

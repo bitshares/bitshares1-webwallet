@@ -1,4 +1,4 @@
-angular.module("app").controller "DialogTransferConfirmationController", ($scope, $modalInstance, title, trx, action) ->
+angular.module("app").controller "DialogTransferConfirmationController", ($scope, $modalInstance, title, trx, action, xts_transfer) ->
 
     $scope.title=title
     $scope.trx = trx
@@ -9,3 +9,6 @@ angular.module("app").controller "DialogTransferConfirmationController", ($scope
     $scope.ok = ->
         action()
         $modalInstance.close("ok")
+        
+    $scope.xts_transfer=xts_transfer
+        
