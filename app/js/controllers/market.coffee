@@ -74,8 +74,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
-        Blockchain.get_asset(0).then (asset0) ->
-          $scope.has_median = market.asset_base_symbol is asset0.symbol
         # market base symbol is concated in template
         if market.shorts_available
             $scope.tabs[2].heading = "market.short"
