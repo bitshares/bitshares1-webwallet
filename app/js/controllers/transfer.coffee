@@ -60,7 +60,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     $scope.account_from_name = account_from_name = account.name
                     $scope.balances = Wallet.balances[account_from_name]
                     $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
-                    $scope.current_transfer_symbol $scope.transfer_info.symbol
                 else
                     $scope.no_account = true
 
@@ -69,42 +68,51 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
     
+    $scope.setForm = (form) ->
+        my_transfer_form = form
+    
+    # Validation and display prior to form submit
+    $scope.hot_check_send_amount = ->
+        return unless $scope.balances
+        
+        my_transfer_form.amount.error_message = null
+        
+        if tx_fee.asset_id != tx_fee_asset.id
+            console.log "ERROR hot_check[_send_amount] encountered unlike transfer and fee assets"
+            return
+        
+        fee=tx_fee.amount/tx_fee_asset.precision
+        transfer_amount=$scope.transfer_info.amount
+        #balance = => 
+        #    _bal=$scope.balances[$scope.transfer_info.symbol]
+        #    _bal.amount/_bal.precision
+        _bal=$scope.balances[$scope.transfer_info.symbol]
+        balance = _bal.amount/_bal.precision
+        balance_after_transfer = balance - transfer_amount - fee
+        balance_after_transfer = Utils.formatDecimal(balance_after_transfer, _bal.precision)
+        
+        #display "New Balance 999 (...)"
+        $scope.transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
+        $scope.balance_after_transfer = balance_after_transfer
+        $scope.balance = balance
+        #transfer_amount -> already available as $scope.transfer_info.amount
+        $scope.fee = fee
+        
+        my_transfer_form.$setValidity "funds", balance_after_transfer >= 0
+        if balance_after_transfer < 0
+            my_transfer_form.amount.error_message = "Insufficent funds"
+
     #call to initialize and on symbol change
-    $scope.current_transfer_symbol = (k) ->
-        $scope.transfer_info.symbol = k
-        #console.log k
+    $scope.$watch ->
+        $scope.transfer_info.symbol
+    , ->
         #Load the tx_fee and its asset object for pre form submit validation
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (_tx_fee) ->
             tx_fee = _tx_fee
             Blockchain.get_asset(tx_fee.asset_id).then (_tx_fee_asset) ->
                 tx_fee_asset = _tx_fee_asset
-        
-        
-    # Validation prior to form submit
-    $scope.hot_check_send_amount = ->
-        my_transfer_form = @my_transfer_form
-        my_transfer_form.amount.error_message = null
-        
-        if tx_fee && tx_fee_asset #loads async
-            if tx_fee.asset_id != tx_fee_asset.id
-                console.log "ERROR hot_check[_send_amount] encountered unlike transfer and fee assets"
-                return
-            
-            #console.log "hot_check_send_amount"
-            my_transfer_form = @my_transfer_form
-            fee=tx_fee.amount/tx_fee_asset.precision
-            transfer_amount=$scope.transfer_info.amount
-            #balance = => 
-            #    _bal=$scope.balances[$scope.transfer_info.symbol]
-            #    _bal.amount/_bal.precision
-            _bal=$scope.balances[$scope.transfer_info.symbol]
-            balance = _bal.amount/_bal.precision
-            balance_after_transfer = balance - transfer_amount - fee
-            #$scope.balance_after_transfer = balance_after_transfer
-            if balance_after_transfer < 0
-                my_transfer_form.amount.error_message = "Insufficent funds"
-            
-
+                $scope.hot_check_send_amount()
+    
     yesSend = ->
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
             $scope.transfer_info.payto = ""
@@ -123,7 +131,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 my_transfer_form.amount.error_message = "Insufficient funds"
 
     $scope.send = ->
-        my_transfer_form = @my_transfer_form
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
