@@ -330,22 +330,14 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
-
-                short_collateral_ratio_condition = (not inverted and td.price < shorts_price) or (inverted and td.price > shorts_price)
-                short_price_limit_condition = true
-                if td.short_price_limit
-                    short_price_limit_condition = (not inverted and td.short_price_limit > shorts_price) or (inverted and td.short_price_limit < shorts_price)
-
-                if short_collateral_ratio_condition and short_price_limit_condition
-                    #console.log "------ adding to short wall ------>", short_collateral_ratio_condition, short_price_limit_condition, td.cost, td.quantity, td.price
+                if @helper.is_in_short_wall(td, shorts_price, inverted)
+                    #console.log "------ adding to short wall ------>", td.cost, td.quantity, td.price, shorts_price
                     short_wall.cost += td.cost
                     short_wall.quantity += td.quantity
                     if inverted
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
                         @highest_bid = shorts_price if shorts_price > @highest_bid
-
-                td.valid_short = short_collateral_ratio_condition
 
                 shorts.push td
 
@@ -538,7 +530,7 @@ class MarketService
                 sum_shorts = 0.0
                 shorts_array = []
                 for s in self.shorts
-                    continue unless s.valid_short
+                    continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
                     #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
                     sum_shorts += if self.market.inverted then s.quantity else s.cost
                     self.helper.add_to_order_book_chart_array(shorts_array, s.price, sum_shorts)

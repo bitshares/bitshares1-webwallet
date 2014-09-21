@@ -179,7 +179,7 @@ class MarketHelper
             return "0#{val}"
         return val
 
-    formatUTCDate : (date) ->
+    formatUTCDate: (date) ->
         year = date.getUTCFullYear()
         month = @forceTwoDigits(date.getUTCMonth()+1)
         day = @forceTwoDigits(date.getUTCDate())
@@ -187,5 +187,12 @@ class MarketHelper
         minute = @forceTwoDigits(date.getUTCMinutes())
         second = @forceTwoDigits(date.getUTCSeconds())
         return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
+        
+    is_in_short_wall: (short, shorts_price, inverted) ->
+        short_collateral_ratio_condition = (not inverted and short.price < shorts_price) or (inverted and short.price > shorts_price)
+        short_price_limit_condition = true
+        if short.short_price_limit
+            short_price_limit_condition = (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
+        return short_collateral_ratio_condition and short_price_limit_condition
 
 angular.module("app").service("MarketHelper", ["$filter", "Utils",  MarketHelper])
