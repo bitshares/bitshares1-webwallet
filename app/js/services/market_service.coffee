@@ -216,7 +216,11 @@ class MarketService
         o.id = "o" + @id_sequence
         o.status = "unconfirmed"
         @orders.unshift o
-        @helper.sort_array(@orders, "price", "quantity")
+
+        @helper.sort_array @orders, "price", "quantity", false, (a, b) ->
+                    return 1 if a.status == "unconfirmed" and b.status != "unconfirmed"
+                    return -1 if a.status != "unconfirmed" and b.status == "unconfirmed"
+                    return 0
 
     cancel_order: (id) ->
         order = @helper.get_array_element_by_id(@orders, id)
@@ -394,7 +398,12 @@ class MarketService
                     can_remove: (o) ->
                         #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                         !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-                @helper.sort_array(@orders, "price", "quantity", false)
+
+                @helper.sort_array @orders, "price", "quantity", false, (a, b) ->
+                    return 1 if a.status == "unconfirmed" and b.status != "unconfirmed"
+                    return -1 if a.status != "unconfirmed" and b.status == "unconfirmed"
+                    return 0
+
                 if magic_unicorn?
                     magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
 

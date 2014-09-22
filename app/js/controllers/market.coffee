@@ -13,9 +13,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     # tabs
     $scope.tabs = []
-    $scope.tabs.push { heading: "market.buy", route: "market.buy", active: true }
-    $scope.tabs.push { heading: "market.sell", route: "market.sell", active: false }
-    $scope.tabs.push { heading: "market.short", route: "market.short", active: false }
+    $scope.tabs.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
+    $scope.tabs.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
+    $scope.tabs.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -129,8 +129,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
+        $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
-        #$scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -147,8 +147,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
+        $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(ask)
-        #$scope.ask = new MarketService.TradeData
 
     $scope.submit_short = ->
         form = @short_form
@@ -161,12 +161,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         else
             short.cost = short.quantity
             short.quantity = short.cost * short.collateral_ratio
-
         short.type = "short_order"
         short.display_type = "Short"
-
+        $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
-        #$scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->
@@ -184,7 +182,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short
             else $scope.bid
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
-        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.quantity_precision, true) if data.collateral_ratio
+        if data.collateral_ratio
+            ratio = if $scope.market.inverted then data.collateral_ratio else 1.0 / data.collateral_ratio
+            order.collateral_ratio = Utils.formatDecimal(ratio, $scope.market.price_precision, true)
+        order.short_price_limit =  Utils.formatDecimal(data.short_price_limit, $scope.market.price_precision, true) if data.short_price_limit
         if data.price
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001

@@ -124,8 +124,11 @@ class MarketHelper
     capitalize: (str) ->
         str.charAt(0).toUpperCase() + str.slice(1)
 
-    sort_array: (array, field, field2, reverse = false) ->
+    sort_array: (array, field, field2, reverse = false, sort_callback = null) ->
          array.sort (a, b) ->
+            if sort_callback
+                res = sort_callback(a,b)
+                return unless res == 0
             a = a[field]
             b = b[field]
             a2 = a[field2]

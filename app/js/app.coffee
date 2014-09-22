@@ -60,7 +60,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
 
     $idle.watch()
 
-app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
+
+    $tooltipProvider.options { appendToBody: true }
 
     $translateProvider.useStaticFilesLoader
         prefix: 'locale-',
