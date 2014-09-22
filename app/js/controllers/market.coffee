@@ -105,7 +105,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.unregisterObserver(account_balances_observer)
 
     $scope.flip_market = ->
-        console.log "flip market"
         $state.go('^.buy', {name: $scope.market.inverted_url})
 
     $scope.cancel_order = (id) ->
