@@ -20,8 +20,8 @@
         <tr>
           <td translate>account.memo</td><td>{{trx.memo}}</td>
         </tr>
-        <tr>
-          <td translate>account.vote_for</td><td>{{trx.vote}}</td>
+        <tr ng-show="xts_transfer">
+          <td translate>account.vote.vote_for</td><td>{{trx.vote}}</td>
         </tr>
       </table>
     </div>

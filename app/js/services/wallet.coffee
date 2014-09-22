@@ -175,7 +175,7 @@ class Wallet
             ,
             (error) =>
                 @blockchain_api.get_account(name).then (result) =>
-                    acct = @populate_account(result)
+                    acct = if result then @populate_account(result) else null
                     return acct
 
     approve_account: (name, approve) ->

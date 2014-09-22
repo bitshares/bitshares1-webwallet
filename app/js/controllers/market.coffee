@@ -22,32 +22,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
 
-    $scope.xAxisTickFormatPriceChart = ->
-        return (d) ->
-            return d3.time.format('%m/%e %H:%M')(new Date(d))
-    $scope.yAxisTickFormatPriceChart = ->
-        return (y) ->
-            precision = if y > 1000.0 then 0 else $scope.market.price_precision
-            Utils.formatDecimal(y, precision)
-    $scope.priceChartTooltip = ->
-        (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(y, $scope.market.price_precision)
-            time = d3.time.format('%m/%e/%y %H:%M:%S')(new Date(e.point[0]))
-            "<div class='chart-tooltip'><h4>#{key}</h4><p>#{price} #{$scope.market.price_symbol}</p><p>At #{time}</p></div>"
-
-    $scope.xAxisTickFormatOrderbookChart = ->
-        return (d) ->
-            return Utils.formatDecimal(d, price_decimals, true)
-    $scope.yAxisTickFormatOrderbookChart = ->
-        return (y) ->
-            precision = if y > 1000.0 then 0 else $scope.market.quantity_precision
-            return Utils.formatDecimal(y, precision, true)
-    $scope.orderbookChartTooltip = ->
-        (key, x, y, e, graph) ->
-            price = Utils.formatDecimal(x, $scope.market.price_precision, true)
-            "<div class='chart-tooltip'><p>#{$filter('translate')('market.chart.price')} #{price} #{$scope.market.price_symbol}</p>" +
-            "<p>#{$filter('translate')('market.chart.volume')} #{y} #{$scope.market.quantity_symbol}</p></div>"
-
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 
@@ -100,11 +74,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
-        # market base symbol is concated in template
-        if market.shorts_available
-            $scope.tabs[2].heading = "market.short"
-        else
-            $scope.tabs.splice(2,1)
         price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
@@ -115,14 +84,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         account_balances_observer.notify = (data) ->
             account.base_balance = data[market.asset_base_symbol] / market.base_precision
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
+            account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
 
     Wallet.refresh_accounts().then ->
-        $scope.accounts.splice(0, $scope.accounts.lenght)
+        $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
             $scope.accounts.push a if a.is_my_account
+
+    $scope.excludeOutOfRange = (item) -> not item.out_of_range
 
     $scope.$on "$destroy", ->
         $scope.showContextHelp false
@@ -158,7 +130,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(bid)
-        $scope.bid = new MarketService.TradeData
+        #$scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -176,34 +148,25 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(ask)
-        $scope.ask = new MarketService.TradeData
+        #$scope.ask = new MarketService.TradeData
 
     $scope.submit_short = ->
         form = @short_form
         $scope.clear_form_errors(form)
-        short = $scope.short
-        if short.price < $scope.market.min_short_price
-            form.short_price.$error.message = "market.tip.short_price_should_above_min_range"
-            return
-        #if short.price > $scope.market.max_short_price
-        #    form.short_price.$error.message = "market.tip.short_price_should_below_max_range"
-        #    return
-        short.cost = short.quantity * short.price
-        if short.cost < 100
-            form.$error.message = "Short amount cannot be less than 100 " + $scope.market.asset_base_symbol
-            return
-        if short.cost > $scope.account.base_balance
-            form.short_quantity.$error.message = 'market.tip.insufficient_balances'
-            return
+        short = angular.copy($scope.short)
+        short.price = $scope.market.shorts_price
+        console.log "------ submit_short ------>", $scope.market.inverted, short
+        if $scope.market.inverted
+            short.cost = short.quantity * short.collateral_ratio
+        else
+            short.cost = short.quantity
+            short.quantity = short.cost * short.collateral_ratio
+
         short.type = "short_order"
         short.display_type = "Short"
-        if $scope.market.highest_bid > 0
-            price_diff = 100 - 100.0 * short.price / $scope.market.highest_bid
-            if price_diff > 5
-                short.warning= "market.tip.short_price_too_low"
-                short.price_diff = Utils.formatDecimal(price_diff, 1)
+
         MarketService.add_unconfirmed_order(short)
-        $scope.short = new MarketService.TradeData
+        #$scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->
@@ -221,6 +184,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short
             else $scope.bid
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
+        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.quantity_precision, true) if data.collateral_ratio
         if data.price
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001
@@ -242,7 +206,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
                 scope.market = current_market.actual_market or current_market
                 original_order = order
-                console.log order
+                #console.log order
                 if !current_market.inverted
                     order = order.invert()
                 scope.v = {quantity: order.quantity, total: order.quantity}

@@ -348,7 +348,7 @@ li.stat {
 }
 
 input.ng-dirty.ng-invalid {
-	border: 1px solid #f00;
+	border: 1px solid #d97572;
 }
 
 .form-group span.text-muted {

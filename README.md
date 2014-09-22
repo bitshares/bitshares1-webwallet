@@ -1,57 +1,38 @@
-# BitShares XT Web Wallet
+# BitShares GUI (web wallet)
 
-## Installation
+This repository holds the BitShares graphical user interface, also
+known as the web wallet.  The web wallet is wrapped by the Qt client
+and released as part of the platform-specific BitShares binaries.
 
-This appplication uses Lineman.js to compile assets located in app and vendor directories, the output goes either into generated or into dist directories.
-The installation is very simple
+## Hacking
 
-Install node.js:
+To start hacking on the GUI, install Node.js and run these commands:
 
-   http://nodejs.org/download/
-
-Install Lineman and dependencies via the following commands:
-
-
-    $ npm install -g lineman  
     $ npm install
+    $ npm start
 
-Find more information here [https://travis-ci.org/linemanjs/lineman-angular-template](https://travis-ci.org/linemanjs/lineman-angular-template)
+Start another shell, navigate to the web wallet directory, and start
+the BitShares client:
 
+    $ bitshares_client --server \
+        --rpcuser=test --rpcpassword=test \
+        --httpdendpoint=127.0.0.1:5000
 
-## Usage
+The client finds the local GUI code and launches a web server, which
+you can access by opening <http://localhost:5000>.  You could also
+achieve this by setting the `htdocs` parameter in your config file.
 
-1. Specify path to web_wallet/generated as htdocs in client's config.json. e.g.
-```
-{
-  "rpc": {
-    "rpc_user": "test",
-    "rpc_password": "test",
-    "rpc_endpoint": "127.0.0.1:0",
-    "httpd_endpoint": "127.0.0.1:0",
-    "htdocs": "/Users/dlarimer/dev/web_wallet/generated"
-  },
-  "default_peers": [
-    "107.170.30.182:8764",
-    "114.215.104.153:8764",
-    "84.238.140.192:8764"
-  ],
-  "ignore_console": false,
-  "logging": {
-    "includes": [],
-    "appenders": [],
-    "loggers": []
-  }
-}
-```
+As long as you keep `npm start` running, the app will automatically be
+recompiled (into the `generated/` directory) whenever you make any
+changes to the source files in `app/`.
 
-2. Start either bitshares_client (with --server option).
-```
-./bitshares_client --data-dir w1 --server --httpport 9989
-```
+You will want to start by looking at `app/app.coffee` and then
+browsing the `app/templates` and `app/controllers` directories.
 
-3. Run lineman: $ lineman run
+## Notes
 
-4. Open http://localhost:9989, if application is working it should load the idex page (may ask for credentials if client is using HTTP Basic Auth)
+* If you are using Debian or Ubuntu, you may need to install the
+  `nodejs-legacy` package before you run `npm install`.
 
-5. Now you can edit application's html, js and css files located in web_wallet/app.
-
+* The Lineman.js framework (<http://linemanjs.com/>) is responsible
+  for most of the features in the development environment.

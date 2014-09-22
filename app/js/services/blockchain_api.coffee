@@ -13,6 +13,13 @@ class BlockchainAPI
     @rpc.request('blockchain_get_info').then (response) ->
       response.result
 
+  # Calculate the total base supply from the current blockchain database state
+  # parameters: 
+  # return_type: `asset`
+  calculate_base_supply:  ->
+    @rpc.request('blockchain_calculate_base_supply').then (response) ->
+      response.result
+
   # Returns true if the local blockchain is synced with the network; false otherwise
   # parameters: 
   # return_type: `bool`
@@ -67,6 +74,14 @@ class BlockchainAPI
     @rpc.request('blockchain_list_assets', [first_symbol, limit]).then (response) ->
       response.result
 
+  # returns all burn records associated with an account
+  # parameters: 
+  #   account_name `account_name` - the name of the account to fetch the burn records for
+  # return_type: `burn_records`
+  get_account_wall: (account_name) ->
+    @rpc.request('blockchain_get_account_wall', [account_name]).then (response) ->
+      response.result
+
   # Return a list of transactions that are not yet in a block.
   # parameters: 
   # return_type: `signed_transaction_array`
@@ -107,6 +122,23 @@ class BlockchainAPI
     @rpc.request('blockchain_get_account', [account]).then (response) ->
       response.result
 
+  # Retrieves the balance record for the given address
+  # parameters: 
+  #   address `owner_address` - address of the balance owner
+  # return_type: `balance_record`
+  get_balance: (owner_address) ->
+    @rpc.request('blockchain_get_balance', [owner_address]).then (response) ->
+      response.result
+
+  # Lists balance records starting at the given balance ID
+  # parameters: 
+  #   string `first_balance_id` - prefix of the first balance id to start at
+  #   uint32_t `limit` - the maximum number of items to list
+  # return_type: `balance_record_map`
+  list_balances: (first_balance_id, limit) ->
+    @rpc.request('blockchain_list_balances', [first_balance_id, limit]).then (response) ->
+      response.result
+
   # Retrieves the record for the given asset ticker symbol or ID
   # parameters: 
   #   string `asset` - asset ticker symbol or ID to retrieve
@@ -118,7 +150,7 @@ class BlockchainAPI
   # Retrieves all current feeds for the given asset
   # parameters: 
   #   string `asset` - asset ticker symbol or ID to retrieve
-  # return_type: `feed_record_list`
+  # return_type: `feed_entry_list`
   get_feeds_for_asset: (asset) ->
     @rpc.request('blockchain_get_feeds_for_asset', [asset]).then (response) ->
       response.result
@@ -126,26 +158,9 @@ class BlockchainAPI
   # Retrieves all current feeds published by the given delegate
   # parameters: 
   #   string `delegate_name` - the name of the delegate to list feeds from
-  # return_type: `feed_record_list`
+  # return_type: `feed_entry_list`
   get_feeds_from_delegate: (delegate_name) ->
     @rpc.request('blockchain_get_feeds_from_delegate', [delegate_name]).then (response) ->
-      response.result
-
-  # Returns the list of proposals
-  # parameters: 
-  #   uint32_t `first` - 
-  #   uint32_t `count` - 
-  # return_type: `proposal_array`
-  list_proposals: (first, count) ->
-    @rpc.request('blockchain_list_proposals', [first, count]).then (response) ->
-      response.result
-
-  # Returns the list votes filed for a given proposal.
-  # parameters: 
-  #   proposal_id `proposal_id` - The ID of the proposal that votes will be returned for.
-  # return_type: `proposal_vote_array`
-  get_proposal_votes: (proposal_id) ->
-    @rpc.request('blockchain_get_proposal_votes', [proposal_id]).then (response) ->
       response.result
 
   # Returns the bid side of the order book for a given market
@@ -186,6 +201,14 @@ class BlockchainAPI
     @rpc.request('blockchain_market_list_covers', [quote_symbol, limit]).then (response) ->
       response.result
 
+  # Returns the total collateral for an asset of a given type
+  # parameters: 
+  #   asset_symbol `symbol` - the symbol for the asset to count collateral for
+  # return_type: `share_type`
+  market_get_asset_collateral: (symbol) ->
+    @rpc.request('blockchain_market_get_asset_collateral', [symbol]).then (response) ->
+      response.result
+
   # Returns the long and short sides of the order book for a given market
   # parameters: 
   #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
@@ -202,9 +225,10 @@ class BlockchainAPI
   #   asset_symbol `base_symbol` - the item being bought in this market
   #   uint32_t `skip_count` - Number of transactions before head block to skip in listing
   #   uint32_t `limit` - The maximum number of transactions to list
-  # return_type: `market_transaction_array`
-  market_order_history: (quote_symbol, base_symbol, skip_count, limit) ->
-    @rpc.request('blockchain_market_order_history', [quote_symbol, base_symbol, skip_count, limit]).then (response) ->
+  #   string `owner` - If present, only transactions belonging to this owner key will be returned
+  # return_type: `order_history_record_array`
+  market_order_history: (quote_symbol, base_symbol, skip_count, limit, owner) ->
+    @rpc.request('blockchain_market_order_history', [quote_symbol, base_symbol, skip_count, limit, owner]).then (response) ->
       response.result
 
   # Returns a list of price spreads in the given timeframe for the specified market.
@@ -259,7 +283,7 @@ class BlockchainAPI
   #   uint32_t `start_block` - the first block number to consider
   #   uint32_t `end_block` - the last block number to consider
   #   string `filename` - the filename to save to
-  # return_type: `std::string`
+  # return_type: `string`
   export_fork_graph: (start_block, end_block, filename) ->
     @rpc.request('blockchain_export_fork_graph', [start_block, end_block, filename]).then (response) ->
       response.result
@@ -281,10 +305,10 @@ class BlockchainAPI
 
   # Get the delegate that signed a given block
   # parameters: 
-  #   uint32_t `block_number` - Block whose signing delegate to return
+  #   string `block` - block number or ID to retrieve the signee for
   # return_type: `string`
-  get_block_signee: (block_number) ->
-    @rpc.request('blockchain_get_block_signee', [block_number]).then (response) ->
+  get_block_signee: (block) ->
+    @rpc.request('blockchain_get_block_signee', [block]).then (response) ->
       response.result
 
   # Returns a list of market transactions executed on a given block.
@@ -302,6 +326,13 @@ class BlockchainAPI
   # return_type: `market_status`
   market_status: (quote_symbol, base_symbol) ->
     @rpc.request('blockchain_market_status', [quote_symbol, base_symbol]).then (response) ->
+      response.result
+
+  # Returns the total shares in the genesis block which have never been fully or partially claimed.
+  # parameters: 
+  # return_type: `asset`
+  unclaimed_genesis:  ->
+    @rpc.request('blockchain_unclaimed_genesis').then (response) ->
       response.result
 
 
