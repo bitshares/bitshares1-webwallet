@@ -86,7 +86,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
-        WalletAPI.get_transaction_fee(market.asset_quantity_symbol).then (tx_fee) ->
+        WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
                 $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
             

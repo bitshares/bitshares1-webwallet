@@ -1,7 +1,7 @@
-<form name="short_form" class="form-horizontal" role="form" ng-submit="submit_short()" novalidate>
+<form name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}}">
     <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.shorts_price, quantity: account.base_balance / market.shorts_price})"
-          tooltip="{{'account.name'|translate}}: {{account.name}}" tooltip-append-to-body="true">
+          tooltip="{{'account.name'|translate}}: {{account.name}}">
       {{account.short_balance | formatDecimal : market.base_precision}}</span>
   </div>
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}">
@@ -20,7 +20,5 @@
     {{short.quantity * short.collateral_ratio | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn>{{'market.short'|translate}} {{market.quantity_symbol}}</button>
-  <span class="help-block col-sm-offset-4" ng-show="tx_fee">
-       (Less fee: {{tx_fee}} {{market.quantity_symbol}})</span>
+  <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.quantity_symbol}}">{{'market.short'|translate}} {{market.quantity_symbol}}</button>
 </form>
