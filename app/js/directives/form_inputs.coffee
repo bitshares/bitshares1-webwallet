@@ -48,19 +48,32 @@ angular.module("app.directives").directive "inputName", ->
             $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
             $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
 
-angular.module("app.directives").directive "inputPositiveNumber", ->
+angular.module("app.directives").directive "inputPositiveNumber", ($compile) ->
     template: '''
-        <input class="form-control" placeholder="0.0" />
+        <input class="form-control" placeholder="0.0 {{required ? '' : '(optional)'}}" />
     '''
     restrict: "E"
     replace: true
     require: "ngModel"
 
-    link: (scope, elm, attrs, ctrl) ->
+    scope:
+        required: "="
+        #placeholder: "="
+
+    link: (scope, element, attrs, ctrl) ->
+        element.after('''<i class="fa fa-question-circle" popover="popover text"
+                  popover-append-to-body="true"
+                  popover-trigger="mouseenter"></i>''')
+        element.parent().addClass("right-inner-addon")
+        $compile(element.contents())(scope)
 
         validator = (viewValue) ->
             #console.log "------ inputPositiveNumber viewValue 0 ------>", viewValue
             res = null
+            if viewValue == "" and not scope.required
+                ctrl.$setValidity "float", true
+                return 0
+
             if /^[\d\.\,\+]+$/.test(viewValue)
                 #console.log "------ inputPositiveNumber viewValue 1 ------>", viewValue
                 ctrl.$setValidity "float", true
