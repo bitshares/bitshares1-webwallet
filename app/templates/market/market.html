@@ -56,8 +56,8 @@
             <em>{{market.price_symbol}}</em>
           </span>
         </li>
-        <li ng-show="market.center_price" class="stat col-sm-2">
-          <span>1h&nbsp;{{'market.avg_price'|translate}}<br/><b class="value">{{market.center_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        <li ng-show="market.avg_price_1h" class="stat col-sm-2">
+          <span>1h&nbsp;{{'market.avg_price'|translate}}<br/><b class="value">{{market.avg_price_1h | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li class="stat col-sm-2">
           <span>{{'market.bid_depth'|translate}}<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
@@ -122,7 +122,7 @@
             price-symbol="market.price_symbol"
             price-precision="market.price_precision"
             inverted-market="market.inverted"
-            avgprice1h="market.center_price">
+            avgprice1h="market.avg_price_1h">
         </orderbookchart>
       </div>
       <div class="col-sm-6">
