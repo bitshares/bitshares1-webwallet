@@ -84,6 +84,10 @@ div.fixed-height-table {
 	background-color: #FFF6E8 !important;
 }
 
+.market-table tr.unconfirmed:not(.warning) td {
+	border-top: none;
+}
+
 .market-table tr.pending td {
 	background-color: #e4f4d4 !important;
 }
@@ -144,4 +148,38 @@ div.fixed-height-table {
 	padding: 2px 0;
 	margin: 0;
 	text-align: left;
+}
+
+.tab-buy.active > a {
+	border-top: 2px solid #2ca02c !important;
+	color: #2ca02c !important;
+}
+
+.tab-buy > a:hover {
+	color: #2ca02c !important;
+}
+
+.tab-sell.active > a {
+	border-top: 2px solid #ff7f0e !important;
+	color: #ff7f0e !important;
+}
+
+.tab-sell > a:hover {
+	color: #ff7f0e !important;
+}
+
+.tab-short > a:hover {
+	color: #7cb5ec !important;
+}
+
+.market-table tr.bid_order {
+	color: #2ca02c;
+}
+
+.market-table tr.ask_order {
+	color: #ff7f0e;
+}
+
+.market-table tr.short_order {
+	color: #7cb5ec;
 }

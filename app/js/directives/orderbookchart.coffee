@@ -95,7 +95,6 @@ angular.module("app.directives").directive "orderbookchart", ->
         priceSymbol: "="
         pricePrecision: "="
         invertedMarket: "="
-#        avgprice1h: "="
 
     controller: ($scope, $element, $attrs, Utils) ->
         #console.log "orderbookchart controller"

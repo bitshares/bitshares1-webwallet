@@ -32,7 +32,7 @@ initChart = (scope) ->
         series: [
             name: "Shorts Collateralization"
             data: scope.shortscollatArray
-            #color: "#2ca02c"
+            color: "#7cb5ec"
             lineWidth: 1
         ]
 
@@ -48,7 +48,7 @@ addPlotLine = (chart, value) ->
         dashStyle: "longdashdot"
         value: value
         width: 1
-        label: {text: 'Short Price'}
+        label: {text: 'Feed Price'}
         zIndex: 5
 
 removePlotLine = (chart) ->

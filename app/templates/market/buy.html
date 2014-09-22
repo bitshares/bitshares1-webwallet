@@ -1,9 +1,7 @@
 <form name="buy_form" class="form-horizontal" role="form" ng-submit="submit_bid()" novalidate>
-  <div form-hgroup-value label="Account">
-    <span>{{account.name}}</span>
-  </div>
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{market.base_symbol}}">
-    <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask, quantity: account.base_balance/market.lowest_ask})">
+    <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask, quantity: account.base_balance/market.lowest_ask})"
+          tooltip="{{'account.name'|translate}}: {{account.name}}" tooltip-append-to-body="true">
       {{account.base_balance | formatDecimal : market.base_precision}}</span>
   </div>
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
