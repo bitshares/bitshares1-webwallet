@@ -71,7 +71,7 @@ span.cell {
 }
 
 div.fixed-height-table {
-	max-height: 300px;
+	max-height: 320px;
 	overflow-y: scroll;
 	overflow-x: hidden;
 }
@@ -182,4 +182,8 @@ div.fixed-height-table {
 
 .market-table tr.short_order {
 	color: #7cb5ec;
+}
+
+tr.short_wall {
+	background-color: #E4F0FB;
 }

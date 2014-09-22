@@ -9,7 +9,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="o in asks | filter:excludeOutOfRange" ng-click="use_trade_data({price: o.price, quantity: o.quantity})">
+      <tr ng-repeat="o in asks | filter:excludeOutOfRange" ng-click="use_trade_data({price: o.price, quantity: o.quantity})" class="{{o.type}}">
         <td ng-show="market.inverted">{{o.display_type}}</td>
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}

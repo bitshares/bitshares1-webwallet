@@ -13,6 +13,9 @@ initChart = (scope) ->
         title:
             text: null
 
+        credits:
+            enabled: false
+
         legend:
             verticalAlign: "top"
             #align: "right"

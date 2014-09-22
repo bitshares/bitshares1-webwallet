@@ -13,6 +13,9 @@ initChart = (scope) ->
         title:
             text: null
 
+        credits:
+            enabled: false
+
         legend:
             verticalAlign: "top"
             #align: "right"
@@ -41,12 +44,13 @@ initChart = (scope) ->
                 marker:
                     enabled: false
 
-addPlotLine = (chart, value) ->
+addPlotLine = (chart, value, inverted) ->
+    price = if inverted then value else 1.0/value
     chart.xAxis[0].addPlotLine
         id: "shorts_price"
         color: "#555"
         dashStyle: "longdashdot"
-        value: value
+        value: price
         width: 1
         label: {text: 'Feed Price'}
         zIndex: 5
@@ -82,7 +86,7 @@ angular.module("app.directives").directive "shortscollatchart", ->
         scope.$watch "shortscollatArray", (value) =>
             if value and not chart
                 chart = initChart(scope)
-                addPlotLine(chart, scope.shortsPrice)
+                addPlotLine(chart, scope.shortsPrice, scope.invertedMarket)
             else if chart
                 chart.series[0].setData value, true
         , true
@@ -90,4 +94,4 @@ angular.module("app.directives").directive "shortscollatchart", ->
         scope.$watch "shortsPrice", (value) =>
             return unless chart
             removePlotLine(chart)
-            addPlotLine(chart, value)
+            addPlotLine(chart, value, scope.invertedMarket)
