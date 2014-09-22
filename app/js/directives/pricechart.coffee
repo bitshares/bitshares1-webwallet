@@ -4,6 +4,9 @@ initChart = (scope) ->
         chart:
             renderTo: "pricechart"
 
+        credits:
+            enabled: false
+
         title:
             text: null #"Price history "
 

@@ -404,9 +404,6 @@ class MarketService
                     return -1 if a.status != "unconfirmed" and b.status == "unconfirmed"
                     return 0
 
-                if magic_unicorn?
-                    magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
-
                 deferred.resolve(true)
 
             , (error) -> deferred.reject(error)
@@ -542,8 +539,11 @@ class MarketService
                     continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
                     #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
                     sum_shorts += if self.market.inverted then s.quantity else s.cost
-                    self.helper.add_to_order_book_chart_array(shorts_array, s.price, sum_shorts)
-                self.helper.add_to_order_book_chart_array(shorts_array, self.market.shorts_price, sum_shorts)
+                    price = if self.market.inverted then s.price else 1.0/s.price
+                    self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
+
+                shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
+                self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
 
                 shorts_array.sort (a,b) -> a[0] - b[0]
                 self.market.shortscollat_chart_data = { array: shorts_array }
@@ -563,28 +563,27 @@ class MarketService
             self.market.price_precision = market.price_precision = 4 if self.market.feed_price > 1.0
             # override with median if it exists
             # TODO, median_price removed .. "finally" block remain intact
-            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
-            feeds_promise.then (result) ->
-                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
-                if res.length > 0
-                    price = if self.market.inverted then 1.0/res[0] else res[0]
-                    self.market.median_price = market.median_price = price
-                else
-                    self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
+#            feeds_promise.then (result) ->
+#                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+#                if res.length > 0
+#                    price = if self.market.inverted then 1.0/res[0] else res[0]
+#                    self.market.median_price = market.median_price = price
+#                else
+#                    self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise.catch ->
+#                self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise.finally ->
 
-            feeds_promise.catch ->
-                self.market.median_price = market.median_price = self.market.feed_price
-
-            feeds_promise.finally ->
-                actual_market = self.market.get_actual_market()
-                self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                    actual_market.collateral = amount / actual_market.quantity_precision
-                    self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
-                        supply = record["current_share_supply"] / actual_market.base_precision
-                        actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                        deferred.resolve(true)
-                , (error) ->
-                    deferred.reject(error)
+            actual_market = self.market.get_actual_market()
+            self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
+                actual_market.collateral = amount / actual_market.quantity_precision
+                self.blockchain_api.get_asset( actual_market.base_asset.id ).then (record) =>
+                    supply = record["current_share_supply"] / actual_market.base_precision
+                    actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
+                    deferred.resolve(true)
+            , (error) ->
+                deferred.reject(error)
 
         , (error) ->
                 deferred.reject(error)

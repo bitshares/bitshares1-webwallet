@@ -39,15 +39,18 @@ angular.module("app.directives", []).directive "formHgroup", ->
 
 angular.module("app.directives").directive "formHgroupSubmitBtn", ->
     template: '''
-    <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8 no-lr-padding">
+    <div class="form-group hgroup-button">
+        <div class="col-sm-offset-4 col-sm-2 no-lr-padding">
             <button type="submit" class="btn btn-primary"><span ng-transclude></span></button>
         </div>
+        <div class="col-sm-6"><span class="help-block">{{help}}</span></div>
     </div>
     '''
     replace: true
     transclude: true
     require: "^form"
+    scope:
+        help: "@"
 
     link: (scope, element, attrs, formController) ->
         watchExpression = formController.$name + ".$valid"

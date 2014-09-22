@@ -18,7 +18,7 @@
       </tr>
       <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}">
         <td>{{('market.order_type.'+o.type) | translate}}</td>
-        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
+        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
         <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
@@ -35,7 +35,7 @@
               <button class="btn btn-success btn-xs confirm" ng-click="cover_order(o)" translate>btn.cover</button>
             </span>
             <span ng-switch-default>
-              <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" translate>btn.cancel</button><br/>
+              <button class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" tooltip="Fee {{tx_fee}} {{market.base_symbol}}" translate>btn.cancel</button><br/>
             </span>
           </span>
         </td>

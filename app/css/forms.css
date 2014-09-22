@@ -34,3 +34,7 @@ span.help-block {
     /*pointer-events: none;*/
 		color: #999;
 }
+
+.hgroup-button {
+	margin-bottom: 0;
+}

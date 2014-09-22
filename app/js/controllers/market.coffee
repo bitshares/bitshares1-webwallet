@@ -24,7 +24,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
-
+        
     account_balances_observer =
         name: "account_balances_observer"
         frequency: "each_block"
@@ -86,9 +86,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
+        WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
+            Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
+            
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
-
+    
     Wallet.refresh_accounts().then ->
         $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
@@ -104,8 +108,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
 
+        
     $scope.flip_market = ->
-        console.log "flip market"
         $state.go('^.buy', {name: $scope.market.inverted_url})
 
     $scope.cancel_order = (id) ->
