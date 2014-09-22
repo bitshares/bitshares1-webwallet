@@ -58,7 +58,7 @@ class Market
         @collateral_symbol = ''
         @bid_depth = 0.0
         @ask_depth = 0.0
-        @avg_price_1h = 0.0
+        @feed_price = 0.0
         @highest_bid = 0.0
         @lowest_ask = 0.0
         @median_price = 0.0
@@ -93,7 +93,7 @@ class Market
         m.ask_depth = @ask_depth
         m.highest_bid = @highest_bid
         m.lowest_ask = @lowest_ask
-        m.avg_price_1h = @avg_price_1h
+        m.feed_price = @feed_price
         m.median_price = @median_price
         m.shorts_price = @shorts_price
         m.assets_by_id = @assets_by_id
@@ -506,17 +506,17 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 # order book chart data
-                if self.market.avg_price_1h > 0.0
+                if self.market.feed_price > 0.0
                     sum_asks = 0.0
                     asks_array = []
                     for a in self.asks
-                        continue if a.price > 1.5 * self.market.avg_price_1h or a.price < 0.5 * self.market.avg_price_1h
+                        continue if a.price > 1.5 * self.market.feed_price or a.price < 0.5 * self.market.feed_price
                         sum_asks += a.quantity
                         self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
                     sum_bids = 0.0
                     bids_array = []
                     for b in self.bids
-                        continue if b.price > 1.5 * self.market.avg_price_1h or b.price < 0.5 * self.market.avg_price_1h
+                        continue if b.price > 1.5 * self.market.feed_price or b.price < 0.5 * self.market.feed_price
                         sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
                     bids_array.sort (a,b) -> a[0] - b[0]
@@ -551,8 +551,9 @@ class MarketService
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
-            self.market.price_precision = market.price_precision = 4 if self.market.avg_price_1h > 1.0
+            self.market.price_precision = market.price_precision = 4 if self.market.feed_price > 1.0
             # override with median if it exists
+            # TODO, median_price removed .. "finally" block remain intact
             feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
             feeds_promise.then (result) ->
                 res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
@@ -560,10 +561,10 @@ class MarketService
                     price = if self.market.inverted then 1.0/res[0] else res[0]
                     self.market.median_price = market.median_price = price
                 else
-                    self.market.median_price = market.median_price = self.market.avg_price_1h
+                    self.market.median_price = market.median_price = self.market.feed_price
 
             feeds_promise.catch ->
-                self.market.median_price = market.median_price = self.market.avg_price_1h
+                self.market.median_price = market.median_price = self.market.feed_price
 
             feeds_promise.finally ->
                 actual_market = self.market.get_actual_market()
