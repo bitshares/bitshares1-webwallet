@@ -49,15 +49,8 @@
 <div class="main-content market">
 
       <ul class="row market-stats stats">
-        <li ng-show="market.median_price" class="stat col-sm-2">
-          <span>
-            <a href="#/assets/{{market.asset_quantity_symbol}}">{{'market.median_price'|translate}}</a><br/>
-            <b class="value">{{market.median_price | formatDecimal : market.price_precision : true}}</b><br/>
-            <em>{{market.price_symbol}}</em>
-          </span>
-        </li>
-        <li ng-show="market.center_price" class="stat col-sm-2">
-          <span>1h&nbsp;{{'market.avg_price'|translate}}<br/><b class="value">{{market.center_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        <li ng-show="market.feed_price" class="stat col-sm-2">
+          <span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li class="stat col-sm-2">
           <span>{{'market.bid_depth'|translate}}<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
@@ -73,7 +66,7 @@
         </li>
       </ul>
 
-    <div class="row">
+    <div class="row m-bottom">
       <div class="col-sm-12">
         <pricechart ng-show="market.price_history.length"
             pricedata="market.price_history"
@@ -89,7 +82,7 @@
 
       <div class="col-md-5">
         <tabset>
-          <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active">
+          <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
             <div class="panel">
               <div class="panel-body">
                 <div ui-view></div>
@@ -121,8 +114,7 @@
             volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
             price-symbol="market.price_symbol"
             price-precision="market.price_precision"
-            inverted-market="market.inverted"
-            avgprice1h="market.center_price">
+            inverted-market="market.inverted">
         </orderbookchart>
       </div>
       <div class="col-sm-6">

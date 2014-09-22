@@ -58,7 +58,7 @@ class Market
         @collateral_symbol = ''
         @bid_depth = 0.0
         @ask_depth = 0.0
-        @center_price = 0.0
+        @feed_price = 0.0
         @highest_bid = 0.0
         @lowest_ask = 0.0
         @median_price = 0.0
@@ -93,7 +93,7 @@ class Market
         m.ask_depth = @ask_depth
         m.highest_bid = @highest_bid
         m.lowest_ask = @lowest_ask
-        m.center_price = @center_price
+        m.feed_price = @feed_price
         m.median_price = @median_price
         m.shorts_price = @shorts_price
         m.assets_by_id = @assets_by_id
@@ -216,7 +216,11 @@ class MarketService
         o.id = "o" + @id_sequence
         o.status = "unconfirmed"
         @orders.unshift o
-        @helper.sort_array(@orders, "price", "quantity")
+
+        @helper.sort_array @orders, "price", "quantity", false, (a, b) ->
+                    return 1 if a.status == "unconfirmed" and b.status != "unconfirmed"
+                    return -1 if a.status != "unconfirmed" and b.status == "unconfirmed"
+                    return 0
 
     cancel_order: (id) ->
         order = @helper.get_array_element_by_id(@orders, id)
@@ -330,22 +334,14 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
-
-                short_collateral_ratio_condition = (not inverted and td.price < shorts_price) or (inverted and td.price > shorts_price)
-                short_price_limit_condition = true
-                if td.short_price_limit
-                    short_price_limit_condition = (not inverted and td.short_price_limit > shorts_price) or (inverted and td.short_price_limit < shorts_price)
-
-                if short_collateral_ratio_condition and short_price_limit_condition
-                    #console.log "------ adding to short wall ------>", short_collateral_ratio_condition, short_price_limit_condition, td.cost, td.quantity, td.price
+                if @helper.is_in_short_wall(td, shorts_price, inverted)
+                    #console.log "------ adding to short wall ------>", td.cost, td.quantity, td.price, shorts_price
                     short_wall.cost += td.cost
                     short_wall.quantity += td.quantity
                     if inverted
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
                         @highest_bid = shorts_price if shorts_price > @highest_bid
-
-                td.valid_short = short_collateral_ratio_condition
 
                 shorts.push td
 
@@ -402,9 +398,11 @@ class MarketService
                     can_remove: (o) ->
                         #!(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
                         !(o.status == "unconfirmed" or (o.status == "pending" and !o.expired()))
-                @helper.sort_array(@orders, "price", "quantity", false)
-                if magic_unicorn?
-                    magic_unicorn.log_message("in MarketService.pull_orders - received orders: #{results.length}, orders shown: #{@orders.length}")
+
+                @helper.sort_array @orders, "price", "quantity", false, (a, b) ->
+                    return 1 if a.status == "unconfirmed" and b.status != "unconfirmed"
+                    return -1 if a.status != "unconfirmed" and b.status == "unconfirmed"
+                    return 0
 
                 deferred.resolve(true)
 
@@ -514,17 +512,17 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 # order book chart data
-                if self.market.center_price > 0.0
+                if self.market.feed_price > 0.0
                     sum_asks = 0.0
                     asks_array = []
                     for a in self.asks
-                        continue if a.price > 1.5 * self.market.center_price or a.price < 0.5 * self.market.center_price
+                        continue if a.price > 1.5 * self.market.feed_price or a.price < 0.5 * self.market.feed_price
                         sum_asks += a.quantity
                         self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
                     sum_bids = 0.0
                     bids_array = []
                     for b in self.bids
-                        continue if b.price > 1.5 * self.market.center_price or b.price < 0.5 * self.market.center_price
+                        continue if b.price > 1.5 * self.market.feed_price or b.price < 0.5 * self.market.feed_price
                         sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
                     bids_array.sort (a,b) -> a[0] - b[0]
@@ -538,11 +536,14 @@ class MarketService
                 sum_shorts = 0.0
                 shorts_array = []
                 for s in self.shorts
-                    continue unless s.valid_short
+                    continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
                     #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
                     sum_shorts += if self.market.inverted then s.quantity else s.cost
-                    self.helper.add_to_order_book_chart_array(shorts_array, s.price, sum_shorts)
-                self.helper.add_to_order_book_chart_array(shorts_array, self.market.shorts_price, sum_shorts)
+                    price = if self.market.inverted then s.price else 1.0/s.price
+                    self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
+
+                shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
+                self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
 
                 shorts_array.sort (a,b) -> a[0] - b[0]
                 self.market.shortscollat_chart_data = { array: shorts_array }
@@ -559,30 +560,30 @@ class MarketService
         market = self.market.get_actual_market()
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
-            self.market.price_precision = market.price_precision = 4 if self.market.center_price > 1.0
+            self.market.price_precision = market.price_precision = 4 if self.market.feed_price > 1.0
             # override with median if it exists
-            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
-            feeds_promise.then (result) ->
-                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
-                if res.length > 0
-                    price = if self.market.inverted then 1.0/res[0] else res[0]
-                    self.market.median_price = market.median_price = price
-                else
-                    self.market.median_price = market.median_price = self.market.center_price
+            # TODO, median_price removed .. "finally" block remain intact
+#            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
+#            feeds_promise.then (result) ->
+#                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+#                if res.length > 0
+#                    price = if self.market.inverted then 1.0/res[0] else res[0]
+#                    self.market.median_price = market.median_price = price
+#                else
+#                    self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise.catch ->
+#                self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise.finally ->
 
-            feeds_promise.catch ->
-                self.market.median_price = market.median_price = self.market.center_price
-
-            feeds_promise.finally ->
-                actual_market = self.market.get_actual_market()
-                self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                    actual_market.collateral = amount / actual_market.quantity_precision
-                    self.blockchain_api.get_asset( actual_market.asset_base_symbol ).then (record) =>
-                        supply = record["current_share_supply"] / actual_market.base_precision
-                        actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                        deferred.resolve(true)
-                , (error) ->
-                    deferred.reject(error)
+            actual_market = self.market.get_actual_market()
+            self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
+                actual_market.collateral = amount / actual_market.quantity_precision
+                self.blockchain_api.get_asset( actual_market.base_asset.id ).then (record) =>
+                    supply = record["current_share_supply"] / actual_market.base_precision
+                    actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
+                    deferred.resolve(true)
+            , (error) ->
+                deferred.reject(error)
 
         , (error) ->
                 deferred.reject(error)

@@ -23,8 +23,8 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
       if (Info.info.client_version)
         cancel()
         $scope.client_version = Info.info.client_version
-        if $scope.client_version != "v0.4.15-b"
-            $scope.update_available = true
+        #if $scope.client_version != "testnet"
+        #    $scope.update_available = true
 
 
     $scope.submitForm = ->

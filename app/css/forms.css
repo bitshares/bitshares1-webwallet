@@ -19,3 +19,22 @@ span.help-block {
 	margin-bottom: 0;
 	font-size: 90%;
 }
+
+.right-inner-addon {
+    position: relative;
+}
+.right-inner-addon input {
+    padding-right: 30px;
+		z-index: 0 !important;
+}
+.right-inner-addon i {
+    position: absolute;
+    right: 0px;
+    padding: 10px 12px;
+    /*pointer-events: none;*/
+		color: #999;
+}
+
+.hgroup-button {
+	margin-bottom: 0;
+}

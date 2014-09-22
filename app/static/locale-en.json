@@ -176,7 +176,7 @@
         "all_markets": "All Markets",
         "recent_markets": "Recent Markets",
         "median_price": "Median Price",
-        "avg_price": "Avg. Price",
+        "feed_price": "Feed Price",
         "bid_depth": "Bid Depth",
         "ask_depth": "Ask Depth",
         "buy": "Buy",
