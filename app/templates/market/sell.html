@@ -18,4 +18,6 @@
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn>{{'market.sell'|translate}} {{market.quantity_symbol}}</button>
+  <span class="help-block col-sm-offset-4" ng-show="tx_fee">
+       (Less fee: {{tx_fee}} {{market.quantity_symbol}})</span>
 </form>
