@@ -12,10 +12,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     price_decimals = 4
 
     # tabs
-    $scope.tabs = []
-    $scope.tabs.push { heading: "market.buy", route: "market.buy", active: true }
-    $scope.tabs.push { heading: "market.sell", route: "market.sell", active: false }
-    $scope.tabs.push { heading: "market.short", route: "market.short", active: false }
+    tabs_basic = []
+    tabs_advanced = []
+    tabs_basic.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
+    tabs_basic.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
+    tabs_advanced = tabs_basic.slice 0
+    tabs_advanced.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+    if $scope.advanced
+        $scope.tabs = tabs_advanced
+    else
+        $scope.tabs = tabs_basic
+
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -107,6 +114,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.flip_market = ->
         console.log "flip market"
         $state.go('^.buy', {name: $scope.market.inverted_url})
+
+    $scope.flip_advanced = ->
+        $scope.advanced = ! $scope.advanced
+        if $scope.advanced
+            $scope.tabs = tabs_advanced
+        else
+            $scope.tabs = tabs_basic
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
