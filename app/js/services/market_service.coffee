@@ -271,8 +271,9 @@ class MarketService
     post_short: (short, account) ->
         #if @market.inverted then 1.0/short.price else short.price
         actual_market = @market.get_actual_market()
-        console.log "---- before market_submit_short ----", account.name, short.quantity, short.collateral_ratio, short.short_price_limit,  actual_market.asset_base_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, short.short_price_limit)
+        amount = if @market.inverted then short.quantity else short.cost
+        console.log "---- before market_submit_short ----", account.name, amount, short.collateral_ratio, short.short_price_limit,  actual_market.asset_base_symbol
+        call = @wallet_api.market_submit_short(account.name, amount, actual_market.asset_base_symbol, short.collateral_ratio, short.short_price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
