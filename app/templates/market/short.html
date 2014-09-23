@@ -20,5 +20,5 @@
     {{short.quantity * short.collateral_ratio | formatDecimal : market.base_precision}}
   </div>
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.quantity_symbol}}">{{'market.short'|translate}} {{market.quantity_symbol}}</button>
+  <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.quantity_symbol}}">{{'market.short'|translate}} {{actual_market.base_symbol}}</button>
 </form>

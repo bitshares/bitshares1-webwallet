@@ -24,35 +24,8 @@ initChart = (scope) ->
             formatter: ->
                 "<b>#{@series.name}</b><br/>Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
 
-
         xAxis:
             title: "Price " + scope.priceSymbol
-
-#            plotLines: [
-#                color: "#555"
-#                dashStyle: "longdashdot"
-#                value: scope.avgprice1h
-#                width: "1"
-#                label: {text: 'Feed Price'}
-#                zIndex: 5
-#            ,
-#                color: "red"
-#                dashStyle: "longdashdot"
-#                value: scope.maxshortprice
-#                width: "1"
-#                label: {text: 'Shorts Limit'}
-#                zIndex: 5
-#            ]
-
-#            plotBands: [
-#                color: "#eee"
-#                from: shorts_range_begin
-#                to: shorts_range_end
-#                label:
-#                    text: "Shorts Range"
-#                    #align: "right"
-#                #zIndex: 10
-#            ]
 
         yAxis:
             title: ""
@@ -84,20 +57,31 @@ initChart = (scope) ->
                 marker:
                     enabled: false
 
+addPlotLine = (chart, value) ->
+    chart.xAxis[0].addPlotLine
+        id: "feed_price"
+        color: "#555"
+        dashStyle: "longdashdot"
+        value: value
+        width: 1
+        label: {text: 'Price Feed'}
+        zIndex: 5
+
+removePlotLine = (chart) ->
+    chart.xAxis[0].removePlotLine "shorts_price"
+
 angular.module("app.directives").directive "orderbookchart", ->
     restrict: "E"
     replace: true
     scope:
         bidsArray: "="
         asksArray: "="
-#        shortsArray: "="
-#        shortsDemandArray: "="
-#        shortsRange: "="
         volumeSymbol: "="
         volumePrecision: "="
         priceSymbol: "="
         pricePrecision: "="
         invertedMarket: "="
+        feedPrice: "="
 
     controller: ($scope, $element, $attrs, Utils) ->
         #console.log "orderbookchart controller"
@@ -114,6 +98,7 @@ angular.module("app.directives").directive "orderbookchart", ->
         scope.$watch "bidsArray", (value) =>
             if value and not chart
                 chart = initChart(scope)
+                addPlotLine(chart, scope.feedPrice)
             else if chart
                 chart.series[0].setData value, true
         , true
@@ -123,13 +108,8 @@ angular.module("app.directives").directive "orderbookchart", ->
             chart.series[1].setData value, true
         , true
 
-#        scope.$watch "shortsArray", (value) =>
-#            return unless chart
-#            chart.series[2].setData value, true
-#        , true
-#
-#        scope.$watch "shortsDemandArray", (value) =>
-#            return unless chart
-#            chart.series[3].setData value, true
-#        , true
+        scope.$watch "feedPrice", (value) =>
+            return unless chart
+            removePlotLine(chart)
+            addPlotLine(chart, value)
 
