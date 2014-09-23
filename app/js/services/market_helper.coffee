@@ -199,4 +199,12 @@ class MarketHelper
             short_price_limit_condition = (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
         return short_collateral_ratio_condition and short_price_limit_condition
 
+    to_float: (value) ->
+        return null if value is undefined or value is null
+        str_value = value+""
+        return null unless /^[\d\.\,\+]+$/.test(str_value)
+        if str_value.indexOf(",") > -1
+            return parseFloat str_value.replace(",", "")
+        return parseFloat value
+
 angular.module("app").service("MarketHelper", ["$filter", "Utils",  MarketHelper])
