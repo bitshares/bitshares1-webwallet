@@ -17,7 +17,7 @@
     Feed Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.shorts_price, short_price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{actual_market.quantity_symbol}}" show-value="{{short_form.$valid}}">
-    {{short.quantity * short.collateral_ratio | formatDecimal : market.base_precision}}
+    {{short.total}}
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.quantity_symbol}}">{{'market.short'|translate}} {{actual_market.base_symbol}}</button>
