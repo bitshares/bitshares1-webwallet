@@ -58,7 +58,6 @@ angular.module("app.directives").directive "inputPositiveNumber", ($compile, $to
 
     scope:
         required: "="
-        #placeholder: "="
 
     link: (scope, element, attrs, ctrl) ->
 #        console.log "------ $tooltip ------>", $tooltip
@@ -88,10 +87,11 @@ angular.module("app.directives").directive "inputPositiveNumber", ($compile, $to
 
         ctrl.$parsers.unshift validator
 
-        scope.$watch attrs.ngModel, (newValue) ->
-            #console.log "------ $watch ------>", newValue
-            return unless newValue
-            res = validator(newValue)
-            #console.log "------ $setViewValue ------>", newValue, res
-            ctrl.$setViewValue(newValue)
-            scope.$eval(attrs.ngModel + "=" + res)
+
+#        scope.$watch attrs.ngModel, (newValue) ->
+#            #console.log "------ $watch ------>", attrs.ngModel, newValue
+#            return unless newValue
+#            res = validator(newValue)
+#            #console.log "------ $setViewValue ------>", newValue, res
+#            ctrl.$setViewValue(newValue)
+#            scope.$eval(attrs.ngModel + "=" + res)
