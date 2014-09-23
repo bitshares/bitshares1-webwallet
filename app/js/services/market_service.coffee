@@ -1,5 +1,7 @@
 class TradeData
 
+    @helper: null
+
     constructor: ->
         @type = null
         @id = null
@@ -13,6 +15,7 @@ class TradeData
         @display_type = null
         @collateral_ratio = null
         @short_price_limit = null
+        @total = 0.0
 
     invert: ->
         td = new TradeData()
@@ -23,12 +26,23 @@ class TradeData
         td.quantity = @cost
         td.cost = @quantity
         td.collateral = @collateral
-        #td.price = if @price and @price > 0.0 then 1.0 / @price else 0.0
-        td.price = 1.0 / @price
+        td.price = 1.0 / @price if @price and @price > 0.0
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
         td.short_price_limit = 1.0 / @short_price_limit
+        td.total = @total
+        return td
+
+    clone_and_normalize: ->
+        td = angular.copy(@)
+        td.quantity = TradeData.helper.to_float(@quantity)
+        td.cost = TradeData.helper.to_float(@cost)
+        td.collateral = TradeData.helper.to_float(@collateral)
+        td.price = TradeData.helper.to_float(@price)
+        td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
+        td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
+        td.total = TradeData.helper.to_float(@total)
         return td
 
     touch: ->
@@ -123,7 +137,8 @@ class MarketService
     loading_promise: null
 
     constructor: (@q, @interval, @log, @wallet, @wallet_api, @blockchain, @blockchain_api, @helper) ->
-
+        window.hlp = @helper
+        TradeData.helper = @helper
 
     load_recent_markets: ->
         return if @recent_markets.length > 0
@@ -211,7 +226,7 @@ class MarketService
             , => deferred.reject("Cannot initialize market module, failed to get assets data.")
 
     add_unconfirmed_order: (order) ->
-        o = angular.copy(order)
+        o = order #o = angular.copy(order)
         @id_sequence += 1
         o.id = "o" + @id_sequence
         o.status = "unconfirmed"

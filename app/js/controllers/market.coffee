@@ -120,7 +120,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.submit_bid = ->
         form = @buy_form
         $scope.clear_form_errors(form)
-        bid = $scope.bid
+        bid = $scope.bid.clone_and_normalize()
         bid.cost = bid.quantity * bid.price
         if bid.cost > $scope.account.base_balance
             form.bid_quantity.$error.message = 'market.tip.insufficient_balances'
@@ -139,7 +139,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.submit_ask = ->
         form = @sell_form
         $scope.clear_form_errors(form)
-        ask = $scope.ask
+        ask = $scope.ask.clone_and_normalize()
         ask.cost = ask.quantity * ask.price
         if ask.quantity > $scope.account.quantity_balance
             form.ask_quantity.$error.message = 'market.tip.insufficient_balances'
@@ -154,19 +154,24 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(ask)
 
-    $scope.submit_short = ->
-        form = @short_form
-        $scope.clear_form_errors(form)
-        short = angular.copy($scope.short)
-        short.price = $scope.market.shorts_price
-        console.log "------ submit_short ------>", $scope.market.inverted, short
-        if $scope.market.inverted
+    calc_short_cost = (short, inverted) ->
+        if inverted
             short.cost = short.quantity * short.collateral_ratio
+            short.total = short.cost
         else
             short.cost = short.quantity
             short.quantity = short.cost * short.collateral_ratio
+            short.total = short.quantity
+
+    $scope.submit_short = ->
+        form = @short_form
+        $scope.clear_form_errors(form)
+        short = $scope.short.clone_and_normalize()
+        short.price = $scope.market.shorts_price
+        calc_short_cost(short, $scope.market.inverted)
         short.type = "short_order"
         short.display_type = "Short"
+        console.log "------ submit_short ------>", $scope.market.inverted, short
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
 
@@ -228,9 +233,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         form.quantity.$error.message = error.data.error.message
             ]
 
-#    $scope.$watch "bid.quantity * bid.price", (value) ->
-#        return unless $scope.market
-#        #$scope.bid.cost = value
-#        view_value =  Utils.formatDecimal(value, $scope.market.price_precision, true)
-#        console.log "------ bid changed ------>", $scope.buy_form
-#        @buy_form["bid_total"].$setViewValue(view_value)
+    $scope.$watch "bid", (value, old_value) ->
+        return unless $scope.market
+        bid = $scope.bid.clone_and_normalize()
+        cost = bid.quantity * bid.price
+        $scope.bid.cost = Utils.formatDecimal(cost, $scope.market.quantity_precision, true)
+    , true
+
+    $scope.$watch "ask", (value, old_value) ->
+        return unless $scope.market
+        ask = $scope.ask.clone_and_normalize()
+        cost = ask.quantity * ask.price
+        $scope.ask.cost = Utils.formatDecimal(cost, $scope.market.base_precision, true)
+    , true
+
+    $scope.$watch "short", (value, old_value) ->
+        return unless $scope.market
+        short = $scope.short.clone_and_normalize()
+        calc_short_cost(short, $scope.market.inverted)
+        $scope.short.total = Utils.formatDecimal(short.total, $scope.market.base_precision, true)
+    , true
