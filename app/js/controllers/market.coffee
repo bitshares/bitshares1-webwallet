@@ -20,11 +20,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     tabs_advanced.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
     Wallet.get_setting("market.advanced").then (result) ->
         $scope.advanced = (if result then result.value else false)
-
-    if $scope.advanced
-        $scope.tabs = tabs_advanced
-    else
-        $scope.tabs = tabs_basic
+        if $scope.advanced
+            $scope.tabs = tabs_advanced
+        else
+            $scope.tabs = tabs_basic
 
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
@@ -96,6 +95,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
+        WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
+            Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
+         
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
 
@@ -115,7 +118,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.unregisterObserver(account_balances_observer)
 
     $scope.flip_market = ->
-        console.log "flip market"
+        #console.log "flip market"
         $state.go('^.buy', {name: $scope.market.inverted_url})
 
     $scope.flip_advanced = ->
@@ -147,6 +150,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
+        $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
         #$scope.bid = new MarketService.TradeData
 
@@ -182,6 +186,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
         short.type = "short_order"
         short.display_type = "Short"
+        $("#orders_table").animate({ scrollTop: 0 }, "slow")
 
         MarketService.add_unconfirmed_order(short)
         #$scope.short = new MarketService.TradeData
@@ -202,7 +207,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short
             else $scope.bid
         order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
-        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.quantity_precision, true) if data.collateral_ratio
+        if data.collateral_ratio
+            ratio = if $scope.market.inverted then data.collateral_ratio else 1.0 / data.collateral_ratio
+            order.collateral_ratio = Utils.formatDecimal(ratio, $scope.market.price_precision, true)
+        order.short_price_limit =  Utils.formatDecimal(data.short_price_limit, $scope.market.price_precision, true) if data.short_price_limit
+
         if data.price
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001
@@ -240,3 +249,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
             ]
+
+#    $scope.$watch "bid.quantity * bid.price", (value) ->
+#        return unless $scope.market
+#        #$scope.bid.cost = value
+#        view_value =  Utils.formatDecimal(value, $scope.market.price_precision, true)
+#        console.log "------ bid changed ------>", $scope.buy_form
+#        @buy_form["bid_total"].$setViewValue(view_value)
