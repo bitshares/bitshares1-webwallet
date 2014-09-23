@@ -19,6 +19,7 @@
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="small" tooltip="{{'market.flip_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
+
       </h3>
       <ul class="row market-stats stats col-sm-4">
         <li class="stat col-sm-6">
@@ -48,25 +49,27 @@
 
 <div class="main-content market">
 
-      <ul class="row market-stats stats">
-        <li ng-show="market.feed_price" class="stat col-sm-2">
-          <span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-2">
-          <span>{{'market.bid_depth'|translate}}<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-2">
-          <span>{{'market.ask_depth'|translate}}<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-2" ng-show="market.actual_market.collateral">
-        <span>{{'Backing Collateral'|translate}}<br/><b class="value">{{market.actual_market.collateral | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>
-        </li>
-        <li class="stat col-sm-2" ng-show="market.actual_market.collateral">
-        <span>{{'Collateralization'|translate}}<br/><b class="value">{{market.actual_market.collateralization | formatDecimal : actual_market.quantity_precision}} %</b><br/><em></em></span>
-        </li>
-      </ul>
+    <a ng-click="flip_advanced()" class="small" tooltip="{{advanced ? 'market.advanced_market' : 'market.basic_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa fa-star fa-fw"></i></a>
 
-    <div class="row m-bottom">
+      <!--<ul class="row market-stats stats">-->
+        <!--<li ng-show="market.feed_price" class="stat col-sm-2">-->
+          <!--<span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>-->
+        <!--</li>-->
+        <!--<li class="stat col-sm-2">-->
+          <!--<span>{{'market.bid_depth'|translate}}<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
+        <!--</li>-->
+        <!--<li class="stat col-sm-2">-->
+          <!--<span>{{'market.ask_depth'|translate}}<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
+        <!--</li>-->
+        <!--<li class="stat col-sm-2" ng-show="market.actual_market.collateral">-->
+        <!--<span>{{'Backing Collateral'|translate}}<br/><b class="value">{{market.actual_market.collateral | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
+        <!--</li>-->
+        <!--<li class="stat col-sm-2" ng-show="market.actual_market.collateral">-->
+        <!--<span>{{'Collateralization'|translate}}<br/><b class="value">{{market.actual_market.collateralization | formatDecimal : actual_market.quantity_precision}} %</b><br/><em></em></span>-->
+        <!--</li>-->
+      <!--</ul>-->
+
+    <div class="row">
       <div class="col-sm-12">
         <pricechart ng-show="market.price_history.length"
             pricedata="market.price_history"
@@ -82,7 +85,7 @@
 
       <div class="col-md-5">
         <tabset>
-          <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
+          <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active">
             <div class="panel">
               <div class="panel-body">
                 <div ui-view></div>
@@ -93,32 +96,39 @@
       </div>
 
       <div class="col-md-7">
-          <div class="panel">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{'market.open_orders'|translate}}</h3>
-            </div>
-            <div class="panel-body">
-              <div ng-include src="'market/orders.html'"></div>
-            </div>
-          </div>
+          <orderbookchart
+              bids-array="market.orderbook_chart_data.bids_array"
+              asks-array="market.orderbook_chart_data.asks_array"
+              volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
+              volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
+              price-symbol="market.price_symbol"
+              price-precision="market.price_precision"
+              inverted-market="market.inverted">
+          </orderbookchart>
       </div>
 
     </div>
 
     <div class="row">
       <div class="col-sm-6">
-        <orderbookchart
-            bids-array="market.orderbook_chart_data.bids_array"
-            asks-array="market.orderbook_chart_data.asks_array"
-            volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
-            volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
-            price-symbol="market.price_symbol"
-            price-precision="market.price_precision"
-            inverted-market="market.inverted"
-            feed-price="market.feed_price">
-        </orderbookchart>
+          <div class="panel" ng-show="!advanced" >
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{('market.order_type.bid_order') | translate}}</h3>
+              </div>
+              <div class="panel-body">
+                  <div ng-include src="'market/orders_bid.html'"></div>
+              </div>
+          </div>
+          <div class="panel" ng-show="!advanced">
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{('market.order_type.ask_order') | translate}}</h3>
+              </div>
+              <div class="panel-body">
+                  <div ng-include src="'market/orders_ask.html'"></div>
+              </div>
+          </div>
       </div>
-      <div class="col-sm-6">
+      <div class="col-sm-6" ng-show="advanced">
         <shortscollatchart
             shortscollat-array="market.shortscollat_chart_data.array"
             volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
@@ -150,7 +160,7 @@
       </div>
     </div>
 
-    <div class="row orders-row" ng-show="market.shorts_available">
+    <div class="row orders-row" ng-show="market.shorts_available && advanced">
       <div class="panel" ng-class="'col-lg-6'">
         <div class="panel-heading">
           <h3 class="panel-title">{{
@@ -182,7 +192,7 @@
     </div>
 
     <div class="row">
-      <div class="col-sm-6">
+      <div class="col-sm-6" ng-show="advanced">
         <div class="panel ">
           <div class="panel-heading">
             <h3 class="panel-title" translate>market.blockchain_orders_history</h3>
