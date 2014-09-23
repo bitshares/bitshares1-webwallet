@@ -206,7 +206,6 @@
             "bid_order": "Bid",
             "ask_order": "Ask",
             "short_order": "Short",
-            "cover_order": "Cover",
             "margin_order": "Margin"
         },
         "tip": {
