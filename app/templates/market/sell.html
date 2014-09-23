@@ -14,7 +14,7 @@
     {{'market.highest_bid'|translate}} <span class="clickable" ng-click="use_trade_data({price: market.highest_bid})">{{market.highest_bid | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{market.base_symbol}}" show-value="{{sell_form.$valid}}">
-    {{ask.quantity * ask.price | formatDecimal : market.base_precision}}
+    {{ask.cost}}
   </div>
   <div form-hgroup-error></div>
   <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.quantity_symbol}}">{{'market.sell'|translate}} {{market.quantity_symbol}}</button>
