@@ -18,6 +18,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     tabs_basic.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
     tabs_advanced = tabs_basic.slice 0
     tabs_advanced.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+    Wallet.get_setting("market.advanced").then (result) ->
+        $scope.advanced = (if result then result.value else false)
+
     if $scope.advanced
         $scope.tabs = tabs_advanced
     else
@@ -117,6 +120,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.flip_advanced = ->
         $scope.advanced = ! $scope.advanced
+        Wallet.set_setting("market.advanced", $scope.advanced).then()
         if $scope.advanced
             $scope.tabs = tabs_advanced
         else
