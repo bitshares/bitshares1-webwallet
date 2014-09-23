@@ -68,7 +68,7 @@ addPlotLine = (chart, value) ->
         zIndex: 5
 
 removePlotLine = (chart) ->
-    chart.xAxis[0].removePlotLine "shorts_price"
+    chart.xAxis[0].removePlotLine "feed_price"
 
 angular.module("app.directives").directive "orderbookchart", ->
     restrict: "E"
