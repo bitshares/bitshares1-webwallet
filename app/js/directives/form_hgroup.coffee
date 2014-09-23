@@ -54,7 +54,7 @@ angular.module("app.directives").directive "formHgroupSubmitBtn", ->
 
     link: (scope, element, attrs, formController) ->
         watchExpression = formController.$name + ".$valid"
-        scope.$watch watchExpression, (value) ->
+        scope.$parent.$watch watchExpression, (value) ->
             element.find("button").attr("disabled", !value)
 
 

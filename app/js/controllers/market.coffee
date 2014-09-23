@@ -227,3 +227,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
             ]
+
+#    $scope.$watch "bid.quantity * bid.price", (value) ->
+#        return unless $scope.market
+#        #$scope.bid.cost = value
+#        view_value =  Utils.formatDecimal(value, $scope.market.price_precision, true)
+#        console.log "------ bid changed ------>", $scope.buy_form
+#        @buy_form["bid_total"].$setViewValue(view_value)

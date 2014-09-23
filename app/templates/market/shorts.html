@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th>{{'th.amount'|translate}} ({{market.quantity_symbol}})</th>
-        <th>{{'th.collateral_ratio'|translate}} ({{market.price_symbol}})</th>
+        <th>{{'th.collateral_ratio'|translate}} ({{actual_market.quantity_symbol}}/{{actual_market.base_symbol}})</th>
         <th>{{'th.collateral'|translate}} ({{market.base_symbol}})</th>
         <th>{{'th.price_limit'|translate}}</th>
       </tr>
@@ -11,7 +11,7 @@
     <tbody>
       <tr ng-repeat="o in shorts track by $index">
         <td>{{o.quantity | formatDecimal : market.base_precision}}</td>
-        <td>{{o.price | formatDecimal : market.price_precision}}</td>
+        <td>{{o.collateral_ratio | formatDecimal : market.price_precision}}</td>
         <td>{{o.cost | formatDecimal : market.quantity_precision}}</td>
         <td>{{o.price_limit | formatDecimal : market.price_precision}}{{o.price_limit_symbol}}</td>
       </tr>
