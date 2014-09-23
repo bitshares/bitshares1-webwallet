@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+<div><div class="col-sm-12">
   <div class="header m-bottom">
     <div class="account-selector pull-right">
       <span class="title">{{'account.name'|translate}} &nbsp;</span>
@@ -19,6 +19,7 @@
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="small" tooltip="{{'market.flip_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
+        <a ng-click="flip_advanced()" class="small" tooltip="{{advanced ? 'market.advanced_market' : 'market.basic_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa {{advanced ? 'fa-star' : 'fa-star-o'}} fa-fw"></i></a>
 
       </h3>
       <ul class="row market-stats stats col-sm-4">
@@ -48,8 +49,6 @@
 </div>
 
 <div class="main-content market">
-
-    <a ng-click="flip_advanced()" class="small" tooltip="{{advanced ? 'market.advanced_market' : 'market.basic_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa fa-star fa-fw"></i></a>
 
       <!--<ul class="row market-stats stats">-->
         <!--<li ng-show="market.feed_price" class="stat col-sm-2">-->
@@ -214,4 +213,4 @@
       </div>
     </div>
 
-</div>
+</div></div>
