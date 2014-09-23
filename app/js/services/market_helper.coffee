@@ -72,6 +72,7 @@ class MarketHelper
             td.cost = order.state.balance / qa.precision
             td.quantity = td.cost / price if price > 0.0
         else if order.type == "short_order"
+            td.collateral_ratio = 1.0/price
             pl = order.state.short_price_limit
             if pl
                 short_price_limit = pl.ratio * (ba.precision / qa.precision)
