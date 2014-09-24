@@ -89,3 +89,14 @@ angular.module("app").controller "DirectoryController", ($scope, $state, $locati
             is_favorite=false
         WalletAPI.account_set_favorite(name, is_favorite).then ()->
             Wallet.refresh_accounts()
+
+    $scope.toggleVoteUp = (name) ->
+        newApproval=1
+        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
+            newApproval=-1
+        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
+            newApproval=0
+        Wallet.approve_account(name, newApproval).then (res)->
+            if (!$scope.accounts[name])
+                $scope.accounts[name]={}
+            $scope.accounts[name].approved=newApproval

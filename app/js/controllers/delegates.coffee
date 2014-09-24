@@ -34,15 +34,15 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
         $scope.current_xts_supply = asset_type.current_share_supply
 
     $scope.toggleVoteUp = (name) ->
-        newApproval=1
-        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
-            newApproval=-1
-        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
-            newApproval=0
+        newApproval = 1
+        if ($scope.accounts[name] && $scope.accounts[name].approved > 0)
+            newApproval = -1
+        if ($scope.accounts[name] && $scope.accounts[name].approved < 0)
+            newApproval = 0
         Wallet.approve_account(name, newApproval).then (res) ->
             if (!Wallet.accounts[name])
-                Wallet.accounts[name]=Blockchain.all_delegates[name]
-            Wallet.accounts[name].approved=newApproval
+                Wallet.accounts[name] = Blockchain.all_delegates[name]
+            Wallet.accounts[name].approved = newApproval
 
     $scope.unvoteAll = ->
         angular.forEach Wallet.accounts, (value, key) ->
