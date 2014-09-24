@@ -3,7 +3,7 @@ initChart = (scope) ->
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
-            height: 300
+            #height: 300
 
         credits:
             enabled: false

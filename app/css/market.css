@@ -213,6 +213,8 @@ tr.short_wall td {
 
 .market-header-button {
 	text-shadow: none;
+	font-size: 14px;
+	color: #666;
 }
 
 .market-header-button:hover, .market-header-button:focus {
