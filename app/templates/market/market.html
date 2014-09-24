@@ -127,41 +127,39 @@
     
     <br>
 
-    <div class="row orders-row form">
-        <div class="form-group">
-            <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
-                <div class="panel-heading">
-                    <h3 class="panel-title buy-orders-title">{{('market.order_type.bid_order') | translate}}</h3>
-                </div>
-                <div class="panel-body">
-                    <div ng-include src="'market/orders_bid.html'"></div>
-                </div>
+    <div class="row">
+        <div class="panel col-xs-12 col-sm-6">
+            <div class="panel-heading">
+                <h3 class="panel-title buy-orders-title">{{('market.order_type.bid_order') | translate}}</h3>
             </div>
-            <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
-                <div class="panel-heading">
-                    <h3 class="panel-title sell-orders-title">{{('market.order_type.ask_order') | translate}}</h3>
-                </div>
-                <div class="panel-body">
-                    <div ng-include src="'market/orders_ask.html'"></div>
-                </div>
+            <div class="panel-body">
+                <div ng-include src="'market/orders_bid.html'"></div>
             </div>
         </div>
-        <div class="form-group" ng-show="advanced">
-            <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
-                <div class="panel-heading">
-                    <h3 class="panel-title short-orders-title">{{('market.order_type.short_order') | translate}}</h3>
-                </div>
-                <div class="panel-body">
-                    <div ng-include src="'market/orders_short.html'"></div>
-                </div>
+        <div class="panel col-xs-12 col-sm-6">
+            <div class="panel-heading">
+                <h3 class="panel-title sell-orders-title">{{('market.order_type.ask_order') | translate}}</h3>
             </div>
-            <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
-                <div class="panel-heading">
-                    <h3 class="panel-title margin-orders-title">{{('market.order_type.margin_order') | translate}}</h3>
-                </div>
-                <div class="panel-body">
-                    <div ng-include src="'market/orders_margin.html'"></div>
-                </div>
+            <div class="panel-body">
+                <div ng-include src="'market/orders_ask.html'"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="advanced">
+        <div class="panel col-xs-12 col-sm-6">
+            <div class="panel-heading">
+                <h3 class="panel-title short-orders-title">{{('market.order_type.short_order') | translate}}</h3>
+            </div>
+            <div class="panel-body">
+                <div ng-include src="'market/orders_short.html'"></div>
+            </div>
+        </div>
+        <div class="panel col-xs-12 col-sm-6">
+            <div class="panel-heading">
+                <h3 class="panel-title margin-orders-title">{{('market.order_type.margin_order') | translate}}</h3>
+            </div>
+            <div class="panel-body">
+                <div ng-include src="'market/orders_margin.html'"></div>
             </div>
         </div>
     </div>
