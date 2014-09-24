@@ -219,7 +219,11 @@
         "chart": {
             "price": "Price",
             "volume": "Volume"
-        }
+        },
+        "advanced_view": "Advanced Market View",
+        "simple_view": "Simple Market View",
+        "advanced": "Advanced",
+        "simple": "Simple"
     },
     "account": {
         "reg_pending": "Registration pending",
