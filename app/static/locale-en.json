@@ -203,10 +203,10 @@
         "asks": "Asks",
         "cover_short_position": "Cover Short Position",
         "order_type": {
-            "bid_order": "Bid",
-            "ask_order": "Ask",
-            "short_order": "Short",
-            "margin_order": "Margin"
+            "bid_order": "Open Buy Orders",
+            "ask_order": "Open Sell Orders",
+            "short_order": "Open Short",
+            "margin_order": "Open Margin"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",

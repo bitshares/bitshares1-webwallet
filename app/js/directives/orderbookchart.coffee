@@ -8,7 +8,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 200
+            height: 350
 
         title:
             text: null

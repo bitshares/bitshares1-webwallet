@@ -1,3 +1,4 @@
+
 .market-selector {
 	margin-top: 10px;
 }
@@ -72,7 +73,7 @@ span.cell {
 
 div.fixed-height-table {
 	max-height: 320px;
-	overflow-y: scroll;
+	overflow-y: auto;
 	overflow-x: hidden;
 }
 
@@ -165,3 +166,18 @@ tr.short_wall td {
 .order-form .input-group-addon {
 	width: 8em;
 }
+/* TODO, move scroll bar down, from under the header
+.market-header {
+    position: fixed;
+    z-index: 9;
+    background-color: white;
+}
+.content {
+    overflow-y: auto;
+}
+.market-content {
+    padding-top: 70px;
+    padding-bottom: 60px;
+    height: 100%;
+}
+*/
