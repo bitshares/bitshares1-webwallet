@@ -31,7 +31,7 @@ class Info
                 @info.share_supply = data.blockchain_share_supply
                 @blockchain.get_asset(0).then (v)=>
                     @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
-                @info.wallet_scan_progress = data.wallet_scan_progress
+                @info.wallet_scan_progress = data.scan_progress
                 if(!@info.client_version)
                   @info.client_version=data.client_version
             else
