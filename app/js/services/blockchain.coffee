@@ -168,6 +168,10 @@ class Blockchain
     populate_delegate: (record, active) ->
         record.active = active
         @all_delegates[record.name] = record
+#        record.feeds ||= []
+#        if active and record.feeds.length == 0
+#            @blockchain_api.get_feeds_from_delegate(record.name).then (result) ->
+#                record.feeds.push r.asset_symbol for r in result
         record
 
     refresh_delegates: ->
