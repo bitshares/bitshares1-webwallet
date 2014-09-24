@@ -34,8 +34,8 @@ class MarketHelper
         if inverted
             market.bid_depth = data.ask_depth / ba.precision
             market.ask_depth = data.bid_depth / ba.precision
-            market.feed_price = 1.0 / data.center_price
-            market.shorts_price = 1.0 / data.center_price
+            market.feed_price = 1.0 / data.center_price if data.center_price
+            market.shorts_price = 1.0 / data.center_price if data.center_price
 
         #console.log "------ read_market_data ------>", market.shorts_price, data, assets
 

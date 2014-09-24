@@ -362,6 +362,7 @@
     },
     "directive":{
         "input_name": {
+            "name_tip": "Name (required)",
             "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
             "note1": "Note: Account names cannot be transferred.",
             "note2": "Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash."

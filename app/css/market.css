@@ -212,3 +212,11 @@ tr.short_wall td {
 .market-header-button:hover, .market-header-button:focus {
 	text-decoration: none;
 }
+
+.tab-short {
+	display: none !important;
+}
+
+.advanced .tab-short {
+	display: block !important;
+}
