@@ -66,6 +66,14 @@ body {
 	color: #aaa;
 }
 
+.table a {
+  text-decoration: none;
+}
+
+.fa-2x {
+	font-size: 1.6em;
+}
+
 .white, a.white {
 	color: #fff;
 }

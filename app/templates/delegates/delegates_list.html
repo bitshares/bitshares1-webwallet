@@ -20,9 +20,9 @@
 
 </div>
 <div class="row">
-  <div class="col-lg-6">
+  <div class="col-lg-12">
     <div class="header">
-      <h3 class="header-title" translate>delegate.top_delegates</h3>
+      <h4 class="header-title" translate>delegate.top_delegates</h4>
     </div>
 
     <div>
@@ -35,6 +35,7 @@
             <th translate>th.reliability</th>
             <th translate>th.blk_produced</th>
             <th class='hideableCol' translate>th.pay_rate</th>
+            <!--<th style="max-width: 100px;">Feeds</th>-->
             <th translate>th.approve</th>
           </tr>
         </thead>
@@ -42,7 +43,7 @@
           <tr ng-repeat="del in active_delegates | filter:search">
             <td>{{ $index + 1 }}</td>
             <td>
-              <a class='delegate-link lead' href="#/accounts/{{del.name}}">{{ del.name }}</a>
+              <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
               <br>
               <i ng-show="del.public_data.version"> {{ 'delegate.version' | translate }}: {{del.public_data.version}} </i>
               <br>
@@ -51,9 +52,9 @@
             <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
                       tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
-          <span ng-switch-when='true'>&#60;0.01%</span>
-          <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
-        </span>
+                  <span ng-switch-when='true'>&#60;0.01%</span>
+                  <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+                </span>
             </td>
             <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
               <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
@@ -61,6 +62,7 @@
             </td>
             <td>{{ del.delegate_info.blocks_produced }}</td>
             <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
+            <!--<td style="max-width: 100px; font-size: 10px; text-overflow: ellipsis;">{{del.feeds.join(', ')}}</td>-->
             <td>
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
@@ -75,13 +77,13 @@
       </table>
     </div>
   </div>
+</div>
 
-  <div class="col-lg-6">
+<div class="row">
+  <div class="col-lg-12">
     <div>
       <div class="header">
-        <h5 class="header-title">
-          <small translate>delegate.standby_delegates</small>
-        </h5>
+        <h4 class="header-title" translate>delegate.standby_delegates</h4>
       </div>
       <div class="col-sm-12">
               <ul class="pagination pagination-sm">
@@ -109,7 +111,7 @@
             <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
               <td>{{ $index + active_delegates.length + 1 + p.currentPage * p.pageSize}}</td>
               <td>
-                <a class='delegate-link lead' href="#/accounts/{{del.name}}">{{ del.name }}</a>
+                <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
                 <br>
                 <i ng-show="del.public_data.version"> Version: {{del.public_data.version}} </i>
                 <br>

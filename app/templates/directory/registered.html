@@ -46,8 +46,13 @@
                 </div>
               </td>
               <td style='width:1%;white-space:nowrap'>
-                <button ng-click="toggleFavorite(r.name)" class="btn btn-link btn-sm"><i
+                <button ng-click="toggleFavorite(r.name)" class="btn btn-link btn-sm primary"><i
                     ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i></button>
+                <button ng-click="toggleVoteUp(r.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
+                    <i ng-if="accounts[r.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+                    <i ng-if="!accounts[r.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+                    <i ng-if="accounts[r.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+                  </button>
               </td>
               <td><a
                   ng-class="{'delegate-active-link' : delegate_active_hash_map[r.name], 'delegate-inactive-link' : delegate_inactive_hash_map[r.name], 'my-account-link': accounts[r.name].is_my_account}"

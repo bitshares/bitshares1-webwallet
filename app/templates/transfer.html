@@ -78,7 +78,7 @@
   </div>
   <div class="col-md-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form"
-          ng-submit="my_transfer_form.$valid && send()" novalidate>
+          ng-submit="send()" novalidate>
       <div ng-init="setForm(my_transfer_form);"></div>
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <!-- amount -->
@@ -157,7 +157,7 @@
       <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
+          <button type="submit" class="btn btn-primary" ng-disabled="!(my_transfer_form.amount.$valid && my_transfer_form.memo.$valid && my_transfer_form.payto.$valid)"><i class="fa fa-credit-card fa-lg fa-fw"></i>
             {{'account.send'|translate}}
           </button>
           <span class="help-block" ng-show="balance_after_transfer">
