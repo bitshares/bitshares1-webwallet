@@ -88,6 +88,7 @@
         "quantity": "QUANTITY",
         "order_price": "Price",
         "cost": "COST",
+        "total": "TOTAL",
         "collateral": "COLLATERAL",
         "collateral_ratio": "COLLATERAL RATIO",
         "price_limit": "PRICE LIMIT",
