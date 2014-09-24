@@ -74,7 +74,7 @@ span.cell {
 div.fixed-height-table {
 	max-height: 320px;
 	overflow-y: auto;
-	overflow-x: hidden;
+	overflow-x: auto;
 }
 
 .market-table tr.canceled td {
@@ -147,17 +147,17 @@ div.fixed-height-table {
 	color: #7cb5ec !important;
 }
 
-.market-table tr.bid_order {
-	color: #2ca02c;
-}
+/*.market-table tr.bid_order {*/
+	/*color: #2ca02c;*/
+/*}*/
 
-.market-table tr.ask_order {
-	color: #ff7f0e;
-}
+/*.market-table tr.ask_order {*/
+	/*color: #ff7f0e;*/
+/*}*/
 
-.market-table tr.short_order {
-	color: #7cb5ec;
-}
+/*.market-table tr.short_order {*/
+	/*color: #7cb5ec;*/
+/*}*/
 
 tr.short_wall td {
 	background-color: #E4F0FB !important;
@@ -166,6 +166,23 @@ tr.short_wall td {
 .order-form .input-group-addon {
 	width: 8em;
 }
+
+.buy-orders-title {
+	color: #2ca02c;
+}
+
+.sell-orders-title {
+	color: #ff7f0e;
+}
+
+.short-orders-title {
+	color: #7cb5ec;
+}
+
+.margin-orders-title {
+	color: #7cb5ec;
+}
+
 /* TODO, move scroll bar down, from under the header
 .market-header {
     position: fixed;
@@ -181,3 +198,11 @@ tr.short_wall td {
     height: 100%;
 }
 */
+
+.orderbookchart {
+	padding-top: 40px;
+}
+
+.advanced .orderbookchart {
+	padding-top: 0;
+}
