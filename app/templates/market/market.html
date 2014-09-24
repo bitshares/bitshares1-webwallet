@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<div class="main-content market market-content">
+<div class="main-content market market-content" ng-class="{'advanced': advanced}">
 
       <!--create a stats page-->
       <!--<ul class="row market-stats stats">-->
@@ -111,6 +111,17 @@
               inverted-market="market.inverted"
               feed-price="market.feed_price">
           </orderbookchart>
+
+          <shortscollatchart ng-show="advanced"
+              shortscollat-array="market.shortscollat_chart_data.array"
+              volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
+              volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
+              price-symbol="market.price_symbol"
+              price-precision="market.price_precision"
+              inverted-market="market.inverted"
+              shorts-price="market.shorts_price">
+          </shortscollatchart>
+
       </div>
     </div>
     
@@ -120,7 +131,7 @@
         <div class="form-group">
             <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{('market.order_type.bid_order') | translate}}</h3>
+                    <h3 class="panel-title buy-orders-title">{{('market.order_type.bid_order') | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div ng-include src="'market/orders_bid.html'"></div>
@@ -128,7 +139,7 @@
             </div>
             <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{('market.order_type.ask_order') | translate}}</h3>
+                    <h3 class="panel-title sell-orders-title">{{('market.order_type.ask_order') | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div ng-include src="'market/orders_ask.html'"></div>
@@ -138,7 +149,7 @@
         <div class="form-group" ng-show="advanced">
             <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{('market.order_type.short_order') | translate}}</h3>
+                    <h3 class="panel-title short-orders-title">{{('market.order_type.short_order') | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div ng-include src="'market/orders_short.html'"></div>
@@ -146,7 +157,7 @@
             </div>
             <div class="panel col-xs-12 col-sm-6 col-md-6 {{advanced ? 'col-lg-3': 'col-lg-6'}}">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{('market.order_type.margin_order') | translate}}</h3>
+                    <h3 class="panel-title margin-orders-title">{{('market.order_type.margin_order') | translate}}</h3>
                 </div>
                 <div class="panel-body">
                     <div ng-include src="'market/orders_margin.html'"></div>
@@ -158,7 +169,7 @@
     <div class="row orders-row">
       <div class="panel col-lg-6">
         <div class="panel-heading">
-          <h3 class="panel-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
+          <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
         <div class="panel-body">
           <div ng-include src="'market/bids.html'"></div>
@@ -166,7 +177,7 @@
       </div>
       <div class="panel col-lg-6">
         <div class="panel-heading">
-          <h3 class="panel-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}' }}</h3>
+          <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}' }}</h3>
         </div>
         <div class="panel-body">
           <div ng-include src="'market/asks.html'"></div>
@@ -174,22 +185,10 @@
       </div>
     </div>
 
-    <div class="col-sm-6" ng-show="advanced">
-        <shortscollatchart
-            shortscollat-array="market.shortscollat_chart_data.array"
-            volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
-            volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
-            price-symbol="market.price_symbol"
-            price-precision="market.price_precision"
-            inverted-market="market.inverted"
-            shorts-price="market.shorts_price">
-        </shortscollatchart>
-    </div>
-    
     <div class="row orders-row" ng-show="market.shorts_available && advanced">
       <div class="panel" ng-class="'col-lg-6'">
         <div class="panel-heading">
-          <h3 class="panel-title">{{
+          <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
               ('market.margin_orders'|translate)
             :
@@ -203,7 +202,7 @@
       </div>
       <div class="panel" ng-class="'col-lg-6'">
         <div class="panel-heading">
-          <h3 class="panel-title">{{
+          <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
               ('market.short_orders'|translate:'{value: actual_market.base_symbol}')
             :

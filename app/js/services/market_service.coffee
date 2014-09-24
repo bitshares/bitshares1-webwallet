@@ -452,7 +452,8 @@ class MarketService
             for t in transactions
                 #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
-                continue if not t.is_market or not t.is_confirmed or t.is_virtual
+                continue if not t.is_market
+                continue if not t.is_confirmed or t.is_virtual
                 continue unless t.ledger_entries.length > 0
                 continue if last_trade_id == t.id
                 td = {}

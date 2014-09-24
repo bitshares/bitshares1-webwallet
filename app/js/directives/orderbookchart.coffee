@@ -8,7 +8,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 350
+            height: 200
 
         title:
             text: null
@@ -87,7 +87,7 @@ angular.module("app.directives").directive "orderbookchart", ->
         #console.log "orderbookchart controller"
         utils = Utils
 
-    template: "<div id=\"orderbookchart\" style=\"margin: 0 auto\"></div>"
+    template: '''<div id="orderbookchart" class="orderbookchart" style="margin: 0 auto"></div>'''
 
     chart: null
 
