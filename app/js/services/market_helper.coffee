@@ -79,7 +79,7 @@ class MarketHelper
                 td.short_price_limit = if invert_price and short_price_limit > 0.0 then 1.0 / short_price_limit else short_price_limit
 
 
-        if invert_assets
+        if !invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
 
         td.display_type = @capitalize(td.type.split("_")[0])
