@@ -16,14 +16,18 @@
     </div>
 
     <div class="row">
-      <h3 class="header-title col-sm-4">
+      <h3 class="header-title col-sm-5">
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
-        <a ng-click="flip_market()" class="small market-header-button" tooltip="{{'market.flip_market'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa fa-retweet fa-fw"></i></a>
-        <a ng-click="flip_advanced()" class="small market-header-button" tooltip="{{advanced ? 'market.advanced_view' : 'market.simple_view'|translate}}" tooltip-placement="right" ng-show="account"><i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
-        {{advanced ? 'market.advanced' : 'market.simple'|translate}}
-        </a>
-
+        <a ng-click="flip_market()" class="small market-header-button"
+            tooltip="{{'market.flip_market'|translate}}" 
+            tooltip-placement="right" ng-show="account">
+            <i class="fa fa-retweet fa-fw"></i></a>
+        <a ng-click="flip_advanced()" class="small market-header-button" 
+            tooltip="{{advanced ? 'market.advanced_view' : 'market.simple_view'|translate}}" 
+            tooltip-placement="right" ng-show="account">
+            <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
+            {{advanced ? 'market.advanced' : 'market.simple'|translate}}</a>
       </h3>
       <ul class="row market-stats stats col-sm-4">
         <li class="stat col-sm-6">
