@@ -87,6 +87,8 @@
         "type": "TYPE",
         "quantity": "QUANTITY",
         "order_price": "Price",
+        "call_price": "Call Price",
+        "units_owed": "{{value}} Owed",
         "cost": "COST",
         "total": "TOTAL",
         "collateral": "COLLATERAL",
