@@ -215,6 +215,10 @@ tr.short_wall td {
 	display: block;
 }
 
+.market-header-button {
+	text-shadow: none;
+}
+
 .market-header-button:hover, .market-header-button:focus {
 	text-decoration: none;
 }
