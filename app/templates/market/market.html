@@ -117,7 +117,7 @@
               advanced-mode="advanced">
           </orderbookchart>
 
-          <shortscollatchart
+          <shortscollatchart ng-if="advanced"
               shortscollat-array="market.shortscollat_chart_data.array"
               volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
               volume-precision="market.inverted ? market.base_precision : market.quantity_precision"

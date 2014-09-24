@@ -80,7 +80,6 @@ angular.module("app.directives").directive "shortscollatchart", ->
         scope.$watch "shortscollatArray", (value) =>
             if value and not chart
                 chart = initChart(scope)
-                chart.setSize($("#orderbookchart").width(), 200, false)
                 addPlotLine(chart, scope.shortsPrice, scope.invertedMarket)
             else if chart
                 chart.series[0].setData value, true

@@ -102,6 +102,5 @@ angular.module("app.directives").directive "orderbookchart", ->
 
         scope.$watch "advancedMode", (value) =>
             return unless chart
-            width = chart.chartWidth
             height = if value then 200 else 350
-            chart.setSize(width, height, false)
+            chart.setSize(null, height, false)

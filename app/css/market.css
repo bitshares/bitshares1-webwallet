@@ -203,14 +203,6 @@ tr.short_wall td {
 	padding-top: 0;
 }
 
-.shortscollatchart {
-	display: none;
-}
-
-.advanced .shortscollatchart {
-	display: block;
-}
-
 .market-header-button {
 	text-shadow: none;
 	font-size: 14px;
