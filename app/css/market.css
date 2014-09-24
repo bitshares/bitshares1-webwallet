@@ -206,3 +206,15 @@ tr.short_wall td {
 .advanced .orderbookchart {
 	padding-top: 0;
 }
+
+.shortscollatchart {
+	display: none;
+}
+
+.advanced .shortscollatchart {
+	display: block;
+}
+
+.market-header-button:hover, .market-header-button:focus {
+	text-decoration: none;
+}
