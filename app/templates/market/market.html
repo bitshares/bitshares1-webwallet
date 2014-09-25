@@ -156,7 +156,7 @@
                 <h3 class="panel-title short-orders-title">{{('market.order_type.short_order') | translate}}</h3>
             </div>
             <div class="panel-body">
-                <div ng-include src="'market/orders_short.html'"></div>
+                <div ng-include src="market.inverted ? 'market/orders_short_invert.html' : 'market/orders_short_direct.html'"></div>
             </div>
         </div>
         <div class="panel col-xs-12 col-sm-6">
