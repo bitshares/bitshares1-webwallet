@@ -23,9 +23,7 @@
             tooltip="{{'market.flip_market'|translate}}" 
             tooltip-placement="right" ng-show="account">
             <i class="fa fa-retweet fa-fw"></i></a>
-        <a ng-click="flip_advanced()" class="market-header-button"
-            tooltip="{{advanced ? 'market.advanced_view' : 'market.simple_view'|translate}}" 
-            tooltip-placement="right" ng-show="account">
+        <a ng-click="flip_advanced()" class="market-header-button">
             <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
             {{'market.advanced' | translate}}</a>
       </h3>
@@ -200,7 +198,7 @@
           }}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="market.inverted ? 'market/covers.html':'market/shorts.html'"></div>
+          <div ng-include src="market.inverted ? 'market/covers.html' : 'market/shorts_direct.html'"></div>
         </div>
       </div>
       <div class="panel" ng-class="'col-lg-6'">
@@ -214,7 +212,7 @@
           }}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="market.inverted ? 'market/shorts.html':'market/covers.html'"></div>
+          <div ng-include src="market.inverted ? 'market/shorts_inverted.html' : 'market/covers.html'"></div>
         </div>
       </div>
     </div>
