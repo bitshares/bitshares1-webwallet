@@ -111,7 +111,10 @@ class MarketHelper
         for i, dv of data
             tv = target_hash[dv.id]
             if tv
-                params.update(tv,dv) if params.update
+                if params.update
+                    params.update(tv,dv)
+                else if tv.update
+                    tv.update(dv)
             else
                 target.push dv
         for i, tv of target

@@ -45,6 +45,19 @@ class TradeData
         td.total = TradeData.helper.to_float(@total)
         return td
 
+    update: (td) ->
+        @status = td.status
+        @timestamp = td.imestamp
+        @quantity = td.cost
+        @cost = td.quantity
+        @collateral = td.collateral
+        @price = td.price
+        @warning = td.warning
+        @display_type = td.display_type
+        @collateral_ratio = td.collateral_ratio
+        @short_price_limit = td.short_price_limit
+        @total = td.total
+
     touch: ->
         @timestamp = Date.now()
     expired: ->
