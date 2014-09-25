@@ -71,8 +71,14 @@ span.cell {
 	margin: 0.1em 0;
 }
 
-div.fixed-height-table {
+.fixed-height-table {
 	max-height: 320px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+.fixed-height-table-tall {
+	max-height: 640px;
 	overflow-y: auto;
 	overflow-x: auto;
 }
@@ -199,9 +205,13 @@ tr.short_wall td {
 }
 */
 
-.advanced .orderbookchart {
-	padding-top: 0;
-}
+/*.orderbookchart svg {*/
+	/*height: 350px !important;*/
+/*}*/
+
+/*.advanced .orderbookchart svg {*/
+	/*height: 200px !important;*/
+/*}*/
 
 .market-header-button {
 	text-shadow: none;

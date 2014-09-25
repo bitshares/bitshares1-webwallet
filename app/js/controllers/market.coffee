@@ -219,13 +219,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
-        if data.collateral_ratio
-            ratio = if $scope.market.inverted then data.collateral_ratio else 1.0 / data.collateral_ratio
-            order.collateral_ratio = Utils.formatDecimal(ratio, $scope.market.price_precision, true)
-        order.short_price_limit =  Utils.formatDecimal(data.short_price_limit, $scope.market.price_precision, true) if data.short_price_limit
+        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity != undefined
+        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.price_precision, true) if data.collateral_ratio != undefined
+        order.short_price_limit =  Utils.formatDecimal(data.price_limit, $scope.market.price_precision, true) if data.price_limit != undefined
 
-        if data.price
+        if data.price != undefined
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001
                 when "market.short" then -.0001

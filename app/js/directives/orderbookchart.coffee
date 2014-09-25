@@ -6,7 +6,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: if scope.advancedMode then 200 else 350
+            height: 200 #if scope.advancedMode then 200 else 350
 
         title:
             text: null
@@ -100,7 +100,11 @@ angular.module("app.directives").directive "orderbookchart", ->
             removePlotLine(chart)
             addPlotLine(chart, value)
 
-        scope.$watch "advancedMode", (value) =>
-            return unless chart
-            height = if value then 200 else 350
-            chart.setSize(null, height, false)
+#        scope.$watch "advancedMode", (value) =>
+#            return unless chart
+#            height = if value then 200 else 350
+#            console.log "------ container ------>", chart.container
+#            #chart.container.style.height = "#{height}px";
+#            chart.setSize(chart.chartWidth, height, false)
+#            #chart.redraw()
+#            #chart.reflow()
