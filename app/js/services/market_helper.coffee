@@ -54,7 +54,11 @@ class MarketHelper
         else
             td.id = order.market_index.owner
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
+
+        # calc order price
+        price_quote_asset = if order.market_index.order_price.quote_asset_id == qa.id then qa else ba
+        price_base_asset = if order.market_index.order_price.base_asset_id == qa.id then qa else ba
+        price = order.market_index.order_price.ratio * (price_base_asset.precision / price_quote_asset.precision)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
         td.quantity = order.state.balance / ba.precision
