@@ -223,10 +223,6 @@ tr.short_wall td {
 	text-decoration: none;
 }
 
-.tab-short {
-	display: none !important;
-}
-
-.advanced .tab-short {
-	display: block !important;
+.simple-mode-short-stub {
+	height: 240px;
 }

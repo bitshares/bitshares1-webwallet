@@ -333,7 +333,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
@@ -348,7 +348,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
@@ -373,17 +373,21 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
+                #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    #console.log "------ adding to short wall ------>", td.cost, td.quantity, td.price, shorts_price
-                    short_wall.cost += td.cost
-                    short_wall.quantity += td.quantity
+                    #console.log "------ short wall ------>", td.cost, td.quantity
                     if inverted
+                        short_wall.cost += td.quantity
+                        short_wall.quantity += td.quantity * shorts_price
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
+                        short_wall.quantity += td.cost
+                        short_wall.cost += td.cost / shorts_price
                         @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
 
+            #console.log "------ short wall ------>", short_wall
             @helper.update_array {target: @shorts, data: shorts}
             short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
             @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}

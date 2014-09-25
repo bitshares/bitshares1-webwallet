@@ -19,7 +19,7 @@ initChart = (scope) ->
 
         tooltip:
             formatter: ->
-                "Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
+                "Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Collateral #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
 
         xAxis:
             title: "Price " + scope.priceSymbol

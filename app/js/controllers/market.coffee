@@ -13,11 +13,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     # tabs
     $scope.tabs = tabs_basic = []
-    tabs_advanced = []
     tabs_basic.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
     tabs_basic.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
-    #tabs_advanced = tabs_basic.slice 0
-    #tabs_advanced.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
     tabs_basic.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
     Wallet.get_setting("market.advanced").then (result) ->
         $scope.advanced = (if result then result.value else false)
@@ -132,11 +129,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.flip_advanced = ->
         $scope.advanced = ! $scope.advanced
         Wallet.set_setting("market.advanced", $scope.advanced).then()
-        $scope.goto_tab("market.buy") if !$scope.advanced and $scope.active_tab("market.short")
-#        if $scope.advanced
-#            $scope.tabs = tabs_advanced
-#        else
-#            $scope.tabs = tabs_basic
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
