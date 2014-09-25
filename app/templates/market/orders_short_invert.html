@@ -21,7 +21,7 @@
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.collateral_ratio | formatDecimal : market.price_precision : true}}
         </td>
-        <td>{{o.short_price_limit}}</td>
+        <td>{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
         <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <td>
           <span ng-switch on="o.status">
