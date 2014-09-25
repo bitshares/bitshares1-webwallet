@@ -14,7 +14,7 @@
     <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" />
   </div>
   <div form-hgroup-note ng-show="market.shorts_price">
-    Feed Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.shorts_price, short_price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    Feed Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{actual_market.quantity_symbol}}" show-value="{{short_form.$valid}}">
     {{short.total}}
