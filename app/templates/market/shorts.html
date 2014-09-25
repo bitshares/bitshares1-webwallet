@@ -13,7 +13,7 @@
         <td>{{o.quantity | formatDecimal : market.base_precision}}</td>
         <td>{{o.collateral_ratio | formatDecimal : market.price_precision}}</td>
         <td>{{o.cost | formatDecimal : market.quantity_precision}}</td>
-        <td>{{o.price_limit | formatDecimal : market.price_precision}}{{o.price_limit_symbol}}</td>
+        <td>{{o.short_price_limit | formatDecimal : market.price_precision}}{{o.price_limit_symbol}}</td>
       </tr>
     </tbody>
   </table>

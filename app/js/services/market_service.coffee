@@ -255,8 +255,12 @@ class MarketService
             @post_bid(order, account)
         else if order.type == "ask_order"
             @post_ask(order, account)
-        else
+        else #TODO if order.type == "short_order" 
+            if order.type != "short_order"
+                console.log "[WARNING] enhance else block order.type==", order.type
             @post_short(order, account)
+        #else
+            #console.log "ERROR unknown order", order
         call.then (result) ->
             order.id = result.record_id
             console.log "===== order placed: ", order.id
@@ -345,7 +349,7 @@ class MarketService
 
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
-                #console.log "---- 1 short: ", r, inverted
+                #console.log "---- 1 short: ", r, inverted, market.base_asset, market.quantity_asset
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "short"
