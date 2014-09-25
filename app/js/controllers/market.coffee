@@ -97,7 +97,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         q.push Blockchain.get_info().then (config) ->
             $scope.blockchain_symbol = config.symbol #XTS or BTSX
             WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->
-                console.log blockchain_tx_fee
                 Blockchain.get_asset(blockchain_tx_fee.asset_id).then (blockchain_tx_fee_asset) ->
                     $scope.blockchain_tx_fee = Utils.formatDecimal(
                         blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision, blockchain_tx_fee_asset.precision)
@@ -200,6 +199,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         short.type = "short_order"
         short.display_type = "Short"
         console.log "------ submit_short ------>", $scope.market.inverted, short
+        $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
         #$scope.short = new MarketService.TradeData

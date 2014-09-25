@@ -228,7 +228,7 @@ class MarketService
                 else
                     market.inverted = false
                 @pull_market_status().then ->
-                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
+                    #console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
                     #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
@@ -529,7 +529,7 @@ class MarketService
         market = self.market.get_actual_market()
         self.lowest_ask = Number.MAX_VALUE
         self.highest_bid = 0.0
-        console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
+        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),
