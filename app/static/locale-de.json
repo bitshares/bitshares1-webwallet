@@ -378,5 +378,10 @@
         "severe_network_issue": "Severe Network Problems",
         "low_participation_rate_60": "is displayed when delegate participation rate drops below 60%.  Low delegate participation makes blockchain forks likely.",
         "about": "About"
+    },
+    "footer": {
+        "enable_trx_scan": "Enable Transaction Scanning",
+        "up_to_date": "Up to date, processed {{value}} blocks",
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
     }
 }
