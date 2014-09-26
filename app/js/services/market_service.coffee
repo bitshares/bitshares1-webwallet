@@ -45,6 +45,19 @@ class TradeData
         td.total = TradeData.helper.to_float(@total)
         return td
 
+    update: (td) ->
+        @status = td.status
+        @timestamp = td.imestamp
+        @quantity = td.cost
+        @cost = td.quantity
+        @collateral = td.collateral
+        @price = td.price
+        @warning = td.warning
+        @display_type = td.display_type
+        @collateral_ratio = td.collateral_ratio
+        @short_price_limit = td.short_price_limit
+        @total = td.total
+
     touch: ->
         @timestamp = Date.now()
     expired: ->
@@ -215,7 +228,7 @@ class MarketService
                 else
                     market.inverted = false
                 @pull_market_status().then ->
-                    console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
+                    #console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
                     #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
@@ -255,8 +268,12 @@ class MarketService
             @post_bid(order, account)
         else if order.type == "ask_order"
             @post_ask(order, account)
-        else
+        else #TODO if order.type == "short_order" 
+            if order.type != "short_order"
+                console.log "[WARNING] enhance else block order.type==", order.type
             @post_short(order, account)
+        #else
+            #console.log "ERROR unknown order", order
         call.then (result) ->
             order.id = result.record_id
             console.log "===== order placed: ", order.id
@@ -286,9 +303,15 @@ class MarketService
     post_short: (short, account) ->
         #if @market.inverted then 1.0/short.price else short.price
         actual_market = @market.get_actual_market()
-        amount = if @market.inverted then short.quantity else short.cost
-        console.log "---- before market_submit_short ----", account.name, amount, short.collateral_ratio, short.short_price_limit,  actual_market.asset_base_symbol
-        call = @wallet_api.market_submit_short(account.name, amount, actual_market.asset_base_symbol, short.collateral_ratio, short.short_price_limit)
+        price_limit = 0.0
+        if @market.inverted
+            amount = short.quantity
+            price_limit = 1.0 / short.short_price_limit if short.short_price_limit > 0.0
+        else
+            amount = short.cost
+            price_limit = short.short_price_limit
+        console.log "---- before market_submit_short ----", account.name, amount, short.collateral_ratio, price_limit,  actual_market.asset_base_symbol
+        call = @wallet_api.market_submit_short(account.name, amount, actual_market.asset_base_symbol, short.collateral_ratio, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
@@ -310,7 +333,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
@@ -325,7 +348,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
@@ -345,22 +368,26 @@ class MarketService
 
         @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
             for r in results
-                #console.log "---- 1 short: ", r, inverted
+                #console.log "---- 1 short: ", r, inverted, market.base_asset, market.quantity_asset
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
+                #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    #console.log "------ adding to short wall ------>", td.cost, td.quantity, td.price, shorts_price
-                    short_wall.cost += td.cost
-                    short_wall.quantity += td.quantity
+                    #console.log "------ short wall ------>", td.cost, td.quantity
                     if inverted
+                        short_wall.cost += td.quantity
+                        short_wall.quantity += td.quantity * shorts_price
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
+                        short_wall.quantity += td.cost
+                        short_wall.cost += td.cost / shorts_price
                         @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
 
+            #console.log "------ short wall ------>", short_wall
             @helper.update_array {target: @shorts, data: shorts}
             short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
             @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}
@@ -374,8 +401,8 @@ class MarketService
                 # console.log "---- cover ", r
                 r.type = "cover"
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
-                td.collateral = r.collateral / market.base_precision
+                @helper.order_to_trade_data(r, market.quantity_asset, market.base_asset, inverted, false, inverted, td)
+                td.collateral = r.collateral / market.quantity_precision
                 #td.type = "cover"
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
@@ -452,7 +479,8 @@ class MarketService
             for t in transactions
                 #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
-                continue if not t.is_market or not t.is_confirmed or t.is_virtual
+                continue if not t.is_market
+                continue if not t.is_confirmed or t.is_virtual
                 continue unless t.ledger_entries.length > 0
                 continue if last_trade_id == t.id
                 td = {}
@@ -484,10 +512,16 @@ class MarketService
                 highest_bid = prc(t.highest_bid)
                 h = if lowest_ask > highest_bid then lowest_ask else highest_bid
                 l = if lowest_ask < highest_bid then lowest_ask else highest_bid
+
                 h = o if o > h
                 h = c if c > h
                 l = o if o < l
                 l = c if c < l
+
+                oc_avg = (o + c) / 2.0
+                h = 1.5 * Math.max(o,c) if h/oc_avg > 2.0
+                l = 0.66 * Math.min(o,c) if oc_avg/l > 2.0
+
                 ohlc_data.push [time, o, h, l, c]
                 volume_data.push [time, t.volume / market.quantity_asset.precision]
 
@@ -505,7 +539,7 @@ class MarketService
         market = self.market.get_actual_market()
         self.lowest_ask = Number.MAX_VALUE
         self.highest_bid = 0.0
-        console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
+        #console.log "--- pull_data --- market: #{market.name}, inverted: #{self.market.inverted}, counter: #{@counter}:#{@counter%5}"
         promises = [
             self.pull_bids(market, self.market.inverted),
             self.pull_asks(market, self.market.inverted),

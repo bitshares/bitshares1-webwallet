@@ -157,11 +157,11 @@
       <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary" ng-disabled="!(my_transfer_form.amount.$valid && my_transfer_form.memo.$valid && my_transfer_form.payto.$valid)"><i class="fa fa-credit-card fa-lg fa-fw"></i>
+          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
             {{'account.send'|translate}}
           </button>
-          <span class="help-block" ng-show="balance_after_transfer">
-               New Balance: {{balance_after_transfer}} {{transfer_asset.symbol}} (Less fee {{fee}})</span>
+          <span class="help-block">
+               New Balance: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} (Less fee {{fee}})</span>
         </div>
       </div>
     </form>

@@ -1,3 +1,4 @@
+
 .market-selector {
 	margin-top: 10px;
 }
@@ -70,10 +71,16 @@ span.cell {
 	margin: 0.1em 0;
 }
 
-div.fixed-height-table {
+.fixed-height-table {
 	max-height: 320px;
-	overflow-y: scroll;
-	overflow-x: hidden;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+.fixed-height-table-tall {
+	max-height: 640px;
+	overflow-y: auto;
+	overflow-x: auto;
 }
 
 .market-table tr.canceled td {
@@ -146,17 +153,17 @@ div.fixed-height-table {
 	color: #7cb5ec !important;
 }
 
-.market-table tr.bid_order {
-	color: #2ca02c;
-}
+/*.market-table tr.bid_order {*/
+	/*color: #2ca02c;*/
+/*}*/
 
-.market-table tr.ask_order {
-	color: #ff7f0e;
-}
+/*.market-table tr.ask_order {*/
+	/*color: #ff7f0e;*/
+/*}*/
 
-.market-table tr.short_order {
-	color: #7cb5ec;
-}
+/*.market-table tr.short_order {*/
+	/*color: #7cb5ec;*/
+/*}*/
 
 tr.short_wall td {
 	background-color: #E4F0FB !important;
@@ -164,4 +171,58 @@ tr.short_wall td {
 
 .order-form .input-group-addon {
 	width: 8em;
+}
+
+.buy-orders-title {
+	color: #2ca02c;
+}
+
+.sell-orders-title {
+	color: #ff7f0e;
+}
+
+.short-orders-title {
+	color: #7cb5ec;
+}
+
+.margin-orders-title {
+	color: #7cb5ec;
+}
+
+/* TODO, move scroll bar down, from under the header
+.market-header {
+    position: fixed;
+    z-index: 9;
+    background-color: white;
+}
+.content {
+    overflow-y: auto;
+}
+.market-content {
+    padding-top: 70px;
+    padding-bottom: 60px;
+    height: 100%;
+}
+*/
+
+/*.orderbookchart svg {*/
+	/*height: 350px !important;*/
+/*}*/
+
+/*.advanced .orderbookchart svg {*/
+	/*height: 200px !important;*/
+/*}*/
+
+.market-header-button {
+	text-shadow: none;
+	font-size: 14px;
+	color: #666;
+}
+
+.market-header-button:hover, .market-header-button:focus {
+	text-decoration: none;
+}
+
+.simple-mode-short-stub {
+	height: 240px;
 }

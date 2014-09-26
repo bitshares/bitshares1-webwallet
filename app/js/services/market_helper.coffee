@@ -34,8 +34,8 @@ class MarketHelper
         if inverted
             market.bid_depth = data.ask_depth / ba.precision
             market.ask_depth = data.bid_depth / ba.precision
-            market.feed_price = 1.0 / data.center_price
-            market.shorts_price = 1.0 / data.center_price
+            market.feed_price = 1.0 / data.center_price if data.center_price
+            market.shorts_price = 1.0 / data.center_price if data.center_price
 
         #console.log "------ read_market_data ------>", market.shorts_price, data, assets
 
@@ -54,7 +54,11 @@ class MarketHelper
         else
             td.id = order.market_index.owner
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-        price = order.market_index.order_price.ratio * (ba.precision / qa.precision)
+
+        # calc order price
+        price_quote_asset = if order.market_index.order_price.quote_asset_id == qa.id then qa else ba
+        price_base_asset = if order.market_index.order_price.base_asset_id == qa.id then qa else ba
+        price = order.market_index.order_price.ratio * (price_base_asset.precision / price_quote_asset.precision)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
         td.quantity = order.state.balance / ba.precision
@@ -77,7 +81,6 @@ class MarketHelper
             if pl
                 short_price_limit = pl.ratio * (ba.precision / qa.precision)
                 td.short_price_limit = if invert_price and short_price_limit > 0.0 then 1.0 / short_price_limit else short_price_limit
-
 
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
@@ -112,7 +115,10 @@ class MarketHelper
         for i, dv of data
             tv = target_hash[dv.id]
             if tv
-                params.update(tv,dv) if params.update
+                if params.update
+                    params.update(tv,dv)
+                else if tv.update
+                    tv.update(dv)
             else
                 target.push dv
         for i, tv of target

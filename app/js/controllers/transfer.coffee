@@ -89,12 +89,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         _bal=$scope.balances[$scope.transfer_info.symbol]
         balance = _bal.amount/_bal.precision
         balance_after_transfer = balance - transfer_amount - fee
-        balance_after_transfer = Utils.formatDecimal(balance_after_transfer, _bal.precision)
         
         #display "New Balance 999 (...)"
         $scope.transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
         $scope.balance_after_transfer = balance_after_transfer
         $scope.balance = balance
+        $scope.balance_precision = _bal.precision
         #transfer_amount -> already available as $scope.transfer_info.amount
         $scope.fee = fee
         

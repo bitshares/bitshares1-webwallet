@@ -1,0 +1,20 @@
+<div class="fixed-height-table">
+  <table class="table table-striped table-hover market-table fixed-height">
+    <thead>
+      <tr>
+        <th>{{'th.quantity'|translate}} ({{actual_market.base_symbol}})</th>
+        <th>{{'th.collateral_ratio'|translate}} ({{actual_market.quantity_symbol}}/{{actual_market.base_symbol}})</th>
+        <th>{{'th.price_limit'|translate}} ({{market.price_symbol}})</th>
+        <th>{{'th.collateral'|translate}} ({{actual_market.quantity_symbol}})</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="o in shorts track by $index">
+        <td>{{o.quantity | formatDecimal : actual_market.base_precision}}</td>
+        <td>{{o.collateral_ratio | formatDecimal : market.price_precision}}</td>
+        <td>{{o.short_price_limit | formatDecimal : market.price_precision}}</td>
+        <td>{{o.cost | formatDecimal : actual_market.quantity_precision}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

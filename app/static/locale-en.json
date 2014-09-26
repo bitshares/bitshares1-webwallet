@@ -87,7 +87,10 @@
         "type": "TYPE",
         "quantity": "QUANTITY",
         "order_price": "Price",
+        "call_price": "Call Price",
+        "units_owed": "{{value}} Owed",
         "cost": "COST",
+        "total": "TOTAL",
         "collateral": "COLLATERAL",
         "collateral_ratio": "COLLATERAL RATIO",
         "price_limit": "PRICE LIMIT",
@@ -203,11 +206,10 @@
         "asks": "Asks",
         "cover_short_position": "Cover Short Position",
         "order_type": {
-            "bid_order": "Bid",
-            "ask_order": "Ask",
-            "short_order": "Short",
-            "cover_order": "Cover",
-            "margin_order": "Margin"
+            "bid_order": "Open Buy Orders",
+            "ask_order": "Open Sell Orders",
+            "short_order": "Open Short",
+            "margin_order": "Open Margin"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",
@@ -220,7 +222,11 @@
         "chart": {
             "price": "Price",
             "volume": "Volume"
-        }
+        },
+        "advanced_view": "Advanced Market View",
+        "simple_view": "Simple Market View",
+        "advanced": "Short Mode",
+        "simple": "Simple"
     },
     "account": {
         "reg_pending": "Registration pending",
@@ -356,6 +362,7 @@
     },
     "directive":{
         "input_name": {
+            "name_tip": "Name (required)",
             "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
             "note1": "Note: Account names cannot be transferred.",
             "note2": "Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash."

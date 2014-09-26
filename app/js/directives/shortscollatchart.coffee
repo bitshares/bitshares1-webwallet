@@ -2,8 +2,6 @@ utils = null
 
 initChart = (scope) ->
 
-    #[shorts_range_begin, shorts_range_end] = scope.shortsRange.split("-")
-
     new Highcharts.Chart
         chart:
             type: "area"
@@ -18,16 +16,13 @@ initChart = (scope) ->
 
         legend:
             verticalAlign: "top"
-            #align: "right"
 
         tooltip:
             formatter: ->
-                "Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
-
+                "Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Collateral #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
 
         xAxis:
             title: "Price " + scope.priceSymbol
-            #reversed: true
 
         yAxis:
             title: ""
@@ -72,10 +67,9 @@ angular.module("app.directives").directive "shortscollatchart", ->
         shortsPrice: "="
 
     controller: ($scope, $element, $attrs, Utils) ->
-        #console.log "orderbookchart controller"
         utils = Utils
 
-    template: "<div id=\"shortscollatchart\" style=\"margin: 0 auto\"></div>"
+    template: '''<div id="shortscollatchart" class="shortscollatchart" style="margin: 0 auto"></div>'''
 
     chart: null
 
