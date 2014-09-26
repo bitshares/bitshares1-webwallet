@@ -327,9 +327,9 @@ class MarketService
     pull_bids: (market, inverted) ->
         bids = []
         call = if !inverted
-            @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 100)
+            @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 1000)
         else
-            @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 100)
+            @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 1000)
         call.then (results) =>
             for r in results
                 td = new TradeData()
@@ -337,14 +337,15 @@ class MarketService
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
+            #console.log "------ pull_bids ------>", bids.length, @bids.length
             @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
 
     pull_asks: (market, inverted) ->
         asks = []
         call = if !inverted
-            @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 100)
+            @blockchain_api.market_list_asks(market.asset_base_symbol, market.asset_quantity_symbol, 1000)
         else
-            @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 100)
+            @blockchain_api.market_list_bids(market.asset_base_symbol, market.asset_quantity_symbol, 1000)
         call.then (results) =>
             for r in results
                 td = new TradeData()
@@ -352,6 +353,7 @@ class MarketService
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
+            #console.log "------ pull_asks ------>", asks.length, @asks.length
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
 
     pull_shorts: (market, inverted) ->
@@ -366,7 +368,7 @@ class MarketService
         short_wall.quantity = 0.0
         short_wall_dest = if inverted then @asks else @bids
 
-        @blockchain_api.market_list_shorts(market.asset_base_symbol, 100).then (results) =>
+        @blockchain_api.market_list_shorts(market.asset_base_symbol, 1000).then (results) =>
             for r in results
                 #console.log "---- 1 short: ", r, inverted, market.base_asset, market.quantity_asset
                 td = new TradeData()
@@ -394,7 +396,7 @@ class MarketService
 
     pull_covers: (market, inverted) ->
         covers = []
-        @blockchain_api.market_list_covers(market.asset_base_symbol, 100).then (results) =>
+        @blockchain_api.market_list_covers(market.asset_base_symbol, 1000).then (results) =>
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
@@ -519,8 +521,8 @@ class MarketService
                 l = c if c < l
 
                 oc_avg = (o + c) / 2.0
-                h = 1.5 * Math.max(o,c) if h/oc_avg > 2.0
-                l = 0.66 * Math.min(o,c) if oc_avg/l > 2.0
+                h = 1.10 * Math.max(o,c) if h/oc_avg > 1.25
+                l = 0.90 * Math.min(o,c) if oc_avg/l > 1.25
 
                 ohlc_data.push [time, o, h, l, c]
                 volume_data.push [time, t.volume / market.quantity_asset.precision]
