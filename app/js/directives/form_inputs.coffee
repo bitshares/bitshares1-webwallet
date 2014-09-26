@@ -66,32 +66,19 @@ angular.module("app.directives").directive "inputPositiveNumber", ($compile, $to
 #        $compile(element.contents())(scope)
 
         validator = (viewValue) ->
-            #console.log "------ inputPositiveNumber viewValue 0 ------>", viewValue
             res = null
             if viewValue == "" and not scope.required
                 ctrl.$setValidity "float", true
                 return 0
 
             if /^[\d\.\,\+]+$/.test(viewValue)
-                #console.log "------ inputPositiveNumber viewValue 1 ------>", viewValue
                 ctrl.$setValidity "float", true
                 if $.isNumeric(viewValue)
                     res = parseFloat viewValue
                 else
-                    res = parseFloat viewValue.replace(",", "")
-                    #console.log "------ inputPositiveNumber viewValue 1b ------>", viewValue, res
+                    res = parseFloat viewValue.replace(/,/g, "")
             else
-                #console.log "------ inputPositiveNumber viewValue 2 ------>", viewValue
                 ctrl.$setValidity "float", false
             return res
 
         ctrl.$parsers.unshift validator
-
-
-#        scope.$watch attrs.ngModel, (newValue) ->
-#            #console.log "------ $watch ------>", attrs.ngModel, newValue
-#            return unless newValue
-#            res = validator(newValue)
-#            #console.log "------ $setViewValue ------>", newValue, res
-#            ctrl.$setViewValue(newValue)
-#            scope.$eval(attrs.ngModel + "=" + res)
