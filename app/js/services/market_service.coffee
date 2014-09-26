@@ -512,10 +512,16 @@ class MarketService
                 highest_bid = prc(t.highest_bid)
                 h = if lowest_ask > highest_bid then lowest_ask else highest_bid
                 l = if lowest_ask < highest_bid then lowest_ask else highest_bid
+
                 h = o if o > h
                 h = c if c > h
                 l = o if o < l
                 l = c if c < l
+
+                oc_avg = (o + c) / 2.0
+                h = 1.5 * Math.max(o,c) if h/oc_avg > 2.0
+                l = 0.66 * Math.min(o,c) if oc_avg/l > 2.0
+
                 ohlc_data.push [time, o, h, l, c]
                 volume_data.push [time, t.volume / market.quantity_asset.precision]
 
