@@ -39,7 +39,8 @@
         "info_privacy": "你的隐私对我们极为重要",
         "no_pending_trxs": "没有待处理交易!",
         "no_trxs": "没有交易!",
-        "updating_trx_history": "正在更新交易记录..."
+        "updating_trx_history": "正在更新交易记录...",
+        "partial_voting_info": "账户尚有未使用投票权。请考虑行使投票权。"
     },
     "th": {
         "date": "日期",
