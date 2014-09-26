@@ -165,5 +165,3 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             scope: $scope
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
-
-    

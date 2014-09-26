@@ -195,21 +195,21 @@
         "open_orders": "Open Orders",
         "blockchain_orders_history": "Blockchain Orders History",
         "account_orders_history": "Account Orders History",
-        "margin_orders": "Margin Call",
+        "margin_orders": "Margin Call Orders",
         "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
         "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
         "flip_market": "Flip Market",
-        "buy_orders": "Buy {{value}}",
-        "sell_orders": "Sell {{value}}",
-        "short_orders": "Short Sell {{value}}",
+        "buy_orders": "Buy {{value}} Orders",
+        "sell_orders": "Sell {{value}} Orders",
+        "short_orders": "Short Sell {{value}} Orders",
         "bids": "Bids",
         "asks": "Asks",
         "cover_short_position": "Cover Short Position",
         "order_type": {
-            "bid_order": "Open Buy Orders",
-            "ask_order": "Open Sell Orders",
-            "short_order": "Open Short",
-            "margin_order": "Open Margin"
+            "bid_order": "Buy Order",
+            "ask_order": "Sell Order",
+            "short_order": "Short Order",
+            "margin_order": "Margin Order"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",
@@ -223,10 +223,11 @@
             "price": "Price",
             "volume": "Volume"
         },
-        "advanced_view": "Advanced Market View",
-        "simple_view": "Simple Market View",
         "advanced": "Short Mode",
-        "simple": "Simple"
+        "open_buy_orders": "Open Buy {{value}} Orders",
+        "open_sell_orders": "Open Sell {{value}} Orders",
+        "open_short_orders": "Open Short Sell {{value}} Orders",
+        "open_margin_orders": "Open Margin Orders"
     },
     "account": {
         "reg_pending": "Registration pending",
