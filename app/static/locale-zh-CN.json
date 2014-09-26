@@ -379,5 +379,10 @@
         "severe_network_issue": "严重网络问题",
         "low_participation_rate_60": "显示时表示受托人参与率降低到60%以下",
         "about": "版本信息"
+    },
+    "footer": {
+        "enable_trx_scan": "启用交易记录扫描",
+        "up_to_date": "已同步到最新状态：已处理 {{value}} 块区块",
+        "catching_up": "同步中：已处理 {{value}} 块区块，总共 {{value2}} 块区块"
     }
 }

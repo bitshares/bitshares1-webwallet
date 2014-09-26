@@ -382,5 +382,10 @@
         "severe_network_issue": "Серьезные проблемы с сетью",
         "low_participation_rate_60": "отображается, когда уровень участия делегатов падает ниже 60%. Недостаточное участие делегатов повышает вероятность образования альтернативных цепочек блоков (forks).",
         "about": "О программе"
+    },
+    "footer": {
+        "enable_trx_scan": "Enable Transaction Scanning",
+        "up_to_date": "Up to date, processed {{value}} blocks",
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
     }
 }
