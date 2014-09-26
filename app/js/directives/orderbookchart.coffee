@@ -2,13 +2,11 @@ utils = null
 
 initChart = (scope) ->
 
-    #[shorts_range_begin, shorts_range_end] = scope.shortsRange.split("-")
-
     new Highcharts.Chart
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 200
+            height: 200 #if scope.advancedMode then 200 else 350
 
         title:
             text: null
@@ -18,7 +16,6 @@ initChart = (scope) ->
 
         legend:
             verticalAlign: "top"
-            #align: "right"
 
         tooltip:
             formatter: ->
@@ -40,16 +37,6 @@ initChart = (scope) ->
             data: scope.asksArray
             color: "#ff7f0e"
             lineWidth: 1
-#        ,
-#            name: "Short " + scope.volumeSymbol
-#            data: scope.shortsArray
-#            color: if scope.invertedMarket then "#de6e0b" else "#278c27"
-#            lineWidth: 1
-#        ,
-#            name: "Short Demand"
-#            data: scope.shortsDemandArray
-#            color: "#ffff99"
-#            lineWidth: 1
         ]
 
         plotOptions:
@@ -68,7 +55,7 @@ addPlotLine = (chart, value) ->
         zIndex: 5
 
 removePlotLine = (chart) ->
-    chart.xAxis[0].removePlotLine "shorts_price"
+    chart.xAxis[0].removePlotLine "feed_price"
 
 angular.module("app.directives").directive "orderbookchart", ->
     restrict: "E"
@@ -82,12 +69,12 @@ angular.module("app.directives").directive "orderbookchart", ->
         pricePrecision: "="
         invertedMarket: "="
         feedPrice: "="
+        advancedMode: "="
 
     controller: ($scope, $element, $attrs, Utils) ->
-        #console.log "orderbookchart controller"
         utils = Utils
 
-    template: "<div id=\"orderbookchart\" style=\"margin: 0 auto\"></div>"
+    template: '''<div id="orderbookchart" class="orderbookchart" style="margin: 0 auto"></div>'''
 
     chart: null
 
@@ -113,3 +100,11 @@ angular.module("app.directives").directive "orderbookchart", ->
             removePlotLine(chart)
             addPlotLine(chart, value)
 
+#        scope.$watch "advancedMode", (value) =>
+#            return unless chart
+#            height = if value then 200 else 350
+#            console.log "------ container ------>", chart.container
+#            #chart.container.style.height = "#{height}px";
+#            chart.setSize(chart.chartWidth, height, false)
+#            #chart.redraw()
+#            #chart.reflow()

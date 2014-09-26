@@ -12,10 +12,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     price_decimals = 4
 
     # tabs
-    $scope.tabs = []
-    $scope.tabs.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
-    $scope.tabs.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
-    $scope.tabs.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+    $scope.tabs = tabs_basic = []
+    tabs_basic.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
+    tabs_basic.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
+    tabs_basic.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+    Wallet.get_setting("market.advanced").then (result) ->
+        $scope.advanced = (if result then result.value else false)
+        #$scope.tabs = (if $scope.advanced then tabs_advanced else tabs_basic)
+
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
@@ -24,7 +28,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
-        
+
     account_balances_observer =
         name: "account_balances_observer"
         frequency: "each_block"
@@ -86,13 +90,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
-        WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
+        q=[]
+        q.push Blockchain.get_info().then (config) ->
+            $scope.blockchain_symbol = config.symbol #XTS or BTSX
+            WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->
+                Blockchain.get_asset(blockchain_tx_fee.asset_id).then (blockchain_tx_fee_asset) ->
+                    $scope.blockchain_tx_fee = Utils.formatDecimal(
+                        blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision, blockchain_tx_fee_asset.precision)
+                
+        q.push WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
                 $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
-            
+                
+        $q.all(q).then()
+         
     promise.catch (error) -> Growl.error("", error)
     $scope.showLoadingIndicator(promise)
-    
+
     Wallet.refresh_accounts().then ->
         $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
@@ -108,9 +122,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.unregisterObserver(market_status_observer)
         Observer.unregisterObserver(account_balances_observer)
 
-        
     $scope.flip_market = ->
+        #console.log "flip market"
         $state.go('^.buy', {name: $scope.market.inverted_url})
+
+    $scope.flip_advanced = ->
+        $scope.advanced = ! $scope.advanced
+        Wallet.set_setting("market.advanced", $scope.advanced).then()
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
@@ -135,6 +153,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
+        #$scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
@@ -151,8 +170,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
-        $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(ask)
+        #$scope.ask = new MarketService.TradeData
 
     calc_short_cost = (short, inverted) ->
         if inverted
@@ -172,8 +191,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         short.type = "short_order"
         short.display_type = "Short"
         console.log "------ submit_short ------>", $scope.market.inverted, short
+        $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
+        #$scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->
@@ -190,12 +211,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
             else $scope.bid
-        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity
-        if data.collateral_ratio
-            ratio = if $scope.market.inverted then data.collateral_ratio else 1.0 / data.collateral_ratio
-            order.collateral_ratio = Utils.formatDecimal(ratio, $scope.market.price_precision, true)
-        order.short_price_limit =  Utils.formatDecimal(data.short_price_limit, $scope.market.price_precision, true) if data.short_price_limit
-        if data.price
+        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity != undefined
+        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.price_precision, true) if data.collateral_ratio != undefined
+        order.short_price_limit =  Utils.formatDecimal(data.price_limit, $scope.market.price_precision, true) if data.price_limit != undefined
+
+        if data.price != undefined
             makeweight = switch $state.current.name
                 when "market.sell" then -.0001
                 when "market.short" then -.0001

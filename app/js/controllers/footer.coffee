@@ -74,7 +74,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
                     $scope.scan_progress_info = "Transaction Scanning Disabled"
             else
                 $scope.scan_progress_info = "Failure during transaction scanning"
-        else if info.wallet_scan_progress >= 0 and info.wallet_scan_progress < 1
+        else if info.wallet_scan_progress and info.wallet_scan_progress >= 0 and info.wallet_scan_progress < 1
             $scope.scan_progress_info = "Transaction scanning progress is " + Math.floor(info.wallet_scan_progress * 100) + "%"
         else
             $scope.scan_progress_info = ""
