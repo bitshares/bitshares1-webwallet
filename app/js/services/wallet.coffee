@@ -3,6 +3,9 @@ class Wallet
     accounts: {}
 
     balances: {}
+    bonuses: {}
+
+    open_orders_balances: {}
 
     asset_balances : {}
 
@@ -57,19 +60,48 @@ class Wallet
             @asset_balances = {}
             angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
-                balances = name_bal_pair[1][0]
-                angular.forEach balances, (symbol_amt_pair) =>
-                    symbol = symbol_amt_pair[0]
-                    amount = symbol_amt_pair[1]
+                balances = name_bal_pair[1]
+                angular.forEach balances, (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    asset_record = @blockchain.asset_records[asset_id]
+                    symbol = asset_record.symbol
+                    amount = asset_id_amt_pair[1]
                     @balances[name] = @balances[name] || {}
-                    @balances[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
-                    asset_id = @blockchain.symbol2records[symbol].id
+                    @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
+                if acct.is_my_account
+                    #@refresh_open_order_balances(acct.name)
+                    @refresh_bonuses(acct.name)
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
+
+    refresh_open_order_balances: (name) ->
+        if !@open_orders_balances[name]
+            @open_orders_balances[name] = {}
+        @open_order_balances[name]["BTSX"] = 0
+        @wallet_api.account_order_list(name).then (result) =>
+            angular.forEach result, (order) =>
+                base = @blockchain.asset_records[order.market_index.order_price.base_asset_id]
+                quote = @blockchain.asset_records[order.market_index.order_price.quote_asset_id]
+                if order.type == "ask_order"
+                    @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
+                if order.type == "bid_order" or order.type == "short_order"
+                    @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
+
+    refresh_bonuses: (name) ->
+        @rpc.request('wallet_account_yield', []).then (response) =>
+            angular.forEach response.result, (name_balances_pair) =>
+                name = name_balances_pair[0]
+                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    symbol = @blockchain.asset_records[asset_id].symbol
+                    amount = asset_id_amt_pair[1]
+                    @bonuses[name] = @bonuses[name] || {}
+                    @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+
 
     count_my_accounts: ->
         accounts = 0
@@ -143,7 +175,7 @@ class Wallet
             ,
             (error) =>
                 @blockchain_api.get_account(name).then (result) =>
-                    acct = @populate_account(result)
+                    acct = if result then @populate_account(result) else null
                     return acct
 
     approve_account: (name, approve) ->
@@ -158,7 +190,6 @@ class Wallet
 #                    promises.push @refresh_transactions(name)
 
     refresh_transactions: ->
-        console.log "------ refresh_transactions begin ------>"
         return @transactions_loading_promise if @transactions_loading_promise
         deffered = @q.defer()
 
@@ -208,7 +239,7 @@ class Wallet
                             memo: entry.memo
                             running_balances: running_balances
 
-                    time = @utils.toDate(val.received_time)
+                    time = @utils.toDate(val.timestamp)
                     transaction =
                         is_virtual: val.is_virtual
                         is_confirmed: val.is_confirmed
@@ -354,7 +385,7 @@ class Wallet
             return deferred.promise
 
         @get_setting("current_account").then (setting) =>
-            if setting.value
+            if setting?.value
                 @get_account(setting.value).then (account) ->
                     deferred.resolve(account)
             else

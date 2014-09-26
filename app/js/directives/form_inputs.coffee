@@ -1,13 +1,13 @@
 angular.module("app.directives").directive "inputName", ->
     template: '''
-        <input autofocus id="account_name" name="account_name" ng-trim="false" placeholder="Name (Required)"
+        <input autofocus id="account_name" name="account_name" ng-trim="false" placeholder="{{ 'directive.input_name.name_tip' | translate }}"
         autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
-        popover="Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash."
+        popover="{{ 'directive.input_name.popover' | translate }}"
         popover-append-to-body="{{popoverAppendToBody}}" popover-placement="top" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1" ng-maxlength="63">
-        <span class="help-block text-muted" ng-show="showNote1 && !formName.account_name.error_message">Note: Account names cannot be transferred.</span>
-        <span class="help-block text-muted" ng-show="showNote2 && !formName.account_name.error_message">Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash.</span>
+        <span class="help-block text-muted" ng-show="showNote1 && !formName.account_name.error_message" translate>directive.input_name.note1</span>
+        <span class="help-block text-muted" ng-show="showNote2 && !formName.account_name.error_message" translate>directive.input_name.note2</span>
         <span class="help-block text-danger" ng-show="formName.account_name.error_message">{{formName.account_name.error_message}}</span>
     '''
     restrict: "E"
@@ -48,19 +48,30 @@ angular.module("app.directives").directive "inputName", ->
             $scope.ngModel = $scope.ngModel.replace(/\-+$/, "") if $scope.ngModel
             $scope.ngModel = $scope.ngModel.replace(/\.+$/, "") if $scope.ngModel
 
-angular.module("app.directives").directive "inputPositiveNumber", ->
+angular.module("app.directives").directive "inputPositiveNumber", ($compile, $tooltip) ->
     template: '''
-        <input class="form-control" placeholder="0.0" />
+        <input class="form-control" placeholder="0.0 {{required ? '' : '(optional)'}}" />
     '''
     restrict: "E"
     replace: true
     require: "ngModel"
 
-    link: (scope, elm, attrs, ctrl) ->
+    scope:
+        required: "="
+
+    link: (scope, element, attrs, ctrl) ->
+#        console.log "------ $tooltip ------>", $tooltip
+#        element.after('''<i class="fa fa-question-circle"></i>''')
+#        element.parent().addClass("right-inner-addon")
+#        $compile(element.contents())(scope)
 
         validator = (viewValue) ->
             #console.log "------ inputPositiveNumber viewValue 0 ------>", viewValue
             res = null
+            if viewValue == "" and not scope.required
+                ctrl.$setValidity "float", true
+                return 0
+
             if /^[\d\.\,\+]+$/.test(viewValue)
                 #console.log "------ inputPositiveNumber viewValue 1 ------>", viewValue
                 ctrl.$setValidity "float", true
@@ -76,10 +87,11 @@ angular.module("app.directives").directive "inputPositiveNumber", ->
 
         ctrl.$parsers.unshift validator
 
-        scope.$watch attrs.ngModel, (newValue) ->
-            #console.log "------ $watch ------>", newValue
-            return unless newValue
-            res = validator(newValue)
-            #console.log "------ $setViewValue ------>", newValue, res
-            ctrl.$setViewValue(newValue)
-            scope.$eval(attrs.ngModel + "=" + res)
+
+#        scope.$watch attrs.ngModel, (newValue) ->
+#            #console.log "------ $watch ------>", attrs.ngModel, newValue
+#            return unless newValue
+#            res = validator(newValue)
+#            #console.log "------ $setViewValue ------>", newValue, res
+#            ctrl.$setViewValue(newValue)
+#            scope.$eval(attrs.ngModel + "=" + res)

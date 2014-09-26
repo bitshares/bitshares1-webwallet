@@ -5,11 +5,11 @@
     </div>
     <br/>
     <div class="text-center avatar-150">
-      <button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="Toggle favorite">
+      <button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.favorite' | translate }}">
         <i ng-class="(account.is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
       </button>
       <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary"
-              tooltip="Toggle approval">
+              tooltip="{{ 'account.toggle.approval' | translate }}">
         <i ng-if="account.approved>0" class='fa fa-thumbs-up fa-2x'></i>
         <i ng-if="!account.approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
         <i ng-if="account.approved<0" class='fa fa-thumbs-down fa-2x'></i>
@@ -26,7 +26,7 @@
             <div ng-switch-when='pending'>
               <div class="pull-right" translate>account.reg_pending</div>
               <span style='color:white;font-size:300%'>{{account.name}}</span>
-              &nbsp;&nbsp; <i tooltip='Registration pending.  Not registered yet.' class='fa fa-eye-slash fa-2x text-success'></i>
+              &nbsp;&nbsp; <i tooltip='{{ "tip.reg_pending" | translate }}' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
             <div ng-switch-default>
               <div class="pull-right">
@@ -34,7 +34,7 @@
                     class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
               </div>
               <span style='color:white;font-size:300%'>{{account.name}}</span>
-              &nbsp;&nbsp; <i tooltip='Not registered on the blockchain' class='fa fa-eye-slash fa-2x text-success'></i>
+              &nbsp;&nbsp; <i tooltip='{{ "tip.not_reg_onchain" | translate}}' class='fa fa-eye-slash fa-2x text-success'></i>
             </div>
           </div>
         </div>
@@ -45,12 +45,8 @@
         </div>
       </div>
       <div ng-if="account.delegate_info">
-      <div class='white-shadow' ng-if="active_delegate">
-        Active delegate
-      </div>
-      <div class='white-shadow' ng-if="!active_delegate">
-        Standby delegate
-      </div>
+      <div class='white-shadow' ng-if="active_delegate" translate>account.active_delegate</div>
+      <div class='white-shadow' ng-if="!active_delegate" translate>account.standby_delegate</div>
       <table class="table table-striped table-acc-balance">
         <thead>
           <tr>
@@ -67,9 +63,9 @@
             <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
                       tooltip="Approval: {{ account.delegate_info.votes_for | formatVotes}}">
-					<span ng-switch-when='true'>&#60;0.01%</span>
-					<span ng-switch-default>{{ (account.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
-				</span>
+          <span ng-switch-when='true'>&#60;0.01%</span>
+          <span ng-switch-default>{{ (account.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+        </span>
             </td>
             <td ng-switch on='account.delegate_info.blocks_produced>0 || account.delegate_info.blocks_missed>0'>
               <span ng-switch-when='true'>{{ account.delegate_info.blocks_produced/(account.delegate_info.blocks_produced + account.delegate_info.blocks_missed)*100 | number:2 }}%</span>
@@ -88,7 +84,29 @@
     </div>
   </div>
 
-  <div class="col-sm-12">
+  <div class="col-sm-5">
+  <!--  TODO
+    <div class="pull-right p-inner">
+      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+        <thead>
+          <tr>
+            <th><h3 class="header-title text-muted" translate>IN OPEN ORDERS</h3></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(symbol, asset) in open_orders_balances">
+            <td>
+              {{asset | formatAsset}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  -->
+  </div>
+
+
+  <div class="col-sm-2">
     <div class="pull-right p-inner">
       <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
         <thead>
@@ -106,6 +124,28 @@
       </table>
     </div>
   </div>
+
+
+  <div class="col-sm-3">
+    <div class="pull-right p-inner">
+      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+        <thead>
+          <tr>
+            <th><h3 class="header-title text-muted" translate>account.estimated_yield</h3></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(symbol, asset) in bonuses">
+            <td>
+              {{asset | formatAsset}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
 </div>
 
 <div class="main-content">
@@ -121,11 +161,11 @@
         <div class="p-inner" ng-controller="TransactionsController" ng-include src="'account_transactions.html'"></div>
       </tab>
       <tab ng-if="account.delegate_info">
-        <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>Delegate Info</tab-heading>
+        <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
         <br>
-        Blocks produced / missed : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
+        {{ 'account.blk_produced_missed' | translate }} : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
         <br>
-        <h3>Price Feeds</h3>
+        <h3 translate>account.price_feeds</h3>
         <div ng-controller="AccountDelegatePriceFeeds" ng-include src="'account_delegate_price_feeds.html'"></div>
       </tab>
 
@@ -139,21 +179,21 @@
         <div ng-controller="ManageAssetsController" ng-include src="'manage_assets.html'"></div>
       </tab>
       <tab>
-        <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> Keys </tab-heading>
+        <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> {{ 'account.keys' | translate }} </tab-heading>
         <div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
 
         <tabset ng-show="account.is_my_account" class="p-inner">
           <hr>
-          <tab heading="Import WIF Key">
+          <tab heading="{{'account.import_wif_key'|translate}}">
             <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
               <div class="form-group row" ng-class="{ 'has-error' : import_key_form.key.$invalid && !import_key_form.key.$pristine }">
                 <label for="pk_value" class="col-sm-2 control-label">
-                    <a class="btn btn-link" onclick="magic_unicorn.open_in_external_browser('https://en.bitcoin.it/wiki/Wallet_import_format')">WIF <span translate>account.priv_key </span></a>
+                    WIF <span translate>account.priv_key</span>
                 </label>
                 <div class="col-sm-9">
                   <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
-                         placeholder="Private Key"/>
-                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger">Error parsing WIF private key</div>
+                         placeholder="{{'account.priv_key'|translate}}"/>
+                  <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger" translate>tip.error_parsing_wif_key</div>
                 </div>
               </div>
               <div class="form-group row">
@@ -170,7 +210,7 @@
               </div>
             </form>
           </tab>
-          <tab heading="Import Keys from Wallet">
+          <tab heading="{{'account.import_from_wallet'|translate}}">
             <br/>
             <form name="import_wallet_form" class="form-horizontal" role="form" ng-submit="import_wallet()">
               <div class="form-group">
@@ -201,7 +241,7 @@
                 <label for="wallet_password" class="col-sm-2 control-label" translate>account.wallet_password</label>
                 <div class="col-sm-9 input-group">
                   <input ng-model="wallet_info.password" name="pass" type="password" class="form-control" id="wallet_password"
-                         placeholder="Password"/>
+                         placeholder="{{'account.wallet_password'|translate}}"/>
                   <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger">{{import_wallet_form.pass.error_message}}</div>
                 </div>
               </div>
@@ -216,14 +256,14 @@
         </tabset>
       </tab>
       <tab ng-show='account.is_my_account'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'edit' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
         <div ng-controller="EditLocalController" ng-include src="'editlocal.html'"
              ng-if="!utils.is_registered(account)"></div>
         <div ng-controller="UpdateRegAccountController" ng-include src="'update-reg-account.html'"
              ng-if="utils.is_registered(account)"></div>
       </tab>
       <tab ng-if='account.is_my_account'>
-        <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>Vote</tab-heading>
+        <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>{{'account.vote.tab_title'|translate}}</tab-heading>
           <div ng-controller="AccountVoteController" ng-include src="'account_vote.html'"></div>
       </tab>
     </tabset>

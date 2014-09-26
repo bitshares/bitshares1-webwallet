@@ -24,6 +24,7 @@ class Observer
 
     private:
         observers: {}
+        each_block_observers: {}
         update: (observer, q) ->
             return if observer.busy
             observer.busy = true
@@ -36,7 +37,14 @@ class Observer
                 observer.counter += 1
                 observer.busy = false
 
-    constructor: (@q, @log, @interval) ->
+
+    constructor: (@q, @log, @interval, @info, @root_scope) ->
+        info = @info
+        @root_scope.$watch (-> info.info.last_block_time), @on_new_block, true
+
+    on_new_block: =>
+        for index, observer of @private.each_block_observers
+            @private.update(observer, @q)
 
     registerObserver: (observer) ->
         if @private.observers[observer.name]
@@ -45,15 +53,19 @@ class Observer
         @private.observers[observer.name] = observer
         observer.counter = 0
         @private.update(observer, @q)
-        observer.interval_promise = @interval (=>
-            @private.update(observer, @q)
-        ), observer.frequency
+        if observer.frequency == "each_block"
+            @private.each_block_observers[observer.name] = observer
+        else
+            observer.interval_promise = @interval (=>
+                @private.update(observer, @q)
+            ), observer.frequency
 
     unregisterObserver: (observer) ->
         unless @private.observers[observer.name]
             @log.error("Observer.unregisterObserver: cannot find '#{observer.name}' observer")
             return
-        @interval.cancel(observer.interval_promise)
+        @interval.cancel(observer.interval_promise) if observer.interval_promise
         delete @private.observers[observer.name]
+        delete @private.each_block_observers[observer.name]
 
-angular.module("app").service("Observer", ["$q", "$log", "$interval", Observer])
+angular.module("app").service("Observer", ["$q", "$log", "$interval", "Info", "$rootScope", Observer])

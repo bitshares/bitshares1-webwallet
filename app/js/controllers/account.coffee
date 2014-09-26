@@ -6,7 +6,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     $scope.account_name = name
     $scope.utils = Utils
     $scope.account = Wallet.accounts[name]
-    #$scope.balances = Wallet.balances[name]
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
@@ -34,7 +33,7 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         if (vote_stng == 'vote_random' || vote_stng == 'vote_all' || vote_stng == 'vote_none' )
             $scope.transfer_info.vote=vote_stng
         $scope.$watch('transfer_info.vote', (newValue, oldValue) ->
-            if (newValue != oldValue) 
+            if (newValue != oldValue)
                 $scope.account.private_data.account_vote_setting=$scope.transfer_info.vote
                 WalletAPI.account_update_private_data(name, $scope.account.private_data)
         )
@@ -73,6 +72,10 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
+        if Wallet.open_orders_balances[name]
+            $scope.open_orders_balances = Wallet.open_orders_balances[name]
+        if Wallet.bonuses[name]
+            $scope.bonuses = Wallet.bonuses[name]
 
     $scope.$watchCollection ->
         Wallet.transactions
@@ -150,9 +153,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
 
     $scope.toggleFavorite = ->
         address = $scope.account.owner_key
-        Wallet.wallet_add_contact_account(name, address).then ()->
-            WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-                Wallet.refresh_accounts()
+        #Wallet.wallet_add_contact_account(name, address).then ()->
+        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
+            Wallet.refresh_accounts()
 
     $scope.regDial = ->
         if Wallet.asset_balances[0]

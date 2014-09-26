@@ -66,6 +66,14 @@ body {
 	color: #aaa;
 }
 
+.table a {
+  text-decoration: none;
+}
+
+.fa-2x {
+	font-size: 1.6em;
+}
+
 .white, a.white {
 	color: #fff;
 }
@@ -198,8 +206,14 @@ a:hover, a:focus, {
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
 	color:rgb(40,169,246);
-	border-bottom: 1px solid #fff !important;
+	border: 1px solid transparent;
 }
+
+.nav-tabs > li.active > a:hover {
+	color: rgb(40,169,246);
+	border-bottom: 1px solid #fff;
+}
+
 
 .nav-tabs > li > a{
 	color: black;
@@ -342,7 +356,7 @@ li.stat {
 }
 
 input.ng-dirty.ng-invalid {
-	border: 1px solid #f00;
+	border: 1px solid #d97572;
 }
 
 .form-group span.text-muted {

@@ -1,9 +1,10 @@
 <div class="pull-left logo">
     <img src="/img/logo-ico.svg" height="32"/>
-    <span>Test Network</span>
+     <p>Test Network</p>
 </div>
 <p class="pull-left">
-    <span>{{message}}&nbsp;{{scan_progress_info}}</span>
+    <span>{{message}}&nbsp;{{scan_progress_info}}</span> &nbsp;
+    <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()">Enable Transaction Scanning</a></span>
 </p>
 <p class="pull-right m-bottom">
 	<span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
@@ -27,9 +28,9 @@
         <path class="bar-1" d="m 61,266 0,1.5 0,3  0,1.5 3,0 0,-1.5 0,-3  0,-1.5 -3,0 z" fill="#999"/>
       </g>
       <g class="no-connection">
-        <line x1="0" y1="16" x2="16" y2="2" stroke="black" stroke-width="1"/>
-        <line x1="16" y1="2" x2="16" y2="16" stroke="black" stroke-width="1"/>
-        <line x1="16" y1="16" x2="0" y2="16" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="15" x2="15" y2="2" stroke="black" stroke-width="1"/>
+        <line x1="15" y1="2" x2="15" y2="15" stroke="black" stroke-width="1"/>
+        <line x1="15" y1="15" x2="0" y2="15" stroke="black" stroke-width="1"/>
      </g>
     </svg>
   </span>

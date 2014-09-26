@@ -56,9 +56,9 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th>Delegate</th>
-            <th>Price</th>
-            <th>Last Updated</th>
+            <th translate uppercase>th.delegate</th>
+            <th translate uppercase colspan="2">th.price</th>
+            <th translate uppercase>th.last_updated</th>
         </tr>
         </thead>
         <tbody>
@@ -67,7 +67,10 @@
                   {{feed.delegate_name}}
                 </td>
                 <td>
-                  {{ feed.price | formatDecimal:symbol2records[ticker].precision}}
+                  {{ (1 / feed.price) | formatDecimal:symbol2records[ticker].precision}} {{asset0.symbol}}/{{ticker}}
+                </td>
+                <td>
+                  {{ feed.price | formatDecimal:symbol2records[ticker].precision}} {{ticker}}/{{asset0.symbol}}
                 </td>
                 <td>
                   {{feed.last_update | prettyDate}}

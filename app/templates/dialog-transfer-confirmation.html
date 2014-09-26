@@ -1,33 +1,33 @@
 <div class="modal-header bg-danger">
-	<h3 class="modal-title">{{title}}</h3>
+  <h3 class="modal-title">{{title}}</h3>
 </div>
 <div class="modal-body">
-	<div class="row">
-		<div class='col-sm-4'>
-			<img style='margin:0px;padding:0px' ng-src="http://robohash.org/set_1/{{trx.to}}?size=512x512" class="img-responsive"/>
-		</div>
-		<div class='col-sm-8'>
-			<table class="table table-striped table-hover">
-				<tr>
-					<td>To</td><td>{{trx.to}}</td>
-				</tr>
-				<tr>
-					<td>Amount</td><td>{{trx.amount}}</td>
-				</tr>
-				<tr>
-					<td>Fee</td><td>{{trx.fee}}</td>
-				</tr>
-				<tr>
-					<td>Memo</td><td>{{trx.memo}}</td>
-				</tr>
-				<tr>
-					<td>Vote Method</td><td>{{trx.vote}}</td>
-				</tr>
-			</table>
-		</div>
-	</div>
+  <div class="row">
+    <div class='col-sm-4'>
+      <img style='margin:0px;padding:0px' ng-src="http://robohash.org/set_1/{{trx.to}}?size=512x512" class="img-responsive"/>
+    </div>
+    <div class='col-sm-8'>
+      <table class="table table-striped table-hover">
+        <tr>
+          <td translate>account.to</td><td>{{trx.to}}</td>
+        </tr>
+        <tr>
+          <td translate>account.amount</td><td>{{trx.amount}}</td>
+        </tr>
+        <tr>
+          <td translate>block.trx.fee</td><td>{{trx.fee}}</td>
+        </tr>
+        <tr>
+          <td translate>account.memo</td><td>{{trx.memo}}</td>
+        </tr>
+        <tr ng-show="xts_transfer">
+          <td translate>account.vote.vote_for</td><td>{{trx.vote}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-primary" ng-click="ok()" translate>Confirm</button>
-	<button class="btn btn-warning" ng-click="cancel()" translate>Cancel</button>
+  <button class="btn btn-primary" ng-click="ok()" translate>btn.confirm</button>
+  <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
 </div>

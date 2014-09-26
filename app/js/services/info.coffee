@@ -16,8 +16,10 @@ class Info
 
     refresh_info : () ->
         @is_refreshing = true
-        @common_api.get_info().then (data) =>
-            #console.log "watch_for_updates get_info:>", data
+        @q.all([@common_api.get_info(), @wallet.wallet_get_info()]).then (results) =>
+            data = results[0]
+            #console.log "watch_for_updates get_info:>", results[1]
+            @info.transaction_scanning = results[1].transaction_scanning
             if data.blockchain_head_block_num > 0
                 @info.network_connections = data.network_num_connections
                 @info.wallet_open = data.wallet_open
@@ -29,7 +31,7 @@ class Info
                 @info.share_supply = data.blockchain_share_supply
                 @blockchain.get_asset(0).then (v)=>
                     @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
-                @info.wallet_scan_progress = data.wallet_scan_progress
+                @info.wallet_scan_progress = data.scan_progress
                 if(!@info.client_version)
                   @info.client_version=data.client_version
             else
@@ -50,6 +52,7 @@ class Info
             @info.wallet_open = false
             @info.wallet_unlocked = false
             @info.last_block_num = 0
+            @info.transaction_scanning = false
 
     watch_for_updates: =>
         @interval (=>
@@ -57,6 +60,6 @@ class Info
                 @refresh_info()
         ), 2500
 
-    constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @interval, @utils) ->
+    constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @wallet, @interval, @utils) ->
 
-angular.module("app").service("Info", ["$q", "$log", "$location", "Growl", "CommonAPI", "Blockchain", "BlockchainAPI", "$interval", "Utils", Info])
+angular.module("app").service("Info", ["$q", "$log", "$location", "Growl", "CommonAPI", "Blockchain", "BlockchainAPI", "Wallet", "$interval", "Utils", Info])

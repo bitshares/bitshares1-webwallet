@@ -45,15 +45,18 @@ class Blockchain
                 @populate_asset_record record
 
     get_asset: (id) ->
-        return @symbol2records[id] if !$.isNumeric(id)
-        if @asset_records[id]
+        if !$.isNumeric(id)
+            record = @symbol2records[id]
+            return record if record
+
+        if $.isNumeric(id) and @asset_records[id]
             deferred = @q.defer()
             deferred.resolve(@asset_records[id])
             return deferred.promise
-        else
-            @blockchain_api.get_asset(id).then (result) =>
-                record = @populate_asset_record result
-                return record
+
+        @blockchain_api.get_asset(id).then (result) =>
+            record = @populate_asset_record result
+            return record
 
     get_markets: ->
         markets = []
@@ -165,12 +168,16 @@ class Blockchain
     populate_delegate: (record, active) ->
         record.active = active
         @all_delegates[record.name] = record
+#        record.feeds ||= []
+#        if active and record.feeds.length == 0
+#            @blockchain_api.get_feeds_from_delegate(record.name).then (result) ->
+#                record.feeds.push r.asset_symbol for r in result
         record
 
     refresh_delegates: ->
         # TODO: delegates paginator is needed
         @avg_act_del_pay_rate=0
-        @q.all({dels: @blockchain_api.list_delegates(0, 1000), config: @get_info()}).then (results) =>
+        @q.all({dels: @blockchain_api.list_delegates(0, 10000), config: @get_info()}).then (results) =>
             for i in [0 ... results.config.delegate_num]
                 @active_delegates[i] = @populate_delegate(results.dels[i], true)
                 @id_delegates[results.dels[i].id] = results.dels[i]

@@ -10,18 +10,18 @@
   </div>
   <div class="row">
     <div class="col-sm-3">
-      <br> <input type="text" class="form-control" ng-model="q.name" placeholder='Filter'> <br>
+      <br> <input type="text" class="form-control" ng-model="q.name" placeholder="{{ 'pagination.filter' | translate }}"> <br>
     </div>
     <div class="col-sm-6">
       <ul class="pagination pagination-sm">
-        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0"> First</a></li>
-        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1">Previous</a></li>
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate> pagination.first</a></li>
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
         <li><span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span>
         </li>
-        <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1">Next</a>
+        <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1" translate>pagination.next</a>
         </li>
         <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1"
-               ng-click="p.currentPage=p.numberOfPages - 1">Last</a></li>
+               ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
       </ul>
     </div>
   </div>
@@ -46,8 +46,13 @@
                 </div>
               </td>
               <td style='width:1%;white-space:nowrap'>
-                <button ng-click="toggleFavorite(r.name)" class="btn btn-link btn-sm"><i
+                <button ng-click="toggleFavorite(r.name)" class="btn btn-link btn-sm primary"><i
                     ng-class="isFavorite(r) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i></button>
+                <button ng-click="toggleVoteUp(r.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
+                    <i ng-if="accounts[r.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+                    <i ng-if="!accounts[r.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+                    <i ng-if="accounts[r.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+                  </button>
               </td>
               <td><a
                   ng-class="{'delegate-active-link' : delegate_active_hash_map[r.name], 'delegate-inactive-link' : delegate_inactive_hash_map[r.name], 'my-account-link': accounts[r.name].is_my_account}"

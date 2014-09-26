@@ -2,21 +2,22 @@
   <table class="table table-striped table-hover market-table fixed-height">
     <thead>
       <tr>
-        <th>PRICE ({{market.price_symbol}}) <span class="help-popover"
-                  popover="The call price is the price at which 75% of your collateral is required to buy back the USD owed."
+        <th>{{'th.call_price'|translate}} ({{market.price_symbol}}) <span class="help-popover"
+                  popover="{{'market.margin_call_price_explain'|translate}}"
                   popover-append-to-body="true"
                   popover-trigger="mouseenter">?</span></th>
-        <th>TOTAL ({{actual_market.base_symbol}})</th>
-        <th>COLLATERAL ({{actual_market.quantity_symbol}})</th>
+
+        <th>{{'th.units_owed'|translate:'{value: actual_market.base_symbol}'}}</th>
+        <th>{{'th.collateral'|translate}} ({{actual_market.quantity_symbol}})</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="o in covers" ng-click="use_trade_data({price: o.price, quantity: o.cost})">
-        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}" tooltip-append-to-body="true">
+      <tr ng-repeat="o in covers">
+        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
-        <td>{{o.cost | formatDecimal : market.base_precision}}</td>
-        <td>{{o.collateral | formatDecimal : market.base_precision}}</td>
+        <td>{{o.cost | formatDecimal : actual_market.base_precision}}</td>
+        <td>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</td>
       </tr>
     </tbody>
   </table>

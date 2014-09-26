@@ -6,12 +6,13 @@
 </div>
 
 <ul class="nav navbar-nav left-panel">
-   <li ng-class="{active: current_path_includes('transfer')}"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>Transfer</a></li>
-   <li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>Add Contact</a></li>
+   <li ng-class="{active: current_path_includes('transfer')}"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</a></li>
+   <li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>{{ 'contact.add_contact' | translate }}</a></li>
 </ul>
 
 <ul class="nav navbar-nav pull-right">
     <li class="lock"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
-    <li ng-show="context_help.show" class="snap-help"><a snap-toggle="right">Help<i class="fa fa-angle-double-left fa-fw"/></a></li>
-    <li ng-show="context_help.show" class="snap-help-open active"><a snap-toggle="right">Help <i class="fa fa-angle-double-right fa-fw"/></a></li>
+    <li ng-show="context_help.show" class="context-help">
+      <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
+    </li>
 </ul>

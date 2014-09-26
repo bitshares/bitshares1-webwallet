@@ -1,4 +1,4 @@
-angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, $modal, Wallet, Shared, RpcService, Blockchain, Info, Utils, md5, WalletAPI, Growl) ->
+angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, $modal, Wallet, Shared, RpcService, Blockchain, Info, Utils, WalletAPI, Growl) ->
     name = $stateParams.name
 
     $scope.$watch ->
@@ -52,16 +52,16 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
             # TODO: check that the payrate can not be decreased
             delegate_pay_rate_info = ", update account to a delegate costs extra " + $scope.delegate_reg_fee
 
-        if $scope.edit.newemail
-            gravatarMD5 = md5.createHash($scope.edit.newemail)
-        else
-            gravatarMD5 = ""
+#        if $scope.edit.newemail
+#            gravatarMD5 = md5.createHash($scope.edit.newemail)
+#        else
+#            gravatarMD5 = ""
+#
+#        if gravatarMD5
+#            public_info_tip = ", the gravatar md5 \"" + gravatarMD5 + "\" hash of your email will be publish to everyone."
 
         public_info_tip = ""
 
-        if gravatarMD5
-            public_info_tip = ", the gravatar md5 \"" + gravatarMD5 + "\" hash of your email will be publish to everyone."
-            
         $modal.open
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
