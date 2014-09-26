@@ -263,7 +263,7 @@
         "name": "Account Name",
         "website": "Website",
         "website_tip": "Website (Optional)",
-        "email": "电子邮件",
+        "email": "Email",
         "email_tip": "Email (Optional)",
         "active_delegate": "Active Delegate",
         "standby_delegate": "Standby Delegate",
