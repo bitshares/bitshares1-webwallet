@@ -88,8 +88,13 @@
         "type": "订单类型",
         "quantity": "数量",
         "order_price": "价格",
+        "call_price": "强制平仓价",
+        "units_owed": "{{value}} 应缴",
         "cost": "总额",
+        "total": "总计",
         "collateral": "抵押冻结",
+        "collateral_ratio": "抵押率",
+        "price_limit": "成交限价",
         "action": "操作",
         "paid": "付出",
         "received": "获得"
@@ -180,7 +185,7 @@
         "all_markets": "所有市场",
         "recent_markets": "最近访问的市场",
         "median_price": "喂价中位价",
-        "avg_price": "成交均价",
+        "feed_price": "喂价",
         "bid_depth": "买盘深度",
         "ask_depth": "卖盘深度",
         "buy": "买入",
@@ -200,19 +205,17 @@
         "margin_orders_explain": "当资产最低卖价上涨到高于强制平仓价，并低于1小时平均成交价110%时，空头仓位将被自动强制平仓。初始强制平仓价（未增加抵押金的情况下）是空头头寸建仓价格的150%（比如，建立空头头寸时价格为BTSX 30，那么强制平仓价格即为 BTSX 45）。即，使用75%的抵押金可以从市场上购回资产以完全平仓的价格。如果平仓后还有剩余抵押金，95%将予以退回，5%将作为手续费支付给网络。",
         "margin_call_price_explain": "初始强制平仓价（未增加抵押金的情况下）是空头头寸建仓价格的150%（比如，建立空头头寸时价格为BTSX 30，那么强制平仓价格即为 BTSX 45）。即，使用75%的抵押金可以从市场上购回资产以完全平仓的价格。",
         "flip_market": "反转市场报价",
-        "buy_orders": "买单",
-        "sell_orders": "卖单",
-        "short_orders": "卖空单",
+        "buy_orders": "买单 {{value}}",
+        "sell_orders": "卖单 {{value}}",
+        "short_orders": "卖空单 {{value}}",
         "bids": "买入",
         "asks": "卖出",
-        "bids_and_shorts": "买入及做空",
-        "asks_and_shorts": "卖出及做空",
         "cover_short_position": "空头回补",
         "order_type": {
             "bid_order": "买单",
             "ask_order": "卖单",
             "short_order": "空单",
-            "cover_order": "平仓单"
+            "margin_order": "平仓单"
         },
         "tip": {
             "insufficient_balances": "余额不足",
@@ -220,13 +223,20 @@
             "ask_price_too_low": "你的卖出价低于最高买入价 {{value}}% 。",
             "short_price_too_low": "你的卖空价低于最高买入价 {{value}}% 。",
             "short_price_should_above_min_range": "卖空价应该高于有效价格区间下限",
-            "short_price_should_below_max_range": "卖空价应该低于有效价格区间上限"
+            "short_price_should_below_max_range": "卖空价应该低于有效价格区间上限",
             "confirm_order": "请确认订单。资金账户为 {{value}} 。"
         },
         "chart": {
             "price": "价格",
             "volume": "数量"
-        }
+        },
+        "advanced": "卖空视图",
+        "open_buy_orders": "Open Buy {{value}} Orders",
+        "open_sell_orders": "Open Sell {{value}} Orders",
+        "open_short_orders": "Open Short Sell {{value}} Orders",
+        "open_margin_orders": "Open Margin Orders"
+        "collateral_ratio": "抵押率",
+        "price_limit": "成交限价"
     },
     "account": {
         "reg_pending": "注册申请中",

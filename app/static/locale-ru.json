@@ -178,6 +178,7 @@
         "recent_markets": "Последние рынки",
         "median_price": "Медианная цена",
         "avg_price": "Средняя цена",
+        "feed_price": "Feed Price",
         "bid_depth": "Глубина Предложения",
         "ask_depth": "Глубина Спроса",
         "buy": "Купить",
@@ -216,7 +217,7 @@
             "ask_price_too_low": "Цена Вашего Спроса на {{value}}% ниже наилучшего Предложения.",
             "short_price_too_low": "Цена Вашего Шорта на {{value}}% ниже наилучшего Предложения.",
             "short_price_should_above_min_range": "Цена Шорта должна быть выше минимального уровня цены",
-            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены"
+            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены",
             "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
@@ -228,6 +229,8 @@
         "open_sell_orders": "Открытые Ордера на Продажу {{value}}",
         "open_short_orders": "Открытые Ордера на Шорт {{value}}",
         "open_margin_orders": "Открытые Залоговые/Margin Ордера"
+        "collateral_ratio": "Collateral Ratio",
+        "price_limit": "Price Limit"
     },
     "account": {
         "reg_pending": "Ожидание регистрации",
