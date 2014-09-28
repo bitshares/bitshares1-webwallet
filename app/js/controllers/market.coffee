@@ -25,7 +25,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.$on "$stateChangeSuccess", ->
         #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
-
+        
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 
@@ -135,14 +135,111 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         return unless res
         #res.then -> Growl.notice "", "Your order was canceled."
 
+    get_order = ->
+        switch $state.current.name
+            when "market.buy" then $scope.bid
+            when "market.sell" then $scope.ask
+            when "market.short" then $scope.short
+            else throw Error("Unknown $state.current.name",$state.current.name)
+
+    # About *_change methods...
+    # ng-change is used instead of watch because the fields
+    # form a loop.  So, updating the total updates the quantity, 
+    # updating the quantity updates the total.  Watch did not allow
+    # updating the watched field and suppressing the event.
+    #
+    # https://github.com/angular/angular.js/issues/834
+                
+    $scope.order_change = ->
+        order=get_order()
+        TradeData = MarketService.TradeData
+        quantity = TradeData.helper.to_float(order.quantity)
+        price = TradeData.helper.to_float(order.price)
+        cost = quantity * price
+        order.cost = if cost == 0 then null else
+            Utils.formatDecimal(cost, $scope.market.quantity_precision, true)
+            
+     $scope.order_total_change = ->
+        order=get_order()
+        TradeData = MarketService.TradeData
+        price = TradeData.helper.to_float(order.price)
+        cost = TradeData.helper.to_float(order.cost)
+        if price and price > 0
+            quantity = cost / price
+            order.quantity = if quantity == 0 then null else
+                Utils.formatDecimal(quantity, $scope.market.base_precision, true)
+        else
+            order.quantity = null
+
+    $scope.short_change = ->
+        short = $scope.short.clone_and_normalize()
+        calc_short_cost(short, $scope.market.inverted)
+        $scope.short.total = if short.total == 0 then null else
+            Utils.formatDecimal(short.total, $scope.market.base_precision, true)
+        
+    $scope.short_total_change = ->
+        short = $scope.short.clone_and_normalize()
+        if short.total and short.total > 0
+            short.quantity = short.total / short.collateral_ratio
+            $scope.short.quantity = if short.quantity == 0 then null else
+                Utils.formatDecimal(short.quantity, $scope.market.base_precision, true)
+        else
+             $scope.short.quantity = null
+
+    # Adds .01% to the price so when posted it overlaps and should match market bid/ask
+    get_makeweight = ->
+        switch $state.current.name
+            when "market.buy" then .0001
+            when "market.sell" then -.0001
+            when "market.short" then -.0001
+            else throw Error("Unknown $state.current.name",$state.current.name)
+    
+    $scope.use_trade_data = (data) ->
+        #console.log "use_trade_data",$state.current.name
+        order = get_order()
+        coalesce = (new_value, old_value, precision) ->
+            TradeData = MarketService.TradeData
+            ret = if new_value then new_value else TradeData.helper.to_float(old_value)
+            if ret == 0 # TODO, instead of nulls for validation, use (<input min="... )
+                return null
+            else
+                return Utils.formatDecimal(ret, precision)
+                
+        order.quantity = coalesce data.quantity, 
+            order.quantity, $scope.market.quantity_precision
+        
+        order.collateral_ratio = coalesce data.collateral_ratio, 
+            order.collateral_ratio, $scope.market.price_precision
+        
+        order.short_price_limit = coalesce data.price_limit, 
+            order.short_price_limit, $scope.market.price_precision
+
+        price = data.price + data.price * get_makeweight() if data.price
+        order.price = coalesce price, order.price, $scope.market.price_precision
+        
+        switch $state.current.name
+            when "market.buy" then $scope.order_change()
+            when "market.sell" then $scope.order_change()
+            when "market.short" then $scope.short_change()
+            else throw Error("Unknown $state.current.name",$state.current.name)
+
     $scope.submit_bid = ->
         form = @buy_form
         $scope.clear_form_errors(form)
         bid = $scope.bid.clone_and_normalize()
-        bid.cost = bid.quantity * bid.price
+
+        #make sure user sees the correct total (ng-change vrs watch work-around)
+        previous = $scope.bid.cost
+        $scope.order_change()
+        if previous != $scope.bid.cost 
+            # This can happen if code forgets to update the total
+            form.bid_total.$error.message = 'market.tip.total_cost_updated'
+            return
+        
         if bid.cost > $scope.account.base_balance
             form.bid_quantity.$error.message = 'market.tip.insufficient_balances'
             return
+        
         bid.type = "bid_order"
         bid.display_type = "Bid"
         $scope.account.base_balance -= bid.cost
@@ -153,13 +250,20 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
-        #$scope.bid = new MarketService.TradeData
 
     $scope.submit_ask = ->
         form = @sell_form
         $scope.clear_form_errors(form)
         ask = $scope.ask.clone_and_normalize()
-        ask.cost = ask.quantity * ask.price
+       
+        #make sure user sees the correct total (ng-change vrs watch work-around)
+        previous = $scope.ask.cost
+        $scope.order_change()
+        if previous != $scope.ask.cost 
+            # This can happen if code forgets to update the total
+            form.ask_total.$error.message = 'market.tip.total_cost_updated'
+            return
+
         if ask.quantity > $scope.account.quantity_balance
             form.ask_quantity.$error.message = 'market.tip.insufficient_balances'
             return
@@ -171,7 +275,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(ask)
-        #$scope.ask = new MarketService.TradeData
 
     calc_short_cost = (short, inverted) ->
         if inverted
@@ -187,14 +290,21 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         short = $scope.short.clone_and_normalize()
         short.price = $scope.market.shorts_price
-        calc_short_cost(short, $scope.market.inverted)
+        
+        #make sure user sees the correct total (ng-change vrs watch work-around)
+        previous = $scope.short.total
+        $scope.short_change()
+        if previous != $scope.short.total
+            # This can happen if code forgets to update the total
+            form.short_total.$error.message = 'market.tip.total_cost_updated'
+            return
+
         short.type = "short_order"
         short.display_type = "Short"
         console.log "------ submit_short ------>", $scope.market.inverted, short
         $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
-        #$scope.short = new MarketService.TradeData
 
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then (order) ->
@@ -206,22 +316,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         , (error) ->
             Growl.error "", "Order failed: " + error.data.error.message
 
-    $scope.use_trade_data = (data) ->
-        order = switch $state.current.name
-            when "market.sell" then $scope.ask
-            when "market.short" then $scope.short
-            else $scope.bid
-        order.quantity = Utils.formatDecimal(data.quantity, $scope.market.quantity_precision, true) if data.quantity != undefined
-        order.collateral_ratio = Utils.formatDecimal(data.collateral_ratio, $scope.market.price_precision, true) if data.collateral_ratio != undefined
-        order.short_price_limit =  Utils.formatDecimal(data.price_limit, $scope.market.price_precision, true) if data.price_limit != undefined
-
-        if data.price != undefined
-            makeweight = switch $state.current.name
-                when "market.sell" then -.0001
-                when "market.short" then -.0001
-                else .0001
-            price = data.price + data.price * makeweight
-            order.price = Utils.formatDecimal(price, $scope.market.price_precision, true)
 
     $scope.submit_test = ->
         form = @buy_form
@@ -252,24 +346,3 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                     , (error) ->
                         form.quantity.$error.message = error.data.error.message
             ]
-
-    $scope.$watch "bid", (value, old_value) ->
-        return unless $scope.market
-        bid = $scope.bid.clone_and_normalize()
-        cost = bid.quantity * bid.price
-        $scope.bid.cost = Utils.formatDecimal(cost, $scope.market.quantity_precision, true)
-    , true
-
-    $scope.$watch "ask", (value, old_value) ->
-        return unless $scope.market
-        ask = $scope.ask.clone_and_normalize()
-        cost = ask.quantity * ask.price
-        $scope.ask.cost = Utils.formatDecimal(cost, $scope.market.base_precision, true)
-    , true
-
-    $scope.$watch "short", (value, old_value) ->
-        return unless $scope.market
-        short = $scope.short.clone_and_normalize()
-        calc_short_cost(short, $scope.market.inverted)
-        $scope.short.total = Utils.formatDecimal(short.total, $scope.market.base_precision, true)
-    , true

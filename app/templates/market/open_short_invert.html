@@ -16,12 +16,17 @@
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
         <td colspan="5">Please confirm your order. The order will be funded via <b>{{account.name}}</b> account.</td>
       </tr>
+      <!--rows-->
       <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.quantity, price_limit: o.short_price_limit})">
+        <!--quantity-->
         <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
+        <!--collateral ratio-->
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.collateral_ratio | formatDecimal : market.price_precision : true}}
         </td>
+        <!--price limit-->
         <td>{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
+        <!--total(cost)-->
         <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <td>
           <span ng-switch on="o.status">
