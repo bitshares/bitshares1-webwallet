@@ -4,7 +4,7 @@
             <br> <input type="text" class="form-control" ng-model="q.q" placeholder='{{"pagination.filter"|translate}}'> <br>
         </div>
         <div class="col-md-6">
-            <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1">
+            <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1 && !pending_only">
                 <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate> pagination.first</a></li>
                 <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
                 <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
@@ -13,7 +13,7 @@
             </ul>
         </div>
         <div class="col-md-3">
-            <div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>
+            <!--<div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>-->
         </div>
     </div>
 </div>
@@ -30,7 +30,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize  track by $index" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | orderBy: '-time' | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize  track by $index" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td>
             <span ng-repeat="entry in t.ledger_entries" class="trx-from-to">
                 <!--From-->
@@ -95,7 +95,11 @@
         </td>
          <td>
             <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span>{{t.pretty_time}}</span></a>
-            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
+            <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">
+              <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction">{{'tip.pending' | translate}}</a>
+              <span ng-show="t.status=='rebroadcasted'">{{'tip.pending' | translate}} (rebroadcasted)</span>
+              <br/>Expires {{t.expiration_pretty_time}}
+            </span>
             <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
         </td>
       </tr>

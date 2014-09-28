@@ -210,7 +210,7 @@ class MarketHelper
         str_value = value+""
         return null unless /^[\d\.\,\+]+$/.test(str_value)
         if str_value.indexOf(",") > -1
-            return parseFloat str_value.replace(",", "")
+            return parseFloat str_value.replace(/,/g, "")
         return parseFloat value
 
 angular.module("app").service("MarketHelper", ["$filter", "Utils",  MarketHelper])

@@ -36,11 +36,12 @@
         "info_filter_by_op": "Фильтр транзакций по операциям",
         "info_no_trx": "В этом блоке нет транзакций.",
         "info_trx_only": "Показывать только блоки с транзакциями",
-        "info_create_asset_fee": "Комиссия за создание нового актива",
         "info_privacy": "Защита Вашей частной информации критически важна для нас.",
         "no_pending_trxs": "Нет незавершенных транзакций",
         "no_trxs": "Нет транзакций",
-        "updating_trx_history": "Обновление истории транзакций..."
+        "updating_trx_history": "Обновление истории транзакций...",
+        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
+        "client_update_available": "There is a new mandatory client update available at bitshares-x.info"
     },
     "th": {
         "date": "ДАТА",
@@ -177,6 +178,7 @@
         "recent_markets": "Последние рынки",
         "median_price": "Медианная цена",
         "avg_price": "Средняя цена",
+        "feed_price": "Feed Price",
         "bid_depth": "Глубина Предложения",
         "ask_depth": "Глубина Спроса",
         "buy": "Купить",
@@ -215,7 +217,8 @@
             "ask_price_too_low": "Цена Вашего Спроса на {{value}}% ниже наилучшего Предложения.",
             "short_price_too_low": "Цена Вашего Шорта на {{value}}% ниже наилучшего Предложения.",
             "short_price_should_above_min_range": "Цена Шорта должна быть выше минимального уровня цены",
-            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены"
+            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены",
+            "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Цена",
@@ -225,7 +228,9 @@
         "open_buy_orders": "Открытые Ордера на Покупку {{value}}",
         "open_sell_orders": "Открытые Ордера на Продажу {{value}}",
         "open_short_orders": "Открытые Ордера на Шорт {{value}}",
-        "open_margin_orders": "Открытые Залоговые/Margin Ордера"
+        "open_margin_orders": "Открытые Залоговые/Margin Ордера",
+        "collateral_ratio": "Collateral Ratio",
+        "price_limit": "Price Limit"
     },
     "account": {
         "reg_pending": "Ожидание регистрации",
@@ -386,5 +391,10 @@
         "severe_network_issue": "Серьезные проблемы с сетью",
         "low_participation_rate_60": "отображается, когда уровень участия делегатов падает ниже 60%. Недостаточное участие делегатов повышает вероятность образования альтернативных цепочек блоков (forks).",
         "about": "О программе"
+    },
+    "footer": {
+        "enable_trx_scan": "Enable Transaction Scanning",
+        "up_to_date": "Up to date, processed {{value}} blocks",
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
     }
 }

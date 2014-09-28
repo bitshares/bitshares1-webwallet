@@ -106,6 +106,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.$watch ->
         $scope.transfer_info.symbol
     , ->
+        return if not $scope.transfer_info.symbol or $scope.transfer_info.symbol == "Symbol not set"
         #Load the tx_fee and its asset object for pre form submit validation
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (_tx_fee) ->
             tx_fee = _tx_fee

@@ -14,7 +14,7 @@
         <td colspan="5"><i class="fa fa-warning"></i> <b>{{'tip.warning' | translate}}.</b> &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
       </tr>
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
-        <td colspan="5">Please confirm your order. The order will be funded via <b>{{account.name}}</b> account.</td>
+        <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
       <!--rows-->
       <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.quantity, price_limit: o.short_price_limit})">
