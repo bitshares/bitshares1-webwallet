@@ -231,10 +231,10 @@
             "volume": "数量"
         },
         "advanced": "卖空视图",
-        "open_buy_orders": "Open Buy {{value}} Orders",
-        "open_sell_orders": "Open Sell {{value}} Orders",
-        "open_short_orders": "Open Short Sell {{value}} Orders",
-        "open_margin_orders": "Open Margin Orders"
+        "open_buy_orders": "我的买单 {{value}}",
+        "open_sell_orders": "我的卖单 {{value}}",
+        "open_short_orders": "我的卖空单 {{value}}",
+        "open_margin_orders": "我的平仓单",
         "collateral_ratio": "抵押率",
         "price_limit": "成交限价"
     },

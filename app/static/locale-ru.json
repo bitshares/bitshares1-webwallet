@@ -228,7 +228,7 @@
         "open_buy_orders": "Открытые Ордера на Покупку {{value}}",
         "open_sell_orders": "Открытые Ордера на Продажу {{value}}",
         "open_short_orders": "Открытые Ордера на Шорт {{value}}",
-        "open_margin_orders": "Открытые Залоговые/Margin Ордера"
+        "open_margin_orders": "Открытые Залоговые/Margin Ордера",
         "collateral_ratio": "Collateral Ratio",
         "price_limit": "Price Limit"
     },
