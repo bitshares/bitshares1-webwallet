@@ -217,6 +217,7 @@
             "short_price_too_low": "Цена Вашего Шорта на {{value}}% ниже наилучшего Предложения.",
             "short_price_should_above_min_range": "Цена Шорта должна быть выше минимального уровня цены",
             "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены"
+            "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Цена",
