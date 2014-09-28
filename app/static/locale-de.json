@@ -41,7 +41,8 @@
         "no_pending_trxs": "There are no pending transactions!",
         "no_trxs": "There are no transactions!",
         "updating_trx_history": "Updating transaction history...",
-        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote."
+        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
+        "client_update_available": "There is a new mandatory client update available at bitshares-x.info"
     },
     "th": {
         "date": "DATUM",

@@ -40,7 +40,8 @@
         "no_pending_trxs": "没有待处理交易!",
         "no_trxs": "没有交易!",
         "updating_trx_history": "正在更新交易记录...",
-        "partial_voting_info": "账户尚有未使用投票权。请考虑行使投票权。"
+        "partial_voting_info": "账户尚有权益未使用投票权。请考虑行使投票权。",
+        "client_update_available": "发现客户端关键更新，请访问 bitshares-x.info 获取。"
     },
     "th": {
         "date": "日期",
