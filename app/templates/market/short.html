@@ -7,20 +7,20 @@
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" required="true" />
   </div>
-  <div form-hgroup label="Collateral Ratio" addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
+  <div form-hgroup label="{{'market.collateral_ratio'|translate}}" addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
     <input-positive-number name="short_collateral_ratio" ng-model="short.collateral_ratio" required="true" />
   </div>
-  <div form-hgroup label="Price Limit" addon="{{market.price_symbol}}">
+  <div form-hgroup label="{{'market.price_limit'|translate}}" addon="{{market.price_symbol}}">
     <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" />
   </div>
   <div form-hgroup-note ng-show="market.shorts_price">
-    Feed Price <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    {{'market.feed_price'|translate}} <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{actual_market.quantity_symbol}}" show-value="{{short_form.$valid}}">
     {{short.total}}
   </div>
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn help="Fee {{blockchain_tx_fee}} {{blockchain_symbol}}">{{'market.short'|translate}} {{actual_market.base_symbol}}</button>
+  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{blockchain_tx_fee}} {{blockchain_symbol}}">{{'market.short'|translate}} {{actual_market.base_symbol}}</button>
 </form>
 
 <div ng-show="!advanced" class="simple-mode-short-stub">
