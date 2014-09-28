@@ -174,6 +174,7 @@
         "recent_markets": "Recent Markets",
         "median_price": "Median Price",
         "avg_price": "Avg. Price",
+        "feed_price": "Feed Price",
         "bid_depth": "Bid Depth",
         "ask_depth": "Ask Depth",
         "buy": "Buy",
@@ -205,7 +206,10 @@
             "bid_order": "Bid",
             "ask_order": "Ask",
             "short_order": "Short",
-            "cover_order": "Cover"
+            "cover_order": "Cover",
+            "margin_order": "Open Margin",
+            "collateral_ratio": "Collateral Ratio",
+            "price_limit": "Price Limit"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",
@@ -213,13 +217,19 @@
             "ask_price_too_low": "Your ask price is {{value}}% lower than the highest bid.",
             "short_price_too_low": "Your short price is {{value}}% lower than the highest bid.",
             "short_price_should_above_min_range": "Short price should be above min range price",
-            "short_price_should_below_max_range": "Short price should be below max range price"
+            "short_price_should_below_max_range": "Short price should be below max range price",
             "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Price",
             "volume": "Volume"
-        }
+        },
+        "advanced_view": "Advanced Market View",
+        "simple_view": "Simple Market View",
+        "advanced": "Short Mode",
+        "simple": "Simple",
+        "collateral_ratio": "Collateral Ratio",
+        "price_limit": "Price Limit"
     },
     "account": {
         "reg_pending": "Registrierung ausstehend",
