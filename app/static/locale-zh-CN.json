@@ -221,6 +221,7 @@
             "short_price_too_low": "你的卖空价低于最高买入价 {{value}}% 。",
             "short_price_should_above_min_range": "卖空价应该高于有效价格区间下限",
             "short_price_should_below_max_range": "卖空价应该低于有效价格区间上限"
+            "confirm_order": "请确认订单。资金账户为 {{value}} 。"
         },
         "chart": {
             "price": "价格",
