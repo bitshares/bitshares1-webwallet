@@ -1,4 +1,5 @@
 window.getStackTrace = ->
+    return "no stack trace" unless Error?.captureStackTrace
     obj = {}
     Error.captureStackTrace(obj, getStackTrace)
     obj.stack
