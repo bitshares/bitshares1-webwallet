@@ -36,11 +36,12 @@
         "info_filter_by_op": "Filter transactions by operation",
         "info_no_trx": "There are no transactions in this block.",
         "info_trx_only": "Only show blocks with transactions",
-        "info_create_asset_fee": "Fees for creating a new asset",
         "info_privacy": "Your privacy is critically important to us.",
         "no_pending_trxs": "There are no pending transactions!",
         "no_trxs": "There are no transactions!",
-        "updating_trx_history": "Updating transaction history..."
+        "updating_trx_history": "Updating transaction history...",
+        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
+        "client_update_available": "There is a new mandatory client update available at bitshares-x.info"
     },
     "th": {
         "date": "DATE",
@@ -217,7 +218,9 @@
             "ask_price_too_low": "Your ask price is {{value}}% lower than the highest bid.",
             "short_price_too_low": "Your short price is {{value}}% lower than the highest bid.",
             "short_price_should_above_min_range": "Short price should be above min range price",
-            "short_price_should_below_max_range": "Short price should be below max range price"
+            "short_price_should_below_max_range": "Short price should be below max range price",
+            "total_cost_updated": "Total was updated, please review and re-submit",
+            "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Price",
@@ -227,7 +230,9 @@
         "open_buy_orders": "Open Buy {{value}} Orders",
         "open_sell_orders": "Open Sell {{value}} Orders",
         "open_short_orders": "Open Short Sell {{value}} Orders",
-        "open_margin_orders": "Open Margin Orders"
+        "open_margin_orders": "Open Margin Orders",
+        "collateral_ratio": "Collateral Ratio",
+        "price_limit": "Price Limit"
     },
     "account": {
         "reg_pending": "Registration pending",
@@ -263,7 +268,7 @@
         "name": "Account Name",
         "website": "Website",
         "website_tip": "Website (Optional)",
-        "email": "电子邮件",
+        "email": "Email",
         "email_tip": "Email (Optional)",
         "active_delegate": "Active Delegate",
         "standby_delegate": "Standby Delegate",
@@ -318,6 +323,7 @@
         "description": "Description",
         "memo_data": "Memo Data",
         "maximum_share_supply": "Maximum Share Supply",
+        "info_create_asset_fee": "Fees for creating a new asset",
         "precision": "Precision",
         "issued_by": "Issued By",
         "create_new_asset": "Create A New Asset",
@@ -387,5 +393,10 @@
         "severe_network_issue": "Severe Network Problems",
         "low_participation_rate_60": "is displayed when delegate participation rate drops below 60%.  Low delegate participation makes blockchain forks likely.",
         "about": "About"
+    },
+    "footer": {
+        "enable_trx_scan": "Enable Transaction Scanning",
+        "up_to_date": "Up to date, processed {{value}} blocks",
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
     }
 }
