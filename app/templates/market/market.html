@@ -20,10 +20,10 @@
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="market-header-button"
-            tooltip="{{'market.flip_market'|translate}}" 
+            tooltip="{{'market.flip_market'|translate}}"
             tooltip-placement="right" ng-show="account">
             <i class="fa fa-retweet fa-fw"></i></a>
-        <a ng-click="flip_advanced()" class="market-header-button">
+        <a ng-show="market.shorts_available" ng-click="flip_advanced()" class="market-header-button">
             <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
             {{'market.advanced' | translate}}</a>
       </h3>
@@ -53,7 +53,7 @@
   </div>
 </div>
 
-<div class="main-content market market-content" ng-class="{'advanced': advanced}">
+<div class="main-content market market-content" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
 
       <!--create a stats page-->
       <!--<ul class="row market-stats stats">-->
@@ -87,7 +87,7 @@
     </div>
 
     <br>
-    
+
     <div class="row">
 
       <div class="col-md-5">
@@ -127,7 +127,7 @@
 
       </div>
     </div>
-    
+
     <br>
 
     <div class="row">
@@ -166,7 +166,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row orders-row">
       <div class="panel col-lg-6">
         <div class="panel-heading">

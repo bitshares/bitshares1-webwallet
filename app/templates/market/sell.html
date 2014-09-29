@@ -1,21 +1,27 @@
 <form name="sell_form" class="form-horizontal order-form" role="form" ng-submit="submit_ask()" novalidate>
+  <!--balance-->
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{market.quantity_symbol}}">
     <span class="clickable" ng-click="use_trade_data({price: market.highest_bid, quantity: account.quantity_balance})"
           tooltip="{{'account.name'|translate}}: {{account.name}}">
       {{account.quantity_balance | formatDecimal : market.quantity_precision}}</span>
   </div>
+  <!--quantity-->
   <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{market.quantity_symbol}}">
-    <input-positive-number name="ask_quantity" ng-model="ask.quantity" required="true" />
+    <input-positive-number name="ask_quantity" ng-model="ask.quantity" ng-change="order_change()" required="true" />
   </div>
+  <!--price-->
   <div form-hgroup label="{{'market.price'|translate}}" addon="{{market.price_symbol}}">
-     <input-positive-number name="ask_price" ng-model="ask.price" required="true" />
+     <input-positive-number name="ask_price" ng-model="ask.price" ng-change="order_change()" required="true" />
   </div>
+  <!--highest bid-->
   <div form-hgroup-note ng-show="market.highest_bid">
     {{'market.highest_bid'|translate}} <span class="clickable" ng-click="use_trade_data({price: market.highest_bid})">{{market.highest_bid | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
-  <div form-hgroup-value label="{{'market.total'|translate}}" data-symbol="{{market.base_symbol}}" show-value="{{sell_form.$valid}}">
-    {{ask.cost}}
+  <!--cost(total)-->
+  <div form-hgroup label="{{'market.total'|translate}}" addon="{{market.base_symbol}}">
+    <input-positive-number name="ask_total" ng-model="ask.cost" ng-change="order_total_change()"  required="true"/>
   </div>
+  <!--Submit-->
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn help="Fee {{tx_fee}} {{market.base_symbol}}">{{'market.sell'|translate}} {{market.quantity_symbol}}</button>
+  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{tx_fee}} {{market.base_symbol}}">{{'market.sell'|translate}} {{market.quantity_symbol}}</button>
 </form>

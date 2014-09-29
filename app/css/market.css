@@ -226,3 +226,11 @@ tr.short_wall td {
 .simple-mode-short-stub {
 	height: 240px;
 }
+
+.tab-short {
+	display: none !important;
+}
+
+.shorts-available .tab-short {
+	display: block !important;
+}
