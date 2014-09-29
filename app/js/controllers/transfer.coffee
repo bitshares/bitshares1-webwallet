@@ -74,6 +74,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     # Validation and display prior to form submit
     $scope.hot_check_send_amount = ->
         return unless $scope.balances
+        return unless $scope.balances[$scope.transfer_info.symbol]
         
         my_transfer_form.amount.error_message = null
         
@@ -83,9 +84,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         
         fee=tx_fee.amount/tx_fee_asset.precision
         transfer_amount=$scope.transfer_info.amount
-        #balance = => 
-        #    _bal=$scope.balances[$scope.transfer_info.symbol]
-        #    _bal.amount/_bal.precision
         _bal=$scope.balances[$scope.transfer_info.symbol]
         balance = _bal.amount/_bal.precision
         balance_after_transfer = balance - transfer_amount - fee
