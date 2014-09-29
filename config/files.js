@@ -12,7 +12,7 @@ module.exports = function(lineman) {
       vendor: [
         "vendor/js/jquery.js",
         "vendor/js/jquery.growl.js",
-        "vendor/js/ark.js",
+        // "vendor/js/ark.js",
         "vendor/js/angular.js",
         "vendor/js/angular-resource.js",
         "vendor/js/angular-ui-router.js",

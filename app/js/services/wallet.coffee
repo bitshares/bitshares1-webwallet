@@ -202,8 +202,8 @@ class Wallet
         t.error = val.error
         t.trx_num = val.trx_num
         t.time = time
-        t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString "en-us"
-        t.pretty_time = time.toLocaleString "en-us"
+        t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString()
+        t.pretty_time = time.toLocaleString()
         t.fee = @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
         t.vote = "N/A"
         if t.status != "rebroadcasted"

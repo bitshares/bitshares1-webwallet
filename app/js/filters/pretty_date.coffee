@@ -8,9 +8,9 @@ angular.module("app").filter "prettyDate", (Utils)->
             return "Unregistered"
 
         if angular.isDate(date)
-            return date.toLocaleString "en-us"
+            return date.toLocaleString()
         else
-            return Utils.toDate(date).toLocaleString "en-us"
+            return Utils.toDate(date).toLocaleString()
 
 angular.module("app").filter "prettyRecentDate", (Utils)->
     (date) ->
