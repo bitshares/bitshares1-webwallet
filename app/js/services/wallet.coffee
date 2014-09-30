@@ -35,22 +35,23 @@ class Wallet
         @set_setting("current_account", account.name)
     
     check_wallet_status: ->
-      @wallet_get_info().then (result) =>
-        if result.open
-            if not result.unlocked
-                @location.path("/unlockwallet")
-            else
-                @get_setting('timeout').then (result) =>
-                    if result && result.value
-                        @timeout=result.value
-                        @idle._options().idleDuration=@timeout
-                        @idle.watch()
-                @get_setting('autocomplete').then (result) =>
-                    @autocomplete=result.value if result
-        else
-            @open().then =>
-                #redirection
-                @check_if_locked()
+        deferred = @q.defer()
+
+        @open().then =>
+            @wallet_get_info().then (result) =>
+                deferred.resolve()
+                if result.open
+                    if not result.unlocked
+                        @location.path("/unlockwallet")
+                    else
+                        @get_setting('timeout').then (result) =>
+                            if result && result.value
+                                @timeout = result.value
+                                @idle._options().idleDuration = @timeout
+                                @idle.watch()
+                        @get_setting('autocomplete').then (result) =>
+                            @autocomplete = result.value if result
+        return deferred.promise
 
     refresh_balances: ->
         requests =
@@ -334,8 +335,8 @@ class Wallet
         @rpc.request('wallet_get_name').then (response) =>
           @wallet_name = response.result
     
-    wallet_get_info: ->
-        @rpc.request('wallet_get_info').then (response) =>
+    wallet_get_info: (error_handler = null) ->
+        @rpc.request('wallet_get_info', [], error_handler).then (response) =>
             @info.transaction_fee = response.result.transaction_fee
             response.result
 

@@ -14,15 +14,14 @@ servicesModule.factory "RpcService", ($http) ->
         angular.extend(http_params.data, reqparams)
         #console.log "RpcService <#{http_params.data.method}>, stack: #{getStackTrace()}"
         $http(http_params).then (response) ->
-            #console.log "RpcService <#{http_params.data.method}> response:", response
-            console.log("rpc.coffee",method,params,response) if not (method in
+            console.log("RpcService <#{http_params.data.method}> response:", response) if not (method in
                 #filter out re-occuring rpc calls
                 ["wallet_get_info","wallet_get_setting","wallet_account_balance",
                 "wallet_set_setting","wallet_account_transaction_history ",
                 "wallet_market_order_list","wallet_get_account","wallet_account_yield",
                 "wallet_get_transaction_fee","wallet_list_accounts",
                 "wallet_account_vote_summary",
-                "get_info","get_config", 
+                "get_info","get_config",
                 "blockchain_list_assets","blockchain_get_asset",
                 "blockchain_list_delegates","blockchain_get_account",
                 "blockchain_get_security_state","blockchain_get_info",
