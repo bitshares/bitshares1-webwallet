@@ -63,6 +63,7 @@ class MarketHelper
 
         td.quantity = order.state.balance / quantity_asset.precision
         td.cost = td.quantity * price
+        td.expiration_days = @utils.daysFromNow order.expiration
         td.status = "posted"
 
         if order.type == "cover_order"

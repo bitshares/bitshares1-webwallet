@@ -97,7 +97,8 @@
         "price_limit": "PRICE LIMIT",
         "action": "ACTION",
         "paid": "PAID",
-        "received": "RECEIVED"
+        "received": "RECEIVED",
+        "expiration": "EXPIRATION"
     },
     "block": {
         "title": "Block",
@@ -248,7 +249,8 @@
             "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
             "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
-        }
+        },
+        "days": "{{value}} Days"
     },
     "account": {
         "reg_pending": "Registration pending",
