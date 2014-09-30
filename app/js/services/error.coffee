@@ -13,20 +13,18 @@ servicesModule.config ($httpProvider, $provide) ->
                 delegate(exception, cause)
     ]
 
-servicesModule.factory "myHttpInterceptor", ($q, $location, Shared) ->
-    dont_report_methods = []
 
-    responseError: (response) ->
+processRpcError = (response, Shared, state) ->
         dont_report = false
         method = null
         error_msg = if response.data?.error?.message? then response.data.error.message else response.data
 
         if response.config? and response.config.url.match(/\/rpc$/)
-            if error_msg.match(/No such wallet exists/)
-                $location.path("/createwallet")
+            if error_msg.match(/No such wallet exists/) or error_msg.match(/wallet does not exist/)
+                navigate_to("createwallet")
                 dont_report = true
             if error_msg.match(/The wallet must be opened/)
-                $location.path("/unlockwallet")
+                navigate_to("unlockwallet") unless window.location.hash == "#/createwallet"
                 dont_report = true
             method = response.config.data?.method
         else if response.message
@@ -41,4 +39,13 @@ servicesModule.factory "myHttpInterceptor", ($q, $location, Shared) ->
             console.log "RPC Server Error: #{error_msg} (#{response.status})\n#{response.config.stack}"
             magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})\n#{stack}") if magic_unicorn?
             Shared.addError(error_msg, stack)
+
+servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
+
+    responseError: (response) ->
+        if response.config.error_handler
+            res = response.config.error_handler(response)
+            processRpcError(response, Shared) unless res
+            return $q.reject(response)
+        processRpcError(response, Shared)
         return $q.reject(response)

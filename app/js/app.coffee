@@ -1,8 +1,10 @@
 window.getStackTrace = ->
-    return "no stack trace" unless Error?.captureStackTrace
-    obj = {}
-    Error.captureStackTrace(obj, getStackTrace)
-    obj.stack
+    trace = printStackTrace()
+    for value, index in trace
+       if value.indexOf("getStackTrace@") >= 0
+           trace.splice(0, index) if index >= 0
+           break
+    trace.join("\n ○ ")
 
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
@@ -15,7 +17,11 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptio
     $rootScope.magic_unicorn = if magic_unicorn? then magic_unicorn else false
     $rootScope.magic_unicorn.log_message(navigator.userAgent) if $rootScope.magic_unicorn
 
-    window.navigate_to = (path) ->  window.location.href = "/#" + path
+    window.navigate_to = (path) ->
+        if path[0] == "/"
+            window.location.href = "/#" + path
+        else
+            $state.go(path)
 
     editableOptions.theme = 'default'
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
