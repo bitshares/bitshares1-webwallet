@@ -17,7 +17,7 @@
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
       <!--rows-->
-      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.cost, price_limit: o.short_price_limit})">
+      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.cost, price_limit: o.short_price_limit}); scroll_to_buysell();">
         <!--quantity-->
         <td><span>{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <!--collateral ratio-->
