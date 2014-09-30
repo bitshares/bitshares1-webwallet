@@ -228,6 +228,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short_change()
             else throw Error("Unknown $state.current.name",$state.current.name)
 
+        $(".content").animate({ scrollTop: $("#order_tabs").offset().top - 50 }, "slow")
+        1
+
     $scope.submit_bid = ->
         form = @buy_form
         $scope.clear_form_errors(form)
