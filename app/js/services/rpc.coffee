@@ -3,6 +3,7 @@ servicesModule.factory "RpcService", ($http) ->
     request: (method, params) ->
         reqparams = {method: method, params: params || []}
         http_params =
+            stack: getStackTrace()
             method: "POST",
             cache: false,
             url: '/rpc'

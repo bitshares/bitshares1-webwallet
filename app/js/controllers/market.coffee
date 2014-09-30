@@ -8,24 +8,21 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     $scope.avg_price = 0
+    $scope.advanced = false
     current_market = null
     price_decimals = 4
 
-    # tabs
-    $scope.tabs = tabs_basic = []
-    tabs_basic.push { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" }
-    tabs_basic.push { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
-    tabs_basic.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
-    Wallet.get_setting("market.advanced").then (result) ->
-        $scope.advanced = (if result then result.value else false)
-        #$scope.tabs = (if $scope.advanced then tabs_advanced else tabs_basic)
+    $scope.tabs = [
+        { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
+        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
+        { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+    ]
 
     $scope.goto_tab = (route) -> $state.go route
     $scope.active_tab = (route) -> $state.is route
     $scope.$on "$stateChangeSuccess", ->
-        #$scope.state_name = $state.current.name
         $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
-        
+
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 
@@ -68,6 +65,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
+        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
         $scope.market = current_market = market
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
@@ -78,6 +76,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.trades = MarketService.trades
         $scope.my_trades = MarketService.my_trades
         $scope.orders = MarketService.orders
+        if market.shorts_available
+            Wallet.get_setting("market.advanced").then (result) ->
+                $scope.advanced = (if result then result.value else false)
         price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
