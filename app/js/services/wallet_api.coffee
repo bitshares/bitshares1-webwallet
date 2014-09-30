@@ -206,8 +206,8 @@ class WalletAPI
   #   account_name `account_name` - the name you will use to refer to this receive account
   #   json_variant `private_data` - Extra data to store with this account record
   # return_type: `public_key`
-  account_create: (account_name, private_data) ->
-    @rpc.request('wallet_account_create', [account_name, private_data]).then (response) ->
+  account_create: (account_name, private_data, error_handler) ->
+    @rpc.request('wallet_account_create', [account_name, private_data], error_handler).then (response) ->
       response.result
 
   # Updates the favorited status of the specified account

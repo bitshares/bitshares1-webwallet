@@ -147,8 +147,8 @@ class Wallet
         @wallet_api.set_setting(name, value).then (result) =>
             result
 
-    create_account: (name, privateData) ->
-        @wallet_api.account_create(name, privateData).then (result) =>
+    create_account: (name, privateData, error_handler) ->
+        @wallet_api.account_create(name, privateData, error_handler).then (result) =>
             @refresh_accounts()
             result
 
@@ -357,8 +357,8 @@ class Wallet
 #    wallet_account_transaction_history: (account_name) ->
 #        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
-    wallet_unlock: (password)->
-        @rpc.request('wallet_unlock', [@backendTimeout, password]).then (response) =>
+    wallet_unlock: (password, error_handler)->
+        @rpc.request('wallet_unlock', [@backendTimeout, password], error_handler).then (response) =>
           response.result
 
     check_if_locked: ->

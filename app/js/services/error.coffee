@@ -13,10 +13,8 @@ servicesModule.config ($httpProvider, $provide) ->
                 delegate(exception, cause)
     ]
 
-servicesModule.factory "myHttpInterceptor", ($q, $location, Shared) ->
-    dont_report_methods = []
 
-    responseError: (response) ->
+processRpcError = (response, Shared) ->
         dont_report = false
         method = null
         error_msg = if response.data?.error?.message? then response.data.error.message else response.data
@@ -41,4 +39,13 @@ servicesModule.factory "myHttpInterceptor", ($q, $location, Shared) ->
             console.log "RPC Server Error: #{error_msg} (#{response.status})\n#{response.config.stack}"
             magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})\n#{stack}") if magic_unicorn?
             Shared.addError(error_msg, stack)
+
+servicesModule.factory "myHttpInterceptor", ($q, $location, Shared) ->
+
+    responseError: (response) ->
+        if response.config.error_handler
+            res = response.config.error_handler(response)
+            processRpcError(response, Shared) unless res
+            return $q.reject(response)
+        processRpcError(response, Shared)
         return $q.reject(response)

@@ -1,9 +1,10 @@
 servicesModule = angular.module("app.services")
 servicesModule.factory "RpcService", ($http) ->
-    request: (method, params) ->
+    request: (method, params, error_handler = null) ->
         reqparams = {method: method, params: params || []}
         http_params =
             stack: getStackTrace()
+            error_handler: error_handler
             method: "POST",
             cache: false,
             url: '/rpc'

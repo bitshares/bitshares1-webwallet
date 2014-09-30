@@ -1,8 +1,10 @@
 window.getStackTrace = ->
-    return "no stack trace" unless Error?.captureStackTrace
-    obj = {}
-    Error.captureStackTrace(obj, getStackTrace)
-    obj.stack
+    trace = printStackTrace()
+    for value, index in trace
+       if value.indexOf("getStackTrace@") >= 0
+           trace.splice(0, index) if index >= 0
+           break
+    trace.join("\n ○ ")
 
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
