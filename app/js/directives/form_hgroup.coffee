@@ -1,7 +1,7 @@
 angular.module("app.directives", []).directive "formHgroup", ->
     template: '''
     <div class="form-group" ng-class="{ 'has-error': has_error }">
-        <label class="col-sm-4 control-label" for="{{for}}">{{label}}</label>
+        <label class="col-sm-4 control-label" for="{{for}}" popover="{{labelPopover}}" popover-trigger="mouseenter">{{label}}</label>
         <div class="input-group col-sm-8 col-md-7">
             <span ng-transclude></span>
             <span class="input-group-addon">{{addon}}</span>
@@ -18,6 +18,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
         addon: "@"
         help: "@"
         helpIf: "@"
+        labelPopover: "@"
 
     link: (scope, element, attrs, formController) ->
         formName = formController.$name

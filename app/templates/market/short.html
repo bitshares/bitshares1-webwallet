@@ -1,27 +1,27 @@
 <form ng-show="advanced" name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <!--balance-->
-  <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}}">
+  <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}} ({{account.name}})">
     <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.shorts_price, quantity: account.short_balance / market.shorts_price})"
           tooltip="{{'account.name'|translate}}: {{account.name}}">
       {{account.short_balance | formatDecimal : market.base_precision}}</span>
   </div>
   <!--quantity-->
-  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" label-popover="The number {{actual_market.base_symbol}} that you would like to borrow and sell." addon="{{actual_market.base_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" ng-change="short_change()" required="true" />
   </div>
   <!--collateral ratio-->
-  <div form-hgroup label="{{'market.collateral_ratio'|translate}}" addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
+  <div form-hgroup label="{{'market.collateral_ratio'|translate}}" label-popover="The number of {{actual_market.quantity_symbol}} per {{actual_market.base_symbol}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio." addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
     <input-positive-number name="short_collateral_ratio" ng-model="short.collateral_ratio" ng-change="short_change()" required="true" />
   </div>
-  <div form-hgroup label="{{'market.price_limit'|translate}}" addon="{{market.price_symbol}}">
+  <div form-hgroup label="{{'market.price_limit'|translate}}" label-popover="The lowest price in {{actual_market.quantity_symbol}} per {{actual_market.base_symbol}} at which you are willing to borrow and sell {{actual_market.base_symbol}}. Short orders only match at the price feed or price limit, whichever is less." addon="{{market.price_symbol}}">
     <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" ng-change="short_change()"/>
   </div>
   <!--feed price-->
   <div form-hgroup-note ng-show="market.shorts_price">
-    {{'market.feed_price'|translate}} <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    <span popover="The median exchange rate on external exchanges according to delegates." popover-trigger="mouseenter">{{'market.feed_price'|translate}}</span> <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <!--cost-->
-  <div form-hgroup label="{{'market.total'|translate}}" addon="{{actual_market.quantity_symbol}}">
+  <div form-hgroup label="{{'market.total'|translate}}" label-popover="The amount {{market.quantity_symbol}} required to fund this order. Calculated as Quantity times Collateral Ratio." addon="{{actual_market.quantity_symbol}}">
     <input-positive-number name="short_total" ng-model="short.cost" ng-change="short_total_change()"  required="true"/>
   </div>
   <!--Submit-->
@@ -34,3 +34,4 @@
             <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
             {{'market.advanced' | translate}}</a>
 </div>
+
