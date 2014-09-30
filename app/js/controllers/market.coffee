@@ -145,8 +145,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     # About *_change methods...
     # ng-change is used instead of watch because the fields
-    # form a loop.  So, updating the total updates the quantity, 
-    # updating the quantity updates the total.  Watch did not allow
+    # form a loop.  So, updating the cost updates the quantity, 
+    # updating the quantity updates the cost.  Watch did not allow
     # updating the watched field and suppressing the event.
     #
     # https://github.com/angular/angular.js/issues/834
@@ -174,14 +174,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.short_change = ->
         short = $scope.short.clone_and_normalize()
-        calc_short_cost(short, $scope.market.inverted)
-        $scope.short.total = if short.total == 0 then null else
-            Utils.formatDecimal(short.total, $scope.market.base_precision, true)
+        short.cost = short.quantity * short.collateral_ratio
+        $scope.short.cost = if short.cost == 0 then null else
+            Utils.formatDecimal(short.cost, $scope.market.base_precision, true)
         
     $scope.short_total_change = ->
         short = $scope.short.clone_and_normalize()
-        if short.total and short.total > 0
-            short.quantity = short.total / short.collateral_ratio
+        if short.cost and short.cost > 0
+            short.quantity = short.cost / short.collateral_ratio
             $scope.short.quantity = if short.quantity == 0 then null else
                 Utils.formatDecimal(short.quantity, $scope.market.base_precision, true)
         else
@@ -198,6 +198,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
+        makeweight = get_makeweight()
         coalesce = (new_value, old_value, precision) ->
             TradeData = MarketService.TradeData
             ret = if new_value then new_value else TradeData.helper.to_float(old_value)
@@ -209,13 +210,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         order.quantity = coalesce data.quantity, 
             order.quantity, $scope.market.quantity_precision
         
-        order.collateral_ratio = coalesce data.collateral_ratio, 
+        collateral_ratio = data.collateral_ratio + data.collateral_ratio *
+            Math.abs(makeweight)\
+            if data.collateral_ratio
+        order.collateral_ratio = coalesce collateral_ratio, 
             order.collateral_ratio, $scope.market.price_precision
         
         order.short_price_limit = coalesce data.price_limit, 
             order.short_price_limit, $scope.market.price_precision
 
-        price = data.price + data.price * get_makeweight() if data.price
+        price = data.price + data.price * makeweight if data.price
         order.price = coalesce price, order.price, $scope.market.price_precision
         
         switch $state.current.name
@@ -229,11 +233,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         bid = $scope.bid.clone_and_normalize()
 
-        #make sure user sees the correct total (ng-change vrs watch work-around)
+        #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.bid.cost
         $scope.order_change()
         if previous != $scope.bid.cost 
-            # This can happen if code forgets to update the total
+            # This can happen if code forgets to update the cost
             form.bid_total.$error.message = 'market.tip.total_cost_updated'
             return
         
@@ -243,6 +247,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         
         bid.type = "bid_order"
         bid.display_type = "Bid"
+        # TODO re-poll api for balance instead (see account_balances_observer below)
         $scope.account.base_balance -= bid.cost
         if $scope.market.lowest_ask > 0
             price_diff = 100.0 * bid.price / $scope.market.lowest_ask - 100
@@ -257,11 +262,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         ask = $scope.ask.clone_and_normalize()
        
-        #make sure user sees the correct total (ng-change vrs watch work-around)
+        #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.ask.cost
         $scope.order_change()
         if previous != $scope.ask.cost 
-            # This can happen if code forgets to update the total
+            # This can happen if code forgets to update the cost
             form.ask_total.$error.message = 'market.tip.total_cost_updated'
             return
 
@@ -277,26 +282,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
         MarketService.add_unconfirmed_order(ask)
 
-    calc_short_cost = (short, inverted) ->
-        if inverted
-            short.cost = short.quantity * short.collateral_ratio
-            short.total = short.cost
-        else
-            short.cost = short.quantity
-            short.quantity = short.cost * short.collateral_ratio
-            short.total = short.quantity
-
     $scope.submit_short = ->
         form = @short_form
         $scope.clear_form_errors(form)
         short = $scope.short.clone_and_normalize()
         short.price = $scope.market.shorts_price
         
-        #make sure user sees the correct total (ng-change vrs watch work-around)
-        previous = $scope.short.total
+        #make sure user sees the correct cost (ng-change vrs watch work-around)
+        previous = $scope.short.cost
         $scope.short_change()
-        if previous != $scope.short.total
-            # This can happen if code forgets to update the total
+        if previous != $scope.short.cost
+            # This can happen if code forgets to update the cost
             form.short_total.$error.message = 'market.tip.total_cost_updated'
             return
 
@@ -308,11 +304,28 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         MarketService.add_unconfirmed_order(short)
 
     $scope.confirm_order = (id) ->
-        MarketService.confirm_order(id, $scope.account).then (order) ->
-            if order.type == "bid_order" or order.type == "ask_order"
-                $scope.account.base_balance -= order.cost
-            else if order.type == "ask_order"
-                $scope.account.quantity_balance -= order.cost
+        MarketService.confirm_order(id, $scope.account).then () ->
+            # TODO trigger account_balances_observer instead
+            market = $scope.market
+#            order = get_order()
+#            switch $state.current.name
+#                when "market.buy" 
+#                    if market.inverted 
+#                        $scope.account.base_balance -= order.cost
+#                    else
+#                        $scope.account.quantity_balance -= order.cost
+#                
+#                when "market.sell" 
+#                    if market.inverted 
+#                        $scope.account.base_balance -= order.cost
+#                    else
+#                        $scope.account.base_balance -= order.cost
+#                    
+#                when "market.short" 
+#                    if market.inverted
+#                        $scope.account.base_balance -= order.cost
+#                    else
+#                        $scope.account.quantity_balance -= order.cost
             #Growl.notice "", "Your order was successfully placed."
         , (error) ->
             Growl.error "", "Order failed: " + error.data.error.message

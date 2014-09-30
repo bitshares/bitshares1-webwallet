@@ -45,7 +45,7 @@ class MarketHelper
             actual_market.error.text = market.error.text = market.error.title = null
 
 
-    order_to_trade_data: (order, qa, ba, invert_price, invert_assets, invert_order_type, td) ->
+    order_to_trade_data: (order, base_asset, quantity_asset, invert_price, invert_assets, invert_order_type, td) ->
         #console.log order
         #td = new TradeData()
         if order instanceof Array and order.length > 1
@@ -56,30 +56,30 @@ class MarketHelper
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
 
         # calc order price
-        price_quote_asset = if order.market_index.order_price.quote_asset_id == qa.id then qa else ba
-        price_base_asset = if order.market_index.order_price.base_asset_id == qa.id then qa else ba
+        price_quote_asset = if order.market_index.order_price.quote_asset_id == base_asset.id then base_asset else quantity_asset
+        price_base_asset = if order.market_index.order_price.base_asset_id == base_asset.id then base_asset else quantity_asset
         price = order.market_index.order_price.ratio * (price_base_asset.precision / price_quote_asset.precision)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
-        td.quantity = order.state.balance / ba.precision
+        td.quantity = order.state.balance / quantity_asset.precision
         td.cost = td.quantity * price
         td.status = "posted"
 
         if order.type == "cover_order"
             #cover_price = 1.0 / price
-            td.cost = order.state.balance / qa.precision
+            td.cost = order.state.balance / base_asset.precision
             td.quantity = -1.0 #td.cost * cover_price
-            td.collateral = order.collateral / ba.precision
+            td.collateral = order.collateral / quantity_asset.precision
             td.type = "margin_order"
             td.status = "cover"
         else if order.type == "bid_order"
-            td.cost = order.state.balance / qa.precision
+            td.cost = order.state.balance / base_asset.precision
             td.quantity = td.cost / price if price > 0.0
         else if order.type == "short_order"
             td.collateral_ratio = 1.0/price
             pl = order.state.short_price_limit
             if pl
-                short_price_limit = pl.ratio * (ba.precision / qa.precision)
+                short_price_limit = pl.ratio * (quantity_asset.precision / base_asset.precision)
                 td.short_price_limit = if invert_price and short_price_limit > 0.0 then 1.0 / short_price_limit else short_price_limit
 
         if invert_assets

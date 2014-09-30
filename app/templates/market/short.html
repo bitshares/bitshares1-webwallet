@@ -20,9 +20,9 @@
   <div form-hgroup-note ng-show="market.shorts_price">
     {{'market.feed_price'|translate}} <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
-  <!--total-->
+  <!--cost-->
   <div form-hgroup label="{{'market.total'|translate}}" addon="{{actual_market.quantity_symbol}}">
-    <input-positive-number name="short_total" ng-model="short.total" ng-change="short_total_change()"  required="true"/>
+    <input-positive-number name="short_total" ng-model="short.cost" ng-change="short_total_change()"  required="true"/>
   </div>
   <!--Submit-->
   <div form-hgroup-error></div>
