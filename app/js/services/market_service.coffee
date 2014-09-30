@@ -15,7 +15,6 @@ class TradeData
         @display_type = null
         @collateral_ratio = null
         @short_price_limit = null
-        @total = 0.0
 
     invert: ->
         td = new TradeData()
@@ -31,7 +30,6 @@ class TradeData
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
         td.short_price_limit = 1.0 / @short_price_limit
-        td.total = @total
         return td
 
     clone_and_normalize: ->
@@ -42,7 +40,6 @@ class TradeData
         td.price = TradeData.helper.to_float(@price)
         td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
         td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
-        td.total = TradeData.helper.to_float(@total)
         return td
 
     update: (td) ->
@@ -56,7 +53,6 @@ class TradeData
         @display_type = td.display_type
         @collateral_ratio = td.collateral_ratio
         @short_price_limit = td.short_price_limit
-        @total = td.total
 
     touch: ->
         @timestamp = Date.now()
@@ -268,12 +264,10 @@ class MarketService
             @post_bid(order, account)
         else if order.type == "ask_order"
             @post_ask(order, account)
-        else #TODO if order.type == "short_order" 
-            if order.type != "short_order"
-                console.log "[WARNING] enhance else block order.type==", order.type
+        else if order.type == "short_order" 
             @post_short(order, account)
-        #else
-            #console.log "ERROR unknown order", order
+        else
+            throw new Error "ERROR unknown order type: "+ order.type
         call.then (result) ->
             order.id = result.record_id
             console.log "===== order placed: ", order.id
@@ -305,13 +299,11 @@ class MarketService
         actual_market = @market.get_actual_market()
         price_limit = 0.0
         if @market.inverted
-            amount = short.quantity
             price_limit = 1.0 / short.short_price_limit if short.short_price_limit > 0.0
         else
-            amount = short.cost
             price_limit = short.short_price_limit
-        console.log "---- before market_submit_short ----", account.name, amount, short.collateral_ratio, price_limit,  actual_market.asset_base_symbol
-        call = @wallet_api.market_submit_short(account.name, amount, actual_market.asset_base_symbol, short.collateral_ratio, price_limit)
+        #console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit
+        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
