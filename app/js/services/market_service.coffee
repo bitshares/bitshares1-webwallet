@@ -364,20 +364,20 @@ class MarketService
             for r in results
                 #console.log "---- 1 short: ", r, inverted, market.base_asset, market.quantity_asset
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
                 td.type = "short"
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
                     #console.log "------ short wall ------>", td.cost, td.quantity
-                    if inverted
-                        short_wall.cost += td.quantity
-                        short_wall.quantity += td.quantity * shorts_price
-                        @lowest_ask = shorts_price if shorts_price < @lowest_ask
-                    else
-                        short_wall.quantity += td.cost
-                        short_wall.cost += td.cost / shorts_price
-                        @highest_bid = shorts_price if shorts_price > @highest_bid
+                    #if inverted
+                    #    short_wall.cost += td.quantity
+                    #    short_wall.quantity += td.quantity * shorts_price
+                    #    @lowest_ask = shorts_price if shorts_price < @lowest_ask
+                    #else
+                    short_wall.quantity += td.cost
+                    short_wall.cost += td.cost / shorts_price
+                    @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
 
@@ -416,7 +416,7 @@ class MarketService
             @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
                 for r in results
                     td = new TradeData()
-                    @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+                    @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, true, inverted, td)
                     #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
                     td.status = "posted" if td.status != "cover"
                     orders.push td
@@ -427,8 +427,8 @@ class MarketService
                         if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
                             target_el.status = data_el.status
                         target_el.type = data_el.type
-                        target_el.cost = data_el.cost
-                        target_el.quantity = data_el.quantity unless target_el.status == "pending"
+                        target_el.cost = data_el.cost unless target_el.status == "pending"
+                        target_el.quantity = data_el.quantity
                         target_el.collateral = data_el.collateral
                         target_el.type = data_el.type
                         target_el.display_type = @helper.capitalize(target_el.type.split("_")[0])
