@@ -134,15 +134,15 @@ servicesModule.factory "Utils", ($translate,$q) ->
         diff = (date - Date.now()) / 1000.0
         #console.log _date,date,diff,date.toLocaleDateString() #20140930T191750 Tue Sep 30 2014 15:17:50 GMT-0400 (EDT) -71989.91 9/30/2014
 
-        return if diff < 0
+        return if diff <= 0
             $translate("utils.expired")
-        else if diff < 60
+        else if diff <= 60
             $translate("utils.seconds", {value: Math.round(diff)})
-        else if diff < 3600 # 1 hour
+        else if diff <= 3600 # 1 hour
             $translate("utils.minutes", {value: Math.round(diff/60.0)})
-        else if diff < 24 * 3600
+        else if diff <= 24 * 3600
             $translate("utils.hours", {value: Math.round(diff/3600.0)})
-        else if diff < 30 * 24 * 3600
+        else if diff <= 30 * 24 * 3600
             $translate("utils.days", {value: Math.round(diff/3600.0/24)})
         else
             deferred = $q.defer()
