@@ -10,10 +10,10 @@
     </thead>
     <tbody>
       <tr ng-repeat="o in shorts track by $index">
-        <td>{{o.cost | formatDecimal : actual_market.base_precision}}</td>
+        <td>{{o.quantity | formatDecimal : actual_market.quantity_precision}}</td>
         <td>{{o.collateral_ratio | formatDecimal : market.price_precision}}</td>
         <td>{{o.short_price_limit | formatDecimal : market.price_precision}}</td>
-        <td>{{o.quantity | formatDecimal : actual_market.quantity_precision}}</td>
+        <td>{{o.cost | formatDecimal : actual_market.base_precision}}</td>
       </tr>
     </tbody>
   </table>
