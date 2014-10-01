@@ -19,7 +19,7 @@
         </td>
         <td>{{o.cost | formatDecimal : actual_market.base_precision}}</td>
         <td>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</td>
-        <td>{{'market.days' | translate : {value: o.expiration_days} }}</td>
+        <td>{{o.expiration_days}}</td>
       </tr>
     </tbody>
   </table>

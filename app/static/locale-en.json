@@ -416,5 +416,12 @@
         "enable_trx_scan": "Enable Transaction Scanning",
         "up_to_date": "Up to date, processed {{value}} blocks",
         "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
+    },
+    "utils": {
+        "expired": "Expired",
+        "seconds": "{{value}} Seconds",
+        "minutes": "{{value}} Minutes",
+        "hours": "{{value}} Hours",
+        "days": "{{value}} Days"
     }
 }
