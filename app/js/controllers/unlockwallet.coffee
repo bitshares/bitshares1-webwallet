@@ -30,7 +30,13 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
     $scope.submitForm = ->
         $scope.wrongPass = false
         #deferred = $q.defer()
-        unlock_promise = Wallet.wallet_unlock($scope.spending_password)
+
+        error_handler = (response) ->
+            $scope.wrongPass = true
+            $scope.spending_password = ""
+            return true
+
+        unlock_promise = Wallet.wallet_unlock($scope.spending_password, error_handler)
         unlock_promise.then ->
             res = $scope.history_back()
             $location.path('/home') unless res
@@ -43,10 +49,5 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
 #                    res = $scope.history_back()
 #                    $location.path('/home') unless res
 #                    deferred.resolve()
-
-        unlock_promise.catch ->
-            $scope.wrongPass = true
-            $scope.spending_password = ""
-            #deferred.reject()
 
         $rootScope.showLoadingIndicator unlock_promise

@@ -3,7 +3,7 @@
   height: 36px;
 	-webkit-touch-callout: none;
   -webkit-user-select: none;
-	user-select: none ;
+	user-select: none;
 }
 
 .navbar-main {
@@ -73,14 +73,41 @@ li[disabled] a {
 	margin-right: 10px;
 }
 
-/*.snapjs-right .snap-help {*/
-	/*display: none;*/
-/*}*/
+/* error notifications */
 
-/*.snap-help-open {*/
-	/*display: none !important;*/
-/*}*/
+.arrowed {
+	min-height: 18px;
+}
 
-/*.snapjs-right .snap-help-open {*/
-	/*display: block !important;*/
-/*}*/
+.error-notifications > ul > li {
+	background-color: #f5f5f5 !important;
+	padding: 5px;
+	white-space: normal;
+	line-height: 1.428571429;
+	color: #666666;
+	user-select: text;
+	-webkit-user-select: text;
+}
+
+.error-notifications .arrowed {
+	background-color: #aaa;
+}
+
+.error-notifications .arrowed.arrow-left-in.label-danger:before {
+	border-top-color: #aaa;
+	border-bottom-color: #aaa;
+}
+
+.error-notifications.new-error .arrowed {
+	background-color: #d97572;
+}
+
+.error-notifications.new-error .arrowed.arrow-left-in.label-danger:before {
+	border-top-color: #d97572;
+	border-bottom-color: #d97572;
+}
+
+.error-stack {
+	font-size: 9px;
+	clear: right;
+}

@@ -1,64 +1,17 @@
 <div ng-controller="MarketHelpController">
-<h1>Market Rules Summary</h1>
-<!--Let's assume the BTSX : USD market where BTSX is priced in terms of USD. For the purpose of providing concrete examples, we will assume a median price of $0.03 per BTSX.-->
-<!--<ol>-->
-  <!--<li>51 delegates or more must publish a price feed at least once per day-->
-    <!--<ul>-->
-      <!--<li>if they do not publish the feed, then the market reverts to a 1hr moving average.</li>-->
-      <!--<li>if a feed is published, the 1hr moving average is set to the feed.</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>No short orders can be published to the network at a price 11% above the 1 hour moving average. (ie: they must be-->
-      <!--less than 0.0333)-->
-    <!--<ul>-->
-      <!--<li>the minimal short quantity is 100 BTSX</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>Short orders will only be matched against asks that are below the moving average. (ie: people must be selling BTSX-->
-      <!--for less than $0.03)-->
-    <!--<ul>-->
-      <!--<li>the highest short order is matched first, so a short selling USD at $0.03333 will be matched against someone-->
-          <!--buying USD at $.02999 and the difference (0.003333) * volume is captured as a fee.-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>A margin call will be executed any time the highest bid is greater than 90% of the moving average and the highest-->
-      <!--bid is less than the call price.-->
-    <!--<ul>-->
-      <!--<li>the initial call price is 66% of the short price (ie: $0.022 for a short entered at $.033). This is the price-->
-          <!--at which 75% of the collateral would be required to buy back the USD necessary to cover the position.-->
-      <!--</li>-->
-      <!--<li>If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is-->
-          <!--returned to the owner.-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>-->
-    <!--There are no restrictions on what prices people can set for normal BitUSD/BTSX trading. All parties will receive-->
-    <!--what they ask for.-->
-  <!--</li>-->
-  <!--<li>-->
-    <!--Rounding errors are inevitable when using fixed point math, any such rounding error is deemed to be a network fee.-->
-    <!--<ul>-->
-      <!--<li>for example you may place an order to buy $1.00 USD but end up with $0.99999 USD.</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>-->
-    <!--The network saves all fees earned in USD and in the event that a short position lacks the necessary collateral to-->
-    <!--cover during rapid market movements, then the network will provide the stored USD.-->
-  <!--</li>-->
-  <!--<li>You cannot use the collateral of your short position to buy the USD necessary to cover the position. This USD must-->
-      <!--be purchased separately.-->
-    <!--<ul>-->
-      <!--<li>This requirement creates a kind of "virtual collateral" that all shorts must maintain so they can cover for-->
-          <!--either profit taking or loss prevention.-->
-      <!--</li>-->
-    <!--</ul>-->
-  <!--</li>-->
-  <!--<li>-->
-    <!--When you partially cover a position it will reduce your exposure, but your collateral is not returned until the-->
-    <!--position is fully covered.-->
-  <!--</li>-->
-<!--</ol>-->
+  <h1>Market Rules Summary</h1>
+  <p>Short orders can only get filled under these conditions:</p>
+  <ol>
+    <li>There is someone willing to buy BitUSD at the price feed</li>
+    <li>AND Your short order is the highest collateral ratio order</li>
+    <li>AND Your price limit is lower than the feed (BTSX per USD) or you didn't specify a price limit.</li>
+    <li>AND You have enough collateral to provide 2x backing at the trade price and quantity</li>
+    <li>OR Your price limit is higher than the feed (BTSX per USD) and someone is willing to buy at your price limit.
+    </li>
+  </ol>
+  <p>Short orders are forced to cover after 30 days by taking the best offers at the time. No fee is charged.</p>
+  <p>Short orders are forced to cover when 75% of their collateral is required to cover, leaving the short with 25% of
+     the collateral minus a 5% fee.</p>
+  <p>The 5% fee is assessed as a percent of the collateral left over after covering.</p>
 </div>
 

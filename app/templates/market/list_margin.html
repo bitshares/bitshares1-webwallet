@@ -9,6 +9,7 @@
 
         <th>{{'th.units_owed'|translate:'{value: actual_market.base_symbol}'}}</th>
         <th>{{'th.collateral'|translate}} ({{actual_market.quantity_symbol}})</th>
+        <th>{{'th.expiration'|translate}}</th>
       </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
         </td>
         <td>{{o.cost | formatDecimal : actual_market.base_precision}}</td>
         <td>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</td>
+        <td>{{'market.days' | translate : {value: o.expiration_days} }}</td>
       </tr>
     </tbody>
   </table>

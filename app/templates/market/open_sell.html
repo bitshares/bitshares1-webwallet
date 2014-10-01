@@ -15,7 +15,7 @@
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
-      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({price: o.price, quantity: o.cost})">
+      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({price: o.price, quantity: o.cost}); scroll_to_buysell();">
         <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}

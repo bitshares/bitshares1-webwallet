@@ -122,3 +122,11 @@ servicesModule.factory "Utils", ->
             i--  if code >= 0xDC00 and code <= 0xDFFF #trail surrogate
             i--
         s
+
+    daysFromNow : (date) ->
+        return "" if not date
+        date = @toDate(date)
+        diff = date - Date.now()
+        diff = Math.round(diff/1000/3600/24)
+        return diff
+
