@@ -302,8 +302,8 @@ class MarketService
             price_limit = 1.0 / short.short_price_limit if short.short_price_limit > 0.0
         else
             price_limit = short.short_price_limit
-        #console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit
-        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit)
+        #console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit, actual_market.asset_quantity_symbol
+        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, actual_market.asset_quantity_symbol, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
