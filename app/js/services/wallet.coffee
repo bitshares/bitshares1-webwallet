@@ -54,7 +54,7 @@ class Wallet
                         @get_setting('autocomplete').then (result) =>
                             @autocomplete = result.value if result
                         @get_setting('interface_locale').then (result) =>
-                            if result.value
+                            if result and result.value
                                 @interface_locale = result.value
                                 @translate.use(result.value)
 
