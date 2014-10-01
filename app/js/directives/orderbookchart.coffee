@@ -22,10 +22,12 @@ initChart = (scope) ->
                 "<b>#{@series.name}</b><br/>Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
 
         xAxis:
-            title: "Price " + scope.priceSymbol
+            title:
+                text: "Price " + scope.priceSymbol
 
         yAxis:
-            title: ""
+            title:
+                text: "Volume " + scope.volumeSymbol
 
         series: [
             name: "Buy " + scope.volumeSymbol

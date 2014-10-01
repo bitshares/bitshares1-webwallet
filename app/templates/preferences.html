@@ -1,43 +1,62 @@
 <div class="col-sm-12">
   <div class="header">
-        <h3 class="header-title" translate>pref.title</h3>
+    <h3 class="header-title" translate>pref.title</h3>
   </div>
 </div>
 
 <div class="main-content">
 
-<div class="row">
-  <div class="col-sm-12 m-top">
-    <form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()" ng-class="{ 'has-error' : pform.wp.$invalid && !pform.wp.$pristine }" novalidate>
-      <div class="form-group">
+  <div class="row">
+    <div class="col-sm-12 m-top">
+      <form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()"
+            ng-class="{ 'has-error' : pform.wp.$invalid && !pform.wp.$pristine }" novalidate>
+        <div class="form-group">
           <div class="form-group row">
             <label class="col-sm-offset-1 col-sm-3 control-label" for="timeout" translate>pref.logout_timeout</label>
-            <div class="col-sm-3">
-                <input id="timeout" numonly autofocus ng-model="model.timeout" name="timeout" class="form-control" placeholder="Timeout in seconds"/>
-              </div>
+            <div class="col-sm-3 input-group">
+              <input id="timeout" numonly autofocus ng-model="model.timeout" name="timeout" class="form-control"
+                     placeholder="Timeout in seconds"/> <span class="input-group-addon">Seconds</span>
             </div>
-
-           <div class="form-group row">
-            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{ 'pref.trx_fee' | translate:'{symbol: model.symbol}' }}</label>
-            <div class="col-sm-3">
-                <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee" class="form-control" placeholder="Transaction Fee"/>
-              </div>
-            </div>
-                <div class="form-group row">
-                    <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" tooltip="{{ 'pref.autocomplete_info' | translate }}" tooltip-placement="bottom" translate>pref.autocomplete_receiver</label>
-                    <div class="col-sm-3">
-                        <input id="autocomplete" ng-model="model.autocomplete" name="autocomplete" class="form-control" type="checkbox"/>
-                    </div>
-                </div>
+          </div>
 
           <div class="form-group row">
-              <div class="col-sm-offset-4 col-sm-2">
-                <button class="btn btn-success" type="submit" translate>btn.update</button>
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{'pref.trx_fee' | translate}}</label>
+            <div class="col-sm-3 input-group">
+              <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee"
+                     class="form-control" placeholder="Transaction Fee"/> <span class="input-group-addon">{{model.symbol}}</span>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee"
+                   tooltip="{{ 'pref.autocomplete_info' | translate }}" tooltip-placement="bottom" translate>pref.autocomplete_receiver</label>
+            <div class="col-sm-3 no-lr-padding">
+              <input id="autocomplete" ng-model="model.autocomplete" name="autocomplete" class="form-control"  type="checkbox"/>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-offset-1 col-sm-3 control-label" translate>pref.language</label>
+            <div class="col-sm-3 no-lr-padding">
+              <div class="btn-group" dropdown is-open="status2.isopen">
+                <button type="button" class="btn dropdown-toggle">
+                  {{model.language_name}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="(k, v) in model.languages">
+                    <a ng-click="model.language_locale=k; model.language_name=v; status2.isopen=false">{{v}}</a>
+                  </li>
+                </ul>
               </div>
             </div>
-         </div>
-    </form>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-sm-offset-4 col-sm-2 no-lr-padding">
+              <button class="btn btn-success" type="submit" translate>btn.update</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
 </div>

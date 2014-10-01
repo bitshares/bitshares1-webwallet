@@ -14,7 +14,7 @@ servicesModule.factory "RpcService", ($http) ->
         angular.extend(http_params.data, reqparams)
         #console.log "RpcService <#{http_params.data.method}>, stack: #{getStackTrace()}"
         $http(http_params).then (response) ->
-            console.log("RpcService <#{http_params.data.method}> response:", response) if not (method in
+            console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) if not (method in
                 #filter out re-occuring rpc calls
                 ["wallet_open","wallet_lock","wallet_unlock",
                 "wallet_get_info","wallet_get_setting","wallet_account_balance",
