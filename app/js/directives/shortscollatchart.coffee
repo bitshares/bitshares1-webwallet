@@ -19,13 +19,15 @@ initChart = (scope) ->
 
         tooltip:
             formatter: ->
-                "Price #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Collateral #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
+                "Collateral Ratio #{utils.formatDecimal(@x,scope.pricePrecision,true)} #{scope.priceSymbol}<br/>Volume #{utils.formatDecimal(@y,scope.volumePrecision,true)} #{scope.volumeSymbol}"
 
         xAxis:
-            title: "Price " + scope.priceSymbol
+            title:
+                text: "Collateral Ratio " + scope.priceSymbol
 
         yAxis:
-            title: ""
+            title:
+                text: "Volume " + scope.volumeSymbol
 
         series: [
             name: "Shorts Collateralization"
