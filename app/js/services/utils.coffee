@@ -125,46 +125,28 @@ servicesModule.factory "Utils", ($translate,$q) ->
 
     formatExpirationDate : (_date) ->
         if not _date
-            return ""
+            deferred = $q.defer()
+            deferred.resolve("")
+            return deferred.promise
 
-        #_date="20141012T184450"
+        #_date="20141001T164450"
         date = @toDate(_date)
         diff = (date - Date.now()) / 1000.0
         #console.log _date,date,diff,date.toLocaleDateString() #20140930T191750 Tue Sep 30 2014 15:17:50 GMT-0400 (EDT) -71989.91 9/30/2014
-        return if diff < 0
-            "Expired"
-        else if diff < 60
-            Math.round(diff) + " Seconds"
-        else if diff < 3600
-            Math.round(diff/60.0) + " Minutes"
-        else if diff < 12*3600
-            Math.round(diff/3600.0) + " Hours"
-        else if diff < 12*3600*24
-            Math.round(diff/3600.0/24) + " Days"
-        else
-            date.toLocaleDateString()
 
-#    formatExpirationDate : (_date) ->
-#        if not _date
-#            return $q = (resolve) ->
-#                resolve("")
-#
-#        #_date="20141001T164450"
-#        date = @toDate(_date)
-#        diff = (date - Date.now()) / 1000.0
-#        console.log _date,date,diff,date.toLocaleDateString() #20140930T191750 Tue Sep 30 2014 15:17:50 GMT-0400 (EDT) -71989.91 9/30/2014
-#        
-#        if diff < 0
-#            $translate("utils.expired")
-#        else if diff < 60
-#            $translate("utils.seconds", {value: Math.round(diff)})
-#        else if diff < 3600
-#            $translate("utils.minutes", {value: Math.round(diff/60.0)})
-#        else if diff < 12*3600
-#            $translate("utils.hours", {value: Math.round(diff/3600.0)})
-#        else if diff < 12*3600*24
-#            $translate("utils.days", {value: Math.round(diff/3600.0/24)})
-#        else
-#            $q = (resolve) ->
-#                resolve(date.toLocaleDateString())
+        return if diff < 0
+            $translate("utils.expired")
+        else if diff < 60
+            $translate("utils.seconds", {value: Math.round(diff)})
+        else if diff < 3600
+            $translate("utils.minutes", {value: Math.round(diff/60.0)})
+        else if diff < 12*3600
+            $translate("utils.hours", {value: Math.round(diff/3600.0)})
+        else if diff < 12*3600*24
+            $translate("utils.days", {value: Math.round(diff/3600.0/24)})
+        else
+            deferred = $q.defer()
+            deferred.resolve(date.toLocaleDateString())
+            deferred.promise
+
 
