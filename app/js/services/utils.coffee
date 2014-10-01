@@ -124,8 +124,8 @@ servicesModule.factory "Utils", ($translate,$q) ->
         s
 
     formatExpirationDate : (_date) ->
+        deferred = $q.defer()
         if not _date
-            deferred = $q.defer()
             deferred.resolve("")
             return deferred.promise
 
@@ -134,7 +134,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
         diff = (date - Date.now()) / 1000.0
         #console.log _date,date,diff,date.toLocaleDateString() #20140930T191750 Tue Sep 30 2014 15:17:50 GMT-0400 (EDT) -71989.91 9/30/2014
 
-        return if diff <= 0
+        promise = if diff <= 0
             $translate("utils.expired")
         else if diff <= 60
             $translate("utils.seconds", {value: Math.round(diff)})
@@ -145,8 +145,17 @@ servicesModule.factory "Utils", ($translate,$q) ->
         else if diff <= 30 * 24 * 3600
             $translate("utils.days", {value: Math.round(diff/3600.0/24)})
         else
-            deferred = $q.defer()
+            null
+
+        if promise
+            promise.catch (error) ->
+                deferred.resolve(date.toLocaleDateString() + " #{error}")
+            promise.then (result) ->
+                deferred.resolve(result)
+        else
             deferred.resolve(date.toLocaleDateString())
-            deferred.promise
+
+        deferred.promise
+
 
 
