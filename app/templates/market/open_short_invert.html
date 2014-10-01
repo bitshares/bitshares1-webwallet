@@ -5,7 +5,7 @@
         <th>{{'th.quantity'|translate}} ({{market.quantity_symbol}})</th>
         <th>{{'th.collateral_ratio'|translate}} ({{actual_market.quantity_symbol}}/{{actual_market.base_symbol}})</th>
         <th>{{'th.price_limit'|translate}} ({{market.price_symbol}})</th>
-        <th>{{'th.total'|translate}} ({{actual_market.quantity_symbol}})</th>
+        <th>{{'th.total'|translate}} ({{actual_market.asset_quantity_symbol}})</th>
         <th translate>th.action</th>
       </tr>
     </thead>
@@ -19,7 +19,7 @@
       <!--rows-->
       <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.quantity, price_limit: o.short_price_limit}); scroll_to_buysell();">
         <!--quantity-->
-        <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
+        <td><span>{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
         <!--collateral ratio-->
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.collateral_ratio | formatDecimal : market.price_precision : true}}
@@ -27,7 +27,7 @@
         <!--price limit-->
         <td>{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
         <!--total(cost)-->
-        <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : market.base_precision}}</span></td>
+        <td><span>{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <td>
           <span ng-switch on="o.status">
             <span ng-switch-when="unconfirmed">

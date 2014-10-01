@@ -38,3 +38,9 @@ span.help-block {
 .hgroup-button {
 	margin-bottom: 0;
 }
+
+input[type="checkbox"] {
+	width: 20px;
+	position: relative;
+	bottom: 3px;
+}

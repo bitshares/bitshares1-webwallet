@@ -1,6 +1,6 @@
 servicesModule = angular.module("app.services")
 
-servicesModule.factory "Utils", ->
+servicesModule.factory "Utils", ($translate,$q) ->
     asset: (amount, asset_type) ->
         amount: amount
         symbol: if asset_type then asset_type.symbol else "NA"
@@ -123,10 +123,39 @@ servicesModule.factory "Utils", ->
             i--
         s
 
-    daysFromNow : (date) ->
-        return "" if not date
-        date = @toDate(date)
-        diff = date - Date.now()
-        diff = Math.round(diff/1000/3600/24)
-        return diff
+    formatExpirationDate : (_date) ->
+        deferred = $q.defer()
+        if not _date
+            deferred.resolve("")
+            return deferred.promise
+
+        #_date="20141001T164450"
+        date = @toDate(_date)
+        diff = (date - Date.now()) / 1000.0
+        #console.log _date,date,diff,date.toLocaleDateString() #20140930T191750 Tue Sep 30 2014 15:17:50 GMT-0400 (EDT) -71989.91 9/30/2014
+
+        promise = if diff <= 0
+            $translate("utils.expired")
+        else if diff <= 60
+            $translate("utils.seconds", {value: Math.round(diff)})
+        else if diff <= 3600 # 1 hour
+            $translate("utils.minutes", {value: Math.round(diff/60.0)})
+        else if diff <= 24 * 3600
+            $translate("utils.hours", {value: Math.round(diff/3600.0)})
+        else if diff <= 30 * 24 * 3600
+            $translate("utils.days", {value: Math.round(diff/3600.0/24)})
+        else
+            null
+
+        if promise
+            promise.catch (error) ->
+                deferred.resolve(date.toLocaleDateString() + " #{error}")
+            promise.then (result) ->
+                deferred.resolve(result)
+        else
+            deferred.resolve(date.toLocaleDateString())
+
+        deferred.promise
+
+
 

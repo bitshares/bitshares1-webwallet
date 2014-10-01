@@ -532,10 +532,11 @@ class WalletAPI
   #   real_amount `short_quantity` - the quantity of items you would like to short sell (USD you would like to sell)
   #   asset_symbol `short_symbol` - the type of asset you would like to short, ie: USD
   #   real_amount `collateral_ratio` - the ratio XTS per USD that your USD will be collateralized at (ie: XTS / USD)
+  #   asset_symbol `collateral_symbol` - the asset to use to collateralize this short sale (ie XTS)
   #   real_amount `short_price_limit` - maximim price (USD per XTS) that the short will execute at, if 0 then no limit will be applied
   # return_type: `transaction_record`
-  market_submit_short: (from_account_name, short_quantity, short_symbol, collateral_ratio, short_price_limit, error_handler = null) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_symbol, collateral_ratio, short_price_limit], error_handler).then (response) ->
+  market_submit_short: (from_account_name, short_quantity, short_symbol, collateral_ratio, collateral_symbol, short_price_limit, error_handler = null) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_symbol, collateral_ratio, collateral_symbol, short_price_limit], error_handler).then (response) ->
       response.result
 
   # Used to place a request to cover an existing short position
