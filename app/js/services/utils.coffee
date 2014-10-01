@@ -138,11 +138,11 @@ servicesModule.factory "Utils", ($translate,$q) ->
             $translate("utils.expired")
         else if diff < 60
             $translate("utils.seconds", {value: Math.round(diff)})
-        else if diff < 3600
+        else if diff < 3600 # 1 hour
             $translate("utils.minutes", {value: Math.round(diff/60.0)})
-        else if diff < 12*3600
+        else if diff < 24 * 3600
             $translate("utils.hours", {value: Math.round(diff/3600.0)})
-        else if diff < 12*3600*24
+        else if diff < 30 * 24 * 3600
             $translate("utils.days", {value: Math.round(diff/3600.0/24)})
         else
             deferred = $q.defer()
