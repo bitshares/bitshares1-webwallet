@@ -377,10 +377,11 @@
     },
     "pref": {
         "title": "Preferences",
-        "logout_timeout": "Logout timeout, seconds",
-        "trx_fee": "Transaction Fee ({{symbol}})",
-        "autocomplete_receiver": "Autocomplete Receiver",
-        "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types"
+        "logout_timeout": "Logout timeout",
+        "trx_fee": "Transaction Fee",
+        "autocomplete_receiver": "Autocomplete Receiver Name",
+        "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types",
+        "language": "Interface Language"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"

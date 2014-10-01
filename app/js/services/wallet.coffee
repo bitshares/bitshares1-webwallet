@@ -30,6 +30,8 @@ class Wallet
 
     main_asset: null
 
+    interface_locale: null
+
     set_current_account: (account) ->
         @current_account = account
         @set_setting("current_account", account.name)
@@ -51,6 +53,11 @@ class Wallet
                                 @idle.watch()
                         @get_setting('autocomplete').then (result) =>
                             @autocomplete = result.value if result
+                        @get_setting('interface_locale').then (result) =>
+                            if result.value
+                                @interface_locale = result.value
+                                @translate.use(result.value)
+
         return deferred.promise
 
     refresh_balances: ->
@@ -412,8 +419,8 @@ class Wallet
                     deferred.resolve(get_first_account())
         return deferred.promise
 
-    constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
+    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @wallet_name = ""
         @timeout = @idle._options().idleDuration
 
-angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])

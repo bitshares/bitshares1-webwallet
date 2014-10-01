@@ -582,7 +582,7 @@ class MarketService
                 for s in self.shorts
                     continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
                     #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
-                    sum_shorts += if self.market.inverted then s.quantity else s.cost
+                    sum_shorts += if self.market.inverted then s.cost else s.quantity
                     price = if self.market.inverted then s.price else 1.0/s.price
                     self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
 
