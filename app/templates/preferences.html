@@ -12,15 +12,17 @@
       <div class="form-group">
           <div class="form-group row">
             <label class="col-sm-offset-1 col-sm-3 control-label" for="timeout" translate>pref.logout_timeout</label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 input-group">
                 <input id="timeout" numonly autofocus ng-model="model.timeout" name="timeout" class="form-control" placeholder="Timeout in seconds"/>
+                <span class="input-group-addon">Seconds</span>
               </div>
             </div>
 
            <div class="form-group row">
-            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{ 'pref.trx_fee' | translate:'{symbol: model.symbol}' }}</label>
-            <div class="col-sm-3">
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{'pref.trx_fee' | translate}}</label>
+            <div class="col-sm-3 input-group">
                 <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee" class="form-control" placeholder="Transaction Fee"/>
+                <span class="input-group-addon">{{model.symbol}}</span>
               </div>
             </div>
                 <div class="form-group row">
@@ -31,7 +33,7 @@
                 </div>
 
           <div class="form-group row">
-              <div class="col-sm-offset-4 col-sm-2">
+              <div class="col-sm-offset-4 col-sm-2 no-lr-padding">
                 <button class="btn btn-success" type="submit" translate>btn.update</button>
               </div>
             </div>
