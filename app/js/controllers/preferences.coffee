@@ -1,8 +1,15 @@
-angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle) ->
+angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate) ->
     $scope.model = { transaction_fee: null, symbol: null }
     $scope.model.timeout = Wallet.timeout
     $scope.model.autocomplete = Wallet.autocomplete
     $scope.model.symbol = ''
+    $scope.model.languages =
+        "en": "English"
+        "zh-CN": "Chinese"
+        "de": "German"
+        "ru": "Russian"
+    $scope.model.language_locale = $translate.preferredLanguage()
+    $scope.model.language_name = $scope.model.languages[$scope.model.language_locale]
 
     $scope.$watch ->
         Wallet.timeout
@@ -19,11 +26,17 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         Wallet.info.transaction_fee
     , (value) ->
         return if not value or $scope.model.transaction_fee != null
-        console.log('Wallet.info.transaction_fee', value)
         Blockchain.get_asset(0).then (v)->
             pf_obj = Utils.asset(value, v)
             $scope.model.transaction_fee = pf_obj.amount.amount / pf_obj.precision
             $scope.model.symbol = v.symbol
+
+    $scope.$watch ->
+        Wallet.interface_locale
+    , (value) ->
+        return if value == null
+        $scope.model.language_locale = value
+        $scope.model.language_name = $scope.model.languages[value]
 
     $scope.updatePreferences = ->
         if $scope.model.timeout < 15
@@ -38,7 +51,9 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         calls = [
                 Wallet.set_setting('timeout', $scope.model.timeout),
                 WalletAPI.set_transaction_fee(pf),
-                Wallet.set_setting('autocomplete', $scope.model.autocomplete)
+                Wallet.set_setting('autocomplete', $scope.model.autocomplete),
+                Wallet.set_setting('interface_locale', $scope.model.language_locale)
         ]
         $q.all(calls).then (r) ->
+            $translate.use($scope.model.language_locale)
             Growl.notice "Preferences Updated", ""
