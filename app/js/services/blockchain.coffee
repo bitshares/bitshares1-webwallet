@@ -40,9 +40,20 @@ class Blockchain
         return @asset_records[record.id]
 
     refresh_asset_records: ->
-        @blockchain_api.list_assets("", -1).then (result) =>
+        deferred = @q.defer()
+        unless $.isEmptyObject(@asset_records)
+            deferred.resolve(@asset_records)
+            return deferred.promise
+
+        promise = @blockchain_api.list_assets("", -1)
+        promise.then (result) =>
             angular.forEach result, (record) =>
                 @populate_asset_record record
+            deferred.resolve(@asset_records)
+        , (error) ->
+            deferred.reject(error)
+
+        return deferred.promise
 
     get_asset: (id) ->
         if !$.isNumeric(id)
