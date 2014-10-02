@@ -427,7 +427,7 @@ class MarketService
                         if data_el.status and target_el.status != "canceled" and !(target_el.status == "pending" and !target_el.expired())
                             target_el.status = data_el.status
                         target_el.type = data_el.type
-                        target_el.cost = data_el.cost unless target_el.status == "pending"
+                        target_el.cost = data_el.cost
                         target_el.quantity = data_el.quantity
                         target_el.collateral = data_el.collateral
                         target_el.type = data_el.type

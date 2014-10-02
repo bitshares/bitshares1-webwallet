@@ -37,7 +37,10 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
         else
             $scope.connections_str = "Not connected"
 
-        $scope.connections_class = if connections < 4 then "signal-#{connections}" else "signal-4"
+        if connections and connections >= 0
+            $scope.connections_class = if connections < 4 then "signal-#{connections}" else "signal-4"
+        else
+            $scope.connections_class = "signal-0"
 
         $scope.wallet_unlocked = info.wallet_unlocked
 
