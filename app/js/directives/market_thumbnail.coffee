@@ -1,9 +1,100 @@
+Highcharts.SparkLine = (options, callback) ->
+  defaultOptions =
+    chart:
+      renderTo: (options.chart and options.chart.renderTo) or this
+      backgroundColor: null
+      borderWidth: 0
+      type: "line"
+      margin: [
+        2
+        0
+        2
+        0
+      ]
+      width: 120
+      height: 20
+      style:
+        overflow: "visible"
+
+      skipClone: true
+
+    title:
+      text: ""
+
+    credits:
+      enabled: false
+
+    xAxis:
+      type: "datetime"
+      labels:
+        enabled: false
+
+      title:
+        text: null
+
+      startOnTick: false
+      endOnTick: false
+      tickPositions: []
+
+    yAxis:
+      endOnTick: false
+      startOnTick: false
+      labels:
+        enabled: false
+
+      title:
+        text: null
+
+      tickPositions: [0]
+
+    legend:
+      enabled: false
+
+    tooltip:
+      xDateFormat: "%m/%d/%Y %H:%M%p"
+      backgroundColor: null
+      borderWidth: 0
+      shadow: false
+      useHTML: true
+      hideDelay: 0
+      shared: true
+      padding: 0
+      positioner: (w, h, point) ->
+        x: point.plotX - w / 2
+        y: point.plotY - h
+      valueDecimals: 2
+
+    plotOptions:
+      series:
+        animation: false
+        lineWidth: 1
+        shadow: false
+        states:
+          hover:
+            lineWidth: 1
+
+        marker:
+          radius: 1
+          states:
+            hover:
+              radius: 2
+
+        fillOpacity: 0.25
+
+      column:
+        negativeColor: "#910000"
+        borderColor: "silver"
+
+  options = Highcharts.merge(defaultOptions, options)
+  new Highcharts.Chart(options, callback)
+
 
 
 angular.module("app.directives").directive "marketThumbnail", ->
     template: '''
         <div class="market-thumbnail">
             <h6>{{name}}</h6>
+            <div class="sparkchart pull-right"></div>
             <ul>
                 <li>24h volume: {{market.volume | formatDecimal : market.quantity_precision}} {{market.quantity_symbol}}</li>
                 <li>Price: {{market.last_price | formatDecimal : market.price_precision}} {{market.price_symbol}}</li>
@@ -62,5 +153,16 @@ angular.module("app.directives").directive "marketThumbnail", ->
 
                     market.ohlc_data.push [time, o, h, l, c]
                     market.volume += t.volume / market.quantity_asset.precision
+
+                series = [
+                        data: market.ohlc_data,
+                        pointStart: 1
+                        name: 'Price'
+                ]
+#                tooltip:
+#                        headerFormat: '<span style="font-size: 10px">' + $td.parent().find('th').html() + ', Q{point.x}:</span><br/>',
+#                        pointFormat: '<b>{point.y}.000</b> USD'
+                $(".sparkchart", $element).highcharts('SparkLine', {series: series})
+#
 
                 #console.log "------ ohlc_data ------>", market.volume, market.ohlc_data
