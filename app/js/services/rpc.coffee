@@ -16,7 +16,7 @@ servicesModule.factory "RpcService", ($http) ->
         $http(http_params).then (response) ->
             console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) if not (method in
                 #filter out re-occuring rpc calls
-                ["wallet_open","wallet_lock","wallet_unlock",
+                ["wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",
                 "wallet_get_info","wallet_get_setting","wallet_account_balance",
                 "wallet_set_setting","wallet_account_transaction_history ",
                 "wallet_market_order_list","wallet_get_account","wallet_account_yield",

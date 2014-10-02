@@ -16,12 +16,17 @@
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
+      <!--rows-->
       <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}">
+        <!--call price-->
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
+        <!--units_owed-->
         <td><span>{{market.inverted ? o.quantity : o.cost | formatDecimal : actual_market.base_precision}}</span></td>
+        <!--collateral-->
         <td><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
+        <!--expiration-->
         <td>{{o.expiration_days}}</td>
         <td>
           <span ng-switch on="o.status">
