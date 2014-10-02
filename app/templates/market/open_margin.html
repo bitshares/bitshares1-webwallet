@@ -23,7 +23,7 @@
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
         <!--units_owed-->
-        <td><span>{{market.inverted ? o.quantity : o.cost | formatDecimal : actual_market.base_precision}}</span></td>
+        <td><span>{{o.quantity | formatDecimal : actual_market.base_precision}}</span></td>
         <!--collateral-->
         <td><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
         <!--expiration-->
