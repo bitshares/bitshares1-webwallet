@@ -32,6 +32,21 @@
     </div>
 
     <div class="col-sm-3">
+      <div class="panel" ng-show="featured_markets.length > 0">
+        <div class="panel-heading">
+          <h3 class="panel-title">Featured Markets</h3>
+        </div>
+        <div class="panel-body">
+          <ul class="markets-list">
+            <li ng-repeat="m in featured_markets track by $index">
+              <market-thumbnail name="m" ng-click="select_market(m)">{{m}}</market-thumbnail>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
       <div class="panel" ng-show="recent_markets.length > 0">
         <div class="panel-heading">
           <h3 class="panel-title" translate>market.recent_markets</h3>
@@ -44,7 +59,7 @@
       </div>
     </div>
 
-    <div class="col-sm-6">&nbsp;</div>
+    <div class="col-sm-3">&nbsp;</div>
 
   </div>
 </div>

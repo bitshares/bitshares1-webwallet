@@ -219,13 +219,8 @@ class MarketService
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
                 market.collateral_symbol = results[2].symbol
-                if market.quantity_asset.id > market.base_asset.id
-                    market.inverted = true
-                else
-                    market.inverted = false
+                market.inverted = market.quantity_asset.id > market.base_asset.id
                 @pull_market_status().then ->
-                    #console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
-                    #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
                     error_message = "Cannot get market status. Probably no orders have been placed."
