@@ -223,14 +223,15 @@ tr.short_wall td {
 }
 
 .market-thumbnail h6 {
-	padding-left: 2.5em;
+	padding-left: 1em;
 	color: #01bbf4;
 }
 
 .market-thumbnail ul {
-	padding-left: 2.5em;
+	padding-left: 1em;
+	list-style-type: none;
 }
 
 .sparkchart {
-	margin-right: 10px;
+	margin-right: 1em;
 }

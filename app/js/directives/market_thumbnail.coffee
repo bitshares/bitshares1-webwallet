@@ -12,7 +12,7 @@ Highcharts.SparkLine = (options, callback) ->
         0
       ]
       width: 120
-      height: 20
+      height: 36
       style:
         overflow: "visible"
 
@@ -88,16 +88,15 @@ Highcharts.SparkLine = (options, callback) ->
   options = Highcharts.merge(defaultOptions, options)
   new Highcharts.Chart(options, callback)
 
-
-
 angular.module("app.directives").directive "marketThumbnail", ->
     template: '''
         <div class="market-thumbnail">
             <h6>{{name}}</h6>
             <div class="sparkchart pull-right"></div>
             <ul>
-                <li>24h volume: {{market.volume | formatDecimal : market.quantity_precision}} {{market.quantity_symbol}}</li>
-                <li>Price: {{market.last_price | formatDecimal : market.price_precision}} {{market.price_symbol}}</li>
+                <li>{{market.volume | formatDecimal : market.quantity_precision}} {{market.quantity_symbol}} 24h volume</li>
+                <li>{{market.last_price | formatDecimal : market.price_precision}} {{market.price_symbol}}</li>
+                <li>{{1.0/market.last_price | formatDecimal : market.price_precision}} {{market.inverse_price_symbol}}</li>
             </ul>
         </div>
     '''
@@ -116,6 +115,7 @@ angular.module("app.directives").directive "marketThumbnail", ->
         market.asset_quantity_symbol = market.quantity_symbol.replace("Bit", "")
         market.asset_base_symbol = market.base_symbol.replace("Bit", "")
         market.price_symbol = "#{market.base_symbol}/#{market.quantity_symbol}"
+        market.inverse_price_symbol = "#{market.quantity_symbol}/#{market.base_symbol}"
         #console.log "------ market controller ------>", market
         $q.all([BlockchainAPI.get_asset(market.asset_quantity_symbol), BlockchainAPI.get_asset(market.asset_base_symbol)]).then (results) ->
             market.quantity_asset = results[0]
@@ -166,3 +166,4 @@ angular.module("app.directives").directive "marketThumbnail", ->
 #
 
                 #console.log "------ ohlc_data ------>", market.volume, market.ohlc_data
+
