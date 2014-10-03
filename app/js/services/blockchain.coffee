@@ -41,7 +41,7 @@ class Blockchain
 
     refresh_asset_records: ->
         deferred = @q.defer()
-        unless $.isEmptyObject(@asset_records)
+        if Object.keys(@asset_records).length > 10
             deferred.resolve(@asset_records)
             return deferred.promise
 
