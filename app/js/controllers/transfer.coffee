@@ -63,7 +63,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 else
                     $scope.no_account = true
 
-    $scope.showLoadingIndicator(refresh_accounts_promise)
+    #$scope.showLoadingIndicator(refresh_accounts_promise)
     
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
