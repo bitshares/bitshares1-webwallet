@@ -4,7 +4,7 @@ class Wallet
 
     balances: {}
     bonuses: {}
-
+    
     open_orders_balances: {}
 
     asset_balances : {}
@@ -140,7 +140,12 @@ class Wallet
             @populate_account(result)
             @refresh_balances()
 
-    refresh_accounts: ->
+    refresh_accounts: (prevent_rapid_refresh = false) ->
+        if prevent_rapid_refresh and @utils.too_soon('refresh_accounts', 10 * 1000)
+            deferred = @q.defer()
+            deferred.resolve()
+            return deferred.promise
+
         @accounts = {}
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
