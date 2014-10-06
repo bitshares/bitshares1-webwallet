@@ -4,7 +4,7 @@ class Wallet
 
     balances: {}
     bonuses: {}
-
+    
     open_orders_balances: {}
 
     asset_balances : {}
@@ -62,9 +62,11 @@ class Wallet
 
     refresh_balances: ->
         requests =
+            refresh_bonuses: @refresh_bonuses()
             account_balances : @wallet_api.account_balance("")
             refresh_assets: @blockchain.refresh_asset_records()
             main_asset: @blockchain.get_asset(0)
+
         @q.all(requests).then (results) =>
             @main_asset = results.main_asset
             @balances = {}
@@ -82,9 +84,9 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
-                if acct.is_my_account
+                #if acct.is_my_account
                     #@refresh_open_order_balances(acct.name)
-                    @refresh_bonuses(acct.name)
+                    
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
@@ -102,18 +104,45 @@ class Wallet
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
-    refresh_bonuses: (name) ->
-        @rpc.request('wallet_account_yield', []).then (response) =>
-            angular.forEach response.result, (name_balances_pair) =>
-                name = name_balances_pair[0]
-                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
-                    asset_id = asset_id_amt_pair[0]
-                    symbol = @blockchain.asset_records[asset_id].symbol
-                    amount = asset_id_amt_pair[1]
-                    @bonuses[name] = @bonuses[name] || {}
-                    @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+    refresh_bonuses_promise: null
+    
+    refresh_bonuses: ->
+        if @utils.too_soon("refresh_bonuses", 10 * 1000)
+            return @refresh_bonuses_promise.then (response) =>
+                #console.log "wallet_account_yield(): too soon #{response}"
+                return response
+    
+        @refresh_bonuses_promise = @wallet_api.account_yield("").then (response) =>
+            @blockchain.refresh_asset_records().then () =>
+                #console.log "wallet_account_yield()",response
+                angular.forEach response, (name_balances_pair) =>
+                    name = name_balances_pair[0]
+                    #console.log "refresh_bonuse #{name}"
+                    angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                        asset_id = asset_id_amt_pair[0]
+                        symbol = @blockchain.asset_records[asset_id].symbol
+                        amount = asset_id_amt_pair[1]
+                        @bonuses[name] = @bonuses[name] || {}
+                        @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
 
+#    account_yield: []
+#    
+#    #empty account_name = all
+#    wallet_account_yield: (account_name = "") ->
+#        if @utils.too_soon("wallet_account_yield #{account_name}", 10 * 1000)
+#            return @account_yield[account_name].then (result) =>
+#                console.log "wallet_account_yield(#{account_name}): too soon #{result}"
+#                return result
+#
+#        @account_yield[account_name] = @wallet_api.account_yield(account_name).then (result) =>
+#            console.log "wallet_account_yield(#{account_name})", result
+#            result
+
+    get_setting: (name) ->
+        @wallet_api.get_setting(name).then (result) =>
+            result
+            
     count_my_accounts: ->
         accounts = 0
         angular.forEach @accounts, (acct, name) ->
@@ -140,7 +169,12 @@ class Wallet
             @populate_account(result)
             @refresh_balances()
 
-    refresh_accounts: ->
+    refresh_accounts: (prevent_rapid_refresh = false) ->
+        if prevent_rapid_refresh and @utils.too_soon('refresh_accounts', 10 * 1000)
+            deferred = @q.defer()
+            deferred.resolve()
+            return deferred.promise
+
         @accounts = {}
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
