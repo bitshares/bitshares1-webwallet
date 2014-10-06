@@ -109,15 +109,15 @@ class Wallet
     refresh_bonuses: ->
         if @utils.too_soon("refresh_bonuses", 10 * 1000)
             return @refresh_bonuses_promise.then (response) =>
-                console.log "wallet_account_yield(): too soon #{response}"
+                #console.log "wallet_account_yield(): too soon #{response}"
                 return response
     
         @refresh_bonuses_promise = @wallet_api.account_yield("").then (response) =>
             @blockchain.refresh_asset_records().then () =>
-                console.log "wallet_account_yield()",response
+                #console.log "wallet_account_yield()",response
                 angular.forEach response, (name_balances_pair) =>
                     name = name_balances_pair[0]
-                    console.log "refresh_bonuse #{name}"
+                    #console.log "refresh_bonuse #{name}"
                     angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
                         asset_id = asset_id_amt_pair[0]
                         symbol = @blockchain.asset_records[asset_id].symbol
