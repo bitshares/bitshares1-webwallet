@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid) ->
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
@@ -11,6 +11,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.advanced = false
     current_market = null
     price_decimals = 4
+
+    $scope.listBuyGrid = MarketGrid.initGrid()
+    $scope.listSellGrid = MarketGrid.initGrid()
+
 
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
@@ -70,6 +74,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
+        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market)
+        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market)
+        #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers

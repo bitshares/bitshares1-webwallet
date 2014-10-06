@@ -7,8 +7,8 @@ window.getStackTrace = ->
     trace.join("\n ○ ")
 
 app = angular.module("app",
-    ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ngGrid", "ui.bootstrap",
-     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive"])
+    ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
+     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
