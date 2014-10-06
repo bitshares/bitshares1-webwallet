@@ -75,6 +75,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.hot_check_send_amount = ->
         return unless $scope.balances
         return unless $scope.balances[$scope.transfer_info.symbol]
+        return unless my_transfer_form.amount
         
         my_transfer_form.amount.error_message = null
         
