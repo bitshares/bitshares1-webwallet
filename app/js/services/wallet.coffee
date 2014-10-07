@@ -161,6 +161,7 @@ class Wallet
     populate_account: (val) ->
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
+        #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
         return acct
 
@@ -175,6 +176,7 @@ class Wallet
             deferred.resolve()
             return deferred.promise
 
+        #console.log "refresh_accounts clearing cache"
         @accounts = {}
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
@@ -209,7 +211,9 @@ class Wallet
 
     get_account: (name) ->
         @refresh_balances()
+        #console.log "wallet_get_account start",name
         if @accounts[name]
+            #console.log "wallet_get_account found",name
             deferred = @q.defer()
             deferred.resolve(@accounts[name])
             return deferred.promise

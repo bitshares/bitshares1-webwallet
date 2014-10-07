@@ -36,18 +36,20 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
             $scope.spending_password = ""
             return true
 
-        unlock_promise = Wallet.wallet_unlock($scope.spending_password, error_handler)
-        unlock_promise.then ->
-            res = $scope.history_back()
-            $location.path('/home') unless res
-#            Observer.registerObserver(observer)
-#            observer.notify = (data) ->
-#                console.log "scanning_transactions_observer updated data: ", data.progress
-#                deferred.notify(data.progress)
-#                if data.progress == 0 or data.progress >= 100 or observer.counter > 120
-#                    Observer.unregisterObserver(observer)
-#                    res = $scope.history_back()
-#                    $location.path('/home') unless res
-#                    deferred.resolve()
+        
+        Wallet.open().then ->
+            unlock_promise = Wallet.wallet_unlock($scope.spending_password, error_handler)
+            unlock_promise.then ->
+                res = $scope.history_back()
+                $location.path('/home') unless res
+#                Observer.registerObserver(observer)
+#                observer.notify = (data) ->
+#                    console.log "scanning_transactions_observer updated data: ", data.progress
+#                    deferred.notify(data.progress)
+#                    if data.progress == 0 or data.progress >= 100 or observer.counter > 120
+#                        Observer.unregisterObserver(observer)
+#                        res = $scope.history_back()
+#                        $location.path('/home') unless res
+#                        deferred.resolve()
 
-        $rootScope.showLoadingIndicator unlock_promise
+            $rootScope.showLoadingIndicator unlock_promise
