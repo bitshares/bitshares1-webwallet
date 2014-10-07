@@ -4,10 +4,13 @@ SETUP
 
 Upon successful execution you should see something like this:
 
+```
 Start this server as follows:
-./start.sh tmp/ewb5
+./delegate.sh tmp/abU1
+./client.sh tmp/ewb5
+```
 
-Start the server.  Now, to get things going copy and paste the following:
+Start the ./delegate.sh and in the console enable block production:
 
 open default
 unlock 9999 Password00
@@ -113,6 +116,31 @@ wallet_delegate_set_block_production init98 true
 wallet_delegate_set_block_production init99 true
 wallet_delegate_set_block_production init100 true
 
+
+#
+# Start the ./client.sh and use one of the special delegates (from the 
+# genesis block) to create a market issued asset:
+#
+open default
+unlock 9999 Password00
+wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
+transfer 9000000 XTS tester init0
+
+#
+# Wait at most 10 seconds, then create market issued asset:
+# TODO, fix adj unit supply and precision on CNY,BTC,GLD
+#
+wallet_asset_create USD BitUSD init0 "paper bucks" null 1000000000 10000 true
+wallet_asset_create CNY BitCNY init0 "paper yuan" null 1000000000 10000 true
+wallet_asset_create BTC BitBTC init0 "bitcoin" null 1000000000 10000 true
+wallet_asset_create GLD BitGLD init0 "solid gold" null 1000000000 10000 true
+
+UNIT TESTS
+
+Use the ./client.sh http port to access the web_wallet:
+http://localhost:9989
+
+... or to run the e2e unit tests.
 
 
 DETAILS
