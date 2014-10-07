@@ -10,7 +10,17 @@ app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid"])
 
-app.run ($rootScope, $location, $idle, $state, $interval, $window, editableOptions, editableThemes) ->
+app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, editableOptions, editableThemes) ->
+    #console.log "------ $templateCache ------>", $templateCache
+    $templateCache.put 'ui-grid/uiGridViewport',
+        '''<div class="ui-grid-viewport">
+             <div class="ui-grid-canvas">
+               <div ng-repeat="(rowRenderIndex, row) in rowContainer.renderedRows track by row.uid" class="ui-grid-row" ng-class="row.entity.type" ng-style="containerCtrl.rowStyle(rowRenderIndex)">
+                 <div ui-grid-row="row" row-render-index="rowRenderIndex"></div>
+               </div>
+              </div>
+           </div>'''
+
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
     app_history = []
 

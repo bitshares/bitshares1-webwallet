@@ -74,8 +74,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
-        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market)
-        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market)
+        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
+        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
         #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
@@ -201,7 +201,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then -.0001
             when "market.short" then -.0001
             else throw Error("Unknown $state.current.name",$state.current.name)
-    
+
+    $scope.grid_row_clicked = (row) ->
+        #console.log "------ gridRowClicked ------>", row
+        if row.type == "ask" or row.type == "bid"
+            $scope.use_trade_data price: row.price, quantity: row.quantity
+        $scope.scroll_buysell()
+
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
@@ -236,8 +242,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             else throw Error("Unknown $state.current.name",$state.current.name)
 
     $scope.scroll_buysell = ->
-        $(".content").animate({ scrollTop: $("#order_tabs").offset().top - 50 }, "slow")
-        1
+        return null if $("#order_tabs").position().top > 0
+        $(".content").animate({ scrollTop: $(".content").scrollTop() + $("#order_tabs").position().top }, "slow")
+        return null
 
     $scope.submit_bid = ->
         form = @buy_form

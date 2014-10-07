@@ -167,7 +167,7 @@
         </div>
     </div>
 
-    <div class="row orders-row">
+    <div class="row">
       <div class="panel col-lg-6">
         <div class="panel-heading">
           <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
@@ -186,7 +186,7 @@
       </div>
     </div>
 
-    <div class="row orders-row" ng-show="market.shorts_available && advanced">
+    <div class="row" ng-show="market.shorts_available && advanced">
       <div class="panel" ng-class="'col-lg-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
