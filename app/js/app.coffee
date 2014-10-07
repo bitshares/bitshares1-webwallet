@@ -11,7 +11,6 @@ app = angular.module("app",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, editableOptions, editableThemes) ->
-    #console.log "------ $templateCache ------>", $templateCache
     $templateCache.put 'ui-grid/uiGridViewport',
         '''<div class="ui-grid-viewport">
              <div class="ui-grid-canvas">

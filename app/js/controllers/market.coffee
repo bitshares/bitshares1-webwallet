@@ -14,6 +14,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.listBuyGrid = MarketGrid.initGrid()
     $scope.listSellGrid = MarketGrid.initGrid()
+    $scope.listMarginsGrid = MarketGrid.initGrid()
 
 
     $scope.tabs = [
@@ -76,6 +77,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.bids = MarketService.bids
         MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
         MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
+        MarketGrid.setupMarginsGrid($scope.listMarginsGrid, MarketService.covers, market)
         #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
