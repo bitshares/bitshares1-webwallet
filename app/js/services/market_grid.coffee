@@ -4,9 +4,15 @@ class MarketGrid
         enableColumnMenu: false
         enableSorting: true
         useExternalSorting: false
-        minRowsToShow: 14
-        rowHeight: 26
+        minRowsToShow: 16
+        rowHeight: 22
         data: []
+
+    defaultRowTemplate: '''
+        <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name"
+             class="ui-grid-cell" ui-grid-cell>
+        </div>
+    '''
 
     initGrid: ->
         deferred = @q.defer()
@@ -23,7 +29,7 @@ class MarketGrid
                 field: "quantity"
                 displayName: "#{@filter('translate')('th.quantity')} (#{market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{market.quantity_precision}"
-                sort: { direction: "asc", priority: 2 }
+                sort: { direction: "desc", priority: 2 }
             ,
                 field: "cost"
                 displayName: "#{@filter('translate')('th.total')} (#{market.base_symbol})"
@@ -52,7 +58,7 @@ class MarketGrid
                 field: "cost"
                 displayName: "#{@filter('translate')('th.units_owed')} (#{actual_market.base_symbol})"
                 cellFilter: "formatDecimal:#{actual_market.base_precision}"
-                sort: { direction: "asc", priority: 2 }
+                sort: { direction: "desc", priority: 2 }
             ,
                 field: "collateral"
                 displayName: "#{@filter('translate')('th.collateral')} (#{actual_market.quantity_symbol})"
@@ -63,12 +69,87 @@ class MarketGrid
             ]
             data: data
 
-        rowTemplate = '''
-            <div ng-repeat="(colRenderIndex, col) in colContainer.renderedColumns track by col.colDef.name"
-                 class="ui-grid-cell" ui-grid-cell>
-            </div>
-        '''
-        grid.rowTemplateDeferred.resolve(rowTemplate)
+        grid.rowTemplateDeferred.resolve(@defaultRowTemplate)
+        angular.extend grid, params
+
+    setupShortsGrid: (grid, data, market) ->
+        actual_market = market.get_actual_market()
+        params =
+            columnDefs: [
+                field: "collateral_ratio"
+                displayName: "#{@filter('translate')('th.collateral_ratio')} (#{actual_market.quantity_symbol}/#{actual_market.base_symbol})"
+                cellFilter: "formatDecimal:#{market.price_precision}"
+                sort: { direction: "desc", priority: 1 }
+            ,
+                field: "quantity"
+                displayName: "#{@filter('translate')('th.quantity')} (#{actual_market.base_symbol})"
+                cellFilter: "formatDecimal:#{actual_market.base_precision}"
+                sort: { direction: "desc", priority: 2 }
+            ,
+                field: "short_price_limit"
+                displayName: "#{@filter('translate')('th.price_limit')} (#{market.price_symbol})"
+                cellFilter: "formatDecimal:#{market.price_precision}"
+            ,
+                field: "cost"
+                displayName: "#{@filter('translate')('th.collateral')} (#{actual_market.quantity_symbol})"
+                cellFilter: "formatDecimal:#{actual_market.quantity_precision}"
+            ]
+            data: data
+
+        grid.rowTemplateDeferred.resolve(@defaultRowTemplate)
+        angular.extend grid, params
+
+    setupBlockchainOrdersGrid: (grid, data, market) ->
+        actual_market = market.get_actual_market()
+        params =
+            columnDefs: [
+                field: "display_type"
+                displayName: "#{@filter('translate')('th.type')}"
+                width : '10%'
+            ,
+                field: "price"
+                displayName: "#{@filter('translate')('th.order_price')} (#{market.price_symbol})"
+                cellFilter: "formatDecimal:#{market.price_precision}:true"
+                width : '20%'
+            ,
+                field: "paid"
+                displayName: "#{@filter('translate')('th.paid')} (#{actual_market.quantity_symbol})"
+                cellFilter: "formatDecimal:#{actual_market.quantity_precision}"
+                width : '20%'
+            ,
+                field: "received"
+                displayName: "#{@filter('translate')('th.received')} (#{actual_market.base_symbol})"
+                cellFilter: "formatDecimal:#{actual_market.base_precision}"
+                width : '20%'
+            ,
+                field: "timestamp"
+                displayName: "#{@filter('translate')('th.time')}"
+                width : '30%'
+            ]
+            data: data
+
+        grid.rowTemplateDeferred.resolve(@defaultRowTemplate)
+        angular.extend grid, params
+
+    setupAccountOrdersGrid: (grid, data, market) ->
+        params =
+            columnDefs: [
+                field: "memo"
+                displayName: "#{@filter('translate')('th.action')}"
+                width : '50%'
+            ,
+                field: "amount_asset"
+                displayName: "#{@filter('translate')('th.amount')}"
+                cellFilter: "formatAsset"
+                width : '22%'
+            ,
+                field: "timestamp"
+                displayName: "#{@filter('translate')('th.time')}"
+                width : '28%'
+            ]
+            data: data
+
+        grid.rowTemplateDeferred.resolve(@defaultRowTemplate)
         angular.extend grid, params
 
 

@@ -259,6 +259,11 @@ tr.short_wall td {
 
 .ui-grid-cell {
 	border-right: none;
+	border-top: 1px solid #e8e8e8;
+}
+
+.ui-grid-cell-contents {
+		padding: 2px 5px 0 5px;
 }
 
 .ui-grid-vertical-bar {
@@ -272,6 +277,11 @@ tr.short_wall td {
 	background: none;
 }
 
+.ui-grid-top-panel .ui-grid-cell-contents {
+	white-space: normal;
+	overflow: visible;
+	font-size: 12px;
+}
 
 .market-grid .ui-grid-cell.short_wall {
 	background-color: #E4F0FB;
