@@ -1,5 +1,8 @@
 angular.module("app").filter "startsWithSort", ()->
     (input_array, text) ->
+        if !input_array
+            return []
+
         startsWith = []
         notStartsWith = []
         for el in input_array
