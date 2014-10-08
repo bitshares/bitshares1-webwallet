@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid) ->
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
@@ -11,6 +11,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.advanced = false
     current_market = null
     price_decimals = 4
+
+    $scope.listBuyGrid = MarketGrid.initGrid()
+    $scope.listSellGrid = MarketGrid.initGrid()
+    $scope.listMarginsGrid = MarketGrid.initGrid()
+    $scope.listShortsGrid = MarketGrid.initGrid()
+    $scope.listBlockchainOrders = MarketGrid.initGrid()
+    $scope.listAccountOrders = MarketGrid.initGrid()
+
 
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
@@ -70,6 +78,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
+        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
+        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
+        MarketGrid.setupMarginsGrid($scope.listMarginsGrid, MarketService.covers, market)
+        MarketGrid.setupShortsGrid($scope.listShortsGrid, MarketService.shorts, market)
+        MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
+        MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
+        #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
@@ -194,7 +209,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.sell" then -.0001
             when "market.short" then -.0001
             else throw Error("Unknown $state.current.name",$state.current.name)
-    
+
+    $scope.grid_row_clicked = (row) ->
+        #console.log "------ gridRowClicked ------>", row
+        if row.type == "ask" or row.type == "bid"
+            $scope.use_trade_data price: row.price, quantity: row.quantity
+        $scope.scroll_buysell()
+
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
@@ -229,8 +250,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             else throw Error("Unknown $state.current.name",$state.current.name)
 
     $scope.scroll_buysell = ->
-        $(".content").animate({ scrollTop: $("#order_tabs").offset().top - 50 }, "slow")
-        1
+        return null if $("#order_tabs").position().top > 0
+        $(".content").animate({ scrollTop: $(".content").scrollTop() + $("#order_tabs").position().top }, "slow")
+        return null
 
     $scope.submit_bid = ->
         form = @buy_form

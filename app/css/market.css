@@ -235,3 +235,58 @@ tr.short_wall td {
 .sparkchart {
 	margin-right: 1em;
 }
+
+/* ui-grid */
+
+.market-grid {
+	border: none;
+	/*font-family: Helvetica, Arial, sans-serif;*/
+	color: #222;
+	overflow-x: hidden;
+
+	/*width: 600px;*/
+	/*height: 300px;*/
+	border-top: 1px solid #d4d4d4;
+}
+
+.market-grid .ui-grid-native-scrollbar.horizontal {
+	display: none;
+}
+
+.ui-grid-top-panel {
+	border-bottom: none;
+}
+
+.ui-grid-cell {
+	border-right: none;
+	border-top: 1px solid #e8e8e8;
+}
+
+.ui-grid-cell-contents {
+		padding: 2px 5px 0 5px;
+}
+
+.ui-grid-vertical-bar {
+	display: none;
+}
+
+.ui-grid-top-panel {
+	font-weight: normal;
+	color: #aaa;
+	text-transform: uppercase;
+	background: none;
+}
+
+.ui-grid-top-panel .ui-grid-cell-contents {
+	white-space: normal;
+	overflow: visible;
+	font-size: 12px;
+}
+
+.market-grid .ui-grid-cell.short_wall {
+	background-color: #E4F0FB;
+}
+
+.market-grid .ui-grid-row:hover .ui-grid-cell {
+	background-color: #eef8ff;
+}
