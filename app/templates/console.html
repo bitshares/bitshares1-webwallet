@@ -7,7 +7,7 @@
 <div class="main-content">
 <form ng-submit='submit()'>
 <div>
-  <input id='cmd' ng-model="console_state.command" typeahead="state for state in console_state.states | filter:$viewValue | limitTo:16" autofocus placeholder="{{'console.type_cmd_and_enter'|translate}}" ng-trim="false" class="form-control" id="spending_password" ng-keydown='keydown($event)'>
+  <input id='cmd' ng-model="console_state.command" typeahead="state for state in console_state.states | filter:$viewValue | limitTo:16 | startsWithSort:$viewValue" autofocus placeholder="{{'console.type_cmd_and_enter'|translate}}" ng-trim="false" class="form-control" id="spending_password" ng-keydown='keydown($event)'>
 </div>
 </form>
 <hr>
