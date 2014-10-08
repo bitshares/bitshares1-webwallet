@@ -588,7 +588,7 @@ angular.module('ui.grid').directive('uiGridColumnMenu', ['$log', '$timeout', '$w
             var uiGridCtrl = controllers[0];
             var containerCtrl = controllers[1];
 
-            $log.debug('ui-grid-footer link');
+            //$log.debug('ui-grid-footer link');
 
             var grid = uiGridCtrl.grid;
 
@@ -918,7 +918,7 @@ angular.module('ui.grid').directive('uiGridColumnMenu', ['$log', '$timeout', '$w
             var uiGridCtrl = controllers[0];
             var containerCtrl = controllers[1];
 
-            $log.debug('ui-grid-header link');
+            //$log.debug('ui-grid-header link');
 
             var grid = uiGridCtrl.grid;
 
@@ -1326,7 +1326,7 @@ angular.module('ui.grid')
           };
 
           $scope.itemAction = function($event,title) {
-            $log.debug('itemAction');
+            //$log.debug('itemAction');
             $event.stopPropagation();
 
             if (typeof($scope.action) === 'function') {
@@ -1631,7 +1631,7 @@ angular.module('ui.grid')
       compile: function () {
         return {
           pre: function prelink($scope, $elm, $attrs, controllers) {
-            $log.debug('render container ' + $scope.containerId + ' pre-link');
+            //$log.debug('render container ' + $scope.containerId + ' pre-link');
 
             var uiGridCtrl = controllers[0];
             var containerCtrl = controllers[1];
@@ -1661,7 +1661,7 @@ angular.module('ui.grid')
             containerCtrl.colContainer = colContainer;
           },
           post: function postlink($scope, $elm, $attrs, controllers) {
-            $log.debug('render container ' + $scope.containerId + ' post-link');
+            //$log.debug('render container ' + $scope.containerId + ' post-link');
 
             var uiGridCtrl = controllers[0];
             var containerCtrl = controllers[1];
@@ -2128,7 +2128,7 @@ angular.module('ui.grid')
       // priority: 1000,
       // require: '?^uiGrid',
       link: function($scope, $elm, $attrs, uiGridCtrl) {
-        $log.debug('ui-grid-style link');
+        //$log.debug('ui-grid-style link');
         // if (uiGridCtrl === undefined) {
         //    $log.warn('[ui-grid-style link] uiGridCtrl is undefined!');
         // }
@@ -2173,7 +2173,7 @@ angular.module('ui.grid')
         templateUrl: 'ui-grid/uiGridViewport',
         require: ['^uiGrid', '^uiGridRenderContainer'],
         link: function($scope, $elm, $attrs, controllers) {
-          $log.debug('viewport post-link');
+          //$log.debug('viewport post-link');
 
           var uiGridCtrl = controllers[0];
           var containerCtrl = controllers[1];
@@ -2266,7 +2266,7 @@ angular.module('ui.grid')
                     '$templateCache', 'gridClassFactory', '$timeout', '$parse', '$compile',
     function ($scope, $elm, $attrs, $log, gridUtil, $q, uiGridConstants,
               $templateCache, gridClassFactory, $timeout, $parse, $compile) {
-      $log.debug('ui-grid controller');
+      //$log.debug('ui-grid controller');
 
       var self = this;
 
@@ -4320,7 +4320,7 @@ angular.module('ui.grid')
             $rootScope.$broadcast.apply($rootScope, [eventId].concat(Array.prototype.slice.call(arguments)));
           };
 
-          $log.log('Creating on event method ' + featureName + '.on.' + eventName);
+          //$log.log('Creating on event method ' + featureName + '.on.' + eventName);
           feature.on[eventName] = function (scope, handler) {
             var dereg = registerEventWithAngular(scope, eventId, handler, self.grid);
 

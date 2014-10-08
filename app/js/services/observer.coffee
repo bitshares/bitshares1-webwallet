@@ -36,6 +36,7 @@ class Observer
             deferred.promise.finally ->
                 observer.counter += 1
                 observer.busy = false
+        last_new_block_update_time: 0
 
 
     constructor: (@q, @log, @interval, @info, @root_scope) ->
@@ -43,6 +44,9 @@ class Observer
         @root_scope.$watch (-> info.info.last_block_time), @on_new_block, true
 
     on_new_block: =>
+        # not more often than once in 6 sec - blocks can change quickly on sync when client is catching up
+        return if Date.now() - @private.last_new_block_update_time < 6000
+        @private.last_new_block_update_time = Date.now()
         for index, observer of @private.each_block_observers
             @private.update(observer, @q)
 
