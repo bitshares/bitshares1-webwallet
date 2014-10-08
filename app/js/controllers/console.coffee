@@ -1,5 +1,5 @@
 angular.module("app").controller "ConsoleController", ($scope, $location, RpcService, ConsoleState) ->
-   
+
     $scope.console_state=ConsoleState
 
     #detect tab press
@@ -12,23 +12,32 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
             e.stopImmediatePropagation()
     ###
 
-    if ConsoleState.states.length == 0
+    init = ->
+        ConsoleState.outputs = []
+        ConsoleState.states = []
+        ConsoleState.command=""
+        ConsoleState.states.push "clear"
         RpcService.request("meta_help", []).then (response) ->
             for s in response.result
                 ConsoleState.states.push s[0] + " "
                 for alias in s[1].aliases
                   ConsoleState.states.push alias + " "
-    
-    if ConsoleState.outputs.length == 0
+
         RpcService.request('execute_command_line', ['help']).then (response) => 
             #TODO replace when CommonAPI is added
-            ConsoleState.outputs.unshift(">> help\n\n" + response.result)
+            ConsoleState.outputs.unshift(">> help\n\n" + "clear (console)\n" + response.result)
+
+    if ConsoleState.states.length == 0
+        init()
 
     $scope.submit = ->
-        RpcService.request('execute_command_line', [ConsoleState.command]).then (response) =>  #TODO replace when CommonAPI is added
-            ConsoleState.outputs.unshift(">> " + ConsoleState.command + "\n\n" + response.result)
-            ConsoleState.command=""
-            
+        if ConsoleState.command == "clear"
+            init()
+        else
+            RpcService.request('execute_command_line', [ConsoleState.command]).then (response) =>  #TODO replace when CommonAPI is added
+                ConsoleState.outputs.unshift(">> " + ConsoleState.command + "\n\n" + response.result)
+                ConsoleState.command=""
+
 .factory 'ConsoleState',[() ->
     outputs: []
     states : []
