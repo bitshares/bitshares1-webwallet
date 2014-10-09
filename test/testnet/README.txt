@@ -1,146 +1,43 @@
 SETUP
 
-./create_testnet.sh
+INVICTUS_ROOT=~/bitshares/bitshares_toolkit
+./create_testnet.sh "${INVICTUS_ROOT}/programs/web_wallet/generated"
 
-Upon successful execution you should see something like this:
+Upon successful execution you should see a lot of output followed by
+directions like this:
 
-```
+...
 Start this server as follows:
-./delegate.sh tmp/abU1
-./client.sh tmp/ewb5
-```
+./delegate.sh tmp/delegate_Tk8
+./client.sh tmp/client_Tk8
 
-Start the ./delegate.sh and in the console enable block production:
+...more instructions...
 
-open default
-unlock 9999 Password00
-wallet_delegate_set_block_production init0 true
-wallet_delegate_set_block_production init1 true
-wallet_delegate_set_block_production init2 true
-wallet_delegate_set_block_production init3 true
-wallet_delegate_set_block_production init4 true
-wallet_delegate_set_block_production init5 true
-wallet_delegate_set_block_production init6 true
-wallet_delegate_set_block_production init7 true
-wallet_delegate_set_block_production init8 true
-wallet_delegate_set_block_production init9 true
-wallet_delegate_set_block_production init10 true
-wallet_delegate_set_block_production init11 true
-wallet_delegate_set_block_production init12 true
-wallet_delegate_set_block_production init13 true
-wallet_delegate_set_block_production init14 true
-wallet_delegate_set_block_production init15 true
-wallet_delegate_set_block_production init16 true
-wallet_delegate_set_block_production init17 true
-wallet_delegate_set_block_production init18 true
-wallet_delegate_set_block_production init19 true
-wallet_delegate_set_block_production init20 true
-wallet_delegate_set_block_production init21 true
-wallet_delegate_set_block_production init22 true
-wallet_delegate_set_block_production init23 true
-wallet_delegate_set_block_production init24 true
-wallet_delegate_set_block_production init25 true
-wallet_delegate_set_block_production init26 true
-wallet_delegate_set_block_production init27 true
-wallet_delegate_set_block_production init28 true
-wallet_delegate_set_block_production init29 true
-wallet_delegate_set_block_production init30 true
-wallet_delegate_set_block_production init31 true
-wallet_delegate_set_block_production init32 true
-wallet_delegate_set_block_production init33 true
-wallet_delegate_set_block_production init34 true
-wallet_delegate_set_block_production init35 true
-wallet_delegate_set_block_production init36 true
-wallet_delegate_set_block_production init37 true
-wallet_delegate_set_block_production init38 true
-wallet_delegate_set_block_production init39 true
-wallet_delegate_set_block_production init40 true
-wallet_delegate_set_block_production init41 true
-wallet_delegate_set_block_production init42 true
-wallet_delegate_set_block_production init43 true
-wallet_delegate_set_block_production init44 true
-wallet_delegate_set_block_production init45 true
-wallet_delegate_set_block_production init46 true
-wallet_delegate_set_block_production init47 true
-wallet_delegate_set_block_production init48 true
-wallet_delegate_set_block_production init49 true
-wallet_delegate_set_block_production init50 true
-wallet_delegate_set_block_production init51 true
-wallet_delegate_set_block_production init52 true
-wallet_delegate_set_block_production init53 true
-wallet_delegate_set_block_production init54 true
-wallet_delegate_set_block_production init55 true
-wallet_delegate_set_block_production init56 true
-wallet_delegate_set_block_production init57 true
-wallet_delegate_set_block_production init58 true
-wallet_delegate_set_block_production init59 true
-wallet_delegate_set_block_production init60 true
-wallet_delegate_set_block_production init61 true
-wallet_delegate_set_block_production init62 true
-wallet_delegate_set_block_production init63 true
-wallet_delegate_set_block_production init64 true
-wallet_delegate_set_block_production init65 true
-wallet_delegate_set_block_production init66 true
-wallet_delegate_set_block_production init67 true
-wallet_delegate_set_block_production init68 true
-wallet_delegate_set_block_production init69 true
-wallet_delegate_set_block_production init70 true
-wallet_delegate_set_block_production init71 true
-wallet_delegate_set_block_production init72 true
-wallet_delegate_set_block_production init73 true
-wallet_delegate_set_block_production init74 true
-wallet_delegate_set_block_production init75 true
-wallet_delegate_set_block_production init76 true
-wallet_delegate_set_block_production init77 true
-wallet_delegate_set_block_production init78 true
-wallet_delegate_set_block_production init79 true
-wallet_delegate_set_block_production init80 true
-wallet_delegate_set_block_production init81 true
-wallet_delegate_set_block_production init82 true
-wallet_delegate_set_block_production init83 true
-wallet_delegate_set_block_production init84 true
-wallet_delegate_set_block_production init85 true
-wallet_delegate_set_block_production init86 true
-wallet_delegate_set_block_production init87 true
-wallet_delegate_set_block_production init88 true
-wallet_delegate_set_block_production init89 true
-wallet_delegate_set_block_production init90 true
-wallet_delegate_set_block_production init91 true
-wallet_delegate_set_block_production init92 true
-wallet_delegate_set_block_production init93 true
-wallet_delegate_set_block_production init94 true
-wallet_delegate_set_block_production init95 true
-wallet_delegate_set_block_production init96 true
-wallet_delegate_set_block_production init97 true
-wallet_delegate_set_block_production init98 true
-wallet_delegate_set_block_production init99 true
-wallet_delegate_set_block_production init100 true
+Start the ./delegate.sh in one console.  Shortly some rpc commands will execute
+enabling all delegates for block production.  You should see some output like this:
+
+(wallet closed) >>> open "default"
+{"id":0,"result":null}unlock 9999, "Password00"
+{"id":0,"result":null}wallet_delegate_set_block_production "init0", "true"
+{"id":0,"result":null}wallet_delegate_set_block_production "init1", "true"
+{"id":0,"result":null}wallet_delegate_set_block_production "init2", "true"
 
 
 #
-# Start the ./client.sh and use one of the special delegates (from the 
-# genesis block) to create a market issued asset:
+# Start the ./client.sh and follow the last of the one-time directions 
+# provided by ./create_testnet.sh
 #
-open default
-unlock 9999 Password00
-wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
-transfer 9000000 XTS tester init0
 
-#
-# Wait at most 10 seconds, then create market issued asset:
-# TODO, fix adj unit supply and precision on CNY,BTC,GLD
-#
-wallet_asset_create USD BitUSD init0 "paper bucks" null 1000000000 10000 true
-wallet_asset_create CNY BitCNY init0 "paper yuan" null 1000000000 10000 true
-wallet_asset_create BTC BitBTC init0 "bitcoin" null 1000000000 10000 true
-wallet_asset_create GLD BitGLD init0 "solid gold" null 1000000000 10000 true
+Exit and re-start the servers anytime using ./delegate.sh and ./client.sh and
+your testnet should be ready to go without any further setup.
+
 
 UNIT TESTS
 
 Use the ./client.sh http port to access the web_wallet:
 http://localhost:9989
 
-... or to run the e2e unit tests.
+... or to run the e2e unit tests when they become available
 
 
 DETAILS
