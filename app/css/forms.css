@@ -2,15 +2,6 @@
 	margin-bottom: 0;
 }
 
-.has-error .input-group-addon, .input-group-addon {
-	color: #777;
-	width: 80px;
-}
-
-.input-group-addon {
-	font-size: 12px;
-}
-
 .hgroup-no-top-space {
 	margin-top: -15px;
 }
@@ -37,10 +28,4 @@ span.help-block {
 
 .hgroup-button {
 	margin-bottom: 0;
-}
-
-input[type="checkbox"] {
-	width: 20px;
-	position: relative;
-	bottom: 3px;
 }

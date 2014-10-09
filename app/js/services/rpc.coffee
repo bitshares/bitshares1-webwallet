@@ -15,25 +15,7 @@ servicesModule.factory "RpcService", ($http) ->
         angular.extend(http_params.data, reqparams)
         #console.log "RpcService <#{http_params.data.method}>, stack: #{getStackTrace()}"
         $http(http_params).then (response) ->
-            console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) if not (method in
-                #filter out re-occuring rpc calls
-                ["wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",
-                "wallet_get_info","wallet_get_setting","wallet_account_balance",
-                "wallet_set_setting","wallet_account_transaction_history ",
-                "wallet_market_order_list","wallet_get_account","wallet_account_yield",
-                "wallet_get_transaction_fee","wallet_list_accounts",
-                "wallet_account_vote_summary",
-                "get_info","get_config",
-                "blockchain_list_assets","blockchain_get_asset",
-                "blockchain_list_delegates","blockchain_get_account",
-                "blockchain_get_security_state","blockchain_get_info",
-                "blockchain_market_list_asks","wallet_account_transaction_history",
-                "blockchain_market_list_covers","blockchain_market_list_bids",
-                "blockchain_market_status","blockchain_market_order_history",
-                "blockchain_get_feeds_for_asset","blockchain_market_get_asset_collateral",
-                "blockchain_market_list_shorts","blockchain_market_price_history"
-                ]
-            )
+            #console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) #unless @polling(method)
             response.data or response
 
     start_profiler: ->
@@ -49,3 +31,23 @@ servicesModule.factory "RpcService", ($http) ->
         console.log "------ profiler output ------>"
         console.log(a[0],a[1],a[2],a[3]) for a in results
         window.rpc_calls_performance_data = null
+
+    # temp enable for debugging
+#    polling: (method) ->
+#        method in [
+#            "wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",
+#            "wallet_get_info","wallet_get_setting","wallet_account_balance",
+#            "wallet_set_setting","wallet_account_transaction_history ",
+#            "wallet_market_order_list","wallet_get_account","wallet_account_yield",
+#            "wallet_get_transaction_fee","wallet_list_accounts",
+#            "wallet_account_vote_summary",
+#            "get_info","get_config",
+#            "blockchain_list_assets","blockchain_get_asset",
+#            "blockchain_list_delegates","blockchain_get_account",
+#            "blockchain_get_security_state","blockchain_get_info",
+#            "blockchain_market_list_asks","wallet_account_transaction_history",
+#            "blockchain_market_list_covers","blockchain_market_list_bids",
+#            "blockchain_market_status","blockchain_market_order_history",
+#            "blockchain_get_feeds_for_asset","blockchain_market_get_asset_collateral",
+#            "blockchain_market_list_shorts","blockchain_market_price_history"
+#        ]

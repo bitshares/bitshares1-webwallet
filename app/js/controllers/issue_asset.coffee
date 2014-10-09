@@ -19,7 +19,6 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
                           $scope.issue_asset.to = Shared.contactName
                           $scope.issue_asset.memo = ""
                           Growl.notice "", "Transaction broadcasted (#{JSON.stringify(response.result)})"
-                          Wallet.refresh_transactions_on_update()
 
     $scope.utils = Utils
 

@@ -157,5 +157,16 @@ servicesModule.factory "Utils", ($translate,$q) ->
 
         deferred.promise
 
-
+    too_soon_times: {}
+    
+    too_soon: (name, time_mills) ->
+        now = Date.now()
+        was = @too_soon_times[name]
+        if not was or now - was > time_mills
+            @too_soon_times[name] = now
+            #console.log "[too_soon] #{name} false"
+            return false
+        else
+            #console.log "[too_soon] #{name} true"
+            return true
 

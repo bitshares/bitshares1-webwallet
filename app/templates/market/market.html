@@ -167,13 +167,13 @@
         </div>
     </div>
 
-    <div class="row orders-row">
+    <div class="row">
       <div class="panel col-lg-6">
         <div class="panel-heading">
           <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="'market/list_buy.html'"></div>
+          <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
       <div class="panel col-lg-6">
@@ -181,12 +181,12 @@
           <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="'market/list_sell.html'"></div>
+          <div ui-grid="listSellGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
     </div>
 
-    <div class="row orders-row" ng-show="market.shorts_available && advanced">
+    <div class="row" ng-show="market.shorts_available && advanced">
       <div class="panel" ng-class="'col-lg-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
@@ -198,7 +198,7 @@
           }}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="market.inverted ? 'market/list_margin.html' : 'market/list_short_direct.html'"></div>
+          <div ui-grid="market.inverted ? listMarginsGrid : listShortsGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
       <div class="panel" ng-class="'col-lg-6'">
@@ -212,7 +212,7 @@
           }}</h3>
         </div>
         <div class="panel-body">
-          <div ng-include src="market.inverted ? 'market/list_short_invert.html' : 'market/list_margin.html'"></div>
+          <div ui-grid="market.inverted ? listShortsGrid : listMarginsGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
     </div>
@@ -224,17 +224,17 @@
             <h3 class="panel-title" translate>market.blockchain_orders_history</h3>
           </div>
           <div class="panel-body">
-            <div ng-include src="'market/list_orders.html'"></div>
+            <div ui-grid="listBlockchainOrders" class="market-grid" external-scopes="this"></div>
           </div>
         </div>
       </div>
-      <div>
+      <div class="col-sm-6">
         <div class="panel ">
           <div class="panel-heading">
             <h3 class="panel-title" translate>market.account_orders_history</h3>
           </div>
           <div class="panel-body">
-            <div ng-include src="'market/list_orders_account.html'"></div>
+            <div ui-grid="listAccountOrders" class="market-grid" external-scopes="this"></div>
           </div>
         </div>
       </div>

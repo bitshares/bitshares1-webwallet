@@ -37,7 +37,6 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
         WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, $scope.transfer_info.vote, $scope.transfer_info.vote).then (response) ->
             console.log response
             Growl.notice "", "Transfer transaction broadcasted"
-            Wallet.refresh_transactions_on_update()
             $scope.t_active=true
         ,
         (error) ->
