@@ -396,6 +396,7 @@ class WalletAPI
   #   account_name `account_name` - the name of the account to retrieve
   # return_type: `wallet_account_record`
   get_account: (account_name, error_handler = null) ->
+    console.log "wallet_get_account"
     @rpc.request('wallet_get_account', [account_name], error_handler).then (response) ->
       response.result
 

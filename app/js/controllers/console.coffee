@@ -74,3 +74,8 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
     outputs: []
     commands : []
 ]
+#.directive 'consoleOutput', ->
+#    restrict: "E"
+#    replace: true
+#    scope:
+#        outputs: "="
