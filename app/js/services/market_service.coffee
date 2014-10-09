@@ -219,13 +219,8 @@ class MarketService
                 market.assets_by_id[market.base_asset.id] = market.base_asset
                 market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
                 market.collateral_symbol = results[2].symbol
-                if market.quantity_asset.id > market.base_asset.id
-                    market.inverted = true
-                else
-                    market.inverted = false
+                market.inverted = market.quantity_asset.id > market.base_asset.id
                 @pull_market_status().then ->
-                    #console.log "market_status #{if market.inverted then 'inverted' else 'direct'}"
-                    #@helper.read_market_data(market, result, market.assets_by_id, market.inverted)
                     deferred.resolve(market)
                 , =>
                     error_message = "Cannot get market status. Probably no orders have been placed."
@@ -370,13 +365,13 @@ class MarketService
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
                     #console.log "------ short wall ------>", td.cost, td.quantity
-                    #if inverted
-                    #    short_wall.cost += td.quantity
-                    #    short_wall.quantity += td.quantity * shorts_price
-                    #    @lowest_ask = shorts_price if shorts_price < @lowest_ask
-                    #else
-                    short_wall.quantity += td.cost
-                    short_wall.cost += td.cost / shorts_price
+                    if inverted
+                        short_wall.cost += td.cost
+                        short_wall.quantity += td.cost / shorts_price
+                        #@lowest_ask = shorts_price if shorts_price < @lowest_ask
+                    else
+                        short_wall.quantity += td.cost
+                        short_wall.cost += td.cost / shorts_price
                     @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td

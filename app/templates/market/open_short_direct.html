@@ -17,17 +17,17 @@
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
       <!--rows-->
-      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.quantity, price_limit: o.short_price_limit}); scroll_to_buysell();">
+      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({collateral_ratio: o.collateral_ratio, quantity: o.quantity, price_limit: o.short_price_limit})">
         <!--quantity-->
-        <td><span>{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
+        <td ng-click="scroll_buysell()"><span>{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
         <!--collateral ratio-->
-        <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
+        <td ng-click="scroll_buysell()" tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.collateral_ratio | formatDecimal : market.price_precision : true}}
         </td>
         <!--price limit-->
-        <td>{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
+        <td ng-click="scroll_buysell()">{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
         <!--total(cost)-->
-        <td><span>{{o.cost | formatDecimal : market.base_precision}}</span></td>
+        <td ng-click="scroll_buysell()"><span>{{o.cost | formatDecimal : market.base_precision}}</span></td>
         <td>
           <span ng-switch on="o.status">
             <span ng-switch-when="unconfirmed">

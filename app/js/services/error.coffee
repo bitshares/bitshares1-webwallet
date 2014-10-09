@@ -42,6 +42,19 @@ processRpcError = (response, Shared, state) ->
 
 
 servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
+    response: (response) ->
+        return response until window.rpc_calls_performance_data
+        method = response.config.data?.method
+        return response unless method
+        duration = Date.now() - response.config.time
+        method_data = window.rpc_calls_performance_data[method]
+        unless method_data
+            window.rpc_calls_performance_data[method] = method_data = { duration: 0.0, calls: 0,  stack: response.config.stack}
+        method_data.duration += duration
+        ++method_data.calls
+        #console.log "------ response method ------>", method, duration
+        return response
+
     responseError: (response) ->
         if response.config?.error_handler
             res = response.config.error_handler(response)

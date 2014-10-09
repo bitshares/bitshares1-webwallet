@@ -228,7 +228,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.short" then $scope.short_change()
             else throw Error("Unknown $state.current.name",$state.current.name)
 
-    $scope.scroll_to_buysell = ->
+    $scope.scroll_buysell = ->
         $(".content").animate({ scrollTop: $("#order_tabs").offset().top - 50 }, "slow")
         1
 
@@ -349,8 +349,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 scope.market = current_market.actual_market or current_market
                 original_order = order
                 #console.log order
-                if !current_market.inverted
-                    order = order.invert()
+                order = angular.copy(order)
+#                if !current_market.inverted
+#                    order = order.invert()
                 scope.v = {quantity: order.quantity, total: order.quantity}
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
