@@ -3,17 +3,9 @@
 @font-face {
 	font-family: 'Open Sans';
 	font-style: normal;
-	font-weight: 100;
-	src: local('Open Sans Light'), local('OpenSans-Light'), url('/webfonts/opensans-light.woff') format('woff');
-}
-
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
 	font-weight: 400;
 	src: url('/webfonts/opensans-regular.eot');
 	src: url('/webfonts/opensans-regular.eot?#iefix') format('embedded-opentype'), url('/webfonts/opensans-regular.woff') format('woff'), url('/webfonts/opensans-regular.ttf') format('truetype'), url('/webfonts/opensans-regular.svg#open_sansregular') format('svg');
-
 }
 
 @media (min-width: 1200px) and (max-width: 1400px) {
@@ -34,6 +26,10 @@ a, * {
 
 a:focus {
   outline: 0;
+}
+
+a:hover, a:focus, {
+	color: #115176;
 }
 
 .delegate-active-link{
@@ -60,10 +56,7 @@ a:focus {
 
 body {
 	color: #555;
-}
-
-.table > thead > tr > th {
-	color: #aaa;
+	background-color: #fff;
 }
 
 .table a {
@@ -78,14 +71,6 @@ body {
 	color: #fff;
 }
 
-.panel {
- padding-bottom: 0;
-}
-
-.popover {
-  max-width: 476px;
-}
-
 /*Change the size here*/
 div.tooltip-inner {
     max-width: 550px;
@@ -96,10 +81,6 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
-}
-
-.input-group-btn {
-	font-size: 100%;
 }
 
 a.white:hover {
@@ -125,17 +106,8 @@ a.white:hover {
 	color: #d97572;
 }
 
-.bg-primary {
-	background-color: #01bbf4;
-}
-
 .primary {
 	color: #01bbf4;
-}
-
-.btn-primary[disabled] {
-	background-color: #eee;
-	color: #888;
 }
 
 .bg-secondary {
@@ -202,30 +174,6 @@ a.white:hover {
 
 .bold {
 	font-weight: 600;
-}
-
-a:hover, a:focus, {
-	color: #115176;
-}
-
-.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	color:rgb(40,169,246);
-	border: 1px solid transparent;
-}
-
-.nav-tabs > li.active > a:hover {
-	color: rgb(40,169,246);
-	border-bottom: 1px solid #fff;
-}
-
-
-.nav-tabs > li > a{
-	color: black;
-}
-
-.nav-tabs > li.active > a {
-	color: rgb(40,169,246);
-	border-bottom: 1px solid #fff;
 }
 
 .sidebar .nav li > a {
@@ -365,11 +313,6 @@ input.ng-dirty.ng-invalid {
 
 .form-group span.text-muted {
 	color: #999;
-}
-
-.has-error .input-group-addon, .input-group-addon {
-	border: none;
-	color: #fff;
 }
 
 .license {

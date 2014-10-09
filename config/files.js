@@ -52,6 +52,7 @@ module.exports = function(lineman) {
         "vendor/css/ui-grid.css"
       ],
       app: [
+        "app/css/bootstrap_overrides.css",
         "app/css/main.css",
         "app/css/forms.css",
         "app/css/layout.css",
