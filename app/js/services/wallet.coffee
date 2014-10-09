@@ -229,14 +229,6 @@ class Wallet
 
     approve_account: (name, approve) ->
         @wallet_api.account_set_approval(name, approve)
-    
-    refresh_transactions_on_update: () ->
-        #@refresh_transactions()
-#        .then ->
-#            promises = []
-#            angular.forEach @accounts, (account, name) =>
-#                if account.is_my_account
-#                    promises.push @refresh_transactions(name)
 
     update_transaction: (t, val) ->
         time = @utils.toDate(val.timestamp)
