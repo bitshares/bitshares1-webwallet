@@ -27,7 +27,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
 
     if(!$stateParams.name)
         $scope.accounts=Wallet.accounts
-        Wallet.refresh_accounts().then ->
+        Wallet.refresh_accounts(true).then ->
             $scope.accounts=Wallet.accounts
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0

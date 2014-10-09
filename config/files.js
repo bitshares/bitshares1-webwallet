@@ -18,7 +18,7 @@ module.exports = function(lineman) {
         "vendor/js/angular-resource.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	    "vendor/js/ng-grid-2.0.11.debug.js",
+	 	    "vendor/js/ui-grid.js",
         "vendor/js/angular-idle.js",
         "vendor/js/validate.js",
         "vendor/js/xeditable.js",
@@ -49,9 +49,10 @@ module.exports = function(lineman) {
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
         "vendor/css/xeditable.css",
-        "vendor/css/ng-grid.css"
+        "vendor/css/ui-grid.css"
       ],
       app: [
+        "app/css/bootstrap_overrides.css",
         "app/css/main.css",
         "app/css/forms.css",
         "app/css/layout.css",

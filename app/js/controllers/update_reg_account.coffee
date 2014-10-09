@@ -75,7 +75,6 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
 
                             payrate = if $scope.m.delegate then $scope.m.payrate else 255
                             WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {}, payrate).then (response) ->
-                                Wallet.refresh_transactions_on_update()
                                 Growl.notice "", "Account update transaction broadcasted"
 
 
