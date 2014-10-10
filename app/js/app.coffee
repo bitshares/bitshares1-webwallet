@@ -140,8 +140,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         controller: "DirectoryController"
 
     sp.state "directory.favorites", { url: "/favorites", views: { 'directory-favorites': { templateUrl: 'directory/favorite.html', controller: 'FavoriteController' } } }
+
     sp.state "directory.unregistered", { url: "/unregistered", views: { 'directory-unregistered': { templateUrl: 'contacts.html', controller: 'ContactsController' } } }
+
     sp.state "directory.registered", { url: "/registered?letter", views: { 'directory-registered': { templateUrl: 'directory/registered.html' } } }
+
     sp.state "directory.assets", { url: "/assets", views: { 'directory-assets': { templateUrl: 'directory/assets.html', controller: 'AssetsController' } } }
 
     sp.state "delegates",
@@ -158,6 +161,23 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/accounts/:name"
         templateUrl: "account.html"
         controller: "AccountController"
+
+    sp.state "account.transactions", { url: "/account_transactions?pending_only", views: { 'account-transactions': { templateUrl: 'account_transactions.html', controller: 'TransactionsController' } } }
+
+    sp.state "account.priceFeed", { url: "/account_delegate", views: { 'account-delegate-price-feed': { templateUrl: 'account_delegate_price_feeds.html', controller: 'AccountDelegatePriceFeeds' } } }
+
+    sp.state "account.transfer", { url: "/account_transfer?from&to&amount&memo&asset", views: { 'account-transfer': { templateUrl: 'transfer.html', controller: 'TransferController' } } }
+
+    sp.state "account.manageAssets", { url: "/account_assets", views: { 'account-manage-assets': { templateUrl: 'manage_assets.html', controller: 'ManageAssetsController' } } }
+
+    sp.state "account.keys", { url: "/account_keys", views: { 'account-keys': { templateUrl: 'account_keys.html', controller: 'AccountController' } } }
+    sp.state "account.keys2", { url: "/account_keys2", views: { 'account-keys2': { templateUrl: 'account_keys2.html', controller: 'ManageAssetsController' } } }
+
+    sp.state "account.updateRegAccount", { url: "/account_edit_registered", views: { 'account-update-reg-account': { templateUrl: 'update-reg-account.html', controller: 'UpdateRegAccountController' } } }
+
+    sp.state "account.editLocal", { url: "/account_edit_local", views: { 'account-editlocal': { templateUrl: 'editlocal.html', controller: 'EditLocalController' } } }
+
+    sp.state "account.vote", { url: "/account_vote", views: { 'account-vote': { templateUrl: 'account_vote.html', controller: 'AccountVoteController' } } }
 
     sp.state "asset",
         url: "/assets/:ticker"

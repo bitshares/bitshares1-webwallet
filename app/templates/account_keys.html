@@ -1,0 +1,73 @@
+<div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
+<tabset ng-show="account.is_my_account" class="p-inner">
+  <hr>
+  <tab heading="{{'account.import_wif_key'|translate}}">
+    <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
+      <div class="form-group row" ng-class="{ 'has-error' : import_key_form.key.$invalid && !import_key_form.key.$pristine }">
+        <label for="pk_value" class="col-sm-2 control-label">
+            WIF <span translate>account.priv_key</span>
+        </label>
+        <div class="col-sm-9">
+          <input name="key" ng-model="private_key.value" type="text" class="form-control" id="pk_value"
+                 placeholder="{{'account.priv_key'|translate}}"/>
+          <div ng-show="import_key_form.key.$invalid && !import_key_form.key.$pristine" class="text-danger" translate>tip.error_parsing_wif_key</div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+          <div class="checkbox">
+              <label> <input ng-model='model.rescan' type="checkbox"> {{ 'account.rescan_blockchain' | translate }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-primary" translate>account.import_key</button>
+        </div>
+      </div>
+    </form>
+  </tab>
+  <tab heading="{{'account.import_from_wallet'|translate}}">
+    <br/>
+    <form name="import_wallet_form" class="form-horizontal" role="form" ng-submit="import_wallet()">
+      <div class="form-group">
+        <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_type</label>
+        <div class="col-sm-9 input-group">
+          <div class="btn-group" dropdown is-open="status.isopen">
+            <button type="button" class="btn dropdown-toggle" ng-disabled="disabled">
+              {{wallet_info.type}} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a ng-click="wallet_info.type = 'Bitcoin/PTS'; status.isopen = false">Bitcoin/PTS</a></li>
+              <li><a ng-click="wallet_info.type = 'Multibit'; status.isopen = false">Multibit</a></li>
+              <li><a ng-click="wallet_info.type = 'Electrum'; status.isopen = false">Electrum</a></li>
+              <li><a ng-click="wallet_info.type = 'Armory'; status.isopen = false">Armory</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error' : import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine }">
+        <label for="wallet_file" class="col-sm-2 control-label" translate>account.wallet_path</label>
+        <div class="col-sm-9 input-group">
+          <input ng-model="wallet_info.file" name="path" type="text" class="form-control" id="wallet_file" placeholder=""/>
+          <span ng-click='select_file()' ng-show="magic_unicorn" type="button" class="input-group-addon btn white btn-success">Select File..</span>
+          <div ng-show="import_wallet_form.path.$invalid && !import_wallet_form.path.$pristine" class="text-danger">{{import_wallet_form.path.error_message}}</div>
+        </div>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error' : import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine }">
+        <label for="wallet_password" class="col-sm-2 control-label" translate>account.wallet_password</label>
+        <div class="col-sm-9 input-group">
+          <input ng-model="wallet_info.password" name="pass" type="password" class="form-control" id="wallet_password"
+                 placeholder="{{'account.wallet_password'|translate}}"/>
+          <div ng-show="import_wallet_form.pass.$invalid && !import_wallet_form.pass.$pristine" class="text-danger">{{import_wallet_form.pass.error_message}}</div>
+        </div>
+      </div>
+      <div class="form-group input-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" ng-disabled="!wallet_info.file" class="btn btn-primary" translate>account.import_wallet</button>
+        </div>
+      </div>
+    </form>
+  </tab>
+
+</tabset>

@@ -3,6 +3,14 @@ INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
 HTTP_PORT=9989 
 RPC_PORT=9988
 
+function init {
+  sleep 1
+  . ./rpc_function.sh
+  rpc open '"default"'
+  rpc unlock '9999, "Password00"'
+}
+init&
+
 cat<<-done
 ##
 # Publish price feeds
