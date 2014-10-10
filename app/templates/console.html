@@ -2,7 +2,14 @@
 <div class="col-sm-12">
     <h3 class="header-title" translate>index.console</h3>
     <form ng-submit='submit()'>
-        <input id='cmd' ng-model="console_state.command" typeahead="command for command in console_state.commands | filter:$viewValue | limitTo:16 | startsWithSort:$viewValue" autofocus placeholder="{{'console.type_cmd_and_enter'|translate}}" ng-trim="false" class="form-control" id="spending_password" ng-keydown='keydown($event)' typeahead-on-select="select($item)">
+        <input 
+            id='cmd' ng-model="console_state.command" autofocus
+            typeahead="command for command in console_state.commands | filter:$viewValue | limitTo:16 | startsWithSort:$viewValue | concatTypeAheadWorkAround:$viewValue" 
+            typeahead-editable="true" 
+            placeholder="{{'console.type_cmd_and_enter'|translate}}" 
+            ng-trim="false" class="form-control" id="spending_password" 
+            _ng-keydown='keydown($event)' 
+            typeahead-on-select="select($item)">
     </form>
     <br>
     <div class="header-info">{{console_state.quick_help}}</div>
