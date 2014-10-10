@@ -14,6 +14,7 @@ class TradeData
         @warning = null
         @display_type = null
         @collateral_ratio = null
+        @interest_rate = null
         @short_price_limit = null
 
     invert: ->
@@ -29,6 +30,7 @@ class TradeData
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
+        td.interest_rate = @interest_rate
         td.short_price_limit = 1.0 / @short_price_limit
         return td
 
@@ -39,6 +41,7 @@ class TradeData
         td.collateral = TradeData.helper.to_float(@collateral)
         td.price = TradeData.helper.to_float(@price)
         td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
+        td.interest_rate = TradeData.helper.to_float(@interest_rate)
         td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
         return td
 
@@ -52,6 +55,7 @@ class TradeData
         @warning = td.warning
         @display_type = td.display_type
         @collateral_ratio = td.collateral_ratio
+        @interest_rate = td.interest_rate
         @short_price_limit = td.short_price_limit
 
     touch: ->
@@ -298,7 +302,7 @@ class MarketService
         else
             price_limit = short.short_price_limit
         #console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit, actual_market.asset_quantity_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, actual_market.asset_quantity_symbol, price_limit)
+        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.interest_rate, actual_market.asset_quantity_symbol, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->

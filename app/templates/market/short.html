@@ -1,7 +1,7 @@
 <form ng-show="advanced" name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <!--balance-->
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}} ({{account.name}})">
-    <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, quantity: account.short_balance / market.shorts_price})">
+    <span class="clickable" ng-click="use_trade_data({quantity: account.short_balance / (2 * market.shorts_price)})">
       {{account.short_balance | formatDecimal : market.base_precision}}
     </span>
   </div>
@@ -9,9 +9,9 @@
   <div form-hgroup label="{{'market.quantity'|translate}}" label-popover="{{'market.help.short_quantity' | translate:'{value: actual_market.base_symbol}'}}" addon="{{actual_market.base_symbol}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" ng-change="short_change()" required="true" />
   </div>
-  <!--collateral ratio-->
-  <div form-hgroup label="{{'market.collateral_ratio'|translate}}" label-popover="{{'market.help.short_collateral_ratio' | translate:'{quantity: actual_market.quantity_symbol, base: actual_market.base_symbol}'}}" addon="{{actual_market.quantity_symbol}}/{{actual_market.base_symbol}}">
-    <input-positive-number name="short_collateral_ratio" ng-model="short.collateral_ratio" ng-change="short_change()" required="true" />
+  <!--interest rate-->
+  <div form-hgroup label="{{'market.interest_rate'|translate}}" label-popover="{{'market.help.short_interest_rate' | translate:'{quantity: actual_market.quantity_symbol, base: actual_market.base_symbol}'}}" addon="%">
+    <input-positive-number name="short_interest_rate" ng-model="short.interest_rate" ng-change="short_change()" required="true" />
   </div>
   <!--price limit-->
   <div form-hgroup label="{{'market.price_limit'|translate}}" label-popover="{{market.inverted ? 'market.help.short_price_limit_inverted':'market.help.short_price_limit_direct' | translate:'{quantity: market.quantity_symbol, base: market.base_symbol}'}}" addon="{{market.price_symbol}}">
@@ -19,7 +19,7 @@
   </div>
   <!--feed price-->
   <div form-hgroup-note ng-show="market.shorts_price">
-    <span popover="{{'market.help.short_feed_price' | translate}}" popover-trigger="mouseenter">{{'market.feed_price'|translate}}</span> <span class="clickable" ng-click="use_trade_data({collateral_ratio: market.inverted ? market.shorts_price : 1.0/market.shorts_price, price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    <span popover="{{'market.help.short_feed_price' | translate}}" popover-trigger="mouseenter">{{'market.feed_price'|translate}}</span> <span class="clickable" ng-click="use_trade_data({price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <!--cost-->
   <div form-hgroup label="{{'market.total'|translate}}" label-popover="{{'market.help.short_total' | translate:'{value: actual_market.quantity_symbol}'}}" addon="{{actual_market.quantity_symbol}}">

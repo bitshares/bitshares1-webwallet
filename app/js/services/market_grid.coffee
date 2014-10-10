@@ -76,9 +76,9 @@ class MarketGrid
         actual_market = market.get_actual_market()
         params =
             columnDefs: [
-                field: "collateral_ratio"
-                displayName: "#{@filter('translate')('th.collateral_ratio')} (#{actual_market.quantity_symbol}/#{actual_market.base_symbol})"
-                cellFilter: "formatDecimal:#{market.price_precision}"
+                field: "interest_rate"
+                displayName: "#{@filter('translate')('th.interest_rate')} (%)"
+                cellFilter: "formatDecimal:2"
                 sort: { direction: "desc", priority: 1 }
             ,
                 field: "quantity"

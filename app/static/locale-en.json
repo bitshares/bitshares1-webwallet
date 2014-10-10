@@ -233,6 +233,7 @@
         "open_short_orders": "Open Short Sell {{value}} Orders",
         "open_margin_orders": "Open Margin Orders",
         "collateral_ratio": "Collateral Ratio",
+        "interest_rate": "Interest Rate",
         "price_limit": "Price Limit",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",

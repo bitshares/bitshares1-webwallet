@@ -198,14 +198,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.short_change = ->
         short = $scope.short.clone_and_normalize()
-        short.cost = short.quantity * short.collateral_ratio
+        short.cost = short.quantity * $scope.market.shorts_price * 2
         $scope.short.cost = if short.cost == 0 then null else
             Utils.formatDecimal(short.cost, $scope.market.base_precision, true)
 
     $scope.short_total_change = ->
         short = $scope.short.clone_and_normalize()
         if short.cost and short.cost > 0
-            short.quantity = short.cost / short.collateral_ratio
+            short.quantity = short.cost / ($scope.market.shorts_price * 2)
             $scope.short.quantity = if short.quantity == 0 then null else
                 Utils.formatDecimal(short.quantity, $scope.market.base_precision, true)
         else
@@ -240,9 +240,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
         order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
 
-        collateral_ratio = data.collateral_ratio + data.collateral_ratio * Math.abs(makeweight)
-        if data.collateral_ratio
-            order.collateral_ratio = coalesce collateral_ratio, order.collateral_ratio, $scope.market.price_precision
+#        collateral_ratio = data.collateral_ratio + data.collateral_ratio * Math.abs(makeweight)
+#        if data.collateral_ratio
+#            order.collateral_ratio = coalesce collateral_ratio, order.collateral_ratio, $scope.market.price_precision
+
+        order.interest_rate = coalesce data.interest_rate, order.interest_rate, 2
 
         order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
 
@@ -339,6 +341,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then () ->
             # TODO trigger account_balances_observer instead
+            console.log "------ order confirmed ------>", id
         , (error) ->
             Growl.error "", "Order failed: " + error.data.error.message
 

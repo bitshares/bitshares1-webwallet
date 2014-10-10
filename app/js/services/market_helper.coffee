@@ -79,7 +79,7 @@ class MarketHelper
             td.cost = order.state.balance / base_asset.precision
             td.quantity = td.cost / price if price > 0.0
         else if order.type == "short_order"
-            td.collateral_ratio = 1.0/price
+            #td.collateral_ratio = 1.0/price
             pl = order.state.short_price_limit
             if pl
                 short_price_limit = pl.ratio * (quantity_asset.precision / base_asset.precision)
@@ -193,11 +193,12 @@ class MarketHelper
         return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
         
     is_in_short_wall: (short, shorts_price, inverted) ->
-        short_collateral_ratio_condition = (not inverted and short.price < shorts_price) or (inverted and short.price > shorts_price)
-        short_price_limit_condition = true
-        if short.short_price_limit
-            short_price_limit_condition = (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
-        return short_collateral_ratio_condition and short_price_limit_condition
+        true # TODO: ???
+#        short_collateral_ratio_condition = (not inverted and short.price < shorts_price) or (inverted and short.price > shorts_price)
+#        short_price_limit_condition = true
+#        if short.short_price_limit
+#            short_price_limit_condition = (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
+#        return short_collateral_ratio_condition and short_price_limit_condition
 
     to_float: (value) ->
         return null if value is undefined or value is null
