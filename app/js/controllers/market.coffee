@@ -26,10 +26,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
     ]
 
-    $scope.goto_tab = (route) -> $state.go route
-    $scope.active_tab = (route) -> $state.is route
+    $scope.goto_tab = (route) ->
+        $state.go route
+    $scope.active_tab = (route) ->
+        $state.is route
     $scope.$on "$stateChangeSuccess", ->
-        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
+        $scope.tabs.forEach (tab) ->
+            tab.active = $scope.active_tab(tab.route)
 
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
@@ -54,7 +57,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         if data[symbol] != value
                             changed = true
                             data[symbol] = value
-            promise.finally -> deferred.resolve(changed)
+            promise.finally ->
+                deferred.resolve(changed)
 
 
     market_data_observer =
@@ -73,7 +77,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
-        $scope.tabs.forEach (tab) -> tab.active = $scope.active_tab(tab.route)
+        $scope.tabs.forEach (tab) ->
+            tab.active = $scope.active_tab(tab.route)
         $scope.market = current_market = market
         $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
@@ -94,7 +99,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         if market.shorts_available
             Wallet.get_setting("market.advanced").then (result) ->
                 $scope.advanced = (if result then result.value else false)
-        price_decimals = if market.price_precision > 9 then (market.price_precision+"").length - 2 else market.price_precision - 2
+        price_decimals = if market.price_precision > 9 then (market.price_precision + "").length - 2 else market.price_precision - 2
         Observer.registerObserver(market_data_observer)
         Observer.registerObserver(market_status_observer)
         balances = {}
@@ -106,21 +111,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
-        q=[]
+        q = []
         q.push Blockchain.get_info().then (config) ->
             $scope.blockchain_symbol = config.symbol #XTS or BTSX
             WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->
                 Blockchain.get_asset(blockchain_tx_fee.asset_id).then (blockchain_tx_fee_asset) ->
                     $scope.blockchain_tx_fee = Utils.formatDecimal(
-                        blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision, blockchain_tx_fee_asset.precision)
-                
+                            blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision,
+                        blockchain_tx_fee_asset.precision)
+
         q.push WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
                 $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
-                
+
         $q.all(q).then()
-         
-    promise.catch (error) -> Growl.error("", error)
+
+    promise.catch (error) ->
+        Growl.error("", error)
     $scope.showLoadingIndicator(promise)
 
     Wallet.refresh_accounts().then ->
@@ -128,7 +135,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         for k,a of Wallet.accounts
             $scope.accounts.push a if a.is_my_account
 
-    $scope.excludeOutOfRange = (item) -> not item.out_of_range
+    $scope.excludeOutOfRange = (item) ->
+        not item.out_of_range
 
     $scope.$on "$destroy", ->
         $scope.showContextHelp false
@@ -143,40 +151,41 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $state.go('^.buy', {name: $scope.market.inverted_url})
 
     $scope.flip_advanced = ->
-        $scope.advanced = ! $scope.advanced
+        $scope.advanced = !$scope.advanced
         Wallet.set_setting("market.advanced", $scope.advanced).then()
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
         return unless res
-        #res.then -> Growl.notice "", "Your order was canceled."
+    #res.then -> Growl.notice "", "Your order was canceled."
 
     get_order = ->
         switch $state.current.name
             when "market.buy" then $scope.bid
             when "market.sell" then $scope.ask
             when "market.short" then $scope.short
-            else throw Error("Unknown $state.current.name",$state.current.name)
+            else
+                throw Error("Unknown $state.current.name", $state.current.name)
 
     # About *_change methods...
     # ng-change is used instead of watch because the fields
-    # form a loop.  So, updating the cost updates the quantity, 
+    # form a loop.  So, updating the cost updates the quantity,
     # updating the quantity updates the cost.  Watch did not allow
     # updating the watched field and suppressing the event.
     #
     # https://github.com/angular/angular.js/issues/834
-                
+
     $scope.order_change = ->
-        order=get_order()
+        order = get_order()
         TradeData = MarketService.TradeData
         quantity = TradeData.helper.to_float(order.quantity)
         price = TradeData.helper.to_float(order.price)
         cost = quantity * price
         order.cost = if cost == 0 then null else
             Utils.formatDecimal(cost, $scope.market.quantity_precision, true)
-            
-     $scope.order_total_change = ->
-        order=get_order()
+
+    $scope.order_total_change = ->
+        order = get_order()
         TradeData = MarketService.TradeData
         price = TradeData.helper.to_float(order.price)
         cost = TradeData.helper.to_float(order.cost)
@@ -192,7 +201,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         short.cost = short.quantity * short.collateral_ratio
         $scope.short.cost = if short.cost == 0 then null else
             Utils.formatDecimal(short.cost, $scope.market.base_precision, true)
-        
+
     $scope.short_total_change = ->
         short = $scope.short.clone_and_normalize()
         if short.cost and short.cost > 0
@@ -200,7 +209,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.short.quantity = if short.quantity == 0 then null else
                 Utils.formatDecimal(short.quantity, $scope.market.base_precision, true)
         else
-             $scope.short.quantity = null
+            $scope.short.quantity = null
 
     # Adds .01% to the price so when posted it overlaps and should match market bid/ask
     get_makeweight = ->
@@ -208,7 +217,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.buy" then .0001
             when "market.sell" then -.0001
             when "market.short" then -.0001
-            else throw Error("Unknown $state.current.name",$state.current.name)
+            else
+                throw Error("Unknown $state.current.name", $state.current.name)
 
     $scope.grid_row_clicked = (row) ->
         #console.log "------ gridRowClicked ------>", row
@@ -227,27 +237,24 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 return null
             else
                 return Utils.formatDecimal(ret, precision)
-                
-        order.quantity = coalesce data.quantity, 
-            order.quantity, $scope.market.quantity_precision
-        
-        collateral_ratio = data.collateral_ratio + data.collateral_ratio *
-            Math.abs(makeweight)\
-            if data.collateral_ratio
-        order.collateral_ratio = coalesce collateral_ratio, 
-            order.collateral_ratio, $scope.market.price_precision
-        
-        order.short_price_limit = coalesce data.price_limit, 
-            order.short_price_limit, $scope.market.price_precision
+
+        order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
+
+        collateral_ratio = data.collateral_ratio + data.collateral_ratio * Math.abs(makeweight)
+        if data.collateral_ratio
+            order.collateral_ratio = coalesce collateral_ratio, order.collateral_ratio, $scope.market.price_precision
+
+        order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
 
         price = data.price + data.price * makeweight if data.price
         order.price = coalesce price, order.price, $scope.market.price_precision
-        
+
         switch $state.current.name
             when "market.buy" then $scope.order_change()
             when "market.sell" then $scope.order_change()
             when "market.short" then $scope.short_change()
-            else throw Error("Unknown $state.current.name",$state.current.name)
+            else
+                throw Error("Unknown $state.current.name", $state.current.name)
 
     $scope.scroll_buysell = ->
         return null if $("#order_tabs").position().top > 0
@@ -262,15 +269,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.bid.cost
         $scope.order_change()
-        if previous != $scope.bid.cost 
+        if previous != $scope.bid.cost
             # This can happen if code forgets to update the cost
             form.bid_total.$error.message = 'market.tip.total_cost_updated'
             return
-        
+
         if bid.cost > $scope.account.base_balance
             form.bid_quantity.$error.message = 'market.tip.insufficient_balances'
             return
-        
+
         bid.type = "bid_order"
         bid.display_type = "Bid"
         # TODO re-poll api for balance instead (see account_balances_observer below)
@@ -287,11 +294,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form = @sell_form
         $scope.clear_form_errors(form)
         ask = $scope.ask.clone_and_normalize()
-       
+
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.ask.cost
         $scope.order_change()
-        if previous != $scope.ask.cost 
+        if previous != $scope.ask.cost
             # This can happen if code forgets to update the cost
             form.ask_total.$error.message = 'market.tip.total_cost_updated'
             return
@@ -313,7 +320,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.clear_form_errors(form)
         short = $scope.short.clone_and_normalize()
         short.price = $scope.market.shorts_price
-        
+
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.short.cost
         $scope.short_change()
@@ -332,27 +339,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.confirm_order = (id) ->
         MarketService.confirm_order(id, $scope.account).then () ->
             # TODO trigger account_balances_observer instead
-            market = $scope.market
-#            order = get_order()
-#            switch $state.current.name
-#                when "market.buy" 
-#                    if market.inverted 
-#                        $scope.account.base_balance -= order.cost
-#                    else
-#                        $scope.account.quantity_balance -= order.cost
-#                
-#                when "market.sell" 
-#                    if market.inverted 
-#                        $scope.account.base_balance -= order.cost
-#                    else
-#                        $scope.account.base_balance -= order.cost
-#                    
-#                when "market.short" 
-#                    if market.inverted
-#                        $scope.account.base_balance -= order.cost
-#                    else
-#                        $scope.account.quantity_balance -= order.cost
-            #Growl.notice "", "Your order was successfully placed."
         , (error) ->
             Growl.error "", "Order failed: " + error.data.error.message
 
@@ -372,8 +358,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 original_order = order
                 #console.log order
                 order = angular.copy(order)
-#                if !current_market.inverted
-#                    order = order.invert()
+                #                if !current_market.inverted
+                #                    order = order.invert()
                 scope.v = {quantity: order.quantity, total: order.quantity}
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
