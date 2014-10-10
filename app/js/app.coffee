@@ -171,7 +171,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     sp.state "account.manageAssets", { url: "/account_assets", views: { 'account-manage-assets': { templateUrl: 'manage_assets.html', controller: 'ManageAssetsController' } } }
 
     sp.state "account.keys", { url: "/account_keys", views: { 'account-keys': { templateUrl: 'account_keys.html', controller: 'AccountController' } } }
-    sp.state "account.keys2", { url: "/account_keys2", views: { 'account-keys2': { templateUrl: 'account_keys2.html', controller: 'ManageAssetsController' } } }
 
     sp.state "account.updateRegAccount", { url: "/account_edit_registered", views: { 'account-update-reg-account': { templateUrl: 'update-reg-account.html', controller: 'UpdateRegAccountController' } } }
 
