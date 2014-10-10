@@ -121,7 +121,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             my_transfer_form.amount.$setPristine()
             $scope.transfer_info.memo = ""
             Growl.notice "", "Transfer transaction broadcasted"
-            Wallet.refresh_transactions_on_update()
             $scope.model.t_active=true
         ,
         (error) ->

@@ -94,7 +94,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                 Growl.notice "", "Your private key was successfully imported."
             else
                 Growl.notice "", "Private key already belongs to another account: \"" + response + "\"."
-            Wallet.refresh_transactions_on_update()
         , (response) ->
             form.key.$invalid = true
 
@@ -122,8 +121,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                     title: -> 'Success'
                     message: -> 'Keys from ' + $scope.wallet_info.type +  ' wallet were successfully imported'
                     bsStyle: -> 'success'
-
-            Wallet.refresh_transactions_on_update()
         , (response) ->
             if response.data.error.code == 13 and response.data.error.message.match(/No such file or directory/)
                 form.path.error_message = "No such file or directory"
