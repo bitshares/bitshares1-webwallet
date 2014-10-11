@@ -2,16 +2,6 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
 
     $scope.console_state=ConsoleState
 
-    #detect tab press
-    ###
-    $scope.keydown = (e) ->
-        console.log(e)
-        if(e.which==9)
-            $scope.console_state.command='bl'
-            e.preventDefault()
-            e.stopImmediatePropagation()
-    ###
-    
     help = ->
         ConsoleState.outputs.unshift(
             ">> help\n\n" + ConsoleState.commands.join("\n")
@@ -39,8 +29,15 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
                 help()
 
     $scope.select = (item) ->
-        ConsoleState.quick_help = item
+        ConsoleState.quick_help = htmlUnescape(item)
         ConsoleState.command = item.split(" ")[0] + " "
+
+    htmlUnescape = (text) ->
+        text.replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&#39;/g, "'")
+            .replace(/&quot;/g, "/")
 
     $scope.submit = (cmd = ConsoleState.command.trim()) ->
         if cmd == "clear_console"
@@ -52,7 +49,7 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
 
         if(
             cmd.indexOf("?") == cmd.length - 1 and 
-            cmd.split(" ").length in [1,2]
+            cmd.split(" ").length <= 2
         )
             #convert "command ?" or "command?" into "command"
             cmd = cmd.substring(0, cmd.length - 1).trim()
@@ -68,14 +65,17 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
     if ConsoleState.commands.length == 0
         init()
 
+    #detect tab press
+    #<input ... ng-keydown='keydown($event)' 
+    #$scope.keydown = (e) ->
+    #    #console.log(e)
+    #    if(e.which==9)
+    #        e.preventDefault()
+    #        e.stopImmediatePropagation()
+
 .factory 'ConsoleState',[() ->
     command: ""
     quick_help: ""
     outputs: []
     commands : []
 ]
-#.directive 'consoleOutput', ->
-#    restrict: "E"
-#    replace: true
-#    scope:
-#        outputs: "="
