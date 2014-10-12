@@ -12,26 +12,35 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
         ConsoleState.quick_help=""
         ConsoleState.outputs = []
         if ConsoleState.commands.length == 0
-            #TODO replace when CommonAPI is added
-            ConsoleState.commands = [
+            commands = [
                 "clear_console",
                 "[command_name]? (alias for: help [command_name])"
             ]
-            RpcService.request('execute_command_line', ['help']).then (response) => 
-                cmds=response.result.split("\n")
-                console.log cmds.length
-                for cmd in cmds
-                    #TODO http://stackoverflow.com/questions/26261599/angularjs-filterviewvalue-is-not-handling-html-escaping
-                    #cmd = cmd.replace(/</g, "&lt;")
-                    #cmd = cmd.replace(/>/g, "&gt;")
-                    ConsoleState.commands.push cmd.trim()
+            RpcService.request("meta_help", []).then (response) =>
+                aliases = []
+                for s in response.result
+                    cmd = s[0]
+                    cmd_props = s[1]
+                    params = ""
+                    for p in cmd_props.parameters
+                        required = p.classification.indexOf("required") isnt -1
+                        params += " " +
+                            (if required then "<" else "[")+ p.name +
+                            (if required then ">" else "]")
 
+                    commands.push cmd + params
+                    for alias in cmd_props.aliases
+                        aliases.push alias + params
+
+                ConsoleState.commands = commands
+                ConsoleState.typeahead = commands.concat aliases
                 help()
 
     $scope.select = (item) ->
         ConsoleState.quick_help = htmlUnescape(item)
         ConsoleState.command = item.split(" ")[0] + " "
 
+    #TODO http://stackoverflow.com/questions/26261599/angularjs-filterviewvalue-is-not-handling-html-escaping
     htmlUnescape = (text) ->
         text.replace(/&amp;/g, "&")
             .replace(/&lt;/g, "<")
@@ -78,4 +87,5 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
     quick_help: ""
     outputs: []
     commands : []
+    typeahread: []
 ]

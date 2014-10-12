@@ -4,7 +4,7 @@
     <form ng-submit='submit()'>
         <input 
             id='cmd' ng-model="console_state.command" autofocus
-            typeahead="command for command in console_state.commands | filter:$viewValue | limitTo:16 | startsWithSort:$viewValue | concatTypeAheadWorkAround:$viewValue | escapeHtmlList" 
+            typeahead="command for command in console_state.typeahead | filter:$viewValue | startsWithSort:$viewValue | limitTo:16 |  concatTypeAheadWorkAround:$viewValue | escapeHtmlList" 
             typeahead-editable="true" 
             placeholder="{{'console.type_cmd_and_enter'|translate}}" 
             ng-trim="false" class="form-control" id="spending_password" 
