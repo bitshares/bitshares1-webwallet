@@ -1,7 +1,9 @@
 testnet_datadir=${1?testnet data directory}
+num=${2-1}
+
 INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
-HTTP_PORT=9980 
-RPC_PORT=9979
+HTTP_PORT=${HTTP_PORT-110${num}}	# 1101
+RPC_PORT=${RPC_PORT-111${num}}		# 1111
 
 function init {
   sleep 2
