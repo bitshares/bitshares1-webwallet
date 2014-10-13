@@ -19,7 +19,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.listBlockchainOrders = MarketGrid.initGrid()
     $scope.listAccountOrders = MarketGrid.initGrid()
 
-
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
         { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
@@ -84,6 +83,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         MarketGrid.setupShortsGrid($scope.listShortsGrid, MarketService.shorts, market)
         MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
         MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
+        MarketGrid.disableMouseScroll()
+
         #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts

@@ -1,14 +1,22 @@
 testnet_datadir=${1?testnet data directory}
+num=${2-1}
+
 INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
-HTTP_PORT=9989 
-RPC_PORT=9988
+HTTP_PORT=${HTTP_PORT-220${num}}       # 2201
+RPC_PORT=${RPC_PORT-221${num}}         # 2211
+
+function init {
+  sleep 1
+  . ./rpc_function.sh
+  rpc open '"default"'
+  rpc unlock '9999, "Password00"'
+}
+init&
 
 cat<<-done
 ##
 # Publish price feeds
 #
-open default
-unlock 9999 Password00
 wallet_publish_price_feed init0 .01 USD
 wallet_publish_feeds init0 [["USD",0.0341],["CNY",0.2040]]
 

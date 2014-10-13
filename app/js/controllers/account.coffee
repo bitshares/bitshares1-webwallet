@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
     
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
@@ -16,6 +16,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         payto : ""
         memo : ""
         vote : 'vote_random'
+
+    if $state.current.name == "account"
+        $state.go "account.transactions" # first tab
 
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
@@ -136,8 +139,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                         title: -> 'Error'
                         message: -> response.data.error.message
                         bsStyle: -> 'danger'
-
-
 
     $scope.toggleVoteUp = ->
         newApproval=1

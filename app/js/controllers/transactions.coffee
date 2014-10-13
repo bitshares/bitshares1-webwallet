@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionsController", ($scope, $filter, $attrs, $location, $stateParams, $state, $rootScope, Wallet, Utils, Info, WalletAPI) ->
+angular.module("app").controller "TransactionsController", ($scope, $filter, $location, $stateParams, $rootScope, Wallet, Utils, Info, WalletAPI) ->
     $scope.name = $stateParams.name || "*"
     #$scope.transactions = Wallet.transactions
     $scope.account_transactions = Wallet.transactions[$scope.name]
@@ -32,7 +32,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0
 
-    if $attrs.model and $attrs.model = "pending_only"
+    if $stateParams.pending_only
         $scope.pending_only = true
 
     refresh_data()
