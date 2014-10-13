@@ -4,7 +4,7 @@ angular.module("app").filter "prettyDate", (Utils)->
         if angular.isDate(date)
             return date.toLocaleString()
         else
-            return ":" + Utils.toDate(date).toLocaleString("en-US",{timeZone:"America/New_York"})
+            return Utils.toDate(date).toLocaleString(undefined, {timeZone:"UTC"})
 
 angular.module("app").filter "hoursAgo", (Utils)->
     (date) ->

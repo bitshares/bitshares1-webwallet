@@ -46,11 +46,12 @@ class TradeData
         td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
         td.received = TradeData.helper.to_float(@received)
         td.paid = TradeData.helper.to_float(@paid)
+        td.timestamp = td.timestamp
         return td
 
     update: (td) ->
         @status = td.status
-        @timestamp = td.imestamp
+        @timestamp = td.timestamp
         @quantity = td.cost
         @cost = td.quantity
         @collateral = td.collateral
@@ -460,7 +461,6 @@ class MarketService
             for r in results
                 td = new TradeData
                 @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
-                td.paid = Math.random()
                 trades.push td
             @helper.update_array {target: @trades, data: trades, update: null}
 
