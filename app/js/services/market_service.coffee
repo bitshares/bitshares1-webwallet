@@ -16,6 +16,8 @@ class TradeData
         @collateral_ratio = null
         @interest_rate = null
         @short_price_limit = null
+        @received = null
+        @paid = null
 
     invert: ->
         td = new TradeData()
@@ -32,6 +34,8 @@ class TradeData
         td.collateral_ratio = @collateral_ratio
         td.interest_rate = @interest_rate
         td.short_price_limit = 1.0 / @short_price_limit
+        td.received = @received
+        td.paid = @paid
         return td
 
     clone_and_normalize: ->
@@ -43,11 +47,14 @@ class TradeData
         td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
         td.interest_rate = TradeData.helper.to_float(@interest_rate)
         td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
+        td.received = TradeData.helper.to_float(@received)
+        td.paid = TradeData.helper.to_float(@paid)
+        td.timestamp = td.timestamp
         return td
 
     update: (td) ->
         @status = td.status
-        @timestamp = td.imestamp
+        @timestamp = td.timestamp
         @quantity = td.cost
         @cost = td.quantity
         @collateral = td.collateral
@@ -57,6 +64,8 @@ class TradeData
         @collateral_ratio = td.collateral_ratio
         @interest_rate = td.interest_rate
         @short_price_limit = td.short_price_limit
+        @received = td.received
+        @paid = td.paid
 
     touch: ->
         @timestamp = Date.now()
@@ -454,10 +463,10 @@ class MarketService
         trades = []
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
             for r in results
-                td = @helper.trade_history_to_order(r, market.assets_by_id, inverted)
+                td = new TradeData
+                @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
                 trades.push td
-                #console.log "------ market_order_history ------>", r, td
-            @helper.update_array {target: @trades, data: trades}
+            @helper.update_array {target: @trades, data: trades, update: null}
 
     pull_my_trades: (market, inverted, account_name) ->
         new_trades = []
@@ -505,7 +514,7 @@ class MarketService
         start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600).then (result) =>
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600, 0).then (result) =>
             ohlc_data = []
             volume_data = []
             for t in result
