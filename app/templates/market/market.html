@@ -195,7 +195,9 @@
             :
               ('market.short_orders'|translate:'{value: actual_market.base_symbol}')
             )
-          }}</h3>
+           }}
+           <span ng-show="market.inverted" class="help-popover" popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
+          </h3>
         </div>
         <div class="panel-body">
           <div ui-grid="market.inverted ? listMarginsGrid : listShortsGrid" class="market-grid" external-scopes="this"></div>
@@ -209,7 +211,9 @@
             :
               ('market.margin_orders'|translate)
             )
-          }}</h3>
+          }}
+          <span ng-show="!market.inverted" class="help-popover" popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
+          </h3>
         </div>
         <div class="panel-body">
           <div ui-grid="market.inverted ? listShortsGrid : listMarginsGrid" class="market-grid" external-scopes="this"></div>

@@ -374,10 +374,8 @@ input.ng-dirty.ng-invalid {
 
 .help-popover {
 	font-size: 90%;
-	padding: 2px;
-	padding-bottom: 0;
 	color: #aaa;
-	border-bottom: 1px dotted #aaa;
+	margin-left: 4px;
 }
 
 .transfer-amount-error {
