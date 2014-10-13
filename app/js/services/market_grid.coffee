@@ -152,6 +152,15 @@ class MarketGrid
         grid.rowTemplateDeferred.resolve(@defaultRowTemplate)
         angular.extend grid, params
 
+    disableMouseScroll: ->
+        $(".ui-grid-viewport, .ui-grid-top-panel").bind 'mousewheel', (e) ->
+            e.stopPropagation()
+            e.preventDefault()
+            content = $("section.content")
+            scrollTo= content.scrollTop() - e.originalEvent.wheelDeltaY
+            content.scrollTop(scrollTo)
+            return false
+
 
     constructor: (@q, @log, @filter) ->
 

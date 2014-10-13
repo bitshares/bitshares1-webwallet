@@ -2,16 +2,6 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
 
     $scope.console_state=ConsoleState
 
-    #detect tab press
-    ###
-    $scope.keydown = (e) ->
-        console.log(e)
-        if(e.which==9)
-            $scope.console_state.command='bl'
-            e.preventDefault()
-            e.stopImmediatePropagation()
-    ###
-    
     help = ->
         ConsoleState.outputs.unshift(
             ">> help\n\n" + ConsoleState.commands.join("\n")
@@ -22,25 +12,41 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
         ConsoleState.quick_help=""
         ConsoleState.outputs = []
         if ConsoleState.commands.length == 0
-            #TODO replace when CommonAPI is added
-            ConsoleState.commands = [
+            commands = [
                 "clear_console",
                 "[command_name]? (alias for: help [command_name])"
             ]
-            RpcService.request('execute_command_line', ['help']).then (response) => 
-                cmds=response.result.split("\n")
-                console.log cmds.length
-                for cmd in cmds
-                    #TODO http://stackoverflow.com/questions/26261599/angularjs-filterviewvalue-is-not-handling-html-escaping
-                    #cmd = cmd.replace(/</g, "&lt;")
-                    #cmd = cmd.replace(/>/g, "&gt;")
-                    ConsoleState.commands.push cmd.trim()
+            RpcService.request("meta_help", []).then (response) =>
+                aliases = []
+                for s in response.result
+                    cmd = s[0]
+                    cmd_props = s[1]
+                    params = ""
+                    for p in cmd_props.parameters
+                        required = p.classification.indexOf("required") isnt -1
+                        params += " " +
+                            (if required then "<" else "[")+ p.name +
+                            (if required then ">" else "]")
 
+                    commands.push cmd + params
+                    for alias in cmd_props.aliases
+                        aliases.push alias + params
+
+                ConsoleState.commands = commands
+                ConsoleState.typeahead = commands.concat aliases
                 help()
 
     $scope.select = (item) ->
-        ConsoleState.quick_help = item
+        ConsoleState.quick_help = htmlUnescape(item)
         ConsoleState.command = item.split(" ")[0] + " "
+
+    #TODO http://stackoverflow.com/questions/26261599/angularjs-filterviewvalue-is-not-handling-html-escaping
+    htmlUnescape = (text) ->
+        text.replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&#39;/g, "'")
+            .replace(/&quot;/g, "/")
 
     $scope.submit = (cmd = ConsoleState.command.trim()) ->
         if cmd == "clear_console"
@@ -52,7 +58,7 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
 
         if(
             cmd.indexOf("?") == cmd.length - 1 and 
-            cmd.split(" ").length in [1,2]
+            cmd.split(" ").length <= 2
         )
             #convert "command ?" or "command?" into "command"
             cmd = cmd.substring(0, cmd.length - 1).trim()
@@ -68,14 +74,18 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
     if ConsoleState.commands.length == 0
         init()
 
+    #detect tab press
+    #<input ... ng-keydown='keydown($event)' 
+    #$scope.keydown = (e) ->
+    #    #console.log(e)
+    #    if(e.which==9)
+    #        e.preventDefault()
+    #        e.stopImmediatePropagation()
+
 .factory 'ConsoleState',[() ->
     command: ""
     quick_help: ""
     outputs: []
     commands : []
+    typeahread: []
 ]
-#.directive 'consoleOutput', ->
-#    restrict: "E"
-#    replace: true
-#    scope:
-#        outputs: "="
