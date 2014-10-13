@@ -501,7 +501,7 @@ class MarketService
         start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600).then (result) =>
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600, 0).then (result) =>
             ohlc_data = []
             volume_data = []
             for t in result
