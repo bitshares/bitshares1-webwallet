@@ -223,7 +223,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         makeweight = get_makeweight()
         coalesce = (new_value, old_value, precision) ->
             TradeData = MarketService.TradeData
-            ret = if new_value then new_value else TradeData.helper.to_float(old_value)
+            ret = if new_value and isFinite(new_value) then new_value else TradeData.helper.to_float(old_value)
             if ret == 0 # TODO, instead of nulls for validation, use (<input min="... )
                 return null
             else
