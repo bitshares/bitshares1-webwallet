@@ -7,7 +7,8 @@ RPC_PORT=${RPC_PORT-111${num}}		# 1111
 
 function init {
   # Wait for the port to open.. GDB or re-indexing may take a while
-  while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
+  #while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
+  sleep 10
   . ./rpc_function.sh
   rpc open '"default"'
   rpc unlock '9999, "Password00"'

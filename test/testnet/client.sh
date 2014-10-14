@@ -7,7 +7,8 @@ RPC_PORT=${RPC_PORT-221${num}}         # 2211
 
 function init {
   # Wait for the port to open.. GDB or re-indexing may take a while
-  while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
+  #while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
+  sleep 10
   . ./rpc_function.sh
   rpc open '"default"'
   rpc unlock '9999, "Password00"'
@@ -28,7 +29,7 @@ done
 
 set -o xtrace
 
-#gdb -ex run --args \
+gdb -ex run --args \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
  --genesis-config init_genesis.json\
