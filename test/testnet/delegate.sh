@@ -18,6 +18,8 @@ function init {
 }
 init&
 
+set -o xtrace
+
 #gdb -ex run --args \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
@@ -25,6 +27,8 @@ ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --server\
  --httpport=$HTTP_PORT\
  --rpcport=$RPC_PORT\
+ --rpcuser=test\
+ --rpcpassword=test\
  --upnp=false\
  --p2p-port=10000\
  --min-delegate-connection-count=0

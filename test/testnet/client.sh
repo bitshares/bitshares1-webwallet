@@ -26,6 +26,8 @@ done
 #wallet_publish_price_feed init0 .03 BTC
 #wallet_publish_price_feed init0 .04 GLD
 
+set -o xtrace
+
 #gdb -ex run --args \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
@@ -33,6 +35,7 @@ ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --server\
  --httpport=$HTTP_PORT\
  --rpcport=$RPC_PORT\
+ --rpcuser=test\
+ --rpcpassword=test\
  --upnp=false\
  --connect-to=127.0.0.1:10000
-

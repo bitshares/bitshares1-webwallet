@@ -1,7 +1,7 @@
 SETUP
 
 INVICTUS_ROOT=~/bitshares/bitshares_toolkit
-./create_testnet.sh "${INVICTUS_ROOT}/programs/web_wallet/generated"
+./create_testnet.sh 
 
 Upon successful execution you should see a lot of output followed by
 directions like this:
@@ -39,6 +39,9 @@ http://localhost:9989
 
 ... or to run the e2e unit tests when they become available
 
+WEB WALLET
+
+Ensure that the web_wallet has been compiled using lineman and has a generated directory (see ./htdocs link)
 
 DETAILS
 
