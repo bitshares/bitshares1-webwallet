@@ -6,7 +6,9 @@ HTTP_PORT=${HTTP_PORT-220${num}}       # 2201
 RPC_PORT=${RPC_PORT-221${num}}         # 2211
 
 function init {
-  sleep 1
+  # Wait for the port to open.. GDB or re-indexing may take a while
+  #while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
+  sleep 10
   . ./rpc_function.sh
   rpc open '"default"'
   rpc unlock '9999, "Password00"'
@@ -24,5 +26,17 @@ done
 #wallet_publish_price_feed init0 .02 CNY
 #wallet_publish_price_feed init0 .03 BTC
 #wallet_publish_price_feed init0 .04 GLD
-${INVICTUS_ROOT}/programs/client/bitshares_client --data-dir "$testnet_datadir" --genesis-config init_genesis.json --server --httpport=$HTTP_PORT --rpcport=$RPC_PORT --upnp=false --connect-to=127.0.0.1:10000
 
+set -o xtrace
+
+gdb -ex run --args \
+${INVICTUS_ROOT}/programs/client/bitshares_client\
+ --data-dir "$testnet_datadir"\
+ --genesis-config init_genesis.json\
+ --server\
+ --httpport=$HTTP_PORT\
+ --rpcport=$RPC_PORT\
+ --rpcuser=test\
+ --rpcpassword=test\
+ --upnp=false\
+ --connect-to=127.0.0.1:10000
