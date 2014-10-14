@@ -55,6 +55,11 @@ class MarketGrid
                 cellFilter: "formatDecimal:#{market.price_precision}:true"
                 sort: { direction: "asc", priority: 1 }
             ,
+                field: "interest_rate"
+                displayName: "#{@filter('translate')('th.interest_rate')} (%)"
+                cellFilter: "formatDecimal:2"
+                sort: { direction: "desc", priority: 1 }
+            ,
                 field: "cost"
                 displayName: "#{@filter('translate')('th.units_owed')} (#{actual_market.base_symbol})"
                 cellFilter: "formatDecimal:#{actual_market.base_precision}"

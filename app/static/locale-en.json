@@ -98,7 +98,8 @@
         "action": "ACTION",
         "paid": "PAID",
         "received": "RECEIVED",
-        "expiration": "EXPIRATION"
+        "expiration": "EXPIRATION",
+        "interest_rate": "Interest Rate"
     },
     "block": {
         "title": "Block",
@@ -251,7 +252,8 @@
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
             "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
         },
-        "days": "{{value}} Days"
+        "days": "{{value}} Days",
+        "percent_apr": "APR"
     },
     "account": {
         "reg_pending": "Registration pending",

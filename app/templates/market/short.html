@@ -10,8 +10,8 @@
     <input-positive-number name="short_quantity" ng-model="short.quantity" ng-change="short_change()" required="true" />
   </div>
   <!--interest rate-->
-  <div form-hgroup label="{{'market.interest_rate'|translate}}" label-popover="{{'market.help.short_interest_rate' | translate:'{quantity: actual_market.quantity_symbol, base: actual_market.base_symbol}'}}" addon="%">
-    <input-positive-number name="short_interest_rate" ng-model="short.interest_rate" ng-change="short_change()" required="true" />
+  <div form-hgroup label="{{'market.interest_rate'|translate}}" label-popover="{{'market.help.short_interest_rate' | translate:'{quantity: actual_market.quantity_symbol, base: actual_market.base_symbol}'}}" addon="{{'market.percent_apr' | translate}}">
+    <input-positive-number name="short_interest_rate" ng-model="short.interest_rate" ng-change="short_change()" required="true"/>
   </div>
   <!--price limit-->
   <div form-hgroup label="{{'market.price_limit'|translate}}" label-popover="{{market.inverted ? 'market.help.short_price_limit_inverted':'market.help.short_price_limit_direct' | translate:'{quantity: market.quantity_symbol, base: market.base_symbol}'}}" addon="{{market.price_symbol}}">

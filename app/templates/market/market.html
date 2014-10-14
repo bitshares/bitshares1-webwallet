@@ -168,7 +168,7 @@
     </div>
 
     <div class="row">
-      <div class="panel col-lg-6">
+      <div class="panel col-md-6">
         <div class="panel-heading">
           <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
@@ -176,7 +176,7 @@
           <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
-      <div class="panel col-lg-6">
+      <div class="panel col-md-6">
         <div class="panel-heading">
           <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
@@ -187,7 +187,7 @@
     </div>
 
     <div class="row" ng-show="market.shorts_available && advanced">
-      <div class="panel" ng-class="'col-lg-6'">
+      <div class="panel" ng-class="'col-md-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
@@ -200,10 +200,10 @@
           </h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="market.inverted ? listMarginsGrid : listShortsGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listShortsMarginsLeftGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
-      <div class="panel" ng-class="'col-lg-6'">
+      <div class="panel" ng-class="'col-md-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
@@ -216,7 +216,7 @@
           </h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="market.inverted ? listShortsGrid : listMarginsGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listShortsMarginsRightGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
     </div>

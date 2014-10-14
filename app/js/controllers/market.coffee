@@ -14,8 +14,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.listBuyGrid = MarketGrid.initGrid()
     $scope.listSellGrid = MarketGrid.initGrid()
-    $scope.listMarginsGrid = MarketGrid.initGrid()
-    $scope.listShortsGrid = MarketGrid.initGrid()
+    $scope.listShortsMarginsLeftGrid = MarketGrid.initGrid()
+    $scope.listShortsMarginsRightGrid = MarketGrid.initGrid()
     $scope.listBlockchainOrders = MarketGrid.initGrid()
     $scope.listAccountOrders = MarketGrid.initGrid()
 
@@ -84,10 +84,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.bids = MarketService.bids
         MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
         MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
-        MarketGrid.setupMarginsGrid($scope.listMarginsGrid, MarketService.covers, market)
-        MarketGrid.setupShortsGrid($scope.listShortsGrid, MarketService.shorts, market)
-        MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
         MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
+        if market.inverted
+            MarketGrid.setupMarginsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
+            MarketGrid.setupShortsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
+        else
+            MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
+            MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
+        MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
+            # none
         MarketGrid.disableMouseScroll()
 
         #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
@@ -222,16 +227,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 throw Error("Unknown $state.current.name", $state.current.name)
 
     $scope.grid_row_clicked = (row) ->
-        #console.log "------ gridRowClicked ------>", row
-        if row.type == "ask" or row.type == "bid"
+        if row.type == "ask" or row.type == "bid" or row.type == "short_wall"
             $scope.use_trade_data price: row.price, quantity: row.quantity
-        $scope.scroll_buysell()
+            $scope.scroll_buysell()
 
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
         makeweight = get_makeweight()
         coalesce = (new_value, old_value, precision) ->
+            return null if !new_value and !old_value
             TradeData = MarketService.TradeData
             ret = if new_value then new_value else TradeData.helper.to_float(old_value)
             if ret == 0 # TODO, instead of nulls for validation, use (<input min="... )
