@@ -1,24 +1,13 @@
 
-WEB_WALLET_GEN=${1?web_wallet\'s generated directory (like ~/bitshares/bitshares_toolkit/programs/web_wallet/generated)}
 INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
+num=${1-1}
 
-set -o errexit
-
-function config {
-  dir=$1
-  #create config.json
-  echo First run, OK to error about a missing RPC password...
-  ./client.sh "$dir"||true
-  sed -i 's/"rpc_user": ""/"rpc_user": "test"/' ${dir}/config.json
-  sed -i 's/"rpc_password": ""/"rpc_password": "test"/' ${dir}/config.json
-  sed -i 's#./htdocs#'"$WEB_WALLET_GEN"'#' ${dir}/config.json
-  echo
-}
+#set -o errexit
 
 function import_test_accounts {
   dir=$1
   echo Setting up wallet...
-  cat <<-done|./client.sh "$dir"
+  cat <<-done|./client.sh "$dir" $num
 wallet_create default Password00
 wallet_import_private_key 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS tester true true
 wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
@@ -29,7 +18,7 @@ echo
 function import_delegate_keys {
   dir=$1
   echo Importing delegate private keys....
-  cat<<-END|./client.sh "$dir"
+  cat<<-END|./client.sh "$dir" $num
 wallet_create default Password00
 open default
 unlock 9999 Password00
@@ -49,16 +38,14 @@ mkdir -p tmp
 rnd=$(mktemp -u "XXX")
 
 delegate_datadir="tmp/delegate_${rnd}"
-config "$delegate_datadir"
 import_delegate_keys "$delegate_datadir"
 
 client_datadir="tmp/client_${rnd}"
-config "$client_datadir"
 import_test_accounts "$client_datadir"
 
 echo "Start Commands:"
-echo "./delegate.sh $delegate_datadir"
-echo "./client.sh $client_datadir"
+echo "./delegate.sh $delegate_datadir" $num
+echo "./client.sh $client_datadir" $num
 echo
 
 echo "One-time setup for ./client.sh:"
