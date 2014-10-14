@@ -15,7 +15,7 @@ servicesModule.factory "RpcService", ($http) ->
         angular.extend(http_params.data, reqparams)
         #console.log "RpcService <#{http_params.data.method}>, stack: #{getStackTrace()}"
         $http(http_params).then (response) ->
-            console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) ###unless method in [
+            ###console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) unless method in [
                 "wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",
                 "wallet_get_info","wallet_get_setting","wallet_account_balance",
                 "wallet_set_setting","wallet_account_transaction_history ",
