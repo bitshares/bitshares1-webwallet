@@ -29,7 +29,8 @@ done
 
 set -o xtrace
 
-gdb -ex run --args \
+#GDB="gdb -ex run --args" ...
+${GDB-} \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
  --genesis-config init_genesis.json\

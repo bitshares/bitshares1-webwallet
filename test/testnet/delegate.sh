@@ -1,3 +1,6 @@
+# Usage:
+# ./delegate.sh tmp/delegate_??? 1
+# GDB="gdb -ex run --args" ./delegate.sh tmp/delegate_??? 1
 testnet_datadir=${1?testnet data directory}
 num=${2-1}
 
@@ -21,7 +24,7 @@ init&
 
 set -o xtrace
 
-#gdb -ex run --args \
+${GDB-} \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
  --genesis-config init_genesis.json\

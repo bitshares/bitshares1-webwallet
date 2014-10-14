@@ -44,8 +44,8 @@ client_datadir="tmp/client_${rnd}"
 import_test_accounts "$client_datadir"
 
 echo "Start Commands:"
-echo "./delegate.sh $delegate_datadir" $num
-echo "./client.sh $client_datadir" $num
+echo "./delegate.sh $delegate_datadir"
+echo "./client.sh $client_datadir"
 echo
 
 echo "One-time setup for ./client.sh:"
