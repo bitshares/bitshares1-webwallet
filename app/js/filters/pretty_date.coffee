@@ -1,16 +1,10 @@
 angular.module("app").filter "prettyDate", (Utils)->
     (date) ->
-        if not date
-            #console.log "attempting to prettify null date"
-            return ""
-
-        if date.valueOf() == "19700101T000000"
-            return "Unregistered"
-
+        return "-" if !date or date.valueOf() == "19700101T000000"
         if angular.isDate(date)
             return date.toLocaleString()
         else
-            return Utils.toDate(date).toLocaleString()
+            return Utils.toDate(date).toLocaleString(undefined, {timeZone:"UTC"})
 
 angular.module("app").filter "hoursAgo", (Utils)->
     (date) ->
