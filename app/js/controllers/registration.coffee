@@ -37,7 +37,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $modalInstance.dismiss "cancel"
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
-    payrate = if $scope.m.delegate then $scope.m.payrate else 255
+    payrate = if $scope.m.delegate then $scope.m.payrate else -1
     if $scope.account.private_data?.gui_data?.website
         website= $scope.account.private_data.gui_data.website
     else
