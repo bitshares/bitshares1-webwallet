@@ -55,8 +55,8 @@ class TradeData
     update: (td) ->
         @status = td.status
         @timestamp = td.timestamp
-        @quantity = td.cost
-        @cost = td.quantity
+        @cost = td.cost
+        @quantity= td.quantity
         @collateral = td.collateral
         @price = td.price
         @warning = td.warning
@@ -310,8 +310,9 @@ class MarketService
             price_limit = 1.0 / short.short_price_limit if short.short_price_limit > 0.0
         else
             price_limit = short.short_price_limit
-        console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.interest_rate, actual_market.asset_quantity_symbol, price_limit
-        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.interest_rate, actual_market.asset_quantity_symbol, price_limit)
+
+        console.log "---- before market_submit_short ----", account.name, short.collateral, actual_market.asset_quantity_symbol, short.interest_rate, actual_market.asset_base_symbol, price_limit
+        call = @wallet_api.market_submit_short(account.name, short.collateral, actual_market.asset_quantity_symbol, short.interest_rate, actual_market.asset_base_symbol, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
@@ -374,17 +375,20 @@ class MarketService
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
                 td.type = "short"
+                td.quantity = td.collateral * market.shorts_price / 2.0
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    #console.log "------ short wall ------>", td.cost, td.quantity
+                    #console.log "------ short wall ------>", td.collateral, td.quantity
                     if inverted
-                        short_wall.cost += td.cost
-                        short_wall.quantity += td.cost / shorts_price
+                        short_wall.cost += td.collateral
+                        short_wall.quantity += td.quantity
                         #@lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
-                        short_wall.quantity += td.cost
-                        short_wall.cost += td.cost / shorts_price
+                        short_wall.quantity += td.collateral
+                        short_wall.cost += td.quantity
+                        #short_wall.quantity += td.cost
+                        #short_wall.cost += td.cost / shorts_price
                     @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
@@ -400,7 +404,7 @@ class MarketService
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
-                # console.log "---- cover ", r
+                #console.log "---- cover ", r
                 r.type = "cover"
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.quantity_asset, market.base_asset, inverted, false, inverted, td)

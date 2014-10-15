@@ -422,7 +422,7 @@ class Wallet
           reg
 
     get_first_account: ->
-        for k,v of @accounts
+        for k,v of @accountsr
             if v.is_my_account
                 return v
         return null
@@ -442,7 +442,7 @@ class Wallet
                 if @accounts.length > 0
                     deferred.resolve(@get_first_account())
                 else @refresh_accounts().then =>
-                    deferred.resolve(get_first_account())
+                    deferred.resolve(@get_first_account())
         promise.catch (error) ->
             deferred.reject(error)
 

@@ -59,16 +59,6 @@ class WalletAPI
     @rpc.request('wallet_import_bitcoin', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
       response.result
 
-  # Imports an Armory wallet
-  # parameters: 
-  #   filename `wallet_filename` - the Armory wallet file path
-  #   passphrase `passphrase` - the imported wallet's password
-  #   account_name `account_name` - the account to receive the contents of the wallet
-  # return_type: `uint32_t`
-  import_armory: (wallet_filename, passphrase, account_name, error_handler = null) ->
-    @rpc.request('wallet_import_armory', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
-      response.result
-
   # Imports an Electrum wallet
   # parameters: 
   #   filename `wallet_filename` - the Electrum wallet file path
@@ -77,16 +67,6 @@ class WalletAPI
   # return_type: `uint32_t`
   import_electrum: (wallet_filename, passphrase, account_name, error_handler = null) ->
     @rpc.request('wallet_import_electrum', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
-      response.result
-
-  # Imports a Multibit wallet
-  # parameters: 
-  #   filename `wallet_filename` - the Multibit wallet file path
-  #   passphrase `passphrase` - the imported wallet's password
-  #   account_name `account_name` - the account to receive the contents of the wallet
-  # return_type: `uint32_t`
-  import_multibit: (wallet_filename, passphrase, account_name, error_handler = null) ->
-    @rpc.request('wallet_import_multibit', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
       response.result
 
   # Create the key from keyhotee config and import it to the wallet, creating a new account using this key
@@ -547,20 +527,20 @@ class WalletAPI
   # Used to place a request to short sell a quantity of assets at a price specified
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   string `short_quantity` - the quantity of items you would like to short sell (USD you would like to sell)
-  #   asset_symbol `short_symbol` - the type of asset you would like to short, ie: USD
+  #   string `short_collateral` - the amount of collateral you wish to fund this short with
+  #   asset_symbol `collateral_symbol` - the type of asset collateralizing this short (i.e. XTS)
   #   string `interest_rate` - the APR you wish to pay interest at (0.0% to 1000.0%)
-  #   asset_symbol `base_symbol` - the asset to use to collateralize this short sale (ie XTS)
+  #   asset_symbol `quote_symbol` - the asset to short sell (i.e. USD)
   #   string `short_price_limit` - maximim price (USD per XTS) that the short will execute at, if 0 then no limit will be applied
   # return_type: `transaction_record`
-  market_submit_short: (from_account_name, short_quantity, short_symbol, interest_rate, base_symbol, short_price_limit, error_handler = null) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_symbol, interest_rate, base_symbol, short_price_limit], error_handler).then (response) ->
+  market_submit_short: (from_account_name, short_collateral, collateral_symbol, interest_rate, quote_symbol, short_price_limit, error_handler = null) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, short_collateral, collateral_symbol, interest_rate, quote_symbol, short_price_limit], error_handler).then (response) ->
       response.result
 
   # Used to place a request to cover an existing short position
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   string `quantity` - the quantity of items you would like to cover
+  #   string `quantity` - the quantity of asset you would like to cover
   #   asset_symbol `quantity_symbol` - the type of asset you are covering (ie: USD)
   #   order_id `cover_id` - the order ID you would like to cover
   # return_type: `transaction_record`

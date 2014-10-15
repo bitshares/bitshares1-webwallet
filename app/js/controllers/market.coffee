@@ -86,10 +86,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
         MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
         if market.inverted
-            MarketGrid.setupMarginsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
+            MarketGrid.setupMarginsGrid($scope.listShortsMarginsLeftGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
         else
-            MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
+            MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
         MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
             # none
@@ -203,19 +203,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             order.quantity = null
 
     $scope.short_change = ->
+        return if !$scope.market.shorts_price or $scope.market.shorts_price == 0.0
         short = $scope.short.clone_and_normalize()
-        short.cost = short.quantity * $scope.market.shorts_price * 2
-        $scope.short.cost = if short.cost == 0 then null else
-            Utils.formatDecimal(short.cost, $scope.market.base_precision, true)
+        #shorts_price = $scope.market.shorts_price
+        #shorts_price = short.short_price_limit if short.short_price_limit > shorts_price
+        short.quantity = short.collateral * $scope.actual_market.shorts_price / 2.0
+        $scope.short.quantity = if short.quantity == 0 then null else Utils.formatDecimal(short.quantity, $scope.actual_market.base_precision, true)
 
     $scope.short_total_change = ->
         short = $scope.short.clone_and_normalize()
-        if short.cost and short.cost > 0
-            short.quantity = short.cost / ($scope.market.shorts_price * 2)
-            $scope.short.quantity = if short.quantity == 0 then null else
-                Utils.formatDecimal(short.quantity, $scope.market.base_precision, true)
+        #shorts_price = $scope.market.shorts_price
+        #shorts_price = short.short_price_limit if short.short_price_limit > shorts_price
+        if short.quantity and short.quantity > 0 and $scope.actual_market.shorts_price > 0.0
+            short.collateral = 2.0 * short.quantity / $scope.actual_market.shorts_price
+            $scope.short.collateral = if short.collateral == 0 then null else
+                Utils.formatDecimal(short.collateral, $scope.actual_market.quantity_precision, true)
         else
-            $scope.short.quantity = null
+            $scope.short.collateral = null
 
     # Adds .01% to the price so when posted it overlaps and should match market bid/ask
     get_makeweight = ->

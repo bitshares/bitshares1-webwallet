@@ -115,15 +115,15 @@
               advanced-mode="advanced">
           </orderbookchart>
 
-          <shortscollatchart ng-if="advanced"
-              shortscollat-array="market.shortscollat_chart_data.array"
-              volume-symbol="actual_market.base_symbol"
-              volume-precision="market.base_precision"
-              price-symbol="market.price_symbol"
-              price-precision="market.price_precision"
-              inverted-market="market.inverted"
-              shorts-price="market.shorts_price">
-          </shortscollatchart>
+          <!--<shortscollatchart ng-if="advanced"-->
+              <!--shortscollat-array="market.shortscollat_chart_data.array"-->
+              <!--volume-symbol="actual_market.base_symbol"-->
+              <!--volume-precision="market.base_precision"-->
+              <!--price-symbol="market.price_symbol"-->
+              <!--price-precision="market.price_precision"-->
+              <!--inverted-market="market.inverted"-->
+              <!--shorts-price="market.shorts_price">-->
+          <!--</shortscollatchart>-->
 
       </div>
     </div>
@@ -154,7 +154,7 @@
                 <h3 class="panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
             </div>
             <div class="panel-body">
-                <div ng-include src="market.inverted ? 'market/open_short_invert.html' : 'market/open_short_direct.html'"></div>
+                <div ng-include src="'market/open_shorts.html'"></div>
             </div>
         </div>
         <div class="panel col-xs-12 col-sm-6">
