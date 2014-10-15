@@ -117,7 +117,7 @@
       </div>
       <div class="form-group row transfer-amount-error" ng-show="(my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine) || my_transfer_form.amount.error_message">
         <div class="col-sm-offset-2 col-sm-4">
-          <span class="help-block text-danger" translate>tip.wrong_amount</span>
+          <span class="help-block text-danger" translate ng-hide="my_transfer_form.amount.error_message">tip.wrong_amount</span>
           <span class="help-block text-danger">{{my_transfer_form.amount.error_message}}</span>
         </div>
       </div>

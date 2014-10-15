@@ -61,7 +61,7 @@ class MarketHelper
         price = order.market_index.order_price.ratio * (price_base_asset.precision / price_quote_asset.precision)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
-        td.interest_rate = order.interest_rate.ratio * (price_base_asset.precision / price_quote_asset.precision) if order.interest_rate
+        td.interest_rate = order.interest_rate.ratio * 100.0 if order.interest_rate
 
         td.quantity = order.state.balance / quantity_asset.precision
         td.cost = td.quantity * price
