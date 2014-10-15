@@ -1,3 +1,6 @@
+# Usage:
+# ./client.sh tmp/client_???
+# GDB="gdb -ex run --args" ./client.sh tmp/client_???
 testnet_datadir=${1?testnet data directory}
 num=${2-1}
 
@@ -6,30 +9,16 @@ HTTP_PORT=${HTTP_PORT-220${num}}       # 2201
 RPC_PORT=${RPC_PORT-221${num}}         # 2211
 
 function init {
-  # Wait for the port to open.. GDB or re-indexing may take a while
-  #while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
   sleep 10
   . ./rpc_function.sh
-  rpc open '"default"'
-  rpc unlock '9999, "Password00"'
+  # the process may be gone, re-indexing, etc. just error silently
+  rpc open '"default"' > /dev/null 2>&1
+  rpc unlock '9999, "Password00"' > /dev/null 2>&1
 }
 init&
 
-cat<<-done
-##
-# Publish price feeds
-#
-wallet_publish_price_feed init0 .01 USD
-wallet_publish_feeds init0 [["USD",0.0341],["CNY",0.2040]]
-
-done
-#wallet_publish_price_feed init0 .02 CNY
-#wallet_publish_price_feed init0 .03 BTC
-#wallet_publish_price_feed init0 .04 GLD
-
 set -o xtrace
 
-#GDB="gdb -ex run --args" ...
 ${GDB-} \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
