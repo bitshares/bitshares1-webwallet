@@ -291,11 +291,11 @@ class MarketService
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
-            console.log "---- adding bid regular ----", bid
+            console.log "---- adding bid regular ----", bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol
             @wallet_api.market_submit_bid(account.name, bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol)
         else
             ibid = bid.invert()
-            console.log "---- adding bid inverted ----", bid, ibid
+            console.log "---- adding bid inverted ----", ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol
             @wallet_api.market_submit_ask(account.name, ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol)
         return call
 
@@ -314,11 +314,11 @@ class MarketService
 
     post_ask: (ask, account, deferred) ->
         call = if !@market.inverted
-            console.log "---- adding ask regular ----", ask
+            console.log "---- adding ask regular ----", ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol
             @wallet_api.market_submit_ask(account.name, ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol)
         else
             iask = ask.invert()
-            console.log "---- adding ask inverted ----", ask, iask
+            console.log "---- adding ask inverted ----", iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol
             @wallet_api.market_submit_bid(account.name, iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol)
         return call
 
@@ -331,7 +331,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
@@ -347,7 +347,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
@@ -426,17 +426,16 @@ class MarketService
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = new TradeData()
+                order = r
                 if r instanceof Array and r.length > 1
                     td.id = r[0]
                     order = r[1]
-                else
-                    order = r
                 #console.log "------ market order ------>", order
                 if order.type == "cover_order"
                     @helper.cover_to_trade_data(order, market, inverted, td)
                     #console.log("------ cover order ------>", order, td)
                 else
-                    @helper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, true, inverted, td)
+                    @helper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array

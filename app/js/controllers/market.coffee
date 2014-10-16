@@ -250,10 +250,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
         order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
 
-#        collateral_ratio = data.collateral_ratio + data.collateral_ratio * Math.abs(makeweight)
-#        if data.collateral_ratio
-#            order.collateral_ratio = coalesce collateral_ratio, order.collateral_ratio, $scope.market.price_precision
-
         order.interest_rate = coalesce data.interest_rate, order.interest_rate, 2
 
         order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
@@ -265,8 +261,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             when "market.buy" then $scope.order_change()
             when "market.sell" then $scope.order_change()
             when "market.short" then $scope.short_change()
-            else
-                throw Error("Unknown $state.current.name", $state.current.name)
+
+        $scope.scroll_buysell()
+
 
     $scope.scroll_buysell = ->
         return null if $("#order_tabs").position().top > 0
@@ -281,10 +278,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.bid.cost
         $scope.order_change()
-        if previous != $scope.bid.cost
-            # This can happen if code forgets to update the cost
-            form.bid_total.$error.message = 'market.tip.total_cost_updated'
-            return
+#        if previous != $scope.bid.cost
+#            # This can happen if code forgets to update the cost
+#            form.bid_total.$error.message = 'market.tip.total_cost_updated'
+#            return
 
         if bid.cost > $scope.account.base_balance
             form.bid_quantity.$error.message = 'market.tip.insufficient_balances'
@@ -310,10 +307,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.ask.cost
         $scope.order_change()
-        if previous != $scope.ask.cost
-            # This can happen if code forgets to update the cost
-            form.ask_total.$error.message = 'market.tip.total_cost_updated'
-            return
+#        if previous != $scope.ask.cost
+#            # This can happen if code forgets to update the cost
+#            form.ask_total.$error.message = 'market.tip.total_cost_updated'
+#            return
 
         if ask.quantity > $scope.account.quantity_balance
             form.ask_quantity.$error.message = 'market.tip.insufficient_balances'
@@ -336,10 +333,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #make sure user sees the correct cost (ng-change vrs watch work-around)
         previous = $scope.short.cost
         $scope.short_change()
-        if previous != $scope.short.cost
-            # This can happen if code forgets to update the cost
-            form.short_total.$error.message = 'market.tip.total_cost_updated'
-            return
+#        if previous != $scope.short.cost
+#            # This can happen if code forgets to update the cost
+#            form.short_total.$error.message = 'market.tip.total_cost_updated'
+#            return
 
         short.type = "short_order"
         short.display_type = "Short"
@@ -373,7 +370,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 order = angular.copy(order)
                 #                if !current_market.inverted
                 #                    order = order.invert()
-                scope.v = {quantity: order.quantity, total: order.quantity}
+                scope.v = {quantity: order.cost, total: order.cost}
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
                 scope.submit = ->

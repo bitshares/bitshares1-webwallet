@@ -80,7 +80,7 @@ class MarketHelper
         td.display_type = @capitalize(td.type.split("_")[0])
 
     cover_to_trade_data: (order, market, invert_price, td) ->
-        td.id = order.market_index.owner
+        td.id = order.market_index.owner unless td.id
         td.type = "margin_order"
         td.display_type = "Margin Order"
         td.status = "cover"
