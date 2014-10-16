@@ -584,24 +584,24 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 # order book chart data
-                if self.market.feed_price > 0.0
-                    sum_asks = 0.0
-                    asks_array = []
-                    for a in self.asks
-                        continue if a.price > 1.5 * self.market.feed_price or a.price < 0.5 * self.market.feed_price
-                        sum_asks += a.quantity
-                        self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-                    sum_bids = 0.0
-                    bids_array = []
-                    for b in self.bids
-                        continue if b.price > 1.5 * self.market.feed_price or b.price < 0.5 * self.market.feed_price
-                        sum_bids += b.quantity
-                        self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-                    bids_array.sort (a,b) -> a[0] - b[0]
-                    asks_array.sort (a,b) -> a[0] - b[0]
-                    self.market.orderbook_chart_data =
-                        bids_array: bids_array
-                        asks_array: asks_array
+                feed_price = self.market.feed_price
+                sum_asks = 0.0
+                asks_array = []
+                for a in self.asks
+                    continue if feed_price and (a.price > 1.5 * feed_price or a.price < 0.5 * feed_price)
+                    sum_asks += a.quantity
+                    self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+                sum_bids = 0.0
+                bids_array = []
+                for b in self.bids
+                    continue if feed_price and (b.price > 1.5 * feed_price or b.price < 0.5 * feed_price)
+                    sum_bids += b.quantity
+                    self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
+                bids_array.sort (a,b) -> a[0] - b[0]
+                asks_array.sort (a,b) -> a[0] - b[0]
+                self.market.orderbook_chart_data =
+                    bids_array: bids_array
+                    asks_array: asks_array
 
                 # shorts collateralization chart data
                 self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)

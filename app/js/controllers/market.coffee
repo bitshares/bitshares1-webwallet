@@ -254,6 +254,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
         order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
 
+        order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision
+
         price = data.price + data.price * makeweight if data.price
         order.price = coalesce price, order.price, $scope.market.price_precision
 

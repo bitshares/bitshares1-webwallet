@@ -17,17 +17,17 @@
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
       <!--rows-->
-      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}" ng-click="use_trade_data({interest_rate: o.interest_rate, quantity: o.quantity, price_limit: o.short_price_limit})">
+      <tr ng-repeat-end id="order_{{o.id}}" class="{{o.status}} {{o.type}}">
         <!--collateral-->
-        <td ng-click="scroll_buysell()"><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
+        <td ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})"><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
         <!--interest rate-->
-        <td ng-click="scroll_buysell()">
+        <td ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})">
           {{o.interest_rate | formatDecimal : 2 : true}}
         </td>
         <!--quantity-->
-        <td ng-click="scroll_buysell()"><span>{{o.collateral * actual_market.shorts_price/2.0 | formatDecimal : actual_market.base_precision}}</span></td>
+        <td ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})"><span>{{o.collateral * actual_market.shorts_price/2.0 | formatDecimal : actual_market.base_precision}}</span></td>
         <!--price limit-->
-        <td ng-click="scroll_buysell()">{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
+        <td ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})">{{o.short_price_limit | formatDecimal : market.price_precision : true}}</td>
         <td>
           <span ng-switch on="o.status">
             <span ng-switch-when="unconfirmed">
