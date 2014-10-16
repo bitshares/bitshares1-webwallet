@@ -1,10 +1,9 @@
-exports.RpcJson =
 class RpcJson
 
     q = require 'q'
     net = require 'net'
 
-    constructor: (@debug = off, port = 3000, host = "localhost") ->
+    constructor: (@debug, port, host) ->
         # @payload may temporarily hold a partial result (incomplete json response)
         @payload = ""
         @defer_request = []
@@ -78,3 +77,14 @@ class RpcJson
     end: =>
         @connection.end()
         return
+
+
+class Rpc extends RpcJson
+
+    constructor: (debug, json_port, host, user, password) ->
+        @rpc = super(debug, json_port, host)
+        if user and password
+            @request("login #{user} #{password}")
+
+exports.Rpc = Rpc
+
