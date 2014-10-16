@@ -44,21 +44,16 @@ class MarketHelper
         else
             actual_market.error.text = market.error.text = market.error.title = null
 
+    order_price: (order_price, asset1, asset2) ->
+        quote_asset = if order_price.quote_asset_id == asset1.id then asset1 else asset2
+        base_asset = if order_price.base_asset_id == asset1.id then asset1 else asset2
+        order_price.ratio * (base_asset.precision / quote_asset.precision)
 
     order_to_trade_data: (order, base_asset, quantity_asset, invert_price, invert_assets, invert_order_type, td) ->
-        #console.log order
-        #td = new TradeData()
-        if order instanceof Array and order.length > 1
-            td.id = order[0]
-            order = order[1]
-        else
-            td.id = order.market_index.owner
+        td.id = order.market_index.owner unless td.id
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
 
-        # calc order price
-        price_quote_asset = if order.market_index.order_price.quote_asset_id == base_asset.id then base_asset else quantity_asset
-        price_base_asset = if order.market_index.order_price.base_asset_id == base_asset.id then base_asset else quantity_asset
-        price = order.market_index.order_price.ratio * (price_base_asset.precision / price_quote_asset.precision)
+        price = @order_price(order.market_index.order_price, base_asset, quantity_asset)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
         td.interest_rate = order.interest_rate.ratio * 100.0 if order.interest_rate
@@ -70,28 +65,33 @@ class MarketHelper
                 td.expiration_days = result
 
         td.status = "posted"
-        if order.type == "cover_order"
-            #cover_price = 1.0 / price
-            td.cost = order.state.balance / base_asset.precision
-            td.quantity = -1.0 #td.cost * cover_price
-            td.collateral = order.collateral / quantity_asset.precision
-            td.type = "margin_order"
-            td.status = "cover"
-        else if order.type == "bid_order"
+        if order.type == "bid_order"
             td.cost = order.state.balance / base_asset.precision
             td.quantity = td.cost / price if price > 0.0
         else if order.type == "short_order"
-            #td.collateral_ratio = 1.0/price
             td.collateral = order.state.balance / quantity_asset.precision
-            pl = order.state.short_price_limit
-            if pl
-                short_price_limit = pl.ratio * (quantity_asset.precision / base_asset.precision)
+            if order.state.short_price_limit
+                short_price_limit =  @order_price(order.state.short_price_limit, base_asset, quantity_asset)
                 td.short_price_limit = if invert_price and short_price_limit > 0.0 then 1.0 / short_price_limit else short_price_limit
 
         if invert_assets
             [td.cost, td.quantity] = [td.quantity, td.cost]
 
         td.display_type = @capitalize(td.type.split("_")[0])
+
+    cover_to_trade_data: (order, market, invert_price, td) ->
+        td.id = order.market_index.owner
+        td.type = "margin_order"
+        td.display_type = "Margin Order"
+        td.status = "cover"
+        price = @order_price(order.market_index.order_price, market.base_asset, market.quantity_asset)
+        td.price = if invert_price and price > 0.0 then 1.0 / price else price
+        td.interest_rate = order.interest_rate.ratio * 100.0
+        td.collateral = order.collateral / market.quantity_asset.precision
+        td.cost = order.state.balance / market.base_asset.precision
+        if order.expiration
+            @utils.formatExpirationDate(order.expiration).then (result) ->
+                td.expiration_days = result
 
     trade_history_to_order: (t, o, assets, invert_price) ->
         ba = assets[t.ask_price.base_asset_id]

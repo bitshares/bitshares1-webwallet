@@ -282,14 +282,11 @@ class MarketService
         return call
 
     cover_order: (order, quantity, account) ->
-        console.log "------ cover order ------>", order, quantity
         order.touch()
         order.status = "pending"
         order.quantity -= quantity if order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        console.log "ABOUT TO COVER ID"
-        console.log order.id
-        console.log order
+        console.log "------ wallet_market_cover(#{[account.name, quantity, symbol, order.id].join(',')})"
         @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
@@ -404,10 +401,10 @@ class MarketService
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
-                #console.log "---- cover ", r
-                r.type = "cover"
+                #r.type = "cover"
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.quantity_asset, market.base_asset, inverted, false, inverted, td)
+                @helper.cover_to_trade_data(r, market, inverted, td)
+                #console.log "---- cover ", r.state.balance, td.cost
                 td.collateral = r.collateral / market.quantity_precision
                 #td.type = "cover"
                 covers.push td
@@ -429,8 +426,17 @@ class MarketService
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, true, inverted, td)
-                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                if r instanceof Array and r.length > 1
+                    td.id = r[0]
+                    order = r[1]
+                else
+                    order = r
+                #console.log "------ market order ------>", order
+                if order.type == "cover_order"
+                    @helper.cover_to_trade_data(order, market, inverted, td)
+                    #console.log("------ cover order ------>", order, td)
+                else
+                    @helper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, true, inverted, td)
                 td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
