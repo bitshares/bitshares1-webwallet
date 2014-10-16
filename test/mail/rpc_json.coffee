@@ -5,30 +5,42 @@ class RpcJson
     net = require 'net'
 
     constructor: (@debug = off, port = 3000, host = "localhost") ->
+        # @payload may temporarily hold a partial result (incomplete json response)
         @payload = ""
         @defer_request = []
         @defer_connection = q.defer()
         @json_rpc_request_counter = 0
         @connection = net.createConnection port, host
         @connection.on 'connect', () =>
-            console.log "Connection opened" if @debug
+            console.log "Connection opened #{host}:#{port}" if @debug
             @defer_connection.resolve()
 
-        @connection.on 'data', (payload) =>
-            @payload += payload.toString()
-            if @payload.charAt(@payload.length - 1) == '\n'
-                payload = @payload.trim()
-                @payload = ""
-                for str in payload.split '\n'
-                    console.log "<<< #{str}" if @debug
-                    response = JSON.parse(str)
-                    if response.error
-                        @defer_request[response.id].reject(response.error)
-                    else
-                        @defer_request[response.id].resolve(response.result)
+        @connection.on 'data', (_payload) =>
 
-                    delete @defer_request[response.id]
-    
+            _payload = _payload.toString() unless typeof _payload is 'string'
+            @payload += _payload
+
+            # @payload may be holding more than one command
+            payload_complete = @payload.charAt(@payload.length - 1) is '\n'
+            cmds = @payload.trim().split '\n'
+            if not payload_complete
+                # save incomplete command for the next on 'data' event
+                [..., @payload] = cmds
+                # keep just the complete commands
+                cmds = cmds[0...-1]
+            else
+                @payload = ""
+
+            for cmd in cmds
+                console.log "<<< #{cmd}" if @debug
+                response = JSON.parse(cmd)
+                if response.error
+                    @defer_request[response.id].reject(response.error)
+                else
+                    @defer_request[response.id].resolve(response.result)
+
+                delete @defer_request[response.id]
+
         @connection.on 'end', (response) =>
             console.log "Connection closed" if @debug
             @defer_connection = null
@@ -58,6 +70,7 @@ class RpcJson
         @defer_connection.promise.then (p) =>
             data = JSON.stringify rpc_data
             console.log ">>> #{data}" if @debug
+            #console.log ">>> #{data.id}: #{data.method} #{data.params.join(" ")}" if @debug
             @connection.write data
 
         @defer_request[@json_rpc_request_counter].promise
