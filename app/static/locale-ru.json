@@ -410,8 +410,8 @@
         "about": "О программе"
     },
     "footer": {
-        "enable_trx_scan": "Enable Transaction Scanning",
-        "up_to_date": "Up to date, processed {{value}} blocks",
-        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
+        "enable_trx_scan": "Включить сканирование транзакций",
+        "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
+        "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков"
     }
 }
