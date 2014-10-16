@@ -74,10 +74,15 @@ class RpcJson
 
         @defer_request[@json_rpc_request_counter].promise
 
-    end: =>
+    kill: ->
         @connection.end()
         return
 
+    close: ->
+        if @defer_request.length is 0
+            @connection.end()
+        else
+            setTimeout(@close, 300)
 
 class Rpc extends RpcJson
 
