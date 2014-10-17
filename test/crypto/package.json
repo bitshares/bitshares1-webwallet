@@ -1,0 +1,14 @@
+{
+  "name": "bitshares-crypto",
+  "version": "0.0.1",
+  "dependencies": {
+    "coffee-script":"*",
+    "bytebuffer": "3.5.0",
+    "q": "1.0.1"
+  },
+  "scripts": {
+    "start": "coffee"
+  },
+  "devDependencies": {
+  }
+}

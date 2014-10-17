@@ -1,5 +1,6 @@
 
-npm install q
-npm install bytebuffer@3.5.0
+npm install
+npm install -g coffee-script
 
-coffee -w mailbox.coffee 
+coffee -w scratchpad_mailparse.coffee
+...

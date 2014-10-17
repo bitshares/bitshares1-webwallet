@@ -42,7 +42,7 @@ MailMessageTest = ->
     data="077375626a65637404626f64790000000000000000000000000000000000000000001f8ba9a5ee77a7946aec1cb5cffc5af687b60ee311c7d14d0bb198ef277187b198034ee6c3b7c9e511a749e3e61eb84258f833f2b360ceec0f5bfafc5114d0c414"
     process.stdout.write "Original:\t"
     ByteBuffer.fromHex(data).printDebug()
-    assert ByteBuffer.fromHex(data).toHex() is data, "convert to and from HEX failed"
+    assert ByteBuffer.fromHex(data).toHex() is data, "Parse and re-generate"
     
     mm=MailMessage.fromHex data
     console.log "subject\t\t", mm.subject

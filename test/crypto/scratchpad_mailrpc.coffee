@@ -1,10 +1,10 @@
 console.log "-------------------"
-PORT=process.argv[2] or 2211
-console.log "(param 1) PORT",PORT
+JSON_PORT=process.argv[2] or 2211
+console.log "(param 1) JSON_PORT=",JSON_PORT
 
-{Common} = require "./rpc_common"
 {Rpc} = require "./rpc_json"
-@rpc=new Rpc(on, PORT, "localhost", "test", "test")
+{Common} = require "./rpc_common"
+@rpc=new Rpc(on, JSON_PORT, "localhost", "test", "test")
 @common=new Common(@rpc)
 
 
@@ -17,22 +17,22 @@ class Mail
         subject = "The Subject"
         body = "Body..."
     ) ->
-        @rpc.request("mail_send", [from, to, subject, body]).then (response) ->
+        @rpc.run("mail_send", [from, to, subject, body]).then (response) ->
             @message_id = response
             console.log "Submitted Message ID",message_id
 
     check: ->
-        @rpc.request("mail_get_processing_messages").then (response) ->
+        @rpc.run("mail_get_processing_messages").then (response) ->
             for x in response
                 if x[1] == @message_id
                     console.log "check (status) ", x[0]
 
     processing_cancel_all: ->
         #https://github.com/BitShares/bitshares_toolkit/commit/57d04e8fb2b0dda15623e83a6855f77b2dc1cbd6
-        #mail_cancel_message id
-        @rpc.request("mail_get_processing_messages").then (response) ->
+        @rpc.run("mail_get_processing_messages").then (response) ->
             for x in response
-                @common.run("mail_cancel_message #{x[1]}")
+                console.log("mail_cancel_message #{x[1]}")
+                @rpc.run("mail_cancel_message #{x[1]}")
 
 class MailTest
     
@@ -49,7 +49,6 @@ class MailTest
             # length prefix (longer than 256)
             #
             """
-            What have you seen?
             12345678901234567890123456789012345678901234567890
             12345678901234567890123456789012345678901234567890
             12345678901234567890123456789012345678901234567890
@@ -62,28 +61,26 @@ class MailTest
         @rpc.run "mail_inbox"
 
     processing: =>
-        @rpc.request("mail_get_processing_messages").then (response) ->
+        @rpc.run("mail_get_processing_messages").then (response) ->
             for x in response
                 console.log "processing_message", x
 
-    shut: ->
-        @mail.check()
-        @rpc.close()
-
-
 class TestNet
-    INVICTUS_ROOT=process.env.INVICTUS_ROOT
-    
-    constructor: (@common, @rpc) ->
-        
-    unlock: ->
-        @rpc.request(
-            "open default"
-            "unlock 9999 Password00"
-        )
 
-    default: ->
-        @rpc.request("default", "9999", "Password00")
+    # INVICTUS_ROOT=process.env.INVICTUS_ROOT
+
+    constructor: (@rpc, @common) ->
+
+    unlock: ->
+        @rpc.run """
+            open default
+            unlock 9999 Password00
+        """
+
+    mkdefault: ->
+        @rpc.run """
+            wallet_create default 9999 Password00
+        """
 ###
 wallet_create default Password00
 open default
@@ -100,21 +97,23 @@ register tester tester "" -1 "titan_account"
 
 ###
 
-TestNetTest = ->
-    
-    #tn=new TestNet(@rpc, @common)
-    #tn.default()
-    
+TestNetTest = =>
+
+    tn=new TestNet(@rpc, @common)
+    tn.unlock()
+
     ## vi tmp/client_p8I/config.json  # "mail_server_enabled": true,
-    ## web_wallet/test/testnet$ RPC_PORT=3000 ./client.sh tmp/client_p8I
+    ## web_wallet/test/testnet$ RPC_JSON_PORT=3000 ./client.sh tmp/client_p8I
     ## web_wallet/test/crypto$ coffee -w scratchpad_mail.coffee 3000
+
     m=new MailTest(@rpc, @common)
     #m.send()
-    @rpc.request "mail_check_new_messages"
-    #m.clear()
+    @rpc.run "mail_check_new_messages"
+    m.clear()
     m.processing()
     m.box()
 
+TestNetTest()
 
 @rpc.close()
 

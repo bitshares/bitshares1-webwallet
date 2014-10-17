@@ -44,12 +44,16 @@ class RpcJson
             console.log "Connection closed" if @debug
             @defer_connection = null
 
-    request: (method, parameters) ->
+    run: (method, parameters) ->
+        
+        # convert multiple lines into an array
+        multi_cmd = method.trim().split '\n'
+        method = multi_cmd if multi_cmd.length > 1
 
         if Array.isArray method
             promise=[]
             for m in method
-                promise.push @request(m)
+                promise.push @run(m)
 
             return q.all(promise)
 
@@ -95,7 +99,7 @@ class Rpc extends RpcJson
     constructor: (debug, json_port, host, user, password) ->
         @rpc = super(debug, json_port, host)
         if user and password
-            @request("login #{user} #{password}")
+            @run("login #{user} #{password}")
 
 exports.Rpc = Rpc
 
