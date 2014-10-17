@@ -422,7 +422,7 @@ class Wallet
           reg
 
     get_first_account: ->
-        for k,v of @accountsr
+        for k,v of @accounts
             if v.is_my_account
                 return v
         return null

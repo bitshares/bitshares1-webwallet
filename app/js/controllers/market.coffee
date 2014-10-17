@@ -129,6 +129,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         q.push WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
                 $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
+                if market.asset_base_symbol == $scope.actual_market.asset_base_symbol
+                     $scope.asset_tx_fee = $scope.tx_fee
+
+        console.log "------ $scope.actual_market ------>", $scope.actual_market.asset_base_symbol
+        if market.asset_base_symbol != $scope.actual_market.asset_base_symbol
+            q.push WalletAPI.get_transaction_fee($scope.actual_market.asset_base_symbol).then (tx_fee) ->
+                Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
+                    $scope.asset_tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
 
         $q.all(q).then()
 
@@ -367,18 +375,25 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             templateUrl: "market/cover_order_confirmation.html"
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
                 scope.market = current_market.actual_market or current_market
+                scope.asset_symbol = scope.market.base_symbol
                 original_order = order
                 #console.log order
                 order = angular.copy(order)
                 #                if !current_market.inverted
                 #                    order = order.invert()
-                scope.v = {quantity: order.cost, total: order.cost}
+                scope.cover =
+                    payment: order.cost
+                    total_principal: order.cost
+                    fee_paid: $scope.asset_tx_fee
+                scope.payment_change = ->
+                    console.log "------ payment_change ------>", scope.cover.payment
+
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
                 scope.submit = ->
                     form = @cover_form
                     original_order.status = "pending"
-                    MarketService.cover_order(order, scope.v.quantity, account)
+                    MarketService.cover_order(order, scope.cover.quantity, account)
                     .then ->
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
