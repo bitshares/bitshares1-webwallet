@@ -2,13 +2,15 @@
   "name": "bitshares-crypto",
   "version": "0.0.1",
   "dependencies": {
-    "coffee-script":"*",
+    "crypto-js": "3.1.2-3",
     "bytebuffer": "3.5.0",
     "q": "1.0.1"
   },
   "scripts": {
-    "start": "coffee"
+    "test": "cake test"
   },
   "devDependencies": {
+    "mocha": "1.21.5",
+    "coffee-script": "~1.8.0"
   }
 }
