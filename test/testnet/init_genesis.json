@@ -12,7 +12,7 @@
       "delegate_pay_rate": 100
     },{
       "name": "init1",
-      "owner": "XTS8hEn4ZX6479jZnCwEQHmLtfxUPMUrRcQMZ2NSJSq5UDcx9tjbD",
+      "owner": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
       "delegate_pay_rate": 100
     },{
       "name": "init2",
@@ -414,7 +414,8 @@
   ],
   "balances": [[
       "PbsmKpWoZCee9VqVmank8cFZ1NdzqwtNz7",
-      10000000000000
-    ]
+      5000000000000
+    ],
+    ["PeqhyGYydjEx3Cx46cbfycbq9AvMkQdiPq",5000000000000]
   ]
 }

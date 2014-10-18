@@ -30,6 +30,7 @@ function import_test_accounts {
 wallet_create default Password00
 wallet_import_private_key 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS tester true true
 wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
+wallet_import_private_key 5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS init1 true
 done
 echo
 }
@@ -37,11 +38,11 @@ echo
 mkdir -p tmp
 rnd=$(mktemp -u "XXX")
 
-delegate_datadir="tmp/delegate_${rnd}"
-import_delegate_keys "$delegate_datadir"
-
 client_datadir="tmp/client_${rnd}"
 import_test_accounts "$client_datadir"
+
+delegate_datadir="tmp/delegate_${rnd}"
+import_delegate_keys "$delegate_datadir"
 
 echo "Start Commands:"
 echo "./delegate.sh $delegate_datadir"
