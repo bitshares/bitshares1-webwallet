@@ -1,6 +1,9 @@
-SETUP
+## SETUP
 
-INVICTUS_ROOT=~/bitshares/bitshares_toolkit
+# in-source build OR out-of-source build
+export BTS_ROOT=~/bitshares/bitshares_toolkit
+export BTS_ROOT=~/bitshares/bitshares_toolkit/build
+
 ./create_testnet.sh 
 
 Upon successful execution you should see a lot of output followed by
@@ -64,21 +67,21 @@ These are low level details about how this environment was created.  You probabl
 
 # https://github.com/BitShares/bitshares_toolkit/blob/dryrun-8/docs/manual_testing_dpos.dox
 
-export INVICTUS_ROOT=~/bitshares/bitshares_toolkit
-${INVICTUS_ROOT}/programs/utils/bts_create_genesis
+export BTS_ROOT=~/bitshares/bitshares_toolkit
+${BTS_ROOT}/programs/utils/bts_create_genesis
 Creates
-init_genesis.json
-initgenesis_private.json
+keys/init_genesis.json
+keys/initgenesis_private.json
 
-edit init_genesis.json to replace 11111111... with a valid PTS address:
-$ ${INVICTUS_ROOT}/programs/utils/bts_create_key 
+edit keys/init_genesis.json to replace 11111111... with a valid PTS address:
+$ ${BTS_ROOT}/programs/utils/bts_create_key 
 public key: XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT
 private key: 9de51f9c7f8365ea4a1c3ac39cb5cbdc846b0bb5fb8c8d99017d5028b5e657de
 private key WIF format: 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS
 bts address: XTSE6wHbaQgYMQ1qCYgHeujUMSAToTmojj4P
 pts address: PbsmKpWoZCee9VqVmank8cFZ1NdzqwtNz7
 
-Also, the top of the init_genesis.json file was upraded with these header found in ${INVICTUS_ROOT}/tests/test_genesis.json:
+Also, the top of the keys/init_genesis.json file was upraded with these header found in ${BTS_ROOT}/tests/test_genesis.json:
 
   "timestamp": "20141007T105500",
   "supply": 10000000000000,
@@ -101,7 +104,7 @@ All balances must add up to the total supply.
 start a server:
 
 tmp_datadir=$(mktemp -d "tmp/XXXX")
-${INVICTUS_ROOT}/programs/client/bitshares_client --data-dir "$tmp_datadir" --genesis-config init_genesis.json --server --min-delegate-connection-count=0
+${BTS_ROOT}/programs/client/bitshares_client --data-dir "$tmp_datadir" --genesis-config keys/init_genesis.json --server --min-delegate-connection-count=0
 
 One catch, server exits the first time.  Edit the newly created config.json (log messages show the path) and include change the rpc_user and rpc_password to "test", "test".  Finally, adjust the ./htdocs path to point to the web_wallet's generated directory and re-run the bitshares_client command above.
 
@@ -121,13 +124,13 @@ tester                          2,000,000,000.00000 XTS
 
 Create import keys for all 101 delegates (so you will have a fast block times):
 
-i=0; for key in $(egrep "[A-Za-z0-9]+" initgenesis_private.json -o); do echo wallet_import_private_key $key init${i}; let "i+=1"; done
+i=0; for key in $(egrep "[A-Za-z0-9]+" keys/initgenesis_private.json -o); do echo wallet_import_private_key $key init${i}; let "i+=1"; done
 
 #unlocked?
 open default
 unlock 9999 Password00
 
-Output from the above based on the initgenesis_private.json data:
+Output from the above based on the keys/initgenesis_private.json data:
 
 wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0
 wallet_import_private_key 5KgJYxM8Yx9fdWHuJznWeD19oMKpmYdrv8YH8GzF3uTyP8Z29oE init1
@@ -232,7 +235,7 @@ wallet_import_private_key 5KiaQVu4SqFoWpsg1Uyn7Lnf1f3pmRyuxRbCtiUdUEDyqT7NLYp in
 wallet_import_private_key 5KiqsszyuacktfjaXprLQYAfp5MWD4gBEKUKHctoUySSrk9jyN6 init100
 
 
-i=0; for key in $(egrep "[A-Za-z0-9]+" initgenesis_private.json -o); do echo wallet_delegate_set_block_production init${i} true; let "i+=1"; done
+i=0; for key in $(egrep "[A-Za-z0-9]+" keys/initgenesis_private.json -o); do echo wallet_delegate_set_block_production init${i} true; let "i+=1"; done
 
 #unlocked?
 open default

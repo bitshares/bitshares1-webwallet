@@ -1,0 +1,115 @@
+[
+{
+  "type": "master_key_record_type",
+  "data": {
+    "index": -1,
+    "encrypted_key": "fbc2cf0872d5fa1db919ea4817019063b892873e13bf7fbcff2a78ac738a9a271d864cbf401ec6d67d73c08713e7083bd4e0d75f244c5570f1989b6ba09ae4a8b4928839dc01082630cd478c45799174",
+    "checksum": "5206786361cd3c7bae7d31a6815f894243885c3cab79a6223dc2b432986f6bda4825aac5b06f03b44a59471c09e72d7d79cae3ebf7ff8d0f658d07a53dd33e5f"
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 1,
+    "key": "next_record_number",
+    "value": 10
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 2,
+    "key": "version",
+    "value": 107
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 3,
+    "key": "automatic_backups",
+    "value": true
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 4,
+    "key": "transaction_scanning",
+    "value": true
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 5,
+    "key": "last_unlocked_scanned_block_number",
+    "value": 0
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 6,
+    "key": "default_transaction_priority_fee",
+    "value": {
+      "amount": 50000,
+      "asset_id": 0
+    }
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 7,
+    "key": "transaction_expiration_sec",
+    "value": 3600
+  }
+},
+{
+  "type": "account_record_type",
+  "data": {
+    "index": 8,
+    "id": 2,
+    "name": "init1",
+    "public_data": null,
+    "owner_key": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
+    "active_key_history": [[
+        "20141007T105500",
+        "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS"
+      ]
+    ],
+    "registration_date": "20141007T105500",
+    "last_update": "20141007T105500",
+    "delegate_info": {
+      "votes_for": 0,
+      "blocks_produced": 0,
+      "blocks_missed": 0,
+      "pay_rate": 100,
+      "pay_balance": 0,
+      "next_secret_hash": "0000000000000000000000000000000000000000",
+      "last_block_num_produced": 0
+    },
+    "meta_data": null,
+    "account_address": "XTSAn5N9FgkFW2GNAybWHvHihQXrH5t7zaT6",
+    "private_data": null,
+    "is_my_account": true,
+    "approved": 0,
+    "is_favorite": false,
+    "block_production_enabled": false,
+    "last_used_gen_sequence": 10000
+  }
+},
+{
+  "type": "key_record_type",
+  "data": {
+    "index": 9,
+    "account_address": "XTSAn5N9FgkFW2GNAybWHvHihQXrH5t7zaT6",
+    "public_key": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
+    "encrypted_private_key": "c3989b8676d6d5c3b741ca1f11bb539d2a16cb7c32ba90c6ce99436b4888442e88eef8c84c88c0840b5f04d696824344",
+    "valid_from_signature": false,
+    "memo": null,
+    "gen_seq_number": 0
+  }
+}
+]

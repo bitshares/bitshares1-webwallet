@@ -1,8 +1,8 @@
 
-INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
+BTS_ROOT=${BTS_ROOT:-~/bitshares/bitshares_toolkit}
 num=${1-1}
 
-#set -o errexit
+set -o errexit
 
 function import_delegate_keys {
   dir=$1
@@ -13,7 +13,7 @@ open default
 unlock 9999 Password00
 `
 i=0
-for key in $(egrep "[A-Za-z0-9]+" initgenesis_private.json -o)
+for key in $(egrep "[A-Za-z0-9]+" keys/initgenesis_private.json -o)
 do
   echo wallet_import_private_key $key init${i} false
   let "i+=1"

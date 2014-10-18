@@ -10,7 +10,7 @@ class MailMessage
         subject = bb.readVString()
         body = bb.readVString()
 
-        # reply_to ripemd 160 (160 bits / 8 = 20 bytes)
+        # reply_to message Id ripemd 160 (160 bits / 8 = 20 bytes)
         reply_to = bb.copy(bb.offset, bb.offset + 20).toBinary()
         bb.skip 20
 
@@ -20,7 +20,7 @@ class MailMessage
         signature = bb.copy(bb.offset, bb.offset + 65).toBinary()
         bb.skip 65
 
-        #bb.printDebug()
+        throw "Message contained #{bb.remaining()} unknown bytes" unless bb.remaining() is 0
 
         new MailMessage(subject, body, reply_to, attachments, signature)
 

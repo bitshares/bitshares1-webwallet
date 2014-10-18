@@ -87,6 +87,7 @@ open default
 unlock 9999 Password00
 wallet_import_private_key 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS tester true true
 wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
+wallet_import_private_key 5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS init1 true
 
 wallet_list_accounts
 mail_send tester tester subject body
