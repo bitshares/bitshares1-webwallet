@@ -6,44 +6,44 @@
 
     <table class="table table-striped table-hover">
       <tr>
-        <td translate>Total Principal</td>
-        <td>{{cover.total_principal}} {{asset_symbol}}</td>
+        <td translate>Principal Due</td>
+        <td>{{cover.principal_due | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Interest Due</td>
-        <td>{{cover.interest_due}}  {{asset_symbol}}</td>
+        <td>{{cover.interest_due | formatDecimal : base_precision}}  {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Total Due</td>
-        <td>{{cover.total_due}} {{asset_symbol}}</td>
+        <td>{{cover.total_due | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Make Payment</td>
         <td>
           <div form-hgroup addon="{{asset_symbol}}">
-            <input-positive-number name="payment" ng-model="cover.payment" ng-change="payment_change()"/>
+            <input-positive-number name="total_paid" ng-model="cover.total_paid" ng-change="payment_change()"/>
           </div>
         </td>
       </tr>
       <tr>
         <td translate>Fee Paid</td>
-        <td>{{cover.fee_paid}} {{market.base_symbol}}</td>
+        <td>{{cover.fee_paid | formatDecimal : base_precision}} {{market.base_symbol}}</td>
       </tr>
       <tr>
         <td translate>Principal Paid</td>
-        <td>{{cover.principal_paid}} {{asset_symbol}}</td>
+        <td>{{cover.principal_paid | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Interest Paid</td>
-        <td>{{cover.interest_paid}} {{asset_symbol}}</td>
+        <td>{{cover.interest_paid | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Principal Remaining</td>
-        <td>{{cover.principal_remaining}} {{asset_symbol}}</td>
+        <td>{{cover.principal_remaining | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
       <tr>
         <td translate>Interest Remaining</td>
-       <td>{{cover.interest_remaining}} {{asset_symbol}}</td>
+       <td>{{cover.interest_remaining | formatDecimal : base_precision}} {{asset_symbol}}</td>
       </tr>
     </table>
 

@@ -89,8 +89,9 @@ class MarketHelper
         td.interest_rate = order.interest_rate.ratio * 100.0
         td.collateral = order.collateral / market.quantity_asset.precision
         td.cost = order.state.balance / market.base_asset.precision
-        if order.expiration
-            @utils.formatExpirationDate(order.expiration).then (result) ->
+        td.expiration = order.expiration
+        if td.expiration
+            @utils.formatExpirationDate(td.expiration).then (result) ->
                 td.expiration_days = result
 
     trade_history_to_order: (t, o, assets, invert_price) ->

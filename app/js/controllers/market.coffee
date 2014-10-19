@@ -370,23 +370,59 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         form.bid_price.$error.message = "another field error, please fix me"
         form.$error.message = "some error, please fix me"
 
+
+    MAX_SHORT_PERIOD_SEC = 2*60*60 #30*24*60*60
+    SEC_PER_YEAR = 365 * 24 * 60 * 60
+
     $scope.cover_order = (order) ->
         $modal.open
             templateUrl: "market/cover_order_confirmation.html"
             controller: ["$scope", "$modalInstance", (scope, modalInstance) ->
-                scope.market = current_market.actual_market or current_market
+                scope.market = current_market.get_actual_market()
                 scope.asset_symbol = scope.market.base_symbol
+                scope.base_precision = scope.market.base_precision
                 original_order = order
-                #console.log order
                 order = angular.copy(order)
-                #                if !current_market.inverted
-                #                    order = order.invert()
+
+                start_time = Utils.toDate(order.expiration) - MAX_SHORT_PERIOD_SEC*1000
+                age_sec = (Date.now() - start_time) / 1000.0
+                elapsed_sec = 0 if elapsed_sec < 0
+                percent_of_year = age_sec / SEC_PER_YEAR
+
+                principal_due = order.cost
+                total_due = principal_due * ( 1 + order.interest_rate * percent_of_year )
+                #principal_paid = total_paid / ( 1 + order.interest_rate * percent_of_year )
+                interest_due = total_due - principal_due
+
+                principal_remaining = 0.0
+                interest_remaining = 0.0
+
                 scope.cover =
-                    payment: order.cost
-                    total_principal: order.cost
+                    principal_due: principal_due
+                    interest_due: interest_due
+                    total_due: total_due
+
+                    total_paid: total_due
+                    principal_paid: principal_due
+                    interest_paid: interest_due
+
                     fee_paid: $scope.asset_tx_fee
+                    interest_rate: order.interest_rate
+
+                    principal_remaining: principal_remaining
+                    interest_remaining: interest_remaining
+
+                console.log  "------ cover order ------>", scope.cover
+
+
                 scope.payment_change = ->
-                    console.log "------ payment_change ------>", scope.cover.payment
+                    total_paid = scope.cover.total_paid
+                    console.log "------ payment_change ------>", total_paid
+                    scope.cover.principal_paid = total_paid / ( 1 + scope.cover.interest_rate * percent_of_year )
+                    scope.cover.interest_paid = total_paid - scope.cover.principal_paid
+
+                    scope.cover.principal_remaining = scope.cover.principal_due - scope.cover.principal_paid
+                    scope.cover.interest_remaining = scope.cover.interest_due - scope.cover.interest_paid
 
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
