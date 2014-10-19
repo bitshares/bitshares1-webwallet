@@ -150,7 +150,7 @@
     "index": {
         "title": "BitShares XT Brieftasche",
         "overview": "Übersicht",
-        "my_account": "Meine Accounts",
+        "my_account": "Meine Konten",
         "directory": "Verzeichnis",
         "delegates": "Delegierte",
         "market": "Markt",
@@ -331,7 +331,7 @@
     "accounts": {
         "create_account": "Konto erstellen",
         "accounts": "Konten",
-        "info": "Klicken Sie auf einen Accountnamen um mehr Informationen über diesen zu erhalten",
+        "info": "Klicken Sie auf ein Konto um mehr Informationen über diesen zu erhalten",
         "select_account": "Konto auswählen"
     },
     "asset": {
