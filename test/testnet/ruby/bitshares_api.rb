@@ -54,7 +54,7 @@ module BitShares
 
       def request(method, params = nil)
         params = params || []
-        puts "+ request: #{method}(#{params.join(',')})"
+        puts "+ request: #{method} #{params.join(' ')}"
         result = nil
         Net::HTTP.start(@uri.hostname, @uri.port) do |http|
           @req.body = { method: method, params: params, id: 0 }.to_json
