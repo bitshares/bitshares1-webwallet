@@ -98,7 +98,8 @@
         "action": "ACTION",
         "paid": "PAID",
         "received": "RECEIVED",
-        "expiration": "EXPIRATION"
+        "expiration": "EXPIRATION",
+        "interest_rate": "Interest Rate"
     },
     "block": {
         "title": "Block",
@@ -232,7 +233,9 @@
         "open_sell_orders": "Open Sell {{value}} Orders",
         "open_short_orders": "Open Short Sell {{value}} Orders",
         "open_margin_orders": "Open Margin Orders",
+        "collateral": "Collateral",
         "collateral_ratio": "Collateral Ratio",
+        "interest_rate": "Interest Rate",
         "price_limit": "Price Limit",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",
@@ -250,7 +253,8 @@
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
             "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
         },
-        "days": "{{value}} Days"
+        "days": "{{value}} Days",
+        "percent_apr": "APR"
     },
     "account": {
         "reg_pending": "Registration pending",

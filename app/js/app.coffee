@@ -152,10 +152,10 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "delegates/delegates.html"
         controller: "DelegatesController"
 
-    sp.state "editaccount",
-        url: "/accounts/:name/edit"
-        templateUrl: "editaccount.html"
-        controller: "EditAccountController"
+#    sp.state "editaccount",
+#        url: "/accounts/:name/edit"
+#        templateUrl: "editaccount.html"
+#        controller: "EditAccountController"
 
     sp.state "account",
         url: "/accounts/:name"

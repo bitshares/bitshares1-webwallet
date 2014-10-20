@@ -235,7 +235,9 @@
         "open_sell_orders": "我的卖单 {{value}}",
         "open_short_orders": "我的卖空单 {{value}}",
         "open_margin_orders": "我的平仓单",
+        "collateral": "抵押冻结",
         "collateral_ratio": "抵押率",
+        "interest_rate": "Interest Rate",
         "price_limit": "成交限价",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",
