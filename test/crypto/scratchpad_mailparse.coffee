@@ -43,7 +43,7 @@ class MailMessage
         bb=@toByteBuffer()
         bb.toHex()
 
-MailMessageTest = ->
+MailMessageParse = ->
 
     data="077375626a65637404626f64790000000000000000000000000000000000000000001f8ba9a5ee77a7946aec1cb5cffc5af687b60ee311c7d14d0bb198ef277187b198034ee6c3b7c9e511a749e3e61eb84258f833f2b360ceec0f5bfafc5114d0c414"
     process.stdout.write "Original:\t"
@@ -61,8 +61,7 @@ MailMessageTest = ->
     mm.toByteBuffer().printDebug()
     
     throw "Messages do not match #{data} AND #{mm.toHex()}" unless data is mm.toHex()
-
-MailMessageTest()
+#MailMessageParse()
 ###
 echo 077375626a65637404626f64790000000000000000000000000000000000000000001f8ba9a5ee77a7946aec1cb5cffc5af687b60ee311c7d14d0bb198ef277187b198034ee6c3b7c9e511a749e3e61eb84258f833f2b360ceec0f5bfafc5114d0c414 | xxd -r -p - - > _msg
 hexdump _msg -C
@@ -76,3 +75,30 @@ hexdump _msg -C
 00000063
 
 ###
+
+MailMessageSignVerify = ->
+    crypto = require('./src/crypto')
+    ecdsa = require('./src/ecdsa')
+    BigInteger = require('bigi')
+    ecurve = require('ecurve')
+    curve = ecurve.getCurveByName('secp256k1')
+    bs58 = require('bs58')
+    
+    message = "abc"
+    hash = crypto.sha256(message)
+    
+    #eBuffer= crypto.createHash('sha256').update(message).digest()
+    #e = BigInteger.fromBuffer(eBuffer)
+    
+    init1_privateKeyBs58 = "5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS"
+    init1_privateKeyBuffer = bs58.decode(init1_privateKeyBs58)
+    init1_privateKeyHex = init1_privateKeyBuffer.toString("hex")
+    init1_privateKey_d = BigInteger.fromHex(init1_privateKeyHex)
+
+    signature = ecdsa.sign(curve, hash, init1_privateKey_d)
+    publicKey_Q = curve.G.multiply(init1_privateKey_d)
+    throw "does not verify" unless ecdsa.verify(curve, hash, signature, publicKey_Q)
+    throw "should not verify" if ecdsa.verify(curve, crypto.sha256("def"), signature, publicKey_Q)
+MailMessageSignVerify()
+
+
