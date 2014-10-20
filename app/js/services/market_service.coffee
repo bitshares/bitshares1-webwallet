@@ -284,9 +284,9 @@ class MarketService
     cover_order: (order, quantity, account) ->
         order.touch()
         order.status = "pending"
-        order.quantity -= quantity if order.quantity > quantity
+        order.quantity -= quantity if quantity > 0.0 and order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        console.log "------ wallet_market_cover(#{[account.name, quantity, symbol, order.id].join(',')})"
+        console.log "------ wallet_market_cover #{[account.name, quantity, symbol, order.id].join(' ')}"
         @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->

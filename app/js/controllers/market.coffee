@@ -445,13 +445,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                     modalInstance.dismiss "cancel"
 
                 scope.submit = ->
-                    console.log  "------ submit cover ------>", scope.cover
+                    amount = scope.cover.total_paid - fee_paid
+                    if Utils.formatDecimal(scope.cover.total_paid, scope.base_precision) == Utils.formatDecimal(scope.cover.total_due, scope.base_precision)
+                        amount = 0 # pay in full
+                    console.log  "------ submit cover ------>", amount
                     form = @cover_form
-                    original_order.status = "pending"
                     MarketService.cover_order(order, scope.cover.total_paid - fee_paid, account)
                     .then ->
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
                     , (error) ->
-                        form.quantity.$error.message = error.data.error.message
+                        form.total_paid.$error.message = error.data.error.message
             ]
