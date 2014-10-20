@@ -385,51 +385,70 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 order = angular.copy(order)
 
                 start_time = Utils.toDate(order.expiration) - MAX_SHORT_PERIOD_SEC*1000
-                age_sec = (Date.now() - start_time) / 1000.0
-                elapsed_sec = 0 if elapsed_sec < 0
+                age_sec = (Date.now() + 2 * 3600 * 1000 - start_time) / 1000.0
+                age_sec = 0 if age_sec < 0
+                age_sec = MAX_SHORT_PERIOD_SEC if age_sec > MAX_SHORT_PERIOD_SEC
                 percent_of_year = age_sec / SEC_PER_YEAR
 
                 principal_due = order.cost
-                total_due = principal_due * ( 1 + order.interest_rate * percent_of_year )
-                #principal_paid = total_paid / ( 1 + order.interest_rate * percent_of_year )
+                fee_paid = Number($scope.asset_tx_fee)
+                total_due = principal_due * ( 1 + (order.interest_rate / 100.0) * percent_of_year )
                 interest_due = total_due - principal_due
+                total_due += fee_paid
 
                 principal_remaining = 0.0
                 interest_remaining = 0.0
 
                 scope.cover =
+                    total_due: total_due
                     principal_due: principal_due
                     interest_due: interest_due
-                    total_due: total_due
-
                     total_paid: total_due
                     principal_paid: principal_due
                     interest_paid: interest_due
-
-                    fee_paid: $scope.asset_tx_fee
+                    fee_paid: fee_paid
                     interest_rate: order.interest_rate
-
                     principal_remaining: principal_remaining
                     interest_remaining: interest_remaining
+                    changed: false
+                    has_error: false
 
-                console.log  "------ cover order ------>", scope.cover
-
-
-                scope.payment_change = ->
+                scope.payment_changed = ->
+                    scope.cover.changed = true
+                    #$scope.clear_form_errors(@cover_form)
+                    @cover_form.total_paid.$error.message = ''
+                    scope.cover.has_error = false
                     total_paid = scope.cover.total_paid
-                    console.log "------ payment_change ------>", total_paid
-                    scope.cover.principal_paid = total_paid / ( 1 + scope.cover.interest_rate * percent_of_year )
-                    scope.cover.interest_paid = total_paid - scope.cover.principal_paid
+                    if total_paid <= fee_paid
+                        @cover_form.total_paid.$error.message = "The payment should exceed transaction fee"
+                        scope.cover.has_error = true
+                        return
+                    principal_paid = (total_paid - fee_paid) / ( 1 + (scope.cover.interest_rate / 100.0) * percent_of_year )
+                    if principal_paid > scope.cover.principal_due
+                        @cover_form.total_paid.$error.message = "The payment should not exceed total due amount"
+                        scope.cover.has_error = true
+                        return
+                    scope.cover.principal_paid = principal_paid
+                    scope.cover.interest_paid = (total_paid - fee_paid) - scope.cover.principal_paid
 
                     scope.cover.principal_remaining = scope.cover.principal_due - scope.cover.principal_paid
                     scope.cover.interest_remaining = scope.cover.interest_due - scope.cover.interest_paid
 
+                scope.total_clicked = ->
+                    scope.cover.total_paid = scope.cover.total_due
+                    scope.cover.principal_paid = scope.cover.principal_due
+                    scope.cover.interest_paid = scope.cover.interest_due
+                    scope.cover.principal_remaining = 0.0
+                    scope.cover.interest_remaining = 0.0
+
                 scope.cancel = ->
                     modalInstance.dismiss "cancel"
+
                 scope.submit = ->
+                    console.log  "------ submit cover ------>", scope.cover
                     form = @cover_form
                     original_order.status = "pending"
-                    MarketService.cover_order(order, scope.cover.quantity, account)
+                    MarketService.cover_order(order, scope.cover.total_paid - fee_paid, account)
                     .then ->
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
