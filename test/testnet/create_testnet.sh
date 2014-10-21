@@ -1,5 +1,5 @@
 
-INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
+BTS_ROOT=${BTS_ROOT:-~/bitshares/bitshares_toolkit}
 num=${1-1}
 
 #set -o errexit

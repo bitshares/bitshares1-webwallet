@@ -4,7 +4,7 @@
 testnet_datadir=${1?testnet data directory}
 num=${2-1}
 
-INVICTUS_ROOT=${INVICTUS_ROOT:-~/bitshares/bitshares_toolkit}
+BTS_ROOT=${BTS_ROOT:-~/bitshares/bitshares_toolkit}
 HTTP_PORT=${HTTP_PORT-110${num}}	# 1101
 RPC_PORT=${RPC_PORT-111${num}}		# 1111
 
@@ -23,7 +23,7 @@ init&
 set -o xtrace
 
 ${GDB-} \
-${INVICTUS_ROOT}/programs/client/bitshares_client\
+${BTS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
  --genesis-config init_genesis.json\
  --server\

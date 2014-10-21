@@ -1,6 +1,6 @@
 SETUP
 
-INVICTUS_ROOT=~/bitshares/bitshares_toolkit
+BTS_ROOT=~/bitshares/bitshares_toolkit
 ./create_testnet.sh 
 
 Upon successful execution you should see a lot of output followed by
@@ -34,7 +34,7 @@ wallet_asset_create GLD BitGLD init0 "solid gold" null 1000000000 10000 true
 #
 # Publish price feeds
 #
-wallet_publish_price_feed init0 .01 USD
+wallet_publish_price_feed init0 0.0341 USD
 wallet_publish_feeds init0 [["USD",0.0341],["CNY",0.2040]]
 #
 wallet_publish_price_feed init0 .02 CNY
@@ -64,21 +64,21 @@ These are low level details about how this environment was created.  You probabl
 
 # https://github.com/BitShares/bitshares_toolkit/blob/dryrun-8/docs/manual_testing_dpos.dox
 
-export INVICTUS_ROOT=~/bitshares/bitshares_toolkit
-${INVICTUS_ROOT}/programs/utils/bts_create_genesis
+export BTS_ROOT=~/bitshares/bitshares_toolkit
+${BTS_ROOT}/programs/utils/bts_create_genesis
 Creates
 init_genesis.json
 initgenesis_private.json
 
 edit init_genesis.json to replace 11111111... with a valid PTS address:
-$ ${INVICTUS_ROOT}/programs/utils/bts_create_key 
+$ ${BTS_ROOT}/programs/utils/bts_create_key 
 public key: XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT
 private key: 9de51f9c7f8365ea4a1c3ac39cb5cbdc846b0bb5fb8c8d99017d5028b5e657de
 private key WIF format: 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS
 bts address: XTSE6wHbaQgYMQ1qCYgHeujUMSAToTmojj4P
 pts address: PbsmKpWoZCee9VqVmank8cFZ1NdzqwtNz7
 
-Also, the top of the init_genesis.json file was upraded with these header found in ${INVICTUS_ROOT}/tests/test_genesis.json:
+Also, the top of the init_genesis.json file was upraded with these header found in ${BTS_ROOT}/tests/test_genesis.json:
 
   "timestamp": "20141007T105500",
   "supply": 10000000000000,
@@ -101,7 +101,7 @@ All balances must add up to the total supply.
 start a server:
 
 tmp_datadir=$(mktemp -d "tmp/XXXX")
-${INVICTUS_ROOT}/programs/client/bitshares_client --data-dir "$tmp_datadir" --genesis-config init_genesis.json --server --min-delegate-connection-count=0
+${BTS_ROOT}/programs/client/bitshares_client --data-dir "$tmp_datadir" --genesis-config init_genesis.json --server --min-delegate-connection-count=0
 
 One catch, server exits the first time.  Edit the newly created config.json (log messages show the path) and include change the rpc_user and rpc_password to "test", "test".  Finally, adjust the ./htdocs path to point to the web_wallet's generated directory and re-run the bitshares_client command above.
 
@@ -234,6 +234,8 @@ wallet_import_private_key 5KiqsszyuacktfjaXprLQYAfp5MWD4gBEKUKHctoUySSrk9jyN6 in
 
 i=0; for key in $(egrep "[A-Za-z0-9]+" initgenesis_private.json -o); do echo wallet_delegate_set_block_production init${i} true; let "i+=1"; done
 
+The delegate.sh script will run these commands for you:
+
 #unlocked?
 open default
 unlock 9999 Password00
@@ -241,5 +243,11 @@ wallet_delegate_set_block_production init0 true
 ...
 wallet_delegate_set_block_production init100 true
 
+Run the first one then monitor the transations in the wallet.  This is where you might want to exit and 
+re-start the client (https://github.com/BitShares/bitshares_toolkit/issues/833). 
+$ for i in $(seq 0 100); do echo transfer 1000 XTS tester init$i; done
+
+Finally, the next one is 101 price feeds, you really need 50 of them though:
+$ for i in $(seq 0 100); do echo wallet_publish_price_feed init$i 0.0341 USD; done
 
 
