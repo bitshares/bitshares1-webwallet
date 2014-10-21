@@ -59,16 +59,6 @@ class WalletAPI
     @rpc.request('wallet_import_bitcoin', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
       response.result
 
-  # Imports an Armory wallet
-  # parameters: 
-  #   filename `wallet_filename` - the Armory wallet file path
-  #   passphrase `passphrase` - the imported wallet's password
-  #   account_name `account_name` - the account to receive the contents of the wallet
-  # return_type: `uint32_t`
-  import_armory: (wallet_filename, passphrase, account_name, error_handler = null) ->
-    @rpc.request('wallet_import_armory', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
-      response.result
-
   # Imports an Electrum wallet
   # parameters: 
   #   filename `wallet_filename` - the Electrum wallet file path
@@ -77,16 +67,6 @@ class WalletAPI
   # return_type: `uint32_t`
   import_electrum: (wallet_filename, passphrase, account_name, error_handler = null) ->
     @rpc.request('wallet_import_electrum', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
-      response.result
-
-  # Imports a Multibit wallet
-  # parameters: 
-  #   filename `wallet_filename` - the Multibit wallet file path
-  #   passphrase `passphrase` - the imported wallet's password
-  #   account_name `account_name` - the account to receive the contents of the wallet
-  # return_type: `uint32_t`
-  import_multibit: (wallet_filename, passphrase, account_name, error_handler = null) ->
-    @rpc.request('wallet_import_multibit', [wallet_filename, passphrase, account_name], error_handler).then (response) ->
       response.result
 
   # Create the key from keyhotee config and import it to the wallet, creating a new account using this key
@@ -152,6 +132,14 @@ class WalletAPI
   # return_type: `pretty_transactions`
   account_transaction_history: (account_name, asset_symbol, limit, start_block_num, end_block_num, error_handler = null) ->
     @rpc.request('wallet_account_transaction_history', [account_name, asset_symbol, limit, start_block_num, end_block_num], error_handler).then (response) ->
+      response.result
+
+  # 
+  # parameters: 
+  #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
+  # return_type: `experimental_transactions`
+  transaction_history_experimental: (account_name, error_handler = null) ->
+    @rpc.request('wallet_transaction_history_experimental', [account_name], error_handler).then (response) ->
       response.result
 
   # Removes the specified transaction record from your transaction history. USE WITH CAUTION! Rescan cannot reconstruct all transaction details
@@ -314,6 +302,15 @@ class WalletAPI
     @rpc.request('wallet_scan_transaction_experimental', [transaction_id, overwrite_existing], error_handler).then (response) ->
       response.result
 
+  # Adds a custom note to the specified transaction
+  # parameters: 
+  #   string `transaction_id` - the id (or id prefix) of the transaction
+  #   string `note` - note to add
+  # return_type: `void`
+  add_transaction_note_experimental: (transaction_id, note, error_handler = null) ->
+    @rpc.request('wallet_add_transaction_note_experimental', [transaction_id, note], error_handler).then (response) ->
+      response.result
+
   # Rebroadcasts the specified transaction
   # parameters: 
   #   string `transaction_id` - the id (or id prefix) of the transaction
@@ -328,9 +325,10 @@ class WalletAPI
   #   account_name `pay_from_account` - the account from which fees will be paid
   #   json_variant `public_data` - public data about the account
   #   share_type `delegate_pay_rate` - Negative for non-delegates; otherwise the number of shares to be issued per produced block
+  #   string `account_type` - titan_account | public_account - public accounts do not receive memos and all payments are made to the active key
   # return_type: `transaction_record`
-  account_register: (account_name, pay_from_account, public_data, delegate_pay_rate, error_handler = null) ->
-    @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, delegate_pay_rate], error_handler).then (response) ->
+  account_register: (account_name, pay_from_account, public_data, delegate_pay_rate, account_type, error_handler = null) ->
+    @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, delegate_pay_rate, account_type], error_handler).then (response) ->
       response.result
 
   # Updates the local private data for an account
@@ -503,9 +501,9 @@ class WalletAPI
   # Used to place a request to buy a quantity of assets at a price specified in another asset
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the bid
-  #   real_amount `quantity` - the quantity of items you would like to buy
+  #   string `quantity` - the quantity of items you would like to buy
   #   asset_symbol `quantity_symbol` - the type of items you would like to buy
-  #   real_amount `base_price` - the price you would like to pay
+  #   string `base_price` - the price you would like to pay
   #   asset_symbol `base_symbol` - the type of asset you would like to pay with
   #   bool `allow_stupid_bid` - Allow user to place bid at more than 5% above the current sell price.
   # return_type: `transaction_record`
@@ -516,9 +514,9 @@ class WalletAPI
   # Used to place a request to sell a quantity of assets at a price specified in another asset
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `sell_quantity` - the quantity of items you would like to sell
+  #   string `sell_quantity` - the quantity of items you would like to sell
   #   asset_symbol `sell_quantity_symbol` - the type of items you would like to sell
-  #   real_amount `ask_price` - the price per unit sold.
+  #   string `ask_price` - the price per unit sold.
   #   asset_symbol `ask_price_symbol` - the type of asset you would like to be paid
   #   bool `allow_stupid_ask` - Allow user to place ask at more than 5% below the current buy price.
   # return_type: `transaction_record`
@@ -529,20 +527,20 @@ class WalletAPI
   # Used to place a request to short sell a quantity of assets at a price specified
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `short_quantity` - the quantity of items you would like to short sell (USD you would like to sell)
-  #   asset_symbol `short_symbol` - the type of asset you would like to short, ie: USD
-  #   real_amount `collateral_ratio` - the ratio XTS per USD that your USD will be collateralized at (ie: XTS / USD)
-  #   asset_symbol `collateral_symbol` - the asset to use to collateralize this short sale (ie XTS)
-  #   real_amount `short_price_limit` - maximim price (USD per XTS) that the short will execute at, if 0 then no limit will be applied
+  #   string `short_collateral` - the amount of collateral you wish to fund this short with
+  #   asset_symbol `collateral_symbol` - the type of asset collateralizing this short (i.e. XTS)
+  #   string `interest_rate` - the APR you wish to pay interest at (0.0% to 1000.0%)
+  #   asset_symbol `quote_symbol` - the asset to short sell (i.e. USD)
+  #   string `short_price_limit` - maximim price (USD per XTS) that the short will execute at, if 0 then no limit will be applied
   # return_type: `transaction_record`
-  market_submit_short: (from_account_name, short_quantity, short_symbol, collateral_ratio, collateral_symbol, short_price_limit, error_handler = null) ->
-    @rpc.request('wallet_market_submit_short', [from_account_name, short_quantity, short_symbol, collateral_ratio, collateral_symbol, short_price_limit], error_handler).then (response) ->
+  market_submit_short: (from_account_name, short_collateral, collateral_symbol, interest_rate, quote_symbol, short_price_limit, error_handler = null) ->
+    @rpc.request('wallet_market_submit_short', [from_account_name, short_collateral, collateral_symbol, interest_rate, quote_symbol, short_price_limit], error_handler).then (response) ->
       response.result
 
   # Used to place a request to cover an existing short position
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   real_amount `quantity` - the quantity of items you would like to cover
+  #   string `quantity` - the quantity of asset you would like to cover
   #   asset_symbol `quantity_symbol` - the type of asset you are covering (ie: USD)
   #   order_id `cover_id` - the order ID you would like to cover
   # return_type: `transaction_record`

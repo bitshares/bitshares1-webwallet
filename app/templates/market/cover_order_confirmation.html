@@ -1,18 +1,56 @@
 <div class="modal-header bg-danger">
   <h3 class="modal-title" translate>market.cover_short_position</h3>
 </div>
-<form name="cover_form" class="form-horizontal" role="form" novalidate>
-  <div class="modal-body">
-    <div form-hgroup-value label="Total owed" show-value="true" data-symbol="{{market.base_symbol}}">
-      {{v.total}}
+
+<div class="modal-body">
+
+  <table class="table table-striped">
+    <tr>
+      <td translate>Principal Due</td>
+      <td>{{cover.principal_due | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Interest Due</td>
+      <td>{{cover.interest_due | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Transaction Fee</td>
+      <td>{{cover.fee_paid | formatDecimal : base_precision}} {{market.base_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Total Due</td>
+      <td><span class="clickable" ng-click="total_clicked()">{{cover.total_due | formatDecimal : base_precision}}</span> {{asset_symbol}}</td>
+    </tr>
+  </table>
+
+  <form name="cover_form" class="form-horizontal" role="form" novalidate>
+    <div form-hgroup addon="{{asset_symbol}}" label="Make Payment">
+      <input-positive-number name="total_paid" ng-model="cover.total_paid" ng-change="payment_changed()"/>
     </div>
-    <div form-hgroup label="Pay off" addon="{{market.base_symbol}}">
-      <input-positive-number name="quantity" ng-model="v.quantity"/>
-    </div>
-  </div>
-  </br></br>
-  <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="submit()" translate>btn.cover</button>
-    <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
-  </div>
-</form>
+  </form>
+
+  <table ng-show="cover.changed" class="table table-striped">
+    <tr>
+      <td translate>Principal Paid</td>
+      <td>{{cover.principal_paid | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Interest Paid</td>
+      <td>{{cover.interest_paid | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Principal Remaining</td>
+      <td>{{cover.principal_remaining | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+    <tr>
+      <td translate>Interest Remaining</td>
+      <td>{{cover.interest_remaining | formatDecimal : base_precision}} {{asset_symbol}}</td>
+    </tr>
+  </table>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="submit()" ng-class="{'disabled' : cover.has_error}" translate>btn.cover</button>
+  <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
+</div>

@@ -7,9 +7,9 @@ module BitShares
 
     @@rpc_instance = nil
 
-    def self.init(username, password)
-      @@rpc_instance = BitShares::API::Rpc.new(username, password)
-
+    def self.init(port, username, password, options = nil)
+      options ||= { ignore_errors: false }
+      @@rpc_instance = BitShares::API::Rpc.new(port, username, password, options)
     end
 
     def self.rpc
@@ -34,25 +34,41 @@ module BitShares
       end
     end
 
+    class Misc
+      def self.method_missing(name, *params)
+        BitShares::API::rpc.request(name.to_s, params)
+      end
+    end
+
     class Rpc
 
       class Error < RuntimeError; end
 
-      def initialize(username, password)
-        @uri = URI('http://localhost:5680/rpc')
+      def initialize(port, username, password, options)
+        @uri = URI("http://localhost:#{port}/rpc")
         @req = Net::HTTP::Post.new(@uri)
         @req.content_type = 'application/json'
         @req.basic_auth username, password
+        @options = options
       end
 
-      def request(method, params)
+      def request(method, params = nil)
+        params = params || []
+        puts "+ request: #{method} #{params.join(' ')}"
         result = nil
         Net::HTTP.start(@uri.hostname, @uri.port) do |http|
-          @req.body = { method: method, params: params || [], id: 0 }.to_json
-          http.request(@req).body
+          @req.body = { method: method, params: params, id: 0 }.to_json
           response = http.request(@req)
           result = JSON.parse(response.body)
-          raise Error, result['error'] if result['error']
+          if result['error']
+            if !@options[:ignore_errors]
+              raise Error, result['error']
+            else
+              STDERR.puts "Error: #{result['error']}\n"
+            end
+          else
+            puts '- ok'
+          end
         end
         return result['result']
       end
@@ -65,7 +81,8 @@ end
 
  
 if $0 == __FILE__
-  BitShares::API.init('user', 'pass')
+  puts "BitShares API test.."
+  BitShares::API.init(5680, 'user', 'pass')
   accounts = BitShares::API::Wallet.list_my_accounts()
   first_account = accounts[0]['name']
   puts BitShares::API::Wallet.account_transaction_history(first_account)

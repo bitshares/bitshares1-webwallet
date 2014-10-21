@@ -13,7 +13,7 @@ servicesModule.factory "RpcService", ($http) ->
                 jsonrpc: "2.0"
                 id: 1
         angular.extend(http_params.data, reqparams)
-        #console.log "RpcService <#{http_params.data.method}>, stack: #{getStackTrace()}"
+        #console.log "+++ RpcService <#{http_params.data.method}>"
         $http(http_params).then (response) ->
             ###console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) unless method in [
                 "wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",

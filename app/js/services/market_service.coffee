@@ -14,6 +14,7 @@ class TradeData
         @warning = null
         @display_type = null
         @collateral_ratio = null
+        @interest_rate = null
         @short_price_limit = null
         @received = null
         @paid = null
@@ -31,6 +32,7 @@ class TradeData
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
+        td.interest_rate = @interest_rate
         td.short_price_limit = 1.0 / @short_price_limit
         td.received = @received
         td.paid = @paid
@@ -43,6 +45,7 @@ class TradeData
         td.collateral = TradeData.helper.to_float(@collateral)
         td.price = TradeData.helper.to_float(@price)
         td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
+        td.interest_rate = TradeData.helper.to_float(@interest_rate)
         td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
         td.received = TradeData.helper.to_float(@received)
         td.paid = TradeData.helper.to_float(@paid)
@@ -52,13 +55,14 @@ class TradeData
     update: (td) ->
         @status = td.status
         @timestamp = td.timestamp
-        @quantity = td.cost
-        @cost = td.quantity
+        @cost = td.cost
+        @quantity= td.quantity
         @collateral = td.collateral
         @price = td.price
         @warning = td.warning
         @display_type = td.display_type
         @collateral_ratio = td.collateral_ratio
+        @interest_rate = td.interest_rate
         @short_price_limit = td.short_price_limit
         @received = td.received
         @paid = td.paid
@@ -278,23 +282,20 @@ class MarketService
         return call
 
     cover_order: (order, quantity, account) ->
-        console.log "------ cover order ------>", order, quantity
         order.touch()
         order.status = "pending"
-        order.quantity -= quantity if order.quantity > quantity
+        order.quantity -= quantity if quantity > 0.0 and order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
-        console.log "ABOUT TO COVER ID"
-        console.log order.id
-        console.log order
+        console.log "------ wallet_market_cover #{[account.name, quantity, symbol, order.id].join(' ')}"
         @wallet_api.market_cover(account.name, quantity, symbol, order.id)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
-            console.log "---- adding bid regular ----", bid
+            console.log "---- adding bid regular ----", bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol
             @wallet_api.market_submit_bid(account.name, bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol)
         else
             ibid = bid.invert()
-            console.log "---- adding bid inverted ----", bid, ibid
+            console.log "---- adding bid inverted ----", ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol
             @wallet_api.market_submit_ask(account.name, ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol)
         return call
 
@@ -306,17 +307,18 @@ class MarketService
             price_limit = 1.0 / short.short_price_limit if short.short_price_limit > 0.0
         else
             price_limit = short.short_price_limit
-        #console.log "---- before market_submit_short ----", account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, price_limit, actual_market.asset_quantity_symbol
-        call = @wallet_api.market_submit_short(account.name, short.quantity, actual_market.asset_base_symbol, short.collateral_ratio, actual_market.asset_quantity_symbol, price_limit)
+
+        console.log "---- before market_submit_short ----", account.name, short.collateral, actual_market.asset_quantity_symbol, short.interest_rate, actual_market.asset_base_symbol, price_limit
+        call = @wallet_api.market_submit_short(account.name, short.collateral, actual_market.asset_quantity_symbol, short.interest_rate, actual_market.asset_base_symbol, price_limit)
         return call
 
     post_ask: (ask, account, deferred) ->
         call = if !@market.inverted
-            console.log "---- adding ask regular ----", ask
+            console.log "---- adding ask regular ----", ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol
             @wallet_api.market_submit_ask(account.name, ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol)
         else
             iask = ask.invert()
-            console.log "---- adding ask inverted ----", ask, iask
+            console.log "---- adding ask inverted ----", iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol
             @wallet_api.market_submit_bid(account.name, iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol)
         return call
 
@@ -329,7 +331,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
                 bids.push td
@@ -345,7 +347,7 @@ class MarketService
         call.then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, !inverted, inverted, td)
+                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
                 asks.push td
@@ -370,17 +372,20 @@ class MarketService
                 td = new TradeData()
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
                 td.type = "short"
+                td.quantity = td.collateral * market.shorts_price / 2.0
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    #console.log "------ short wall ------>", td.cost, td.quantity
+                    #console.log "------ short wall ------>", td.collateral, td.quantity
                     if inverted
-                        short_wall.cost += td.cost
-                        short_wall.quantity += td.cost / shorts_price
+                        short_wall.cost += td.collateral
+                        short_wall.quantity += td.quantity
                         #@lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
-                        short_wall.quantity += td.cost
-                        short_wall.cost += td.cost / shorts_price
+                        short_wall.quantity += td.collateral
+                        short_wall.cost += td.quantity
+                        #short_wall.quantity += td.cost
+                        #short_wall.cost += td.cost / shorts_price
                     @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
@@ -396,10 +401,10 @@ class MarketService
             results = [].concat.apply(results) # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
-                # console.log "---- cover ", r
-                r.type = "cover"
+                #r.type = "cover"
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.quantity_asset, market.base_asset, inverted, false, inverted, td)
+                @helper.cover_to_trade_data(r, market, inverted, td)
+                #console.log "---- cover ", r.state.balance, td.cost
                 td.collateral = r.collateral / market.quantity_precision
                 #td.type = "cover"
                 covers.push td
@@ -421,8 +426,16 @@ class MarketService
         @wallet_api.market_order_list(market.asset_base_symbol, market.asset_quantity_symbol, 100, account_name).then (results) =>
             for r in results
                 td = new TradeData()
-                @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, true, inverted, td)
-                #console.log("------ market_order_list ------>", r, td) if r.type == "cover_order"
+                order = r
+                if r instanceof Array and r.length > 1
+                    td.id = r[0]
+                    order = r[1]
+                #console.log "------ market order ------>", order
+                if order.type == "cover_order"
+                    @helper.cover_to_trade_data(order, market, inverted, td)
+                    #console.log("------ cover order ------>", order, td)
+                else
+                    @helper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.status = "posted" if td.status != "cover"
                 orders.push td
             @helper.update_array
@@ -571,24 +584,24 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 # order book chart data
-                if self.market.feed_price > 0.0
-                    sum_asks = 0.0
-                    asks_array = []
-                    for a in self.asks
-                        continue if a.price > 1.5 * self.market.feed_price or a.price < 0.5 * self.market.feed_price
-                        sum_asks += a.quantity
-                        self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-                    sum_bids = 0.0
-                    bids_array = []
-                    for b in self.bids
-                        continue if b.price > 1.5 * self.market.feed_price or b.price < 0.5 * self.market.feed_price
-                        sum_bids += b.quantity
-                        self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-                    bids_array.sort (a,b) -> a[0] - b[0]
-                    asks_array.sort (a,b) -> a[0] - b[0]
-                    self.market.orderbook_chart_data =
-                        bids_array: bids_array
-                        asks_array: asks_array
+                feed_price = self.market.feed_price
+                sum_asks = 0.0
+                asks_array = []
+                for a in self.asks
+                    continue if feed_price and (a.price > 1.5 * feed_price or a.price < 0.5 * feed_price)
+                    sum_asks += a.quantity
+                    self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+                sum_bids = 0.0
+                bids_array = []
+                for b in self.bids
+                    continue if feed_price and (b.price > 1.5 * feed_price or b.price < 0.5 * feed_price)
+                    sum_bids += b.quantity
+                    self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
+                bids_array.sort (a,b) -> a[0] - b[0]
+                asks_array.sort (a,b) -> a[0] - b[0]
+                self.market.orderbook_chart_data =
+                    bids_array: bids_array
+                    asks_array: asks_array
 
                 # shorts collateralization chart data
                 self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
@@ -620,29 +633,31 @@ class MarketService
         self.blockchain_api.market_status(market.asset_base_symbol, market.asset_quantity_symbol).then (result) ->
             self.helper.read_market_data(self.market, result, market.assets_by_id, self.market.inverted)
             self.market.price_precision = market.price_precision = 4 if self.market.feed_price > 1.0
+            deferred.resolve(true)
+
             # override with median if it exists
             # TODO, median_price removed .. "finally" block remain intact
-            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
-            feeds_promise.then (result) ->
-                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
-                if res.length > 0
-                    price = if self.market.inverted then 1.0/res[0] else res[0]
-                    self.market.median_price = market.median_price = price
-                else
-                    self.market.median_price = market.median_price = self.market.feed_price
-            feeds_promise.catch ->
-                self.market.median_price = market.median_price = self.market.feed_price
-
-            feeds_promise.finally ->
-                actual_market = self.market.get_actual_market()
-                self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
-                    actual_market.collateral = amount / actual_market.quantity_precision
-                    self.blockchain_api.get_asset( actual_market.base_asset.id ).then (record) =>
-                        supply = record["current_share_supply"] / actual_market.base_precision
-                        actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
-                        deferred.resolve(true)
-                , (error) ->
-                    deferred.reject(error)
+#            feeds_promise = self.blockchain_api.get_feeds_for_asset(market.asset_base_symbol)
+#            feeds_promise.then (result) ->
+#                res = jsonPath.eval(result, "$.[?(@.delegate_name=='MARKET')].median_price")
+#                if res.length > 0
+#                    price = if self.market.inverted then 1.0/res[0] else res[0]
+#                    self.market.median_price = market.median_price = price
+#                else
+#                    self.market.median_price = market.median_price = self.market.feed_price
+#            feeds_promise.catch ->
+#                self.market.median_price = market.median_price = self.market.feed_price
+#
+#            feeds_promise.finally ->
+#                actual_market = self.market.get_actual_market()
+#                self.blockchain_api.market_get_asset_collateral( actual_market.asset_base_symbol ).then (amount) =>
+#                    actual_market.collateral = amount / actual_market.quantity_precision
+#                    self.blockchain_api.get_asset( actual_market.base_asset.id ).then (record) =>
+#                        supply = record["current_share_supply"] / actual_market.base_precision
+#                        actual_market.collateralization = 100 * ((actual_market.collateral / actual_market.median_price) / supply)
+#                        deferred.resolve(true)
+#                , (error) ->
+#                    deferred.reject(error)
 
         , (error) ->
                 deferred.reject(error)
