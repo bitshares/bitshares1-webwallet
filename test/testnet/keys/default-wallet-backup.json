@@ -1,0 +1,319 @@
+[
+{
+  "type": "master_key_record_type",
+  "data": {
+    "index": -1,
+    "encrypted_key": "fbc2cf0872d5fa1db919ea4817019063b892873e13bf7fbcff2a78ac738a9a271d864cbf401ec6d67d73c08713e7083bd4e0d75f244c5570f1989b6ba09ae4a8b4928839dc01082630cd478c45799174",
+    "checksum": "5206786361cd3c7bae7d31a6815f894243885c3cab79a6223dc2b432986f6bda4825aac5b06f03b44a59471c09e72d7d79cae3ebf7ff8d0f658d07a53dd33e5f"
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 1,
+    "key": "next_record_number",
+    "value": 18
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 2,
+    "key": "version",
+    "value": 107
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 3,
+    "key": "automatic_backups",
+    "value": true
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 4,
+    "key": "transaction_scanning",
+    "value": true
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 5,
+    "key": "last_unlocked_scanned_block_number",
+    "value": 0
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 6,
+    "key": "default_transaction_priority_fee",
+    "value": {
+      "amount": 50000,
+      "asset_id": 0
+    }
+  }
+},
+{
+  "type": "property_record_type",
+  "data": {
+    "index": 7,
+    "key": "transaction_expiration_sec",
+    "value": 3600
+  }
+},
+{
+  "type": "account_record_type",
+  "data": {
+    "index": 8,
+    "id": 2,
+    "name": "init1",
+    "public_data": null,
+    "owner_key": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
+    "active_key_history": [[
+        "20141007T105500",
+        "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS"
+      ]
+    ],
+    "registration_date": "20141007T105500",
+    "last_update": "20141007T105500",
+    "delegate_info": {
+      "votes_for": 0,
+      "blocks_produced": 0,
+      "blocks_missed": 0,
+      "pay_rate": 100,
+      "pay_balance": 0,
+      "next_secret_hash": "0000000000000000000000000000000000000000",
+      "last_block_num_produced": 0
+    },
+    "meta_data": null,
+    "account_address": "XTSAn5N9FgkFW2GNAybWHvHihQXrH5t7zaT6",
+    "private_data": null,
+    "is_my_account": true,
+    "approved": 0,
+    "is_favorite": false,
+    "block_production_enabled": false,
+    "last_used_gen_sequence": 10000
+  }
+},
+{
+  "type": "key_record_type",
+  "data": {
+    "index": 9,
+    "account_address": "XTSAn5N9FgkFW2GNAybWHvHihQXrH5t7zaT6",
+    "public_key": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
+    "encrypted_private_key": "c3989b8676d6d5c3b741ca1f11bb539d2a16cb7c32ba90c6ce99436b4888442e88eef8c84c88c0840b5f04d696824344",
+    "valid_from_signature": false,
+    "memo": null,
+    "gen_seq_number": 0
+  }
+},
+{
+  "type": "account_record_type",
+  "data": {
+    "index": 10,
+    "id": 0,
+    "name": "tester",
+    "public_data": null,
+    "owner_key": "XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT",
+    "active_key_history": [[
+        "20141021T124855",
+        "XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT"
+      ]
+    ],
+    "registration_date": "19700101T000000",
+    "last_update": "19700101T000000",
+    "delegate_info": null,
+    "meta_data": null,
+    "account_address": "XTSE6wHbaQgYMQ1qCYgHeujUMSAToTmojj4P",
+    "private_data": null,
+    "is_my_account": true,
+    "approved": 0,
+    "is_favorite": false,
+    "block_production_enabled": false,
+    "last_used_gen_sequence": 10000
+  }
+},
+{
+  "type": "key_record_type",
+  "data": {
+    "index": 11,
+    "account_address": "XTSE6wHbaQgYMQ1qCYgHeujUMSAToTmojj4P",
+    "public_key": "XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT",
+    "encrypted_private_key": "70b10f8c9bcd8fdb7af7e1f0c83cb65c88b040d72a18fa9283e1b0cc4e754e93213c54151897a059335d5e3e0a41a18a",
+    "valid_from_signature": false,
+    "memo": null,
+    "gen_seq_number": 0
+  }
+},
+{
+  "type": "balance_record_type",
+  "data": {
+    "index": 12,
+    "balance": 100000000000000,
+    "condition": {
+      "asset_id": 0,
+      "delegate_slate_id": 0,
+      "type": "withdraw_signature_type",
+      "data": {
+        "owner": "XTSG33KwpfhuoZU7AomDsJ8fbEeywyzqzKUK",
+        "memo": null
+      }
+    },
+    "genesis_info": {
+      "initial_balance": {
+        "amount": 100000000000000,
+        "asset_id": 0
+      },
+      "claim_addr": "PbsmKpWoZCee9VqVmank8cFZ1NdzqwtNz7"
+    },
+    "last_update": "20141007T105500",
+    "deposit_date": "19700101T000000"
+  }
+},
+{
+  "type": "transaction_record_type",
+  "data": {
+    "index": 13,
+    "record_id": "c35487245de370f31101c27e754f1a0b35323da5",
+    "block_num": 0,
+    "is_virtual": true,
+    "is_confirmed": true,
+    "is_market": false,
+    "trx": {
+      "expiration": "19700101T000000",
+      "delegate_slate_id": null,
+      "operations": [],
+      "signatures": []
+    },
+    "ledger_entries": [{
+        "from_account": null,
+        "to_account": "XTS6CaeQRtCFjxNU3UWYgC8AwmMrZhQXMDMVBRQBBGLrHNvsTfYoT",
+        "amount": {
+          "amount": 100000000000000,
+          "asset_id": 0
+        },
+        "memo": "claim PbsmKpWoZCee9VqVmank8cFZ1NdzqwtNz7",
+        "memo_from_account": null
+      }
+    ],
+    "fee": {
+      "amount": 0,
+      "asset_id": 0
+    },
+    "created_time": "20141007T105500",
+    "received_time": "20141007T105500",
+    "extra_addresses": []
+  }
+},
+{
+  "type": "balance_record_type",
+  "data": {
+    "index": 14,
+    "balance": 100000000000000,
+    "condition": {
+      "asset_id": 0,
+      "delegate_slate_id": 0,
+      "type": "withdraw_signature_type",
+      "data": {
+        "owner": "XTSKpK3mhVRZNG9pHP4SsCsbJ1m4b5FfczQd",
+        "memo": null
+      }
+    },
+    "genesis_info": {
+      "initial_balance": {
+        "amount": 100000000000000,
+        "asset_id": 0
+      },
+      "claim_addr": "PeqhyGYydjEx3Cx46cbfycbq9AvMkQdiPq"
+    },
+    "last_update": "20141007T105500",
+    "deposit_date": "19700101T000000"
+  }
+},
+{
+  "type": "transaction_record_type",
+  "data": {
+    "index": 15,
+    "record_id": "a686347c868827eba28536ad75db75a40aaafc03",
+    "block_num": 0,
+    "is_virtual": true,
+    "is_confirmed": true,
+    "is_market": false,
+    "trx": {
+      "expiration": "19700101T000000",
+      "delegate_slate_id": null,
+      "operations": [],
+      "signatures": []
+    },
+    "ledger_entries": [{
+        "from_account": null,
+        "to_account": "XTS7zr4MvJhoMKzoTGsRAYFW8b5JTpJECxQjLb5bnsBEb7MTNxcTS",
+        "amount": {
+          "amount": 100000000000000,
+          "asset_id": 0
+        },
+        "memo": "claim PeqhyGYydjEx3Cx46cbfycbq9AvMkQdiPq",
+        "memo_from_account": null
+      }
+    ],
+    "fee": {
+      "amount": 0,
+      "asset_id": 0
+    },
+    "created_time": "20141007T105500",
+    "received_time": "20141007T105500",
+    "extra_addresses": []
+  }
+},
+{
+  "type": "account_record_type",
+  "data": {
+    "index": 16,
+    "id": 1,
+    "name": "init0",
+    "public_data": null,
+    "owner_key": "XTS7W2JYrF3QLw2JcWwEAmY1WQM51Jt1AXurczxHdWYRH89teb4qZ",
+    "active_key_history": [[
+        "20141007T105500",
+        "XTS7W2JYrF3QLw2JcWwEAmY1WQM51Jt1AXurczxHdWYRH89teb4qZ"
+      ]
+    ],
+    "registration_date": "20141007T105500",
+    "last_update": "20141007T105500",
+    "delegate_info": {
+      "votes_for": 0,
+      "blocks_produced": 0,
+      "blocks_missed": 0,
+      "pay_rate": 100,
+      "pay_balance": 0,
+      "next_secret_hash": "0000000000000000000000000000000000000000",
+      "last_block_num_produced": 0
+    },
+    "meta_data": null,
+    "account_address": "XTSCSWjBC1vc3ZJkaQogrxPkvb2KUTLJ7JAf",
+    "private_data": null,
+    "is_my_account": true,
+    "approved": 0,
+    "is_favorite": false,
+    "block_production_enabled": false,
+    "last_used_gen_sequence": 10000
+  }
+},
+{
+  "type": "key_record_type",
+  "data": {
+    "index": 17,
+    "account_address": "XTSCSWjBC1vc3ZJkaQogrxPkvb2KUTLJ7JAf",
+    "public_key": "XTS7W2JYrF3QLw2JcWwEAmY1WQM51Jt1AXurczxHdWYRH89teb4qZ",
+    "encrypted_private_key": "34c99fe23b8e5cf7c6723d1edd4dcf0c35480836e4318cefa7b816a7d368882c313ed7583f20f367a52ce8479dcdeb88",
+    "valid_from_signature": false,
+    "memo": null,
+    "gen_seq_number": 0
+  }
+}
+]

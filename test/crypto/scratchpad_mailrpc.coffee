@@ -43,7 +43,7 @@ class MailTest
         @mail.processing_cancel_all()
     
     send: ->
-        @mail.send "tester", "tester", "subject", 
+        @mail.send "init1", "init0", "subject", 
             #
             # Send a message long enough to require a multi-byte
             # length prefix (longer than 256)
@@ -67,7 +67,10 @@ class MailTest
 
 class TestNet
 
-    # INVICTUS_ROOT=process.env.INVICTUS_ROOT
+    WEB_ROOT=process.env.WEB_ROOT
+    console.log "(param 1) WEB_ROOT=",WEB_ROOT
+
+    WALLET_JSON="#{WEB_ROOT}/test/testnet/keys/default-wallet-backup.json"
 
     constructor: (@rpc, @common) ->
 
@@ -79,10 +82,11 @@ class TestNet
 
     mkdefault: ->
         @rpc.run """
-            wallet_create default 9999 Password00
+            wallet_backup_restore #{WALLET_JSON} default Password00
         """
 ###
-wallet_create default Password00
+$BTS_ROOT/programs/client/bitshares_client --rpcport=3000 --httpport=2211 --rpcuser=test --rpcpassword=test --upnp=false --genesis-config init_genesis.json --data-dir tmp/client_tn --server
+
 open default
 unlock 9999 Password00
 wallet_import_private_key 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS tester true true
@@ -101,7 +105,7 @@ register tester tester "" -1 "titan_account"
 TestNetTest = =>
 
     tn=new TestNet(@rpc, @common)
-    tn.unlock()
+    
 
     ## vi tmp/client_p8I/config.json  # "mail_server_enabled": true,
     ## web_wallet/test/testnet$ RPC_JSON_PORT=3000 ./client.sh tmp/client_p8I
@@ -109,6 +113,7 @@ TestNetTest = =>
 
     m=new MailTest(@rpc, @common)
     #m.send()
+    tn.unlock()
     @rpc.run "mail_check_new_messages"
     m.clear()
     m.processing()

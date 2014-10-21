@@ -6,62 +6,64 @@ class MailMessage
 
     constructor: (@subject, @body, @reply_to, @attachments, @signature) ->
 
-    MailMessage.fromByteBuffer= (bb) ->
-        subject = bb.readVString()
-        body = bb.readVString()
+    MailMessage.fromByteBuffer= (b) ->
+        subject = b.readVString()
+        body = b.readVString()
 
         # reply_to message Id ripemd 160 (160 bits / 8 = 20 bytes)
-        reply_to = bb.copy(bb.offset, bb.offset + 20).toBinary()
-        bb.skip 20
+        reply_to = b.copy(b.offset, b.offset + 20)
+        b.skip 20
 
-        attachments = Array(bb.readVarint32())
+        attachments = Array(b.readVarint32())
         throw "Message with attachments has not been implemented" unless attachments.length is 0
 
-        signature = bb.copy(bb.offset, bb.offset + 65).toBinary()
-        bb.skip 65
+        signature = b.copy(b.offset, b.offset + 65)
+        b.skip 65
 
-        throw "Message contained #{bb.remaining()} unknown bytes" unless bb.remaining() is 0
+        throw "Message contained #{b.remaining()} unknown bytes" unless b.remaining() is 0
 
         new MailMessage(subject, body, reply_to, attachments, signature)
 
     MailMessage.fromHex= (data) ->
-        bb=ByteBuffer.fromHex(data)
-        return MailMessage.fromByteBuffer(bb)
+        b=ByteBuffer.fromHex(data)
+        return MailMessage.fromByteBuffer(b)
 
-    toByteBuffer: ->
-        bb = new ByteBuffer(99)
-        bb.writeVString(@subject)
-        bb.writeVString(@body)
-        bb.append(@reply_to)
-        bb.writeVarint32(@attachments.length)
+    toByteBuffer: (include_signature) ->
+        b = new ByteBuffer()
+        b.writeVString @subject
+        b.writeVString @body
+        b.append @reply_to.copy()
+        b.writeVarint32 @attachments.length
         throw "Message with attachments has not been implemented" unless @attachments.length is 0
-        bb.append ByteBuffer.fromBinary @signature
-        bb.reset()
-        return bb
+        b.append @signature.copy() if include_signature
+        return b.copy(0, b.offset)
 
-    toHex: ->
-        bb=@toByteBuffer()
-        bb.toHex()
+    toHex: (include_signature) ->
+        b=@toByteBuffer(include_signature)
+        b.toHex()
 
 MailMessageParse = ->
 
-    data="077375626a65637404626f64790000000000000000000000000000000000000000001f8ba9a5ee77a7946aec1cb5cffc5af687b60ee311c7d14d0bb198ef277187b198034ee6c3b7c9e511a749e3e61eb84258f833f2b360ceec0f5bfafc5114d0c414"
+    data="077375626a656374c50231323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a31323334353637383930313233343536373839303132333435363738393031323334353637383930313233343536373839300a656e64206f66207472616e736d697373696f6e0000000000000000000000000000000000000000001fef84ce41ed1ef17d7541845d0e5ef506f2a94c651c836e53dde7621fda8897890f0251e1f6dbc0e713b41f13e73c2cf031aea2e888fe54f3bd656d727a83fddb"
     process.stdout.write "Original:\t"
     ByteBuffer.fromHex(data).printDebug()
-    throw "Parse and re-generate failed" unless ByteBuffer.fromHex(data).toHex() is data
+    throw "Parse and re-generate failed" unless\
+        ByteBuffer.fromHex(data).toHex() is data
 
     mm=MailMessage.fromHex data
     console.log "subject\t\t", mm.subject
     console.log "body\t\t",mm.body
-    console.log "reply_to\t",ByteBuffer.fromBinary(mm.reply_to).toHex()
+    console.log "reply_to\t", mm.reply_to.toHex()
     console.log "attachments (#{mm.attachments.length})\t",mm.attachments
-    console.log "signature\t",ByteBuffer.fromBinary(mm.signature).toHex()
+    console.log "signature\t", mm.signature.toHex()
 
-    process.stdout.write "\nRe-created:\t"
-    mm.toByteBuffer().printDebug()
-    
-    throw "Messages do not match #{data} AND #{mm.toHex()}" unless data is mm.toHex()
-#MailMessageParse()
+    if data isnt mm.toHex(true)
+        process.stdout.write "\nRe-created:\t"
+        mm.toByteBuffer(true).printDebug()
+        throw "Messages do not match #{data} AND #{mm.toHex(true)}" 
+
+    return mm
+mailMessage = MailMessageParse()
 ###
 echo 077375626a65637404626f64790000000000000000000000000000000000000000001f8ba9a5ee77a7946aec1cb5cffc5af687b60ee311c7d14d0bb198ef277187b198034ee6c3b7c9e511a749e3e61eb84258f833f2b360ceec0f5bfafc5114d0c414 | xxd -r -p - - > _msg
 hexdump _msg -C
@@ -75,30 +77,65 @@ hexdump _msg -C
 00000063
 
 ###
+MailMessageVerify = ->
 
-MailMessageSignVerify = ->
+    ECSignature = require("./src/ecsignature")
+    crypto = require('./src/crypto')
+    ecdsa = require('./src/ecdsa')
+    ecurve = require('ecurve')
+    curve = ecurve.getCurveByName('secp256k1')
+    bs58 = require('bs58')
+    BigInteger = require('bigi')
+
+    signature = ->
+        signature_buffer = new Buffer(mailMessage.signature.toHex(), "hex")
+        ECSignature.parseCompact(signature_buffer)
+    signature = signature().signature
+
+    # what is being signed = mailMessage.toByteBuffer(false).printDebug()
+    hash = ->
+        mail_buffer = new Buffer(mailMessage.toHex(false), "hex")
+        crypto.sha256(mail_buffer)
+    hash = hash()
+
+    d = ->
+        #privateKeyBs58 = "5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS"# init1
+        #privateKeyBuffer = bs58.decode(privateKeyBs58)
+        #privateKeyHex = privateKeyBuffer.toString("hex")
+        #console.log privateKeyHex
+        privateKeyHex = "52173306ca0f862e8fbf8e7479e749b9859fa78588e0e5414ec14fc8ae51a58b"
+        BigInteger.fromHex(privateKeyHex)
+    d = d()
+    Q = curve.G.multiply(d)
+    verified = ecdsa.verify(curve, hash, signature, Q)
+    if verified
+        console.log "Mail message verified"
+    else
+        throw "Mail message did not verify"
+
+MailMessageVerify()
+
+SignVerify = ->
     crypto = require('./src/crypto')
     ecdsa = require('./src/ecdsa')
     BigInteger = require('bigi')
     ecurve = require('ecurve')
     curve = ecurve.getCurveByName('secp256k1')
     bs58 = require('bs58')
-    
+
     message = "abc"
     hash = crypto.sha256(message)
     
-    #eBuffer= crypto.createHash('sha256').update(message).digest()
-    #e = BigInteger.fromBuffer(eBuffer)
-    
-    init1_privateKeyBs58 = "5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS"
-    init1_privateKeyBuffer = bs58.decode(init1_privateKeyBs58)
-    init1_privateKeyHex = init1_privateKeyBuffer.toString("hex")
-    init1_privateKey_d = BigInteger.fromHex(init1_privateKeyHex)
-
-    signature = ecdsa.sign(curve, hash, init1_privateKey_d)
-    publicKey_Q = curve.G.multiply(init1_privateKey_d)
-    throw "does not verify" unless ecdsa.verify(curve, hash, signature, publicKey_Q)
-    throw "should not verify" if ecdsa.verify(curve, crypto.sha256("def"), signature, publicKey_Q)
-MailMessageSignVerify()
+    d = ->
+        privateKeyBs58 = "5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS"
+        privateKeyBuffer = bs58.decode(privateKeyBs58)
+        privateKeyHex = privateKeyBuffer.toString("hex")
+        BigInteger.fromHex(privateKeyHex)
+    d = d()
+    Q = curve.G.multiply(d)
+    signature = ecdsa.sign(curve, hash, d)
+    throw "does not verify" unless ecdsa.verify(curve, hash, signature, Q)
+    throw "should not verify" if ecdsa.verify(curve, crypto.sha256("def"), signature, Q)
+SignVerify()
 
 
