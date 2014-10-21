@@ -1,3 +1,6 @@
+# Usage:
+# ./delegate.sh tmp/delegate_??? 1
+# GDB="gdb -ex run --args" ./delegate.sh tmp/delegate_??? 1
 testnet_datadir=${1?testnet data directory}
 num=${2-1}
 
@@ -6,11 +9,9 @@ HTTP_PORT=${HTTP_PORT-110${num}}	# 1101
 RPC_PORT=${RPC_PORT-111${num}}		# 1111
 
 function init {
-  # Wait for the port to open.. GDB or re-indexing may take a while
-  #while ! nc -q 1 localhost $RPC_PORT </dev/null; do sleep .3; done
   sleep 10
   . ./rpc_function.sh
-  rpc open '"default"'
+  rpc open '"default"' 
   rpc unlock '9999, "Password00"'
   for i in $(seq 0 100)
   do
@@ -21,7 +22,7 @@ init&
 
 set -o xtrace
 
-#gdb -ex run --args \
+${GDB-} \
 ${INVICTUS_ROOT}/programs/client/bitshares_client\
  --data-dir "$testnet_datadir"\
  --genesis-config init_genesis.json\

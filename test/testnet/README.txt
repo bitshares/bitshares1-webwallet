@@ -24,9 +24,24 @@ enabling all delegates for block production.  You should see some output like th
 
 
 #
-# Start the ./client.sh and follow the last of the one-time directions 
-# provided by ./create_testnet.sh
+# Start the ./client.sh
 #
+wallet_asset_create USD BitUSD init0 "paper bucks" null 1000000000 10000 true
+wallet_asset_create CNY BitCNY init0 "paper yuan" null 1000000000 10000 true
+wallet_asset_create BTC BitBTC init0 "bitcoin" null 1000000000 10000 true
+wallet_asset_create GLD BitGLD init0 "solid gold" null 1000000000 10000 true
+
+#
+# Publish price feeds
+#
+wallet_publish_price_feed init0 .01 USD
+wallet_publish_feeds init0 [["USD",0.0341],["CNY",0.2040]]
+#
+wallet_publish_price_feed init0 .02 CNY
+wallet_publish_price_feed init0 .03 BTC
+wallet_publish_price_feed init0 .04 GLD
+#
+
 
 Exit and re-start the servers anytime using ./delegate.sh and ./client.sh and
 your testnet should be ready to go without any further setup.

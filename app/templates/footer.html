@@ -13,7 +13,7 @@
        tooltip="{{'footer.up_to_date'|translate:'{value: blockchain_last_block_num}'}}"
        tooltip-placement="left"></i>
     <i class="fa fa-refresh fa-spin" ng-switch-when="syncing"
-       tooltip="{{'footer.up_to_date'|translate:'{value1: blockchain_last_block_num, value2: (blockchain_last_block_num + blockchain_blocks_behind)}'}}"
+       tooltip="{{'footer.catching_up'|translate:'{value1: blockchain_last_block_num, value2: (blockchain_last_block_num + blockchain_blocks_behind)}'}}"
        tooltip-placement="left"></i>
     <i ng-switch-default></i>
   </span>

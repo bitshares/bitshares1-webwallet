@@ -229,7 +229,9 @@
         "open_sell_orders": "Open Sell {{value}} Orders",
         "open_short_orders": "Open Short Sell {{value}} Orders",
         "open_margin_orders": "Open Margin Orders",
+        "collateral": "Collateral",
         "collateral_ratio": "Collateral Ratio",
+        "interest_rate": "Interest Rate",
         "price_limit": "Price Limit",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",
@@ -407,6 +409,6 @@
     "footer": {
         "enable_trx_scan": "Enable Transaction Scanning",
         "up_to_date": "Up to date, processed {{value}} blocks",
-        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks"
     }
 }
