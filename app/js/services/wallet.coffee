@@ -139,10 +139,6 @@ class Wallet
 #            console.log "wallet_account_yield(#{account_name})", result
 #            result
 
-    get_setting: (name) ->
-        @wallet_api.get_setting(name).then (result) =>
-            result
-            
     count_my_accounts: ->
         accounts = 0
         angular.forEach @accounts, (acct, name) ->
@@ -184,8 +180,7 @@ class Wallet
             @refresh_balances()
 
     get_setting: (name) ->
-        @wallet_api.get_setting(name).then (result) =>
-            result
+        @wallet_api.get_setting(name)
 
     set_setting: (name, value) ->
         @wallet_api.set_setting(name, value).then (result) =>
@@ -381,9 +376,9 @@ class Wallet
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
 
-    wallet_account_register: (account_name, pay_from_account, public_data, pay_rate) ->
+    wallet_account_register: (account_name, pay_from_account, public_data, pay_rate, account_type) ->
         pay_rate = if pay_rate == undefined then 255 else pay_rate
-        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, pay_rate]).then (response) =>
+        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, pay_rate, account_type]).then (response) =>
           response.result
 
     wallet_rename_account: (current_name, new_name) ->
@@ -426,27 +421,31 @@ class Wallet
               owner_key: val.owner_key
           reg
 
-    get_current_or_first_account: ->
-        get_first_account = =>
-            for k,v of @accounts
-                if v.is_my_account
-                    return v
-            return null
+    get_first_account: ->
+        for k,v of @accounts
+            if v.is_my_account
+                return v
+        return null
 
+    get_current_or_first_account: ->
         deferred = @q.defer()
         if @current_account
             deferred.resolve(@current_account)
             return deferred.promise
 
-        @get_setting("current_account").then (setting) =>
+        promise = @wallet_api.get_setting("current_account")
+        promise.then (setting) =>
             if setting?.value
                 @get_account(setting.value).then (account) ->
                     deferred.resolve(account)
             else
                 if @accounts.length > 0
-                    deferred.resolve(get_first_account())
+                    deferred.resolve(@get_first_account())
                 else @refresh_accounts().then =>
-                    deferred.resolve(get_first_account())
+                    deferred.resolve(@get_first_account())
+        promise.catch (error) ->
+            deferred.reject(error)
+
         return deferred.promise
 
     constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->

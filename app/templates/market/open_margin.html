@@ -3,8 +3,8 @@
     <thead>
       <tr>
         <th>{{'th.call_price'|translate}} ({{market.price_symbol}})</th>
+        <th>{{'th.interest_rate'|translate}} (%)</th>
         <th>{{'th.units_owed'|translate:'{value: actual_market.base_symbol}'}}</th>
-        <th>{{'th.collateral'|translate}} ({{actual_market.quantity_symbol}})</th>
         <th>{{'th.expiration'|translate}}</th>
         <th translate>th.action</th>
       </tr>
@@ -22,10 +22,10 @@
         <td tooltip="{{o.price | formatDecimal :  market.price_precision+4 : true}}">
           {{o.price | formatDecimal : market.price_precision : true}}
         </td>
+        <!--interest_rate-->
+        <td><span>{{o.interest_rate | formatDecimal : 2}}</span></td>
         <!--units_owed-->
-        <td><span>{{o.quantity | formatDecimal : actual_market.base_precision}}</span></td>
-        <!--collateral-->
-        <td><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
+        <td><span>{{o.cost | formatDecimal : actual_market.base_precision}}</span></td>
         <!--expiration-->
         <td>{{o.expiration_days}}</td>
         <td>

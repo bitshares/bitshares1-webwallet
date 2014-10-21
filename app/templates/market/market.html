@@ -16,7 +16,7 @@
     </div>
 
     <div class="row">
-      <h3 class="header-title col-sm-5">
+      <h3 class="header-title col-sm-4">
         <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
         : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
         <a ng-click="flip_market()" class="market-header-button"
@@ -27,14 +27,17 @@
             <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
             {{'market.advanced' | translate}}</a>
       </h3>
-      <ul class="row market-stats stats col-sm-4">
-        <li class="stat col-sm-6">
+      <ul class="row market-stats stats col-sm-5">
+        <li class="stat col-sm-4">
           <span>{{market.quantity_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
            {{account.quantity_balance | formatDecimal : market.quantity_precision}}</b></span>
         </li>
-        <li class="stat col-sm-6">
+        <li class="stat col-sm-4">
           <span>{{market.base_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
            {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
+        </li>
+        <li ng-show="true || market.feed_price" class="col-sm-4 stat">
+          <span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
       </ul>
     </div>
@@ -115,15 +118,15 @@
               advanced-mode="advanced">
           </orderbookchart>
 
-          <shortscollatchart ng-if="advanced"
-              shortscollat-array="market.shortscollat_chart_data.array"
-              volume-symbol="actual_market.base_symbol"
-              volume-precision="market.base_precision"
-              price-symbol="market.price_symbol"
-              price-precision="market.price_precision"
-              inverted-market="market.inverted"
-              shorts-price="market.shorts_price">
-          </shortscollatchart>
+          <!--<shortscollatchart ng-if="advanced"-->
+              <!--shortscollat-array="market.shortscollat_chart_data.array"-->
+              <!--volume-symbol="actual_market.base_symbol"-->
+              <!--volume-precision="market.base_precision"-->
+              <!--price-symbol="market.price_symbol"-->
+              <!--price-precision="market.price_precision"-->
+              <!--inverted-market="market.inverted"-->
+              <!--shorts-price="market.shorts_price">-->
+          <!--</shortscollatchart>-->
 
       </div>
     </div>
@@ -154,7 +157,7 @@
                 <h3 class="panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
             </div>
             <div class="panel-body">
-                <div ng-include src="market.inverted ? 'market/open_short_invert.html' : 'market/open_short_direct.html'"></div>
+                <div ng-include src="'market/open_shorts.html'"></div>
             </div>
         </div>
         <div class="panel col-xs-12 col-sm-6">
@@ -168,7 +171,7 @@
     </div>
 
     <div class="row">
-      <div class="panel col-lg-6">
+      <div class="panel col-md-6">
         <div class="panel-heading">
           <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
@@ -176,7 +179,7 @@
           <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
-      <div class="panel col-lg-6">
+      <div class="panel col-md-6">
         <div class="panel-heading">
           <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
@@ -187,7 +190,7 @@
     </div>
 
     <div class="row" ng-show="market.shorts_available && advanced">
-      <div class="panel" ng-class="'col-lg-6'">
+      <div class="panel" ng-class="'col-md-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
@@ -200,10 +203,10 @@
           </h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="market.inverted ? listMarginsGrid : listShortsGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listShortsMarginsLeftGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
-      <div class="panel" ng-class="'col-lg-6'">
+      <div class="panel" ng-class="'col-md-6'">
         <div class="panel-heading">
           <h3 class="panel-title short-orders-title">{{
             (market.inverted ?
@@ -216,7 +219,7 @@
           </h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="market.inverted ? listShortsGrid : listMarginsGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listShortsMarginsRightGrid" class="market-grid" external-scopes="this"></div>
         </div>
       </div>
     </div>

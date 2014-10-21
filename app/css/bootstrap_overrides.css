@@ -65,3 +65,7 @@ input[type="checkbox"] {
   -webkit-user-select: none;
 	user-select: none;
 }
+
+.modal-footer {
+	margin-top: 0;
+}

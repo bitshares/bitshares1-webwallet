@@ -229,7 +229,9 @@
         "open_sell_orders": "Открытые Ордера на Продажу {{value}}",
         "open_short_orders": "Открытые Ордера на Шорт {{value}}",
         "open_margin_orders": "Открытые Залоговые/Margin Ордера",
-        "collateral_ratio": "Collateral Ratio",
+        "collateral": "Обеспечение",
+        "collateral_ratio": "Коэффициент Обеспечения",
+        "interest_rate": "Доходность",
         "price_limit": "Price Limit",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",
@@ -410,8 +412,8 @@
         "about": "О программе"
     },
     "footer": {
-        "enable_trx_scan": "Enable Transaction Scanning",
-        "up_to_date": "Up to date, processed {{value}} blocks",
-        "catching_up": "Catching up.. processed {{value1}} out of {{value2}}"
+        "enable_trx_scan": "Включить сканирование транзакций",
+        "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
+        "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков"
     }
 }
