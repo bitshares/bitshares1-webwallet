@@ -15,8 +15,12 @@ function init {
   . ./bin/rpc_function.sh
   if test -d "$testnet_datadir/wallets/default"
   then
-    # gdb may be loading
-    sleep 10
+    if [ -z "$GDB" ]
+    then
+        sleep 3
+    else
+        sleep 10
+    fi
     echo "Login..."
     # the process may be gone, re-indexing, etc. just error silently
     rpc open '"default"' > /dev/null 2>&1
