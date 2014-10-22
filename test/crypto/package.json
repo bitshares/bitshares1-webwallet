@@ -1,0 +1,19 @@
+{
+  "name": "bitshares-crypto",
+  "version": "0.0.1",
+  "dependencies": {
+    "crypto-js": "3.1.2-3",
+    "ecurve": "1.0.0",
+    "bigi": "1.1.0",
+    "bs58": "1.2.1",
+    "bytebuffer": "3.5.0",
+    "q": "1.0.1"
+  },
+  "scripts": {
+    "test": "cake test"
+  },
+  "devDependencies": {
+    "mocha": "1.21.5",
+    "coffee-script": "~1.8.0"
+  }
+}
