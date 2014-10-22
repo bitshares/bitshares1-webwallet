@@ -1,22 +1,31 @@
-# Usage:
-# ./client.sh tmp/client_???
-# ... OR ...
-# GDB="gdb -ex run --args" ./client.sh tmp/client_???
-testnet_datadir=${1?testnet data directory}
-num=${2-1}
+# Usage (one of these):
+# ./client.sh
+# ./client.sh 001
+# GDB="gdb -ex run --args" ./client.sh
+
+num=${1-000}
+testnet_datadir="tmp/client${num}"
 
 BTS_BUILD=${BTS_BUILD:-~/bitshares/bitshares_toolkit}
 BTS_WEB=${BTS_WEB:-~/bitshares/bitshares_toolkit/programs/web_wallet}
 
-HTTP_PORT=${HTTP_PORT-220${num}}       # 2201
-RPC_PORT=${RPC_PORT-221${num}}         # 2211
+HTTP_PORT=${HTTP_PORT-44${num}}       # 44000
+RPC_PORT=${RPC_PORT-45${num}}         # 45000
 
 function init {
-  sleep 10
   . ./bin/rpc_function.sh
-  # the process may be gone, re-indexing, etc. just error silently
-  rpc open '"default"' > /dev/null 2>&1
-  rpc unlock '9999, "Password00"' > /dev/null 2>&1
+  if test -d "$testnet_datadir/wallets/default"
+  then
+    # the process may be gone, re-indexing, etc. just error silently
+    sleep 10
+    echo "Login..."
+    rpc open '"default"' > /dev/null 2>&1
+    rpc unlock '9999, "Password00"' > /dev/null 2>&1
+  else
+    sleep 3
+    echo "Creating default wallet..."
+    rpc wallet_backup_restore '"config/wallet.json", "default", "Password00"'
+  fi
 }
 init&
 
