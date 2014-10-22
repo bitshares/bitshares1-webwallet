@@ -1,9 +1,10 @@
 console.log "-------------------"
-JSON_PORT=process.argv[2] or 2211
+JSON_PORT=process.argv[2] or 45000
 console.log "(param 1) JSON_PORT=",JSON_PORT
 
 {Rpc} = require "./rpc_json"
 {Common} = require "./rpc_common"
+
 @rpc=new Rpc(on, JSON_PORT, "localhost", "test", "test")
 @common=new Common(@rpc)
 
@@ -38,12 +39,12 @@ class MailTest
     
     constructor: (@rpc, @common) ->
         @mail=new Mail(@rpc, @common)
-    
+
     clear: ->
         @mail.processing_cancel_all()
     
     send: ->
-        @mail.send "init1", "init0", "subject", 
+        @mail.send "delegate0", "delegate1", "subject", 
             #
             # Send a message long enough to require a multi-byte
             # length prefix (longer than 256)
@@ -89,9 +90,6 @@ $BTS_BUILD/programs/client/bitshares_client --rpcport=3000 --httpport=2211 --rpc
 
 open default
 unlock 9999 Password00
-wallet_import_private_key 5K1poDmFzYXd3Eyfuk4DR2jZbHuanzJdmTbxjNPKcrLzeS7EFDS tester true true
-wallet_import_private_key 5JURMQGrUigepksfuRNd2z4gHuX3X1Gy6wfn6DJYG5yKm4uQUWQ init0 true
-wallet_import_private_key 5JSSUaTbYeZxXt2btUKJhxU2KY1yvPvPs6eh329fSTHrCdRUGbS init1 true
 
 wallet_list_accounts
 mail_send tester tester subject body
@@ -105,17 +103,17 @@ register tester tester "" -1 "titan_account"
 TestNetTest = =>
 
     tn=new TestNet(@rpc, @common)
-    
+    tn.unlock()
 
     ## vi tmp/client_p8I/config.json  # "mail_server_enabled": true,
     ## web_wallet/test/testnet$ RPC_JSON_PORT=3000 ./client.sh tmp/client_p8I
     ## web_wallet/test/crypto$ coffee -w scratchpad_mail.coffee 3000
 
     m=new MailTest(@rpc, @common)
-    #m.send()
-    tn.unlock()
+    m.send()
+
     @rpc.run "mail_check_new_messages"
-    m.clear()
+    #m.clear()
     m.processing()
     m.box()
 
