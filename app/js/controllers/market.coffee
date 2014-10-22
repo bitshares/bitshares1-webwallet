@@ -452,7 +452,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                     form = @cover_form
                     error_handler = (error) ->
                         form.total_paid.$error.message = Utils.formatAssertExceptionWithAssets(error.data.error.message, Blockchain.asset_records)
-                    MarketService.cover_order(order, scope.cover.total_paid - fee_paid, account, error_handler).then ->
+                    MarketService.cover_order(order, amount, account, error_handler).then ->
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
             ]
