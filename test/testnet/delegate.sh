@@ -4,7 +4,9 @@
 testnet_datadir=${1?testnet data directory}
 num=${2-1}
 
-BTS_ROOT=${BTS_ROOT:-~/bitshares/bitshares_toolkit}
+BTS_BUILD=${BTS_BUILD:-~/bitshares/bitshares_toolkit}
+BTS_WEB=${BTS_WEB:-~/bitshares/bitshares_toolkit/programs/web_wallet}
+
 HTTP_PORT=${HTTP_PORT-110${num}}	# 1101
 RPC_PORT=${RPC_PORT-111${num}}		# 1111
 
@@ -12,10 +14,10 @@ function init {
   sleep 10
   . ./bin/rpc_function.sh
   rpc open '"default"' 
-  rpc unlock '9999, "Password00"'
+  rpc unlock '9999, "password"'
   for i in $(seq 0 100)
   do
-    rpc wallet_delegate_set_block_production '"init'$i'", "true"'
+    rpc wallet_delegate_set_block_production '"delegate'$i'", "true"'
   done
 }
 init&
@@ -23,9 +25,9 @@ init&
 set -o xtrace
 
 ${GDB-} \
-${BTS_ROOT}/programs/client/bitshares_client\
+"${BTS_BUILD}/programs/client/bitshares_client"\
  --data-dir "$testnet_datadir"\
- --genesis-config keys/init_genesis.json\
+ --genesis-config "$BTS_WEB/test/testnet/config/genesis.json"\
  --server\
  --httpport=$HTTP_PORT\
  --rpcport=$RPC_PORT\

@@ -85,7 +85,7 @@ class TestNet
             wallet_backup_restore #{WALLET_JSON} default Password00
         """
 ###
-$BTS_ROOT/programs/client/bitshares_client --rpcport=3000 --httpport=2211 --rpcuser=test --rpcpassword=test --upnp=false --genesis-config init_genesis.json --data-dir tmp/client_tn --server
+$BTS_BUILD/programs/client/bitshares_client --rpcport=3000 --httpport=2211 --rpcuser=test --rpcpassword=test --upnp=false --genesis-config init_genesis.json --data-dir tmp/client_tn --server
 
 open default
 unlock 9999 Password00

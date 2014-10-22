@@ -1,0 +1,53 @@
+
+
+create a genesis_private_keys.txt file by reformatting this:
+
+public key: XTS8NGfQDtNvGggEKGCogmnYDfpN53rRvPAbb7ZJvBm4wXtUAg4Vw
+private key: ad9e410b801f87bb3f6f4048319a98bb8aede9cd14d00adb416a07ba76571d2f
+private key WIF format: 5K8kRbcDM8bkF3DvzeJT1p4AUaUgEoptvdrjiCgdUos7NjcHJNv
+bts address: XTSAEfvAfcdkUbgkJwkDTum87WRrmDX6bw7m
+pts address: PaG5amaYTwsWykoiaysm2Rmg7CoA2QQ1Yv
+
+into this:
+
+XTS8NGfQDtNvGggEKGCogmnYDfpN53rRvPAbb7ZJvBm4wXtUAg4Vw ad9e410b801f87bb3f6f4048319a98bb8aede9cd14d00adb416a07ba76571d2f 5K8kRbcDM8bkF3DvzeJT1p4AUaUgEoptvdrjiCgdUos7NjcHJNv XTSAEfvAfcdkUbgkJwkDTum87WRrmDX6bw7m PaG5amaYTwsWykoiaysm2Rmg7CoA2QQ1Yv
+
+bash commands: 
+
+for i in $(seq 0 100); do ${BTS_BUILD}/programs/utils/bts_create_key >_k$i; done
+for i in $(seq 0 100); do (sed 's/.* //g' _k$i|tr '\n' ' '; echo)>>private_keys.txt; done
+rm _k*
+
+headers:
+
+public key	private key	private key WIF format	bts address	pts address
+
+
+
+# Creating genesis.json
+i=0
+cat genesis_private_keys.txt|cut -f 1 -d ' '|while read ln; do
+cat <<-END
+{ "name": "delegate${i}", "owner": "${ln}", "delegate_pay_rate": 100 },
+END
+let "i+=1"
+done
+
+# Creating genesis.json
+i=0
+cat genesis_private_keys.txt|cut -f 5 -d ' '|while read ln; do
+cat <<-END
+[ "${ln}", 99009900990 ],
+END
+let "i+=1"
+done
+
+# Create wallet-client.json (wallet backup)
+i=0
+cat genesis_private_keys.txt|cut -f 3 -d ' '|while read ln; do
+cat <<-END
+wallet_import_private_key $ln delegate$i true
+END
+let "i+=1"
+done
+
