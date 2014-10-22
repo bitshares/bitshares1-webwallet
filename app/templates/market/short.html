@@ -6,11 +6,11 @@
     </span>
   </div>
   <!--collateral-->
-  <div form-hgroup label="{{'market.collateral'|translate}}" addon="{{actual_market.quantity_symbol}}">
+  <div form-hgroup label="{{'market.collateral'|translate}}" addon="{{actual_market.quantity_symbol}}" label-popover="{{'market.help.short_collateral' | translate: '{value: actual_market.quantity_symbol}'}}">
     <input-positive-number name="short_collateral" ng-model="short.collateral" ng-change="short_change()" required="true" />
   </div>
   <!--interest rate-->
-  <div form-hgroup label="{{'market.interest_rate'|translate}}" label-popover="{{'market.help.short_interest_rate' | translate:'{quantity: actual_market.quantity_symbol, base: actual_market.base_symbol}'}}" addon="{{'market.percent_apr' | translate}}">
+  <div form-hgroup label="{{'market.interest_rate'|translate}}" label-popover="{{'market.help.short_interest_rate' | translate}}" addon="{{'market.percent_apr' | translate}}">
     <input-positive-number name="short_interest_rate" ng-model="short.interest_rate" ng-change="short_change()" required="true"/>
   </div>
   <!--price limit-->
@@ -22,7 +22,7 @@
     <span popover="{{'market.help.short_feed_price' | translate}}" popover-trigger="mouseenter">{{'market.feed_price'|translate}}</span> <span class="clickable" ng-click="use_trade_data({price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <!--cost-->
-  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}" label-popover="{{'market.help.short_quantity' | translate: '{value: actual_market.base_symbol}'}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" ng-change="short_total_change()" required="true"/>
   </div>
   <!--Submit-->

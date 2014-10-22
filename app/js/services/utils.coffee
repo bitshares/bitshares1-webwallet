@@ -170,3 +170,17 @@ servicesModule.factory "Utils", ($translate,$q) ->
             #console.log "[too_soon] #{name} true"
             return true
 
+    formatAssertException: (text) ->
+        match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)
+        return if !match or match.length < 2 then text else match[1]
+
+    formatAssertExceptionWithAssets: (text, assets) ->
+        match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)
+        return text if !match or match.length < 2
+        match[1].replace /\{\"amount\":\d+\,\"asset_id\"\:\d+\}/g, (match) =>
+            a = JSON.parse(match)
+            asset = assets[a.asset_id]
+            return match unless asset
+            a.precision = asset.precision
+            a.symbol = asset.symbol
+            @formatAsset(a)
