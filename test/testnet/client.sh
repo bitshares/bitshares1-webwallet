@@ -16,7 +16,7 @@ function init {
   . ./bin/rpc_function.sh
   # the process may be gone, re-indexing, etc. just error silently
   rpc open '"default"' > /dev/null 2>&1
-  rpc unlock '9999, "password"' > /dev/null 2>&1
+  rpc unlock '9999, "Password00"' > /dev/null 2>&1
 }
 init&
 

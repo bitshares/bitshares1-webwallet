@@ -8,7 +8,7 @@ function import_wallet_backup {
   dir=$1
   echo Importing wallet backup...
   cat<<-END|./client.sh "$dir" $num
-wallet_backup_restore $BTS_WEB/test/testnet/config/wallet.json default password
+wallet_backup_restore $BTS_WEB/test/testnet/config/wallet.json default Password00
 END
   echo
 }

@@ -14,7 +14,7 @@ function init {
   sleep 10
   . ./bin/rpc_function.sh
   rpc open '"default"' 
-  rpc unlock '9999, "password"'
+  rpc unlock '9999, "Password00"'
   for i in $(seq 0 100)
   do
     rpc wallet_delegate_set_block_production '"delegate'$i'", "true"'

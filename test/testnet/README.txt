@@ -24,7 +24,7 @@ Start the ./delegate.sh in one console.  Shortly some rpc commands will execute
 enabling all delegates for block production.  You should see some output like this:
 
 (wallet closed) >>> open "default"
-{"id":0,"result":null}unlock 9999, "password"
+{"id":0,"result":null}unlock 9999, "Password00"
 {"id":0,"result":null}wallet_delegate_set_block_production "delegate0", "true"
 {"id":0,"result":null}wallet_delegate_set_block_production "delegate1", "true"
 {"id":0,"result":null}wallet_delegate_set_block_production "delegate2", "true"
