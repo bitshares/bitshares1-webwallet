@@ -14,7 +14,12 @@ npm install -g coffee-script
 
 ## RUN
 
-npm test
+cake test
 
 coffee -w scratchpad_mailparse.coffee
 coffee -w scratchpad_...
+
+## BROWSER DEPLOY
+
+cake browserify
+

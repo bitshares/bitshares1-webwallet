@@ -1,6 +1,10 @@
+
+ByteBuffer = require('bytebuffer')
+ByteBuffer = ByteBuffer.dcodeIO.ByteBuffer if ByteBuffer.dcodeIO
+
 class MailMessage
 
-    ByteBuffer=require 'bytebuffer'
+
 
     constructor: (@subject, @body, @reply_to, @attachments, @signature) ->
 

@@ -26,7 +26,6 @@ describe "MailMessage", ->
         ecdsa = require('../src/ecdsa')
         ecurve = require('ecurve')
         curve = ecurve.getCurveByName('secp256k1')
-        #bs58 = require('bs58')
         BigInteger = require('bigi')
         fixtures.before.signed_messages.forEach (msg, i) ->
             MailMessage mm = MailMessage.fromHex(msg.hex)
