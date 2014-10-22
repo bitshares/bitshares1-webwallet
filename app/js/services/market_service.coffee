@@ -281,13 +281,13 @@ class MarketService
             console.log "===== order placed: ", order.id
         return call
 
-    cover_order: (order, quantity, account) ->
+    cover_order: (order, quantity, account, error_handler) ->
         order.touch()
         order.status = "pending"
         order.quantity -= quantity if quantity > 0.0 and order.quantity > quantity
         symbol = if @market.inverted then @market.asset_quantity_symbol else @market.asset_base_symbol
         console.log "------ wallet_market_cover #{[account.name, quantity, symbol, order.id].join(' ')}"
-        @wallet_api.market_cover(account.name, quantity, symbol, order.id)
+        @wallet_api.market_cover(account.name, quantity, symbol, order.id, error_handler)
 
     post_bid: (bid, account) ->
         call = if !@market.inverted
@@ -579,6 +579,9 @@ class MarketService
             try
                 self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
                 self.market.highest_bid = market.highest_bid = self.highest_bid
+
+                self.market.lowest_ask = market.lowest_ask = self.market.feed_price unless market.lowest_ask
+                self.market.highest_bid = market.highest_bid = self.market.feed_price unless market.highest_bid
 
                 self.helper.sort_array(self.asks, "price", "quantity", false)
                 self.helper.sort_array(self.bids, "price", "quantity", true)

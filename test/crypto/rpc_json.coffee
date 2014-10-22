@@ -4,7 +4,7 @@ class RpcJson
     net = require 'net'
 
     constructor: (@debug, port, host) ->
-        # @payload may temporarily hold a partial result (incomplete json response)
+
         @payload = ""
         @defer_request = []
         @defer_connection = q.defer()
@@ -19,8 +19,8 @@ class RpcJson
             _payload = _payload.toString() unless typeof _payload is 'string'
             @payload += _payload
 
-            # @payload may be holding more than one command
             payload_complete = @payload.charAt(@payload.length - 1) is '\n'
+            # @payload may be holding more than one command            
             cmds = @payload.trim().split '\n'
             if not payload_complete
                 # save incomplete command for the next on 'data' event
@@ -44,12 +44,16 @@ class RpcJson
             console.log "Connection closed" if @debug
             @defer_connection = null
 
-    request: (method, parameters) ->
+    run: (method, parameters) ->
+        
+        # convert multiple lines into an array
+        multi_cmd = method.trim().split '\n'
+        method = multi_cmd if multi_cmd.length > 1
 
         if Array.isArray method
             promise=[]
             for m in method
-                promise.push @request(m)
+                promise.push @run(m)
 
             return q.all(promise)
 
@@ -74,17 +78,28 @@ class RpcJson
 
         @defer_request[@json_rpc_request_counter].promise
 
-    end: =>
+    kill: ->
         @connection.end()
         return
 
+    close: () ->
+        defer=q.defer()
+        _check = =>
+            for r in @defer_request
+                if r
+                    setTimeout(_check, 300)
+                    return
+            @connection.end()
+            defer.resolve()
+        _check()
+        defer.promise
 
 class Rpc extends RpcJson
 
     constructor: (debug, json_port, host, user, password) ->
         @rpc = super(debug, json_port, host)
         if user and password
-            @request("login #{user} #{password}")
+            @run("login #{user} #{password}")
 
 exports.Rpc = Rpc
 

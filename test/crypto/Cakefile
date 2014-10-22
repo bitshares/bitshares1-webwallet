@@ -1,0 +1,17 @@
+require 'coffee-script/register'
+{exec} = require "child_process"
+
+REPORTER = "min"
+
+task "test", "run tests", ->
+  exec "NODE_ENV=test 
+    ./node_modules/.bin/mocha 
+    --compilers coffee:coffee-script
+    --require coffee-script/register
+  ", (err, output) ->
+    throw err if err
+    console.log output
+
+    #--require test/test_helper.coffee
+    #--colors
+    #--reporter #{REPORTER}
