@@ -4,7 +4,7 @@
               {{ ('account.vote.'+vote_options[transfer_info.vote]) | translate }} <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
-              <li ng-repeat="(k, v) in $parent.vote_options">
+              <li ng-repeat="(k, v) in vote_options">
                 <a ng-click="transfer_info.vote=k; status2.isopen=false">{{ ('account.vote.'+v) | translate }}</a>
               </li>
             </ul>
