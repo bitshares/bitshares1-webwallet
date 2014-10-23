@@ -30,11 +30,9 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
-        if (typeof $scope.account.private_data != 'object' || $scope.account.private_data == null)
-            $scope.account.private_data = {}
+        $scope.account.private_data ||= {}
         vote_stng=$scope.account.private_data.account_vote_setting
-        if (vote_stng == 'vote_random' || vote_stng == 'vote_all' || vote_stng == 'vote_none' )
-            $scope.transfer_info.vote=vote_stng
+        $scope.transfer_info.vote = vote_stng if vote_stng
         $scope.$watch('transfer_info.vote', (newValue, oldValue) ->
             if (newValue != oldValue)
                 $scope.account.private_data.account_vote_setting=$scope.transfer_info.vote
@@ -61,14 +59,14 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
 
-    $scope.$watch ->
-        Wallet.accounts[name]
-    , ->
-        if Wallet.accounts[name]
-            $scope.account = Wallet.accounts[name]
-            if $scope.account.delegate_info
-                Blockchain.get_asset(0).then (asset_type) ->
-                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
+#    $scope.$watch ->
+#        Wallet.accounts[name]
+#    , ->
+#        if Wallet.accounts[name]
+#            $scope.account = Wallet.accounts[name]
+#            if $scope.account.delegate_info
+#                Blockchain.get_asset(0).then (asset_type) ->
+#                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
     $scope.$watch ->
         Wallet.balances[name]

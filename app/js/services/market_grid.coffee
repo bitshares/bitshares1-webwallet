@@ -83,12 +83,12 @@ class MarketGrid
                 field: "collateral"
                 displayName: "#{@filter('translate')('th.collateral')} (#{actual_market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{actual_market.quantity_precision}"
-                sort: { direction: "desc", priority: 1 }
+                sort: { direction: "desc", priority: 2 }
             ,
                 field: "interest_rate"
                 displayName: "#{@filter('translate')('th.interest_rate')} (%)"
                 cellFilter: "formatDecimal:2"
-                sort: { direction: "desc", priority: 2 }
+                sort: { direction: "desc", priority: 1 }
             ,
                 field: "quantity"
                 displayName: "~ #{@filter('translate')('th.quantity')} (#{actual_market.base_symbol})"

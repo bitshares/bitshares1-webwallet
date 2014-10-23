@@ -36,9 +36,8 @@
             <td>{{ asset.description }}</td>
             <!--<td>{{ asset.public_data || "" }}</td>-->
             <td>
-                <a href="#/accounts/{{ asset.account_name }}" ng-if="asset.id != 0 && asset.issuer_account_id > 0">{{ asset.account_name }} </a>
-                <span ng-if="asset.issuer_account_id == -2">MARKET</span>
-                <span ng-if="asset.id == 0">{{ asset.account_name }}</span>
+                <a href="#/accounts/{{ asset.account_name }}" ng-if="asset.issuer_account_id > 0">{{ asset.account_name }} </a>
+                <span ng-if="asset.issuer_account_id <= 0">{{ asset.account_name }}</span>
             </td>
             <td>
                 {{ asset.precision }}
