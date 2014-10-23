@@ -33,16 +33,21 @@ class Blockchain
 
     asset_records: {}
     symbol2records: {}
+    asset_records_deferred: null
 
     populate_asset_record: (record) ->
-        @asset_records[record.id] = record #TODO this has extra info we don't need to cache
+        record.account_name = "MARKET" if record.issuer_account_id == -2
+        record.account_name = "GENESIS" if record.issuer_account_id == 0
+        @asset_records[record.id] = record
         @symbol2records[record.symbol] = record
         return @asset_records[record.id]
 
     refresh_asset_records: ->
-        deferred = @q.defer()
+        return @asset_records_deferred.promise if @asset_records_deferred
+        @asset_records_deferred = deferred = @q.defer()
         if Object.keys(@asset_records).length > 10
             deferred.resolve(@asset_records)
+            @asset_records_deferred = null
             return deferred.promise
 
         promise = @blockchain_api.list_assets("", -1)
@@ -50,8 +55,10 @@ class Blockchain
             angular.forEach result, (record) =>
                 @populate_asset_record record
             deferred.resolve(@asset_records)
+            @asset_records_deferred = null
         , (error) ->
             deferred.reject(error)
+            @asset_records_deferred = null
 
         return deferred.promise
 
