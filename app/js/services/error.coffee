@@ -56,6 +56,7 @@ servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
         return response
 
     responseError: (response) ->
+        return '' if response.status == 403
         if response.config?.error_handler
             res = response.config.error_handler(response)
             processRpcError(response, Shared) unless res
