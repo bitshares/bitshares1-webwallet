@@ -208,9 +208,9 @@
         "asks": "Asks",
         "cover_short_position": "Shortposition covern",
         "order_type": {
-            "bid_order": "Bid",
-            "ask_order": "Ask",
-            "short_order": "Short",
+            "bid_order": "Kauforder",
+            "ask_order": "Verkaufsorder",
+            "short_order": "Shortorder",
             "margin_order": "Margin Order"
         },
         "tip": {
@@ -244,9 +244,9 @@
             "sell_highest_bid" : "Der höchste Preis bei dem Ihre Verkaufsorder sofort durchgeführt werden soll.",
             "sell_total" : "Die Menge an {{base}} die auf Ihr Konto {{account}} durch diese Order gutgeschrieben werden wird.",
             "short_quantity": "Die Menge an {{value}} die Sie leihen und verkaufen möchten.",
-            "short_collateral_ratio": "The number of {{quantity}} per {{base}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio.",
-            "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+            "short_collateral_ratio": "Die Anzahl von {{quantity}} pro {{base}} die Sie bereit sind als Kollateral zu hinterlegen.",
+            "short_price_limit_direct": "Der höchste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{base}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer größer ist.",
+            "short_price_limit_inverted": "Der niedrigste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{base}} zu leihen zu zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer niedriger ist.",
             "short_feed_price": "Der Median des Handelspreis von externen Handelsplatformen gemäß der Delegierten Preis-Feeds.",
             "short_total": "Die benötigte Menge {{value}} für diese Order. Bestimmt als Quantität mal Kollateral-Ratio."
         },
