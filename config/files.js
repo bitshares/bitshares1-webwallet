@@ -61,7 +61,8 @@ module.exports = function(lineman) {
         "app/css/footer.css",
         "app/css/market.css",
         "app/css/spinner.css",
-        "app/css/help.css"
+        "app/css/help.css",
+        "app/css/splashpage.css"
       ]
     }
 

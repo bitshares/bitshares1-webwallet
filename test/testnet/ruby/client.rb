@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'open3'
 require_relative './bitshares_api.rb'
 
@@ -11,7 +13,7 @@ class BitSharesNode
     @client_binary, @options = client_binary, options
     @handler = nil
 
-    @command = @client_binary
+    @command = @client_binary.clone
     @command << " --data-dir #{@options[:data_dir]}"
     @command << " --genesis-config #{@options[:genesis]}"
     @command << " --min-delegate-connection-count=0"
@@ -53,8 +55,26 @@ class BitSharesNode
   end
 
   def exec(method, *params)
-    raise  Error, "rpc instance is not defined, make sure the node is started" unless @rpc_instance
+    raise Error, "rpc instance is not defined, make sure the node is started" unless @rpc_instance
     @rpc_instance.request(method, params)
   end
 
+  def wait_new_block
+    inititial_block_num = new_block_num = exec('info')['blockchain_head_block_num']
+    while inititial_block_num == new_block_num
+      sleep 1.0
+      new_block_num = exec('info')['blockchain_head_block_num']
+    end
+  end
+
+end
+
+if $0 == __FILE__
+  client_binary = '/Users/vz/bitshares/osx_build/programs/client/bitshares_client'
+  client_node = BitSharesNode.new client_binary, data_dir: "tmp/client_a", genesis: "test_genesis.json", http_port: 5680, delegate: false
+  client_node.start
+  client_node.exec 'create', 'default', '123456789'
+  client_node.exec 'unlock', '9999999', '123456789'
+  puts "client node is up and running on port 5680"
+  STDIN.getc
 end

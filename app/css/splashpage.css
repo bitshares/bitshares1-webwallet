@@ -1,0 +1,96 @@
+.splashpage > .wrapper {
+	font-family: 'Open Sans', sans-serif;
+	color: #eee;
+	font-size: 16px;
+	margin: 0;
+	padding: 0;
+	background: #0b384d url('/img/xt-background.jpg') no-repeat left top !important;
+	background-size: cover !important;
+}
+
+.splashpage > .wrapper > .navbar {
+	display: none !important;
+}
+
+.splashpage .sidebar {
+	display: none !important;
+}
+
+.splashpage .content {
+	margin: 0;
+}
+
+.splashpage .loading-overlay {
+	left: 95px;
+}
+
+.splashpage-wrapper {
+	width: 400px;
+	height: 400px;
+	position: absolute;
+	top: 35%;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -100px;
+}
+
+.splashpage-wrapper .description {
+	font-size: 12px;
+	color: #ccc;
+}
+
+.splashpage-wrapper .str-top {
+	height: 80px;
+	text-align: center;
+	border-bottom: 1px solid rgba(255, 255, 255, .5);
+	-webkit-background-clip: padding-box; for Safari background-clip : padding-box; for IE9+, Firefox 4 +, Opera, Chrome
+}
+
+.splashpage-wrapper .str-top img { margin-bottom: 24px; }
+
+.splashpage-wrapper .str-content {
+	text-align: center;
+	padding: 20px 10px 5px;
+	cursor: pointer;
+}
+
+.splashpage-wrapper .str-arrow {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 10px;
+	text-decoration: none;
+	padding-bottom: 10px;
+}
+
+.splashpage-wrapper .str-arrow:hover {
+	text-decoration: none;
+	color: #6bd3f3;
+}
+
+.splashpage-wrapper .str-bottom {
+	height: 40px;
+	padding: 25px;
+	text-align: center;
+	border-top: 1px solid rgba(255, 255, 255, .5);
+	-webkit-background-clip: padding-box; for Safari background-clip : padding-box; for IE9+, Firefox 4 +, Opera, Chrome
+}
+
+.splashpage-wrapper .str-bottom img { margin-top: 24px; }
+
+.splashpage-wrapper p {
+	text-align: center;
+}
+
+.splashpage-wrapper .client-version {
+	color: #aaa;
+}
+
+.splashpage-wrapper .input {
+	width: 220px;
+	margin: 0 auto 10px auto;
+}
+
+.splashpage-wrapper .spacedrow {
+	margin-top: 10px;
+}

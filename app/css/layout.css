@@ -10,7 +10,7 @@
 
 .content {
 	background: none;
-	overflow-y: scroll;
+	overflow-y: auto;
 	zoom: 1;
 	margin-top: 0;
 	padding-bottom: 60px;
