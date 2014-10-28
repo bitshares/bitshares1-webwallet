@@ -16,3 +16,7 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
             e.details = null for e in errors.list
         else
             errors.new_error = false
+
+    $scope.lock = ->
+        Wallet.wallet_lock().then ->
+            navigate_to('unlockwallet')
