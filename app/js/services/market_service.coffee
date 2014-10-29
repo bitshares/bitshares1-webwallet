@@ -119,7 +119,7 @@ class Market
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
-        m.shorts_available = m.base_asset.id == 0 or m.quantity_asset.id == 0
+        m.shorts_available = m.base_asset?.id == 0 or m.quantity_asset?.id == 0
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url

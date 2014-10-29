@@ -92,10 +92,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
         MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
-            # none
         MarketGrid.disableMouseScroll()
 
-        #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers

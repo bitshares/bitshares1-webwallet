@@ -23,14 +23,12 @@ processRpcError = (response, Shared, state) ->
         if error_msg.match(/No such wallet exists/) or error_msg.match(/wallet does not exist/)
             navigate_to("createwallet") unless window.location.hash == "#/createwallet"
             dont_report = true
-        if error_msg.match(/The wallet must be opened/)
+        if error_msg.match(/The wallet must be opened/) or error_msg.match(/spending key must be unlocked before executing this command/)
             navigate_to("unlockwallet") unless window.location.hash == "#/unlockwallet"
             dont_report = true
         method = response.config.data?.method
     else if response.message
         error_msg = response.message
-
-    dont_report = true if response.status == 404
 
     unless dont_report
         error_msg = error_msg.substring(0, 512)
