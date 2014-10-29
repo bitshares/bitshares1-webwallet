@@ -13,8 +13,7 @@ servicesModule.config ($httpProvider, $provide) ->
                 delegate(exception, cause)
     ]
 
-
-processRpcError = (response, Shared, state) ->
+processRpcError = (response, Shared) ->
     dont_report = false
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
@@ -23,14 +22,12 @@ processRpcError = (response, Shared, state) ->
         if error_msg.match(/No such wallet exists/) or error_msg.match(/wallet does not exist/)
             navigate_to("createwallet") unless window.location.hash == "#/createwallet"
             dont_report = true
-        if error_msg.match(/The wallet must be opened/)
-            navigate_to("unlockwallet") unless window.location.hash == "#/unlockwallet"
+        if error_msg.match(/The wallet must be opened/) or error_msg.match(/spending key must be unlocked before executing this command/)
+            navigate_to("unlockwallet") unless window.location.hash == "#/unlockwallet" or window.location.hash == "#/createwallet"
             dont_report = true
         method = response.config.data?.method
     else if response.message
         error_msg = response.message
-
-    dont_report = true if response.status == 404
 
     unless dont_report
         error_msg = error_msg.substring(0, 512)
@@ -56,6 +53,9 @@ servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
         return response
 
     responseError: (response) ->
+        if response.status == 401 or response.status == 404
+            response.repeat = true
+            return response
         return '' if response.status == 403
         if response.config?.error_handler
             res = response.config.error_handler(response)

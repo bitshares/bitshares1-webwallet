@@ -28,16 +28,19 @@
             {{'market.advanced' | translate}}</a>
       </h3>
       <ul class="row market-stats stats col-sm-5">
-        <li class="stat col-sm-4">
+        <li class="stat col-sm-3">
           <span>{{market.quantity_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
            {{account.quantity_balance | formatDecimal : market.quantity_precision}}</b></span>
         </li>
-        <li class="stat col-sm-4">
+        <li class="stat col-sm-3">
           <span>{{market.base_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
            {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
         </li>
-        <li ng-show="true || market.feed_price" class="col-sm-4 stat">
+        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
           <span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        </li>
+        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
+          <span>{{'asset.total_supply'|translate}}<br/><b class="value">{{asset_total_supply | formatDecimal : 2}}</b><br/><em>{{actual_market.base_symbol}}</em></span>
         </li>
       </ul>
     </div>

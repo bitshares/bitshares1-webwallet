@@ -20,7 +20,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             $scope.timedout = null
         return
     $scope.started = false
-    $idle.watch()
     $scope.$on "$idleStart", ->
         closeModals()
         $scope.warning = $modal.open(

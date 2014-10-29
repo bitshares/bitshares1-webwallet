@@ -94,7 +94,9 @@
         "price_limit": "ОГРАНИЧЕНИЕ ЦЕНЫ",
         "action": "ДЕЙСТВИЕ",
         "paid": "ОПЛАЧЕНО",
-        "received": "ПОЛУЧЕНО"
+        "received": "ПОЛУЧЕНО",
+        "expiration": "EXPIRATION",
+        "interest_rate": "ДОХОДНОСТЬ (%)"
     },
     "block": {
         "title": "Блок",
@@ -339,6 +341,7 @@
         "description": "Описание",
         "memo_data": "Примечание",
         "maximum_share_supply": "Максимальное количество акций",
+        "total_supply": "Всего эмитировано",
         "precision": "Точность",
         "issued_by": "Эмитирован",
         "create_new_asset": "Создать новый актив",

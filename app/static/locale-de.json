@@ -98,7 +98,8 @@
         "action": "AKTION",
         "paid": "BEZAHLT",
         "received": "EMPFANGEN",
-        "expiration": "ABLAUF"
+        "expiration": "ABLAUF",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "Block",
@@ -343,6 +344,7 @@
         "description": "Beschreibung",
         "memo_data": "Verwendungszweck",
         "maximum_share_supply": "Anzahl Anteile",
+        "total_supply": "Total Supply",
         "info_create_asset_fee": "Aktuelle Gebühr zum erstellen dieses Anlageguts",
         "precision": "Präzision",
         "issued_by": "Ausgestellt von",

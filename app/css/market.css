@@ -281,6 +281,7 @@ tr.short_wall td {
 
 .market-grid .ui-grid-cell.short_wall {
 	background-color: #E4F0FB;
+	font-weight: bold;
 }
 
 .market-grid .ui-grid-row:hover .ui-grid-cell {

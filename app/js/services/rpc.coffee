@@ -1,5 +1,5 @@
 servicesModule = angular.module("app.services")
-servicesModule.factory "RpcService", ($http) ->
+servicesModule.factory "RpcService", ($http, $timeout, $q) ->
     request: (method, params, error_handler = null) ->
         reqparams = {method: method, params: params || []}
         http_params =
@@ -14,7 +14,19 @@ servicesModule.factory "RpcService", ($http) ->
                 id: 1
         angular.extend(http_params.data, reqparams)
         #console.log "+++ RpcService <#{http_params.data.method}>"
+        defered = $q.defer()
         $http(http_params).then (response) ->
+            console.log("RpcService <#{http_params.data.method}>")
+            if response.repeat
+                #console.log "------ RpcService: repeating the call #{http_params.data.method} ------>", http_params.repeat_counter
+                $timeout ->
+                    $http(http_params).then (response1) ->
+                        defered.resolve(response1.data)
+                , 500
+            else
+                defered.resolve(response.data)
+            return defered.promise
+
             ###console.log("RpcService <#{http_params.data.method}> response:", response, "params:", params) unless method in [
                 "wallet_open","wallet_lock","wallet_unlock","wallet_create","batch",
                 "wallet_get_info","wallet_get_setting","wallet_account_balance",
@@ -32,7 +44,7 @@ servicesModule.factory "RpcService", ($http) ->
                 "blockchain_get_feeds_for_asset","blockchain_market_get_asset_collateral",
                 "blockchain_market_list_shorts","blockchain_market_price_history"
             ]###
-            response.data or response
+            #response.data or response
 
     start_profiler: ->
         window.rpc_calls_performance_data = {}
