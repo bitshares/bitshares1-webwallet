@@ -52,6 +52,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
         return if parts.length < 2 then 0 else parts[1].length
 
     formatDecimal: (value, decPlaces, truncate0s = true) ->
+        return "-" if value == null
         n = @truncateTrailing9s(value)
         #return n unless decPlaces
         decPlaces = decPlaces.toString().length - 1 if decPlaces > 9
