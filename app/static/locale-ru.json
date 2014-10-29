@@ -94,7 +94,9 @@
         "price_limit": "ОГРАНИЧЕНИЕ ЦЕНЫ",
         "action": "ДЕЙСТВИЕ",
         "paid": "ОПЛАЧЕНО",
-        "received": "ПОЛУЧЕНО"
+        "received": "ПОЛУЧЕНО",
+        "expiration": "EXPIRATION",
+        "interest_rate": "ДОХОДНОСТЬ (%)"
     },
     "block": {
         "title": "Блок",

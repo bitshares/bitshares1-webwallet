@@ -99,7 +99,7 @@
         "paid": "PAID",
         "received": "RECEIVED",
         "expiration": "EXPIRATION",
-        "interest_rate": "Interest Rate"
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "Block",

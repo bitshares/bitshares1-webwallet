@@ -98,7 +98,8 @@
         "action": "AKTION",
         "paid": "BEZAHLT",
         "received": "EMPFANGEN",
-        "expiration": "ABLAUF"
+        "expiration": "ABLAUF",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "Block",

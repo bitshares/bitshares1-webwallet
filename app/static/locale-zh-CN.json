@@ -97,7 +97,9 @@
         "price_limit": "成交限价",
         "action": "操作",
         "paid": "付出",
-        "received": "获得"
+        "received": "获得",
+        "expiration": "EXPIRATION",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "区块",
