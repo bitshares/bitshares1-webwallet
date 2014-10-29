@@ -1,7 +1,7 @@
 <form ng-show="advanced" name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <!--balance-->
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}} ({{account.name}})">
-    <span class="clickable" ng-click="use_trade_data({quantity: account.short_balance / (2 * market.shorts_price)})">
+    <span class="clickable" ng-click="use_trade_data({collateral: account.short_balance})">
       {{account.short_balance | formatDecimal : market.base_precision}}
     </span>
   </div>
