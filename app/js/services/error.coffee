@@ -13,8 +13,7 @@ servicesModule.config ($httpProvider, $provide) ->
                 delegate(exception, cause)
     ]
 
-
-processRpcError = (response, Shared, state) ->
+processRpcError = (response, Shared) ->
     dont_report = false
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
@@ -54,6 +53,9 @@ servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
         return response
 
     responseError: (response) ->
+        if response.status == 401 or response.status == 404
+            response.repeat = true
+            return response
         return '' if response.status == 403
         if response.config?.error_handler
             res = response.config.error_handler(response)
