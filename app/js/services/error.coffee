@@ -24,7 +24,7 @@ processRpcError = (response, Shared, state) ->
             navigate_to("createwallet") unless window.location.hash == "#/createwallet"
             dont_report = true
         if error_msg.match(/The wallet must be opened/) or error_msg.match(/spending key must be unlocked before executing this command/)
-            navigate_to("unlockwallet") unless window.location.hash == "#/unlockwallet"
+            navigate_to("unlockwallet") unless window.location.hash == "#/unlockwallet" or window.location.hash == "#/createwallet"
             dont_report = true
         method = response.config.data?.method
     else if response.message
