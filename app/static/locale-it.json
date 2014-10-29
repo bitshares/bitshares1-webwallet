@@ -343,6 +343,7 @@
         "description": "Descrizione",
         "memo_data": "Dati Memo",
         "maximum_share_supply": "Quote Massime Disponibili",
+        "total_supply": "Total Supply",
         "info_create_asset_fee": "Commissione per Creare un Nuovo Asset",
         "precision": "Precisione",
         "issued_by": "Distribuite da",

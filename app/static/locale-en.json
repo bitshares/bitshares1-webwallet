@@ -346,6 +346,7 @@
         "description": "Description",
         "memo_data": "Memo Data",
         "maximum_share_supply": "Maximum Share Supply",
+        "total_supply": "Total Supply",
         "info_create_asset_fee": "Fees for creating a new asset",
         "precision": "Precision",
         "issued_by": "Issued By",
