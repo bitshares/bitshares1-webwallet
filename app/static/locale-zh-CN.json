@@ -97,7 +97,9 @@
         "price_limit": "成交限价",
         "action": "操作",
         "paid": "付出",
-        "received": "获得"
+        "received": "获得",
+        "expiration": "EXPIRATION",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "区块",
@@ -344,6 +346,7 @@
         "description": "描述",
         "memo_data": "消息数据",
         "maximum_share_supply": "最大股份供应",
+        "total_supply": "Total Supply",
         "info_create_asset_fee": "创建比特资产手续费",
         "precision": "精度",
         "create_new_asset": "创建新的比特资产",

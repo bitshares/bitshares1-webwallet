@@ -98,7 +98,8 @@
         "action": "AZIONE",
         "paid": "PAGATO",
         "received": "RICEVUTO",
-        "expiration": "SCADENZA"
+        "expiration": "SCADENZA",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "Blocco",
@@ -233,6 +234,7 @@
         "open_short_orders": "Open Short Sell {{value}} Orders",
         "open_margin_orders": "Open Margin Orders",
         "collateral_ratio": "Collateral Ratio",
+        "interest_rate": "Interest Rate",
         "price_limit": "Price Limit",
         "help": {
             "buy_quantity": "The amount of {{value}} that you would like to buy.",
@@ -341,6 +343,7 @@
         "description": "Descrizione",
         "memo_data": "Dati Memo",
         "maximum_share_supply": "Quote Massime Disponibili",
+        "total_supply": "Total Supply",
         "info_create_asset_fee": "Commissione per Creare un Nuovo Asset",
         "precision": "Precisione",
         "issued_by": "Distribuite da",

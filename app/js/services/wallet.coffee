@@ -38,25 +38,26 @@ class Wallet
     
     check_wallet_status: ->
         deferred = @q.defer()
-
         @open().then =>
             @wallet_get_info().then (result) =>
                 deferred.resolve()
-                if result.open
-                    if not result.unlocked
-                        @location.path("/unlockwallet")
-                    else
-                        @get_setting('timeout').then (result) =>
-                            if result && result.value
-                                @timeout = result.value
-                                @idle._options().idleDuration = @timeout
-                                @idle.watch()
-                        @get_setting('autocomplete').then (result) =>
-                            @autocomplete = result.value if result
-                        @get_setting('interface_locale').then (result) =>
-                            if result and result.value
-                                @interface_locale = result.value
-                                @translate.use(result.value)
+                @get_setting('timeout').then (result) =>
+                if result && result.value
+                    @timeout = result.value
+                    @idle._options().idleDuration = @timeout
+                    @idle.watch()
+                @get_setting('autocomplete').then (result) =>
+                    @autocomplete = result.value if result
+                @get_setting('interface_locale').then (result) =>
+                    if result and result.value
+                        @interface_locale = result.value
+                        @translate.use(result.value)
+                if not result.unlocked
+                    navigate_to('unlockwallet')
+            , (error) ->
+                deferred.reject(error)
+        , (error) ->
+                deferred.reject(error)
 
         return deferred.promise
 

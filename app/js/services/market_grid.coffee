@@ -56,7 +56,7 @@ class MarketGrid
                 sort: { direction: "asc", priority: 1 }
             ,
                 field: "interest_rate"
-                displayName: "#{@filter('translate')('th.interest_rate')} (%)"
+                displayName: "#{@filter('translate')('th.interest_rate')}"
                 cellFilter: "formatDecimal:2"
                 sort: { direction: "desc", priority: 2 }
             ,
@@ -86,7 +86,7 @@ class MarketGrid
                 sort: { direction: "desc", priority: 2 }
             ,
                 field: "interest_rate"
-                displayName: "#{@filter('translate')('th.interest_rate')} (%)"
+                displayName: "#{@filter('translate')('th.interest_rate')}"
                 cellFilter: "formatDecimal:2"
                 sort: { direction: "desc", priority: 1 }
             ,

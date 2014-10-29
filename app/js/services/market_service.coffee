@@ -33,7 +33,7 @@ class TradeData
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
         td.interest_rate = @interest_rate
-        td.short_price_limit = 1.0 / @short_price_limit
+        td.short_price_limit = if @short_price_limit and @short_price_limit > 0.0 then 1.0 / @short_price_limit else null
         td.received = @received
         td.paid = @paid
         return td
@@ -46,7 +46,7 @@ class TradeData
         td.price = TradeData.helper.to_float(@price)
         td.collateral_ratio = TradeData.helper.to_float(@collateral_ratio)
         td.interest_rate = TradeData.helper.to_float(@interest_rate)
-        td.short_price_limit = TradeData.helper.to_float(@short_price_limit)
+        td.short_price_limit = if @short_price_limit and @short_price_limit > 0.0 then TradeData.helper.to_float(@short_price_limit) else null
         td.received = TradeData.helper.to_float(@received)
         td.paid = TradeData.helper.to_float(@paid)
         td.timestamp = td.timestamp
@@ -119,7 +119,7 @@ class Market
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
-        m.shorts_available = m.base_asset.id == 0 or m.quantity_asset.id == 0
+        m.shorts_available = m.base_asset?.id == 0 or m.quantity_asset?.id == 0
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url

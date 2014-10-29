@@ -92,10 +92,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
         MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
-            # none
         MarketGrid.disableMouseScroll()
 
-        #$scope.bidsGrid.data = MarketService.bids #GridFormatter.bids.format(MarketService.bids)
         $scope.asks = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
@@ -117,28 +115,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
-        q = []
-        q.push Blockchain.get_info().then (config) ->
+
+        Blockchain.get_asset($scope.actual_market.base_asset.id).then (asset) ->
+            $scope.asset_total_supply = asset.current_share_supply
+        Blockchain.get_info().then (config) ->
             $scope.blockchain_symbol = config.symbol #XTS or BTSX
             WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->
                 Blockchain.get_asset(blockchain_tx_fee.asset_id).then (blockchain_tx_fee_asset) ->
-                    $scope.blockchain_tx_fee = Utils.formatDecimal(
-                            blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision,
-                        blockchain_tx_fee_asset.precision)
-
-        q.push WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
-            Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
-                $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
+                    $scope.blockchain_tx_fee = Utils.formatDecimal(blockchain_tx_fee.amount / blockchain_tx_fee_asset.precision, blockchain_tx_fee_asset.precision)
+        WalletAPI.get_transaction_fee(market.asset_base_symbol).then (tx_fee) ->
+            Blockchain.get_asset(tx_fee.asset_id).then (asset) ->
+                $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / asset.precision, asset.precision)
                 if market.asset_base_symbol == $scope.actual_market.asset_base_symbol
                      $scope.asset_tx_fee = $scope.tx_fee
-
-        console.log "------ $scope.actual_market ------>", $scope.actual_market.asset_base_symbol
         if market.asset_base_symbol != $scope.actual_market.asset_base_symbol
-            q.push WalletAPI.get_transaction_fee($scope.actual_market.asset_base_symbol).then (tx_fee) ->
-                Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
-                    $scope.asset_tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
-
-        $q.all(q).then()
+            WalletAPI.get_transaction_fee($scope.actual_market.asset_base_symbol).then (tx_fee) ->
+                Blockchain.get_asset(tx_fee.asset_id).then (asset) ->
+                    $scope.asset_tx_fee = Utils.formatDecimal(tx_fee.amount / asset.precision, asset.precision)
 
     promise.catch (error) ->
         Growl.error("", error)
