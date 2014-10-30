@@ -344,7 +344,7 @@
         "description": "Beschreibung",
         "memo_data": "Verwendungszweck",
         "maximum_share_supply": "Anzahl Anteile",
-        "total_supply": "Total Supply",
+        "total_supply": "Gesamtangebot",
         "info_create_asset_fee": "Aktuelle Gebühr zum erstellen dieses Anlageguts",
         "precision": "Präzision",
         "issued_by": "Ausgestellt von",
