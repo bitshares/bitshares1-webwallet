@@ -9,7 +9,7 @@
         "confirm": "Bestätigen",
         "update": "Aktualisieren",
         "cover": "Cover",
-        "register": "Registrieren"
+        "register": "Registriere"
     },
     "tip": {
         "privacy_statement": "Datenschutzerklärung",
@@ -22,8 +22,8 @@
         "reg_pending": "Registrierung anstehend. Noch nicht ausgeführt.",
         "not_reg_onchain": "Nicht auf der Blockkette registriert",
         "add_account_name_existed": "Hinzufügen des Kontakts fehlgeschlagen. Ein Konto mit diesem Namen existiert bereits.",
-        "no_assets": "Sie haben noch keine Anlagegüter erstellt.",
-        "reg_to_create_asset": "Sie benötigen ein registriertes Konto um ein Wertpapier erstellen zu können. Bitte registrieren Sie Ihr Konto zuerst.",
+        "no_assets": "Sie haben noch keine BitAssets erstellt.",
+        "reg_to_create_asset": "Sie benötigen ein registriertes Konto um ein BitAsset erstellen zu können. Bitte registrieren Sie Ihr Konto zuerst.",
         "error_parsing_wif_key": "Ihr privater Schlüssel (WIF) konnte nicht verarbeitet werden.",
         "vote_will_transfer_balance_to_self": "Stimmen Sie ab in dem das Guthaben dieses Kontos an sich selbst gesendet wird. (Es entstehen lediglich die Standard-Transaktionskosten, siehe Einstellungen) ",
         "canceling": "wird abgebrochen...",
@@ -138,8 +138,8 @@
     },
     "unlock": {
         "btn_unlock": "Anmelden",
-        "desc_title": "Handeln Sie weltweit virtuelle Anlagegüter vertraulich, sicher und in Echtzeit.",
-        "desc_content_1": "BitShares ist eine vollständig dezentrale Handelsplattform auf der Sie virtuelle Anlagegüter, auch mit Bezug zu realen Gütern, aller Art handeln können. Zum Beispiel: bitGLD = XAU(Gold)",
+        "desc_title": "Handeln Sie weltweit BitAssets vertraulich, sicher und unverzüglich.",
+        "desc_content_1": "BitShares ist eine vollständig dezentrale Handelsplattform auf der Sie BitAssets aller Art handeln können. Zum Beispiel: BitGLD = XAU(Gold)",
         "desc_content_2": "Weitere Informationen und Hilfe zu BitShares erhalten Sie unter http://bitsharestalk.org und http://wiki.bitshares.org",
         "wrong_pass": "Falsches Passwort."
     },
@@ -221,7 +221,7 @@
             "short_price_too_low": "Ihr short-Preis is {{value}}% niedriger als der höchste bid-Preis.",
             "short_price_should_above_min_range": "Short-Preis sollte über dem min-range-Preis liegen",
             "short_price_should_below_max_range": "Short-Preis sollte unter dem max-range-Preis liegen",
-            "total_cost_updated": "Die totalen Kosten wurde aktualisiert, bitte prüfen und bestätigen!",
+            "total_cost_updated": "Die Gesamtkosten wurde aktualisiert, bitte prüfen und bestätigen!",
             "confirm_order": "Bitte bestätigen Sie ihre Order. Die Order wird mit {{value}} von Ihrem Konto beglichen."
         },
         "chart": {
@@ -273,7 +273,7 @@
         "new": "Neu",
         "memo": "Verwendungszweck",
         "send": "Überweisen",
-        "assets": "Anlagegüter",
+        "assets": "BitAssets",
         "keys": "Schlüssel",
         "advanced": "Erweitert",
         "account_key": "Kontoschlüssel",
@@ -315,7 +315,7 @@
         "import_wif_key": "Importiere WIF Schlüssel",
         "import_from_wallet": "Importiere Schlüssel einer Kontensammlung (Wallet)",
         "update_pub_info": "Öffentlich einsehbare Einstellungen aktualisieren (auf der Blockkette)",
-        "update_local_info": "Nicht-Öffentliche Einstellungen aktualisieren (nur lokal)",
+        "update_local_info": "Nichtöffentliche Einstellungen aktualisieren (nur lokal)",
         "pay_from": "mit folgendem Konto verrechnen",
         "update_need_fund": "Der Kontostand reicht nicht aus um die Gebühr zu begleichen.",
         "delegate_settings": "Delegierten Konfiguration",
@@ -338,25 +338,25 @@
         "select_account": "Konto auswählen"
     },
     "asset": {
-        "title": "Anlagegüter",
+        "title": "BitAssets",
         "symbol": "Symbol",
         "asset_name": "Bezeichnung",
         "description": "Beschreibung",
         "memo_data": "Verwendungszweck",
         "maximum_share_supply": "Anzahl Anteile",
         "total_supply": "Gesamtangebot",
-        "info_create_asset_fee": "Aktuelle Gebühr zum erstellen dieses Anlageguts",
+        "info_create_asset_fee": "Aktuelle Gebühr zum erstellen dieses BitAssets",
         "precision": "Präzision",
         "issued_by": "Ausgestellt von",
-        "create_new_asset": "Neues Anlagegut erstellen",
-        "my_assets": "Meine Anlagegüter",
-        "create_assets": "Anlagegut erstellen",
+        "create_new_asset": "Neues BitAsset erstellen",
+        "my_assets": "Meine BitAssets",
+        "create_assets": "BitAsset erstellen",
         "issue_assets": "Anteile ausgeben",
-        "issue_assets_info": "Neue Anteile Ihrer Anlagegüter ausgeben.",
+        "issue_assets_info": "Neue Anteile Ihrer eigenen BitAssets ausgeben.",
         "btn_issue": "Ausgeben",
         "amount": "Betrag",
         "issue_to": "An",
-        "asset_create_auth": "Anlagegut wird erstellt..."
+        "asset_create_auth": "BitAsset wird erstellt..."
     },
     "privacy": {
         "email_warning1": "Ihre Emailaddresse wir ausschließlich dazu genutzt Sie zu identifizieren.",
@@ -368,7 +368,7 @@
         "favorites": "Favoriten",
         "unregistered": "Unregistriert",
         "registered": "Registriert",
-        "assets": "Anlagegüter"
+        "assets": "BitAssets"
     },
     "contact": {
         "add_contact": "Kontakt hinzufügen",
