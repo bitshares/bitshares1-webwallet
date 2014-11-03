@@ -70,7 +70,7 @@ class MarketHelper
             td.quantity = td.cost / price if price > 0.0
         else if order.type == "short_order"
             td.collateral = order.state.balance / quantity_asset.precision
-            if order.state.short_price_limit and order.state.short_price_limit > 0
+            if order.state.short_price_limit and order.state.short_price_limit.ratio > 0
                 short_price_limit =  @order_price(order.state.short_price_limit, base_asset, quantity_asset)
                 td.short_price_limit = if invert_price then 1.0 / short_price_limit else short_price_limit
             else
