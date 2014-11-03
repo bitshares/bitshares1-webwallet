@@ -16,7 +16,7 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
         #console.log "+++ RpcService <#{http_params.data.method}>"
         defered = $q.defer()
         $http(http_params).then (response) ->
-            console.log("RpcService <#{http_params.data.method}>")
+            #console.log("RpcService <#{http_params.data.method}>")
             if response.repeat
                 #console.log "------ RpcService: repeating the call #{http_params.data.method} ------>", http_params.repeat_counter
                 $timeout ->
