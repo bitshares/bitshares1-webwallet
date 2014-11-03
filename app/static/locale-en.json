@@ -28,7 +28,7 @@
         "vote_will_transfer_balance_to_self": "The account will transfer its entire balance (minus transaction fee) to itself",
         "canceling": "Canceling..",
         "pending": "Pending..",
-        "rename_account_name_existed": "Account with the name {{value}} is already registered on the blockchian.",
+        "rename_account_name_existed": "Account with the name {{value}} is already registered on the blockchain.",
         "account_not_found": "Account not found",
         "wrong_amount": "Wrong Amount",
         "memo_size_exceeds": "Memo size shouldn't exceed {{value}} characters",
@@ -36,11 +36,12 @@
         "info_filter_by_op": "Filter transactions by operation",
         "info_no_trx": "There are no transactions in this block.",
         "info_trx_only": "Only show blocks with transactions",
-        "info_create_asset_fee": "Fees for creating a new asset",
         "info_privacy": "Your privacy is critically important to us.",
         "no_pending_trxs": "There are no pending transactions!",
         "no_trxs": "There are no transactions!",
-        "updating_trx_history": "Updating transaction history..."
+        "updating_trx_history": "Updating transaction history...",
+        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
+        "client_update_available": "There is a new mandatory client update available at bitshares-x.info"
     },
     "th": {
         "date": "DATE",
@@ -96,7 +97,9 @@
         "price_limit": "PRICE LIMIT",
         "action": "ACTION",
         "paid": "PAID",
-        "received": "RECEIVED"
+        "received": "RECEIVED",
+        "expiration": "EXPIRATION",
+        "interest_rate": "Interest Rate (APR)"
     },
     "block": {
         "title": "Block",
@@ -195,21 +198,21 @@
         "open_orders": "Open Orders",
         "blockchain_orders_history": "Blockchain Orders History",
         "account_orders_history": "Account Orders History",
-        "margin_orders": "Margin Call",
+        "margin_orders": "Margin Call Orders",
         "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
         "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
         "flip_market": "Flip Market",
-        "buy_orders": "Buy {{value}}",
-        "sell_orders": "Sell {{value}}",
-        "short_orders": "Short Sell {{value}}",
+        "buy_orders": "Buy {{value}} Orders",
+        "sell_orders": "Sell {{value}} Orders",
+        "short_orders": "Short Sell {{value}} Orders",
         "bids": "Bids",
         "asks": "Asks",
         "cover_short_position": "Cover Short Position",
         "order_type": {
-            "bid_order": "Open Buy Orders",
-            "ask_order": "Open Sell Orders",
-            "short_order": "Open Short",
-            "margin_order": "Open Margin"
+            "bid_order": "Buy Order",
+            "ask_order": "Sell Order",
+            "short_order": "Short Order",
+            "margin_order": "Margin Order"
         },
         "tip": {
             "insufficient_balances": "Insufficient balances",
@@ -217,16 +220,42 @@
             "ask_price_too_low": "Your ask price is {{value}}% lower than the highest bid.",
             "short_price_too_low": "Your short price is {{value}}% lower than the highest bid.",
             "short_price_should_above_min_range": "Short price should be above min range price",
-            "short_price_should_below_max_range": "Short price should be below max range price"
+            "short_price_should_below_max_range": "Short price should be below max range price",
+            "total_cost_updated": "Total was updated, please review and re-submit",
+            "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Price",
             "volume": "Volume"
         },
-        "advanced_view": "Advanced Market View",
-        "simple_view": "Simple Market View",
         "advanced": "Short Mode",
-        "simple": "Simple"
+        "open_buy_orders": "Open Buy {{value}} Orders",
+        "open_sell_orders": "Open Sell {{value}} Orders",
+        "open_short_orders": "Open Short Sell {{value}} Orders",
+        "open_margin_orders": "Open Margin Orders",
+        "collateral": "Collateral",
+        "collateral_ratio": "Collateral Ratio",
+        "interest_rate": "Interest Rate",
+        "price_limit": "Price Limit",
+        "help": {
+            "buy_quantity": "The amount of {{value}} that you would like to buy.",
+            "buy_price" : "The amount you are willing to pay in {{base}} per {{quantity}}.",
+            "buy_lowest_ask" : "The lowest price at which your buy order can be immediately matched.",
+            "buy_total" : "The number of {{base}} that will be withdrawn from {{account}} account to fund this order.",
+            "sell_quantity": "The amount of {{value}} that you would like to sell.",
+            "sell_price" : "The amount you are willing to get in {{base}} per {{quantity}}.",
+            "sell_highest_bid" : "The highest price at which your sell order can be immediately matched.",
+            "sell_total" : "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
+            "short_quantity": "The approximate number of {{value}} that you would like to borrow and sell.",
+            "short_collateral": "The number of {{value}} that you are willing to post as collateral. You should provide 3x backing at the trade price and quantity, 2x comes from short seller and 1x from buyer.",
+            "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
+            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+            "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
+            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
+            "short_interest_rate": "The interest rate you are willing to pay."
+        },
+        "days": "{{value}} Days",
+        "percent_apr": "APR"
     },
     "account": {
         "reg_pending": "Registration pending",
@@ -262,7 +291,7 @@
         "name": "Account Name",
         "website": "Website",
         "website_tip": "Website (Optional)",
-        "email": "电子邮件",
+        "email": "Email",
         "email_tip": "Email (Optional)",
         "active_delegate": "Active Delegate",
         "standby_delegate": "Standby Delegate",
@@ -317,6 +346,8 @@
         "description": "Description",
         "memo_data": "Memo Data",
         "maximum_share_supply": "Maximum Share Supply",
+        "total_supply": "Total Supply",
+        "info_create_asset_fee": "Fees for creating a new asset",
         "precision": "Precision",
         "issued_by": "Issued By",
         "create_new_asset": "Create A New Asset",
@@ -352,10 +383,11 @@
     },
     "pref": {
         "title": "Preferences",
-        "logout_timeout": "Logout timeout, seconds",
-        "trx_fee": "Transaction Fee ({{symbol}})",
-        "autocomplete_receiver": "Autocomplete Receiver",
-        "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types"
+        "logout_timeout": "Logout timeout",
+        "trx_fee": "Transaction Fee",
+        "autocomplete_receiver": "Autocomplete Receiver Name",
+        "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types",
+        "language": "Interface Language"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"
@@ -386,5 +418,17 @@
         "severe_network_issue": "Severe Network Problems",
         "low_participation_rate_60": "is displayed when delegate participation rate drops below 60%.  Low delegate participation makes blockchain forks likely.",
         "about": "About"
+    },
+    "footer": {
+        "enable_trx_scan": "Enable Transaction Scanning",
+        "up_to_date": "Up to date, processed {{value}} blocks",
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks"
+    },
+    "utils": {
+        "expired": "Expired",
+        "seconds": "{{value}} Seconds",
+        "minutes": "{{value}} Minutes",
+        "hours": "{{value}} Hours",
+        "days": "{{value}} Days"
     }
 }

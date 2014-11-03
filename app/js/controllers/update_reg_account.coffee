@@ -74,9 +74,7 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
                             console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
 
                             payrate = if $scope.m.delegate then $scope.m.payrate else 255
-                            console.log($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate)
-                            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {'gravatarID': gravatarMD5}, payrate).then (response) ->
-                                Wallet.refresh_transactions_on_update()
+                            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {}, payrate).then (response) ->
                                 Growl.notice "", "Account update transaction broadcasted"
 
 

@@ -1,4 +1,7 @@
-angular.module("app").controller "AccountsController", ($scope, $location, Wallet, Utils, RpcService, Growl) ->
+angular.module("app").controller "AccountsController", ($scope, $location, Wallet, Utils, RpcService) ->
+#    RpcService.start_profiler()
+#    $scope.$on "$destroy", -> RpcService.stop_profiler()
+
     warnings = {}
     $scope.warnings = warnings
     account_names = []
@@ -7,9 +10,7 @@ angular.module("app").controller "AccountsController", ($scope, $location, Walle
             warnings[item.name] = false
             account_names.push([item.name])
         RpcService.request("batch", ["wallet_check_vote_proportion", account_names]).then (response) =>
-            console.log Wallet.balances
             for i in [0...account_names.length]
                 name = account_names[i]
-                #console.log Wallet.balances[name]["BTSX"]
-                if response.result[i].utilization < 0.75 and Wallet.balances[name] and Wallet.balances[name]["BTSX"].amount > 0
+                if response.result[i].utilization < 0.75 and Wallet.balances[name] and Wallet.main_asset and Wallet.balances[name][Wallet.main_asset.symbol].amount > 0
                     warnings[name] = true

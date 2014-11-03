@@ -4,7 +4,7 @@ class Wallet
 
     balances: {}
     bonuses: {}
-
+    
     open_orders_balances: {}
 
     asset_balances : {}
@@ -28,34 +28,48 @@ class Wallet
 
     info: {}
 
+    main_asset: null
+
+    interface_locale: null
+
     set_current_account: (account) ->
         @current_account = account
         @set_setting("current_account", account.name)
     
     check_wallet_status: ->
-      @wallet_get_info().then (result) =>
-        if result.open
-            if not result.unlocked
-                @location.path("/unlockwallet")
-            else
+        deferred = @q.defer()
+        @open().then =>
+            @wallet_get_info().then (result) =>
+                deferred.resolve()
                 @get_setting('timeout').then (result) =>
-                    if result && result.value
-                        @timeout=result.value
-                        @idle._options().idleDuration=@timeout
-                        @idle.watch()
+                if result && result.value
+                    @timeout = result.value
+                    @idle._options().idleDuration = @timeout
+                    @idle.watch()
                 @get_setting('autocomplete').then (result) =>
-                    @autocomplete=result.value if result
-        else
-            @open().then =>
-                #redirection
-                @check_if_locked()
+                    @autocomplete = result.value if result
+                @get_setting('interface_locale').then (result) =>
+                    if result and result.value
+                        @interface_locale = result.value
+                        @translate.use(result.value)
+                if not result.unlocked
+                    navigate_to('unlockwallet')
+            , (error) ->
+                deferred.reject(error)
+        , (error) ->
+                deferred.reject(error)
+
+        return deferred.promise
 
     refresh_balances: ->
         requests =
+            refresh_bonuses: @refresh_bonuses()
             account_balances : @wallet_api.account_balance("")
             refresh_assets: @blockchain.refresh_asset_records()
             main_asset: @blockchain.get_asset(0)
+
         @q.all(requests).then (results) =>
+            @main_asset = results.main_asset
             @balances = {}
             @asset_balances = {}
             angular.forEach results.account_balances, (name_bal_pair) =>
@@ -71,12 +85,12 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
-                if acct.is_my_account
+                #if acct.is_my_account
                     #@refresh_open_order_balances(acct.name)
-                    @refresh_bonuses(acct.name)
+                    
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
-                    @balances[acct.name][results.main_asset.symbol] = @utils.asset(0, results.main_asset)
+                    @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
 
     refresh_open_order_balances: (name) ->
         if !@open_orders_balances[name]
@@ -91,17 +105,40 @@ class Wallet
                 if order.type == "bid_order" or order.type == "short_order"
                     @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
-    refresh_bonuses: (name) ->
-        @rpc.request('wallet_account_yield', []).then (response) =>
-            angular.forEach response.result, (name_balances_pair) =>
-                name = name_balances_pair[0]
-                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
-                    asset_id = asset_id_amt_pair[0]
-                    symbol = @blockchain.asset_records[asset_id].symbol
-                    amount = asset_id_amt_pair[1]
-                    @bonuses[name] = @bonuses[name] || {}
-                    @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+    refresh_bonuses_promise: null
+    
+    refresh_bonuses: ->
+        if @utils.too_soon("refresh_bonuses", 10 * 1000)
+            return @refresh_bonuses_promise.then (response) =>
+                #console.log "wallet_account_yield(): too soon #{response}"
+                return response
+    
+        @refresh_bonuses_promise = @wallet_api.account_yield("").then (response) =>
+            @blockchain.refresh_asset_records().then () =>
+                #console.log "wallet_account_yield()",response
+                angular.forEach response, (name_balances_pair) =>
+                    name = name_balances_pair[0]
+                    #console.log "refresh_bonuse #{name}"
+                    angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                        asset_id = asset_id_amt_pair[0]
+                        symbol = @blockchain.asset_records[asset_id].symbol
+                        amount = asset_id_amt_pair[1]
+                        @bonuses[name] = @bonuses[name] || {}
+                        @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
+
+#    account_yield: []
+#    
+#    #empty account_name = all
+#    wallet_account_yield: (account_name = "") ->
+#        if @utils.too_soon("wallet_account_yield #{account_name}", 10 * 1000)
+#            return @account_yield[account_name].then (result) =>
+#                console.log "wallet_account_yield(#{account_name}): too soon #{result}"
+#                return result
+#
+#        @account_yield[account_name] = @wallet_api.account_yield(account_name).then (result) =>
+#            console.log "wallet_account_yield(#{account_name})", result
+#            result
 
     count_my_accounts: ->
         accounts = 0
@@ -121,6 +158,7 @@ class Wallet
     populate_account: (val) ->
         acct = val
         acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
+        #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
         return acct
 
@@ -129,7 +167,13 @@ class Wallet
             @populate_account(result)
             @refresh_balances()
 
-    refresh_accounts: ->
+    refresh_accounts: (prevent_rapid_refresh = false) ->
+        if prevent_rapid_refresh and @utils.too_soon('refresh_accounts', 10 * 1000)
+            deferred = @q.defer()
+            deferred.resolve()
+            return deferred.promise
+
+        #console.log "refresh_accounts clearing cache"
         @accounts = {}
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
@@ -137,15 +181,14 @@ class Wallet
             @refresh_balances()
 
     get_setting: (name) ->
-        @wallet_api.get_setting(name).then (result) =>
-            result
+        @wallet_api.get_setting(name)
 
     set_setting: (name, value) ->
         @wallet_api.set_setting(name, value).then (result) =>
             result
 
-    create_account: (name, privateData) ->
-        @wallet_api.account_create(name, privateData).then (result) =>
+    create_account: (name, privateData, error_handler) ->
+        @wallet_api.account_create(name, privateData, error_handler).then (result) =>
             @refresh_accounts()
             result
 
@@ -164,7 +207,9 @@ class Wallet
 
     get_account: (name) ->
         @refresh_balances()
+        #console.log "wallet_get_account start",name
         if @accounts[name]
+            #console.log "wallet_get_account found",name
             deferred = @q.defer()
             deferred.resolve(@accounts[name])
             return deferred.promise
@@ -180,14 +225,63 @@ class Wallet
 
     approve_account: (name, approve) ->
         @wallet_api.account_set_approval(name, approve)
-    
-    refresh_transactions_on_update: () ->
-        #@refresh_transactions()
-#        .then ->
-#            promises = []
-#            angular.forEach @accounts, (account, name) =>
-#                if account.is_my_account
-#                    promises.push @refresh_transactions(name)
+
+    update_transaction: (t, val) ->
+        time = @utils.toDate(val.timestamp)
+        t.is_virtual = val.is_virtual
+        t.is_confirmed = val.is_confirmed
+        t.is_market = val.is_market
+        t.is_market_cancel = val.is_market_cancel
+        t.block_num = val.block_num
+        t.error = val.error
+        t.trx_num = val.trx_num
+        t.time = time
+        t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString(undefined, {timeZone:"UTC"})
+        t.pretty_time = time.toLocaleString(undefined, {timeZone:"UTC"})
+        t.fee = @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
+        t.vote = "N/A"
+        if t.status != "rebroadcasted"
+            t.status = if not val.is_confirmed and not val.is_virtual then "pending" else "-"
+
+    process_transaction: (val) ->
+        existing_transaction = @transactions_all_by_id[val.trx_id]
+        if existing_transaction and existing_transaction.id
+            @update_transaction(existing_transaction, val)
+            return
+        involved_accounts = {}
+        ledger_entries = []
+        angular.forEach val.ledger_entries, (entry) =>
+            involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
+            involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
+            running_balances = {}
+            for acct in entry.running_balances
+                account_name = acct[0]
+                balances = acct[1]
+                continue unless involved_accounts[account_name]
+                #console.log "------ running_balances item ------>",account_name, balances
+                for item in balances
+                    asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
+                    running_balances[account_name] ||= []
+                    running_balances[account_name].push asset
+
+            ledger_entries.push
+                from: entry.from_account
+                to: entry.to_account
+                amount: entry.amount.amount
+                amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
+                memo: entry.memo
+                running_balances: running_balances
+
+        transaction = { id: val.trx_id }
+        transaction.ledger_entries = ledger_entries
+        @update_transaction(transaction, val)
+
+        @transactions_all_by_id[val.trx_id] = transaction
+
+        @transactions["*"].unshift transaction
+        angular.forEach involved_accounts, (val, account) =>
+            @transactions[account] ||= []
+            @transactions[account].unshift transaction
 
     refresh_transactions: ->
         return @transactions_loading_promise if @transactions_loading_promise
@@ -208,62 +302,18 @@ class Wallet
                 deffered.reject(error)
 
             account_transaction_history_promise.then (result) =>
-
                 for val in result
                     @transactions_last_block = val.block_num
-                    continue if @transactions_all_by_id[val.trx_id]
+                    @process_transaction(val) if val.is_confirmed
 
-                    #console.log "------ refresh_transactions ------>", val.block_num, val
-
-                    involved_accounts = {}
-                    ledger_entries = []
-                    angular.forEach val.ledger_entries, (entry) =>
-                        involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
-                        involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
-                        running_balances = {}
-                        for acct in entry.running_balances
-                            account_name = acct[0]
-                            balances = acct[1]
-                            continue unless involved_accounts[account_name]
-                            #console.log "------ running_balances item ------>",account_name, balances
-                            for item in balances
-                                asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                                running_balances[account_name] ||= []
-                                running_balances[account_name].push asset
-
-                        ledger_entries.push
-                            from: entry.from_account
-                            to: entry.to_account
-                            amount: entry.amount.amount
-                            amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
-                            memo: entry.memo
-                            running_balances: running_balances
-
-                    time = @utils.toDate(val.timestamp)
-                    transaction =
-                        is_virtual: val.is_virtual
-                        is_confirmed: val.is_confirmed
-                        is_market: val.is_market
-                        is_market_cancel: val.is_market_cancel
-                        block_num: val.block_num
-                        error: val.error
-                        trx_num: val.trx_num
-                        time: time
-                        pretty_time: time.toLocaleString "en-us"
-                        ledger_entries: ledger_entries
-                        id: val.trx_id
-                        fee: @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
-                        vote: "N/A"
-
-                    @transactions_all_by_id[val.trx_id] = transaction
-
-                    @transactions["*"].unshift transaction
-                    angular.forEach involved_accounts, (val, account) =>
-                        @transactions[account] ||= []
-                        @transactions[account].unshift transaction
-
-                @transactions_loading_promise = null
-                deffered.resolve(@transactions)
+                # pending transactions
+                pending_transactions_promise = @wallet_api.account_transaction_history("", "", 0, 0, 0)
+                pending_transactions_promise.then (result) =>
+                    for val in result
+                        @process_transaction(val) if not val.is_confirmed and not val.is_virtual
+                pending_transactions_promise.finally =>
+                    @transactions_loading_promise = null
+                    deffered.resolve(@transactions)
 
                 #console.log "------ account_transactions finished ------>"
 
@@ -318,8 +368,8 @@ class Wallet
         @rpc.request('wallet_get_name').then (response) =>
           @wallet_name = response.result
     
-    wallet_get_info: ->
-        @rpc.request('wallet_get_info').then (response) =>
+    wallet_get_info: (error_handler = null) ->
+        @rpc.request('wallet_get_info', [], error_handler).then (response) =>
             @info.transaction_fee = response.result.transaction_fee
             response.result
 
@@ -327,9 +377,9 @@ class Wallet
         @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
           response.result
 
-    wallet_account_register: (account_name, pay_from_account, public_data, pay_rate) ->
+    wallet_account_register: (account_name, pay_from_account, public_data, pay_rate, account_type) ->
         pay_rate = if pay_rate == undefined then 255 else pay_rate
-        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, pay_rate]).then (response) =>
+        @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, pay_rate, account_type]).then (response) =>
           response.result
 
     wallet_rename_account: (current_name, new_name) ->
@@ -341,8 +391,8 @@ class Wallet
 #    wallet_account_transaction_history: (account_name) ->
 #        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
 
-    wallet_unlock: (password)->
-        @rpc.request('wallet_unlock', [@backendTimeout, password]).then (response) =>
+    wallet_unlock: (password, error_handler)->
+        @rpc.request('wallet_unlock', [@backendTimeout, password], error_handler).then (response) =>
           response.result
 
     check_if_locked: ->
@@ -372,31 +422,35 @@ class Wallet
               owner_key: val.owner_key
           reg
 
-    get_current_or_first_account: ->
-        get_first_account = =>
-            for k,v of @accounts
-                if v.is_my_account
-                    return v
-            return null
+    get_first_account: ->
+        for k,v of @accounts
+            if v.is_my_account
+                return v
+        return null
 
+    get_current_or_first_account: ->
         deferred = @q.defer()
         if @current_account
             deferred.resolve(@current_account)
             return deferred.promise
 
-        @get_setting("current_account").then (setting) =>
+        promise = @wallet_api.get_setting("current_account")
+        promise.then (setting) =>
             if setting?.value
                 @get_account(setting.value).then (account) ->
                     deferred.resolve(account)
             else
                 if @accounts.length > 0
-                    deferred.resolve(get_first_account())
+                    deferred.resolve(@get_first_account())
                 else @refresh_accounts().then =>
-                    deferred.resolve(get_first_account())
+                    deferred.resolve(@get_first_account())
+        promise.catch (error) ->
+            deferred.reject(error)
+
         return deferred.promise
 
-    constructor: (@q, @log, @location, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
+    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
         @wallet_name = ""
         @timeout = @idle._options().idleDuration
 
-angular.module("app").service("Wallet", ["$q", "$log", "$location", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])

@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
     
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
@@ -17,6 +17,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
         memo : ""
         vote : 'vote_random'
 
+    if $state.current.name == "account"
+        $state.go "account.transactions" # first tab
+
     $scope.memo_size_max = 0
     $scope.private_key = {value : ""}
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
@@ -27,11 +30,9 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
-        if (typeof $scope.account.private_data != 'object' || $scope.account.private_data == null)
-            $scope.account.private_data = {}
+        $scope.account.private_data ||= {}
         vote_stng=$scope.account.private_data.account_vote_setting
-        if (vote_stng == 'vote_random' || vote_stng == 'vote_all' || vote_stng == 'vote_none' )
-            $scope.transfer_info.vote=vote_stng
+        $scope.transfer_info.vote = vote_stng if vote_stng
         $scope.$watch('transfer_info.vote', (newValue, oldValue) ->
             if (newValue != oldValue)
                 $scope.account.private_data.account_vote_setting=$scope.transfer_info.vote
@@ -58,14 +59,14 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
 
-    $scope.$watch ->
-        Wallet.accounts[name]
-    , ->
-        if Wallet.accounts[name]
-            $scope.account = Wallet.accounts[name]
-            if $scope.account.delegate_info
-                Blockchain.get_asset(0).then (asset_type) ->
-                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
+#    $scope.$watch ->
+#        Wallet.accounts[name]
+#    , ->
+#        if Wallet.accounts[name]
+#            $scope.account = Wallet.accounts[name]
+#            if $scope.account.delegate_info
+#                Blockchain.get_asset(0).then (asset_type) ->
+#                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
     $scope.$watch ->
         Wallet.balances[name]
@@ -91,7 +92,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                 Growl.notice "", "Your private key was successfully imported."
             else
                 Growl.notice "", "Private key already belongs to another account: \"" + response + "\"."
-            Wallet.refresh_transactions_on_update()
         , (response) ->
             form.key.$invalid = true
 
@@ -119,8 +119,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                     title: -> 'Success'
                     message: -> 'Keys from ' + $scope.wallet_info.type +  ' wallet were successfully imported'
                     bsStyle: -> 'success'
-
-            Wallet.refresh_transactions_on_update()
         , (response) ->
             if response.data.error.code == 13 and response.data.error.message.match(/No such file or directory/)
                 form.path.error_message = "No such file or directory"
@@ -139,8 +137,6 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
                         title: -> 'Error'
                         message: -> response.data.error.message
                         bsStyle: -> 'danger'
-
-
 
     $scope.toggleVoteUp = ->
         newApproval=1
@@ -165,5 +161,3 @@ angular.module("app").controller "AccountController", ($scope, $filter, $locatio
             scope: $scope
         else
           Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
-
-    

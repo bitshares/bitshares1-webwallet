@@ -2,15 +2,6 @@
   <div class="header">
     <div class="row" ng-show="account_name">
       <h3 class="col-sm-2 header-title" translate>market.title</h3>
-      <div class="col-sm-2 market-selector">
-        <input type="text"
-               ng-model="selected_market"
-               typeahead="value for value in markets | filter:$viewValue"
-               typeahead-editable="false"
-               typeahead-append-to-body="true"
-               class="form-control"
-               placeholder="{{'market.search_market'|translate}}">
-      </div>
     </div>
   </div>
 </div>
@@ -18,14 +9,17 @@
 <div class="main-content market" ng-show="account_name">
   <div class="row">&nbsp;</div>
   <div class="row">
-    <div class="col-sm-3">
-      <div class="panel">
+
+    <div class="col-sm-5">
+      <div class="panel" ng-show="featured_markets.length > 0">
         <div class="panel-heading">
-          <h3 class="panel-title" translate>market.all_markets</h3>
+          <h3 class="panel-title">Featured Markets</h3>
         </div>
         <div class="panel-body">
           <ul class="markets-list">
-            <li ng-repeat="m in markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>
+            <li ng-repeat="m in featured_markets track by $index">
+              <market-thumbnail name="m" ng-click="select_market(m)">{{m}}</market-thumbnail>
+            </li>
           </ul>
         </div>
       </div>
@@ -44,7 +38,24 @@
       </div>
     </div>
 
-    <div class="col-sm-6">&nbsp;</div>
+    <div class="col-sm-3">
+      <div class="panel">
+        <div class="panel-heading">
+          <h3 class="panel-title" translate>Search</h3>
+        </div>
+        <div class="panel-body">
+          <!--<ul class="markets-list">-->
+          <!--<li ng-repeat="m in markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>--><!--</ul>-->
+          <input type="text"
+                 ng-model="selected_market"
+                 typeahead="value for value in markets | filter:$viewValue"
+                 typeahead-editable="false"
+                 typeahead-append-to-body="true"
+                 class="form-control"
+                 placeholder="Market Name">
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>

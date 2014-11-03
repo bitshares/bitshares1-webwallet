@@ -1,0 +1,71 @@
+.table > thead > tr > th {
+	color: #aaa;
+}
+
+.panel {
+ padding-bottom: 0;
+}
+
+.popover {
+  max-width: 476px;
+}
+
+.input-group-btn {
+	font-size: 100%;
+}
+
+.bg-primary {
+	background-color: #01bbf4;
+}
+
+.btn-primary[disabled] {
+	background-color: #eee;
+	color: #888;
+}
+
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
+	color:rgb(40,169,246);
+	border: 1px solid transparent;
+}
+
+.nav-tabs > li.active > a:hover {
+	color: rgb(40,169,246);
+	border-bottom: 1px solid #fff;
+}
+
+.nav-tabs > li > a{
+	color: black;
+}
+
+.nav-tabs > li.active > a {
+	color: rgb(40,169,246);
+	border-bottom: 1px solid #fff;
+}
+
+.has-error .input-group-addon, .input-group-addon {
+	border: none;
+	color: #777;
+	width: 80px;
+}
+
+.input-group-addon {
+	font-size: 12px;
+}
+
+input[type="checkbox"] {
+	width: 20px;
+	position: relative;
+	bottom: 3px;
+}
+
+.navbar {
+  min-height: 36px;
+  height: 36px;
+	-webkit-touch-callout: none;
+  -webkit-user-select: none;
+	user-select: none;
+}
+
+.modal-footer {
+	margin-top: 0;
+}

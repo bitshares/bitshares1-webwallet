@@ -18,7 +18,7 @@ class Info
         @is_refreshing = true
         @q.all([@common_api.get_info(), @wallet.wallet_get_info()]).then (results) =>
             data = results[0]
-            #console.log "watch_for_updates get_info:>", results[1]
+            #console.log "watch_for_updates get_info:>", results
             @info.transaction_scanning = results[1].transaction_scanning
             if data.blockchain_head_block_num > 0
                 @info.network_connections = data.network_num_connections

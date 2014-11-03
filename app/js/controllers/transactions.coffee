@@ -1,4 +1,4 @@
-angular.module("app").controller "TransactionsController", ($scope, $filter, $attrs, $location, $stateParams, $state, $rootScope, Wallet, Utils, Info, Blockchain) ->
+angular.module("app").controller "TransactionsController", ($scope, $filter, $location, $stateParams, $rootScope, Wallet, Utils, Info, WalletAPI) ->
     $scope.name = $stateParams.name || "*"
     #$scope.transactions = Wallet.transactions
     $scope.account_transactions = Wallet.transactions[$scope.name]
@@ -27,12 +27,12 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
 
     if(!$stateParams.name)
         $scope.accounts=Wallet.accounts
-        Wallet.refresh_accounts().then ->
+        Wallet.refresh_accounts(true).then ->
             $scope.accounts=Wallet.accounts
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0
 
-    if $attrs.model and $attrs.model = "pending_only"
+    if $stateParams.pending_only
         $scope.pending_only = true
 
     refresh_data()
@@ -52,3 +52,7 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $at
             if $scope.account_transactions
                 $scope.p.numberOfPages = Math.ceil(($filter("filter")($scope.account_transactions,  $scope.q.q)).length/$scope.p.pageSize)
                 $scope.p.currentPage = 0
+
+    $scope.rebroadcastTransaction = (t) ->
+        WalletAPI.rebroadcast_transaction(t.id)
+        t.status = "rebroadcasted"

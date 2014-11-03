@@ -11,8 +11,24 @@
 </ul>
 
 <ul class="nav navbar-nav pull-right">
-    <li class="lock"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
-    <li ng-show="context_help.show" class="context-help">
-      <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
-    </li>
+  <li class="dropdown notification error-notifications" ng-show="errors.list.length > 0" ng-class="{'new-error': errors.new_error}" on-toggle="error_notifier_toggled(open)">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <span class="label label-danger arrowed arrow-left-in pull-right">{{errors.num_errors}}</span> <i class="fa fa-bell"></i>
+    </a>
+    <ul class="dropdown-menu pull-right">
+      <li ng-repeat="e in errors.list">
+         <span class="time">{{e.time}}</span>
+         <p>
+           <span class="badge badge-warning" ng-show="e.counter > 1">{{e.counter}}</span>
+           {{e.text}} <a ng-click="e.details = e.stack" ng-show="!e.details">[show details]</a>
+          </p>
+         <pre class="error-stack" ng-show="e.details">{{e.details}} <br/><a ng-click="e.details = null">[hide details]</a></pre>
+      </li>
+    </ul>
+  </li>
+
+  <li class="lock"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
+  <li ng-show="context_help.show" class="context-help">
+    <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
+  </li>
 </ul>

@@ -1,109 +1,30 @@
-<head>
-<style>
-	body, html {
-		font-family: 'Open Sans', sans-serif;
-		color: #FFF;
-		font-size: 16px;
-		background: #FFF url('img/xt-background.jpg') no-repeat left top;
-		background-size: cover;
-		margin: 0;
-		padding: 0;
-	}
+<section class="splashpage-wrapper">
+  <div class="str-top">
+    <img src="img/xts-logo-xl-white-shadow.png"/>
+  </div>
+  <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
+  <div class="description" collapse="descriptionCollapsed">
+    <p translate>unlock.desc_content_1</p>
+    <p translate>unlock.desc_content_2</p>
+  </div>
 
-    .description {
-		font-size: 12px;
-    }
+  <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}"
+     ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
 
-	.start-wrapper {
-		border: 0px solid #333;
-		width: 400px;
-		height: 400px;
-		position: absolute;
-		top: 35%;
-		left: 50%;
-		margin-left: -200px;
-		margin-top: -100px;
-	}
-
-	.str-top {
-		height: 80px;
-		text-align: center;
-		border-bottom: 1px solid rgba(255, 255, 255, .5);
-		    -webkit-background-clip: padding-box; /* for Safari */
-		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-	}
-
-	.str-top img { margin-bottom: 24px; }
-
-	.str-content {
-		text-align: center;
-		padding: 20px 10px 5px;
-		cursor: pointer;
-	}
-
-    .str-arrow {
-      display:block;
-      margin-left:auto;
-      margin-right:auto;
-      width: 10px;
-      text-decoration: none;
-      padding-bottom: 10px;
-    }
-    .str-arrow:hover {
-      text-decoration: none;
-      color: #6BD3F3;
-    }
-
-	.str-bottom {
-		height: 40px;
-        padding: 25px;
-		text-align: center;
-		border-top: 1px solid rgba(255, 255, 255, .5);
-		    -webkit-background-clip: padding-box; /* for Safari */
-		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-
-	}
-
-	.str-bottom img { margin-top: 24px; }
-
-    p {
-        text-align: center;
-    }
-
-	</style>
-
-</head>
-
-<body>
-  <section class="start-wrapper">
-    <div class="str-top">
-      <img src="img/xts-logo-xl-white-shadow.png"/>
-    </div>
-    <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
-    <div class="description" collapse="descriptionCollapsed">
-      <p translate>unlock.desc_content_1</p>
-      <p translate>unlock.desc_content_2
-      </p>
-    </div>
-
-    <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}"
-       ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
-
-    <div class="str-bottom">
-    <div ng-show="update_available" class="danger">There is a new mandatory client update available at bitshares-x.info</div>
-
-      <form ng-submit="submitForm()" class="form-inline" role="form" novalidate>
-        <div class="form-group">
-          <input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password"
-                 class="form-control input" id="spending_password" placeholder="Password" tabindex="1" required focus
-                 autofocus ng-minlength="9" ng-maxlength="255">
-          <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary btn-sm" translate>unlock.btn_unlock</button>
-        </div>
-        <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
-      </form>
-      <img src="img/logo-ico.svg" width="64" height="64"/>
-        <br><br>
-      {{client_version}}
-    </div>
-  </section>
-</body>
+  <div class="str-bottom">
+    <div ng-show="update_available" class="danger" translate>tip.client_update_available</div>
+    <form ng-submit="submitForm()" role="form" novalidate>
+      <div class="form-group">
+        <input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password"
+               class="form-control input" placeholder="Password" tabindex="1" required focus
+               autofocus ng-minlength="9" ng-maxlength="255">
+        <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary"
+                translate>unlock.btn_unlock
+        </button>
+      </div>
+      <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
+    </form>
+    <img src="img/logo-ico.svg" width="64" height="64"/> <br/><br/> <span
+      class="client-version">{{client_version}}</span>
+  </div>
+</section>

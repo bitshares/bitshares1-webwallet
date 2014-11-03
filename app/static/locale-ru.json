@@ -36,11 +36,12 @@
         "info_filter_by_op": "Фильтр транзакций по операциям",
         "info_no_trx": "В этом блоке нет транзакций.",
         "info_trx_only": "Показывать только блоки с транзакциями",
-        "info_create_asset_fee": "Комиссия за создание нового актива",
         "info_privacy": "Защита Вашей частной информации критически важна для нас.",
         "no_pending_trxs": "Нет незавершенных транзакций",
         "no_trxs": "Нет транзакций",
-        "updating_trx_history": "Обновление истории транзакций..."
+        "updating_trx_history": "Обновление истории транзакций...",
+        "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
+        "client_update_available": "There is a new mandatory client update available at bitshares-x.info"
     },
     "th": {
         "date": "ДАТА",
@@ -93,7 +94,9 @@
         "price_limit": "ОГРАНИЧЕНИЕ ЦЕНЫ",
         "action": "ДЕЙСТВИЕ",
         "paid": "ОПЛАЧЕНО",
-        "received": "ПОЛУЧЕНО"
+        "received": "ПОЛУЧЕНО",
+        "expiration": "EXPIRATION",
+        "interest_rate": "ДОХОДНОСТЬ (%)"
     },
     "block": {
         "title": "Блок",
@@ -177,6 +180,7 @@
         "recent_markets": "Последние рынки",
         "median_price": "Медианная цена",
         "avg_price": "Средняя цена",
+        "feed_price": "Feed Price",
         "bid_depth": "Глубина Предложения",
         "ask_depth": "Глубина Спроса",
         "buy": "Купить",
@@ -192,7 +196,7 @@
         "open_orders": "Открытые ордера",
         "blockchain_orders_history": "История сделок в цепочке блоков",
         "account_orders_history": "История сделок",
-        "margin_orders": "Ордера по маржинальному требованию",
+        "margin_orders": "Ордера по залоговому/margin требованию",
         "margin_orders_explain": "Марджин-колл будет исполнен в любое время, если наименьшая цена Спроса составит менее чем 110% плавающего среднего и, при этом, наименьшая цена Спроса превышает цену марджин-колла. Цена начальной ставки составляет 150% цены Шорта (например, BTSX 45.00 для Шорта, выставленного при цене BTSX 30.00). Эта цена, при которой 75% залога потребуется для выкупа USD, необходимых для обеспечения открытой позиции. Если марджин-колл исполнятся и остаётся некая сумма из обеспечения, в таком случае 5% удерживается системой как комиссия, а 95% возвращается владельцу.",
         "margin_call_price_explain": "Цена начальной ставки составляет 150% цены Шорта (например, BTSX 45.00 для Шорта, выставленного при цене BTSX 30.00). Это цена, при которой 75% залога потребуется для выкупа USD, необходимых для обеспечения открытой позиции.",
         "flip_market": "Развернуть рынок",
@@ -207,7 +211,7 @@
             "ask_order": "Продажа",
             "short_order": "Шорт",
             "cover_order": "Резерв",
-            "margin_order": "Маржа"
+            "margin_order": "Залог/Margin"
         },
         "tip": {
             "insufficient_balances": "Недостаточно средств",
@@ -215,11 +219,37 @@
             "ask_price_too_low": "Цена Вашего Спроса на {{value}}% ниже наилучшего Предложения.",
             "short_price_too_low": "Цена Вашего Шорта на {{value}}% ниже наилучшего Предложения.",
             "short_price_should_above_min_range": "Цена Шорта должна быть выше минимального уровня цены",
-            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены"
+            "short_price_should_below_max_range": "Цена Шорта должна быть ниже максимального уровня цены",
+            "confirm_order": "Please confirm your order. The order will be funded via {{value}} account."
         },
         "chart": {
             "price": "Цена",
             "volume": "Объём торгов"
+        },
+        "advanced": "Short Mode",
+        "open_buy_orders": "Открытые Ордера на Покупку {{value}}",
+        "open_sell_orders": "Открытые Ордера на Продажу {{value}}",
+        "open_short_orders": "Открытые Ордера на Шорт {{value}}",
+        "open_margin_orders": "Открытые Залоговые/Margin Ордера",
+        "collateral": "Обеспечение",
+        "collateral_ratio": "Коэффициент Обеспечения",
+        "interest_rate": "Доходность",
+        "price_limit": "Price Limit",
+        "help": {
+            "buy_quantity": "The amount of {{value}} that you would like to buy.",
+            "buy_price" : "The amount you are willing to pay in {{base}} per {{quantity}}.",
+            "buy_lowest_ask" : "The lowest price at which your buy order can be immediately matched.",
+            "buy_total" : "The number of {{base}} that will be withdrawn from {{account}} account to fund this order.",
+            "sell_quantity": "The amount of {{value}} that you would like to buy.",
+            "sell_price" : "The amount you are willing to get in {{base}} per {{quantity}}.",
+            "sell_highest_bid" : "The highest price at which your sell order can be immediately matched.",
+            "sell_total" : "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
+            "short_quantity": "The number {{value}} that you would like to borrow and sell.",
+            "short_collateral_ratio": "The number of {{quantity}} per {{base}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio.",
+            "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
+            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+            "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
+            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
         }
     },
     "account": {
@@ -311,6 +341,7 @@
         "description": "Описание",
         "memo_data": "Примечание",
         "maximum_share_supply": "Максимальное количество акций",
+        "total_supply": "Всего эмитировано",
         "precision": "Точность",
         "issued_by": "Эмитирован",
         "create_new_asset": "Создать новый актив",
@@ -347,10 +378,11 @@
     },
     "pref": {
         "title": "Настройки",
-        "logout_timeout": "Автоматический выход через, секунд",
-        "trx_fee": "Комиссия за транзакцию ({{symbol}})",
+        "logout_timeout": "Автоматическая блокировка через",
+        "trx_fee": "Комиссия за транзакцию",
         "autocomplete_receiver": "Авто заполнение имени получателя",
-        "autocomplete_info": "Авто заполнение имени получателя при наборе имени, в форме для перевода средств"
+        "autocomplete_info": "Авто заполнение имени получателя при наборе имени, в форме для перевода средств",
+        "language": "Язык интерфейса"
     },
     "console": {
         "type_cmd_and_enter": "Введите команду и нажмите Enter"
@@ -381,5 +413,10 @@
         "severe_network_issue": "Серьезные проблемы с сетью",
         "low_participation_rate_60": "отображается, когда уровень участия делегатов падает ниже 60%. Недостаточное участие делегатов повышает вероятность образования альтернативных цепочек блоков (forks).",
         "about": "О программе"
+    },
+    "footer": {
+        "enable_trx_scan": "Включить сканирование транзакций",
+        "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
+        "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков"
     }
 }

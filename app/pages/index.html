@@ -8,14 +8,14 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
-  <body class="cover fixed_header" ng-class="{splash: unlockwallet}" ng-controller="RootController">
+  <body class="cover fixed_header" ng-class="{splashpage: splashpage}" ng-controller="RootController">
     <pageslide ps-open="context_help.open" ps-size="460px">
     <div id="context-help">
       <a class="close-help-link" ng-click="close_context_help()">Close <i class="fa fa-angle-double-right fa-fw"></i></a>
       <div class="context-help-content" ng-include src="context_help.file"></div>
     </div>
     </pageslide>
-    <div class="wrapper" ng-if="!unlockwallet">
+    <div class="wrapper">
       <!-- TOOLBAR -->
       <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
         <div ng-include src="'toolbar.html'"></div>
@@ -40,9 +40,8 @@
         </section>
       </div>
     </div>
-    <div ui-view ng-if="unlockwallet" class="unlockwallet"></div>
     <div loading-indicator></div>
-    <footer ng-if="!unlockwallet" ng-class="alert_level" ng-controller="FooterController">
+    <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
       <div ng-include src="'footer.html'"></div>
     </footer>
   </body>

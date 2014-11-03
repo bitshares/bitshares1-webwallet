@@ -1,21 +1,27 @@
 <div class="main-content">
-    <div class="row">
-        <div class="col-md-3">
-            <br> <input type="text" class="form-control" ng-model="q.q" placeholder="{{ 'pagination.filter' | translate }}"> <br>
-        </div>
-        <div class="col-md-6">
-            <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1">
-                <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate> pagination.first</a></li>
-                <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
-                <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
-                <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1" translate>pagination.next</a></li>
-                <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
-            </ul>
-        </div>
-        <div class="col-md-3">
-            <div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>
-        </div>
+  <div class="row">
+    <div class="col-md-3">
+      <br> <input type="text" class="form-control" ng-model="q.q" placeholder="{{ 'pagination.filter' | translate }}">
+      <br>
     </div>
+    <div class="col-md-6">
+      <ul class="pagination pagination-sm" ng-show="p.numberOfPages > 1">
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate> pagination.first</a>
+        </li>
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a>
+        </li>
+        <li><span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span>
+        </li>
+        <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1"
+               translate>pagination.next</a></li>
+        <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1"
+               ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <!--<div ng-controller="TrxScanController" ng-include src="'trxscan.html'"></div>-->
+    </div>
+  </div>
 </div>
 <div id="transaction_history">
   <table class="table table-striped table-hover">
@@ -31,13 +37,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="t in account_transactions | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
+      <tr ng-repeat="t in account_transactions | orderBy: '-time' | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize"
+          ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
         <td style='width:1%;white-space:nowrap'>
             <span ng-repeat="entry in t.ledger_entries">
               <div class="avatar-40">
                 <span ng-if="account.name==entry.from">
-                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_1/{{entry.to}}?size=80x80" height="40" width="40"/>
-                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()" ng-src="http://robohash.org/set_1/{{account.name}}?size=80x80" height="40" width="40"/>
+                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()"
+                         ng-src="http://robohash.org/set_1/{{entry.to}}?size=80x80" height="40" width="40"/>
+                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()"
+                         ng-src="http://robohash.org/set_1/{{account.name}}?size=80x80" height="40" width="40"/>
                 </span>
                 <span ng-if="account.name==entry.to && account.name!=entry.from">
                     <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
@@ -56,7 +65,11 @@
                     {{ 'th.from' | translate }}
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
                         <span ng-if="entry.from.charAt(0) !== 'X'">{{ entry.from }}</span>
-                        <a ng-if="entry.from.charAt(0) === 'X'"class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
+                        <a ng-if="entry.from.charAt(0) === 'X'" class="text-danger" tooltip-placement="right"
+                           tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{
+                                                                                                                    entry.from.substring(0,
+                                                                                                                    11)
+                                                                                                                    }}...</a>
                     </span>
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
                     <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
@@ -68,14 +81,16 @@
                     <span ng-if="entry.to[0] === entry.to[0].toUpperCase()">
                         {{ entry.to }}
                     </span>
-                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" href="#/accounts/{{entry.to}}">{{ entry.to }}</a>
+                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" href="#/accounts/{{entry.to}}">{{ entry.to
+                                                                                                        }}</a>
                 </span>
 
                 <span ng-if="account.name==entry.to && account.name==entry.from">
                     {{ 'th.to' | translate }} <a href="#/accounts/{{account.name}}">{{ 'account.self' | translate }}</a>
                 </span>
 
-                <span ng-if="account.name!=entry.to && account.name!=entry.from"> {{ entry.from }} <i class='fa fa-long-arrow-right fa-lg'></i> {{ entry.to }} </span>
+                <span ng-if="account.name!=entry.to && account.name!=entry.from"> {{ entry.from }} <i
+                    class='fa fa-long-arrow-right fa-lg'></i> {{ entry.to }} </span>
                 <br>
             </span>
         </td>
@@ -87,12 +102,14 @@
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span ng-if="entry.amount!=0">
-                    <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
+                    <span ng-show="entry.from == account.name  && entry.to == account.name" class="bold text-primary"><i
+                        class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from == account.name && entry.to != account.name" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from != account.name && entry.to == account.name" class="bold text-success">{{ entry.amount_asset | formatAsset }}</span>
                     <span ng-show="entry.from != account.name && entry.to != account.name" class="bold text-default">{{ entry.amount_asset | formatAsset }}</span>
                 </span>
-                <span ng-if="entry.amount==0" class="bold text-warning">{{ entry.amount_asset | formatAsset }}</span> <br>
+                <span ng-if="entry.amount==0"
+                      class="bold text-warning">{{ entry.amount_asset | formatAsset }}</span> <br>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
@@ -103,11 +120,15 @@
                 </span>
             </span>
         </td>
-          <td>
-              <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span>{{ t.pretty_time }}</span></a>
-              <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">Pending</span>
-              <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
-          </td>
+        <td>
+          <a ng-if="t.is_confirmed && !t.error" href="#/tx/{{t.id}}"><span>{{ t.pretty_time }}</span></a>
+          <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">
+            <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction">{{'tip.pending' | translate}}</a>
+            <span ng-show="t.status=='rebroadcasted'">{{'tip.pending' | translate}} (rebroadcasted)</span>
+            <br/>Expires {{t.expiration_pretty_time}}
+          </span>
+          <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
+        </td>
       </tr>
       <tr ng-if="warning">
         <td>{{warning}}</td>

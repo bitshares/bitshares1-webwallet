@@ -1,90 +1,4 @@
-<head>
-<style>
-	body, html {
-		font-family: 'Open Sans', sans-serif;
-		color: #FFF;
-		font-size: 16px;
-		background: #FFF url('img/xt-background.jpg') no-repeat left top;
-		background-size: cover;
-		margin: 0;
-		padding: 0;
-	}
-
-    .description {
-		font-size: 12px;
-    }
-
-	.start-wrapper {
-		border: 0px solid #333;
-		width: 400px;
-		height: 700px;
-		position: absolute;
-		top: 30%;
-		left: 50%;
-		margin-left: -200px;
-		margin-top: -100px;
-	}
-
-	.str-top {
-		height: 80px;
-		text-align: center;
-		border-bottom: 1px solid rgba(255, 255, 255, .5);
-		    -webkit-background-clip: padding-box; /* for Safari */
-		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-	}
-
-	.str-top img { margin-bottom: 24px; }
-
-	.str-content {
-		text-align: center;
-		padding: 20px 10px 5px 0;
-		cursor: pointer;
-
-	}
-
-    .str-arrow {
-      display:block;
-      margin-left:auto;
-      margin-right:auto;
-      width: 10px;
-      text-decoration: none;
-      padding-bottom: 10px;
-    }
-    .str-arrow:hover {
-      text-decoration: none;
-      color: #6BD3F3;
-    }
-
-	.str-bottom {
-		height: 40px;
-        padding: 25px;
-		text-align: center;
-		border-top: 1px solid rgba(255, 255, 255, .5);
-		    -webkit-background-clip: padding-box; /* for Safari */
-		    background-clip: padding-box; /* for IE9+, Firefox 4+, Opera, Chrome */
-
-	}
-
-	.str-bottom img { margin-top: 24px; }
-
-    .description p {
-        text-align: center;
-        text-shadow: 1px 2px 2px #0e434f;
-    }
-
-    .input {
-        width: 200px;
-    }
-
-    .spacedrow {
-        margin-top: 10px;
-    }
-
-</style>
-</head>
-
-<body>
-<section class="start-wrapper">
+<section class="splashpage-wrapper">
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
@@ -96,7 +10,7 @@
        <div class="license-body description">
         <div ng-include src="'licenseagreement.html'"></div>
       </div>
-      <input type="checkbox" ng-click="accept_license()"> I accept the terms of the license agreement
+      <input type="checkbox" id="accept_license" ng-click="accept_license()"> <label for="accept_license">I accept the terms of the license agreement</label>
       </div>
     </div>
     <div ng-switch-default>
@@ -153,5 +67,3 @@
    </div>
    </div>
 </section>
-</body>
-

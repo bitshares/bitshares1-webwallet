@@ -4,20 +4,20 @@
 </div>
 <p class="pull-left">
     <span>{{message}}&nbsp;{{scan_progress_info}}</span> &nbsp;
-    <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()">Enable Transaction Scanning</a></span>
+    <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()" translate>footer.enable_trx_scan</a></span>
 </p>
 <p class="pull-right m-bottom">
-	<span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
+  <span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
     <span> {{blockchain_last_sync_info}} </span>
-	<span class="blockchain-status icon" ng-switch on="blockchain_status">
-		<i class="fa fa-check" ng-switch-when="synced"
-       tooltip="Up&nbsp;to&nbsp;date,&nbsp;processed&nbsp;{{blockchain_last_block_num}}&nbsp;blocks"
+  <span class="blockchain-status icon" ng-switch on="blockchain_status">
+    <i class="fa fa-check" ng-switch-when="synced"
+       tooltip="{{'footer.up_to_date'|translate:'{value: blockchain_last_block_num}'}}"
        tooltip-placement="left"></i>
-		<i class="fa fa-refresh fa-spin" ng-switch-when="syncing"
-       tooltip="Catching up..&nbsp;processed&nbsp;{{blockchain_last_block_num}}&nbsp;out&nbsp;of&nbsp;{{blockchain_last_block_num + blockchain_blocks_behind}}"
+    <i class="fa fa-refresh fa-spin" ng-switch-when="syncing"
+       tooltip="{{'footer.catching_up'|translate:'{value1: blockchain_last_block_num, value2: (blockchain_last_block_num + blockchain_blocks_behind)}'}}"
        tooltip-placement="left"></i>
-		<i ng-switch-default></i>
-	</span>
+    <i ng-switch-default></i>
+  </span>
   <span class="icon" tooltip="{{connections_str}}" tooltip-placement="left">
     <svg height="16" width="16" version="1.1" xmlns="http://www.w3.org/2000/svg"
          class="{{connections_class}}">

@@ -37,11 +37,11 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $modalInstance.dismiss "cancel"
 
   $scope.ok = ->  # $scope.payWith is not in modal's scope FFS!!!
-    payrate = if $scope.m.delegate then $scope.m.payrate else 255
+    payrate = if $scope.m.delegate then $scope.m.payrate else -1
     if $scope.account.private_data?.gui_data?.website
         website= $scope.account.private_data.gui_data.website
     else
         website= ""
-    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gui_data':{'website': website}}, payrate).then (response) ->
+    Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gui_data':{'website': website}}, payrate, "titan_account").then (response) ->
       $modalInstance.close("ok")
       $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name] = "pending"

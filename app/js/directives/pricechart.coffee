@@ -75,6 +75,8 @@ initChart = (scope) ->
             title: { text: 'Volume ' + scope.volumeSymbol }
             color: "#4572A7"
             opposite: true
+            height: "50%"
+            top: "50%"
         ]
 
         series: [
