@@ -130,7 +130,7 @@ class Wallet
 
 
 #    account_yield: []
-#    
+#
 #    #empty account_name = all
 #    wallet_account_yield: (account_name = "") ->
 #        if @utils.too_soon("wallet_account_yield #{account_name}", 10 * 1000)
@@ -248,7 +248,8 @@ class Wallet
     process_transaction: (val) ->
         existing_transaction = @transactions_all_by_id[val.trx_id]
         if existing_transaction and existing_transaction.id
-            #@update_transaction(existing_transaction, val)
+            @update_transaction(existing_transaction, val)
+            existing_transaction.time.setMilliseconds(existing_transaction.num)
             return
         involved_accounts = {}
         ledger_entries = []
@@ -316,7 +317,7 @@ class Wallet
 
             account_transaction_history_promise.then (result) =>
                 for val in result
-                    #console.log "------ account_transaction ------>", @transactions_last_block, val.block_num, @transactions_counter
+                    #console.log "------ account_transaction ------>", val
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
 

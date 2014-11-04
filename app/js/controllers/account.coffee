@@ -79,7 +79,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             $scope.bonuses = Wallet.bonuses[name]
 
     $scope.$watchCollection ->
-        Wallet.transactions
+        Wallet.transactions["*"]
     , () ->
         Wallet.refresh_account(name)
 
