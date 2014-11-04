@@ -9,7 +9,8 @@
         "confirm": "Confirm",
         "update": "Update",
         "cover": "Cover",
-        "register": "Register"
+        "register": "Register",
+        "close": "Close"
     },
     "tip": {
         "privacy_statement": "Privacy Statement",
@@ -178,7 +179,9 @@
     },
     "market": {
         "title": "Market",
+        "featured_markets": "Featured Markets",
         "search_market": "Search market",
+        "market_name": "Market Name",
         "all_markets": "All Markets",
         "recent_markets": "Recent Markets",
         "median_price": "Median Price",

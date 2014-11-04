@@ -13,7 +13,7 @@
     <div class="col-sm-5">
       <div class="panel" ng-show="featured_markets.length > 0">
         <div class="panel-heading">
-          <h3 class="panel-title">Featured Markets</h3>
+          <h3 class="panel-title" translate>market.featured_markets</h3>
         </div>
         <div class="panel-body">
           <ul class="markets-list">
@@ -41,7 +41,7 @@
     <div class="col-sm-3">
       <div class="panel">
         <div class="panel-heading">
-          <h3 class="panel-title" translate>Search</h3>
+          <h3 class="panel-title" translate>market.search_market</h3>
         </div>
         <div class="panel-body">
           <!--<ul class="markets-list">-->
@@ -52,7 +52,7 @@
                  typeahead-editable="false"
                  typeahead-append-to-body="true"
                  class="form-control"
-                 placeholder="Market Name">
+                 placeholder="{{ 'market.market_name' | translate }}">
         </div>
       </div>
     </div>
