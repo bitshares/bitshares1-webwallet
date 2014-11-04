@@ -13,6 +13,8 @@ class Wallet
     transactions_loading_promise: null
     transactions_last_block: 0
     transactions_all_by_id: {}
+    transactions_last_time: 0
+    transactions_counter: 0
 
     # set in constructor
     timeout: null
@@ -246,10 +248,11 @@ class Wallet
     process_transaction: (val) ->
         existing_transaction = @transactions_all_by_id[val.trx_id]
         if existing_transaction and existing_transaction.id
-            @update_transaction(existing_transaction, val)
+            #@update_transaction(existing_transaction, val)
             return
         involved_accounts = {}
         ledger_entries = []
+        used_balance_symbols = {}
         angular.forEach val.ledger_entries, (entry) =>
             involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
             involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
@@ -259,10 +262,12 @@ class Wallet
                 balances = acct[1]
                 continue unless involved_accounts[account_name]
                 #console.log "------ running_balances item ------>",account_name, balances
+                running_balances[account_name] = []
                 for item in balances
-                    asset = @utils.asset(item[1].amount, @blockchain.asset_records[item[1].asset_id])
-                    running_balances[account_name] ||= []
-                    running_balances[account_name].push asset
+                    asset_record = @blockchain.asset_records[item[1].asset_id]
+                    asset = @utils.asset(item[1].amount, asset_record)
+                    running_balances[account_name].push asset unless used_balance_symbols[asset.symbol]
+                    used_balance_symbols[asset.symbol] = true
 
             ledger_entries.push
                 from: entry.from_account
@@ -275,6 +280,14 @@ class Wallet
         transaction = { id: val.trx_id }
         transaction.ledger_entries = ledger_entries
         @update_transaction(transaction, val)
+        if val.timestamp == @transactions_last_time
+            @transactions_counter += 1
+        else
+            @transactions_counter = 0
+        @transactions_last_time = val.timestamp
+        #console.log "------ process_transaction ------>", val.trx_id, val.block_num , val.timestamp, @transactions_last_time,@transactions_counter
+        transaction.time.setMilliseconds(@transactions_counter)
+        transaction.num = @transactions_counter
 
         @transactions_all_by_id[val.trx_id] = transaction
 
@@ -303,6 +316,7 @@ class Wallet
 
             account_transaction_history_promise.then (result) =>
                 for val in result
+                    #console.log "------ account_transaction ------>", @transactions_last_block, val.block_num, @transactions_counter
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
 
@@ -314,8 +328,6 @@ class Wallet
                 pending_transactions_promise.finally =>
                     @transactions_loading_promise = null
                     deffered.resolve(@transactions)
-
-                #console.log "------ account_transactions finished ------>"
 
         return @transactions_loading_promise
 
