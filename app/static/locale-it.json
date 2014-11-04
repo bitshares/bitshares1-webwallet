@@ -9,7 +9,8 @@
         "confirm": "Conferma",
         "update": "Aggiorna",
         "cover": "Cover",
-        "register": "Registra"
+        "register": "Registra",
+        "close": "Close"
     },
     "tip": {
         "privacy_statement": "Privacy",
@@ -178,7 +179,9 @@
     },
     "market": {
         "title": "Mercato",
+        "featured_markets": "Featured Mercato",
         "search_market": "Cerca nel Mercato",
+        "market_name": "Market Name",
         "all_markets": "Tutti i Mercati",
         "recent_markets": "Mercati Recenti",
         "median_price": "Prezzo Mediano",
