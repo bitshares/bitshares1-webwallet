@@ -23,12 +23,16 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
             $scope.spending_password = ""
             return true
 
+        deferred = $q.defer()
+
         Wallet.open().then ->
-            unlock_promise = Wallet.wallet_unlock($scope.spending_password, error_handler)
-            unlock_promise.then ->
+            Wallet.wallet_unlock($scope.spending_password, error_handler).then ->
+                deferred.resolve()
                 res = $scope.history_back()
                 navigate_to('home') unless res
-            $rootScope.showLoadingIndicator unlock_promise
+            , (error) -> deferred.reject()
+        , (error) -> deferred.reject()
+        $rootScope.showLoadingIndicator deferred.promise
 
     $scope.$on "$destroy", ->
         $rootScope.splashpage = false

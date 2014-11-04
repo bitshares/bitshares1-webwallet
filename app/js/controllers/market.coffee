@@ -117,7 +117,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         Observer.registerObserver(account_balances_observer)
 
         Blockchain.get_asset($scope.actual_market.base_asset.id).then (asset) ->
-            $scope.asset_total_supply = asset.current_share_supply
+            $scope.asset_total_supply = asset.current_share_supply / asset.precision
         Blockchain.get_info().then (config) ->
             $scope.blockchain_symbol = config.symbol #XTS or BTSX
             WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->
