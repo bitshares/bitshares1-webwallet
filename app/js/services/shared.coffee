@@ -7,13 +7,22 @@ servicesModule.factory "Shared", ->
         list: []
         new_error: false
         num_errors: 0
-    addError: (text, stack) ->
-        ++@errors.num_errors
+    addError: (text, stack, toolkit_error) ->
+        match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)
+        text = if !match or match.length < 2 then text else match[1]
         @errors.new_error = true
         if @errors.list.length > 0
             first_error = @errors.list[0]
-            if first_error.text == text and first_error.stack == stack
-                first_error.counter
+            if first_error.text == text
+                ++first_error.counter
+                first_error.time = (new Date()).toLocaleString()
                 return
-        @errors.list.unshift {text: text, time: (new Date()).toLocaleString(), stack: stack, counter: 1}
+        ++@errors.num_errors
+        @errors.list.unshift
+            text: text
+            time: (new Date()).toLocaleString()
+            stack: stack
+            counter: 1
+            toolkit_error: toolkit_error
+        window.ttt = stack
         @errors.list.splice(-1) if @errors.list.length > 16
