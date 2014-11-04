@@ -139,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "unlock",
-        "desc_title": "BitShares X Decentralized Exchange",
-        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_title": "BitShares Decentralized Exchange",
+        "desc_content_1": "BitShares is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
         "desc_content_2": "",
         "wrong_pass": "Wrong Password."
     },
@@ -150,7 +150,7 @@
         "create_wallet": "Create Wallet"
     },
     "index": {
-        "title": "BitShares XT Wallet",
+        "title": "BitShares Wallet",
         "overview": "Overview",
         "my_account": "My Accounts",
         "directory": "Directory",
@@ -365,7 +365,7 @@
     },
     "privacy": {
         "email_warning1": "Your email address is only used for the purpose of identifying your",
-        "email_warning2": "account which can be tied to your BitShares XT account.  This helps you and others verify that your transactions are sending funds to the expected individual. ",
+        "email_warning2": "account which can be tied to your BitShares account.  This helps you and others verify that your transactions are sending funds to the expected individual. ",
         "email_warning3": "Your email is not shared with anyone and no one will be able to send you spam. "
     },
     "directory": {

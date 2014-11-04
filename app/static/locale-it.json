@@ -139,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "Sblocca",
-        "desc_title": "BitShares X Piattaforma di Scambio Decentralizzato",
-        "desc_content_1": "BitShares X è una piattaforma di scambio decentralizzata sperimentale che permetterà il trading di uno speciale tipo di asset drivato (come BitGold) che tracciano il valore di assets del mondo reale (come l'Oro) usando un contratto per una differenza basata su un indice dei prezzi decentralizzato. Il sistema è rinforzato con un meccanismo di simil-predizione del mercato che ricompensa i traders che spingono il prezzo verso il consenso. Permetterà inoltre agli utenti di distribuire assets tradizionali non-fissati.",
+        "desc_title": "BitShares Piattaforma di Scambio Decentralizzato",
+        "desc_content_1": "BitShares è una piattaforma di scambio decentralizzata sperimentale che permetterà il trading di uno speciale tipo di asset drivato (come BitGold) che tracciano il valore di assets del mondo reale (come l'Oro) usando un contratto per una differenza basata su un indice dei prezzi decentralizzato. Il sistema è rinforzato con un meccanismo di simil-predizione del mercato che ricompensa i traders che spingono il prezzo verso il consenso. Permetterà inoltre agli utenti di distribuire assets tradizionali non-fissati.",
         "desc_content_2": "",
         "wrong_pass": "Password Sbagliata."
     },
@@ -150,7 +150,7 @@
         "create_wallet": "Crea Portafoglio"
     },
     "index": {
-        "title": "BitShares XT Portafoglio",
+        "title": "BitShares Portafoglio",
         "overview": "Sommario",
         "my_account": "Miei Conti",
         "directory": "Cartella",
@@ -362,7 +362,7 @@
     },
     "privacy": {
         "email_warning1": "Il tuo indirizzo email è usato al solo scopo di identificare",
-"email_warning2": "il tuo conto che può essere legato al tuo conto BitShares XT. Questo aiuta te e gli altri a verificare che le tue transazioni stanno inviando i fondi agli individui attesi. account which can be tied to your BitShares XT account. This helps you and others verify that your transactions are sending funds to the expected individual. ",
+"email_warning2": "il tuo conto che può essere legato al tuo conto BitShares. Questo aiuta te e gli altri a verificare che le tue transazioni stanno inviando i fondi agli individui attesi. account which can be tied to your BitShares XT account. This helps you and others verify that your transactions are sending funds to the expected individual. ",
         "email_warning3": "La tua email non sarà ceduta a nessuno e non riceverai alcuna posta indesiderata "
     },
     "directory": {
