@@ -185,3 +185,12 @@ servicesModule.factory "Utils", ($translate,$q) ->
             a.precision = asset.precision
             a.symbol = asset.symbol
             @formatAsset(a)
+
+    select_where: (array, query) ->
+        return [] if typeof query isnt "object"
+        hit = Object.keys(query).length
+        array.filter (item) ->
+            match = 0
+            for key, val of query
+                match += 1 if item[key] is val
+            if match is hit then true else false
