@@ -17,9 +17,9 @@
         "warning": "Warning",
         "validate_symbol": "The Symbol shoud be 3-5 uppercase characters",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
-        "pay_with_info": "Registering costs BTSX, Pay with",
+        "pay_with_info": "Registering costs BTS, Pay with",
         "reg_as_delegate": "Registered as delegate",
-        "reg_delegate_tip": "Registering as delegate costs a lot of XTS",
+        "reg_delegate_tip": "Registering as delegate costs a lot of BTS",
         "reg_pending": "Registration pending.  Not registered yet.",
         "not_reg_onchain": "Not registered on the blockchain",
         "add_account_name_existed": "Cannot add contact.  Account name exists.",
@@ -139,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "unlock",
-        "desc_title": "BitShares Decentralized Exchange",
-        "desc_content_1": "BitShares is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_title": "Company. Community. Currency.",
+        "desc_content_1": "BitShares is a virtual company backed by a decentralized community that produces the best digital currencies on the market: BitUSD, BitGold, and BitSilver."
         "desc_content_2": "",
         "wrong_pass": "Wrong Password."
     },
@@ -202,8 +202,8 @@
         "blockchain_orders_history": "Blockchain Orders History",
         "account_orders_history": "Account Orders History",
         "margin_orders": "Margin Call Orders",
-        "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
-        "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTSX 45.00 for a short entered at BTSX 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
+        "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
+        "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
         "flip_market": "Flip Market",
         "buy_orders": "Buy {{value}} Orders",
         "sell_orders": "Sell {{value}} Orders",
