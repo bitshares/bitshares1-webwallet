@@ -140,7 +140,7 @@
     "unlock": {
         "btn_unlock": "unlock",
         "desc_title": "Company. Community. Currency.",
-        "desc_content_1": "BitShares is a virtual company backed by a decentralized community that produces the best digital currencies on the market: BitUSD, BitGold, and BitSilver."
+        "desc_content_1": "BitShares is a virtual company backed by a decentralized community that produces the best digital currencies on the market: BitUSD, BitGold, and BitSilver.",
         "desc_content_2": "",
         "wrong_pass": "Wrong Password."
     },
