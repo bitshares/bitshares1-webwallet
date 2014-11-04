@@ -9,7 +9,8 @@
         "confirm": "Confirm",
         "update": "Update",
         "cover": "Cover",
-        "register": "Register"
+        "register": "Register",
+        "close": "Close"
     },
     "tip": {
         "privacy_statement": "Privacy Statement",
@@ -138,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "unlock",
-        "desc_title": "BitShares X Decentralized Exchange",
-        "desc_content_1": "BitShares X is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
+        "desc_title": "BitShares Decentralized Exchange",
+        "desc_content_1": "BitShares is an experimental decentralized exchange that will allow for trading a special type of derivative assets (like BitGold) that track the value of real-world assets (like Gold) using a contract for a difference based on a decentralized price feed. This is reinforced with a prediction-market-like mechanic which rewards traders who push the price towards consensus. It will also allow users to issue traditional non-pegged assets.",
         "desc_content_2": "",
         "wrong_pass": "Wrong Password."
     },
@@ -149,7 +150,7 @@
         "create_wallet": "Create Wallet"
     },
     "index": {
-        "title": "BitShares XT Wallet",
+        "title": "BitShares Wallet",
         "overview": "Overview",
         "my_account": "My Accounts",
         "directory": "Directory",
@@ -178,7 +179,9 @@
     },
     "market": {
         "title": "Market",
+        "featured_markets": "Featured Markets",
         "search_market": "Search market",
+        "market_name": "Market Name",
         "all_markets": "All Markets",
         "recent_markets": "Recent Markets",
         "median_price": "Median Price",
@@ -249,7 +252,7 @@
             "short_quantity": "The approximate number of {{value}} that you would like to borrow and sell.",
             "short_collateral": "The number of {{value}} that you are willing to post as collateral. You should provide 3x backing at the trade price and quantity, 2x comes from short seller and 1x from buyer.",
             "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
             "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
             "short_interest_rate": "The interest rate you are willing to pay."
@@ -362,7 +365,7 @@
     },
     "privacy": {
         "email_warning1": "Your email address is only used for the purpose of identifying your",
-        "email_warning2": "account which can be tied to your BitShares XT account.  This helps you and others verify that your transactions are sending funds to the expected individual. ",
+        "email_warning2": "account which can be tied to your BitShares account.  This helps you and others verify that your transactions are sending funds to the expected individual. ",
         "email_warning3": "Your email is not shared with anyone and no one will be able to send you spam. "
     },
     "directory": {

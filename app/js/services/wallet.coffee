@@ -370,7 +370,7 @@ class Wallet
     
     wallet_get_info: (error_handler = null) ->
         @rpc.request('wallet_get_info', [], error_handler).then (response) =>
-            @info.transaction_fee = response.result.transaction_fee
+            @info.transaction_fee = response.result.transaction_fee if response.result
             response.result
 
     wallet_add_contact_account: (name, address) ->

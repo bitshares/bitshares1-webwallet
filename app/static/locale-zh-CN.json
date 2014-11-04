@@ -9,7 +9,8 @@
         "confirm": "确认",
         "update": "更新",
         "cover": "补仓",
-        "register": "注册"
+        "register": "注册",
+        "close": "关闭"
     },
     "tip": {
         "privacy_statement": "隐私申明",
@@ -98,8 +99,8 @@
         "action": "操作",
         "paid": "付出",
         "received": "获得",
-        "expiration": "EXPIRATION",
-        "interest_rate": "Interest Rate (APR)"
+        "expiration": "截止日期",
+        "interest_rate": "利率 (年化)"
     },
     "block": {
         "title": "区块",
@@ -129,12 +130,7 @@
             "net_delegate_approval_update": "受托人净投票更新",
             "approval_change": "支持票数变化",
             "operations": "操作"
-        },
-        "advanced": "Short Mode",
-        "open_buy_orders": "Open Buy {{value}} Orders",
-        "open_sell_orders": "Open Sell {{value}} Orders",
-        "open_short_orders": "Open Short Sell {{value}} Orders",
-        "open_margin_orders": "Open Margin Orders"
+        }
     },
     "blocks": {
         "load_more_blocks": "更多区块",
@@ -143,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "解锁",
-        "desc_title": "BitShares X 去中心化交易所",
-        "desc_content_1": "Bitshares X是一个实验性的去中心化交易所，在它上面可以交易某些特定的衍生品资产，这种资产（例如比特黄金）的价格通过基于去中心化价格流的差价合约可以锚定真实世界中对应资产（例如黄金）的价值，并且不需要基于信任的价格信息输入。这过程通过类此于“预测市场”的机制来实现，因为参与者可以通过推动价格逼近市场共识价格来获利。Bitshares X同时也允许用户发布非价格锚定的传统资产。",
+        "desc_title": "BitShares 去中心化交易所",
+        "desc_content_1": "Bitshares 是一个实验性的去中心化交易所，在它上面可以交易某些特定的衍生品资产，这种资产（例如比特黄金）的价格通过基于去中心化价格流的差价合约可以锚定真实世界中对应资产（例如黄金）的价值，并且不需要基于信任的价格信息输入。这过程通过类此于“预测市场”的机制来实现，因为参与者可以通过推动价格逼近市场共识价格来获利。Bitshares X同时也允许用户发布非价格锚定的传统资产。",
         "desc_content_2": "",
         "wrong_pass": "密码错误"
     },
@@ -154,7 +150,7 @@
         "create_wallet": "创建钱包"
     },
     "index": {
-        "title": "BitShares XT 钱包",
+        "title": "BitShares 钱包",
         "overview": "概况",
         "my_account": "我的账户",
         "directory": "目录",
@@ -164,7 +160,7 @@
         "preferences": "设置",
         "console": "控制台",
         "help": "帮助",
-        "lock": "加锁",
+        "lock": "锁定钱包",
         "daily_income": "网络每日收入",
         "daily_expense": "网络每日花费",
         "daily_burn": "网络每日销毁"
@@ -183,7 +179,9 @@
     },
     "market": {
         "title": "市场",
+        "featured_markets": "推荐市场",
         "search_market": "搜索市场",
+        "market_name": "市场名字",
         "all_markets": "所有市场",
         "recent_markets": "最近访问的市场",
         "median_price": "喂价中位价",
@@ -239,24 +237,27 @@
         "open_margin_orders": "我的平仓单",
         "collateral": "抵押冻结",
         "collateral_ratio": "抵押率",
-        "interest_rate": "Interest Rate",
+        "interest_rate": "利率",
         "price_limit": "成交限价",
         "help": {
-            "buy_quantity": "The amount of {{value}} that you would like to buy.",
-            "buy_price" : "The amount you are willing to pay in {{base}} per {{quantity}}.",
-            "buy_lowest_ask" : "The lowest price at which your buy order can be immediately matched.",
-            "buy_total" : "The number of {{base}} that will be withdrawn from {{account}} account to fund this order.",
-            "sell_quantity": "The amount of {{value}} that you would like to buy.",
-            "sell_price" : "The amount you are willing to get in {{base}} per {{quantity}}.",
-            "sell_highest_bid" : "The highest price at which your sell order can be immediately matched.",
-            "sell_total" : "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
-            "short_quantity": "The number {{value}} that you would like to borrow and sell.",
-            "short_collateral_ratio": "The number of {{quantity}} per {{base}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio.",
-            "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
-            "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
-            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
-        }
+            "buy_quantity": "你打算购买的 {{value}} 数量",
+            "buy_price" : "你愿意支付的价格，每 {{quantity}} 支付的 {{base}} 数量",
+            "buy_lowest_ask" : "你的买单能够立即成交的最优价格（最低卖价）",
+            "buy_total" : "完成买单将从 {{account}} 账户扣除的 {{base}} 的总额",
+            "sell_quantity": "你打算卖出的 {{value}} 数量",
+            "sell_price" : "你愿意出售的价格，每 {{quantity}} 获得的 {{base}} 数量",
+            "sell_highest_bid" : "你的卖单能够立即成交的最优价格（最高买价）",
+            "sell_total" : "完成卖单将存入 {{account}} 的{{base}} 的总额",
+            "short_quantity": "你将借入并卖出（卖空）的 {{value}} 大致数量",
+            "short_collateral": "你愿意抵押的 {{value}} 数量。 空单需要3倍的价值抵押，2倍价值来自与做空方卖家，1倍价值来自于多方买家。",
+            "short_price_limit_direct": "你借入并愿意卖出 {{base}} 的最高价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较高价处。",
+            "short_price_limit_inverted": "你借入并愿意卖出 {{base}} 的最低价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较低价处。",
+            "short_feed_price": "依据外部交易所汇率由受托人们提供的汇率中间价",
+            "short_total": "成交需要的 {{value}} 总额。根据数量乘以抵押率计算。",
+            "short_interest_rate": "你愿意支付的利率"
+        },
+        "days": "{{value}} 天",
+        "percent_apr": "年化利率"
     },
     "account": {
         "reg_pending": "注册申请中",
@@ -312,7 +313,7 @@
             "vote_as_delegates_recommended": "跟随受托人发布的推荐名单投票",
             "btn_update_vote": "更新投票",
             "current_votes": "当前得票数",
-            "future_votes": "将来投票"
+            "future_votes": "投票计划"
         },
         "import_wif_key": "导入 WIF 私钥",
         "import_from_wallet": "从钱包导入私钥",
@@ -346,7 +347,7 @@
         "description": "描述",
         "memo_data": "消息数据",
         "maximum_share_supply": "最大股份供应",
-        "total_supply": "Total Supply",
+        "total_supply": "当前总供给量",
         "info_create_asset_fee": "创建比特资产手续费",
         "precision": "精度",
         "create_new_asset": "创建新的比特资产",
@@ -362,7 +363,7 @@
     },
     "privacy": {
         "email_warning1": "你的邮件地址只会被用来识别",
-        "email_warning2": "绑定你BitShares X账户的地址，这可以帮助其他人来识别你的交易并且发送交易给正确的人.",
+        "email_warning2": "绑定你BitShares 账户的地址，这可以帮助其他人来识别你的交易并且发送交易给正确的人.",
         "email_warning3": "你的邮件地址不会被其他任何人知道，其他人也无法给你发送垃圾邮件."
     },
     "directory": {
@@ -387,7 +388,7 @@
         "trx_fee": "交易手续费",
         "autocomplete_receiver": "自动补全转账接受账号",
         "autocomplete_info": "在转账表单中，当用户输入收款账户信息时，自动完成账户名称",
-        "language": "Interface Language"
+        "language": "界面语言选择"
     },
     "console": {
         "type_cmd_and_enter": "输入命令并回车"
@@ -423,5 +424,12 @@
         "enable_trx_scan": "启用交易记录扫描",
         "up_to_date": "已同步到最新状态：已处理 {{value}} 块区块",
         "catching_up": "同步中：已处理 {{value}} 块区块，总共 {{value2}} 块区块"
+    },
+    "utils": {
+        "expired": "Expired",
+        "seconds": "{{value}} 秒",
+        "minutes": "{{value}} 分钟",
+        "hours": "{{value}} 小时",
+        "days": "{{value}} 天"
     }
 }

@@ -10,7 +10,7 @@ app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid"])
 
-app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, editableOptions, editableThemes) ->
+app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, $translate, editableOptions, editableThemes) ->
     $templateCache.put 'ui-grid/uiGridViewport',
         '''<div class="ui-grid-viewport">
              <div class="ui-grid-canvas">
@@ -69,7 +69,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     $rootScope.showContextHelp = (name) ->
         if name
             $rootScope.context_help.show = true
-            $rootScope.context_help.file = "context_help/#{$rootScope.context_help.locale}/#{name}.html"
+            $rootScope.context_help.file = "context_help/#{$translate.preferredLanguage()}/#{name}.html"
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
@@ -224,9 +224,9 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "market/market.html"
         controller: "MarketController"
 
-    sp.state "market.buy", { url: "/buy", templateUrl: "market/buy.html" }  
-    sp.state "market.sell", { url: "/sell", templateUrl: "market/sell.html" }  
-    sp.state "market.short", { url: "/short", templateUrl: "market/short.html" }  
+    sp.state "market.buy", { url: "/buy", templateUrl: "market/buy.html" }
+    sp.state "market.sell", { url: "/sell", templateUrl: "market/sell.html" }
+    sp.state "market.short", { url: "/short", templateUrl: "market/short.html" }
 
     sp.state "transfer",
         url: "/transfer?from&to&amount&memo&asset"

@@ -9,7 +9,8 @@
         "confirm": "Подтвердить",
         "update": "Обновить",
         "cover": "Покрытие",
-        "register": "Зарегистрировать"
+        "register": "Зарегистрировать",
+        "close": "Close"
     },
     "tip": {
         "privacy_statement": "Заявление о конфиденциальности",
@@ -135,8 +136,8 @@
     },
     "unlock": {
         "btn_unlock": "Разблокировать",
-        "desc_title": "BitSharesX децентрализованная биржа",
-        "desc_content_1": "BitSharesX - это экспериментальная децентрализованная биржа, которая позволяет торговать особыми типами производных активов (например BitGold), которые отслеживают цены реальных физических активов (например золота), используя контракт на разницу, основанный на децентрализованной потоковой цене. Функционирование биржи обеспечивает механизм, схожий с используемым на информационных рынках, который вознаграждает трейдеров за ценовое давление в сторону консенсуса. Биржа также позволяет пользователям эмитировать традиционные, не привязанные к другим рыночным позициям, активы.",
+        "desc_title": "BitShares децентрализованная биржа",
+        "desc_content_1": "BitShares - это экспериментальная децентрализованная биржа, которая позволяет торговать особыми типами производных активов (например BitGold), которые отслеживают цены реальных физических активов (например золота), используя контракт на разницу, основанный на децентрализованной потоковой цене. Функционирование биржи обеспечивает механизм, схожий с используемым на информационных рынках, который вознаграждает трейдеров за ценовое давление в сторону консенсуса. Биржа также позволяет пользователям эмитировать традиционные, не привязанные к другим рыночным позициям, активы.",
         "desc_content_2": "",
         "wrong_pass": "Неверный пароль."
     },
@@ -146,7 +147,7 @@
         "create_wallet": "Создать бумажник"
     },
     "index": {
-        "title": "BitSharesX Бумажник",
+        "title": "BitShares Бумажник",
         "overview": "Обзор",
         "my_account": "Мои Аккаунты",
         "directory": "Каталог",
@@ -175,7 +176,9 @@
     },
     "market": {
         "title": "Рынок",
+        "featured_markets": "Featured рынки",
         "search_market": "Поиск рынка",
+        "market_name": "Market Name",
         "all_markets": "Все рынки",
         "recent_markets": "Последние рынки",
         "median_price": "Медианная цена",
@@ -247,7 +250,7 @@
             "short_quantity": "The number {{value}} that you would like to borrow and sell.",
             "short_collateral_ratio": "The number of {{quantity}} per {{base}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio.",
             "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+            "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
             "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
         }
@@ -357,7 +360,7 @@
     },
     "privacy": {
         "email_warning1": "Адрес Вашей электронной почты используется только в целях идентификации Вашего аккаунта, ",
-        "email_warning2": "который может быть связан с Вашим аккаунтом в BitSharesX. Это поможет Вам и другим убедится, что средства отправляются тому, кому предназначаются. ",
+        "email_warning2": "который может быть связан с Вашим аккаунтом в BitShares. Это поможет Вам и другим убедится, что средства отправляются тому, кому предназначаются. ",
         "email_warning3": "Адрес Вашей электронной почты никуда не передается, и никто не сможет использовать его для отправки спама."
     },
     "directory": {
