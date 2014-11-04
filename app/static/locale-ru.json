@@ -9,7 +9,8 @@
         "confirm": "Подтвердить",
         "update": "Обновить",
         "cover": "Покрытие",
-        "register": "Зарегистрировать"
+        "register": "Зарегистрировать",
+        "close": "Close"
     },
     "tip": {
         "privacy_statement": "Заявление о конфиденциальности",
@@ -175,7 +176,9 @@
     },
     "market": {
         "title": "Рынок",
+        "featured_markets": "Featured рынки",
         "search_market": "Поиск рынка",
+        "market_name": "Market Name",
         "all_markets": "Все рынки",
         "recent_markets": "Последние рынки",
         "median_price": "Медианная цена",
