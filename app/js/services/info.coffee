@@ -20,22 +20,19 @@ class Info
             data = results[0]
             #console.log "watch_for_updates get_info:>", results
             @info.transaction_scanning = results[1].transaction_scanning
-            if data.blockchain_head_block_num > 0
-                @info.network_connections = data.network_num_connections
-                @info.wallet_open = data.wallet_open
-                @info.wallet_unlocked = data.wallet_unlocked
-                @info.last_block_time = data.blockchain_head_block_timestamp
-                @info.last_block_num = data.blockchain_head_block_num
-                @info.blockchain_head_block_age = data.blockchain_head_block_age
-                @info.income_per_block = data.blockchain_delegate_pay_rate
-                @info.share_supply = data.blockchain_share_supply
-                @blockchain.get_asset(0).then (v)=>
-                    @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
-                @info.wallet_scan_progress = data.scan_progress
-                if(!@info.client_version)
-                  @info.client_version=data.client_version
-            else
-                @info.wallet_unlocked = data.wallet_unlocked
+            @info.network_connections = data.network_num_connections
+            @info.wallet_open = data.wallet_open
+            @info.wallet_unlocked = data.wallet_unlocked
+            @info.last_block_time = data.blockchain_head_block_timestamp
+            @info.last_block_num = data.blockchain_head_block_num
+            @info.blockchain_head_block_age = data.blockchain_head_block_age
+            @info.income_per_block = data.blockchain_delegate_pay_rate
+            @info.share_supply = data.blockchain_share_supply
+            @blockchain.get_asset(0).then (v)=>
+                @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
+            @info.wallet_scan_progress = data.scan_progress
+            if(!@info.client_version)
+              @info.client_version=data.client_version
 
             @blockchain_api.get_security_state().then (data) =>
                 @info.alert_level = data.alert_level
