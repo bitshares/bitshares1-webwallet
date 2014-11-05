@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info) ->
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer) ->
     
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
@@ -54,7 +54,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                     resolve:
                         oldname: -> name
 
-    Wallet.refresh_account(name)
+    #Wallet.refresh_account(name)
 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
@@ -78,10 +78,21 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         if Wallet.bonuses[name]
             $scope.bonuses = Wallet.bonuses[name]
 
-    $scope.$watchCollection ->
-        Wallet.transactions["*"]
-    , () ->
-        Wallet.refresh_account(name)
+#    $scope.$watchCollection ->
+#        Wallet.transactions["*"]
+#    , () ->
+#        Wallet.refresh_account(name)
+
+    account_balances_observer =
+        name: "account_balances_observer"
+        frequency: "each_block"
+        update: (data, deferred) ->
+            Wallet.refresh_account(name)
+            deferred.resolve(true)
+    Observer.registerObserver(account_balances_observer)
+
+    $scope.$on "$destroy", ->
+        Observer.unregisterObserver(account_balances_observer)
 
     $scope.import_key = ->
         form = @import_key_form

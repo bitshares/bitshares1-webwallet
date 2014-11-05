@@ -245,15 +245,9 @@ class Wallet
         if t.status != "rebroadcasted"
             t.status = if not val.is_confirmed and not val.is_virtual then "pending" else "-"
 
-    process_transaction: (val) ->
-        #console.log "------ process_transaction ------>", val
-        existing_transaction = @transactions_all_by_id[val.trx_id]
-        if existing_transaction and existing_transaction.id
-            @update_transaction(existing_transaction, val)
-            existing_transaction.time.setMilliseconds(existing_transaction.num)
-            return
+    update_ledger_entries: (t, val) ->
+        if t.ledger_entries then t.ledger_entries.splice(0, t.ledger_entries.length) else t.ledger_entries = []
         involved_accounts = {}
-        ledger_entries = []
         used_balance_symbols = {}
         angular.forEach val.ledger_entries, (entry) =>
             involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
@@ -270,18 +264,27 @@ class Wallet
                     asset = @utils.asset(item[1].amount, asset_record)
                     running_balances[account_name].push asset unless used_balance_symbols[asset.symbol]
                     used_balance_symbols[asset.symbol] = true
-
-            ledger_entries.push
+            t.ledger_entries.push
                 from: entry.from_account
                 to: entry.to_account
                 amount: entry.amount.amount
                 amount_asset : @utils.asset(entry.amount.amount, @blockchain.asset_records[entry.amount.asset_id])
                 memo: entry.memo
                 running_balances: running_balances
+        return involved_accounts
+
+    process_transaction: (val) ->
+        #console.log "------ process_transaction ------>", val
+        existing_transaction = @transactions_all_by_id[val.trx_id]
+        if existing_transaction and existing_transaction.id
+            @update_transaction(existing_transaction, val)
+            @update_ledger_entries(existing_transaction, val)
+            existing_transaction.time.setMilliseconds(existing_transaction.num)
+            return
 
         transaction = { id: val.trx_id }
-        transaction.ledger_entries = ledger_entries
         @update_transaction(transaction, val)
+        involved_accounts = @update_ledger_entries(transaction, val)
         if val.timestamp == @transactions_last_time
             @transactions_counter += 1
         else
@@ -309,8 +312,9 @@ class Wallet
             deffered.reject(error)
 
         refresh_asset_records_promise.then =>
-
-            account_transaction_history_promise = @wallet_api.account_transaction_history("", "", 0, @transactions_last_block, -1)
+            go_back_to_block = if @transactions_last_block > 20 then @transactions_last_block else 0
+            #console.log "------ wallet_account_transaction_history '' '' 0 #{go_back_to_block} -1"
+            account_transaction_history_promise = @wallet_api.account_transaction_history("", "", 0, go_back_to_block, -1)
             account_transaction_history_promise.catch (error) =>
                 @transactions_loading_promise = null
                 deffered.reject(error)
