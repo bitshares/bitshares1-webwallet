@@ -748,7 +748,7 @@ class WalletAPI
   # publishes a set of feeds for BitAssets, only active delegates may do this
   # parameters: 
   #   account_name `delegate_account` - the delegate to publish the price under
-  #   price_map `symbol_to_price_map` - maps the BitAsset symbol to the price per BTSX
+  #   price_map `symbol_to_price_map` - maps the BitAsset symbol to the price per BTS
   # return_type: `transaction_record`
   publish_feeds: (delegate_account, symbol_to_price_map, error_handler = null) ->
     @rpc.request('wallet_publish_feeds', [delegate_account, symbol_to_price_map], error_handler).then (response) ->

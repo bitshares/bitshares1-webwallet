@@ -73,8 +73,8 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     , ->
         if Wallet.balances[name]
             $scope.balances = Wallet.balances[name]
-        if Wallet.open_orders_balances[name]
-            $scope.open_orders_balances = Wallet.open_orders_balances[name]
+#        if Wallet.open_orders_balances[name]
+#            $scope.open_orders_balances = Wallet.open_orders_balances[name]
         if Wallet.bonuses[name]
             $scope.bonuses = Wallet.bonuses[name]
 
