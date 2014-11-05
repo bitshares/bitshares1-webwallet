@@ -147,7 +147,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         trx: -> trx
                         action: -> yesSend
                         xts_transfer: -> 
-                            $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTSX'
+                            $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTS'
 
     $scope.newContactModal = ->
         $modal.open

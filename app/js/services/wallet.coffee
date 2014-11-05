@@ -5,7 +5,7 @@ class Wallet
     balances: {}
     bonuses: {}
     
-    open_orders_balances: {}
+    #open_orders_balances: {}
 
     asset_balances : {}
 
@@ -94,18 +94,18 @@ class Wallet
                     @balances[acct.name] = {}
                     @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
 
-    refresh_open_order_balances: (name) ->
-        if !@open_orders_balances[name]
-            @open_orders_balances[name] = {}
-        @open_order_balances[name]["BTSX"] = 0
-        @wallet_api.account_order_list(name).then (result) =>
-            angular.forEach result, (order) =>
-                base = @blockchain.asset_records[order.market_index.order_price.base_asset_id]
-                quote = @blockchain.asset_records[order.market_index.order_price.quote_asset_id]
-                if order.type == "ask_order"
-                    @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
-                if order.type == "bid_order" or order.type == "short_order"
-                    @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
+#    refresh_open_order_balances: (name) ->
+#        if !@open_orders_balances[name]
+#            @open_orders_balances[name] = {}
+#        @open_order_balances[name]["BTS"] = 0
+#        @wallet_api.account_order_list(name).then (result) =>
+#            angular.forEach result, (order) =>
+#                base = @blockchain.asset_records[order.market_index.order_price.base_asset_id]
+#                quote = @blockchain.asset_records[order.market_index.order_price.quote_asset_id]
+#                if order.type == "ask_order"
+#                    @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
+#                if order.type == "bid_order" or order.type == "short_order"
+#                    @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
     refresh_bonuses_promise: null
     
@@ -246,6 +246,7 @@ class Wallet
             t.status = if not val.is_confirmed and not val.is_virtual then "pending" else "-"
 
     process_transaction: (val) ->
+        console.log "------ process_transaction ------>", val
         existing_transaction = @transactions_all_by_id[val.trx_id]
         if existing_transaction and existing_transaction.id
             @update_transaction(existing_transaction, val)
@@ -262,7 +263,7 @@ class Wallet
                 account_name = acct[0]
                 balances = acct[1]
                 continue unless involved_accounts[account_name]
-                #console.log "------ running_balances item ------>",account_name, balances
+                console.log "------ running_balances item ------>",account_name, balances
                 running_balances[account_name] = []
                 for item in balances
                     asset_record = @blockchain.asset_records[item[1].asset_id]
@@ -286,7 +287,6 @@ class Wallet
         else
             @transactions_counter = 0
         @transactions_last_time = val.timestamp
-        #console.log "------ process_transaction ------>", val.trx_id, val.block_num , val.timestamp, @transactions_last_time,@transactions_counter
         transaction.time.setMilliseconds(@transactions_counter)
         transaction.num = @transactions_counter
 
