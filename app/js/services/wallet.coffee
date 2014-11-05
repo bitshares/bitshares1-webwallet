@@ -246,7 +246,7 @@ class Wallet
             t.status = if not val.is_confirmed and not val.is_virtual then "pending" else "-"
 
     process_transaction: (val) ->
-        console.log "------ process_transaction ------>", val
+        #console.log "------ process_transaction ------>", val
         existing_transaction = @transactions_all_by_id[val.trx_id]
         if existing_transaction and existing_transaction.id
             @update_transaction(existing_transaction, val)
@@ -263,7 +263,7 @@ class Wallet
                 account_name = acct[0]
                 balances = acct[1]
                 continue unless involved_accounts[account_name]
-                console.log "------ running_balances item ------>",account_name, balances
+                #console.log "------ running_balances item ------>",account_name, balances
                 running_balances[account_name] = []
                 for item in balances
                     asset_record = @blockchain.asset_records[item[1].asset_id]
