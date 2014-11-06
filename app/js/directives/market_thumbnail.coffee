@@ -116,7 +116,6 @@ angular.module("app.directives").directive "marketThumbnail", ->
         market.asset_base_symbol = market.base_symbol.replace("Bit", "")
         market.price_symbol = "#{market.base_symbol}/#{market.quantity_symbol}"
         market.inverse_price_symbol = "#{market.quantity_symbol}/#{market.base_symbol}"
-        #console.log "------ market controller ------>", market
         $q.all([BlockchainAPI.get_asset(market.asset_quantity_symbol), BlockchainAPI.get_asset(market.asset_base_symbol)]).then (results) ->
             market.quantity_asset = results[0]
             market.quantity_precision = market.quantity_asset.precision

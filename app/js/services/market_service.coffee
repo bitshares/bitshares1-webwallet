@@ -168,7 +168,7 @@ class MarketService
         @wallet_api.get_setting("recent_markets").then (result) =>
             if result and result.value
                 @recent_markets.splice(0, @recent_markets.length)
-                @recent_markets.push r for r in JSON.parse(result.value.replace(/BTSX/g,'BTS'))
+                @recent_markets.push r for r in JSON.parse(result.value.replace(/BTSX/g,'BTS').replace(/GLD/g,'GOLD'))
 
     add_recent_market: (market_name) ->
         index = @recent_markets.indexOf(market_name)
