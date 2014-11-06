@@ -33,3 +33,6 @@ angular.module("app").filter "secondsAgo", (Utils)->
     diff = Date.now() - date
 
     Math.round(diff/1000)
+
+angular.module("app").filter "formatExpiration", (Utils)->
+  (value) -> value.days
