@@ -197,7 +197,7 @@
         "lowest_ask": "geringster Ask",
         "open_orders": "offene Order",
         "blockchain_orders_history": "bisherige Orders auf der Blockkette",
-        "account_orders_history": "Ihre bisherigen Orders mit diesem Konto",
+        "account_orders_history": "Ihr bisheriger Orderverlauf für dieses BitAsset",
         "margin_orders": "Margin Order",
         "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
         "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
