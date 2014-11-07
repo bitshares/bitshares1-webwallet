@@ -62,7 +62,7 @@ class MarketHelper
         td.cost = td.quantity * price
         if order.expiration
             @utils.formatExpirationDate(order.expiration).then (result) ->
-                td.expiration_days = result
+                td.expiration = {days: result}
 
         td.status = "posted"
         if order.type == "bid_order"
@@ -94,7 +94,7 @@ class MarketHelper
         td.expiration = order.expiration
         if td.expiration
             @utils.formatExpirationDate(td.expiration).then (result) ->
-                td.expiration_days = result
+                td.expiration = {days: result, date: td.expiration}
 
     trade_history_to_order: (t, o, assets, invert_price) ->
         ba = assets[t.ask_price.base_asset_id]

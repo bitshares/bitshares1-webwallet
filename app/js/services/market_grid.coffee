@@ -68,8 +68,13 @@ class MarketGrid
                 displayName: "#{@filter('translate')('th.collateral')} (#{actual_market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{actual_market.quantity_precision}"
              ,
-                field: "expiration_days"
+                field: "expiration"
                 displayName: "#{@filter('translate')('th.expiration')}"
+                sortingAlgorithm: (a, b) ->
+                    return -1 if a.date < b.date
+                    return  1 if a.date > b.date
+                    return 0
+                cellFilter: "formatExpiration"
             ]
             data: data
 
