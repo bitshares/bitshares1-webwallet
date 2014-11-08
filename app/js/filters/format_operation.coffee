@@ -2,7 +2,7 @@ angular.module("app").filter "formatOperationType", (Blockchain)->
     (type) ->
         name = Blockchain.type_name_map[type]
 
-        if name then name else "Unknow Operation"
+        if name then name else "Unknown Operation"
 
 angular.module("app").filter "filterByOperations", (Blockchain)->
     (operations, filter) ->
