@@ -30,7 +30,7 @@
         <!--collateral-->
         <td><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
         <!--expiration-->
-        <td>{{o.expiration_days}}</td>
+        <td>{{o.expiration.days}}</td>
         <td>
           <span ng-switch on="o.status">
             <span ng-switch-when="unconfirmed">
