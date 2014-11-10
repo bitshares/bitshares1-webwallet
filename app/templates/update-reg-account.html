@@ -4,31 +4,31 @@
     <div class="col-sm-11">
         <form class="form-horizontal" role="form" name="wform" ng-submit="updateRegAccount()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
             <div class="form-group m-top">
-                <div class="form-group row">
-                    <label for="private_info" class="col-sm-4">{{'account.update_pub_info'|translate}}:</label>
-                </div>
-                <div class="form-group row">
-                    <label for="contact_address" class="col-sm-1 control-label" translate>account.pay_from</label>
-                    <div class="col-sm-6">
-                        <select ng-show="accounts.length > 0" ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>
-                    </div>
-                    <span ng-show="accounts.length == 0" translate>account.update_need_fund</span><br>
-                </div>
-                <div class="form-group row">
-                    <label for="delegate" class="col-sm-1 control-label" translate>account.delegate_settings</label>
-                    <div class="col-sm-2">
-                        <button class="btn btn-default btn-lg" type="button" ng-click="m.delegate = !m.delegate">
-                            <i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[m.delegate]"></i> {{'account.check_delegate'|translate}}
-                        </button>
-                    </div>
-                    <div class="col-sm-6" collapse="!m.delegate">
-                        <div class="warning">{{'account.delegate_cost_extra'|translate}}: {{delegate_reg_fee}}</div>
-                        <label for="payrate" class="col-sm-4 control-label">{{'account.pay_rate'|translate}}, 0-100%</label>
-                        <div class="col-sm-2">
-                            <input focus ng-model="m.payrate" id='payrate' type="text" class="form-control" placeholder="{{'account.pay_rate'|translate}}, 0-100"/>
-                        </div><label class="control-label">%</label>
-                    </div>
-                </div>
+                <!--<div class="form-group row">-->
+                    <!--<label for="private_info" class="col-sm-4">{{'account.update_pub_info'|translate}}:</label>-->
+                <!--</div>-->
+                <!--<div class="form-group row">-->
+                    <!--<label for="contact_address" class="col-sm-1 control-label" translate>account.pay_from</label>-->
+                    <!--<div class="col-sm-6">-->
+                        <!--<select ng-show="accounts.length > 0" ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for account in accounts | filter:symbol" required></select><br>-->
+                    <!--</div>-->
+                    <!--<span ng-show="accounts.length == 0" translate>account.update_need_fund</span><br>-->
+                <!--</div>-->
+                <!--<div class="form-group row">-->
+                    <!--<label for="delegate" class="col-sm-1 control-label" translate>account.delegate_settings</label>-->
+                    <!--<div class="col-sm-2">-->
+                        <!--<button class="btn btn-default btn-lg" type="button" ng-click="m.delegate = !m.delegate">-->
+                            <!--<i ng-class="{'true':'fa fa-check-square-o fa-lg fa-fw','false':'fa fa-square-o fa-lg fa-fw'}[m.delegate]"></i> {{'account.check_delegate'|translate}}-->
+                        <!--</button>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-6" collapse="!m.delegate">-->
+                        <!--<div class="warning">{{'account.delegate_cost_extra'|translate}}: {{delegate_reg_fee}}</div>-->
+                        <!--<label for="payrate" class="col-sm-4 control-label">{{'account.pay_rate'|translate}}, 0-100%</label>-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<input focus ng-model="m.payrate" id='payrate' type="text" class="form-control" placeholder="{{'account.pay_rate'|translate}}, 0-100"/>-->
+                        <!--</div><label class="control-label">%</label>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="form-group row">
                     <label for="private_info" class="col-sm-4">{{'account.update_local_info'|translate}}:</label>
                 </div>
