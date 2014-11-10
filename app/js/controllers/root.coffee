@@ -1,10 +1,10 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, Wallet, Client, $idle, Shared, Info) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, $state, $stateParams, Wallet, Client, $idle, Shared, Info) ->
     $scope.unlockwallet = false
     $scope.bodyclass = "cover"
     $scope.currentPath = $location.path()
 
     $scope.current_path_includes = (str)->
-        $scope.currentPath.indexOf(str) >= 0
+        $state.current.name.indexOf(str) >= 0
 
     Wallet.check_wallet_status().then ->
         Info.watch_for_updates()

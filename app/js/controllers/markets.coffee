@@ -17,6 +17,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
             $scope.featured_markets.push "BitCNY:#{main_asset.symbol}"
             $scope.featured_markets.push "BitBTC:#{main_asset.symbol}"
             $scope.featured_markets.push "BitGOLD:#{main_asset.symbol}"
+            $scope.featured_markets.push "BitEUR:#{main_asset.symbol}"
 
     $scope.select_market = (market) ->
         $scope.selected_market = market
