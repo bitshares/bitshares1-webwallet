@@ -17,9 +17,9 @@
         "warning": "警告",
         "validate_symbol": "资产代码必须是3-5个大写字母",
         "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
-        "pay_with_info": "注册需要花费交易费, 使用",
+        "pay_with_info": "注册需要花费BTS, 使用",
         "reg_as_delegate": "注册成为受托人",
-        "reg_delegate_tip": "请注意注册成为受托人需要花费不少交易费",
+        "reg_delegate_tip": "请注意注册成为受托人需要花费不少BTS",
         "reg_pending": "注册申请中。",
         "not_reg_onchain": "未在区块链上注册",
         "add_account_name_existed": "无法添加联系人。同名联系人已经存在.",
@@ -139,8 +139,8 @@
     },
     "unlock": {
         "btn_unlock": "解锁",
-        "desc_title": "BitShares 去中心化交易所",
-        "desc_content_1": "Bitshares 是一个实验性的去中心化交易所，在它上面可以交易某些特定的衍生品资产，这种资产（例如比特黄金）的价格通过基于去中心化价格流的差价合约可以锚定真实世界中对应资产（例如黄金）的价值，并且不需要基于信任的价格信息输入。这过程通过类此于“预测市场”的机制来实现，因为参与者可以通过推动价格逼近市场共识价格来获利。Bitshares X同时也允许用户发布非价格锚定的传统资产。",
+        "desc_title": "公司. 社区. 货币.",
+        "desc_content_1": "Bitshares 是一个由去中心化社区支持的虚拟公司，为市场提供最佳的数字货币：BitUSD（比特美元），BitGold（比特黄金）及BitSilver（比特白银）等。 ",
         "desc_content_2": "",
         "wrong_pass": "密码错误"
     },
