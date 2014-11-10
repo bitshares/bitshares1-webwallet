@@ -52,7 +52,7 @@ class Observer
 
     registerObserver: (observer) ->
         if @private.observers[observer.name]
-            @log.error("Observer.registerObserver: observer '#{observer.name}' is already registered")
+            @log.warn("Observer.registerObserver: observer '#{observer.name}' is already registered")
             return
         @private.observers[observer.name] = observer
         observer.counter = 0

@@ -4,7 +4,6 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
     account_listener = $scope.$watch ->
         Wallet.accounts[name]
     , ->
-        console.log "------ Wallet.accounts[name] ------>", name, Wallet.accounts[name]
         if Wallet.accounts[name]
             account_listener()
             acct = Wallet.accounts[name]
