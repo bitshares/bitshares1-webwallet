@@ -53,6 +53,7 @@ class Wallet
                 @get_setting('interface_locale').then (result) =>
                     if result and result.value
                         @interface_locale = result.value
+                        moment.locale(result.value)
                         @translate.use(result.value)
                 if not result.unlocked
                     navigate_to('unlockwallet')
@@ -390,8 +391,8 @@ class Wallet
             @info.transaction_fee = response.result.transaction_fee if response.result
             response.result
 
-    wallet_add_contact_account: (name, address) ->
-        @rpc.request('wallet_add_contact_account', [name, address]).then (response) =>
+    wallet_add_contact_account: (name, address, error_handler) ->
+        @rpc.request('wallet_add_contact_account', [name, address], error_handler).then (response) =>
           response.result
 
     wallet_account_register: (account_name, pay_from_account, public_data, pay_rate, account_type) ->

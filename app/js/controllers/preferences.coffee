@@ -56,4 +56,5 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         ]
         $q.all(calls).then (r) ->
             $translate.use($scope.model.language_locale)
+            moment.locale($scope.model.language_locale)
             Growl.notice "Preferences Updated", ""
