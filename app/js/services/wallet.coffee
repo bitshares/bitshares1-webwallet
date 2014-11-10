@@ -53,6 +53,7 @@ class Wallet
                 @get_setting('interface_locale').then (result) =>
                     if result and result.value
                         @interface_locale = result.value
+                        moment.locale(result.value)
                         @translate.use(result.value)
                 if not result.unlocked
                     navigate_to('unlockwallet')

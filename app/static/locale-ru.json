@@ -2,15 +2,15 @@
     "unknown": "Неизвестно",
     "btn":{
         "ok": "ОК",
-        "cancel": "Отмена",
+        "cancel": "Отменить",
         "edit": "Редактировать",
         "save": "Сохранить",
         "create": "Создать",
         "confirm": "Подтвердить",
         "update": "Обновить",
-        "cover": "Покрытие",
+        "cover": "Покрыть",
         "register": "Зарегистрировать",
-        "close": "Close"
+        "close": "Закрыть"
     },
     "tip": {
         "privacy_statement": "Заявление о конфиденциальности",
@@ -89,14 +89,17 @@
         "type": "ТИП",
         "quantity": "КОЛИЧЕСТВО",
         "order_price": "Цена",
+        "call_price": "Цена марджин-колл",
+        "units_owed": "{{value}} занято",
         "cost": "СТОИМОСТЬ",
+        "total": "Всего",
         "collateral": "ОБЕСПЕЧЕНИЕ",
         "collateral_ratio": "КОЭФФИЦИЕНТ ОБЕСПЕЧЕНИЯ",
         "price_limit": "ОГРАНИЧЕНИЕ ЦЕНЫ",
         "action": "ДЕЙСТВИЕ",
         "paid": "ОПЛАЧЕНО",
         "received": "ПОЛУЧЕНО",
-        "expiration": "EXPIRATION",
+        "expiration": "Истекает",
         "interest_rate": "ДОХОДНОСТЬ (%)"
     },
     "block": {
@@ -421,5 +424,12 @@
         "enable_trx_scan": "Включить сканирование транзакций",
         "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
         "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков"
+    },
+    "utils": {
+        "expired": "Истек",
+        "seconds": "{{value}} Секунд",
+        "minutes": "{{value}} Минут",
+        "hours": "{{value}} Часов",
+        "days": "{{value}} Дней"
     }
 }

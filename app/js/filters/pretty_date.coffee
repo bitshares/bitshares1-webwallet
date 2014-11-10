@@ -1,10 +1,12 @@
+date_params = {timeZone:"UTC",  weekday: undefined, year: "numeric", month: "numeric",  day: "numeric", hour: "numeric", minute: "numeric"}
+
 angular.module("app").filter "prettyDate", (Utils)->
     (date) ->
         return "-" if !date or date.valueOf() == "19700101T000000"
         if angular.isDate(date)
-            return date.toLocaleString()
+            return moment(date).format('L LT')
         else
-            return Utils.toDate(date).toLocaleString(undefined, {timeZone:"UTC"})
+            return moment(Utils.toDate(date)).format('L LT')
 
 angular.module("app").filter "hoursAgo", (Utils)->
     (date) ->

@@ -154,7 +154,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
             promise.then (result) ->
                 deferred.resolve(result)
         else
-            deferred.resolve(date.toLocaleDateString())
+            deferred.resolve(moment(date).format('L'))
 
         deferred.promise
 
