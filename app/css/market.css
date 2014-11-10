@@ -64,7 +64,7 @@ span.cell {
 
 .market-table button.btn-xs {
 	display: table-cell;
-	width: 5em;
+	min-width: 5em;
 }
 
 .market-table button.btn-xs {
