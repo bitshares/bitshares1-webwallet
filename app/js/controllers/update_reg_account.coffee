@@ -1,10 +1,12 @@
 angular.module("app").controller "UpdateRegAccountController", ($scope, $stateParams, $modal, Wallet, Shared, RpcService, Blockchain, Info, Utils, WalletAPI, Growl) ->
     name = $stateParams.name
 
-    $scope.$watch ->
+    account_listener = $scope.$watch ->
         Wallet.accounts[name]
     , ->
+        console.log "------ Wallet.accounts[name] ------>", name, Wallet.accounts[name]
         if Wallet.accounts[name]
+            account_listener()
             acct = Wallet.accounts[name]
             $scope.edit={}
             if acct.private_data
@@ -67,15 +69,16 @@ angular.module("app").controller "UpdateRegAccountController", ($scope, $statePa
             controller: "DialogConfirmationController"
             resolve:
                 title: -> "Are you sure?"
-                message: -> "This will update your account's private and public info, need to pay fee " + $scope.transaction_fee + delegate_pay_rate_info + public_info_tip
+                message: -> "This will update your account's public info"
                 action: ->
                     ->
                         Wallet.account_update_private_data(name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs}).then ->
                             console.log('submitted', name,{'gui_data':{'email':$scope.edit.newemail,'website':$scope.edit.newwebsite},'gui_custom_data_pairs':$scope.edit.pairs})
+                            Growl.notice "", "Account updated"
 
-                            payrate = if $scope.m.delegate then $scope.m.payrate else 255
-                            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {}, payrate).then (response) ->
-                                Growl.notice "", "Account update transaction broadcasted"
+#                            payrate = if $scope.m.delegate then $scope.m.payrate else 255
+#                            WalletAPI.account_update_registration($scope.account.name, $scope.m.payfrom[0], {}, payrate).then (response) ->
+#                                Growl.notice "", "Account update transaction broadcasted"
 
 
     $scope.addKeyVal = ->
