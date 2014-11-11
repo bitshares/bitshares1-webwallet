@@ -8,6 +8,7 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         "zh-CN": "简体中文"
         "de": "German"
         "ru": "Russian"
+        "it": "Italian"
     $scope.model.language_locale = $translate.preferredLanguage()
     $scope.model.language_name = $scope.model.languages[$scope.model.language_locale]
 

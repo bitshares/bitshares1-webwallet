@@ -409,7 +409,7 @@
     },
     "help": {
         "title": "Aiuto",
-        "console_intro": "Per una lista di comandi vai nella pagina della console, scrivi "help" e premi Invio.",
+        "console_intro": "Per una lista di comandi vai nella pagina della console, scrivi 'help' e premi Invio.",
         "valid_names": "Nomi Validi",
         "valid_names_intro": "Solo caratteri alfanumerici minuscoli, punti, e trattini sono permessi. I nomi devono iniziare con una lettera e non può finire con un trattino. I caratteri che sono delimitati da punti, devono formare un nome valido. I punti non possono essere consecutivi o essere all'inizio o alla fine del nome. ",
         "network_issues": "Problemi di Rete",

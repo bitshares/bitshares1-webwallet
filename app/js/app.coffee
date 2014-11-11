@@ -86,8 +86,9 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     lang = switch(window.navigator.language)
       when "zh-CN" then "zh-CN"
-      when "de", "de-de" then "de"
-      when "ru", "ru-RU" then "ru"
+      when "de", "de-DE", "de-de" then "de"
+      when "ru", "ru-RU", "ru-ru" then "ru"
+      when "it", "it-IT", "it-it" then "it"
       else "en"
     moment.locale(lang)
 
