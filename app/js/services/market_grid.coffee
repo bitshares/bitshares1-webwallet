@@ -14,6 +14,11 @@ class MarketGrid
         </div>
     '''
 
+    sortByTimestamp: (a, b) ->
+        return -1 if a.timestamp < b.timestamp
+        return  1 if a.timestamp > b.timestamp
+        return 0
+
     initGrid: ->
         deferred = @q.defer()
         angular.extend({rowTemplateDeferred: deferred, rowTemplate: deferred.promise}, @defaultParams)
@@ -70,11 +75,8 @@ class MarketGrid
              ,
                 field: "expiration"
                 displayName: "#{@filter('translate')('th.expiration')}"
-                sortingAlgorithm: (a, b) ->
-                    return -1 if a.date < b.date
-                    return  1 if a.date > b.date
-                    return 0
-                cellFilter: "formatExpiration"
+                sortingAlgorithm: @sortByTimestamp
+                cellFilter: "formatSortableExpiration"
             ]
             data: data
 
@@ -134,6 +136,9 @@ class MarketGrid
                 field: "timestamp"
                 displayName: "#{@filter('translate')('th.time')}"
                 width : '30%'
+                sortingAlgorithm: @sortByTimestamp
+                cellFilter: "formatSortableTime"
+                sort: { direction: "desc", priority: 1 }
             ]
             data: data
 
@@ -152,9 +157,12 @@ class MarketGrid
                 cellFilter: "formatAsset"
                 width : '22%'
             ,
-                field: "timestamp"
+                field: "time"
                 displayName: "#{@filter('translate')('th.time')}"
                 width : '28%'
+                sortingAlgorithm: @sortByTimestamp
+                cellFilter: "formatSortableTime"
+                sort: { direction: "desc", priority: 1 }
             ]
             data: data
 
