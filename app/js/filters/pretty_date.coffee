@@ -8,6 +8,15 @@ angular.module("app").filter "prettyDate", (Utils)->
         else
             return moment(Utils.toDate(date)).format('L LT')
 
+angular.module("app").filter "prettySortableTime", (Utils)->
+    (time) ->
+        if !time or time.valueOf() == "19700101T000000"
+            return {timestamp: Utils.toDate("19700101T000000"), pretty_time: "-"}
+        if angular.isDate(time)
+            return {timestamp: time, pretty_time: moment(time).format('L LT')}
+        else
+            return {timestamp: time, pretty_time: moment(Utils.toDate(time)).format('L LT')}
+
 angular.module("app").filter "hoursAgo", (Utils)->
     (date) ->
         if not date
@@ -36,5 +45,8 @@ angular.module("app").filter "secondsAgo", (Utils)->
 
     Math.round(diff/1000)
 
-angular.module("app").filter "formatExpiration", (Utils)->
+angular.module("app").filter "formatSortableExpiration", (Utils)->
   (value) -> value.days
+
+angular.module("app").filter "formatSortableTime", (Utils)->
+  (value) -> value.pretty_time
