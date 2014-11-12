@@ -25,7 +25,7 @@
 
   <form name="cover_form" class="form-horizontal" role="form" novalidate>
     <div form-hgroup addon="{{asset_symbol}}" label="Make Payment">
-      <input-positive-number name="total_paid" ng-model="cover.total_paid" ng-change="payment_changed()"/>
+      <input-positive-number name="total_paid" ng-model="cover.total_paid" ng-change="payment_changed()" required="true"/>
     </div>
   </form>
 
