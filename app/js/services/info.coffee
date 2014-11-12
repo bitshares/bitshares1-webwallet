@@ -18,7 +18,6 @@ class Info
         @is_refreshing = true
         @q.all([@common_api.get_info(), @wallet.wallet_get_info()]).then (results) =>
             data = results[0]
-            #console.log "watch_for_updates get_info:>", results
             @info.transaction_scanning = results[1].transaction_scanning
             @info.network_connections = data.network_num_connections
             @info.wallet_open = data.wallet_open
@@ -26,11 +25,8 @@ class Info
             @info.last_block_time = data.blockchain_head_block_timestamp
             @info.last_block_num = data.blockchain_head_block_num
             @info.blockchain_head_block_age = data.blockchain_head_block_age
-            @info.income_per_block = data.blockchain_delegate_pay_rate
             @info.share_supply = data.blockchain_share_supply
-            @blockchain.get_asset(0).then (v)=>
-                @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.blockchain_delegate_pay_rate, v))
-            @info.wallet_scan_progress = data.scan_progress
+            @info.wallet_scan_progress = results[1].scan_progress
             if(!@info.client_version)
               @info.client_version=data.client_version
 
@@ -41,6 +37,9 @@ class Info
                 @info.delegate_reg_fee = data.delegate_reg_fee
                 @info.asset_reg_fee = data.asset_reg_fee
                 @info.transaction_fee = data.transaction_fee
+                if @wallet.main_asset
+                    @info.income_per_block = data.max_delegate_pay_per_block
+                    @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.max_delegate_pay_per_block, @wallet.main_asset))
                 @is_refreshing = false
                 @symbol = data.symbol
         , =>
