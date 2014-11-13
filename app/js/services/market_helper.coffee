@@ -175,9 +175,12 @@ class MarketHelper
         return null
 
     date: (t) ->
-        dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
+        dateRE = /(\d\d\d\d)\-(\d\d)\-(\d\d)T(\d\d)\:(\d\d)\:(\d\d)/
         match = t.match(dateRE)
-        return 0 unless match
+        unless match
+            dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
+            match = t.match(dateRE)
+            return 0 unless match
         nums = []
         i = 1
         while i < match.length
@@ -197,14 +200,9 @@ class MarketHelper
         hour = @forceTwoDigits(date.getUTCHours())
         minute = @forceTwoDigits(date.getUTCMinutes())
         second = @forceTwoDigits(date.getUTCSeconds())
-        return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
+        return "#{year}-#{month}-#{day}T#{hour}:#{minute}:#{second}"
         
     is_in_short_wall: (short, shorts_price, inverted) ->
-#        short_collateral_ratio_condition = (not inverted and short.price < shorts_price) or (inverted and short.price > shorts_price)
-#        short_price_limit_condition = true
-#        if short.short_price_limit
-#            short_price_limit_condition = (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
-#        return short_collateral_ratio_condition and short_price_limit_condition
         return true if !short.short_price_limit or short.short_price_limit == 0.0
         return (not inverted and short.short_price_limit > shorts_price) or (inverted and short.short_price_limit < shorts_price)
 
