@@ -41,7 +41,7 @@
         </thead>
         <tbody>
           <tr ng-repeat="del in active_delegates | filter:search">
-            <td>{{ $index + 1 }}</td>
+            <td>{{ del.rank }}</td>
             <td>
               <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
               <br>
@@ -109,7 +109,7 @@
           </thead>
           <tbody>
             <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
-              <td>{{ $index + active_delegates.length + 1 + p.currentPage * p.pageSize}}</td>
+              <td>{{ del.rank }}</td>
               <td>
                 <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
                 <br>
