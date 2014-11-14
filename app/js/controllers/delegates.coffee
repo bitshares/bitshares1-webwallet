@@ -2,7 +2,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.active_delegates = Blockchain.active_delegates
     $scope.inactive_delegates = Blockchain.inactive_delegates
     $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
-    $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+    $scope.blockchain_delegate_pay_rate = 50
     $scope.p =
         currentPage: 0
         pageSize: 100
@@ -16,14 +16,15 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
         $scope.inactive_delegates = Blockchain.inactive_delegates
         $scope.accounts = Wallet.accounts
         $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
-        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+        # $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
         $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
 
-    $scope.$watch ()->
+    ###$scope.$watch ()->
         Info.info
     , ()->
         $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
     ,true
+    ###
     ###
     Info.refresh_info().then ->
         $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
