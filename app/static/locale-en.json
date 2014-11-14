@@ -56,7 +56,7 @@
         "registered": "REGISTERED",
         "symbol": "SYMBOL",
         "desc": "DESCRIPTION",
-        "issue_account": "ISSUE ACCOUNT",
+        "issue_account": "ISSUER",
         "precision": "PRECISION",
         "current_share_supply": "CURRENT SHARE SUPPLY",
         "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
