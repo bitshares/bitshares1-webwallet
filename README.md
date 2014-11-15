@@ -26,8 +26,8 @@ As long as you keep `npm start` running, the app will automatically be
 recompiled (into the `generated/` directory) whenever you make any
 changes to the source files in `app/`.
 
-You will want to start by looking at `app/app.coffee` and then
-browsing the `app/templates` and `app/controllers` directories.
+You will want to start by looking at `app/js/app.coffee` and then
+browsing the `app/templates` and `app/js/controllers` directories.
 
 ## Notes
 

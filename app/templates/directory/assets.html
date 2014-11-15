@@ -1,60 +1,111 @@
-<!--<ol class="breadcrumb">-->
- <!--<li><i class="fa fa-home fa-fw"></i>Home</a></li>-->
- <!--<li><i class="fa fa-link fa-fw"></i> Block Explorer</li>-->
-<!--</ol>-->
 <div class="col-sm-12">
-  <div class="header">
+  <div class="header no-bottom-border">
     <h3 class="header-title" translate>asset.title</h3>
   </div>
 </div>
 <div class="main-content">
-    <table class="table table-striped table-hover">
+
+  <tabset>
+    <tab heading="Market-Pegged Assets">
+      <table class="table table-striped table-hover">
         <thead>
-        <tr>
-            <!--<th>Asset ID</th>-->
+          <tr>
             <th translate>th.symbol</th>
             <th translate>th.name</th>
             <th translate>th.desc</th>
-            <!--<th translate>Public Data</th>-->
+            <th translate>th.precision</th>
+            <th translate>th.current_share_supply</th>
+            <th translate>th.maximum_share_supply</th>
+            <th translate>th.collected_fees</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="asset in market_peg_assets | orderBy: 'id'">
+            <td>
+              <a href="#/assets/{{asset.symbol}}">{{asset.symbol}}</a>
+            </td>
+            <td>
+              <a href="#/assets/{{asset.symbol}}">{{asset.name}}</a>
+            </td>
+            <td>
+              {{ asset.description }}
+            </td>
+            <td>
+              {{ asset.precision }}
+            </td>
+            <td>
+              {{ asset.current_supply | formatAsset }}
+            </td>
+            <td>
+              {{ asset.maximum_supply | formatAsset }}
+            </td>
+            <td>
+              {{ asset.c_fees | formatAsset }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </tab>
+
+    <tab heading="User-Issued Assets">
+       <ul class="pagination pagination-sm pull-right">
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate> pagination.first</a></li>
+        <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
+        <li><span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span>
+        </li>
+        <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1" translate>pagination.next</a>
+        </li>
+        <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1"
+               ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
+      </ul>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th translate>th.symbol</th>
+            <th translate>th.name</th>
+            <th translate>th.desc</th>
             <th translate>th.issue_account</th>
             <th translate>th.precision</th>
             <th translate>th.current_share_supply</th>
             <th translate>th.maximum_share_supply</th>
             <th translate>th.collected_fees</th>
             <th translate>th.registration_date</th>
-        </tr>
+          </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="asset in assets | orderBy: 'id'">
-            <!--<td>{{ asset.id }}</td>-->
+          <tr ng-repeat="asset in user_issued_assets | orderBy: 'id' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
             <td>
-                <a href="#/assets/{{asset.symbol}}">{{asset.symbol}}</a>
+              <a href="#/assets/{{asset.symbol}}">{{asset.symbol}}</a>
             </td>
             <td>
-                <a href="#/assets/{{asset.symbol}}">{{asset.name}}</a>
-            </td>
-            <td>{{ asset.description }}</td>
-            <!--<td>{{ asset.public_data || "" }}</td>-->
-            <td>
-                <a href="#/accounts/{{ asset.account_name }}" ng-if="asset.issuer_account_id > 0">{{ asset.account_name }} </a>
-                <span ng-if="asset.issuer_account_id <= 0">{{ asset.account_name }}</span>
+              <a href="#/assets/{{asset.symbol}}">{{asset.name}}</a>
             </td>
             <td>
-                {{ asset.precision }}
+              {{ asset.description }}
             </td>
             <td>
-                {{ asset.current_supply | formatAsset }}
+              {{ asset.account_name }}
             </td>
             <td>
-                {{ asset.maximum_supply | formatAsset }}
+              {{ asset.precision }}
             </td>
             <td>
-                {{ asset.c_fees | formatAsset }}
+              {{ asset.current_supply | formatAsset }}
             </td>
             <td>
-                {{ asset.registration_date | prettyDate }}
+              {{ asset.maximum_supply | formatAsset }}
             </td>
-        </tr>
+            <td>
+              {{ asset.c_fees | formatAsset }}
+            </td>
+            <td>
+              {{ asset.registration_date | prettyDate }}
+            </td>
+          </tr>
         </tbody>
-    </table>
+      </table>
+    </tab>
+  </tabset>
+
+
 </div>

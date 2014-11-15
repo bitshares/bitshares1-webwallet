@@ -382,3 +382,7 @@ input.ng-dirty.ng-invalid {
 	position: relative;
 	top: -14px;
 }
+
+.no-bottom-border {
+	border-bottom: none;
+}

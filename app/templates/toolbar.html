@@ -22,7 +22,7 @@
            <span class="badge badge-warning" ng-show="e.counter > 1">{{e.counter}}</span>
            {{e.text}} <a ng-click="e.details = e.stack" ng-show="!e.details">[show details]</a>
           </p>
-         <pre class="error-stack" ng-show="e.details">{{e.details}}<hr/>{{e.toolkit_error}}<br/><br/><a ng-click="e.details = null">[hide details]</a></pre>
+         <pre class="error-stack" ng-show="e.details" ng-click="$event.stopPropagation();">{{e.details}}<hr/>{{e.toolkit_error}}<br/><br/><a ng-click="e.details = null">[hide details]</a></pre>
       </li>
     </ul>
   </li>
