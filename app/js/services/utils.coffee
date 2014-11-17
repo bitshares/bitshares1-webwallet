@@ -107,7 +107,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
         return "#{year}-#{month}-#{day}T#{hour}:#{minute}:#{second}"
 
     is_registered: (account) ->
-        if account and (account.registration_date == "19700101T000000" or account.registration_date == "1970-01-01T00:00:00")
+        if account and account.registration_date == "1970-01-01T00:00:00"
             return false
         return true
 
