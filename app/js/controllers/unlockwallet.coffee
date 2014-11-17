@@ -4,9 +4,24 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
 
     $scope.descriptionCollapsed = true
     $scope.wrongPass = false
-    $scope.keydown = -> $scope.wrongPass = false
-
     $scope.update_available = false
+
+    isCapsLockOn = ($event) ->
+        keyCode = if $event.keyCode then $event.keyCode else $event.which
+        char = String.fromCharCode(keyCode);
+        if (char.toUpperCase() == char.toLowerCase())
+            return undefined
+        isUpperCase = (char == char.toUpperCase())
+        return ((isUpperCase && !$event.shiftKey) || (!isUpperCase && $event.shiftKey))
+
+    $scope.keydown = ($event) ->
+        $scope.wrongPass = false
+        if ($event.keyCode == 20 && $scope.capsLockOn?)
+            $scope.capsLockOn = !$scope.capsLockOn;
+
+    $scope.keypress = ($event) ->
+        if ((capsLockOn = isCapsLockOn($event))?)
+            $scope.capsLockOn = capsLockOn
 
     cancel = $scope.$watch ->
       Info.info.client_version
