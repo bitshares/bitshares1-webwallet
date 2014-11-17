@@ -139,6 +139,7 @@
     },
     "unlock": {
         "btn_unlock": "unlock",
+        "caps_lock_on": "Caps Lock is on!",
         "desc_title": "the future of banking",
         "desc_content_1": "BitShares is a global community using a distributed application to produce the best money in the world.",
         "desc_content_2": "",

@@ -15,7 +15,7 @@
     <div ng-show="update_available" class="danger" translate>tip.client_update_available</div>
     <form ng-submit="submitForm()" role="form" novalidate>
       <div class="form-group">
-        <input ng-keydown='keydown()' ng-trim="false" ng-model="spending_password" name="sp" type="password"
+        <input ng-keydown='keydown($event)' ng-keypress='keypress($event)' ng-trim="false" ng-model="spending_password" name="sp" type="password"
                class="form-control input" placeholder="Password" tabindex="1" required focus
                autofocus ng-minlength="9" ng-maxlength="255">
         <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary"
@@ -23,6 +23,7 @@
         </button>
       </div>
       <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
+      <label class="text-danger" ng-show="capsLockOn" translate> unlock.caps_lock_on </label>
     </form>
     <img src="img/logo-ico.svg" width="64" height="64"/> <br/><br/> <span
       class="client-version">{{client_version}}</span>
