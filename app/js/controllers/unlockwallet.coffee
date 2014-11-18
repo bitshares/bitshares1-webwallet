@@ -25,11 +25,11 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
             $scope.capsLockOn = capsLockOn
 
     cancel = $scope.$watch ->
-      Info.info.client_version
+        Info.info.client_version
     , ->
-      if (Info.info.client_version)
-        cancel()
-        $scope.client_version = Info.info.client_version
+        if (Info.info.client_version)
+            cancel()
+            $scope.client_version = Info.info.client_version
 
     $scope.submitForm = ->
         $scope.wrongPass = false
@@ -46,8 +46,10 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
                 deferred.resolve()
                 res = $scope.history_back()
                 navigate_to('home') unless res
-            , (error) -> deferred.reject()
-        , (error) -> deferred.reject()
+            , (error) ->
+                deferred.reject()
+        , (error) ->
+            deferred.reject()
         $rootScope.showLoadingIndicator deferred.promise
 
     $scope.$on "$destroy", ->
