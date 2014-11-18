@@ -1,5 +1,5 @@
-angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer) ->
-    
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer, $translate) ->
+
     Info.refresh_info()
     $scope.refresh_addresses=Wallet.refresh_accounts
     name = $stateParams.name
@@ -26,7 +26,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
     Blockchain.refresh_delegates().then ->
         $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
-    
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
@@ -39,11 +38,18 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                 WalletAPI.account_update_private_data(name, $scope.account.private_data)
         )
         $scope.account_name = acct.name
+        if (acct.gui_data && acct.gui_data.website)
+            $scope.website = acct.gui_data.website;
+        if (acct.public_data && acct.public_data.website)
+            $scope.website = acct.public_data.website;
+
         Wallet.set_current_account(acct) if acct.is_my_account
         if $scope.account.delegate_info
-            $state.go "account.priceFeed" # send to delegate info tab if delegate
+            update_delegate_info (acct) # update delegate info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
+            $state.go "account.priceFeed" # send to delegate info tab if delegate
+            $scope.del_tab = true # necessary to display tab html
 
         #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value
         BlockchainAPI.get_account(name).then (result) ->
@@ -94,6 +100,13 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
 
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(account_balances_observer)
+
+    update_delegate_info = (acct) ->
+        $scope.delegate = {}
+        if (acct.public_data.delegate)
+                if (acct.public_data.delegate.role)
+                    $translate('delegate.role_'+acct.public_data.delegate.role).then (role) ->
+                        $scope.delegate.role = role
 
     $scope.import_key = ->
         form = @import_key_form

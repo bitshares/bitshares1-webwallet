@@ -40,8 +40,9 @@
         </div>
         <div class="reg-date" style="" class="white-shadow" ng-switch-default>
           <div style='color:white;font-size:200%'>{{account.name}}</div>
+          <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
           <br> <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i><br>
-          <a target="_blank" href='http://{{account.public_data.gui_data.website}}'>{{account.public_data.gui_data.website}}</a>
+          <a target="_blank" href='http://{{ website }}'>{{ website }}</a>
         </div>
       </div>
       <div ng-if="account.delegate_info">
@@ -52,8 +53,8 @@
           <tr>
             <th translate>th.approval</th>
             <th translate>th.reliability</th>
-            <th translate ng-if='account.delegate_info.blocks_produced>0' >th.blk_produced</th>
-            <th translate ng-if='account.delegate_info.blocks_produced==0' >th.blk_missed</th>
+            <th translate>th.blk_produced</th>
+            <th translate>th.blk_missed</th>
             <th translate>th.pay_rate</th>
             <th translate>th.pay_balance</th>
           </tr>
@@ -71,8 +72,8 @@
               <span ng-switch-when='true'>{{ account.delegate_info.blocks_produced/(account.delegate_info.blocks_produced + account.delegate_info.blocks_missed)*100 | number:2 }}%</span>
               <span ng-switch-default translate>unknown</span>
             </td>
-            <td ng-if='account.delegate_info.blocks_produced>0'>{{ account.delegate_info.blocks_produced }}</td>
-            <td ng-if='account.delegate_info.blocks_produced==0'>{{ account.delegate_info.blocks_missed }}</td>
+            <td>{{ account.delegate_info.blocks_produced }}</td>
+            <td>{{ account.delegate_info.blocks_missed }}</td>
             <td>{{ account.delegate_info.pay_rate }}%</td>
             <td>
                 {{account.delegate_info.pay_balance_asset | formatAsset}}
@@ -160,16 +161,19 @@
       <tab disabled="true"/>
       
       <!--recent transactions tab -->
-      <tab ui-sref="account.transactions" ui-sref-active="active">
+      <tab active="trx_tab" ui-sref="account.transactions" ui-sref-active="active">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
         
       </tab>
 
       <!--delegate info tab -->
-      <tab ui-sref="account.priceFeed" ui-sref-active="active" ng-if="account.delegate_info">
+      <tab active="del_tab" ui-sref="account.priceFeed" ui-sref-active="active" ng-if="account.delegate_info">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
-        <br>
-        {{ 'account.blk_produced_missed' | translate }} : {{ account.delegate_info.blocks_produced }} / {{ account.delegate_info.blocks_missed }}
+        <h5 ng-if="account.public_data.delegate.description">{{ 'delegate.description' | translate }} :<span style="font-weight:bold;"> {{ account.public_data.delegate.description }}</span></h5>
+        <h5 ng-if="account.public_data.delegate.proposal">{{ 'delegate.proposal' | translate }} : <a href='{{ account.public_data.delegate.proposal }}' target="_blank"><span style="font-weight:bold;">{{ account.public_data.delegate.proposal }}</span></a></h5>
+        <h5 ng-if="account.public_data.delegate.location">{{ 'delegate.location' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.location }}</span></h5>
+        <h5 ng-if="account.public_data.delegate.handle">{{ 'delegate.handle' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.handle }}</span></h5>
+        <h5 ng-if="account.public_data.delegate.ann">{{ 'delegate.ann' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.ann }}</span></h5>
         <br>
         <h3 translate>account.price_feeds</h3>
         
