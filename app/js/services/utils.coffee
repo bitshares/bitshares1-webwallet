@@ -197,3 +197,14 @@ servicesModule.factory "Utils", ($translate,$q) ->
             for key, val of query
                 match += 1 if item[key] is val
             if match is hit then true else false
+
+    pad: (num, size = 3) ->
+        s = num + ""
+        s = "0" + s while s.length < size
+        s
+
+    version_to_number: (str_version) ->
+        match = /^(\d+)\.(\d+)\.(\d+)/.exec(str_version)
+        return 1000000000 unless match
+        parseInt("#{@pad(match[1])}#{@pad(match[2])}#{@pad(match[3])}", 10)
+
