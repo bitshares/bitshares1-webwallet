@@ -5,6 +5,7 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
     $scope.descriptionCollapsed = true
     $scope.wrongPass = false
     $scope.update_available = false
+    $scope.spending_password = ""
 
     isCapsLockOn = ($event) ->
         keyCode = if $event.keyCode then $event.keyCode else $event.which
