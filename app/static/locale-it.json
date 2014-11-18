@@ -176,7 +176,17 @@
         "standby_delegates": "Delegati in Attesa",
         "votes_obtained": "Approvazione",
         "version": "Versione",
-        "un_approve_all": "Disapprova tutti"
+        "un_approve_all": "Disapprova tutti",
+        "description": "Description",
+        "proposal": "Delegate bid",
+        "location": "Server location",
+        "handle": "BitsharesTalk username",
+        "ann": "Announcements",
+        "role_0": "Core Development",
+        "role_1": "Core Marketing",
+        "role_2": "Independent Development",
+        "role_3": "Independent Marketing",
+        "role_4": "Backbone"
     },
     "market": {
         "title": "Mercato",

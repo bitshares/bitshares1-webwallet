@@ -176,7 +176,17 @@
         "standby_delegates": "待命受托人",
         "votes_obtained": "得票",
         "version": "版本号",
-        "un_approve_all": "取消所有投票"
+        "un_approve_all": "取消所有投票",
+        "description": "Description",
+        "proposal": "Delegate bid",
+        "location": "Server location",
+        "handle": "BitsharesTalk username",
+        "ann": "Announcements",
+        "role_0": "Core Development",
+        "role_1": "Core Marketing",
+        "role_2": "Independent Development",
+        "role_3": "Independent Marketing",
+        "role_4": "Backbone"
     },
     "market": {
         "title": "市场",
