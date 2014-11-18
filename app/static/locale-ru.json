@@ -176,7 +176,17 @@
         "standby_delegates": "Делегаты в режиме ожидания",
         "votes_obtained": "Одобрение",
         "version": "Версия",
-        "un_approve_all": "Против всех"
+        "un_approve_all": "Против всех",
+        "description": "Description",
+        "proposal": "Delegate bid",
+        "location": "Server location",
+        "handle": "BitsharesTalk username",
+        "ann": "Announcements",
+        "role_0": "Core Development",
+        "role_1": "Core Marketing",
+        "role_2": "Independent Development",
+        "role_3": "Independent Marketing",
+        "role_4": "Backbone"
     },
     "market": {
         "title": "Рынок",
