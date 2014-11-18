@@ -41,6 +41,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         $scope.account_name = acct.name
         Wallet.set_current_account(acct) if acct.is_my_account
         if $scope.account.delegate_info
+            $state.go "account.priceFeed" # send to delegate info tab if delegate
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
