@@ -1,6 +1,6 @@
 describe "controller: AccountsController", ->
 
-    accounts_json = '[{"index":7,"id":0,"name":"TestAccount","public_data":null,"owner_key":"XTS6jBU4Q3TQ1UJgYeMAqERRByNW7Xnq1RjuJAArvnwANnv4z7YPe","active_key_history":[["20140702T234915","XTS6jBU4Q3TQ1UJgYeMAqERRByNW7Xnq1RjuJAArvnwANnv4z7YPe"]],"registration_date":"19700101T000000","last_update":"19700101T000000","delegate_info":null,"meta_data":null,"account_address":"XTSMyvCJThzZxpY4BbZwBDQuxihwP4uhitFg","approved":false,"block_production_enabled":false,"private_data":{"gui_data":{"gravatarDisplayName":"Unknown Gravatar"}},"is_my_account":true,"is_favorite":false}]'
+    accounts_json = '[{"index":7,"id":0,"name":"TestAccount","public_data":null,"owner_key":"XTS6jBU4Q3TQ1UJgYeMAqERRByNW7Xnq1RjuJAArvnwANnv4z7YPe","active_key_history":[["20140702T234915","XTS6jBU4Q3TQ1UJgYeMAqERRByNW7Xnq1RjuJAArvnwANnv4z7YPe"]],"registration_date":"1970-01-01T00:00:00","last_update":"1970-01-01T00:00:00","delegate_info":null,"meta_data":null,"account_address":"XTSMyvCJThzZxpY4BbZwBDQuxihwP4uhitFg","approved":false,"block_production_enabled":false,"private_data":{"gui_data":{"gravatarDisplayName":"Unknown Gravatar"}},"is_my_account":true,"is_favorite":false}]'
     mock_promise =
         then: (callback) ->
             #console.log "mock_promise ----------->", callback

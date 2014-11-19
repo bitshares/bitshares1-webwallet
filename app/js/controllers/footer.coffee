@@ -6,8 +6,12 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
     $scope.alert_level = "normal-state"
     $scope.message = ""
     $scope.scan_progress_info = ""
+    $scope.expected_client_version = Info.expected_client_version
     $scope.transaction_scanning_disabled = false
     transaction_scanning_enabling = false
+    $scope.show_version_warning = false
+    $scope.client_version = null
+    $scope.expected_client_version = null
 
     $scope.enable_transaction_scanning = ->
         WalletAPI.set_transaction_scanning(true).then ->
@@ -28,6 +32,10 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
         Info.info
 
     on_update = (info) ->
+        if not $scope.client_version and info.client_version
+            $scope.client_version = info.client_version
+            $scope.expected_client_version = Info.expected_client_version
+            $scope.show_version_warning = Utils.version_to_number(info.client_version) < Utils.version_to_number(Info.expected_client_version)
         connections = info.network_connections
         $scope.connections = connections
         if connections > 1

@@ -75,9 +75,12 @@ servicesModule.factory "Utils", ($translate,$q) ->
         new Date(@toUTCDate(t))
 
     toUTCDate: (t) ->
-        dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
+        dateRE = /(\d\d\d\d)\-(\d\d)\-(\d\d)T(\d\d)\:(\d\d)\:(\d\d)/
         match = t.match(dateRE)
-        return 0 unless match
+        unless match
+            dateRE = /(\d\d\d\d)(\d\d)(\d\d)T(\d\d)(\d\d)(\d\d)/
+            match = t.match(dateRE)
+            return 0 unless match
         nums = []
         i = 1
         while i < match.length
@@ -101,10 +104,10 @@ servicesModule.factory "Utils", ($translate,$q) ->
         hour = @forceTwoDigits(date.getUTCHours())
         minute = @forceTwoDigits(date.getUTCMinutes())
         second = @forceTwoDigits(date.getUTCSeconds())
-        return "#{year}#{month}#{day}T#{hour}#{minute}#{second}"
+        return "#{year}-#{month}-#{day}T#{hour}:#{minute}:#{second}"
 
     is_registered: (account) ->
-        if account and account.registration_date == "19700101T000000"
+        if account and account.registration_date == "1970-01-01T00:00:00"
             return false
         return true
 
@@ -194,3 +197,14 @@ servicesModule.factory "Utils", ($translate,$q) ->
             for key, val of query
                 match += 1 if item[key] is val
             if match is hit then true else false
+
+    pad: (num, size = 3) ->
+        s = num + ""
+        s = "0" + s while s.length < size
+        s
+
+    version_to_number: (str_version) ->
+        match = /^(\d+)\.(\d+)\.(\d+)/.exec(str_version)
+        return 1000000000 unless match
+        parseInt("#{@pad(match[1])}#{@pad(match[2])}#{@pad(match[3])}", 10)
+

@@ -24,9 +24,10 @@ class BlockchainAPI
   # Calculate the total amount of a market-issued asset that is owed to the network by open short positions
   # parameters: 
   #   string `asset` - asset ticker symbol or ID to calculate debt for
+  #   bool `include_interest` - true to include current outstanding interest and false otherwise
   # return_type: `asset`
-  calculate_debt: (asset, error_handler = null) ->
-    @rpc.request('blockchain_calculate_debt', [asset]).then (response) ->
+  calculate_debt: (asset, include_interest, error_handler = null) ->
+    @rpc.request('blockchain_calculate_debt', [asset, include_interest]).then (response) ->
       response.result
 
   # Returns true if the local blockchain is synced with the network; false otherwise
@@ -81,6 +82,13 @@ class BlockchainAPI
   # return_type: `asset_record_array`
   list_assets: (first_symbol, limit, error_handler = null) ->
     @rpc.request('blockchain_list_assets', [first_symbol, limit]).then (response) ->
+      response.result
+
+  # Returns a list of all currently valid feed prices
+  # parameters: 
+  # return_type: `price_array`
+  list_feed_prices: (error_handler = null) ->
+    @rpc.request('blockchain_list_feed_prices').then (response) ->
       response.result
 
   # returns all burn records associated with an account
@@ -146,6 +154,22 @@ class BlockchainAPI
   # return_type: `balance_record_map`
   list_balances: (first_balance_id, limit, error_handler = null) ->
     @rpc.request('blockchain_list_balances', [first_balance_id, limit]).then (response) ->
+      response.result
+
+  # Lists balance records which can be claimed by signature for this address
+  # parameters: 
+  #   address `addr` - address to scan for
+  # return_type: `balance_record_map`
+  list_address_balances: (addr, error_handler = null) ->
+    @rpc.request('blockchain_list_address_balances', [addr]).then (response) ->
+      response.result
+
+  # Lists balance records which can be claimed by signature for this key
+  # parameters: 
+  #   public_key `key` - Key to scan for
+  # return_type: `balance_record_map`
+  list_key_balances: (key, error_handler = null) ->
+    @rpc.request('blockchain_list_key_balances', [key]).then (response) ->
       response.result
 
   # Retrieves the record for the given asset ticker symbol or ID
@@ -307,9 +331,11 @@ class BlockchainAPI
   # Query the block production slot records for a particular delegate
   # parameters: 
   #   string `delegate_name` - Delegate whose block production slot records to query
+  #   int64_t `start_block_num` - Only return slot records after the specified block's timestamp; negative to start backwards from the current head block
+  #   uint32_t `count` - Return at most count slot records
   # return_type: `slot_records_list`
-  get_delegate_slot_records: (delegate_name, error_handler = null) ->
-    @rpc.request('blockchain_get_delegate_slot_records', [delegate_name]).then (response) ->
+  get_delegate_slot_records: (delegate_name, start_block_num, count, error_handler = null) ->
+    @rpc.request('blockchain_get_delegate_slot_records', [delegate_name, start_block_num, count]).then (response) ->
       response.result
 
   # Get the delegate that signed a given block
@@ -318,6 +344,13 @@ class BlockchainAPI
   # return_type: `string`
   get_block_signee: (block, error_handler = null) ->
     @rpc.request('blockchain_get_block_signee', [block]).then (response) ->
+      response.result
+
+  # Returns a list of active markets
+  # parameters: 
+  # return_type: `market_status_array`
+  list_markets: (error_handler = null) ->
+    @rpc.request('blockchain_list_markets').then (response) ->
       response.result
 
   # Returns a list of market transactions executed on a given block.
@@ -346,12 +379,28 @@ class BlockchainAPI
 
   # Verify that the given signature proves the given hash was signed by the given account.
   # parameters: 
-  #   string `signing_account` - The account the signature claims to be from
+  #   string `signer` - A public key, address, or account name whose signature to check
   #   sha256 `hash` - The hash the signature claims to be for
   #   compact_signature `signature` - A signature produced by wallet_sign_hash
   # return_type: `bool`
-  verify_signature: (signing_account, hash, signature, error_handler = null) ->
-    @rpc.request('blockchain_verify_signature', [signing_account, hash, signature]).then (response) ->
+  verify_signature: (signer, hash, signature, error_handler = null) ->
+    @rpc.request('blockchain_verify_signature', [signer, hash, signature]).then (response) ->
+      response.result
+
+  # TODO
+  # parameters: 
+  #   string `path` - the directory to dump the state into
+  # return_type: `void`
+  dump_state: (path, error_handler = null) ->
+    @rpc.request('blockchain_dump_state', [path]).then (response) ->
+      response.result
+
+  # Takes a signed transaction and broadcasts it to the network.
+  # parameters: 
+  #   signed_transaction `trx` - The transaction to broadcast
+  # return_type: `void`
+  broadcast_transaction: (trx, error_handler = null) ->
+    @rpc.request('blockchain_broadcast_transaction', [trx]).then (response) ->
       response.result
 
 

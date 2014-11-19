@@ -139,6 +139,7 @@
     },
     "unlock": {
         "btn_unlock": "Anmelden",
+        "caps_lock_on": "Feststelltaste ist aktiv!",
         "desc_title": "Handeln Sie weltweit BitAssets vertraulich, sicher und unverzüglich.",
         "desc_content_1": "BitShares ist eine vollständig dezentrale Handelsplattform auf der Sie BitAssets aller Art handeln können. Zum Beispiel: BitGLD = XAU(Gold)",
         "desc_content_2": "Weitere Informationen und Hilfe zu BitShares erhalten Sie unter http://bitsharestalk.org und http://wiki.bitshares.org",
@@ -175,7 +176,17 @@
         "standby_delegates": "Bereitstehende Delegierte",
         "votes_obtained": "Stimmen gesamt",
         "version": "Version",
-        "un_approve_all": "Alle Stimmen zurücknehmen"
+        "un_approve_all": "Alle Stimmen zurücknehmen",
+        "description": "Description",
+        "proposal": "Delegate bid",
+        "location": "Server location",
+        "handle": "BitsharesTalk username",
+        "ann": "Announcements",
+        "role_0": "Core Development",
+        "role_1": "Core Marketing",
+        "role_2": "Independent Development",
+        "role_3": "Independent Marketing",
+        "role_4": "Backbone"
     },
     "market": {
         "title": "Marktübersicht",

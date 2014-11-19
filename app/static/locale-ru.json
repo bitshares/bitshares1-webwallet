@@ -139,6 +139,7 @@
     },
     "unlock": {
         "btn_unlock": "Разблокировать",
+        "caps_lock_on": "Caps Lock is on!",
         "desc_title": "будущее банковской индустрии",
         "desc_content_1": "BitShares - это глобальное сообщество, которое с помощью распределенного приложения, создает лучшие деньги в мире.",
         "desc_content_2": "",
@@ -175,7 +176,17 @@
         "standby_delegates": "Делегаты в режиме ожидания",
         "votes_obtained": "Одобрение",
         "version": "Версия",
-        "un_approve_all": "Против всех"
+        "un_approve_all": "Против всех",
+        "description": "Description",
+        "proposal": "Delegate bid",
+        "location": "Server location",
+        "handle": "BitsharesTalk username",
+        "ann": "Announcements",
+        "role_0": "Core Development",
+        "role_1": "Core Marketing",
+        "role_2": "Independent Development",
+        "role_3": "Independent Marketing",
+        "role_4": "Backbone"
     },
     "market": {
         "title": "Рынок",

@@ -5,6 +5,8 @@ class Info
 
     is_refreshing : false
 
+    expected_client_version: "0.4.25"
+
     get : () ->
         if Object.keys(@info).length > 0
             deferred = @q.defer()

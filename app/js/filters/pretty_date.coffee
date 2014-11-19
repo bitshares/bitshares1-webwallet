@@ -2,7 +2,7 @@ date_params = {timeZone:"UTC",  weekday: undefined, year: "numeric", month: "num
 
 angular.module("app").filter "prettyDate", (Utils)->
     (date) ->
-        return "-" if !date or date.valueOf() == "19700101T000000"
+        return "-" if !date or date.valueOf() == "1970-01-01T00:00:00"
         if angular.isDate(date)
             return moment(date).format('L LT')
         else
@@ -10,8 +10,8 @@ angular.module("app").filter "prettyDate", (Utils)->
 
 angular.module("app").filter "prettySortableTime", (Utils)->
     (time) ->
-        if !time or time.valueOf() == "19700101T000000"
-            return {timestamp: Utils.toDate("19700101T000000"), pretty_time: "-"}
+        if !time or time.valueOf() == "1970-01-01T00:00:00"
+            return {timestamp: Utils.toDate("1970-01-01T00:00:00"), pretty_time: "-"}
         if angular.isDate(time)
             return {timestamp: time, pretty_time: moment(time).format('L LT')}
         else
@@ -36,7 +36,7 @@ angular.module("app").filter "secondsAgo", (Utils)->
       #console.log "attempting to prettify null date"
       return "9999999999999"
 
-    if date.valueOf() == "19700101T000000"
+    if date.valueOf() == "1970-01-01T00:00:00"
       return "9999999999999"
 
     if not angular.isDate(date)
