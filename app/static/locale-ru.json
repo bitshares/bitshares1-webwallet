@@ -370,7 +370,9 @@
         "amount": "Количество",
         "issue_to": "Кому",
         "info_create_asset_fee": "Комиссия за создание нового актива",
-        "asset_create_auth": "Авторизация создания актива"
+        "asset_create_auth": "Авторизация создания актива",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Адрес Вашей электронной почты используется только в целях идентификации Вашего аккаунта, ",

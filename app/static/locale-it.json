@@ -369,7 +369,9 @@
         "btn_issue": "Distribuisci",
         "amount": "Importo",
         "issue_to": "A",
-        "asset_create_auth": "Autorizza la Creazione dell'Asset"
+        "asset_create_auth": "Autorizza la Creazione dell'Asset",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Il tuo indirizzo email è usato al solo scopo di identificare",

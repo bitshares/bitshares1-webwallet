@@ -370,7 +370,9 @@
         "btn_issue": "Ausgeben",
         "amount": "Betrag",
         "issue_to": "An",
-        "asset_create_auth": "BitAsset wird erstellt..."
+        "asset_create_auth": "BitAsset wird erstellt...",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Ihre Emailaddresse wir ausschließlich dazu genutzt Sie zu identifizieren.",

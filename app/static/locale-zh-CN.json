@@ -370,7 +370,9 @@
         "btn_issue": "发行",
         "amount": "数量",
         "issue_to": "发行到",
-        "asset_create_auth": "比特资产创建确认"
+        "asset_create_auth": "比特资产创建确认",
+        "market_pegged_assets": "市场锚定资产",
+        "user_issued_assets": "用户发行资产"
     },
     "privacy": {
         "email_warning1": "你的邮件地址只会被用来识别",

@@ -372,7 +372,9 @@
         "btn_issue": "Issue",
         "amount": "Amount",
         "issue_to": "To",
-        "asset_create_auth": "Asset Creation Authorization"
+        "asset_create_auth": "Asset Creation Authorization",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Your email address is only used for the purpose of identifying your",
