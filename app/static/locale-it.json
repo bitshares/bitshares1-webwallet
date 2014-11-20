@@ -435,7 +435,8 @@
     "footer": {
         "enable_trx_scan": "Avvia Scansione Transazioni",
         "up_to_date": "Aggiornato, processati {{value}} blocchi",
-        "catching_up": "In aggiornamento.. processati {{value1}} di {{value2}}"
+        "catching_up": "In aggiornamento.. processati {{value1}} di {{value2}}",
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
     },
     "utils": {
         "expired": "Scaduto",

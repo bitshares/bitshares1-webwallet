@@ -436,7 +436,8 @@
     "footer": {
         "enable_trx_scan": "Включить сканирование транзакций",
         "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
-        "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков"
+        "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков",
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
     },
     "utils": {
         "expired": "Истек",
