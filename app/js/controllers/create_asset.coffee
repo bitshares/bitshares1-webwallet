@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, $modal, Growl, BlockchainAPI, RpcService, Utils, Info, Blockchain, Wallet) ->
+angular.module("app").controller "CreateAssetController", ($scope, $location, $stateParams, $modal, Growl, BlockchainAPI, RpcService, Utils, Info, Blockchain, WalletAPI) ->
 
     $scope.name = $stateParams.name
 
@@ -48,7 +48,8 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                         data: -> data
                         action: ->
                             ->
-                                RpcService.request('wallet_asset_create', [$scope.create_asset.symbol, $scope.create_asset.asset_name, $scope.name, $scope.create_asset.description, $scope.create_asset.memo, $scope.create_asset.max_share_supply, $scope.create_asset.precision]).then (response) ->
+                                asset = $scope.create_asset
+                                WalletAPI.asset_create(asset.symbol, asset.asset_name, $scope.name, asset.description, asset.max_share_supply, asset.precision, asset.memo, false).then (response) ->
                                   $scope.create_asset.symbol = ""
                                   $scope.create_asset.asset_name = ""
                                   $scope.create_asset.description = ""

@@ -358,7 +358,7 @@
         "symbol": "Symbol",
         "asset_name": "Asset Name",
         "description": "Description",
-        "memo_data": "Memo Data",
+        "memo_data": "Public Data",
         "maximum_share_supply": "Maximum Share Supply",
         "total_supply": "Total Supply",
         "info_create_asset_fee": "Fees for creating a new asset",

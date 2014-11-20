@@ -356,7 +356,7 @@
         "symbol": "Тикер",
         "asset_name": "Название актива",
         "description": "Описание",
-        "memo_data": "Примечание",
+        "memo_data": "Публичная информация",
         "maximum_share_supply": "Максимальное количество акций",
         "total_supply": "Всего эмитировано",
         "precision": "Точность",
