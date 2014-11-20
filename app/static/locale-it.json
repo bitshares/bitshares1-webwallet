@@ -369,7 +369,9 @@
         "btn_issue": "Distribuisci",
         "amount": "Importo",
         "issue_to": "A",
-        "asset_create_auth": "Autorizza la Creazione dell'Asset"
+        "asset_create_auth": "Autorizza la Creazione dell'Asset",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Il tuo indirizzo email è usato al solo scopo di identificare",
@@ -433,7 +435,8 @@
     "footer": {
         "enable_trx_scan": "Avvia Scansione Transazioni",
         "up_to_date": "Aggiornato, processati {{value}} blocchi",
-        "catching_up": "In aggiornamento.. processati {{value1}} di {{value2}}"
+        "catching_up": "In aggiornamento.. processati {{value1}} di {{value2}}",
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
     },
     "utils": {
         "expired": "Scaduto",

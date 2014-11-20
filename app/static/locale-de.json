@@ -370,7 +370,9 @@
         "btn_issue": "Ausgeben",
         "amount": "Betrag",
         "issue_to": "An",
-        "asset_create_auth": "BitAsset wird erstellt..."
+        "asset_create_auth": "BitAsset wird erstellt...",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Ihre Emailaddresse wir ausschließlich dazu genutzt Sie zu identifizieren.",
@@ -434,7 +436,8 @@
     "footer": {
         "enable_trx_scan": "Aktiviere die Transaktionsüberprüfung",
         "up_to_date": "Der Datenstand ist aktuell. Letzter Block: {{value}}",
-        "catching_up": "Der Datenstand wird aktualisiert: {{value1}} von {{value2}} Blöcken verarbeitet"
+        "catching_up": "Der Datenstand wird aktualisiert: {{value1}} von {{value2}} Blöcken verarbeitet",
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
     },
     "utils": {
         "expired": "Abgelaufen",

@@ -56,7 +56,7 @@
         "registered": "已注册",
         "symbol": "资产代码",
         "desc": "描述",
-        "issue_account": "发行数量",
+        "issue_account": "发行人",
         "precision": "精度",
         "current_share_supply": "当前供给数量",
         "maximum_share_supply": "最大供给数量",
@@ -139,7 +139,7 @@
     },
     "unlock": {
         "btn_unlock": "解锁",
-        "caps_lock_on": "Caps Lock is on!",
+        "caps_lock_on": "大写键已按下!",
         "desc_title": "公司. 社区. 货币.",
         "desc_content_1": "Bitshares 是一个由去中心化社区支持的虚拟公司，为市场提供最佳的数字货币：BitUSD（比特美元），BitGold（比特黄金）及BitSilver（比特白银）等。 ",
         "desc_content_2": "",
@@ -177,16 +177,16 @@
         "votes_obtained": "得票",
         "version": "版本号",
         "un_approve_all": "取消所有投票",
-        "description": "Description",
-        "proposal": "Delegate bid",
-        "location": "Server location",
-        "handle": "BitsharesTalk username",
-        "ann": "Announcements",
-        "role_0": "Core Development",
-        "role_1": "Core Marketing",
-        "role_2": "Independent Development",
-        "role_3": "Independent Marketing",
-        "role_4": "Backbone"
+        "description": "描述",
+        "proposal": "受托人提案",
+        "location": "服务器地理位置",
+        "handle": "BitSharesTalk论坛用户名",
+        "ann": "公告",
+        "role_0": "核心技术开发",
+        "role_1": "核心市场推广",
+        "role_2": "独立技术开发",
+        "role_3": "独立市场推广",
+        "role_4": "骨干"
     },
     "market": {
         "title": "市场",
@@ -370,7 +370,9 @@
         "btn_issue": "发行",
         "amount": "数量",
         "issue_to": "发行到",
-        "asset_create_auth": "比特资产创建确认"
+        "asset_create_auth": "比特资产创建确认",
+        "market_pegged_assets": "市场锚定资产",
+        "user_issued_assets": "用户发行资产"
     },
     "privacy": {
         "email_warning1": "你的邮件地址只会被用来识别",
@@ -434,7 +436,8 @@
     "footer": {
         "enable_trx_scan": "启用交易记录扫描",
         "up_to_date": "已同步到最新状态：已处理 {{value}} 块区块",
-        "catching_up": "同步中：已处理 {{value}} 块区块，总共 {{value2}} 块区块"
+        "catching_up": "同步中：已处理 {{value}} 块区块，总共 {{value2}} 块区块",
+        "version_warning": "警告！钱包图形界面要求钱包工具包软件(Toolkit)版本 {{expected_client_version}} 或更高，当前版本为 {{client_version}}"
     },
     "utils": {
         "expired": "Expired",

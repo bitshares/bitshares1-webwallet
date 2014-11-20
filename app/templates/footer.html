@@ -6,7 +6,7 @@
     <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()" translate>footer.enable_trx_scan</a></span>
 </p>
 <p class="pull-left" ng-if="show_version_warning">
-  Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}
+  {{'footer.version_warning' | translate:'{expected_client_version: expected_client_version, client_version: client_version}'}}
 </p>
 <p class="pull-right m-bottom">
   <span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
