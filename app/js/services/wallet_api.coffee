@@ -250,9 +250,23 @@ class WalletAPI
   # parameters: 
   #   string `account_name` - The account name that will own this address
   #   string `label` - 
-  # return_type: `address`
-  address_create: (account_name, label, error_handler = null) ->
-    @rpc.request('wallet_address_create', [account_name, label], error_handler).then (response) ->
+  #   int32_t `legacy_network_byte` - If not -1, use this as the network byte for a BTC-style address.
+  # return_type: `string`
+  address_create: (account_name, label, legacy_network_byte, error_handler = null) ->
+    @rpc.request('wallet_address_create', [account_name, label, legacy_network_byte], error_handler).then (response) ->
+      response.result
+
+  # Do a simple (non-TITAN) transfer to a BTC-style address
+  # parameters: 
+  #   real_amount `amount_to_transfer` - the amount of shares to transfer
+  #   asset_symbol `asset_symbol` - the asset to transfer
+  #   account_name `from_account_name` - the source account to draw the shares from
+  #   legacy_address `to_address` - the address to transfer to
+  #   string `memo_message` - a memo to store with the transaction
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  # return_type: `transaction_record`
+  transfer_to_legacy_address: (amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method, error_handler = null) ->
+    @rpc.request('wallet_transfer_to_legacy_address', [amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method], error_handler).then (response) ->
       response.result
 
   # Do a simple (non-TITAN) transfer to an address
@@ -264,8 +278,8 @@ class WalletAPI
   #   string `memo_message` - a memo to store with the transaction
   #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `transaction_record`
-  transfer_asset_to_address: (amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_asset_to_address', [amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method], error_handler).then (response) ->
+  transfer_to_address: (amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method, error_handler = null) ->
+    @rpc.request('wallet_transfer_to_address', [amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method], error_handler).then (response) ->
       response.result
 
   # Sends given amount to the given account, with the from field set to the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
@@ -327,6 +341,19 @@ class WalletAPI
   # return_type: `transaction_builder`
   withdraw_from_address: (amount, symbol, from_address, to, vote_method, sign_and_broadcast, error_handler = null) ->
     @rpc.request('wallet_withdraw_from_address', [amount, symbol, from_address, to, vote_method, sign_and_broadcast], error_handler).then (response) ->
+      response.result
+
+  # 
+  # parameters: 
+  #   string `amount` - how much to transfer
+  #   string `symbol` - which asset
+  #   legacy_address `from_address` - the balance address to withdraw from
+  #   string `to` - address or account to receive funds
+  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   bool `sign_and_broadcast` - 
+  # return_type: `transaction_builder`
+  withdraw_from_legacy_address: (amount, symbol, from_address, to, vote_method, sign_and_broadcast, error_handler = null) ->
+    @rpc.request('wallet_withdraw_from_legacy_address', [amount, symbol, from_address, to, vote_method, sign_and_broadcast], error_handler).then (response) ->
       response.result
 
   # 
@@ -511,6 +538,14 @@ class WalletAPI
     @rpc.request('wallet_get_account', [account_name], error_handler).then (response) ->
       response.result
 
+  # Get the account record for a given name
+  # parameters: 
+  #   account_name `account_name` - the name of the account whose public address you want
+  # return_type: `address`
+  get_account_public_address: (account_name, error_handler = null) ->
+    @rpc.request('wallet_get_account_public_address', [account_name], error_handler).then (response) ->
+      response.result
+
   # Remove a contact account from your wallet
   # parameters: 
   #   account_name `account_name` - the name of the contact
@@ -534,13 +569,13 @@ class WalletAPI
   #   string `asset_name` - the name of the asset
   #   string `issuer_name` - the name of the issuer of the asset
   #   string `description` - a description of the asset
-  #   json_variant `data` - arbitrary data attached to the asset
   #   real_amount `maximum_share_supply` - the maximum number of shares of the asset
   #   uint64_t `precision` - defines where the decimal should be displayed, must be a power of 10
+  #   json_variant `public_data` - arbitrary data attached to the asset
   #   bool `is_market_issued` - creation of a new BitAsset that is created by shorting
   # return_type: `transaction_record`
-  asset_create: (symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision, is_market_issued, error_handler = null) ->
-    @rpc.request('wallet_asset_create', [symbol, asset_name, issuer_name, description, data, maximum_share_supply, precision, is_market_issued], error_handler).then (response) ->
+  asset_create: (symbol, asset_name, issuer_name, description, maximum_share_supply, precision, public_data, is_market_issued, error_handler = null) ->
+    @rpc.request('wallet_asset_create', [symbol, asset_name, issuer_name, description, maximum_share_supply, precision, public_data, is_market_issued], error_handler).then (response) ->
       response.result
 
   # Updates an existing user-issued asset; only the public_data can be updated if any shares of the asset exist
