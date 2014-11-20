@@ -56,7 +56,7 @@
         "registered": "已注册",
         "symbol": "资产代码",
         "desc": "描述",
-        "issue_account": "发行数量",
+        "issue_account": "发行人",
         "precision": "精度",
         "current_share_supply": "当前供给数量",
         "maximum_share_supply": "最大供给数量",
