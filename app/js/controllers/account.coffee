@@ -103,7 +103,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
 
     update_delegate_info = (acct) ->
         $scope.delegate = {}
-        if (acct.public_data.delegate)
+        if (acct.public_data?.delegate)
                 if (acct.public_data.delegate.role)
                     $translate('delegate.role_'+acct.public_data.delegate.role).then (role) ->
                         $scope.delegate.role = role

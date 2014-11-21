@@ -9,6 +9,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     $scope.avg_price = 0
     $scope.advanced = false
+    $scope.asset_total_supply = 0.0
     current_market = null
     price_decimals = 4
 
@@ -41,6 +42,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         frequency: "each_block"
         update: (data, deferred) ->
             changed = false
+            Blockchain.get_asset($scope.actual_market.base_asset.id).then (asset) ->
+                $scope.asset_total_supply = asset.current_share_supply / asset.precision
             promise = WalletAPI.account_balance(account_name)
             promise.then (result) =>
                 #console.log "------ account_balances_observer result ------>", result
@@ -115,9 +118,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             account.quantity_balance = data[market.asset_quantity_symbol] / market.quantity_precision
             account.short_balance = if market.inverted then account.base_balance else account.quantity_balance
         Observer.registerObserver(account_balances_observer)
-
-        Blockchain.get_asset($scope.actual_market.base_asset.id).then (asset) ->
-            $scope.asset_total_supply = asset.current_share_supply / asset.precision
         Blockchain.get_info().then (config) ->
             $scope.blockchain_symbol = config.symbol #XTS or BTS
             WalletAPI.get_transaction_fee($scope.blockchain_symbol).then (blockchain_tx_fee) ->

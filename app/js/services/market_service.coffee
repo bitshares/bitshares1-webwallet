@@ -663,7 +663,7 @@ class MarketService
 #                    deferred.reject(error)
 
         , (error) ->
-                deferred.reject(error)
+            deferred.reject(error)
 
         return deferred.promise
 

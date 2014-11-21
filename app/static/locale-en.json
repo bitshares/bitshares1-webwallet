@@ -358,7 +358,7 @@
         "symbol": "Symbol",
         "asset_name": "Asset Name",
         "description": "Description",
-        "memo_data": "Memo Data",
+        "memo_data": "Public Data",
         "maximum_share_supply": "Maximum Share Supply",
         "total_supply": "Total Supply",
         "info_create_asset_fee": "Fees for creating a new asset",
@@ -372,7 +372,9 @@
         "btn_issue": "Issue",
         "amount": "Amount",
         "issue_to": "To",
-        "asset_create_auth": "Asset Creation Authorization"
+        "asset_create_auth": "Asset Creation Authorization",
+        "market_pegged_assets": "Market-Pegged Assets",
+        "user_issued_assets": "User-Issued Assets"
     },
     "privacy": {
         "email_warning1": "Your email address is only used for the purpose of identifying your",
@@ -436,7 +438,8 @@
     "footer": {
         "enable_trx_scan": "Enable Transaction Scanning",
         "up_to_date": "Up to date, processed {{value}} blocks",
-        "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks"
+        "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks",
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
     },
     "utils": {
         "expired": "Expired",
