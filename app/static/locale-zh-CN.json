@@ -8,7 +8,7 @@
         "create": "创建",
         "confirm": "确认",
         "update": "更新",
-        "cover": "补仓",
+        "cover": "平仓",
         "register": "注册",
         "close": "关闭"
     },
@@ -81,7 +81,7 @@
         "operation_types": "操作类型",
         "approve": "投票支持",
         "delete": "删除",
-        "price": "喂价",
+        "price": "价格",
         "last_updated": "最后更新时间",
         "bitasset": "比特资产",
         "avatar": "头像",
@@ -415,7 +415,7 @@
         }
     },
     "pagination": {
-        "filter": "过滤器",
+        "filter": "关键字搜索",
         "first": "第一页",
         "prev": "前一页",
         "next": "下一页",
