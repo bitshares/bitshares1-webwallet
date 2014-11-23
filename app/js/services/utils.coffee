@@ -208,3 +208,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
         return 1000000000 unless match
         parseInt("#{@pad(match[1])}#{@pad(match[2])}#{@pad(match[3])}", 10)
 
+    parseFloat: (str) -> parseFloat(str.replace(/,/g, ""))
+
+    parseInt: (str) -> parseInt(str.replace(/,/g, ""))
+

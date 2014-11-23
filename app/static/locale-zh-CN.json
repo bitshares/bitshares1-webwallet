@@ -15,7 +15,7 @@
     "tip": {
         "privacy_statement": "隐私申明",
         "warning": "警告",
-        "validate_symbol": "资产代码必须是3-5个大写字母",
+        "validate_symbol": "资产代码必须是3-8个大写字母",
         "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
         "pay_with_info": "注册需要花费BTS, 使用",
         "reg_as_delegate": "注册成为受托人",

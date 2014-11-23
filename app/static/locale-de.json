@@ -15,7 +15,7 @@
     "tip": {
         "privacy_statement": "Datenschutzerklärung",
         "warning": "Warnung",
-        "validate_symbol": "Das Symbol sollte aus 3-5 Großbuchstaben bestehen",
+        "validate_symbol": "Das Symbol sollte aus 3-8 Großbuchstaben bestehen",
         "validate_precision": "Die Präzision muss größer als 0 und als 10er-Exponent (10^x) darstellbar sein.",
         "pay_with_info": "Eine Registrierung kostet BTS, bezahlen mit",
         "reg_as_delegate": "Als Delegierter registrieren",

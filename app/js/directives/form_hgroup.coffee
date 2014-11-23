@@ -4,7 +4,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
         <label class="col-sm-4 control-label" for="{{for}}"><span popover="{{labelPopover}}" popover-trigger="mouseenter">{{label}}</span></label>
         <div class="input-group col-sm-8 col-md-7">
             <span ng-transclude></span>
-            <span class="input-group-addon">{{addon}}</span>
+            <span ng-if="addon" class="input-group-addon">{{addon}}</span>
         </div>
         <div class="col-sm-offset-4" ng-show="error_message"><span class="help-block text-danger">{{error_message | translate}}</span></div>
         <div class="col-sm-offset-4" ng-show="help" ng-if="helpIf"><span class="help-block">{{help}}</span></div>
@@ -55,8 +55,10 @@ angular.module("app.directives").directive "formHgroupSubmitBtn", ->
 
     link: (scope, element, attrs, formController) ->
         watchExpression = formController.$name + ".$valid"
-        scope.$parent.$watch watchExpression, (value) ->
-            element.find("button").attr("disabled", !value)
+        scope.$parent.$watch watchExpression, (valid) ->
+            element.find("button").attr("disabled", !valid)
+            help = element.find(".help-block")
+            if valid then help.show() else help.hide()
 
 
 angular.module("app.directives").directive "formHgroupError", ->
