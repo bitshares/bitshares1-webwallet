@@ -60,6 +60,8 @@
         "precision": "NACHKOMMASTELLEN",
         "current_share_supply": "AKTUELLES ANTEILSANGEBOT",
         "maximum_share_supply": "MAXIMALES ANTEILSANGEBOT",
+        "share_supply": "ANTEILSANGEBOT",
+        "asset": "ASSET",
         "collected_fees": "EINGENOMMENE GEBÜHREN",
         "registration_date": "REGISTRIERT AM",
         "height": "Höhe",

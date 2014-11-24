@@ -60,6 +60,8 @@
         "precision": "精度",
         "current_share_supply": "当前供给数量",
         "maximum_share_supply": "最大供给数量",
+        "share_supply": "供给数量",
+        "asset": "ASSET",
         "collected_fees": "已产生的交易费",
         "registration_date": "注册日期",
         "height": "高度",

@@ -6,21 +6,20 @@
   </div>
 </div>
 <div class="row m-top">
-  <div class="col-md-8">
+  <div class="col-md-6">
       <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create()" novalidate>
         <!--symbol-->
         <div form-hgroup label="{{'asset.symbol'|translate}}">
           <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control"
                  ui-validate="{valid_symbol: 'is_valid_symbol($value)'}"
                  minlength="3" maxlength="8" ng-change="symbol_changed()" required/>
-          <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol"
-               class="text-danger">
+          <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
             <span translate>tip.validate_symbol</span>
           </div>
         </div>
         <!--name-->
         <div form-hgroup label="{{'asset.asset_name'|translate}}">
-          <input name="asset_name" ng-model="create_asset.asset_name" type="text" class="form-control" required/>
+          <input name="name" ng-model="create_asset.name" type="text" class="form-control" required/>
         </div>
         <!--description-->
         <div form-hgroup label="{{'asset.description'|translate}}">
@@ -32,7 +31,7 @@
         </div>
         <!--maximum_share_supply-->
         <div form-hgroup label="{{'asset.maximum_share_supply'|translate}}">
-          <input-positive-number name="maximum_share_supply" ng-model="create_asset.max_share_supply" required="true"/>
+          <input-positive-number name="maximum_share_supply" ng-model="create_asset.maximum_share_supply" required="true"/>
         </div>
         <!--precision-->
         <div form-hgroup label="{{'asset.precision'|translate}}">
@@ -46,4 +45,5 @@
       </form>
       <br/>
     </div>
+    <div class="col-md-6">&nbsp;</div>
 </div>

@@ -60,6 +60,8 @@
         "precision": "ТОЧНОСТЬ",
         "current_share_supply": "ТЕКУЩЕЕ КОЛИЧЕСТВО АКЦИЙ",
         "maximum_share_supply": "МАКСИМАЛЬНОЕ КОЛИЧЕСТВО АКЦИЙ",
+        "share_supply": "КОЛИЧЕСТВО АКЦИЙ",
+        "asset": "АКТИВ",
         "collected_fees": "СОБРАННАЯ КОМИССИЯ",
         "registration_date": "ДАТА РЕГИСТРАЦИИ",
         "height": "Высота",

@@ -60,6 +60,8 @@
         "precision": "PRECISION",
         "current_share_supply": "CURRENT SHARE SUPPLY",
         "maximum_share_supply": "MAXIMUM SHARE SUPPLY",
+        "share_supply": "SHARE SUPPLY",
+        "asset": "ASSET",
         "collected_fees": "COLLECTED FEES",
         "registration_date": "REGISTRATION DATE",
         "height": "Height",

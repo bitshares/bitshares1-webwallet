@@ -60,6 +60,8 @@
         "precision": "PRECISIONE",
         "current_share_supply": "QUOTE ATTUALMENTE DISPONIBILI",
         "maximum_share_supply": "QUOTE MASSIME DISPONIBILI",
+        "share_supply": "QUOTE DISPONIBILI",
+        "asset": "ASSET",
         "collected_fees": "COMMISSIONI RACCOLTE",
         "registration_date": "DATA DI REGISTRAZIONE",
         "height": "Altezza",
