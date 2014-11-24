@@ -15,7 +15,7 @@
     "tip": {
         "privacy_statement": "Privacy",
         "warning": "Attenzione",
-        "validate_symbol": "Il Simbolo deve contenere 3-5 caratteri maiuscoli",
+        "validate_symbol": "Il Simbolo deve contenere 3-8 caratteri maiuscoli",
         "validate_precision": "Precision deve essere sia maggiore di 0 che una potenza di 10 (o 1)",
         "pay_with_info": "Registrarsi costa BTS, Paga con",
         "reg_as_delegate": "Registrato come delegato",

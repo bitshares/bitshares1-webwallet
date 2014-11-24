@@ -380,13 +380,11 @@ class MarketService
                     if inverted
                         short_wall.cost += td.collateral
                         short_wall.quantity += td.quantity
-                        #@lowest_ask = shorts_price if shorts_price < @lowest_ask
+                        @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
                         short_wall.quantity += td.collateral
                         short_wall.cost += td.quantity
-                        #short_wall.quantity += td.cost
-                        #short_wall.cost += td.cost / shorts_price
-                    @highest_bid = shorts_price if shorts_price > @highest_bid
+                        @highest_bid = shorts_price if shorts_price > @highest_bid
 
                 shorts.push td
 

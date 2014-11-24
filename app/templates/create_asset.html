@@ -2,67 +2,48 @@
   <div class="col-sm-12">
     <div class="header">
       <h3 class="header-title" translate>asset.create_new_asset</h3>
-      <p class="header-info"> {{ 'asset.info_create_asset_fee' | translate }}: {{asset_reg_fee}}</p>
     </div>
   </div>
 </div>
 <div class="row m-top">
-  <div id="create_asset-div m-top">
-  <div class="container m-top">
-      <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create_asset_form.$valid && create()" >
-          <div class="form-group row">
-              <label for="symbol" class="col-sm-2 control-label" translate>asset.symbol</label>
-              <div class="col-md-3">
-                  <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control" ui-validate="{valid_symbol: 'is_valid_symbol($value)'}" placeholder="" id="symbol" required/>
-              </div>
-              <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
-                  <span translate>tip.validate_symbol</span>
-              </div>
+  <div class="col-md-8">
+      <form name="create_asset_form" class="form-horizontal" role="form" ng-submit="create()" novalidate>
+        <!--symbol-->
+        <div form-hgroup label="{{'asset.symbol'|translate}}">
+          <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control"
+                 ui-validate="{valid_symbol: 'is_valid_symbol($value)'}"
+                 minlength="3" maxlength="8" ng-change="symbol_changed()" required/>
+          <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol"
+               class="text-danger">
+            <span translate>tip.validate_symbol</span>
           </div>
-
-          <div class="form-group">
-            <label for="asset_name" class="col-sm-2 control-label" translate>asset.asset_name</label>
-            <div class="col-md-5">
-              <input ng-model="create_asset.asset_name" type="text" class="form-control" placeholder="" id="asset_name" required/>
-            </div>
-          </div>
-
-         <div class="form-group">
-          <label for="description" class="col-sm-2 control-label" translate>asset.description</label>
-          <div class="col-md-5">
-           <input ng-model="create_asset.description" type="text" class="form-control" placeholder="" id="description"/>
-          </div>
-         </div>
-
-         <div class="form-group">
-          <label for="memo" class="col-sm-2 control-label" translate>asset.memo_data</label>
-          <div class="col-md-5">
-           <input ng-model="create_asset.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="" id="memo"/>
-         </div>
-          </div>
-
-          <div class="form-group">
-          <label for="max_share_supply" class="col-sm-2 control-label" translate>asset.maximum_share_supply</label>
-          <div class="col-md-6">
-              <input ng-model="create_asset.max_share_supply" type="text" class="form-control" ui-validate="'$value > 0'" placeholder="" id="max_share_supply"/>
-          </div>
-          </div>
-
-          <div class="form-group">
-              <label for="precision" class="col-sm-2 control-label" translate>asset.precision</label>
-              <div class="col-md-7">
-                  <input ng-model="create_asset.precision" type="number" class="form-control" placeholder="" ui-validate="{valid_precision: '$value > 0 && ($value == 1 || $value % 10 == 0)'}" id="precision"/>
-             </div>
-              <div ng-show="!create_asset_form.precision.$pristine && create_asset_form.precision.$error.valid_precision" class="text-danger" translate>tip.validate_precision</div>
-          </div>
-
-          <div class="form-group row">
-              <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{ "btn.create" | translate }}</button>
-              </div>
-          </div>
+        </div>
+        <!--name-->
+        <div form-hgroup label="{{'asset.asset_name'|translate}}">
+          <input name="asset_name" ng-model="create_asset.asset_name" type="text" class="form-control" required/>
+        </div>
+        <!--description-->
+        <div form-hgroup label="{{'asset.description'|translate}}">
+          <input name="description" ng-model="create_asset.description" type="text" class="form-control"/>
+        </div>
+        <!--memo_data-->
+        <div form-hgroup label="{{'asset.memo_data'|translate}}">
+          <input name="memo" ng-model="create_asset.memo" type="text" class="form-control"/>
+        </div>
+        <!--maximum_share_supply-->
+        <div form-hgroup label="{{'asset.maximum_share_supply'|translate}}">
+          <input-positive-number name="maximum_share_supply" ng-model="create_asset.max_share_supply" required="true"/>
+        </div>
+        <!--precision-->
+        <div form-hgroup label="{{'asset.precision'|translate}}">
+          <input-positive-number name="precision" ng-model="create_asset.precision" required="true"/>
+        </div>
+        <!--Submit-->
+        <div form-hgroup-error></div>
+        <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{reg_fee.current | formatDecimal}} {{reg_fee.symbol}}">
+          {{ "btn.create" | translate }}
+        </button>
       </form>
-  </div>
-  </div>
+      <br/>
+    </div>
 </div>
-
