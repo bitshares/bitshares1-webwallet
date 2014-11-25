@@ -325,7 +325,7 @@
             "vote_all": "Vote All",
             "vote_none": "Vote None",
             "vote_random_subset": "Vote Random Subset",
-            "vote_as_delegates_recommended": "Vote as Delegates Recommended",
+            "vote_as_delegates_recommended": "Vote as My Delegates Recommended",
             "btn_update_vote": "Update Vote",
             "current_votes": "Current Votes",
             "future_votes": "Future Votes"
