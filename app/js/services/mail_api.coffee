@@ -10,7 +10,7 @@ class MailAPI
   # parameters: 
   #   message `message` - The message to store.
   # return_type: `void`
-  mail_store_message: (message, error_handler = null) ->
+  store_message: (message, error_handler = null) ->
     @rpc.request('mail_store_message', [message], error_handler).then (response) ->
       response.result
 
@@ -20,7 +20,7 @@ class MailAPI
   #   timestamp `start_time` - No messages received before this time will be returned.
   #   uint32_t `limit` - Maximum number of messages to retrieve.
   # return_type: `mail_inventory`
-  mail_fetch_inventory: (owner, start_time, limit, error_handler = null) ->
+  fetch_inventory: (owner, start_time, limit, error_handler = null) ->
     @rpc.request('mail_fetch_inventory', [owner, start_time, limit], error_handler).then (response) ->
       response.result
 
@@ -28,28 +28,28 @@ class MailAPI
   # parameters: 
   #   message_id `inventory_id` - The ID of the message to retrieve.
   # return_type: `message`
-  mail_fetch_message: (inventory_id, error_handler = null) ->
+  fetch_message: (inventory_id, error_handler = null) ->
     @rpc.request('mail_fetch_message', [inventory_id], error_handler).then (response) ->
       response.result
 
   # Get all messages in the mail client which are still in processing.
   # parameters: 
   # return_type: `message_status_list`
-  mail_get_processing_messages: (error_handler = null) ->
+  get_processing_messages: (error_handler = null) ->
     @rpc.request('mail_get_processing_messages', error_handler).then (response) ->
       response.result
 
   # Get all messages in the mail client which are not in processing (sent and received).
   # parameters: 
   # return_type: `message_status_list`
-  mail_get_archive_messages: (error_handler = null) ->
+  get_archive_messages: (error_handler = null) ->
     @rpc.request('mail_get_archive_messages', error_handler).then (response) ->
       response.result
 
   # Get headers of all messages in the inbox.
   # parameters: 
   # return_type: `message_header_list`
-  mail_inbox: (error_handler = null) ->
+  inbox: (error_handler = null) ->
     @rpc.request('mail_inbox', error_handler).then (response) ->
       response.result
 
@@ -57,7 +57,7 @@ class MailAPI
   # parameters: 
   #   message_id `message_id` - ID of the failed message to retry sending.
   # return_type: `void`
-  mail_retry_send: (message_id, error_handler = null) ->
+  retry_send: (message_id, error_handler = null) ->
     @rpc.request('mail_retry_send', [message_id], error_handler).then (response) ->
       response.result
 
@@ -65,7 +65,7 @@ class MailAPI
   # parameters: 
   #   message_id `message_id` - ID of the message to cancel.
   # return_type: `void`
-  mail_cancel_message: (message_id, error_handler = null) ->
+  cancel_message: (message_id, error_handler = null) ->
     @rpc.request('mail_cancel_message', [message_id], error_handler).then (response) ->
       response.result
 
@@ -73,7 +73,7 @@ class MailAPI
   # parameters: 
   #   message_id `message_id` - ID of the message to remove.
   # return_type: `void`
-  mail_remove_message: (message_id, error_handler = null) ->
+  remove_message: (message_id, error_handler = null) ->
     @rpc.request('mail_remove_message', [message_id], error_handler).then (response) ->
       response.result
 
@@ -81,7 +81,7 @@ class MailAPI
   # parameters: 
   #   message_id `message_id` - ID of the message to archive.
   # return_type: `void`
-  mail_archive_message: (message_id, error_handler = null) ->
+  archive_message: (message_id, error_handler = null) ->
     @rpc.request('mail_archive_message', [message_id], error_handler).then (response) ->
       response.result
 
@@ -89,7 +89,7 @@ class MailAPI
   # parameters: 
   #   bool `get_old_messages` - If true, all messages will be retrieved, not just new ones.
   # return_type: `int32_t`
-  mail_check_new_messages: (get_old_messages, error_handler = null) ->
+  check_new_messages: (get_old_messages, error_handler = null) ->
     @rpc.request('mail_check_new_messages', [get_old_messages], error_handler).then (response) ->
       response.result
 
@@ -97,7 +97,7 @@ class MailAPI
   # parameters: 
   #   message_id `message_id` - The ID of the message to retrieve.
   # return_type: `email_record`
-  mail_get_message: (message_id, error_handler = null) ->
+  get_message: (message_id, error_handler = null) ->
     @rpc.request('mail_get_message', [message_id], error_handler).then (response) ->
       response.result
 
@@ -105,7 +105,7 @@ class MailAPI
   # parameters: 
   #   string `sender` - The name of the sender to search for.
   # return_type: `message_header_list`
-  mail_get_messages_from: (sender, error_handler = null) ->
+  get_messages_from: (sender, error_handler = null) ->
     @rpc.request('mail_get_messages_from', [sender], error_handler).then (response) ->
       response.result
 
@@ -113,7 +113,7 @@ class MailAPI
   # parameters: 
   #   string `recipient` - The name of the recipient to search for.
   # return_type: `message_header_list`
-  mail_get_messages_to: (recipient, error_handler = null) ->
+  get_messages_to: (recipient, error_handler = null) ->
     @rpc.request('mail_get_messages_to', [recipient], error_handler).then (response) ->
       response.result
 
@@ -122,7 +122,7 @@ class MailAPI
   #   string `account_one` - The name of an account in the conversation.
   #   string `account_two` - The name of an account in the conversation.
   # return_type: `message_header_list`
-  mail_get_messages_in_conversation: (account_one, account_two, error_handler = null) ->
+  get_messages_in_conversation: (account_one, account_two, error_handler = null) ->
     @rpc.request('mail_get_messages_in_conversation', [account_one, account_two], error_handler).then (response) ->
       response.result
 
@@ -134,7 +134,7 @@ class MailAPI
   #   string `body` - The body of the email.
   #   message_id `reply_to` - The ID of the email this email is in reply to.
   # return_type: `message_id`
-  mail_send: (from, to, subject, body, reply_to, error_handler = null) ->
+  send: (from, to, subject, body, reply_to, error_handler = null) ->
     @rpc.request('mail_send', [from, to, subject, body, reply_to], error_handler).then (response) ->
       response.result
 

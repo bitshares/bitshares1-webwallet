@@ -73,7 +73,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
-
+            
     $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
@@ -125,6 +125,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/console"
         templateUrl: "console.html"
         controller: "ConsoleController"
+        
+    sp.state "mail",
+        url: "/mail"
+        templateUrl: "mail.html"
+        controller: "MailController"
 
     sp.state "createaccount",
         url: "/create/account"

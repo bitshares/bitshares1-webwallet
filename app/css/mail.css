@@ -1,1 +1,14 @@
 
+.mail .email:before {
+  content: "\f0e0"; /* fa-envelop */
+  
+}
+.mail .transaction_notice:before {
+  content: "\f08b";/*.fa-sign-out*/
+}
+.mail .edit {
+    color: darkkhaki;
+}
+.mail .message_icon {
+    color: darkcyan;
+}

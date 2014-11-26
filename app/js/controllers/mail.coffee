@@ -1,3 +1,4 @@
-angular.module("app").controller "MailController", ($scope, $q, Growl, Mail, MailAPI, Utils, $modal, $translate) ->
+angular.module("app").controller "MailController", ($scope, mail, MailAPI) ->
 
-    
+    mail.check_inbox()
+    $scope.inbox = mail.inbox
