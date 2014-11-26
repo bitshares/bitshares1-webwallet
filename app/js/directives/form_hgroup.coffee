@@ -24,6 +24,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
         formName = formController.$name
         fieldName = element.find(":input").attr("name")
         field = scope.$parent[formName][fieldName]
+        return unless field
         field.clear_errors = ->
             scope.has_error = false
             scope.error_message = field.$error.message = ''

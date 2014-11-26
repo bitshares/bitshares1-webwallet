@@ -323,7 +323,7 @@
             "vote_all": "Голосовать за всех",
             "vote_none": "Голосовать против всех",
             "vote_random_subset": "Избрать депутатов случайным образом",
-            "vote_as_delegates_recommended": "Голосовать согласно рекомендациям делегатов",
+            "vote_as_delegates_recommended": "Голосовать как рекомендуют мои делегаты",
             "btn_update_vote": "Обновить выбор",
             "current_votes": "Текущий выбор",
             "future_votes": "Планируемый выбор"

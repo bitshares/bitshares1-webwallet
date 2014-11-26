@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-sm-12 col-lg-6 col-md-8">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title" translate>account.wall.burn_records</h3>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th translate>th.amount</th>
+            <th translate>th.message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="r in burn_records">
+            <td>{{r.amount}}</td>
+            <td>{{r.message}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm-0 col-lg-6 col-md-4">
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 col-lg-6 col-md-8">
+    <div class="panel">
+      <div class="panel-heading">
+        <h3 class="panel-title" translate>account.wall.burn_post</h3>
+        <h6>Burns given amount to <b>{{account_name}}</b>'s account. This will allow you to post
+                               message to this wall as a form of reputation.</h6>
+      </div>
+      <form name="burn_form" class="form-horizontal" role="form" ng-submit="post()" novalidate>
+        <!-- from -->
+        <div form-hgroup label="{{'account.from'|translate}}">
+          <div class="input-group-btn" dropdown is-open="status.isopen">
+            <button type="button" class="btn dropdown-toggle">{{burn.from}} <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="a in burn.accounts">
+                <a ng-click="burn.from = a; status.isopen=false">{{a}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- amount -->
+        <div form-hgroup label="{{'account.amount'|translate}}">
+          <input-asset-amount name="amount" amount="burn.amount" symbol="burn.symbol" symbols="burn.symbols" required="true"/>
+        </div>
+        <!-- message -->
+        <div form-hgroup label="{{'account.wall.message'|translate}}">
+          <input name="message" ng-model="burn.message" type="text" class="form-control" required="true"/>
+        </div>
+        <!--Submit-->
+        <div form-hgroup-error></div>
+        <button form-hgroup-submit-btn>
+          {{ "account.wall.post_message" | translate }}
+        </button>
+      </form>
+      <pre>{{burn | json}}</pre>
+    </div>
+  </div>
+  <div class="col-sm-0 col-lg-6 col-md-4">
+  </div>
+</div>

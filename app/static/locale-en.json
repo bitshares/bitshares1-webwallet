@@ -102,7 +102,8 @@
         "paid": "PAID",
         "received": "RECEIVED",
         "expiration": "EXPIRATION",
-        "interest_rate": "Interest Rate (APR)"
+        "interest_rate": "Interest Rate (APR)",
+        "message": "Message"
     },
     "block": {
         "title": "Block",
@@ -325,7 +326,7 @@
             "vote_all": "Vote All",
             "vote_none": "Vote None",
             "vote_random_subset": "Vote Random Subset",
-            "vote_as_delegates_recommended": "Vote as Delegates Recommended",
+            "vote_as_delegates_recommended": "Vote as My Delegates Recommended",
             "btn_update_vote": "Update Vote",
             "current_votes": "Current Votes",
             "future_votes": "Future Votes"
@@ -347,7 +348,14 @@
         "rename_account": "Rename Account",
         "rename_account_locally": "Rename Account Locally",
         "public_info": "Public Info",
-        "estimated_yield": "ESTIMATED YIELD"
+        "estimated_yield": "ESTIMATED YIELD",
+        "wall" : {
+            "tab_title": "Wall",
+            "burn_records": "Burn Records",
+            "burn_post": "Burn/Post Message",
+            "message": "Message",
+            "post_message": "Post Message"
+        }
     },
     "accounts": {
         "create_account": "Create New Account",
