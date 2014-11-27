@@ -404,8 +404,9 @@
         "autocomplete_receiver": "Авто заполнение имени получателя",
         "autocomplete_info": "Авто заполнение имени получателя при наборе имени, в форме для перевода средств",
         "language": "Язык интерфейса",
-        "theme": "Unlock Screen Theme",
-        "default": "Default"
+        "theme": "Разблокировать экран Стиль",
+        "default": "дефолт",
+        "flowers": "цветы"
     },
     "console": {
         "type_cmd_and_enter": "Введите команду и нажмите Enter"

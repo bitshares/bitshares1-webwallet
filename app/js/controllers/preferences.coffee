@@ -13,12 +13,12 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
     $scope.model.language_name = $scope.model.languages[$scope.model.language_locale]
 
     $scope.model.themes = {}
-    $translate(['pref.default']).then (result) ->
+    $translate(['pref.default',"pref.flowers"]).then (result) ->
         $scope.model.themes =
             "default": result["pref.default"]
-
-    $scope.model.theme = Wallet.interface_theme
-    $scope.model.theme_name = $scope.model.themes[$scope.model.theme]
+            "flowers": result["pref.flowers"]
+        $scope.model.theme = Wallet.interface_theme
+        $scope.model.theme_name = $scope.model.themes[$scope.model.theme]
 
     $scope.$watch ->
         Wallet.timeout
