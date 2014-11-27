@@ -402,7 +402,9 @@
         "trx_fee": "Commissione",
         "autocomplete_receiver": "Autocompleta il Nome del Ricevente",
         "autocomplete_info": "Autocompleta il nome del ricevente nel modulo di trasferiment, così come i tipi di utente",
-        "language": "Lingua"
+        "language": "Lingua",
+        "theme": "Unlock Screen Theme",
+        "default": "Default"
     },
     "console": {
         "type_cmd_and_enter": "Scrivi un comando e premi Invio"

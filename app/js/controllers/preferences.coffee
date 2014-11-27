@@ -12,6 +12,14 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
     $scope.model.language_locale = $translate.preferredLanguage()
     $scope.model.language_name = $scope.model.languages[$scope.model.language_locale]
 
+    $scope.model.themes = {}
+    $translate(['pref.default']).then (result) ->
+        $scope.model.themes =
+            "default": result["pref.default"]
+
+    $scope.model.theme = Wallet.interface_theme
+    $scope.model.theme_name = $scope.model.themes[$scope.model.theme]
+
     $scope.$watch ->
         Wallet.timeout
     , (value) ->
@@ -39,6 +47,13 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         $scope.model.language_locale = value
         $scope.model.language_name = $scope.model.languages[value]
 
+    $scope.$watch ->
+        Wallet.interface_theme
+    , (value) ->
+        return if value == null
+        $scope.model.theme = value
+        $scope.model.theme_name = $scope.model.themes[value]
+
     $scope.updatePreferences = ->
         if $scope.model.timeout < 15
             $scope.model.timeout = '15'
@@ -54,6 +69,8 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
                 WalletAPI.set_transaction_fee(pf),
                 Wallet.set_setting('autocomplete', $scope.model.autocomplete),
                 Wallet.set_setting('interface_locale', $scope.model.language_locale)
+                Wallet.set_setting('interface_theme', $scope.model.theme)
+
         ]
         $q.all(calls).then (r) ->
             $translate.use($scope.model.language_locale)

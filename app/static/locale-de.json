@@ -403,7 +403,9 @@
         "trx_fee": "Transaktionsgebühr",
         "autocomplete_receiver": "Empfängernamen vorschlagen",
         "autocomplete_info": "Zeigt bei Überweisungen automatisch alle möglichen Empfänger an.",
-        "language": "Sprache"
+        "language": "Sprache",
+        "theme": "Unlock Screen Theme",
+        "default": "Default"
     },
     "console": {
         "type_cmd_and_enter": "Wählen Sie ein Kommando und bestätigen Sie anschließend mit der Eingabetaste."

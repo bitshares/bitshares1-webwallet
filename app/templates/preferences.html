@@ -48,6 +48,21 @@
               </div>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-sm-offset-1 col-sm-3 control-label" translate>pref.theme</label>
+            <div class="col-sm-3 no-lr-padding">
+              <div class="btn-group" dropdown is-open="status3.isopen">
+                <button type="button" class="btn dropdown-toggle">
+                  {{model.theme_name}} <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li ng-repeat="(k, v) in model.themes">
+                    <a ng-click="model.theme=k; model.theme_name=v; status3.isopen=false">{{v}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
 
           <div class="form-group row">
             <div class="col-sm-offset-4 col-sm-2 no-lr-padding">

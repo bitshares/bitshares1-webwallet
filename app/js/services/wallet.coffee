@@ -34,6 +34,8 @@ class Wallet
 
     interface_locale: null
 
+    interface_theme = 'default'
+
     set_current_account: (account) ->
         @current_account = account
         @set_setting("current_account", account.name)
@@ -55,6 +57,9 @@ class Wallet
                         @interface_locale = result.value
                         moment.locale(result.value)
                         @translate.use(result.value)
+                @get_setting('interface_theme').then (result) =>
+                    if result and result.value
+                        @interface_theme = result.value
                 if not result.unlocked
                     navigate_to('unlockwallet')
             , (error) ->

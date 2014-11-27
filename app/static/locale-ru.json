@@ -403,7 +403,9 @@
         "trx_fee": "Комиссия за транзакцию",
         "autocomplete_receiver": "Авто заполнение имени получателя",
         "autocomplete_info": "Авто заполнение имени получателя при наборе имени, в форме для перевода средств",
-        "language": "Язык интерфейса"
+        "language": "Язык интерфейса",
+        "theme": "Unlock Screen Theme",
+        "default": "Default"
     },
     "console": {
         "type_cmd_and_enter": "Введите команду и нажмите Enter"

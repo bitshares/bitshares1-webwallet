@@ -2,8 +2,8 @@
   <div class="str-top">
     <img src="img/xts-logo-xl-white-shadow.png"/>
   </div>
-  <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
-  <div class="description" collapse="descriptionCollapsed">
+  <div ng-class="theme" class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
+  <div ng-class="theme" class="description" collapse="descriptionCollapsed">
     <p translate>unlock.desc_content_1</p>
     <p translate>unlock.desc_content_2</p>
   </div>
@@ -21,6 +21,7 @@
       <label class="text-danger" ng-show="wrongPass" translate> unlock.wrong_pass </label>
       <label class="text-danger" ng-show="capsLockOn" translate> unlock.caps_lock_on </label>
     </form>
-    <img src="img/logo-ico.svg" width="64" height="64"/> <br/><br/> <span class="client-version">{{client_version}}</span>
+    <img ng-if="theme==='default'" src="img/logo-ico.svg" width="64" height="64"/>
+    <br/><br/> <span class="client-version" ng-class="theme">{{client_version}}</span>
   </div>
 </section>

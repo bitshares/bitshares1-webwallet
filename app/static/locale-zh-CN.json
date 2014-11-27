@@ -403,7 +403,9 @@
         "trx_fee": "交易手续费",
         "autocomplete_receiver": "自动补全转账接受账号",
         "autocomplete_info": "在转账表单中，当用户输入收款账户信息时，自动完成账户名称",
-        "language": "界面语言选择"
+        "language": "界面语言选择",
+        "theme": "Unlock Screen Theme",
+        "default": "Default"
     },
     "console": {
         "type_cmd_and_enter": "输入命令并回车"

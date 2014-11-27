@@ -405,7 +405,9 @@
         "trx_fee": "Transaction Fee",
         "autocomplete_receiver": "Autocomplete Receiver Name",
         "autocomplete_info": "In the transfer form autocomplete the name of the receiver, as the user types",
-        "language": "Interface Language"
+        "language": "Interface Language",
+        "theme": "Unlock Screen Theme",
+        "default": "Default"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"

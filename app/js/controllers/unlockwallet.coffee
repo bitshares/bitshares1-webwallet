@@ -1,5 +1,8 @@
 angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer, Info) ->
     $rootScope.splashpage = true
+    Wallet.get_setting("interface_theme").then (result) ->
+        $rootScope.theme = if result && result.value then result.value else 'default'
+
     $scope.stopIdleWatch()
 
     $scope.descriptionCollapsed = true
