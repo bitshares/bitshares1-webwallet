@@ -4,7 +4,15 @@
 	font-size: 16px;
 	margin: 0;
 	padding: 0;
+}
+
+.splashpage > .wrapper.default {
 	background: #0b384d url('/img/xt-background.jpg') no-repeat left top !important;
+	background-size: cover !important;
+}
+
+.splashpage > .wrapper.flowers {
+	background: #0b384d url('/img/flowers-background.jpg') no-repeat left top !important;
 	background-size: cover !important;
 }
 
@@ -34,9 +42,14 @@
 	margin-top: -100px;
 }
 
-.splashpage-wrapper .description {
+.splashpage-wrapper .description.default {
 	font-size: 12px;
 	color: #ccc;
+}
+
+.splashpage-wrapper .description.flowers {
+	font-size: 12px;
+	color: #4C3434;
 }
 
 .splashpage-wrapper .str-top {
@@ -52,6 +65,10 @@
 	text-align: center;
 	padding: 20px 10px 5px;
 	cursor: pointer;
+}
+
+.splashpage-wrapper .str-content.flowers {
+	color: #4C3434;
 }
 
 .splashpage-wrapper .str-arrow {
@@ -84,6 +101,10 @@
 
 .splashpage-wrapper .client-version {
 	color: #aaa;
+}
+
+.splashpage-wrapper .client-version.flowers {
+	color: #4C3434;
 }
 
 .splashpage-wrapper .input {

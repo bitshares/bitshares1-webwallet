@@ -184,11 +184,16 @@
         "location": "服务器地理位置",
         "handle": "BitSharesTalk论坛用户名",
         "ann": "公告",
+        "country": "Legal jurisdiction",
         "role_0": "核心技术开发",
         "role_1": "核心市场推广",
-        "role_2": "独立技术开发",
-        "role_3": "独立市场推广",
-        "role_4": "骨干"
+        "role_2": "骨干",
+        "role_3": "Backbone",
+        "role_4": "Charity",
+        "role_5": "Technical Support",
+        "role_6": "Law/Regulations",
+        "role_7": "Media/Public Relations"
+
     },
     "market": {
         "title": "市场",
@@ -309,6 +314,7 @@
         "email_tip": "电子邮件（可选）",
         "active_delegate": "活跃受托人",
         "standby_delegate": "待命受托人",
+        "rank": "Current rank",
         "toggle": {
             "favorite": "切换收藏状态",
             "approval": "切换支持状态"
@@ -403,7 +409,10 @@
         "trx_fee": "交易手续费",
         "autocomplete_receiver": "自动补全转账接受账号",
         "autocomplete_info": "在转账表单中，当用户输入收款账户信息时，自动完成账户名称",
-        "language": "界面语言选择"
+        "language": "界面语言选择",
+        "theme": "解锁屏幕主题",
+        "default": "默认",
+        "flowers": "花卉"
     },
     "console": {
         "type_cmd_and_enter": "输入命令并回车"
