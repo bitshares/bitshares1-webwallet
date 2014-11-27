@@ -184,11 +184,15 @@
         "location": "Server location",
         "handle": "BitsharesTalk username",
         "ann": "Announcements",
-        "role_0": "Core Development",
-        "role_1": "Core Marketing",
-        "role_2": "Independent Development",
-        "role_3": "Independent Marketing",
-        "role_4": "Backbone"
+        "country": "Legal jurisdiction",
+        "role_0": "Development",
+        "role_1": "Marketing",
+        "role_2": "Faucet",
+        "role_3": "Backbone",
+        "role_4": "Charity",
+        "role_5": "Technical Support",
+        "role_6": "Law/Regulations",
+        "role_7": "Media/Public Relations"
     },
     "market": {
         "title": "Market",
@@ -311,6 +315,7 @@
         "email_tip": "Email (Optional)",
         "active_delegate": "Active Delegate",
         "standby_delegate": "Standby Delegate",
+        "rank": "Current rank",
         "toggle": {
             "favorite": "Toggle Favorite",
             "approval": "Toggle Approval"
