@@ -426,6 +426,11 @@
         "next": "Next",
         "last": "Last"
     },
+    "mail": {
+        "to": "To",
+        "topic": "Topic",
+        "message": "Message"
+    }, 
     "help": {
         "title": "Help",
         "console_intro": "For a list of commands go to the console page, type help, and press Enter.",
