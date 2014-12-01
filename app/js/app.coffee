@@ -125,11 +125,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/console"
         templateUrl: "console.html"
         controller: "ConsoleController"
-        
-    sp.state "mail",
-        url: "/mail"
-        templateUrl: "mail.html"
-        controller: "MailController"
 
     sp.state "createaccount",
         url: "/create/account"

@@ -1,10 +1,9 @@
 
 .mail .email:before {
-  content: "\f0e0"; /* fa-envelop */
-  
+    content: "\f0e0"; /* fa-envelop */
 }
 .mail .transaction_notice:before {
-  content: "\f08b";/*fa-sign-out*/
+    content: "\f08b";/*fa-sign-out*/
 }
 .mail .edit {
     color: darkkhaki;
@@ -21,4 +20,7 @@
     padding-right: 8px;
     position: relative;
     top: 4px;
+}
+.mail a:hover{
+    text-decoration: none;
 }
