@@ -48,6 +48,7 @@
       <div ng-if="account.delegate_info">
       <div class='white-shadow' ng-if="active_delegate" translate>account.active_delegate</div>
       <div class='white-shadow' ng-if="!active_delegate" translate>account.standby_delegate</div>
+      <div class='white-shadow'>{{ 'account.rank' | translate }}: {{ rank }}</div>
       <table class="table table-striped table-acc-balance">
         <thead>
           <tr>
@@ -159,11 +160,11 @@
     <tabset>
       <!--? first tab always active-->
       <tab disabled="true"/>
-      
+
       <!--recent transactions tab -->
       <tab active="trx_tab" ui-sref="account.transactions" ui-sref-active="active">
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
-        
+        <div ui-view="account-transactions" class="p-inner"></div>
       </tab>
 
       <!--delegate info tab -->
@@ -171,58 +172,59 @@
         <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
         <h5 ng-if="account.public_data.delegate.description">{{ 'delegate.description' | translate }} :<span style="font-weight:bold;"> {{ account.public_data.delegate.description }}</span></h5>
         <h5 ng-if="account.public_data.delegate.proposal">{{ 'delegate.proposal' | translate }} : <a href='{{ account.public_data.delegate.proposal }}' target="_blank"><span style="font-weight:bold;">{{ account.public_data.delegate.proposal }}</span></a></h5>
+        <h5 ng-if="account.public_data.delegate.country">{{ 'delegate.country' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.country }}</span></h5>
         <h5 ng-if="account.public_data.delegate.location">{{ 'delegate.location' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.location }}</span></h5>
         <h5 ng-if="account.public_data.delegate.handle">{{ 'delegate.handle' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.handle }}</span></h5>
         <h5 ng-if="account.public_data.delegate.ann">{{ 'delegate.ann' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.ann }}</span></h5>
         <br>
         <h3 translate>account.price_feeds</h3>
-        
+        <div ui-view="account-delegate-price-feed"></div>
       </tab>
 
       <!-- transfer tab -->
       <tab ui-sref="account.transfer" ui-sref-active="active" ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
-        
+        <div ui-view="account-transfer" ng-if="account.is_my_account"></div>
       </tab>
 
       <!-- Assets tab -->
       <tab ui-sref="account.manageAssets" ui-sref-active="active" ng-show="account.is_my_account" >
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
+        <div ui-view="account-manage-assets"></div>
       </tab>
 
       <!-- Keys tab -->
       <tab ui-sref="account.keys" ui-sref-active="active" ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> {{ 'account.keys' | translate }} </tab-heading>
-        
+        <div ui-view="account-keys"></div><div ui-view="account-keys2"></div>
       </tab>
 
       <!-- Edit tab (registered) -->
       <tab ui-sref="account.updateRegAccount" ui-sref-active="active" ng-show='account.is_my_account && utils.is_registered(account)'>
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
-        
+        <div ui-view="account-update-reg-account"></div>
       </tab>
 
       <!-- Edit tab (local) -->
       <tab ui-sref="account.editLocal" ui-sref-active="active" ng-show='account.is_my_account && !utils.is_registered(account)'>
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
-        
+        <div ui-view="account-editlocal"></div>
       </tab>
       
       <!-- Vote tab -->
       <tab ui-sref="account.vote" ui-sref-active="active" ng-if='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>{{'account.vote.tab_title'|translate}}</tab-heading>
-        
+        <div ui-view="account-vote"></div>
       </tab>
+
+      <!-- Wall tab -->
+      <tab ui-sref="account.wall" ui-sref-active="active">
+        <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i>{{'account.wall.tab_title'|translate}}</tab-heading>
+        <div ui-view="account-wall"></div>
+      </tab>
+
     </tabset>
-    <!--for the page-refresh to work, ui-view are placed outside of tabset element: see http://stackoverflow.com/questions/22881782/angularjs-tabset-does-not-show-the-correct-state-when-the-page-is-reloaded/26303424#26303424 -->
-    <div ui-view="account-transactions" class="p-inner"></div>
-    <div ui-view="account-delegate-price-feed"></div>
-    <div ui-view="account-transfer" ng-if="account.is_my_account"></div>
-    <div ui-view="account-manage-assets"></div>
-    <div ui-view="account-keys"></div><div ui-view="account-keys2"></div>
-    <div ui-view="account-update-reg-account"></div>
-    <div ui-view="account-editlocal"></div>
-    <div ui-view="account-vote"></div>
+
   </div>
 </div>
 </div>

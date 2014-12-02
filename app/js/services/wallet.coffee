@@ -34,6 +34,8 @@ class Wallet
 
     interface_locale: null
 
+    interface_theme = 'default'
+
     set_current_account: (account) ->
         @current_account = account
         @set_setting("current_account", account.name)
@@ -55,6 +57,9 @@ class Wallet
                         @interface_locale = result.value
                         moment.locale(result.value)
                         @translate.use(result.value)
+                @get_setting('interface_theme').then (result) =>
+                    if result and result.value
+                        @interface_theme = result.value
                 if not result.unlocked
                     navigate_to('unlockwallet')
             , (error) ->
@@ -64,7 +69,14 @@ class Wallet
 
         return deferred.promise
 
+    refresh_balances_promise: null
+
     refresh_balances: ->
+        return @refresh_balances_promise if @refresh_balances_promise
+        deffered = @q.defer()
+        @refresh_balances_promise = deffered.promise
+
+        #console.log "------ refresh_balances ***** ------>"
         requests =
             refresh_bonuses: @refresh_bonuses()
             account_balances : @wallet_api.account_balance("")
@@ -78,6 +90,7 @@ class Wallet
             angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1]
+                #console.log "------ refresh_balances name ------>", name
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
                     asset_record = @blockchain.asset_records[asset_id]
@@ -88,12 +101,17 @@ class Wallet
                     @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                     @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
-                #if acct.is_my_account
-                    #@refresh_open_order_balances(acct.name)
-                    
+                #console.log "------ refresh_balances acct.name ------>", acct.name
                 if acct.is_my_account and !@balances[acct.name]
                     @balances[acct.name] = {}
                     @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
+            deffered.resolve(@balances)
+            @refresh_balances_promise = null
+        , (error) ->
+            deffered.reject(error)
+            @refresh_balances_promise = null
+
+        return @refresh_balances_promise
 
 #    refresh_open_order_balances: (name) ->
 #        if !@open_orders_balances[name]

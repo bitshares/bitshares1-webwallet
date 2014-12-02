@@ -1,47 +1,46 @@
 <div class="row p-inner">
-<div class="col-sm-12">
-<div class="header">
-<h3 class="header-title" translate>asset.issue_assets</h3>
-  <p class="header-info" translate>asset.issue_assets_info</p>
-
+  <div class="col-sm-12">
+    <div class="header">
+      <h3 class="header-title" translate>asset.issue_assets</h3>
+      <p class="header-info" translate>asset.issue_assets_info</p>
     </div>
-</div>
+  </div>
 </div>
 <div class="row m-top">
- <div id="issue-form m-top">
-  <form name="issue_asset_form" class="form-horizontal" role="form" ng-submit="issue_asset_form.$valid && issue()" >
-   <div class="form-group row">
-        <label for="amount" class="col-sm-2 control-label" translate>asset.amount</label>
-      <div class="col-md-3">
-            <input ng-model="issue_asset.amount" type="text" class="form-control" placeholder="0.0" id="amount" ui-validate="'$value > 0'" required/>
+  <div class="col-md-6">
+    <form name="issue_asset_form" class="form-horizontal" role="form" ng-submit="issue_asset_form.$valid && issue()" novalidate>
+      <!--asset-->
+      <div form-hgroup label="{{'asset.symbol'|translate}}">
+        <select name="asset" class="form-control" id='issue_asset.symbol' ng-model="issue_asset.asset"
+                ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]"
+                ng-options="asset.symbol for asset in $parent.assets"></select>
       </div>
-        <div class="col-md-2">
-          <select class="form-control" id='issue_asset.symbol' ng-model="issue_asset.symbol" ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]" ng-options="symbol for symbol in $parent.my_symbols"></select>
+      <!--amount-->
+      <div form-hgroup label="{{'asset.amount'|translate}}">
+        <input-positive-number name="amount" ng-model="issue_asset.amount" required="true"/>
+      </div>
+      <!--to-->
+      <div class="form-group" ng-class="{ 'has-error': has_error }">
+        <label class="col-sm-4 control-label" for="issueto"><span>{{'asset.issue_to'|translate}}</span></label>
+        <div class="input-group col-sm-8 col-md-7">
+          <input id="issueto" name="issueto" ng-model="issue_asset.to" type="text" class="form-control"
+               ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
+        <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success ng-scope">
+            <i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i>
+        </span>
         </div>
-     </div>
-   <div class="form-group">
-    <label for="issueto" class="col-sm-2 control-label" translate>asset.issue_to</label>
-
-    <div class="col-md-5">
-    <di class="input-group">
-     <input ng-model="issue_asset.to" type="text" class="form-control" placeholder="{{ 'contact.contact_name'|translate }}" id="issueto" ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
-     <span ng-click='newContactModal()' type="button" class=" input-group-addon btn white btn-success"><i class="fa fa-plus fa-lg fa-fw"></i> <i class="fa fa-user"></i></span>
-
-    </div>
-    </div>
-
-   <div class="form-group">
-    <label for="memo" class="col-sm-2 control-label" translate>asset.memo_data</label>
-    <div class="col-md-5">
-     <input ng-model="issue_asset.memo" type="text" class="form-control" ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{'asset.memo_data'|translate}}" id="memo"/>
-    </div>
-   </div>
-    <div class="form-group row">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-success"><i class="fa fa-credit-card fa-lg fa-fw"></i> {{'asset.btn_issue'|translate}}</button>
       </div>
-    </div>
-  </form>
- </div>
-</div>
+      <!--public -->
+      <div form-hgroup label="{{'asset.memo_data'|translate}}">
+        <input name="memo" ng-model="issue_asset.memo" type="text" class="form-control"
+                   ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}"/>
+      </div>
+      <!--Submit-->
+      <div form-hgroup-error></div>
+      <button form-hgroup-submit-btn>
+        {{ "asset.btn_issue" | translate }}
+      </button>
+    </form>
+  </div>
+  <div class="col-md-6">&nbsp;</div>
 </div>
