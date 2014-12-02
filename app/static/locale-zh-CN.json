@@ -288,6 +288,7 @@
         "load_more_trxs": "查看更多交易...",
         "all_trxs": "所有交易历史",
         "transfer": "转账",
+        "transfer_authorization": "Transfer Authorization",
         "amount": "数量",
         "from": "来自",
         "to": "发往",
@@ -351,7 +352,16 @@
         "rename_account": "账户更名",
         "rename_account_locally": "本地更名账户",
         "public_info": "公共信息",
-        "estimated_yield": "预期收益"
+        "estimated_yield": "预期收益",
+        "wall" : {
+            "tab_title": "Wall",
+            "burn_records": "Burn Records",
+            "burn_post": "Burn/Post Message",
+            "message": "Message",
+            "post_message": "Post Message",
+            "burn_confirmation": "Burn/Post Message Confirmation",
+            "receiver": "Receiver"
+        }
     },
     "accounts": {
         "create_account": "创建新账户",

@@ -9,7 +9,7 @@
     <div class='col-sm-8'>
       <table class="table table-striped table-hover">
         <tr>
-          <td translate>account.to</td><td>{{trx.to}}</td>
+          <td>{{account_to}}</td><td>{{trx.to}}</td>
         </tr>
         <tr>
           <td translate>account.amount</td><td>{{trx.amount}}</td>
@@ -18,9 +18,9 @@
           <td translate>block.trx.fee</td><td>{{trx.fee}}</td>
         </tr>
         <tr>
-          <td translate>account.memo</td><td>{{trx.memo}}</td>
+          <td>{{account_memo}}</td><td>{{trx.memo}}</td>
         </tr>
-        <tr ng-show="xts_transfer">
+        <tr ng-show="transfer_type === 'xts'">
           <td translate>account.vote.vote_for</td><td>{{trx.vote}}</td>
         </tr>
       </table>

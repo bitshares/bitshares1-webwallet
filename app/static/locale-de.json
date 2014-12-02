@@ -287,6 +287,7 @@
         "load_more_trxs": "Lade weitere Transaktionen...",
         "all_trxs": "Transaktionsverlauf",
         "transfer": "Überweisung",
+        "transfer_authorization": "Transfer Authorization",
         "amount": "Betrag",
         "from": "Von",
         "to": "An",
@@ -350,7 +351,16 @@
         "rename_account": "Konto umbenennen",
         "rename_account_locally": "Konto lokal umbenennen",
         "public_info": "Öffentliche Informationen",
-        "estimated_yield": "Voraussichtlicher Ertrag"
+        "estimated_yield": "Voraussichtlicher Ertrag",
+        "wall" : {
+            "tab_title": "Wall",
+            "burn_records": "Burn Records",
+            "burn_post": "Burn/Post Message",
+            "message": "Message",
+            "post_message": "Post Message",
+            "burn_confirmation": "Burn/Post Message Confirmation",
+            "receiver": "Receiver"
+        }
     },
     "accounts": {
         "create_account": "Konto erstellen",

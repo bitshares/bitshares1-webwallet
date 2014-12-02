@@ -287,6 +287,7 @@
         "load_more_trxs": "Загрузить еще...",
         "all_trxs": "Вся история транзакций",
         "transfer": "Перевод средств",
+        "transfer_authorization": "Подтверждение Перевода",
         "amount": "Количество",
         "from": "От",
         "to": "Кому",
@@ -350,7 +351,16 @@
         "rename_account": "Переименовать аккаунт",
         "rename_account_locally": "Переименовать аккаунт локально",
         "public_info": "Общедоступная информация",
-        "estimated_yield": "ОЖИДАЕМАЯ ДОХОДНОСТЬ"
+        "estimated_yield": "ОЖИДАЕМАЯ ДОХОДНОСТЬ",
+        "wall" : {
+            "tab_title": "Стена",
+            "burn_records": "Burn Records",
+            "burn_post": "Burn/Post Message",
+            "message": "Message",
+            "post_message": "Post Message",
+            "burn_confirmation": "Burn/Post Message Confirmation",
+            "receiver": "Receiver"
+        }
     },
     "accounts": {
         "create_account": "Создать новый аккаунт",
