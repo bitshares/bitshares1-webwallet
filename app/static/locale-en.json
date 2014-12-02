@@ -429,7 +429,8 @@
     "mail": {
         "to": "To",
         "topic": "Topic",
-        "message": "Message"
+        "message": "Message",
+        "compose": "Compose"
     }, 
     "help": {
         "title": "Help",

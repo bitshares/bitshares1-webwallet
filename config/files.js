@@ -28,7 +28,7 @@ module.exports = function(lineman) {
         "vendor/js/angular-pageslide-directive.js",
         "vendor/js/highstock.src.js",
         "vendor/js/moment-with-locales.js",
-        "vendor/js/bts.js"
+        "vendor/js/bytebuffer.js"
       ],
       app: [
         "app/js/app.js",

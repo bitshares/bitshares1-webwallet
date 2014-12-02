@@ -1,10 +1,15 @@
+
+<div class="modal-header bg-danger">
+  <h3 class="modal-title" translate>mail.compose</h3>
+</div>
+
 <div class="modal-body">
 <form class="form-horizontal" role="form">
 <div class="row">
-<div class="col-xs-8">
+<div class="col-xs-9">
     <!--from-->
     <div class="form-group">
-        <label for="from" class="col-xs-2 control-label">{{ 'account.from' | translate }}</label>
+        <label for="from" class="col-xs-2 control-label" translate>account.from</label>
         <div class="col-sm-10">
             <div class="btn-group" dropdown is-open="status.isopen">
                 <button type="button" id="from" class="form-control btn btn-primary dropdown-toggle">{{compose_mail.from}} <span class="caret"></span></button>
@@ -18,7 +23,7 @@
     </div>
     <!--to-->
     <div class="form-group">
-        <label for="to" class="col-xs-2 control-label">{{ 'mail.to' | translate }}</label>
+        <label for="to" class="col-xs-2 control-label" translate>mail.to</label>
         <div class="col-sm-9">
             <input autofocus type="text" id="to" ng-model="compose_mail.to" class="form-control" placeholder="{{ 'mail.to' | translate }}">
         </div>
@@ -28,7 +33,7 @@
         </div>
     </div>
 </div>
-<div class="col-xs-4">
+<div class="col-xs-3">
     <div class="pull-right">
         <img ng-src="http://robohash.org/set_1/{{compose_mail.to}}?size=100x100" height="100" width="100"/>
     </div>

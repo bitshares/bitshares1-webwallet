@@ -70,6 +70,8 @@ class Convert
 
 ###* Private API mail service ###
 class Mail
+    
+    ByteBuffer = window.dcodeIO.ByteBuffer
 
     constructor: (@q, @MailAPI) ->
         @inbox = []

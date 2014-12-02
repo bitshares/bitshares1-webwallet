@@ -239,3 +239,19 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/newcontact?name&key"
         templateUrl: "newcontact.html"
         controller: "NewContactController"
+
+    sp.state "mail",
+        url: "/mail"
+        templateUrl: "mail.html"
+        controller: "MailController"
+    
+    sp.state "mail.compose",
+        url: "/compose"
+        onEnter: ($modal, $state) ->
+            modal = $modal.open
+                templateUrl: "dialog-mail-compose.html"
+                controller: "ComposeMailController"
+                
+            modal.result.finally () ->
+                $state.transitionTo 'mail'
+    
