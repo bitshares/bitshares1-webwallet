@@ -7,15 +7,14 @@ class AccountObserver
         @observer_config =
             name: "AccountObserver"
             frequency: "each_block"
-            update: =>
-                @refresh()
+            update: (data, deferred) =>
+                @refresh().then ->
+                    deferred.resolve()
     
     start: ->
-        console.log 'start'
         @Observer.registerObserver @observer_config
     
     stop: ->
-        console.log 'stop'
         @Observer.unregisterObserver @observer_config
     
     best_account: (name) ->
@@ -30,7 +29,6 @@ class AccountObserver
         deferred.promise
     
     refresh: ->
-        console.log 'refresh'
         deferred = @q.defer()
         refresh_accounts_promise = @Wallet.refresh_accounts()
         refresh_accounts_promise.then =>
