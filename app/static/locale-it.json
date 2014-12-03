@@ -286,6 +286,7 @@
         "load_more_trxs": "Carica Più Transazioni",
         "all_trxs": "Cronologia di Tutte le Transazioni",
         "transfer": "Trasferisci",
+        "transfer_authorization": "Transfer Authorization",
         "amount": "Importo",
         "from": "Da",
         "to": "A",
@@ -349,7 +350,16 @@
         "rename_account": "Rinomina Conto",
         "rename_account_locally": "Rinomina Conto Localmente",
         "public_info": "Informazioni Pubbliche",
-        "estimated_yield": "RENDIMENTO STIMATO"
+        "estimated_yield": "RENDIMENTO STIMATO",
+        "wall" : {
+            "tab_title": "Wall",
+            "burn_records": "Burn Records",
+            "burn_post": "Burn/Post Message",
+            "message": "Message",
+            "post_message": "Post Message",
+            "burn_confirmation": "Burn/Post Message Confirmation",
+            "receiver": "Receiver"
+        }
     },
     "accounts": {
         "create_account": "Crea Nuovo Conto",

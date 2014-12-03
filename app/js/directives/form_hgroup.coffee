@@ -22,7 +22,7 @@ angular.module("app.directives", []).directive "formHgroup", ->
 
     link: (scope, element, attrs, formController) ->
         formName = formController.$name
-        fieldName = element.find(":input").attr("name")
+        fieldName = element.find("[name]").attr("name")
         field = scope.$parent[formName][fieldName]
         return unless field
         field.clear_errors = ->
@@ -38,6 +38,14 @@ angular.module("app.directives", []).directive "formHgroup", ->
         scope.$parent.$watch errorExpression, (error_message) ->
             scope.error_message = error_message
             scope.has_error = scope.has_error or !!error_message
+
+    controller: ($scope, $element) ->
+        @clear_errors = ->
+            $scope.error_message = null
+            $scope.has_error = false
+        return @
+
+
 
 angular.module("app.directives").directive "formHgroupSubmitBtn", ->
     template: '''
@@ -62,6 +70,7 @@ angular.module("app.directives").directive "formHgroupSubmitBtn", ->
             if valid then help.show() else help.hide()
 
 
+
 angular.module("app.directives").directive "formHgroupError", ->
     template: '''
     <div class="form-group" ng-show="error_message">
@@ -82,6 +91,8 @@ angular.module("app.directives").directive "formHgroupError", ->
         scope.$watch watchExpression, (value) ->
             scope.error_message = value
 
+
+
 angular.module("app.directives").directive "formHgroupValue", ->
     template: '''
     <div class="form-group">
@@ -97,6 +108,8 @@ angular.module("app.directives").directive "formHgroupValue", ->
         showValue: "@"
     compile: (element, attrs) ->
         attrs.showValue = true if attrs.showValue == undefined
+
+
 
 angular.module("app.directives").directive "formHgroupNote", ->
     template: '''

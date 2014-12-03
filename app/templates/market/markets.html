@@ -48,7 +48,7 @@
           <!--<li ng-repeat="m in markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>--><!--</ul>-->
           <input type="text"
                  ng-model="selected_market"
-                 typeahead="value for value in markets | filter:$viewValue"
+                 typeahead="value for value in markets | filter:$viewValue | limitTo:10"
                  typeahead-editable="false"
                  typeahead-append-to-body="true"
                  class="form-control"

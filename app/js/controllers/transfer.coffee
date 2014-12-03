@@ -144,11 +144,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     templateUrl: "dialog-transfer-confirmation.html"
                     controller: "DialogTransferConfirmationController"
                     resolve:
-                        title: -> "Transfer Authorization"
                         trx: -> trx
                         action: -> yesSend
-                        xts_transfer: ->
-                            $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTS'
+                        transfer_type: ->
+                            if $scope.transfer_info.symbol == 'XTS' || $scope.transfer_info.symbol == 'BTS' then 'xts' else ''
 
     $scope.newContactModal = ->
         $modal.open

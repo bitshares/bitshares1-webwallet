@@ -45,7 +45,7 @@
         </div>
         <!-- amount -->
         <div form-hgroup label="{{'account.amount'|translate}}">
-          <input-asset-amount name="amount" amount="burn.amount" symbol="burn.symbol" symbols="burn.symbols" required="true"/>
+          <input-asset-amount name="amount" ng-model="burn.amount" symbols="burn.symbols" required="true"/>
         </div>
         <!-- message -->
         <div form-hgroup label="{{'account.wall.message'|translate}}">
@@ -57,7 +57,7 @@
           {{ "account.wall.post_message" | translate }}
         </button>
       </form>
-      <pre>{{burn | json}}</pre>
+      <br/>
     </div>
   </div>
   <div class="col-sm-0 col-lg-6 col-md-4">

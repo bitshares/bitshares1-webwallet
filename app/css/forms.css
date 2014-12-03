@@ -29,3 +29,9 @@ span.help-block {
 .hgroup-button {
 	margin-bottom: 0;
 }
+
+.ng-invalid > input {
+	border-color: #d97572 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
