@@ -5,7 +5,7 @@ servicesModule.config ($httpProvider, $provide) ->
 
     $provide.decorator "$exceptionHandler", ["$delegate", "Shared", (delegate, Shared) ->
         (exception, cause) ->
-            stack = exception.stack.replace(/randomuser\:[\w\d]+\@[\d\.]+\:\d+/gm, "localhost").replace(/(\r\n|\n|\r)/gm,"\n ○ ")
+            stack = exception.stack?.replace(/randomuser\:[\w\d]+\@[\d\.]+\:\d+/gm, "localhost").replace(/(\r\n|\n|\r)/gm,"\n ○ ")
             if magic_unicorn?
                 magic_unicorn.log_message "js error: #{exception.message}\n#{stack}"
             else

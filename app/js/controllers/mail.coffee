@@ -10,22 +10,22 @@ class ComposeMailState
 app.service "ComposeMailState",[ComposeMailState]
 
 app.controller "MailController", (
-    mail, MailAPI, ComposeMailState, AccountObserver
+    mail, MailAPI, ComposeMailState
+    AccountObserver, MailInboxObserver
     $scope
 ) ->
-    
-    mail.check_inbox()
-    $scope.inbox = mail.inbox
     AccountObserver.start()
+    MailInboxObserver.start()
+    $scope.inbox = MailInboxObserver.inbox
     
     $scope.$on "$destroy", ->
         AccountObserver.stop()
+        MailInboxObserver.stop()
 
 app.controller "ComposeMailController", (
     ComposeMailState, AccountObserver, MailAPI
     $scope, $modalInstance
 ) ->
-
     $scope.compose_mail = compose_mail = ComposeMailState.compose_mail
     $scope.my_accounts = AccountObserver.my_accounts
     AccountObserver.best_account().then (account) ->
@@ -40,12 +40,12 @@ app.controller "ComposeMailController", (
         )
         send.then(
             (result) ->
-                ComposeMailState.clear()
                 $modalInstance.close()
+                ComposeMailState.clear()
             (error) ->
                 console.log 'mail_send error',error
         )
     
     $scope.cancel = ->
-        ComposeMailState.clear()
         $modalInstance.dismiss "cancel"
+        ComposeMailState.clear()
