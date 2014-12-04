@@ -14,12 +14,8 @@
 .fa {
     font-size: 20pt;   
 }
-.mail .from {
+.mail .sender {
     font-size: 22px;
-    color: #fff;
-    padding-right: 8px;
-    position: relative;
-    top: 4px;
 }
 .mail a:hover{
     text-decoration: none;

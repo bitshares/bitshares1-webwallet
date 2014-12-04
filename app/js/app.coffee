@@ -241,7 +241,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         controller: "NewContactController"
 
     sp.state "mail",
-        url: "/mail"
+        url: "/mail/:box"
         templateUrl: "mail.html"
         controller: "MailController"
     
@@ -252,6 +252,24 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
                 templateUrl: "dialog-mail-compose.html"
                 controller: "ComposeMailController"
                 
-            modal.result.finally () ->
-                $state.transitionTo 'mail'
+            modal.result.then(
+                (result) ->
+                    $state.go 'mail'
+                () ->
+                    $state.go 'mail'
+            )
     
+    sp.state "mail.show",
+        url: "/show/:id"
+        onEnter: ($modal, $state) ->
+            modal = $modal.open
+                templateUrl: "dialog-mail-show.html"
+                controller: "ShowMailController"
+                
+            modal.result.then(
+                (result) ->
+                    $state.go 'mail'
+                () ->
+                    $state.go 'mail'
+            )
+                

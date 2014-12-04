@@ -2,41 +2,65 @@ app = angular.module "app"
 
 class ComposeMailState
     constructor: ->
-        @compose_mail = {}
+        @email = {}
         
     clear: ->
-        delete @compose_mail[el] for el of @compose_mail
-        
+        delete @email[el] for el of @email
 app.service "ComposeMailState",[ComposeMailState]
 
 app.controller "MailController", (
-    mail, MailAPI, ComposeMailState
-    AccountObserver, MailInboxObserver
-    $scope
+    MailAPI
+    AccountObserver, MailService
+    $stateParams, $scope, $state
 ) ->
+    $scope.box_name = $stateParams.box
+    unless $scope.box_name
+        $state.go "mail",
+            box: "inbox" 
+    
+    MailService.start()
     AccountObserver.start()
-    MailInboxObserver.start()
-    $scope.inbox = MailInboxObserver.inbox
+    
+    $scope.box = {}
+    $scope.box.inbox = MailService.inbox
+    $scope.box.processing = MailService.processing
+    $scope.box.archive = MailService.archive
+    $scope.current_box = $scope.box[$scope.box_name]
     
     $scope.$on "$destroy", ->
+        MailService.stop()
         AccountObserver.stop()
-        MailInboxObserver.stop()
-
+        
+    $scope.go = (ref, params) ->
+        $state.go ref, params
+    
+app.controller "ShowMailController", (
+    MailService
+    $stateParams, $scope, $modalInstance
+) ->
+    id = $stateParams.id
+    $scope.email = MailService.inbox_ids[id]
+         
+    $scope.close = ->
+        $modalInstance.dismiss "cancel"
+    
 app.controller "ComposeMailController", (
     ComposeMailState, AccountObserver, MailAPI
     $scope, $modalInstance
 ) ->
-    $scope.compose_mail = compose_mail = ComposeMailState.compose_mail
+    $scope.email = email = ComposeMailState.email
     $scope.my_accounts = AccountObserver.my_accounts
+    console.log 'email.sender',email.sender
     AccountObserver.best_account().then (account) ->
-        compose_mail.from = account.name
+        console.log 'email.sender',email.sender
+        email.sender = account.name
     
     $scope.ok = ->
         send = MailAPI.send(
-            compose_mail.from
-            compose_mail.to
-            compose_mail.subject
-            compose_mail.body
+            email.sender
+            email.recipient
+            email.subject
+            email.body
         )
         send.then(
             (result) ->

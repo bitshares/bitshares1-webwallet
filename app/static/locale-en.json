@@ -427,11 +427,17 @@
         "last": "Last"
     },
     "mail": {
-        "to": "To",
-        "topic": "Topic",
-        "message": "Message",
-        "compose": "Compose"
-    }, 
+        "sender": "Sender",
+        "recipient": "To",
+        "subject": "Topic",
+        "body": "Message",
+        "compose": "Compose",
+        "email": "Email",
+        "close": "Close",
+        "inbox": "Inbox",
+        "archive": "Archive",
+        "processing": "Processing"
+    },
     "help": {
         "title": "Help",
         "console_intro": "For a list of commands go to the console page, type help, and press Enter.",

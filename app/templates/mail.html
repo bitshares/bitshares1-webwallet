@@ -4,7 +4,7 @@
 <div class="col-sm-12">
 <div class="row">
     <div class="col-xs-11"><h3 class="header-title" translate>index.mail</h3></div>
-    <div class="col-xs-1 pull-right"><h2><a class="edit fa fa-plus" href="#/mail/compose"></a></h2></div>
+    <div class="col-xs-1 pull-right"><h2><i class="edit fa fa-plus" ng-click="go('mail.compose')"></i></h2></div>
 </div>
 </div>
 </div><!--header-->
@@ -14,14 +14,36 @@
 <div class="main-content">
 <div class="container">
 
-<div ng-repeat="item in inbox | filter: {type: 'email'}">
-<div class="row hover" ng-click="show_email(item)">
-    <div class="col-xs-8"><h3 class="sender">{{item.sender}}&nbsp;<i class="fa {{item.type}} message_icon"></i></h3></div>
-    <div class="col-xs-4 pull-right">{{item.time}}</div>
-    <div class="col-xs-11">{{item.subject}}</div>
-    <div class="col-xs-1"><i class="fa fa-delete"></i></div>
-    <div class="col-xs-12"><small>{{item.message}}</small></div>
+<div class="row">
+<div class="col-sm-12">
+<tabset>
+    <tab ng-repeat="tab in ['inbox','processing']" heading="{{'mail.'+tab | translate}} {{box[tab].length > 0 ? '('+box[tab].length+')' : ''}}" ng-click="go('mail', {'box':tab})" active="box_name != null && tab === box_name">
+    </tab>
+</tabset>
 </div>
+</div><!--row-->
+
+
+<div ng-repeat="item in current_box | filter: {type: 'email'}">
+<div class="row hover" ng-click="go('mail.show', {'id': item.id})">
+    <div class="col-xs-8">
+        <div class="sender">{{item.sender}}&nbsp;
+        <i class="fa {{item.type}} message_icon"></i>
+    </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="pull-right">{{item.time}}</div>
+    </div>
+    <div class="col-xs-11">{{item.subject}}</div>
+    <div class="col-xs-1">
+        <!--div class="pull-right">
+            <i class="fa fa-delete"></i>&nbsp;
+            <a class="fa fa-file-o" ng-href="#/mail/show/{{item.id}}"></a>
+        </div-->
+    </div>
+    <div class="col-xs-12"><small>{{item.body}}</small></div>
+</div>
+
 <hr></hr>
 </div><!--inbox-->
 
