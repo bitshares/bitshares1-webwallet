@@ -35,3 +35,7 @@ span.help-block {
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }
+
+.input-group button {
+	margin-top: 6px;
+}
