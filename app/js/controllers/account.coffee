@@ -24,8 +24,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.private_key = {value : ""}
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
-
-    
     Blockchain.refresh_delegates().then ->
         if ($scope.account && $scope.account.delegate_info) 
             $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
