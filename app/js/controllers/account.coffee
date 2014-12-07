@@ -24,9 +24,12 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.private_key = {value : ""}
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
+
+    
     Blockchain.refresh_delegates().then ->
-        $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
-        $scope.rank = Blockchain.all_delegates[name].rank
+        if ($scope.account && $scope.account.delegate_info) 
+            $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
+            $scope.rank = Blockchain.all_delegates[name].rank
     # TODO: mixing the wallet account with blockchain account is not a good thing.
     Wallet.get_account(name).then (acct)->
         $scope.account = acct
