@@ -20,16 +20,18 @@ Navigate to the web_wallet directory where `package.json` is located and run the
     $ npm install
     $ npm start
 
-Start another shell, navigate to `/bitshares_toolkit/programs/client/RelWithDebInfo` directory, and start
+Edit htdocs parameter in config.json  `AppData/Roaming/BitShares` to point to the `web_wallet/generated/` directory.  For example: ` "htdocs": "C:/bitshares/web_wallet/generated" `
+
+Start another shell, navigate to `/bin/programs/client/RelWithDebInfo` directory, and start
 the BitShares client:
 
     $ .\bitshares_client --server \
         --rpcuser=test --rpcpassword=test \
         --httpdendpoint=127.0.0.1:5000
+(You could also achieve this by changing these parameters in your config file.)
 
 The client finds the local GUI code and launches a web server, which
-you can access by opening <http://localhost:5000>.  You could also
-achieve this by setting the `htdocs` parameter in your config file.
+you can access by opening <http://localhost:5000>.  
 
 As long as you keep `npm start` running, the app will automatically be
 recompiled (into the `generated/` directory) whenever you make any

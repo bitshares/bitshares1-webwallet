@@ -1,17 +1,29 @@
-<div class="modal-header">
-    <h3 class="modal-title">Register {{account.name}}</h3>
+<div class="modal-header bg-danger">
+  <h3 class="modal-title"><span class="text-lighter">Register</span> {{account.name}}</h3>
 </div>
-<form role="form" class="form-horizontal" ng-submit="ok()">
-    <div class="modal-body">
-        <a tooltip='Can be changed in preferences'>Transaction Fee</a> for registration: {{ transaction_fee }} <br><br>
-        <div class="form-group">
-            <label for="contact_address">Pay with</label>
-            <select ng-model="m.payfrom" type="text" class="form-control" placeholder="Account Name" id="payfrom" ng-options="account | formatAccountBalance for (key, account) in accounts | filter:symbol" required></select><br>
-            <span ng-show="accounts.length == 0">You need fees for registration, but you still do not have any funds yet</span><br>
-        </div>
-    </div>
-</form>
+<div class="modal-body">
+  <div class="row">
+    <form name="confirm_register_account" role="form" class="form-horizontal col-sm-11">
+      <div form-hgroup-value label="Transaction fee" show-value="true">
+        {{ transaction_fee }}
+      </div>
+      <div form-hgroup ng-show="m.payfrom" label="Pay fee with">
+        <select name="pay_with" ng-model="m.payfrom" class="form-control"
+                ng-options="account | formatAccountBalance for (key, account) in accounts | filter:symbol"/>
+      </div>
+      <div form-hgroup label="Use faucet">
+        <select name="faucet" ng-model="m.faucet" class="form-control" ng-options="obj.name for obj in available_faucets track by obj.url"/>
+        <span class="help-block">Note. None of your private keys will be passed to faucet.</span>
+      </div>
+      <div form-hgroup ng-show="m.faucet.url === 'add'" label="Faucet domain or URL">
+        <input name="faucet_url" ng-model="m.faucet_url" type="text" class="form-control" ui-validate="{valid_faucet_url: 'true'}"/>
+        <button ng-click="addCustomFaucet()" class="btn white btn-success">Add Faucet</button>
+      </div>
+    </form>
+    <div class="col-sm-1">&nbsp;</div>
+  </div>
+</div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok(payWith)" translate>btn.ok</button>
-    <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
+  <button class="btn btn-primary" ng-click="register()" translate>btn.register</button>
+  <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
 </div>

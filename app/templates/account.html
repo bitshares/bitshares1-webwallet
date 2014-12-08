@@ -24,25 +24,25 @@
         <div ng-switch-when="1970-01-01T00:00:00">
           <div ng-switch on="p.pendingRegistration">
             <div ng-switch-when='pending'>
-              <div class="pull-right" translate>account.reg_pending</div>
-              <span style='color:white;font-size:300%'>{{account.name}}</span>
-              &nbsp;&nbsp; <i tooltip='{{ "tip.reg_pending" | translate }}' class='fa fa-eye-slash fa-2x text-success'></i>
+              <!--<div class="pull-right" translate>account.reg_pending</div>-->
+              <span class="account-name">{{account.name}}</span>
+              &nbsp;&nbsp; <span class="text-muted">{{ "account.reg_pending" | translate }}</span>
             </div>
             <div ng-switch-default>
               <div class="pull-right">
                 <a style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
                     class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
               </div>
-              <span style='color:white;font-size:300%'>{{account.name}}</span>
-              &nbsp;&nbsp; <i tooltip='{{ "tip.not_reg_onchain" | translate}}' class='fa fa-eye-slash fa-2x text-success'></i>
+              <span class="account-name">{{account.name}}</span>
+              &nbsp;&nbsp; <span class="text-muted">{{"tip.not_reg_onchain" | translate}}</span>
             </div>
           </div>
         </div>
-        <div class="reg-date" style="" class="white-shadow" ng-switch-default>
-          <div style='color:white;font-size:200%'>{{account.name}}</div>
+        <div ng-switch-default class="reg-date" style="" class="white-shadow">
+          <span class="account-name">{{account.name}}</span> &nbsp;
+          <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}">{{ 'directory.registered' | translate }}</span>
+          &nbsp; <a target="_blank" href='http://{{ website }}'>{{ website }}</a>
           <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
-          <br> <i class="white">{{ 'account.reg_date' | translate }}: <span class="text-success">{{ account.registration_date | prettyDate }}</span></i><br>
-          <a target="_blank" href='http://{{ website }}'>{{ website }}</a>
         </div>
       </div>
       <div ng-if="account.delegate_info">
@@ -84,6 +84,7 @@
       </table>
     </div>
     </div>
+    <span class="account-key" ng-show="account.registration_date === '1970-01-01T00:00:00'">Account Key: {{account.active_key}}</span>
   </div>
 
   <div class="col-sm-5">

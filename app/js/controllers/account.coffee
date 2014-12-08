@@ -95,7 +95,8 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         name: "account_balances_observer"
         frequency: "each_block"
         update: (data, deferred) ->
-            Wallet.refresh_account(name)
+            Wallet.refresh_account(name).then (result) ->
+                $scope.account.registration_date = Wallet.accounts[name].registration_date
             deferred.resolve(true)
     Observer.registerObserver(account_balances_observer)
 
@@ -104,10 +105,9 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
 
     update_delegate_info = (acct) ->
         $scope.delegate = {}
-        if (acct.public_data.delegate)
-                if (acct.public_data.delegate.role >= 0)
-                    $translate('delegate.role_'+acct.public_data.delegate.role).then (role) ->
-                        $scope.delegate.role = role
+        if acct.public_data?.delegate?.role >= 0
+            $translate('delegate.role_' + acct.public_data.delegate.role).then (role) ->
+                $scope.delegate.role = role
 
     $scope.import_key = ->
         form = @import_key_form
