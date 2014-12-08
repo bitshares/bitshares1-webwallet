@@ -50,13 +50,11 @@ class Observer
         for index, observer of @private.each_block_observers
             @private.update(observer, @q)
 
-    refresh: (observer_name) ->
-        observer = @private.observers[observer.name]
-        throw "Missing observer #{observer_name}" unless observer
+    refresh: (observer) ->
         if observer.busy
             @timeout ()=>
                 console.log 'debug: observer manual refresh'
-                @refresh()
+                @refresh observer
             , 250
             return
         @private.update(observer, @q)
