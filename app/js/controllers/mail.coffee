@@ -16,16 +16,12 @@ app.controller "MailController", (
     $scope.box_name = $stateParams.box
     unless $scope.box_name
         $state.go "mail",
-            box: "inbox" 
-    
+            box: "inbox"
+            
     MailService.start()
     AccountObserver.start()
-    
-    $scope.box = {}
-    $scope.box.inbox = MailService.inbox
-    $scope.box.processing = MailService.processing
-    $scope.box.archive = MailService.archive
-    $scope.current_box = $scope.box[$scope.box_name]
+    $scope.mailbox = MailService.mailbox
+    $scope.mailbox.get($scope.box_name).active = true
     
     $scope.$on "$destroy", ->
         MailService.stop()
@@ -39,20 +35,19 @@ app.controller "ShowMailController", (
     $stateParams, $scope, $modalInstance
 ) ->
     id = $stateParams.id
-    $scope.email = MailService.inbox_ids[id]
-         
+    folder = MailService.mailbox.get($stateParams.box)
+    $scope.email = folder.mail_idx[id]
+    console.log folder, id,$scope.email
     $scope.close = ->
         $modalInstance.dismiss "cancel"
     
 app.controller "ComposeMailController", (
-    ComposeMailState, AccountObserver, MailAPI
+    ComposeMailState, AccountObserver, MailService, MailAPI
     $scope, $modalInstance
 ) ->
     $scope.email = email = ComposeMailState.email
     $scope.my_accounts = AccountObserver.my_accounts
-    console.log 'email.sender',email.sender
     AccountObserver.best_account().then (account) ->
-        console.log 'email.sender',email.sender
         email.sender = account.name
     
     $scope.ok = ->
@@ -69,6 +64,7 @@ app.controller "ComposeMailController", (
             (error) ->
                 console.log 'mail_send error',error
         )
+        MailService.notify_send()
     
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"

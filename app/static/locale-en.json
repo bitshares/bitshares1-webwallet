@@ -435,8 +435,13 @@
         "email": "Email",
         "close": "Close",
         "inbox": "Inbox",
+        "sent": "Sent",
         "archive": "Archive",
-        "processing": "Processing"
+        "processing": "Processing",
+        "failed": "Failed",
+        "Timed out while transmitting message.": "Timed out while transmitting message.",
+        "unspecified": "Unspecified",
+        "fail": "Fail"
     },
     "help": {
         "title": "Help",

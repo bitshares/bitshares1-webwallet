@@ -1,54 +1,50 @@
 <div class="mail">
 
-<div class="header">
 <div class="col-sm-12">
-<div class="row">
-    <div class="col-xs-11"><h3 class="header-title" translate>index.mail</h3></div>
+<div class="header">
+    <div class="col-xs-3"><h3 class="header-title" translate>index.mail</h3></div>
     <div class="col-xs-1 pull-right"><h2><i class="edit fa fa-plus" ng-click="go('mail.compose')"></i></h2></div>
-</div>
-</div>
+</div><!--col-->
 </div><!--header-->
 
-<div class="header">
 <div class="col-xs-12">
-<div class="main-content">
-<div class="container">
+<div class="header">
 
-<div class="row">
-<div class="col-sm-12">
 <tabset>
-    <tab ng-repeat="tab in ['inbox','processing']" heading="{{'mail.'+tab | translate}} {{box[tab].length > 0 ? '('+box[tab].length+')' : ''}}" ng-click="go('mail', {'box':tab})" active="box_name != null && tab === box_name">
-    </tab>
-</tabset>
-</div>
-</div><!--row-->
-
-
-<div ng-repeat="item in current_box | filter: {type: 'email'}">
-<div class="row hover" ng-click="go('mail.show', {'id': item.id})">
+<tab ng-repeat="folder in mailbox.folder" ng-click="go('mail', {'box':folder.name})" active="folder.active">
+<tab-heading>
+    {{ 'mail.'+folder.name | translate }}
+    {{folder.mail.length > 0 ? ' ('+folder.mail.length+')' : ''}}
+</tab-heading>
+<div class="row">
+<div 
+    ng-repeat="mail in folder.mail | filter: {type: 'email'}"
+    ng-click="go('mail.show', {'id': mail.id})"
+>
+<div class="col-xs-12 hover">
+    
     <div class="col-xs-8">
-        <div class="sender">{{item.sender}}&nbsp;
-        <i class="fa {{item.type}} message_icon"></i>
+        <div class="sender">{{mail.sender}}&nbsp;
+        <i class="fa {{mail.type}} message_icon"></i>
     </div>
     </div>
     <div class="col-xs-4">
-        <div class="pull-right">{{item.time}}</div>
+        <div class="pull-right">{{mail.time}}</div>
     </div>
-    <div class="col-xs-11">{{item.subject}}</div>
-    <div class="col-xs-1">
-        <!--div class="pull-right">
-            <i class="fa fa-delete"></i>&nbsp;
-            <a class="fa fa-file-o" ng-href="#/mail/show/{{item.id}}"></a>
-        </div-->
-    </div>
-    <div class="col-xs-12"><small>{{item.body}}</small></div>
-</div>
+    <div class="col-xs-11">{{mail.subject}}</div>
+    <!--div class="col-xs-1">
+        <div class="pull-right"><i class="fa fa-trash-o"></i></div>
+    </div-->
+    <div class="col-xs-12"><small>{{mail.body}}</small></div>
+    <div class="col-xs-12 alert alert-danger" ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}</div>
+    <div class="col-xs-12"><hr></hr></div>
+</div><!--col-->
+</div><!--repeat-->
+</div><!--row-->
+</tab>
+</tabset>
 
-<hr></hr>
-</div><!--inbox-->
 
-</div><!--container-->
-</div><!--main-content-->
 </div><!--col-->
 </div><!--header-->
 

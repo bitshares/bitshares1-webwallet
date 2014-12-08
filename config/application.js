@@ -36,7 +36,7 @@ module.exports = function(lineman) {
          prefix: '/rpc',
          enabled: true,
          host: 'localhost',
-         port: 44000
+         port: process.env.XTS_RPC_PORT
       }
     },
     livereload: true

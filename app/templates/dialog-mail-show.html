@@ -33,6 +33,9 @@
     </div>
 </div>
 </div><!--row-->
+
+<div class="row"><div class="col-xs-12 alert alert-danger" ng-show="email.failure_reason">{{'mail.' + email.failure_reason | translate}}</div></div>
+
 <b><div class="form-control" ng-bind="email.subject"></div></b>
 
 <textarea readonly class="form-control" rows="5" ng-model="email.body" placeholder="{{ 'mail.body' | translate }}"></textarea>
