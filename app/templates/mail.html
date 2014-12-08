@@ -16,29 +16,58 @@
     {{ 'mail.'+folder.name | translate }}
     {{folder.mail.length > 0 ? ' ('+folder.mail.length+')' : ''}}
 </tab-heading>
+
 <div class="row">
-<div 
-    ng-repeat="mail in folder.mail | filter: {type: 'email'}"
-    ng-click="go('mail.show', {'id': mail.id})"
->
-<div class="col-xs-12 hover">
-    
+<div ng-repeat="mail in folder.mail | filter: {type: 'email'}">
+<div ng-switch="mail_delete_queue[mail.id] == undefined"
+    class="animate-switch-container">
+
+<div ng-switch-when="true" class="animate-switch">
+<div class="col-xs-12 hover preview"  ng-click="go('mail.show', {'id': mail.id})">
     <div class="col-xs-8">
         <div class="sender">{{mail.sender}}&nbsp;
-        <i class="fa {{mail.type}} message_icon"></i>
-    </div>
+        <i class="fa {{mail.type}} message_icon"></i></div>
     </div>
     <div class="col-xs-4">
         <div class="pull-right">{{mail.time}}</div>
     </div>
-    <div class="col-xs-11">{{mail.subject}}</div>
-    <!--div class="col-xs-1">
-        <div class="pull-right"><i class="fa fa-trash-o"></i></div>
-    </div-->
-    <div class="col-xs-12"><small>{{mail.body}}</small></div>
-    <div class="col-xs-12 alert alert-danger" ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}</div>
-    <div class="col-xs-12"><hr></hr></div>
+    <div class="col-xs-11">
+        {{mail.subject}}
+    </div>
+    <div class="col-xs-1">
+        <div class="pull-right" ng-click="mail_delete_queue_add(mail.id)">
+            <i class="fa fa-trash-o"></i>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <small>{{mail.body}}</small>
+    </div>
+    <div class="col-xs-12 alert alert-danger" 
+        ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}
+    </div>
 </div><!--col-->
+</div><!--ng-switch true-->
+
+<div ng-switch-when="false" class="animate-switch">
+<div class="col-xs-12 preview deleted" id="delete_{{mail.id}}">
+<div ng-click="mail_delete_queue_undo(mail.id)">
+<div id="deleted_text">
+    <div class="col-xs-6" translate>mail.delete_pending</div>
+    <div class="col-xs-6">
+        <div class="pull-right" translate>mail.undo</div>
+    </div>
+    <div class="col-xs-12 alert" ng-show="mail_delete_error">
+        {{mail_delete_error}}
+    </div>
+</div><!--deleted_text-->
+</div><!--preview-->
+</div><!--col-->
+</div><!--ng-switch false-->
+
+</div><!--ng-switch-->
+
+<div class="col-xs-12"><hr></hr></div>
+
 </div><!--repeat-->
 </div><!--row-->
 </tab>

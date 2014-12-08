@@ -441,7 +441,8 @@
         "failed": "Failed",
         "Timed out while transmitting message.": "Timed out while transmitting message.",
         "unspecified": "Unspecified",
-        "fail": "Fail"
+        "delete_pending": "Delete Pending...",
+        "undo": "UNDO"
     },
     "help": {
         "title": "Help",

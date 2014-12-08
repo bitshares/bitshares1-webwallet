@@ -3,6 +3,10 @@ class Mailbox
     constructor: ->
         @folder = []
         @folder_idx = {}
+        
+        # sets the order
+        @get 'inbox'
+        @get 'sent'
     
     get: (name) ->
         throw 'Missing folder name' unless name
@@ -27,6 +31,21 @@ class Mailbox
         mail = { id: id, status: status }
         folder.new_mail.push mail
         folder.new_mail_idx[id] = mail
+        
+    ###* {return} true if id was found and removed ###
+    remove: (id) ->
+        # assumes message is in only one folder
+        for folder in @folder
+            if folder.mail_idx[id]
+                 delete folder.mail_idx[id]
+                 for i in [0...folder.mail.length] by 1
+                     if folder.mail[i].id is id
+                         folder.mail.splice i,1
+                         break
+                 throw 'missmatch' if folder.mail.length isnt Object.keys(folder.mail_idx).length
+                 return true
+        false
+                         
 
 ###* Keeps an observable/updated list mail messages ###
 class MailService
@@ -44,14 +63,64 @@ class MailService
                     deferred.resolve()
     
     start: ->
+        console.log 'register mail service'
         @Observer.registerObserver @observer_config
     
     stop: ->
+        console.log 'unregister mail service'
         @Observer.unregisterObserver @observer_config
         
     refresh: ->
-        @Observer.refresh(@observer_config.name)
-            
+        @Observer.refresh(@observer_config)
+        
+    retry_processing: (id) ->
+        # mail_retry_send 7df65e70b56460b206334e4f754f8e6b14b64ea8
+        deferred = @q.defer()
+        @MailAPI.retry_send(id).then (result) =>
+            deferred.resolve(result)
+        deferred.promise
+    
+    #delete_all: (ids) ->
+    #    @q.all(for id in ids
+    #        @remove_message id
+    #    )
+    
+    remove_message: (id) ->
+        deferred = @q.defer()
+        @MailAPI.remove_message(id).then (result) =>
+            console.log result
+            @mailbox.remove id
+            deferred.resolve(result)
+        deferred.promise
+    
+    ###
+    Resolve's as:
+    {
+      "header": {
+        "id": "7df65e70b56460b206334e4f754f8e6b14b64ea8",
+        "sender": "delegate0",
+        "recipient": "delegate1",
+        "subject": "0->1 subject",
+        "timestamp": "2014-12-04T15:04:21"
+      },
+      "content": {
+        "type": "email",
+        "recipient": "XTS2Kpf4whNd3TkSi6BZ6it4RXRuacUY1qsj",
+        "nonce": 31692078,
+        "timestamp": "2014-12-04T15:04:21",
+        "data": "0af0...."
+      },
+      "mail_servers": [],
+      "failure_reason": "Could not find mail servers for this recipient."
+    }
+    {string} id - two id types supported: initial ID hash 7df65e70b56460b206334e4f754f8e6b14b64ea8 or re-assigned proof-of-work id 00076bf1ddedaabd27a6eb472da6882959248c05.
+    ###
+    get_message: (id) ->
+        deferred = @q.defer()
+        @MailAPI.get_message(id).then (result) => # slow
+            deferred.resolve(result)
+        deferred.promise
+        
     observer_refresh: ->
         check_all = () =>
             add_by_status = (result) =>
@@ -126,7 +195,7 @@ class MailService
                 mail.splice i, 1
                 delete mail_idx[m.id]
         
-        for i in [new_mail.length - 1..0] by -1 
+        for i in [new_mail.length - 1..0] by -1
             m = new_mail[i]
             # messages already loaded
             if mail_idx[m.id]
@@ -200,39 +269,4 @@ class MailService
                 deferred.resolve()
         deferred.promise
     
-    retry_processing: (id) ->
-        # mail_retry_send 7df65e70b56460b206334e4f754f8e6b14b64ea8
-        deferred = @q.defer()
-        @MailAPI.retry_send(id).then (result) =>
-            deferred.resolve(result)
-        deferred.promise
-    
-    ###
-    Resolve's as:
-    {
-      "header": {
-        "id": "7df65e70b56460b206334e4f754f8e6b14b64ea8",
-        "sender": "delegate0",
-        "recipient": "delegate1",
-        "subject": "0->1 subject",
-        "timestamp": "2014-12-04T15:04:21"
-      },
-      "content": {
-        "type": "email",
-        "recipient": "XTS2Kpf4whNd3TkSi6BZ6it4RXRuacUY1qsj",
-        "nonce": 31692078,
-        "timestamp": "2014-12-04T15:04:21",
-        "data": "0af0...."
-      },
-      "mail_servers": [],
-      "failure_reason": "Could not find mail servers for this recipient."
-    }
-    {string} id - two id types supported: initial ID hash 7df65e70b56460b206334e4f754f8e6b14b64ea8 or re-assigned proof-of-work id 00076bf1ddedaabd27a6eb472da6882959248c05.
-    ###
-    get_message: (id) ->
-        deferred = @q.defer()
-        @MailAPI.get_message(id).then (result) => # slow
-            deferred.resolve(result)
-        deferred.promise
-
 angular.module("app").service "MailService", ["MailAPI", "Observer", "$q", "$timeout", MailService]
