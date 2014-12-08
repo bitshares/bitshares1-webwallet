@@ -30,7 +30,7 @@
             </div>
             <div ng-switch-default>
               <div class="pull-right">
-                <a style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
+                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
                     class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
               </div>
               <span class="account-name">{{account.name}}</span>
