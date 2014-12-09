@@ -3,6 +3,7 @@ class AccountObserver
     
     constructor: (@Wallet, @q, @Observer) ->
         @my_accounts = []
+        @my_mail_accounts = []
         @accounts = {}
         @observer_config =
             name: "AccountObserver"
@@ -33,8 +34,11 @@ class AccountObserver
         refresh_accounts_promise = @Wallet.refresh_accounts()
         refresh_accounts_promise.then =>
             @my_accounts.splice(0, @my_accounts.length)
+            @my_mail_accounts.splice(0, @my_mail_accounts.length)
             for k,a of @Wallet.accounts
-                @my_accounts.push a if a.is_my_account
+                continue unless a.is_my_account
+                @my_accounts.push a
+                @my_mail_accounts.push a if a.public_data?.mail_servers
     
             angular.forEach @Wallet.accounts, (acct, name) =>
                 if acct.is_my_account

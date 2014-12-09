@@ -63,11 +63,11 @@ class MailService
                     deferred.resolve()
     
     start: ->
-        console.log 'register mail service'
+        #console.log 'register mail service'
         @Observer.registerObserver @observer_config
     
     stop: ->
-        console.log 'unregister mail service'
+        #console.log 'unregister mail service'
         @Observer.unregisterObserver @observer_config
         
     refresh: ->
@@ -88,7 +88,6 @@ class MailService
     remove_message: (id) ->
         deferred = @q.defer()
         @MailAPI.remove_message(id).then (result) =>
-            console.log result
             @mailbox.remove id
             deferred.resolve(result)
         deferred.promise

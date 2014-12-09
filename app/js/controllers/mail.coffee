@@ -87,7 +87,7 @@ app.controller "ComposeMailController", (
     $scope, $modalInstance
 ) ->
     $scope.email = email = ComposeMailState.email
-    $scope.my_accounts = AccountObserver.my_accounts
+    $scope.my_mail_accounts = AccountObserver.my_mail_accounts
     AccountObserver.best_account().then (account) ->
         email.sender = account.name
     
