@@ -46,8 +46,8 @@ app.controller "MailController", (
         )
         # give the user time to see the refresh
         $timeout ()->
-            MailService.refresh().then ->
-                delete $scope.resend_in_progress[mail.id]
+            MailService.refresh()
+            delete $scope.resend_in_progress[mail.id]
         , 1000
         
     $scope.mail_delete_queue = {}

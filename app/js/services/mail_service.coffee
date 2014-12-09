@@ -59,12 +59,8 @@ class MailService
             name: "MailService"
             frequency: 10 * 1000
             update: (data, deferred) =>
-                d = @q.defer()
                 @observer_refresh().then ->
                     deferred.resolve()
-                    d.resolve()
-                # necessary?
-                d.promise
     
     start: ->
         console.log 'register mail service'
