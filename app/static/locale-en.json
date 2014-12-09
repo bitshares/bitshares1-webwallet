@@ -440,10 +440,11 @@
         "processing": "Processing..",
         "failed": "Failed",
         "proof_of_work": "Proof of Work",
-        "Timed out while transmitting message.": "Timed out while transmitting message.",
         "unspecified": "Unspecified",
         "delete_pending": "Delete Pending..",
-        "undo": "UNDO"
+        "undo": "UNDO",
+        "Timed out while transmitting message.": "Timed out while transmitting message.",
+        "Could not find mail servers for this recipient.": "Could not find mail servers for this recipient."
     },
     "help": {
         "title": "Help",

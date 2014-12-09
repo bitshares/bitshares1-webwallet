@@ -32,7 +32,6 @@ app.controller "MailController", (
         
     $scope.resend_in_progress = {}
     $scope.resend = (mail)->
-        console.log mail.id
         mail.error = ""
         $scope.resend_in_progress[mail.id] = on
         MailAPI.retry_send(mail.id).then(
@@ -96,7 +95,10 @@ app.controller "ComposeMailController", (
                 $modalInstance.close()
                 ComposeMailState.clear()
             (error) ->
-                console.log 'mail_send error',error
+                text = error.data.error.message
+                msg = text.split('\n')
+                text = msg[1] if msg.length > 1
+                email.error = text
         )
         MailService.refresh()
     
