@@ -49,6 +49,14 @@ app.controller "MailController", (
             delete $scope.resend_in_progress[mail.id]
         , 1000
         
+    $scope.mail_cancel = (mail) ->
+        MailAPI.cancel_message(mail.id).then(
+            (result) ->
+                MailService.refresh()
+            (error) ->
+                mail.error = error.data.error.message
+        )
+    
     $scope.mail_delete_queue = {}
     $scope.mail_delete_queue_add = (id) ->
         $scope.mail_delete_queue[id] = on

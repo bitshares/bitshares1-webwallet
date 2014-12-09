@@ -39,12 +39,18 @@
         {{mail.subject}}
     </div>
     <div class="col-xs-2">
-        <span ng-show="folder.name == 'failed'">
+        <!-- resend -->
+        <span ng-show="folder.name == 'failed' || folder.name == 'canceled'">
             <i ng-click="resend(mail)" class="fa fa-refresh {{
                 resend_in_progress[mail.id] ? 'fa-spin':''
             }}"></i>
         </span>
-        <span class="pull-right">
+        <!-- pause / cancel -->
+        <span ng-show="folder.name == 'proof_of_work'">
+            &nbsp;<i ng-click="mail_cancel(mail)" class="fa fa-pause"></i>
+        </span>
+        <!-- delete -->
+        <span class="pull-right" unless="folder.name == 'proof_of_work'">
             &nbsp;<i ng-click="mail_delete_queue_add(mail.id)" class="fa fa-trash-o"></i>
         </span>
     </div>

@@ -440,6 +440,7 @@
         "processing": "Processing..",
         "failed": "Failed",
         "proof_of_work": "Proof of Work",
+        "canceled": "Canceled",
         "unspecified": "Unspecified",
         "delete_pending": "Delete Pending..",
         "undo": "UNDO",
