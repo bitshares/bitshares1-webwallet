@@ -40,7 +40,7 @@
     </div>
     <div class="col-xs-2">
         <!-- resend -->
-        <span ng-show="folder.name == 'failed' || folder.name == 'canceled'">
+        <span ng-show="folder.name == 'failed'">
             <i ng-click="resend(mail)" class="fa fa-refresh {{
                 resend_in_progress[mail.id] ? 'fa-spin':''
             }}"></i>
