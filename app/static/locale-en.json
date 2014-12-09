@@ -444,6 +444,7 @@
         "unspecified": "Unspecified",
         "delete_pending": "Delete Pending..",
         "undo": "UNDO",
+        "no_recipient_mail_servers": "Recipient is not checking mail.",
         "Timed out while transmitting message.": "Timed out while transmitting message.",
         "Could not find mail servers for this recipient.": "Could not find mail servers for this recipient."
     },

@@ -83,7 +83,7 @@ app.controller "ShowMailController", (
         $modalInstance.dismiss "cancel"
     
 app.controller "ComposeMailController", (
-    ComposeMailState, AccountObserver, MailService, MailAPI
+    ComposeMailState, AccountObserver, MailService, MailAPI, BlockchainAPI
     $scope, $modalInstance
 ) ->
     $scope.email = email = ComposeMailState.email
@@ -91,6 +91,13 @@ app.controller "ComposeMailController", (
     AccountObserver.best_account().then (account) ->
         email.sender = account.name
     
+    $scope.$watch ->
+        $scope.email.recipient
+    , ()->
+        BlockchainAPI.get_account($scope.email.recipient).then (result) ->
+            $scope.found = if result then on else off
+            $scope.receives_mail = if result?.public_data?.mail_servers then on else off
+            
     $scope.ok = ->
         send = MailAPI.send(
             email.sender

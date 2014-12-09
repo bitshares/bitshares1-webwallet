@@ -11,6 +11,12 @@
 .mail .message_icon {
     color: darkcyan;
 }
+.valid {
+    color: green;
+}
+.invalid {
+    color: red;
+}
 .fa {
     font-size: 20pt;   
 }

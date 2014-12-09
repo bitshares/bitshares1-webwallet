@@ -29,7 +29,10 @@
         </div>
         <!--arrow-->
         <div class="col-sm-1">
-            <i class="fa fa-arrow-right"></i>
+            <i class="fa {{
+                receives_mail ? 'fa-check valid' : 
+                    (found ? 'fa-times invalid' : 'fa-arrow-right')
+            }}"></i>
         </div>
     </div>
 </div>
@@ -45,8 +48,10 @@
 
 <span class="alert alert-danger" 
     ng-show="email.error">{{email.error}}</span>
-
+<span class="alert alert-danger" 
+    ng-show="found && !receives_mail" translate>mail.no_recipient_mail_servers</span>
+  
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="!found || !receives_mail">OK</button>
     <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
 </div>
