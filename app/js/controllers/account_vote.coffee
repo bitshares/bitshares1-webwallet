@@ -52,6 +52,6 @@ angular.module("app").controller "AccountVoteController", ($scope, Wallet, Walle
             templateUrl: "dialog-confirmation.html"
             controller: "DialogConfirmationController"
             resolve:
-                title: -> "Are you sure?"
-                message: -> "This will send " + Utils.formatDecimal(balMinusFee,myBal.precision,true) + " " + Info.symbol + " to " + $scope.account_name + ". It will charge a fee of " + Wallet.info.transaction_fee.amount / myBal.precision + " " + Info.symbol + "."
+                title: -> "Vote Confirmation"
+                message: -> "Vote with your #{Utils.formatDecimal(balMinusFee,myBal.precision,true)} #{Info.symbol} balance. It will charge a fee of #{Wallet.info.transaction_fee.amount / myBal.precision} #{Info.symbol}."
                 action: -> yesSend
