@@ -59,8 +59,12 @@ class MailService
             name: "MailService"
             frequency: 10 * 1000
             update: (data, deferred) =>
+                d = @q.defer()
                 @observer_refresh().then ->
                     deferred.resolve()
+                    d.resolve()
+                # necessary?
+                d.promise
     
     start: ->
         console.log 'register mail service'
@@ -237,23 +241,28 @@ class MailService
                 
                 deferred.resolve()
                 
-        # re-check old failed messages
-        for m in mail
-            continue if new_mail[m.id] or not mail.failure_reason
-            promise = @MailAPI.get_message(m.id)
-            deferred_get_message.push promise
-            promise.then (result) =>
-                deferred = @q.defer()
-                deferred_process_message.push deferred
-                console.log 'mail_service updating failure reason',m.failure_reason,result.failure_reason
-                m.failure_reason = result.failure_reason
+        # re-check failed messages where the 
+        # failure reason has been cleared
+        if folder.name is 'failed'
+            for m in mail
+                continue if new_mail[m.id]
+                if not m.failure_reason or m.failure_reason is 'unspecified'
+                    promise = @MailAPI.get_message(m.id)
+                    deferred_get_message.push promise
+                    my_mail = m # save reference
+                    promise.then (result) =>
+                        deferred = @q.defer()
+                        deferred_process_message.push deferred
+                        #console.log 'mail_service updating failure reason',m.failure_reason,result.failure_reason
+                        my_mail.failure_reason = result.failure_reason
+                    
         
         deferred = @q.defer()
         @q.all(deferred_get_message).then =>
             @q.all(deferred_process_message).then ->
                 # sort before they are published and viewed on the GUI
                 new_mail.sort (a, b) ->
-                    a.timestamp > b.timestamp
+                    a.timestamp < b.timestamp
                 
                 # Update the GUI display with minimal re-work:
                 # Adding new_mail to the top is typically already in
@@ -265,7 +274,7 @@ class MailService
                 delete new_mail_idx[el] for el of new_mail_idx
                 # re-sort incase older messages poped in
                 mail.sort (a, b) ->
-                    a.timestamp > b.timestamp
+                    a.timestamp < b.timestamp
                 deferred.resolve()
         deferred.promise
     

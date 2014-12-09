@@ -14,7 +14,7 @@
 .fa {
     font-size: 20pt;   
 }
-.mail .sender {
+.lg-font {
     font-size: 22px;
 }
 .mail a:hover{
@@ -24,7 +24,7 @@
     background-color: #f5f5f5;
 }
 .mail .preview {
-    height: 80px;
+    height: 100px;
 }
 .mail .deleted {
     background-color: darkgrey;

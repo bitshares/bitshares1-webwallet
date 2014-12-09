@@ -50,11 +50,11 @@ class Observer
         for index, observer of @private.each_block_observers
             @private.update(observer, @q)
 
-    refresh: (observer) ->
+    refresh: (observer, timeout_mills = 10 * 1000) ->
         if observer.busy
             @timeout ()=>
                 console.log 'debug: observer manual refresh'
-                @refresh observer
+                @refresh observer, timeout_mills -= 250 if timeout_mills > 0
             , 250
             return
         @private.update(observer, @q)

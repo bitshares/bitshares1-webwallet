@@ -23,34 +23,49 @@
     class="animate-switch-container">
 
 <div ng-switch-when="true" class="animate-switch">
-<div class="col-xs-12 hover preview"  ng-click="go('mail.show', {'id': mail.id})">
-    <div class="col-xs-8">
-        <div class="sender">{{mail.sender}}&nbsp;
-        <i class="fa {{mail.type}} message_icon"></i></div>
+<div class="col-xs-12 hover preview">
+    <div class="col-xs-8" ng-click="go('mail.show', {'id': mail.id})">
+        <span class="lg-font">
+            <i class="fa {{mail.type}} message_icon"></i>
+            {{ mail.sender }} 
+            <i class='fa fa-long-arrow-right fa-lg'></i> 
+            {{ mail.recipient }}
+        </span>
     </div>
-    <div class="col-xs-4">
+    <div class="col-xs-4" ng-click="go('mail.show', {'id': mail.id})">
         <div class="pull-right">{{mail.time}}</div>
     </div>
-    <div class="col-xs-11">
+    <div class="col-xs-10" ng-click="go('mail.show', {'id': mail.id})">
         {{mail.subject}}
     </div>
-    <div class="col-xs-1">
-        <div class="pull-right" ng-click="mail_delete_queue_add(mail.id)">
-            <i class="fa fa-trash-o"></i>
-        </div>
+    <div class="col-xs-2">
+        <span ng-show="folder.name == 'failed'">
+            <i ng-click="resend(mail)" class="fa fa-refresh {{
+                resend_in_progress[mail.id] ? 'fa-spin':''
+            }}"></i>
+        </span>
+        <span class="pull-right">
+            &nbsp;<i ng-click="mail_delete_queue_add(mail.id)" class="fa fa-trash-o"></i>
+        </span>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-12" ng-click="go('mail.show', {'id': mail.id})">
         <small>{{mail.body}}</small>
     </div>
-    <div class="col-xs-12 alert alert-danger" 
-        ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}
+    <div class="col-xs-12" ng-click="go('mail.show', {'id': mail.id})">
+        <span class="alert alert-danger" 
+            ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}</span>
     </div>
-</div><!--col-->
+    <div class="col-xs-12" ng-show="mail.error">
+        <span class="alert">{{mail.error}}</span>
+    </div>
+    
+</div><!--col preview-->
 </div><!--ng-switch true-->
 
 <div ng-switch-when="false" class="animate-switch">
-<div class="col-xs-12 preview deleted" id="delete_{{mail.id}}">
-<div ng-click="mail_delete_queue_undo(mail.id)">
+<div class="col-xs-12 preview deleted" id="delete_{{mail.id}}"
+    ng-click="mail_delete_queue_undo(mail.id)">
+<div>
 <div id="deleted_text">
     <div class="col-xs-6" translate>mail.delete_pending</div>
     <div class="col-xs-6">

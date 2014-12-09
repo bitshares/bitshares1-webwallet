@@ -9,8 +9,7 @@ class ComposeMailState
 app.service "ComposeMailState",[ComposeMailState]
 
 app.controller "MailController", (
-    MailAPI
-    AccountObserver, MailService
+    MailAPI, AccountObserver, MailService
     $stateParams, $scope, $state, $timeout
 ) ->
     $scope.box_name = $stateParams.box
@@ -31,14 +30,32 @@ app.controller "MailController", (
     $scope.go = (ref, params) ->
         $state.go ref, params
         
+    $scope.resend_in_progress = {}
+    $scope.resend = (mail)->
+        console.log mail.id
+        mail.error = ""
+        $scope.resend_in_progress[mail.id] = on
+        MailAPI.retry_send(mail.id).then(
+            (result) ->
+                # mail service will re-try
+                mail.failure_reason = undefined
+                
+            (error) ->
+                delete $scope.resend_in_progress[mail.id]
+                mail.error = error.data.error.message
+        )
+        # give the user time to see the refresh
+        $timeout ()->
+            MailService.refresh().then ->
+                delete $scope.resend_in_progress[mail.id]
+        , 1000
+        
     $scope.mail_delete_queue = {}
     $scope.mail_delete_queue_add = (id) ->
-        process_delete()
-        $scope.mail_delete_queue[id] = true
-    
+        $scope.mail_delete_queue[id] = on
     $scope.mail_delete_queue_undo = (id) ->
         delete $scope.mail_delete_queue[id]
-        
+    
     process_delete = ->
         for id in Object.keys $scope.mail_delete_queue
             MailService.remove_message(id).then(
@@ -54,7 +71,7 @@ app.controller "ShowMailController", (
 ) ->
     id = $stateParams.id
     folder = MailService.mailbox.get($stateParams.box)
-    $scope.email = folder.mail_idx[id]
+    $scope.mail = folder.mail_idx[id]
     $scope.close = ->
         $modalInstance.dismiss "cancel"
     
