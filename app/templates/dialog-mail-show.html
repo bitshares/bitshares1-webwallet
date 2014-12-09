@@ -1,0 +1,48 @@
+
+<div class="modal-header bg-danger">
+  <h3 class="modal-title" translate>mail.email</h3>
+</div>
+
+<div class="modal-body">
+<div class="row">
+<div class="col-xs-9">
+    <!--from-->
+    <div class="form-group">
+        <label for="from" class="col-xs-2 control-label" translate>mail.sender</label>
+        <div class="col-sm-10">
+            <div class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" id="from" class="form-control btn btn-primary dropdown-toggle">{{mail.sender}} <span class="caret"></span></button>
+            </div>
+        </div>
+    </div>
+    <!--to-->
+    <div class="form-group">
+        <label for="recipient" class="col-xs-2 control-label" translate>mail.recipient</label>
+        <div class="col-sm-9">
+            <div id="recipient" ng-bind="mail.recipient" class="form-control"></div>
+        </div>
+        <!--arrow-->
+        <div class="col-sm-1">
+            <i class="fa fa-arrow-right"></i>
+        </div>
+    </div>
+</div>
+<div class="col-xs-3">
+    <div class="pull-right">
+        <img ng-src="http://robohash.org/set_1/{{mail.recipient}}?size=100x100" height="100" width="100"/>
+    </div>
+</div>
+</div><!--row-->
+
+<b><div class="form-control" ng-bind="mail.subject"></div></b>
+
+<textarea readonly class="form-control" rows="5" ng-model="mail.body" placeholder="{{ 'mail.body' | translate }}"></textarea>
+
+<div class="col-xs-12">
+    <span class="alert alert-danger" 
+        ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}</span>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-warning" ng-click="close()" translate>mail.close</button>
+</div>

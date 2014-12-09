@@ -39,7 +39,7 @@ class Observer
         last_new_block_update_time: 0
 
 
-    constructor: (@q, @log, @interval, @info, @root_scope) ->
+    constructor: (@q, @log, @interval, @info, @root_scope, @timeout) ->
         info = @info
         @root_scope.$watch (-> info.info.last_block_time), @on_new_block, true
 
@@ -50,6 +50,15 @@ class Observer
         for index, observer of @private.each_block_observers
             @private.update(observer, @q)
 
+    refresh: (observer, timeout_mills = 10 * 1000) ->
+        if observer.busy
+            @timeout ()=>
+                console.log 'debug: observer manual refresh'
+                @refresh observer, timeout_mills -= 250 if timeout_mills > 0
+            , 250
+            return
+        @private.update(observer, @q)
+        
     registerObserver: (observer) ->
         if @private.observers[observer.name]
             @log.warn("Observer.registerObserver: observer '#{observer.name}' is already registered")
@@ -72,4 +81,4 @@ class Observer
         delete @private.observers[observer.name]
         delete @private.each_block_observers[observer.name]
 
-angular.module("app").service("Observer", ["$q", "$log", "$interval", "Info", "$rootScope", Observer])
+angular.module("app").service("Observer", ["$q", "$log", "$interval", "Info", "$rootScope", "$timeout", Observer])

@@ -17,10 +17,10 @@ module.exports = {
 
   drawRoutes: function(app) {
 
-    app.post('/rpc', function (req, res) {
-      console.log('--- rpc post --- ', req.originalUrl, prefixMatchingApiProxy);
+//    app.post('/rpc', function (req, res) {
+//      console.log('--- rpc post --- ', req.originalUrl, prefixMatchingApiProxy);
       //req.pipe(request.post("http://localhost:9989/rpc", {form: req.body})).pipe(res);
-    });
+//    });
 
 //    app.use(function (req, res, next) {
 //      console.log('--- not found --- ', req.originalUrl);
