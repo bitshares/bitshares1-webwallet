@@ -455,6 +455,7 @@
         "close": "Close",
         "inbox": "Inbox",
         "sent": "Sent",
+        "transmitting": "Transmitting",
         "archive": "Archive",
         "processing": "Processing..",
         "failed": "Failed",

@@ -26,7 +26,10 @@ class Observer
         observers: {}
         each_block_observers: {}
         update: (observer, q) ->
-            return if observer.busy
+            deferred_returned = q.defer()
+            if observer.busy
+                deferred_returned.resolve()
+                return
             observer.busy = true
             deferred = q.defer()
             observer.update(observer.data, deferred)
@@ -36,6 +39,9 @@ class Observer
             deferred.promise.finally ->
                 observer.counter += 1
                 observer.busy = false
+                deferred_returned.resolve()
+            deferred_returned.promise
+                
         last_new_block_update_time: 0
 
 

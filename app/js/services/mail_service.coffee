@@ -55,6 +55,7 @@ class MailService
     constructor: (@MailAPI, @Observer, @q, @timeout) ->
         @mailbox = new Mailbox()
         @first_run = on # start by loading all mail messages
+        @refreshing = off
         @observer_config =
             name: "MailService"
             frequency: 10 * 1000
@@ -137,46 +138,42 @@ class MailService
                             status
                             
                     @mailbox.update(folder_name, id, status)
-                @sync_mailbox()
             
             p1 = @q.defer()
-            @MailAPI.get_archive_messages().then (result) =>
-                add_by_status(result).then =>
-                    @MailAPI.get_processing_messages().then (result) ->
-                        add_by_status(result).then ->
-                            p1.resolve()
+            archive = @MailAPI.get_archive_messages()
+            processing = @MailAPI.get_processing_messages()
+            @q.all(
+                archive:archive
+                processing:processing 
+            ).then (result) =>
+                add_by_status(result.archive)
+                add_by_status(result.processing)
+                @sync_mailbox()
+                p1.resolve()
             p1.promise
         
         deferred = @q.defer()
+        @refreshing = on
         if @first_run
             @first_run = off
             # show inbox while running the slower normal remote check
             check_all().then =>
-                @MailAPI.check_new_messages(fetch_old = true).then ->
-                    check_all().then ->
-                       deferred.resolve() 
+                @MailAPI.check_new_messages(fetch_old = true).then =>
+                    check_all().then =>
+                       deferred.resolve()
+                       @refreshing = off
         else
-            @MailAPI.check_new_messages(fetch_old = false).then ->
-                check_all().then ->
+            @MailAPI.check_new_messages(fetch_old = false).then =>
+                check_all().then =>
                     deferred.resolve() 
+                    @refreshing = off
         deferred.promise
         
     sync_mailbox: ->
-        folders = []
-        for folder in @mailbox.folder
-            if folder.new_mail.length > 0
-                folders.push folder
-        
-        deferred = @q.defer()
-        serial_sync = =>
-            folder = folders.pop()
-            unless folder
-                deferred.resolve()
-                return
-            @sync_folder(folder).then =>
-                serial_sync()
-        serial_sync()
-        deferred.promise
+        @q.all(
+            for folder in @mailbox.folder
+                @sync_folder folder
+        )
         
     ###* 
         Delete missing or removed messages, then do a full API lookup on new messages
@@ -187,7 +184,7 @@ class MailService
         new_mail = folder.new_mail
         new_mail_idx = folder.new_mail_idx
         
-        for i in [mail.length - 1..0] by -1 
+        for i in [mail.length - 1..0] by -1
             m = mail[i]
             # messages were removed
             unless new_mail_idx[m.id]
