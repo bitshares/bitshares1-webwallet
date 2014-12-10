@@ -10,7 +10,7 @@ app.service "ComposeMailState",[ComposeMailState]
 
 app.controller "MailController", (
     MailAPI, AccountObserver, MailService
-    $stateParams, $scope, $state, $timeout
+    $stateParams, $scope, $state, $timeout, $location
 ) ->
     $scope.box_name = $stateParams.box
     unless $scope.box_name
@@ -30,16 +30,14 @@ app.controller "MailController", (
     $scope.go = (ref, params) ->
         $state.go ref, params
         
-    $scope.refresh_in_progress = off
     $scope.refresh = ->
-        $scope.refresh_in_progress = on
-        MailService.refresh().then(
-            () ->
-                $scope.refresh_in_progress = off
-            () ->
-                $scope.refresh_in_progress = off
-        )
-            
+        MailService.refresh()
+        
+    $scope.$watch ->
+        MailService.refreshing
+    , (unlocked)->
+        $scope.refresh_in_progress = MailService.refreshing
+    
     $scope.resend_in_progress = {}
     $scope.resend = (mail)->
         mail.error = ""
