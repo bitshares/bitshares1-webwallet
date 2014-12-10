@@ -30,6 +30,16 @@ app.controller "MailController", (
     $scope.go = (ref, params) ->
         $state.go ref, params
         
+    $scope.refresh_in_progress = off
+    $scope.refresh = ->
+        $scope.refresh_in_progress = on
+        MailService.refresh().then(
+            () ->
+                $scope.refresh_in_progress = off
+            () ->
+                $scope.refresh_in_progress = off
+        )
+            
     $scope.resend_in_progress = {}
     $scope.resend = (mail)->
         mail.error = ""
@@ -109,13 +119,14 @@ app.controller "ComposeMailController", (
             (result) ->
                 $modalInstance.close()
                 ComposeMailState.clear()
+                MailService.refresh()
             (error) ->
                 text = error.data.error.message
                 msg = text.split('\n')
                 text = msg[1] if msg.length > 1
                 email.error = text
         )
-        MailService.refresh()
+        
     
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"

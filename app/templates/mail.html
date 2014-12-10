@@ -2,8 +2,18 @@
 
 <div class="col-sm-12">
 <div class="header">
-    <div class="col-xs-3"><h3 class="header-title" translate>index.mail</h3></div>
-    <div class="col-xs-1 pull-right"><h2><i class="edit fa fa-plus" ng-click="go('mail.compose')"></i></h2></div>
+    <span class="col-xs-3">
+        <h3 ng-click="refresh()" class="header-title link" translate>index.mail</h3>
+    </span>
+    <span class="col-xs-1 pull-right align-right">
+        <h3>
+        <i class="{{ 
+            refresh_in_progress ? 
+                'fa fa-refresh fa-spin':
+                'edit fa fa-plus'
+        }}" ng-click="go('mail.compose')"></i>
+        </h3>
+    </span>
 </div><!--col-->
 </div><!--header-->
 
@@ -40,7 +50,7 @@
     </div>
     <div class="col-xs-2">
         <!-- resend -->
-        <span ng-show="folder.name == 'failed'">
+        <span ng-show="folder.name == 'failed' || folder.name == 'canceled'">
             <i ng-click="resend(mail)" class="fa fa-refresh {{
                 resend_in_progress[mail.id] ? 'fa-spin':''
             }}"></i>
