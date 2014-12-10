@@ -8,7 +8,7 @@ window.getStackTrace = ->
 
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
-     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid"])
+     "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, $translate, editableOptions, editableThemes) ->
     $templateCache.put 'ui-grid/uiGridViewport',
@@ -73,7 +73,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
-
+            
     $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
@@ -241,3 +241,37 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/newcontact?name&key"
         templateUrl: "newcontact.html"
         controller: "NewContactController"
+
+    sp.state "mail",
+        url: "/mail/:box"
+        templateUrl: "mail.html"
+        controller: "MailController"
+    
+    sp.state "mail.compose",
+        url: "/compose"
+        onEnter: ($modal, $state) ->
+            modal = $modal.open
+                templateUrl: "dialog-mail-compose.html"
+                controller: "ComposeMailController"
+                
+            modal.result.then(
+                (result) ->
+                    $state.go 'mail'
+                () ->
+                    $state.go 'mail'
+            )
+    
+    sp.state "mail.show",
+        url: "/show/:id"
+        onEnter: ($modal, $state) ->
+            modal = $modal.open
+                templateUrl: "dialog-mail-show.html"
+                controller: "ShowMailController"
+                
+            modal.result.then(
+                (result) ->
+                    $state.go 'mail'
+                () ->
+                    $state.go 'mail'
+            )
+                

@@ -1,4 +1,4 @@
-angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, $state, $stateParams, Wallet, Client, $idle, Shared, Info) ->
+angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, $state, $stateParams, Wallet, Client, $idle, Shared, Info, WalletAPI) ->
     $scope.unlockwallet = false
     $scope.bodyclass = "cover"
     $scope.currentPath = $location.path()
@@ -82,6 +82,15 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         Info.info.wallet_unlocked
     , (unlocked)->
         navigate_to('unlockwallet') if Info.info.wallet_open and !unlocked
+        if unlocked
+            #console.log 'unlocked, scan for mail accounts..'
+            WalletAPI.list_accounts().then (result) ->
+                for account in result
+                    continue unless account.is_my_account
+                    if account.public_data?.mail_servers
+                        #console.log 'unlocked, mail account found..'
+                        $scope.mail_enabled = on
+                        break
     , true
 
     $scope.clear_form_errors = (form) ->

@@ -1,0 +1,111 @@
+<div class="mail">
+
+<div class="col-sm-12">
+<div class="header">
+    <span class="col-xs-3">
+        <h3 ng-click="refresh()" class="header-title link" translate>index.mail</h3>
+    </span>
+    <span class="col-xs-1 pull-right align-right">
+        <h3>
+        <i class="{{ 
+            refresh_in_progress ? 
+                'fa fa-refresh fa-spin':
+                'edit fa fa-plus'
+        }}" ng-click="go('mail.compose')"></i>
+        </h3>
+    </span>
+</div><!--col-->
+</div><!--header-->
+
+<div class="col-xs-12">
+<div class="header">
+
+<tabset>
+<tab ng-repeat="folder in mailbox.folder" ng-click="go('mail', {'box':folder.name})" active="folder.active">
+<tab-heading>
+    {{ 'mail.'+folder.name | translate }}
+    {{folder.mail.length > 0 ? ' ('+folder.mail.length+')' : ''}}
+</tab-heading>
+
+<div class="row">
+<div ng-repeat="mail in folder.mail | filter: {type: 'email'}">
+<div ng-switch="mail_delete_queue[mail.id] == undefined"
+    class="animate-switch-container">
+
+<div ng-switch-when="true" class="animate-switch">
+<div class="col-xs-12 hover preview">
+    <div class="col-xs-8" ng-click="go('mail.show', {'id': mail.id})">
+        <span class="lg-font">
+            <i class="fa {{mail.type}} message_icon"></i>
+            {{ mail.sender }} 
+            <i class='fa fa-long-arrow-right fa-lg'></i> 
+            {{ mail.recipient }}
+        </span>
+    </div>
+    <div class="col-xs-4" ng-click="go('mail.show', {'id': mail.id})">
+        <div class="pull-right">{{mail.time}}</div>
+    </div>
+    <div class="col-xs-10" ng-click="go('mail.show', {'id': mail.id})">
+        {{mail.subject}}
+    </div>
+    <div class="col-xs-2">
+        <!-- resend -->
+        <span ng-show="folder.name == 'failed' || folder.name == 'canceled'">
+            <i ng-click="resend(mail)" class="fa fa-refresh {{
+                resend_in_progress[mail.id] ? 'fa-spin':''
+            }}"></i>
+        </span>
+        <!-- pause / cancel -->
+        <span ng-show="folder.name == 'proof_of_work'">
+            &nbsp;<i ng-click="mail_cancel(mail)" class="fa fa-pause"></i>
+        </span>
+        <!-- delete -->
+        <span class="pull-right" unless="folder.name == 'proof_of_work'">
+            &nbsp;<i ng-click="mail_delete_queue_add(mail.id)" class="fa fa-trash-o"></i>
+        </span>
+    </div>
+    <div class="col-xs-12" ng-click="go('mail.show', {'id': mail.id})">
+        <small>{{mail.body}}</small>
+    </div>
+    <div class="col-xs-12" ng-click="go('mail.show', {'id': mail.id})">
+        <span class="alert alert-danger" 
+            ng-show="mail.failure_reason">{{'mail.' + mail.failure_reason | translate}}</span>
+    </div>
+    <div class="col-xs-12" ng-show="mail.error">
+        <span class="alert">{{mail.error}}</span>
+    </div>
+    
+</div><!--col preview-->
+</div><!--ng-switch true-->
+
+<div ng-switch-when="false" class="animate-switch">
+<div class="col-xs-12 preview deleted" id="delete_{{mail.id}}"
+    ng-click="mail_delete_queue_undo(mail.id)">
+<div>
+<div id="deleted_text">
+    <div class="col-xs-6" translate>mail.delete_pending</div>
+    <div class="col-xs-6">
+        <div class="pull-right" translate>mail.undo</div>
+    </div>
+    <div class="col-xs-12 alert" ng-show="mail_delete_error">
+        {{mail_delete_error}}
+    </div>
+</div><!--deleted_text-->
+</div><!--preview-->
+</div><!--col-->
+</div><!--ng-switch false-->
+
+</div><!--ng-switch-->
+
+<div class="col-xs-12"><hr></hr></div>
+
+</div><!--repeat-->
+</div><!--row-->
+</tab>
+</tabset>
+
+
+</div><!--col-->
+</div><!--header-->
+
+</div><!-- mail -->

@@ -1,0 +1,57 @@
+
+<div class="modal-header bg-danger">
+  <h3 class="modal-title" translate>mail.compose</h3>
+</div>
+
+<div class="modal-body">
+<form class="form-horizontal" role="form" name="compose">
+<div class="row">
+<div class="col-xs-9">
+    <!--from-->
+    <div class="form-group">
+        <label for="sender" class="col-xs-2 control-label" translate>mail.sender</label>
+        <div class="col-sm-10">
+            <div class="btn-group" dropdown is-open="status.isopen">
+                <button type="button" id="sender" class="form-control btn btn-primary dropdown-toggle">{{email.sender}} <span class="caret"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="account in my_mail_accounts">
+                        <a ng-click="email.sender = account.name; status.isopen = false">{{account.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--to-->
+    <div class="form-group">
+        <label for="recipient" class="col-xs-2 control-label" translate>mail.recipient</label>
+        <div class="col-sm-9">
+            <input autofocus type="text" id="recipient" ng-model="email.recipient" class="form-control" placeholder="{{ 'mail.recipient' | translate }}">
+        </div>
+        <!--arrow-->
+        <div class="col-sm-1">
+            <i class="fa {{
+                receives_mail ? 'fa-check valid' : 
+                    (found ? 'fa-times invalid' : 'fa-arrow-right')
+            }}"></i>
+        </div>
+    </div>
+</div>
+<div class="col-xs-3">
+    <div class="pull-right">
+        <img ng-src="http://robohash.org/set_1/{{email.recipient}}?size=100x100" height="100" width="100"/>
+    </div>
+</div>
+</div><!--row-->
+<input type="text" class="form-control" ng-model="email.subject" placeholder="{{ 'mail.subject' | translate }}">
+<textarea class="form-control" rows="5" ng-model="email.body" placeholder="{{ 'mail.body' | translate }}"></textarea>
+</form>
+
+<span class="alert alert-danger" 
+    ng-show="email.error">{{email.error}}</span>
+<span class="alert alert-danger" 
+    ng-show="found && !receives_mail" translate>mail.no_recipient_mail_servers</span>
+  
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="!found || !receives_mail">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

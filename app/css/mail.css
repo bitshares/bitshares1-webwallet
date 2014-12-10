@@ -1,0 +1,45 @@
+
+.mail .email:before {
+    content: "\f0e0"; /* fa-envelop */
+}
+.mail .transaction_notice:before {
+    content: "\f08b";/*fa-sign-out*/
+}
+.mail .edit {
+    color: darkkhaki;
+}
+.mail .message_icon {
+    color: darkcyan;
+}
+.valid {
+    color: green;
+}
+.invalid {
+    color: red;
+}
+.fa {
+    font-size: 20pt;   
+}
+.lg-font {
+    font-size: 22px;
+}
+.mail a:hover{
+    text-decoration: none;
+}
+.mail .link:hover {
+    color: #01bbf4 !important
+}
+.mail .hover:hover {
+    background-color: #f5f5f5;
+}
+.mail .preview {
+    height: 100px;
+}
+.mail .deleted {
+    background-color: darkgrey;
+}
+.mail #deleted_text {
+    font-size: 22px;
+    margin-top: 30px;
+    color: initial;
+}
