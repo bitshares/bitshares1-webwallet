@@ -484,7 +484,8 @@
         "enable_trx_scan": "Enable Transaction Scanning",
         "up_to_date": "Up to date, processed {{value}} blocks",
         "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks",
-        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
+        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}",
+        "testnet": "TestNet"
     },
     "utils": {
         "expired": "Expired",
