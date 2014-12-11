@@ -1,4 +1,4 @@
-angular.module("app").controller "AccountDelegatePriceFeeds", ($scope, BlockchainAPI, Blockchain) ->
+angular.module("app").controller "AccountDelegate", ($scope, BlockchainAPI, Blockchain) ->
     $scope.feeds=[]
     $scope.symbol2records={}
 

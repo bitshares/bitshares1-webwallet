@@ -1,4 +1,4 @@
-angular.module("app").controller "FooterController", ($scope, Info, Utils, Blockchain, Shared, $filter, WalletAPI) ->
+angular.module("app").controller "FooterController", ($scope, Info, Utils, Blockchain, Shared, $filter, WalletAPI, RpcService) ->
     $scope.connections = 0
     $scope.blockchain_blocks_behind = 0
     $scope.blockchain_status = "off"
@@ -61,6 +61,12 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
                 minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
 
                 Blockchain.get_info().then (config) ->
+                    switch config.symbol
+                        when "XTS"
+                            $scope.is_testnet = on
+                        when "BTS"
+                            $scope.is_testnet = off
+                    
                     $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
                     $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
                     $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
@@ -108,3 +114,11 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
             $scope.alert_level_tip = ''
 
     $scope.$watch(watch_for, on_update, true)
+    
+    $scope.profile_toggle = ->
+        $scope.profiling = !$scope.profiling
+        if $scope.profiling
+            RpcService.start_profiler()
+        else
+            RpcService.stop_profiler()
+        

@@ -1,7 +1,33 @@
 class Blockchain
 
     constructor: (@client, @network, @rpc, @blockchain_api, @utils, @q, @interval) ->
+        ###
+        @observer_config =
+            name: "BlockchainObserver"
+            frequency: "each_block"
+            update: (data, deferred) =>
+                @observer_each_block().then ->
+                    deferred.resolve(true)
+            #notify: (data) ->
+        ###
+                
+    ###
+    observer_each_block: ->
+        #console.log 'blockchain refresh'
+        promises = []
+        promises.push @refresh_asset_records()
+        promises.push @rpc.request("blockchain_get_info", []).then (result) =>
+            @config = result.result
+            @config.page_count = 20
+            switch config.symbol
+                when "XTS"
+                    @is_testnet = on
+                when "BTS"
+                    @is_testnet = off
 
+        @q.all(promises)
+    ###
+    
     # # # # #
     #  Blockchain Config
     config : {}
@@ -17,6 +43,7 @@ class Blockchain
                 @config.page_count = 20
                 return @config
 
+        
     list_accounts: (start_name, limit) ->
         @rpc.request('blockchain_list_accounts', [start_name, limit]).then (response) ->
             reg = []

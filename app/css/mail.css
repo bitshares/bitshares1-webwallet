@@ -11,16 +11,16 @@
 .mail .message_icon {
     color: darkcyan;
 }
-.valid {
+.mail .valid {
     color: green;
 }
-.invalid {
+.mail .invalid {
     color: red;
 }
-.fa {
+.mail .fa {
     font-size: 20pt;   
 }
-.lg-font {
+.mail .lg-font {
     font-size: 22px;
 }
 .mail a:hover{

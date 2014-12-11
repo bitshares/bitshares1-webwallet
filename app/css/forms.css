@@ -36,6 +36,10 @@ span.help-block {
 	box-shadow: none !important;
 }
 
-.input-group button {
+.input-group button.add-btn {
 	margin-top: 6px;
+}
+
+.input-group-addon.label-success {
+	color: #fff;
 }
