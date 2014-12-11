@@ -50,7 +50,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             update_delegate_info (acct) # update delegate info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
-            $state.go "account.priceFeed" # send to delegate info tab if delegate
+            $state.go "account.delegate"
             $scope.del_tab = true # necessary to display tab html
 
         #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value

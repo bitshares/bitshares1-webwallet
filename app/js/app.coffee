@@ -166,7 +166,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp.state "account.transactions", { url: "/account_transactions?pending_only", views: { 'account-transactions': { templateUrl: 'account_transactions.html', controller: 'TransactionsController' } } }
 
-    sp.state "account.priceFeed", { url: "/account_delegate", views: { 'account-delegate-price-feed': { templateUrl: 'account_delegate_price_feeds.html', controller: 'AccountDelegatePriceFeeds' } } }
+    sp.state "account.delegate", { url: "/account_delegate", views: { 'account-delegate': { templateUrl: 'account_delegate.html', controller: 'AccountDelegate' } } }
 
     sp.state "account.transfer", { url: "/account_transfer?from&to&amount&memo&asset", views: { 'account-transfer': { templateUrl: 'transfer.html', controller: 'TransferController' } } }
 

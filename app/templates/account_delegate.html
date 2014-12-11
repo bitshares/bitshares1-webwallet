@@ -1,0 +1,31 @@
+<h5 ng-if="account.public_data.delegate.description">{{ 'delegate.description' | translate }} :<span style="font-weight:bold;"> {{ account.public_data.delegate.description }}</span></h5>
+<h5 ng-if="account.public_data.delegate.proposal">{{ 'delegate.proposal' | translate }} : <a href='{{ account.public_data.delegate.proposal }}' target="_blank"><span style="font-weight:bold;">{{ account.public_data.delegate.proposal }}</span></a></h5>
+<h5 ng-if="account.public_data.delegate.country">{{ 'delegate.country' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.country }}</span></h5>
+<h5 ng-if="account.public_data.delegate.location">{{ 'delegate.location' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.location }}</span></h5>
+<h5 ng-if="account.public_data.delegate.handle">{{ 'delegate.handle' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.handle }}</span></h5>
+<h5 ng-if="account.public_data.delegate.ann">{{ 'delegate.ann' | translate }} : <span style="font-weight:bold;">{{ account.public_data.delegate.ann }}</span></h5>
+<br>
+<h3 translate>account.price_feeds</h3>
+
+<table class="table table-striped table-hover">
+  <thead>
+  <tr>
+    <th translate uppercase>th.bitasset</th>
+    <th translate uppercase>th.price</th>
+    <th translate uppercase>th.last_updated</th>
+  </tr>
+  </thead>
+  <tbody>
+        <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
+            <td>
+              {{feed.asset_symbol}}
+            </td>
+            <td>
+              {{ feed.price | formatDecimal:symbol2records[feed.asset_symbol].precision}}
+            </td>
+            <td>
+              {{feed.last_update | prettyDate}}
+            </td>
+        </tr>
+	</tbody>
+</table>
