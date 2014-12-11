@@ -9,7 +9,25 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
-
+    
+    # tabs
+    $scope.tabs = []
+    $scope.tabs.push { heading: "account.transactions", route: "account.transactions", active: true }
+    $scope.tabs.push { heading: "account.delegate", route: "account.delegate", active: false }
+    $scope.tabs.push { heading: "account.transfer", route: "account.transfer", active: false }
+    $scope.tabs.push { heading: "account.manageAssets", route: "account.manageAssets", active: false }
+    $scope.tabs.push { heading: "account.keys", route: "account.keys", active: false }
+    $scope.tabs.push { heading: "account.updateRegAccount", route: "account.updateRegAccount", active: false }
+    $scope.tabs.push { heading: "account.editLocal", route: "account.editLocal", active: false }
+    $scope.tabs.push { heading: "account.vote", route: "account.vote", active: false }
+    $scope.tabs.push { heading: "account.wall", route: "account.wall", active: false }
+    $scope.goto_tab = (route) ->
+        $state.go route
+    $scope.active_tab = (route) -> $state.is route
+    $scope.$on "$stateChangeSuccess", ->
+        $scope.tabs.forEach (tab) ->
+            tab.active = $scope.active_tab(tab.route)
+    
     $scope.transfer_info =
         amount : null
         symbol : "Symbol not set"
