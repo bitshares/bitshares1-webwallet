@@ -2,6 +2,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     $scope.unlockwallet = false
     $scope.bodyclass = "cover"
     $scope.currentPath = $location.path()
+    $scope.theme = 'default'
 
     $scope.current_path_includes = (str)->
         $state.current.name.indexOf(str) >= 0
@@ -42,6 +43,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         closeModals()
         $idle.watch()
         $scope.started = true
+        Info.watch_for_updates()
         return
 
     $scope.stopIdleWatch = ->

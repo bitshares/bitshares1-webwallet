@@ -40,8 +40,8 @@ class Info
                 @info.asset_reg_fee = data.asset_reg_fee
                 @info.transaction_fee = data.transaction_fee
                 if @wallet.main_asset
-                    @info.income_per_block = data.max_delegate_pay_per_block
-                    @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.max_delegate_pay_per_block, @wallet.main_asset))
+                    @info.income_per_block = data.max_delegate_pay_issued_per_block
+                    @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.max_delegate_pay_issued_per_block, @wallet.main_asset))
                 @is_refreshing = false
                 @symbol = data.symbol
         , =>

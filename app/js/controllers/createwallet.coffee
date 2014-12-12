@@ -1,5 +1,6 @@
 angular.module("app").controller "CreateWalletController", ($scope, $rootScope, $modal, $log, $location, $idle, RpcService, Wallet, Growl) ->
     $rootScope.splashpage = true
+
     $idle.unwatch()
 
     $scope.wallet_name = "default"
