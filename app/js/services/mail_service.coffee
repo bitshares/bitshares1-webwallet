@@ -163,7 +163,7 @@ class MailService
                        deferred.resolve()
                        @refreshing = off
         else
-            @MailAPI.check_new_messages(fetch_old = false).then =>
+            @MailAPI.check_new_messages(fetch_old = true).then =>
                 check_all().then =>
                     deferred.resolve() 
                     @refreshing = off
