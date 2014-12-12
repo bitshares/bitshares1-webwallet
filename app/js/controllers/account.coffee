@@ -199,10 +199,10 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             Wallet.refresh_accounts()
 
     $scope.regDial = ->
-        if Wallet.asset_balances[0]
-          $modal.open
+        #if Wallet.asset_balances[0]
+        $modal.open
             templateUrl: "registration.html"
             controller: "RegistrationController"
             scope: $scope
-        else
-          Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
+        #else
+        #  Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
