@@ -46,10 +46,10 @@ class Wallet
             @wallet_get_info().then (result) =>
                 deferred.resolve()
                 @get_setting('timeout').then (result) =>
-                if result && result.value
-                    @timeout = result.value
-                    @idle._options().idleDuration = @timeout
-                    @idle.watch()
+                    if result && result.value
+                        @timeout = result.value
+                        @idle._options().idleDuration = @timeout
+                        @idle.watch()
                 @get_setting('autocomplete').then (result) =>
                     @autocomplete = result.value if result
                 @get_setting('interface_locale').then (result) =>
