@@ -186,15 +186,15 @@
         "location": "服务器地理位置",
         "handle": "BitSharesTalk论坛用户名",
         "ann": "公告",
-        "country": "Legal jurisdiction",
-        "role_0": "核心技术开发",
-        "role_1": "核心市场推广",
-        "role_2": "骨干",
-        "role_3": "Backbone",
-        "role_4": "Charity",
-        "role_5": "Technical Support",
-        "role_6": "Law/Regulations",
-        "role_7": "Media/Public Relations"
+        "country": "法定管辖权",
+        "role_0": "技术开发",
+        "role_1": "市场推广",
+        "role_2": "Faucet",
+        "role_3": "骨干",
+        "role_4": "慈善",
+        "role_5": "技术支持",
+        "role_6": "法律/法规",
+        "role_7": "媒体/公关"
 
     },
     "market": {
