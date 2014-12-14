@@ -120,6 +120,8 @@
         "pending_trxs": "Transazioni Pendenti",
         "block_explorer": "Block Explorer",
         "missing_block": "Blocco Perso",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Transazioni",
             "expired_trx": "Transazioni Scadute",

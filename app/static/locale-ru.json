@@ -120,6 +120,8 @@
         "pending_trxs": "Ожидающие транзакции",
         "block_explorer": "Обозреватель блоков",
         "missing_block": "Блок пропущен",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Транзакции",
             "expired_trx": "Просроченная транзакция",

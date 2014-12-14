@@ -120,6 +120,8 @@
         "pending_trxs": "Anstehende Transaktionen",
         "block_explorer": "Block Übersicht",
         "missing_block": "Verpasster Block",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Transaktionen",
             "expired_trx": "Abgelaufene Transaktionen",

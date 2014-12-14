@@ -120,6 +120,8 @@
         "pending_trxs": "待处理交易",
         "block_explorer": "区块浏览",
         "missing_block": "缺失块",
+		"older": "更早",
+		"newer": "更近",
         "trx": {
             "title": "交易",
             "expired_trx": "过期的交易",

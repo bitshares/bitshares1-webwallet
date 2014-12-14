@@ -121,6 +121,8 @@
         "pending_trxs": "Pending Transactions",
         "block_explorer": "Block Explorer",
         "missing_block": "Missed Block",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Transactions",
             "expired_trx": "Expired Transaction",

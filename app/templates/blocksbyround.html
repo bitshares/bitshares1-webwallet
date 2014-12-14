@@ -3,7 +3,7 @@
                     <div class="row">
                         <div class="col-xs-2">
                             <ul class="pager">
-                                <li class="previous"><a href="#/blocks/round/{{round - 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round > 1">← Older</a></li>
+                                <li class="previous"><a href="#/blocks/round/{{round - 1}}?withtrxs={{filter_zero_trxs}}" ng-if="round > 1">← {{"block.older" | translate}}</a></li>
                              </ul>
                         </div>
                         <div class="col-xs-4">
@@ -11,7 +11,7 @@
                         </div>
                         <div class="col-xs-2">
                         <ul class="pager">
-                        <li class="next" ng-if="round < last_block_round"><a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}">Newer →</a></li>
+                        <li class="next" ng-if="round < last_block_round"><a href="#/blocks/round/{{round + 1}}?withtrxs={{filter_zero_trxs}}">{{"block.newer" | translate}} →</a></li>
                           </ul>
                         </div>
                <div class="col-sm-4 p-inner">
