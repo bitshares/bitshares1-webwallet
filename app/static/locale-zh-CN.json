@@ -317,7 +317,7 @@
         "email_tip": "电子邮件（可选）",
         "active_delegate": "活跃受托人",
         "standby_delegate": "待命受托人",
-        "rank": "Current rank",
+        "rank": "当前排名",
         "toggle": {
             "favorite": "切换收藏状态",
             "approval": "切换支持状态"
