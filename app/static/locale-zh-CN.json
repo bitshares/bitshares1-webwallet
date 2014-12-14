@@ -102,7 +102,8 @@
         "paid": "付出",
         "received": "获得",
         "expiration": "截止日期",
-        "interest_rate": "利率 (年化)"
+        "interest_rate": "利率 (年化)",
+        "message": "消息"
     },
     "block": {
         "title": "区块",
@@ -356,13 +357,14 @@
         "public_info": "公共信息",
         "estimated_yield": "预期收益",
         "wall" : {
-            "tab_title": "Wall",
-            "burn_records": "Burn Records",
-            "burn_post": "Burn/Post Message",
-            "message": "Message",
-            "post_message": "Post Message",
-            "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver"
+            "tab_title": "信誉墙",
+            "burn_records": "评价记录",
+            "burn_post": "销毁/发送消息",
+            "message": "消息",
+            "post_message": "发送消息",
+            "burn_confirmation": "销毁/发送消息确认",
+            "receiver": "受评账户",
+            "explain": "销毁自己账户下一定数量的资金，从而向 {{account_name}} 账户的信誉墙上进行留言/评价。"
         }
     },
     "accounts": {
