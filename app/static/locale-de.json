@@ -102,7 +102,8 @@
         "paid": "BEZAHLT",
         "received": "EMPFANGEN",
         "expiration": "ABLAUF",
-        "interest_rate": "Interest Rate (APR)"
+        "interest_rate": "Interest Rate (APR)",
+        "message": "Message"
     },
     "block": {
         "title": "Block",
@@ -120,6 +121,8 @@
         "pending_trxs": "Anstehende Transaktionen",
         "block_explorer": "Block Übersicht",
         "missing_block": "Verpasster Block",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Transaktionen",
             "expired_trx": "Abgelaufene Transaktionen",
@@ -359,7 +362,8 @@
             "message": "Message",
             "post_message": "Post Message",
             "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver"
+            "receiver": "Receiver",
+            "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
         }
     },
     "accounts": {

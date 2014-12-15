@@ -102,7 +102,8 @@
         "paid": "ОПЛАЧЕНО",
         "received": "ПОЛУЧЕНО",
         "expiration": "Истекает",
-        "interest_rate": "ДОХОДНОСТЬ (%)"
+        "interest_rate": "ДОХОДНОСТЬ (%)",
+        "message": "Message"
     },
     "block": {
         "title": "Блок",
@@ -120,6 +121,8 @@
         "pending_trxs": "Ожидающие транзакции",
         "block_explorer": "Обозреватель блоков",
         "missing_block": "Блок пропущен",
+		"older": "Older",
+		"newer": "Newer",
         "trx": {
             "title": "Транзакции",
             "expired_trx": "Просроченная транзакция",
@@ -359,7 +362,8 @@
             "message": "Message",
             "post_message": "Post Message",
             "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver"
+            "receiver": "Receiver",
+            "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
         }
     },
     "accounts": {

@@ -102,7 +102,8 @@
         "paid": "付出",
         "received": "获得",
         "expiration": "截止日期",
-        "interest_rate": "利率 (年化)"
+        "interest_rate": "利率 (年化)",
+        "message": "消息"
     },
     "block": {
         "title": "区块",
@@ -120,6 +121,8 @@
         "pending_trxs": "待处理交易",
         "block_explorer": "区块浏览",
         "missing_block": "缺失块",
+		"older": "更早",
+		"newer": "更近",
         "trx": {
             "title": "交易",
             "expired_trx": "过期的交易",
@@ -184,15 +187,15 @@
         "location": "服务器地理位置",
         "handle": "BitSharesTalk论坛用户名",
         "ann": "公告",
-        "country": "Legal jurisdiction",
-        "role_0": "核心技术开发",
-        "role_1": "核心市场推广",
-        "role_2": "骨干",
-        "role_3": "Backbone",
-        "role_4": "Charity",
-        "role_5": "Technical Support",
-        "role_6": "Law/Regulations",
-        "role_7": "Media/Public Relations"
+        "country": "法定管辖权",
+        "role_0": "技术开发",
+        "role_1": "市场推广",
+        "role_2": "Faucet",
+        "role_3": "骨干",
+        "role_4": "慈善",
+        "role_5": "技术支持",
+        "role_6": "法律/法规",
+        "role_7": "媒体/公关"
 
     },
     "market": {
@@ -315,7 +318,7 @@
         "email_tip": "电子邮件（可选）",
         "active_delegate": "活跃受托人",
         "standby_delegate": "待命受托人",
-        "rank": "Current rank",
+        "rank": "当前排名",
         "toggle": {
             "favorite": "切换收藏状态",
             "approval": "切换支持状态"
@@ -354,13 +357,14 @@
         "public_info": "公共信息",
         "estimated_yield": "预期收益",
         "wall" : {
-            "tab_title": "Wall",
-            "burn_records": "Burn Records",
-            "burn_post": "Burn/Post Message",
-            "message": "Message",
-            "post_message": "Post Message",
-            "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver"
+            "tab_title": "信誉墙",
+            "burn_records": "评价记录",
+            "burn_post": "销毁/发送消息",
+            "message": "消息",
+            "post_message": "发送消息",
+            "burn_confirmation": "销毁/发送消息确认",
+            "receiver": "受评账户",
+            "explain": "销毁自己账户下一定数量的资金，从而向 {{account_name}} 账户的信誉墙上进行留言/评价。"
         }
     },
     "accounts": {

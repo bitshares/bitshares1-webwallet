@@ -28,8 +28,7 @@
     <div class="panel">
       <div class="panel-heading">
         <h3 class="panel-title" translate>account.wall.burn_post</h3>
-        <h6>Burns given amount to <b>{{account_name}}</b>'s account. This will allow you to post
-                               message to this wall as a form of reputation.</h6>
+        <h6>{{'account.wall.explain' | translate:'{account_name: account_name}'}}</h6>
       </div>
       <form name="burn_form" class="form-horizontal" role="form" ng-submit="post()" novalidate>
         <!-- from -->
