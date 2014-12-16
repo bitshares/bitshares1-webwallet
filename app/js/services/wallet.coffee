@@ -102,8 +102,8 @@ class Wallet
 
         @q.all(requests).then (results) =>
             @main_asset = results.main_asset
-            @balances = {}
-            @asset_balances = {}
+            delete @balances[id] for id in Object.keys @balances
+            delete @asset_balances[id] for id in Object.keys @asset_balances
             angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1]
@@ -216,7 +216,7 @@ class Wallet
         @refresh_accounts_request = off
 
         #console.log "refresh_accounts clearing cache"
-        @accounts = {}
+        delete @accounts[id] for id in Object.keys @accounts
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
                 @populate_account(val)
