@@ -1,3 +1,4 @@
+
 class Wallet
 
     accounts: {}
@@ -11,6 +12,9 @@ class Wallet
 
     transactions: {"*": []}
     transactions_loading_promise: null
+    check_vote_proportion_promise: null
+    refresh_accounts_promise: null
+    refresh_accounts_request: off
     transactions_last_block: 0
     transactions_all_by_id: {}
     transactions_last_time: 0
@@ -35,6 +39,19 @@ class Wallet
     interface_locale: null
 
     interface_theme = 'default'
+    
+    observer_config:->
+        name: "WalletEachBlockObserver"
+        frequency: "each_block"
+        update: (data, deferred) =>
+            #console.log '[wallet] WalletEachBlockObserver'
+            @refresh_balances_promise = null
+            @transactions_loading_promise = null
+            @check_vote_proportion_promise = null
+            @refresh_accounts_promise = null
+            @refresh_accounts() if @refresh_accounts_request
+            deferred.resolve(true)
+        #notify: (data) ->
 
     set_current_account: (account) ->
         @current_account = account
@@ -106,7 +123,8 @@ class Wallet
                     @balances[acct.name] = {}
                     @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
             deffered.resolve(@balances)
-            @refresh_balances_promise = null
+            # @observer_config will clear after each block
+            #@refresh_balances_promise = null
         , (error) ->
             deffered.reject(error)
             @refresh_balances_promise = null
@@ -188,11 +206,14 @@ class Wallet
             @populate_account(result)
             @refresh_balances()
 
-    refresh_accounts: (prevent_rapid_refresh = false) ->
-        if prevent_rapid_refresh and @utils.too_soon('refresh_accounts', 10 * 1000)
-            deferred = @q.defer()
-            deferred.resolve()
-            return deferred.promise
+    refresh_accounts: (prevent_rapid_refresh = true) ->
+        @refresh_accounts_request = on
+        if @refresh_accounts_promise and prevent_rapid_refresh
+            return @refresh_accounts_promise 
+        
+        deferred = @q.defer()
+        @refresh_accounts_promise = deferred.promise
+        @refresh_accounts_request = off
 
         #console.log "refresh_accounts clearing cache"
         @accounts = {}
@@ -200,7 +221,18 @@ class Wallet
             angular.forEach result, (val) =>
                 @populate_account(val)
             @refresh_balances()
+            deferred.resolve()
+        @refresh_accounts_promise
 
+    check_vote_proportion: (account_names) ->
+        return @check_vote_proportion_promise if @check_vote_proportion_promise
+        deferred = @q.defer()
+        @check_vote_proportion_promise = deferred.promise
+        @RpcService.request("batch", ["wallet_check_vote_proportion", account_names]).then (response) ->
+            #console.log '[Wallet] check_vote_proportion',response
+            deferred.resolve(response)
+        @check_vote_proportion_promise
+        
     get_setting: (name) ->
         @wallet_api.get_setting(name)
 
@@ -319,8 +351,9 @@ class Wallet
             @transactions[account] ||= []
             @transactions[account].unshift transaction
 
-    refresh_transactions: ->
+    refresh_transactions: () ->
         return @transactions_loading_promise if @transactions_loading_promise
+        #console.log "------ refresh_transactions ------>"
         deffered = @q.defer()
 
         @transactions_loading_promise = deffered.promise
@@ -350,10 +383,11 @@ class Wallet
                     for val in result
                         @process_transaction(val) if not val.is_confirmed and not val.is_virtual
                 pending_transactions_promise.finally =>
-                    @transactions_loading_promise = null
+                    # each_block observer will reset transactions_loading_promise
+                    #@transactions_loading_promise = null
                     deffered.resolve(@transactions)
 
-        return @transactions_loading_promise
+        @transactions_loading_promise
 
 
     refresh_transactions_on_new_block: () ->
@@ -485,8 +519,8 @@ class Wallet
 
         return deferred.promise
 
-    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @interval, @idle) ->
+    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @RpcService, @BlockPromise, @interval, @idle) ->
         @wallet_name = ""
         @timeout = @idle._options().idleDuration
 
-angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "$interval", "$idle", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "RpcService", "BlockPromise", "$interval", "$idle", Wallet])
