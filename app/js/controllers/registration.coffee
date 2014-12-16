@@ -6,7 +6,6 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $scope.m.delegate = false
     $scope.available_faucets = [
         {id: 0, name: "", url: ""}
-        #{id: 1, name: "bitsharestestdrive.com", url: "http://dev.bitsharestestdrive.com:3000/"}
         {id: 1000, name: "Add faucet", url: "add"}
     ]
     $scope.m.faucet = $scope.available_faucets[0]
@@ -41,7 +40,11 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
 
     $scope.register = ->
         if $scope.m.faucet?.url and $scope.m.faucet.url != 'add'
-            $window.open("#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&account_key=#{$scope.account.active_key}");
+            url = "#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&account_key=#{$scope.account.active_key}"
+            if magic_unicorn?
+                magic_unicorn.open_in_external_browser(url)
+            else
+                $window.open(url)
             $modalInstance.close("ok")
             return
 

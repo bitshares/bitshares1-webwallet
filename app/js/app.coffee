@@ -275,7 +275,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
                     $state.go 'mail'
             )
 
-    sp.state "redeem_coupon",
-        url: "/redeem_coupon?faucet&code"
-        templateUrl: "redeem_coupon.html"
-        controller: "RedeemCouponController"
+    sp.state "referral_code",
+        url: "/referral_code?faucet&code"
+        templateUrl: "referral_code.html"
+        controller: "ReferralCodeController"

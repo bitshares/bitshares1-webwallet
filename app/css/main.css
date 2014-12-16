@@ -401,3 +401,8 @@ input.ng-dirty.ng-invalid {
 	padding-left: 24px;
 	color: #bbb;
 }
+
+.referral-success p, .referral-success i {
+	font-size: 200%;
+	color: #00aa00;
+}

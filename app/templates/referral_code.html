@@ -1,0 +1,52 @@
+<div class="col-sm-12">
+  <div class="header">
+    <h3 ng-show="!referral.success" class="header-title">Submit your referral code</h3>
+    <h3 ng-show="referral.success" class="header-title">Your referral code is accepted</h3>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-sm-8">
+
+      <form ng-show="!referral.success" name="redeem_code" class="form-horizontal m-top" role="form" ng-submit="redeem()" novalidate>
+        <!-- code -->
+        <div form-hgroup label="Referral Code">
+          <div class="input-group">
+          <input ng-model="referral.code" ng-change="code_changed()" name="code" class="form-control" required/>
+          <span ng-if="referral.ok" class="input-group-addon label-success"><i class="fa fa-check"></i> {{ referral.amount }}</span>
+          <span class="help-block text-danger" ng-show="referral.error">{{referral.error}}</span>
+          </div>
+        </div>
+        <!-- faucet -->
+        <div form-hgroup label="Faucet domain">
+          <input ng-model="referral.faucet_url" name="faucet_url" class="form-control" required/>
+        </div>
+        <!-- to -->
+        <div form-hgroup label="To Account">
+          <div class="input-group-btn" dropdown is-open="status.isopen">
+            <button type="button" class="btn dropdown-toggle">{{referral.to}} <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-repeat="a in accounts">
+                <a ng-click="referral.to = a; status.isopen=false">{{a}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!--Submit-->
+        <div form-hgroup-error></div>
+        <button form-hgroup-submit-btn>Submit</button>
+      </form>
+
+      <div ng-show="referral.success" class="referral-success jumbotron text-center">
+        <p><i class="fa fa-check"></i></p>
+        <p>{{ referral.amount }}</p>
+      </div>
+
+    </div>
+
+    <div class="col-sm-4">&nbsp;</div>
+
+  </div>
+</div>
