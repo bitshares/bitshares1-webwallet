@@ -519,8 +519,8 @@ class Wallet
 
         return deferred.promise
 
-    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @RpcService, @BlockPromise, @interval, @idle) ->
+    constructor: (@q, @log, @location, @translate, @growl, @rpc, @blockchain, @utils, @wallet_api, @blockchain_api, @RpcService, @interval, @idle) ->
         @wallet_name = ""
         @timeout = @idle._options().idleDuration
 
-angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "RpcService", "BlockPromise", "$interval", "$idle", Wallet])
+angular.module("app").service("Wallet", ["$q", "$log", "$location", "$translate", "Growl", "RpcService", "Blockchain", "Utils", "WalletAPI", "BlockchainAPI", "RpcService", "$interval", "$idle", Wallet])
