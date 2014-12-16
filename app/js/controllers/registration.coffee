@@ -45,6 +45,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
                 magic_unicorn.open_in_external_browser(url)
             else
                 $window.open(url)
+            $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name] = "pending"
             $modalInstance.close("ok")
             return
 
