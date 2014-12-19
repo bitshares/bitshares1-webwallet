@@ -12,7 +12,7 @@ angular.module("app").controller "ReferralCodeController", ($scope, $stateParams
         return null unless $scope.referral.faucet_url
         url = $scope.referral.faucet_url
         match = /^https?:\/\/(.+)\/?$/.exec(url)
-        url = "https://#{url}" unless match
+        url = "http://#{url}" unless match
         url = url.slice(0,-1) if url[url.length-1] == "/"
         return url
 

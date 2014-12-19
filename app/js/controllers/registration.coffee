@@ -5,7 +5,8 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $scope.m.payrate = 50
     $scope.m.delegate = false
     $scope.available_faucets = [
-        {id: 0, name: "", url: ""}
+        {id: 0, name: "", url: ""},
+        {id: 1, name: "faucet.bitshares.org", url: "http://faucet.bitshares.org/"},
         {id: 1000, name: "Add faucet", url: "add"}
     ]
     $scope.m.faucet = $scope.available_faucets[0]

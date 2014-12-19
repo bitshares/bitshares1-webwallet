@@ -11,7 +11,7 @@
         <select name="pay_with" ng-model="m.payfrom" class="form-control"
                 ng-options="account | formatAccountBalance for (key, account) in accounts | filter:symbol"/>
       </div>
-      <div form-hgroup label="{{ m.payfrom ? 'Or use faucet' : 'Use faucet'}}">
+      <div form-hgroup ng-show="!m.payfrom" label="Use faucet">
         <select name="faucet" ng-model="m.faucet" class="form-control" ng-options="obj.name for obj in available_faucets track by obj.url"/>
         <span class="help-block">Faucet provides free account registration. None of your private keys will be shared with faucet.</span>
       </div>
