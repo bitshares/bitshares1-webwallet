@@ -112,10 +112,12 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
             $scope.alert_level = "other-state"
             $scope.alert_level_msg = ''
             $scope.alert_level_tip = ''
+        $scope.blockchain_name = info.blockchain_name
 
     $scope.$watch(watch_for, on_update, true)
     
     $scope.profile_toggle = ->
+        return if magic_unicorn?
         $scope.profiling = !$scope.profiling
         if $scope.profiling
             RpcService.start_profiler()
