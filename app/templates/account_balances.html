@@ -20,7 +20,6 @@
                        <a class='my-account-link' href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</b></a>
                     </td>
                     <td width="1em">
-                      <i class="fa fa-warning fa-fw danger" ng-show="warnings[a.name]" tooltip="{{'tip.partial_voting_info' | translate}}"></i>
                     </td>
                     <td>
                         <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
