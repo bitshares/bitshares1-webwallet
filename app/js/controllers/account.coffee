@@ -115,7 +115,8 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         frequency: "each_block"
         update: (data, deferred) ->
             Wallet.refresh_account(name).then (result) ->
-                $scope.account.registration_date = Wallet.accounts[name].registration_date
+                if Wallet.accounts[name]
+                    $scope.account.registration_date = Wallet.accounts[name].registration_date
             deferred.resolve(true)
     Observer.registerObserver(account_balances_observer)
 

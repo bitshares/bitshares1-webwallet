@@ -18,10 +18,6 @@ angular.module("app").controller "BlocksController", ($scope, $location, $stateP
             deferred.resolve(0)
             return deferred.promise
 
-    Blockchain.get_blocks_with_missed(10000, 10).then (blocks) =>
-        console.log "merged blocks"
-        console.log blocks
-
     refresh_blocks = ->
         BlockchainAPI.get_block_count().then (head_block) =>
             start = head_block - 20

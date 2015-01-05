@@ -1,7 +1,6 @@
 angular.module("app").controller "DialogTransferConfirmationController", ($scope, $translate, $modalInstance, trx, action, transfer_type) ->
 
     $scope.trx = trx
-    console.log "------ transfer_type ------>", "'#{transfer_type}'"
     if transfer_type == 'burn'
         $translate("account.wall.burn_confirmation").then (value) -> $scope.title = value
         $translate("account.wall.receiver").then (value) -> $scope.account_to = value
