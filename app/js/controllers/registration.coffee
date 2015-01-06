@@ -1,7 +1,7 @@
 angular.module("app").controller "RegistrationController", ($scope, $modalInstance, $window, Wallet, WalletAPI, Shared, RpcService, Blockchain, Info, Utils, Observer) ->
     $scope.symbolOptions = []
 
-    $scope.m = {}
+    $scope.m = { subaccount: $scope.account.name.indexOf(".") > -1 }
     $scope.m.payrate = 50
     $scope.m.delegate = false
     $scope.available_faucets = [
@@ -28,8 +28,9 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
             bals = []
             angular.forEach balances, (asset, symbol) ->
                 bals.push asset if asset.amount
-            $scope.accounts[name] = [name, bals] if bals.length
-        $scope.m.payfrom = if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
+            #$scope.accounts[name] = [name, bals] if bals.length
+            $scope.m.payfrom = if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
+            console.log "------ $scope.m.payfrom ------>", $scope.m.payfrom
 
     Wallet.get_accounts().then ->
         refresh_accounts()
