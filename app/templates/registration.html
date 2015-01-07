@@ -11,9 +11,12 @@
         <select name="pay_with" ng-model="m.payfrom" class="form-control"
                 ng-options="account | formatAccountBalance for (key, account) in accounts | filter:symbol"/>
       </div>
-      <div form-hgroup ng-show="!m.payfrom" label="Use faucet">
+      <div form-hgroup ng-show="!m.payfrom && !m.subaccount" label="Use faucet">
         <select name="faucet" ng-model="m.faucet" class="form-control" ng-options="obj.name for obj in available_faucets track by obj.url"/>
         <span class="help-block">Faucet provides free account registration. None of your private keys will be shared with faucet.</span>
+      </div>
+      <div ng-show="!m.payfrom && m.subaccount">
+        Free faucet registration is not available for this account name.  Account names containing a "." are sub accounts and may not be registered using the faucet.  Please choose a different account name or add BTS to pay for the registration fee.
       </div>
       <div form-hgroup ng-show="m.faucet.url === 'add'" label="Faucet domain or URL">
         <input name="faucet_url" ng-model="m.faucet_url" type="text" class="form-control" ui-validate="{valid_faucet_url: 'true'}"/>
@@ -24,6 +27,6 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-primary" ng-click="register()" translate>btn.register</button>
+  <button class="btn btn-primary" ng-show="m.payfrom || !m.subaccount" ng-click="register()" translate>btn.register</button>
   <button class="btn btn-warning" ng-click="cancel()" translate>btn.cancel</button>
 </div>
