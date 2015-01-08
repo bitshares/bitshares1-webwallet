@@ -3,18 +3,6 @@
     	<img src="img/xts-logo-xl-white-shadow.png" />
 	</div>
 
-  <div ng-switch="license_accepted">
-    <div ng-switch-when="false">
-      <div class="license">
-      <h4>END USER AGREEMENT</h4>
-       <div class="license-body description">
-        <div ng-include src="'licenseagreement.html'"></div>
-      </div>
-      <input type="checkbox" id="accept_license" ng-click="accept_license()"> <label for="accept_license">I accept the terms of the license agreement</label>
-      </div>
-    </div>
-    <div ng-switch-default>
-
       <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
       <div class="description" collapse="descriptionCollapsed">
           <p translate>unlock.desc_content_1</p>
@@ -64,6 +52,4 @@
 
       </div>
 
-   </div>
-   </div>
 </section>
