@@ -154,6 +154,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             when 'Multibit' then promise = WalletAPI.import_multibit($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
             when 'Electrum' then promise = WalletAPI.import_electrum($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
             when 'Armory' then promise = WalletAPI.import_armory($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
+            when 'BitShares' then promise = WalletAPI.import_keys_from_json($scope.wallet_info.file,$scope.wallet_info.password,$scope.account.name)
         promise?.then (response) ->
             $scope.wallet_info.type = 'Bitcoin/PTS'
             $scope.wallet_info.file = ""
