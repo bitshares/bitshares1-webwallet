@@ -6,10 +6,6 @@ angular.module("app").controller "CreateWalletController", ($scope, $rootScope, 
     $scope.wallet_name = "default"
     $scope.spending_password = ""
     $scope.descriptionCollapsed = true
-    $scope.license_accepted = false
-
-    $scope.accept_license = ->
-          $scope.license_accepted = true
 
     $scope.submitForm = (isValid, password) ->
         if isValid

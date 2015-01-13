@@ -303,7 +303,7 @@
         "assets": "Assets",
         "keys": "Keys",
         "advanced": "Advanced",
-        "account_key": "Account Key",
+        "account_key": "Public Key",
         "priv_key": "Private Key",
         "import_key": "Import Key",
         "wallet_type": "Wallet Type",
