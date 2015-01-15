@@ -28,9 +28,8 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
             bals = []
             angular.forEach balances, (asset, symbol) ->
                 bals.push asset if asset.amount
-            #$scope.accounts[name] = [name, bals] if bals.length
+            $scope.accounts[name] = [name, bals] if bals.length
             $scope.m.payfrom = if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
-            console.log "------ $scope.m.payfrom ------>", $scope.m.payfrom
 
     Wallet.get_accounts().then ->
         refresh_accounts()
