@@ -1,23 +1,14 @@
 <section class="splashpage-wrapper">
 	<div class="str-top">
     	<img src="img/xts-logo-xl-white-shadow.png" />
+    <h4 translate>unlock.desc_title</h4>
 	</div>
-
-      <div class="str-content" ng-click="descriptionCollapsed = !descriptionCollapsed" translate>unlock.desc_title</div>
-      <div class="description" collapse="descriptionCollapsed">
-          <p translate>unlock.desc_content_1</p>
-          <p translate>unlock.desc_content_2</p>
-      </div>
-
-      <a href class="str-arrow fa {{descriptionCollapsed ? 'fa-sort-desc' : 'fa-sort-asc'}}" ng-click="descriptionCollapsed = !descriptionCollapsed"></a>
-
       <div class="str-bottom">
-
            <form name="wform" class="form-inline" role="form" ng-submit="submitForm(wform.$valid, spending_password)" novalidate>
                 <div class="row">
                      <div class="description">
                         <h4 translate>wallet.create_new_wallet</h4>
-                        <p translate>wallet.info</p>
+                        <p class="text-muted" translate>wallet.info</p>
                       </div>
                       <div class="form-group" ng-class="{ 'has-error' : wform.sp.$invalid && !wform.sp.$pristine }">
 
@@ -46,6 +37,10 @@
                    <div ng-show="wform.sp.$error.maxlength" class="text-danger small">Password is too long. It can be at most 255 characters.</div>
                    <div ng-show="wform.sp.$invalid && !wform.sp.$pristine" class="text-danger small">Password is required.</div>
                    <div ng-show="wform.csp.$error.pwmatch" class="text-danger small">Password fields do not match.</div>
+               </div>
+               <div class="row">
+                 <br/>
+                 <p class="text-muted"><small translate>unlock.risks_warning</small></p>
                </div>
 
            </form>
