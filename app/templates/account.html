@@ -162,13 +162,13 @@
 
       <!--recent transactions tab -->
       <tab ng-click="goto_tab('account.transactions')" active="tabs[0].active">
-        <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-th-list fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
         <div ui-view="account-transactions" class="p-inner"></div>
       </tab>
 
       <!--delegate info tab -->
-      <tab ng-click="goto_tab('account.delegate')" active="tabs[1].active">
-        <tab-heading><i class="fa fa-exchange fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
+      <tab ng-show="account.delegate_info" ng-click="goto_tab('account.delegate')" active="tabs[1].active">
+        <tab-heading><i class="fa fa-legal fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
         <div ui-view="account-delegate"></div>
       </tab>
 
