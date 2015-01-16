@@ -69,3 +69,7 @@ input[type="checkbox"] {
 .modal-footer {
 	margin-top: 0;
 }
+
+.header .header-title {
+	text-shadow: none;
+}

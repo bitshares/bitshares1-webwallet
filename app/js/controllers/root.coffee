@@ -9,6 +9,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
     Wallet.check_wallet_status().then ->
         Info.watch_for_updates()
+        Wallet.refresh_accounts()
 
     $scope.started = false
 

@@ -1,16 +1,35 @@
-<div class="nav navbar-nav logo-panel">
-    <ul>
-      <li class="back-button"><a class="pointer back-button" ng-click="back()" tooltip="Back" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-left"></i> &nbsp; </a></li>
-      <li class="back-button"><a class="pointer" ng-click="forward()" tooltip="Forward" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-right"></i> &nbsp; </a></li>
-    </ul>
-</div>
+<!--<div class="nav navbar-nav logo-panel">-->
+    <!--<ul>-->
+      <!--<li class="back-button"><a class="pointer back-button" ng-click="back()" tooltip="Back" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-left"></i> &nbsp; </a></li>-->
+      <!--<li class="back-button"><a class="pointer" ng-click="forward()" tooltip="Forward" tooltip-placement="bottom"> &nbsp; <i class="fa fa-chevron-right"></i> &nbsp; </a></li>-->
+    <!--</ul>-->
+<!--</div>-->
 
 <ul class="nav navbar-nav left-panel">
-   <li ng-class="{active: current_path_includes('transfer')}"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</a></li>
-   <li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>{{ 'contact.add_contact' | translate }}</a></li>
+  <li class="back-button"><a class="pointer back-button" ng-click="back()" tooltip="Back" tooltip-placement="bottom"> &nbsp; <i class="fa fa-arrow-left"></i> &nbsp; </a></li>
+  <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
+  <li ui-sref-active="active"><a ui-sref="account({name: current_account})"><i class="fa fa-user fa-fw"></i>Account</a></li>
+  <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>Exchange</a></li>
+  <li ui-sref-active="active"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</a></li>
+  <!--<li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>{{ 'contact.add_contact' | translate }}</a></li>-->
 </ul>
 
 <ul class="nav navbar-nav pull-right">
+  <li class="dropdown">
+    <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown">
+      <i class="fa fa-user fa-fw fa-lg"></i>
+      <span class="hidden-small">{{current_account}} <b class="caret"></b></span> </a>
+    <ul class="dropdown-menu pull-right">
+      <li ng-repeat-start="account in accounts"></li>
+      <li><a ui-sref="account({name: account})"><i class="fa fa-user fa-fw fa-lg"></i> {{account}}</a></li>
+      <li ng-repeat-end></li>
+
+      <li class="divider"></li>
+      <li><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
+      <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
+    </ul>
+  </li>
+
   <li class="dropdown notification error-notifications" ng-show="errors.list.length > 0" ng-class="{'new-error': errors.new_error}" on-toggle="error_notifier_toggled(open)">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
       <span class="label label-danger arrowed arrow-left-in pull-right">{{errors.num_errors}}</span> <i class="fa fa-bell"></i>
@@ -27,7 +46,6 @@
     </ul>
   </li>
 
-  <li class="lock"><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
   <li ng-show="context_help.show" class="context-help">
     <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
   </li>

@@ -162,7 +162,7 @@
 
       <!--recent transactions tab -->
       <tab ng-click="goto_tab('account.transactions')" active="tabs[0].active">
-        <tab-heading><i class="fa fa-th-list fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-list fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
         <div ui-view="account-transactions" class="p-inner"></div>
       </tab>
 
@@ -173,10 +173,10 @@
       </tab>
 
       <!-- transfer tab -->
-      <tab ng-click="goto_tab('account.transfer')" active="tabs[2].active" ng-show="account.is_my_account">
-        <tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>
-        <div ui-view="account-transfer" ng-if="account.is_my_account"></div>
-      </tab>
+      <!--<tab ng-click="goto_tab('account.transfer')" active="tabs[2].active" ng-show="account.is_my_account">-->
+        <!--<tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>-->
+        <!--<div ui-view="account-transfer" ng-if="account.is_my_account"></div>-->
+      <!--</tab>-->
 
       <!-- Assets tab -->
       <tab ng-click="goto_tab('account.manageAssets')" active="tabs[3].active" ng-show="account.is_my_account" >

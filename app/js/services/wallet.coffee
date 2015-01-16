@@ -206,22 +206,31 @@ class Wallet
             @populate_account(result)
             @refresh_balances()
 
-    refresh_accounts: (prevent_rapid_refresh = true) ->
+    refresh_accounts: () ->
         @refresh_accounts_request = on
-        if @refresh_accounts_promise and prevent_rapid_refresh
+        if @refresh_accounts_promise
             return @refresh_accounts_promise 
-        
+
+        console.log "------ refresh_accounts ------"
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
-        @refresh_accounts_request = off
 
-        #console.log "refresh_accounts clearing cache"
         delete @accounts[id] for id in Object.keys @accounts
+        first_account = null
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val)
+                account = @populate_account(val)
+                first_account = account unless first_account
+            if first_account and !@current_account
+                @wallet_api.get_setting("current_account").then (setting) =>
+                    if setting?.value
+                        @get_account(setting.value).then (account) =>
+                            @current_account = account
+                    else
+                        @current_account = first_account
             @refresh_balances()
             deferred.resolve()
+            @refresh_accounts_request = off
         @refresh_accounts_promise
 
     check_vote_proportion: (account_names) ->

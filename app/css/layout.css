@@ -27,7 +27,7 @@
 	padding-top: 10px;
 	-webkit-touch-callout: none;
   -webkit-user-select: none;
-	user-select: none ;
+	user-select: none;
 }
 
 body.fixed_header .wrapper {

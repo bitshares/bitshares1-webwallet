@@ -90,7 +90,7 @@ a.white:hover {
 
 .white-shadow {
 	color: #fff;
-	text-shadow: 0 1px 2px black;
+	/*text-shadow: 0 1px 2px black;*/
 }
 
 .green {
