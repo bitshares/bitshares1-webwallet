@@ -8,7 +8,7 @@
 <ul class="nav navbar-nav left-panel">
   <li class="back-button"><a class="pointer back-button" ng-click="back()" tooltip="Back" tooltip-placement="bottom"> &nbsp; <i class="fa fa-arrow-left"></i> &nbsp; </a></li>
   <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
-  <li ui-sref-active="active"><a ui-sref="account({name: current_account})"><i class="fa fa-user fa-fw"></i>Account</a></li>
+  <li ng-class="{active: current_path_includes('account', {name: current_account})}"><a ui-sref="account({name: current_account})"><i class="fa fa-user fa-fw"></i>Account</a></li>
   <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>Exchange</a></li>
   <li ui-sref-active="active"><a ui-sref="transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</a></li>
   <!--<li ng-class="{active: current_path_includes('newcontact')}"><a ui-sref="newcontact"><i class="fa fa-plus fa-fw fa-lg"></i>{{ 'contact.add_contact' | translate }}</a></li>-->

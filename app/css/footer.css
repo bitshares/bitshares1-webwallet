@@ -19,7 +19,7 @@ footer .icon {
 }
 
 footer.normal-state {
-	background-color: #c4e6a9;
+	background-color: #BCCAD6;
 }
 
 footer.warning-state {
@@ -71,9 +71,11 @@ footer .blockchain-status > i {
 }
 
 footer .logo img {
-    height: 36px;
-	  margin: 0 0 0 8px;
-    padding-right: 5px;
+	height: 58px;
+	margin: 0 0 0 8px;
+	padding-right: 5px;
+	position: relative;
+	top: -22px;
 }
 
 .connection { display: none; }

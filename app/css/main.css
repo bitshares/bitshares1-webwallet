@@ -107,7 +107,7 @@ a.white:hover {
 }
 
 .primary {
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .bg-secondary {
@@ -119,7 +119,7 @@ a.white:hover {
 }
 
 .secondary {
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .bg-third {
@@ -182,7 +182,7 @@ a.white:hover {
 }
 
 .sidebar .nav .active > a, .sidebar .nav .active > a:hover, .sidebar .nav .active > a:focus {
-	border-left: solid 3px #01bbf4;
+	border-left: solid 3px #1B6FC1;
 }
 
 /* Buttons & Elements */
@@ -194,7 +194,7 @@ a.white:hover {
 /* Header Section  */
 
 .head-bg {
-	background: #0c3146 url('../img/xt-background.jpg') no-repeat left top;
+	background: #3a5b7a url('../img/xt-background.jpg') no-repeat left top;
 	background-size: cover;
 }
 
@@ -203,7 +203,11 @@ a.white:hover {
 	background-size: cover;
 }
 
-.head-bg-delegate .primary {
+.head-bg-delegate .primary, .head-bg .primary {
+	color: #ddd;
+}
+
+.head-bg-delegate .primary:hover, .head-bg .primary:hover {
 	color: #fff;
 }
 
@@ -236,7 +240,7 @@ li.stat {
 	color: #fff;
 	font-weight: 100;
 	letter-spacing: 1px;
-	margin-top: 24px;
+	margin-bottom: 0;
 }
 
 .table-acc-balance td {
@@ -366,7 +370,7 @@ input.ng-dirty.ng-invalid {
 
 .pagination a.btn-primary, .pagination a.btn-primary:hover {
 	color: #fff !important;
-	background-color: #01bbf4 !important;
+	background-color: #1B6FC1 !important;
 }
 
 .alphabet > ul {

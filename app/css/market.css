@@ -219,12 +219,12 @@ tr.short_wall td {
 }
 
 .market-thumbnail:hover {
-	border: 1px solid #01bbf4;
+	border: 1px solid #1B6FC1;
 }
 
 .market-thumbnail h6 {
 	padding-left: 1em;
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .market-thumbnail ul {

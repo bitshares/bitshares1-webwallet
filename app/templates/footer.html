@@ -1,12 +1,10 @@
 <div class="pull-left logo" ng-click="profile_toggle()">
-    <img src="/img/logo-ico.svg" height="32"/>&nbsp;
-    <span>{{
-        is_testnet == true ? 'footer.testnet' :
-            (is_testnet == false ? 'index.title' : '')
-        | translate
-    }}</span>
+    <img src="/img/logo-ico.svg" height="64"/>&nbsp;
 </div>
-<p class="pull-left">
+<p class="pull-left m-bottom">
+  {{blockchain_name}}
+</p>
+<p class="pull-left m-bottom">
     <span>{{message}}&nbsp;{{scan_progress_info}}</span> &nbsp;
     <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()" translate>footer.enable_trx_scan</a></span>
 </p>
