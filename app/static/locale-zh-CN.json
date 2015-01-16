@@ -148,7 +148,8 @@
         "desc_title": "公司. 社区. 货币.",
         "desc_content_1": "Bitshares 是一个由去中心化社区支持的虚拟公司，为市场提供最佳的数字货币：BitUSD（比特美元），BitGold（比特黄金）及BitSilver（比特白银）等。 ",
         "desc_content_2": "",
-        "wrong_pass": "密码错误"
+        "wrong_pass": "密码错误",
+        "risks_warning": "Warning: This is experimental software. Make sure you understand the risks."
     },
     "wallet": {
         "create_new_wallet": "创建新钱包",

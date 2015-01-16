@@ -148,7 +148,8 @@
         "desc_title": "будущее банковской индустрии",
         "desc_content_1": "BitShares - это глобальное сообщество, которое с помощью распределенного приложения, создает лучшие деньги в мире.",
         "desc_content_2": "",
-        "wrong_pass": "Неверный пароль."
+        "wrong_pass": "Неверный пароль.",
+        "risks_warning": "Warning: This is experimental software. Make sure you understand the risks."
     },
     "wallet": {
         "create_new_wallet": "Создать новый бумажник",
