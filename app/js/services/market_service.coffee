@@ -376,7 +376,6 @@ class MarketService
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    console.log "------ short wall ------>", shorts_price, td.collateral, td.quantity
                     if inverted
                         short_wall.cost +=  td.quantity * shorts_price #td.collateral
                         short_wall.quantity += td.quantity
