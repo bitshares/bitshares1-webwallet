@@ -32,7 +32,6 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
         Info.info
 
     on_update = (info) ->
-        console.log "------ footer ------>", info
         if not $scope.client_version and info.client_version
             $scope.client_version = info.client_version
             $scope.expected_client_version = Info.expected_client_version

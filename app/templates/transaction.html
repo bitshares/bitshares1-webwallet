@@ -56,7 +56,7 @@
                 </td>
             </tr>
             <tr ng-repeat="vote in t.net_delegate_votes">
-                <td>{{'delegate.title'|translate}}:&nbsp;<a href="#/accounts/{{ vote[3] }}">{{ vote[3] }}</a></td>
+                <td>{{'delegate.title'|translate}}:&nbsp;<a ui-sref="account.delegate({name: vote[3]})">{{ vote[3] }}</a></td>
                 <td>{{'block.trx.approval_change'|translate}}:&nbsp;{{ vote[2] | formatAsset }}</td>
             </tr>
         </tbody>

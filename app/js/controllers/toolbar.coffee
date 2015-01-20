@@ -6,7 +6,6 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
     $scope.$watch ->
         Wallet.current_account
     , (value) ->
-        console.log "------ current_account ------>", value
         return unless value
         $scope.current_account = value.name
 
@@ -16,7 +15,6 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
         return unless all_accounts
         $scope.accounts.splice(0, $scope.accounts.length)
         $scope.accounts.push(name) for name, a of all_accounts when a.is_my_account and name != $scope.current_account
-        console.log "------ Wallet.accounts ------>", all_accounts, $scope.accounts
     , true
 
     $scope.back = ->

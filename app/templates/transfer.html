@@ -6,16 +6,16 @@
 </div>
 <div ng-switch-default>
 
-<div class="row head-bg p-inner" ng-if="show_from_section">
+<div class="row head-bg account-page" ng-if="show_from_section">
   <div class="col-sm-2">
-    <div class="avatar-150">
-      <img ng-src="http://robohash.org/set_1/{{account_from_name}}?size=150x150" height="150" width="150"/>
+    <div class="avatar move-right-50px">
+      <img class="avatar-150" ng-src="http://robohash.org/set_1/{{account_from_name}}?size=150x150" height="150" width="150"/>
     </div>
+    <br/>
   </div>
   <div class="col-sm-5">
-    <div class="header p-inner ">
-      <div>
-
+    <div class="header p-inner">
+      <div class="p-inner">
         <span class="account-from">{{ 'account.from' | translate }}:</span>
         <div class="btn-group" dropdown is-open="status.isopen1">
           <button type="button" class="btn btn-primary dropdown-toggle">{{account_from_name}} <span class="caret"></span></button>
@@ -25,7 +25,6 @@
             </li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
@@ -52,7 +51,7 @@
 <br/>
 
 <div class="row m-top">
-  <div class="col-md-2">
+  <div class="col-sm-2">
     <div class="avatar move-right-50px">
       <div style='width:150px;padding:0px;margin:0px'ng-if="gravatar_account_name && gravatar_account_name">
         <img class="avatar-150" ng-src="http://robohash.org/set_1/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
@@ -76,7 +75,7 @@
       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
     </div>
   </div>
-  <div class="col-md-10" id="transfer-form">
+  <div class="col-sm-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form"
           ng-submit="send()" novalidate>
       <div ng-init="setForm(my_transfer_form);"></div>

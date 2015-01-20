@@ -56,7 +56,7 @@
               </td>
               <td><a
                   ng-class="{'delegate-active-link' : delegate_active_hash_map[r.name], 'delegate-inactive-link' : delegate_inactive_hash_map[r.name], 'my-account-link': accounts[r.name].is_my_account}"
-                  href="#/accounts/{{r.name}}">{{ r.name }}</a></td>
+                  ui-sref="account.transactions({name: r.name})">{{ r.name }}</a></td>
               <td>{{ formatRegDate(r.registration_date) }}</td>
             </tr>
           </tbody>

@@ -30,8 +30,7 @@
             </div>
             <div ng-switch-default>
               <div class="pull-right">
-                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><i
-                    class="fa fa-credit-card fa-lg fa-fw"></i> {{'account.reg' | translate}} {{account.name}}</a>
+                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary">{{'account.reg' | translate}} {{account.name}}</a>
               </div>
               <span class="account-name">{{account.name}}</span>
               &nbsp;&nbsp; <span class="text-muted">{{"tip.not_reg_onchain" | translate}}</span>
@@ -154,9 +153,6 @@
 <div class="main-content">
 <div class="row">
 
-  <!--<button class="btn btn-primary"><i class="fa fa-file-excel-o fa-lg fa-fw"></i> Issue assets</button>
-  <button class="btn btn-primary">Free Registration</button> -->
-
   <div class="col-sm-12">
     <tabset>
 
@@ -171,12 +167,6 @@
         <tab-heading><i class="fa fa-legal fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
         <div ui-view="account-delegate"></div>
       </tab>
-
-      <!-- transfer tab -->
-      <!--<tab ng-click="goto_tab('account.transfer')" active="tabs[2].active" ng-show="account.is_my_account">-->
-        <!--<tab-heading><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</tab-heading>-->
-        <!--<div ui-view="account-transfer" ng-if="account.is_my_account"></div>-->
-      <!--</tab>-->
 
       <!-- Assets tab -->
       <tab ng-click="goto_tab('account.manageAssets')" active="tabs[3].active" ng-show="account.is_my_account" >

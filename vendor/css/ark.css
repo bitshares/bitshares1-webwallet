@@ -683,11 +683,11 @@ a:focus {
   background-color: #1B6FC1;
 }
 .btn.btn-primary:hover {
-  background-color: #2E6294;
+  background-color: #1863ad;
 }
 .btn.btn-primary:active,
 .btn.btn-primary .active {
-  background-color: #4489c5;
+  background-color: #1863ad;
 }
 .btn.btn-success {
   background-color: #84ce84;

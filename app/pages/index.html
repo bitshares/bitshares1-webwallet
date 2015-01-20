@@ -15,14 +15,12 @@
       <div class="context-help-content" ng-include src="context_help.file"></div>
     </div>
     </pageslide>
-    <div class="wrapper" ng-class="theme">
       <!-- TOOLBAR -->
-      <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
-        <div ng-include src="'toolbar.html'"></div>
-      </div>
-      <div class="body">
-        <div ui-view></div>
-      </div>
+    <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
+      <div ng-include src="'toolbar.html'"></div>
+    </div>
+    <div class="body" ng-class="theme">
+      <div ui-view></div>
     </div>
     <div loading-indicator></div>
     <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">

@@ -97,7 +97,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
 
-    $urlRouterProvider.otherwise('/home')
+    $urlRouterProvider.otherwise('/accounts')
 
     sp = $stateProvider
 

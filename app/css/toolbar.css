@@ -48,11 +48,15 @@ li > a:hover, li.active > a  {
 
 .navbar-default .navbar-nav > li > a {
 	height: 36px;
-	border-top: 2px solid transparent;
+	border-bottom: 2px solid transparent;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	border-top: 2px solid #1B6FC1;
+	border-bottom: 2px solid #1B6FC1;
+}
+
+.navbar-default .navbar-nav a.nav-transfer {
+	border-bottom: 2px solid transparent !important;
 }
 
 .left-panel {

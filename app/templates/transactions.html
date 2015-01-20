@@ -37,7 +37,7 @@
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
                         <img ng-src="http://robohash.org/set_1/{{entry.from}}?size=72x72" height="36" width="36"/>
-                        <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                        <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
                     </span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
                         {{ entry.from }}
@@ -52,13 +52,13 @@
 
                 <!--To-->
                 <span ng-if='entry.from == entry.to'>
-                    <a href="#/accounts/{{entry.to}}" translate>account.self</a>
+                    <a ui-sref="account.transactions({name: entry.to})" translate>account.self</a>
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">
                         <img src="http://robohash.org/set_1/{{entry.to}}?size=72x72" height="36" width="36"/>
                         <span>
-                            <a href="#/accounts/{{entry.to}}" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
+                            <a ui-sref="account.transactions({name: entry.to})" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
                             <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>
                         </span>
                     </span>

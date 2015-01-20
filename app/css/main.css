@@ -188,7 +188,7 @@ a.white:hover {
 /* Buttons & Elements */
 
 .btn-top-right {
-	margin: 32px 2px 0 0;
+	margin-top: 10px;
 }
 
 /* Header Section  */
@@ -290,6 +290,18 @@ li.stat {
 .move-right-50px {
 	position: relative;
 	left: 50px;
+}
+
+.account-page .btn-primary {
+	background-color: transparent;
+	color: #ddd;
+	border: 1px solid #ddd;
+}
+
+.account-page .btn-primary:hover {
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid #fff;
 }
 
 /* Directory  */

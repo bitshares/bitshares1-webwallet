@@ -72,7 +72,7 @@
                                                                                                                     }}...</a>
                     </span>
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                    <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                    <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
                     </span>
                 </span>
 
@@ -81,12 +81,12 @@
                     <span ng-if="entry.to[0] === entry.to[0].toUpperCase()">
                         {{ entry.to }}
                     </span>
-                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" href="#/accounts/{{entry.to}}">{{ entry.to
+                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ui-sref="account.transactions({name: entry.to})">{{ entry.to
                                                                                                         }}</a>
                 </span>
 
                 <span ng-if="account.name==entry.to && account.name==entry.from">
-                    {{ 'th.to' | translate }} <a href="#/accounts/{{account.name}}">{{ 'account.self' | translate }}</a>
+                    {{ 'th.to' | translate }} <a ui-sref="account.transactions({name: account.name})">{{ 'account.self' | translate }}</a>
                 </span>
 
                 <span ng-if="account.name!=entry.to && account.name!=entry.from"> {{ entry.from }} <i

@@ -211,7 +211,7 @@ class Wallet
         if @refresh_accounts_promise
             return @refresh_accounts_promise 
 
-        console.log "------ refresh_accounts ------"
+        #console.log "------ refresh_accounts ------"
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
 

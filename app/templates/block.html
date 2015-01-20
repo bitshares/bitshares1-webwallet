@@ -120,7 +120,7 @@
                     <div ng-repeat="deposit in t.a_deposits"><span>{{deposit | formatAsset}}</span><br></div></td>
                 <td>
                     <div ng-repeat="net_vote in t.net_delegate_votes | limitTo: 3">
-                        <span><a href="#/accounts/{{ net_vote[3] }}">{{ net_vote[3] }}</a>:&nbsp; </span>
+                        <span><a ui-sref="account.transactions({name: net_vote[3]})">{{ net_vote[3] }}</a>:&nbsp; </span>
                         <span>{{ net_vote[2] | formatAsset }}</span><br></div></td>
                 <td>
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>

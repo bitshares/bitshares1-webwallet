@@ -1,20 +1,6 @@
 .body {
 	margin-top: 36px;
-	height: 100%;
-	position: relative;
-}
-
-.wrapper {
-	height: 100%;
-}
-
-.content {
-	background: none;
-	overflow-y: auto;
-	zoom: 1;
-	margin-top: 0;
-	padding-bottom: 60px;
-	height: 100%;
+	margin-bottom: 40px;
 }
 
 .sidebar {
@@ -28,8 +14,4 @@
 	-webkit-touch-callout: none;
   -webkit-user-select: none;
 	user-select: none;
-}
-
-body.fixed_header .wrapper {
-	padding-top: 0;
 }
