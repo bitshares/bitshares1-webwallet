@@ -376,13 +376,12 @@ class MarketService
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
-                    #console.log "------ short wall ------>", td.collateral, td.quantity
                     if inverted
-                        short_wall.cost += td.collateral
+                        short_wall.cost +=  td.quantity * shorts_price #td.collateral
                         short_wall.quantity += td.quantity
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
                     else
-                        short_wall.quantity += td.collateral
+                        short_wall.quantity += td.quantity / shorts_price #td.collateral
                         short_wall.cost += td.quantity
                         @highest_bid = shorts_price if shorts_price > @highest_bid
 
