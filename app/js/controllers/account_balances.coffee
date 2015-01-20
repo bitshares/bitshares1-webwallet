@@ -10,5 +10,4 @@ angular.module("app").controller "AccountBalancesController", ($scope, $location
         $scope.balances = Wallet.balances
 
     $scope.go_to_account = (name) ->
-        console.log "------ go_to_account ------>", name
         $state.go("account.transactions", {name: name})

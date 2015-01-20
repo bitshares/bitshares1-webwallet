@@ -73,7 +73,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
-            
+
+    $rootScope.current_account = null
+
     $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
@@ -279,3 +281,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/referral_code?faucet&code"
         templateUrl: "referral_code.html"
         controller: "ReferralCodeController"
+
+    sp.state "advanced",
+        url: "/advanced"
+        templateUrl: "advanced/advanced.html"
+        controller: "AdvancedController"
+
+    sp.state "advanced.preferences", { url: "/preferences", views: { 'advanced-preferences': { templateUrl: 'advanced/preferences.html', controller: 'PreferencesController' } } }
+    sp.state "advanced.console", { url: "/console", views: { 'advanced-console': { templateUrl: 'advanced/console.html', controller: 'ConsoleController' } } }

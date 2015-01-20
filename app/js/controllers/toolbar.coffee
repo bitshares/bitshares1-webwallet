@@ -7,7 +7,7 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
         Wallet.current_account
     , (value) ->
         return unless value
-        $scope.current_account = value.name
+        $rootScope.current_account = $scope.current_account = value.name
 
     $scope.$watch ->
         Wallet.accounts

@@ -1,9 +1,12 @@
 <div class="col-sm-12">
-    <div class='header'>
+    <div ng-show="current_account" class="pull-right ">
+        <a class="btn btn-primary btn-top-right" ui-sref="market.buy({name: trade_market_name, account: current_account})">Trade</a>
+    </div>
+    <div class="header no-bottom-border">
         <h2 class="header-title">{{ticker}}</h2>
     </div>
 </div>
-<div class="main-content">
+<div ng-show="asset_record" class="main-content">
     <table class="table table-striped table-hover">
         <thead>
         <tr>

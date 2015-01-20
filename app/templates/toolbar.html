@@ -17,9 +17,8 @@
       <li ng-repeat-start="account in accounts"></li>
       <li><a ui-sref="account({name: account})"><i class="fa fa-user fa-fw fa-lg"></i> {{account}}</a></li>
       <li ng-repeat-end></li>
-
       <li class="divider"></li>
-      <li><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
+      <li><a ui-sref="advanced.preferences"><i class="fa fa-gear fa-fw"></i> Advanced</a></li>
     </ul>
   </li>
 
