@@ -6,6 +6,12 @@ window.getStackTrace = ->
            break
     trace.join("\n ○ ")
 
+window.open_external_url = (url) ->
+    if magic_unicorn?
+        magic_unicorn.open_in_external_browser(url)
+    else
+        window.open(url)
+
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus"])

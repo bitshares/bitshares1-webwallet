@@ -12,6 +12,7 @@ angular.module("app").controller "AssetController", ($scope, $rootScope, Blockch
     Blockchain.get_asset(0).then (asset) ->
         $scope.asset0 = asset
         $scope.trade_market_name = "#{$scope.ticker}:#{asset.symbol}"
+        $scope.trade_market_label = "#{$scope.ticker}/#{asset.symbol}"
 
     Blockchain.refresh_asset_records().then ->
         $scope.symbol2records = Blockchain.symbol2records
@@ -26,3 +27,4 @@ angular.module("app").controller "AssetController", ($scope, $rootScope, Blockch
                 $scope.feeds=result
             if $scope.asset_record.id < 22
                 $scope.trade_market_name = "Bit#{$scope.ticker}:#{$scope.asset0.symbol}"
+                $scope.trade_market_label = "Bit#{$scope.ticker}/#{$scope.asset0.symbol}"

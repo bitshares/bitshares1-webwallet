@@ -1,4 +1,4 @@
-angular.module("app").controller "ToolbarController", ($scope, $rootScope, Shared, Wallet) ->
+angular.module("app").controller "ToolbarController", ($scope, $state, $rootScope, Shared, Wallet) ->
 
     $scope.current_account = null
     $scope.accounts = []
@@ -37,3 +37,12 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
     $scope.lock = ->
         Wallet.wallet_lock().then ->
             navigate_to('unlockwallet')
+
+    $scope.switch_account = (account) ->
+        if $state.params?.account
+            params = angular.copy($state.params)
+            params.account = account
+            $state.go($state.current.name, params)
+        else
+            $state.go("account.transactions", {name: account})
+        return null

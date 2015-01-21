@@ -140,6 +140,12 @@ a.white:hover {
 	margin-top: 24px;
 }
 
+.no-top-space {
+	margin-top: 0;
+	padding-top: 0;
+}
+
+
 .m-bottom {
 	margin-bottom: 12px;
 }
@@ -404,10 +410,6 @@ input.ng-dirty.ng-invalid {
 	top: -14px;
 }
 
-.no-bottom-border {
-	border-bottom: none;
-}
-
 .text-lighter {
 	font-weight: lighter;
 }
@@ -425,4 +427,9 @@ input.ng-dirty.ng-invalid {
 .referral-success p, .referral-success i {
 	font-size: 200%;
 	color: #00aa00;
+}
+
+.vote-tab-header {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }

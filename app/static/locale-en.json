@@ -202,7 +202,7 @@
     "market": {
         "title": "Market",
         "featured_markets": "Featured Markets",
-        "search_market": "Search market",
+        "search_market": "Search markets (example: BitUSD:BTS)",
         "market_name": "Market Name",
         "all_markets": "All Markets",
         "recent_markets": "Recent Markets",
@@ -414,7 +414,7 @@
     "contact": {
         "add_contact": "Add Contact",
         "new_contact": "New Contact",
-        "contact_name": "Contact Name",
+        "contact_name": "Contact Name or Address",
         "contact_name_tip": "Name (Required)",
         "public_key": "Public Key",
         "public_key_tip": "Public Key (Required)",
@@ -439,7 +439,7 @@
             "name_tip": "Name (required)",
             "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
             "note1": "Note: Account names cannot be transferred.",
-            "note2": "Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash."
+            "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash."
         }
     },
     "pagination": {

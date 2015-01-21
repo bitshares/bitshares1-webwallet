@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, Utils) ->
+angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, MarketHelper, Utils) ->
     $scope.selected_market = null
     MarketService.load_recent_markets()
     $scope.recent_markets = MarketService.recent_markets
@@ -33,7 +33,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         pageSize: 20
         numberOfPages: 0
     assets_with_unknown_issuer = []
-    Blockchain.refresh_asset_records().then (records)->
+    Blockchain.refresh_asset_records().then (records) ->
         for key, asset of records
             asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)
             asset.maximum_supply = Utils.newAsset(asset.maximum_share_supply, asset.symbol, asset.precision)
@@ -51,6 +51,25 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
                     assets_with_unknown_issuer[i].account_name = if accounts[i] then accounts[i].name else "None"
         $scope.p.numberOfPages = Math.ceil($scope.user_issued_assets.length / $scope.p.pageSize)
         return null
+
+#    WalletAPI.account_order_list(null, 100).then (results) ->
+#        console.log "------ account_order_list ------>", results
+#        for r in results
+#            td = {}
+#            if r.market_index.order_price
+#
+#            order = r
+#            if r instanceof Array and r.length > 1
+#                td.id = r[0]
+#                order = r[1]
+#            console.log "------ market order ------>", order
+#            if order.type == "cover_order"
+#                #MarketHelper.cover_to_trade_data(order, market, inverted, td)
+#                console.log("------ cover order ------>", order, td)
+#            else
+#                MarketHelper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
+#            td.status = "posted" if td.status != "cover"
+#            #orders.push td
 
     $scope.go_to_asset = (name) ->
         $state.go("asset", {ticker: name})

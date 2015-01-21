@@ -3,11 +3,11 @@ angular.module("app.directives").directive "inputName", ->
         <input autofocus id="account_name" name="account_name" ng-trim="false" placeholder="{{ 'directive.input_name.name_tip' | translate }}"
         autofocus ng-model="$parent.ngModel" ng-blur="removeTrailing()"
         my-ng-enter="removeTrailingDashes()"
-        popover="{{ 'directive.input_name.popover' | translate }}"
+        popover=""
         popover-append-to-body="{{popoverAppendToBody}}" popover-placement="top" popover-trigger="focus" ng-keydown="kd()"
         ng-change="ku()" uncapitalize type="text" class="form-control" required ng-minlength="1" ng-maxlength="63">
+        <span class="help-block text-muted" ng-show="!formName.account_name.error_message" translate>directive.input_name.note2</span>
         <span class="help-block text-muted" ng-show="showNote1 && !formName.account_name.error_message" translate>directive.input_name.note1</span>
-        <span class="help-block text-muted" ng-show="showNote2 && !formName.account_name.error_message" translate>directive.input_name.note2</span>
         <span class="help-block text-danger" ng-show="formName.account_name.error_message">{{formName.account_name.error_message}}</span>
     '''
     restrict: "E"
