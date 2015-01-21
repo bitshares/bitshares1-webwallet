@@ -64,7 +64,7 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
                     switch config.symbol
                         when "XTS"
                             $scope.is_testnet = on
-                        when "BTS"
+                        else
                             $scope.is_testnet = off
                     
                     $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
