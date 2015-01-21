@@ -12,12 +12,12 @@
       </tr>
 			</thead>
 			<tbody>
-                <tr ng-repeat="a in accounts" ng-show='a.is_my_account'>
+                <tr ng-click="go_to_account(a.name)" ng-repeat="a in accounts" ng-show='a.is_my_account'>
                     <td class="avatar-40">
-                      <a class='my-account-link' href="#/accounts/{{a.name}}"><img ng-src="http://robohash.org/set_1/{{a.name}}?size=40x40" height="40" width="40"/></a>
+                      <img ng-src="http://robohash.org/set_1/{{a.name}}?size=40x40" height="40" width="40"/>
                     </td>
                     <td>         
-                       <a class='my-account-link' href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</b></a>
+                       <b>{{a.name}}</b>
                     </td>
                     <td width="1em">
                     </td>

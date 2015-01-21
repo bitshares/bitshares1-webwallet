@@ -83,6 +83,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+.no-bottom-border {
+	border-bottom: none;
+}
+
 a.white:hover {
 	color: #000;
 	opacity: 0.4;
@@ -90,7 +94,7 @@ a.white:hover {
 
 .white-shadow {
 	color: #fff;
-	text-shadow: 0 1px 2px black;
+	/*text-shadow: 0 1px 2px black;*/
 }
 
 .green {
@@ -107,7 +111,7 @@ a.white:hover {
 }
 
 .primary {
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .bg-secondary {
@@ -119,7 +123,7 @@ a.white:hover {
 }
 
 .secondary {
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .bg-third {
@@ -135,6 +139,12 @@ a.white:hover {
 .m-top {
 	margin-top: 24px;
 }
+
+.no-top-space {
+	margin-top: 0;
+	padding-top: 0;
+}
+
 
 .m-bottom {
 	margin-bottom: 12px;
@@ -182,19 +192,19 @@ a.white:hover {
 }
 
 .sidebar .nav .active > a, .sidebar .nav .active > a:hover, .sidebar .nav .active > a:focus {
-	border-left: solid 3px #01bbf4;
+	border-left: solid 3px #1B6FC1;
 }
 
 /* Buttons & Elements */
 
 .btn-top-right {
-	margin: 32px 2px 0 0;
+	margin-top: 10px;
 }
 
 /* Header Section  */
 
 .head-bg {
-	background: #0c3146 url('../img/xt-background.jpg') no-repeat left top;
+	background: #3a5b7a url('../img/xt-background.jpg') no-repeat left top;
 	background-size: cover;
 }
 
@@ -203,7 +213,11 @@ a.white:hover {
 	background-size: cover;
 }
 
-.head-bg-delegate .primary {
+.head-bg-delegate .primary, .head-bg .primary {
+	color: #ddd;
+}
+
+.head-bg-delegate .primary:hover, .head-bg .primary:hover {
 	color: #fff;
 }
 
@@ -236,7 +250,7 @@ li.stat {
 	color: #fff;
 	font-weight: 100;
 	letter-spacing: 1px;
-	margin-top: 24px;
+	margin-bottom: 0;
 }
 
 .table-acc-balance td {
@@ -286,6 +300,18 @@ li.stat {
 .move-right-50px {
 	position: relative;
 	left: 50px;
+}
+
+.account-page .btn-primary {
+	background-color: transparent;
+	color: #ddd;
+	border: 1px solid #ddd;
+}
+
+.account-page .btn-primary:hover {
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid #fff;
 }
 
 /* Directory  */
@@ -366,7 +392,7 @@ input.ng-dirty.ng-invalid {
 
 .pagination a.btn-primary, .pagination a.btn-primary:hover {
 	color: #fff !important;
-	background-color: #01bbf4 !important;
+	background-color: #1B6FC1 !important;
 }
 
 .alphabet > ul {
@@ -382,10 +408,6 @@ input.ng-dirty.ng-invalid {
 .transfer-amount-error {
 	position: relative;
 	top: -14px;
-}
-
-.no-bottom-border {
-	border-bottom: none;
 }
 
 .text-lighter {
@@ -405,4 +427,9 @@ input.ng-dirty.ng-invalid {
 .referral-success p, .referral-success i {
 	font-size: 200%;
 	color: #00aa00;
+}
+
+.vote-tab-header {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }

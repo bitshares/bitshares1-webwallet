@@ -43,7 +43,7 @@
           <tr ng-repeat="del in active_delegates | filter:search">
             <td>{{ del.rank }}</td>
             <td>
-              <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
+              <a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a>
               <br>
               <i ng-show="del.public_data.version"> {{ 'delegate.version' | translate }}: {{del.public_data.version}} </i>
               <br>
@@ -111,7 +111,7 @@
             <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
               <td>{{ del.rank }}</td>
               <td>
-                <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
+                <a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a>
                 <br>
                 <i ng-show="del.public_data.version"> Version: {{del.public_data.version}} </i>
                 <br>

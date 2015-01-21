@@ -42,10 +42,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $scope.register = ->
         if !$scope.m.payfrom and $scope.m.faucet?.url and $scope.m.faucet.url != 'add'
             url = "#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&account_key=#{$scope.account.active_key}"
-            if magic_unicorn?
-                magic_unicorn.open_in_external_browser(url)
-            else
-                $window.open(url)
+            open_external_url(url)
             $modalInstance.close("ok")
             return
 

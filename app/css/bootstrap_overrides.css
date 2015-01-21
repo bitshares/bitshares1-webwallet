@@ -15,7 +15,7 @@
 }
 
 .bg-primary {
-	background-color: #01bbf4;
+	background-color: #1B6FC1;
 }
 
 .btn-primary[disabled] {
@@ -24,12 +24,13 @@
 }
 
 .nav-tabs > li > a:hover, .nav-tabs > li > a:focus {
-	color:rgb(40,169,246);
+	color: #1B6FC1;
+	background-color: transparent;
 	border: 1px solid transparent;
 }
 
 .nav-tabs > li.active > a:hover {
-	color: rgb(40,169,246);
+	color: #1B6FC1;
 	border-bottom: 1px solid #fff;
 }
 
@@ -38,7 +39,7 @@
 }
 
 .nav-tabs > li.active > a {
-	color: rgb(40,169,246);
+	color: #1B6FC1;
 	border-bottom: 1px solid #fff;
 }
 
@@ -68,4 +69,12 @@ input[type="checkbox"] {
 
 .modal-footer {
 	margin-top: 0;
+}
+
+.header .header-title {
+	text-shadow: none;
+}
+
+.form-group.vertical-lable {
+	margin-bottom: 2px;
 }

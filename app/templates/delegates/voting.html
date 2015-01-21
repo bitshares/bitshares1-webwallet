@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="(key, del) in accounts" ng-if="del.delegate_info">
-      <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
+      <td><a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a></td>
       <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
                       tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">

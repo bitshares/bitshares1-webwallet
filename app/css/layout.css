@@ -1,20 +1,12 @@
 .body {
-	margin-top: 36px;
-	height: 100%;
-	position: relative;
+	/*margin-top: 36px;*/
+	/*margin-bottom: 40px;*/
+	padding-bottom: 40px;
 }
 
-.wrapper {
-	height: 100%;
-}
-
-.content {
-	background: none;
-	overflow-y: auto;
-	zoom: 1;
-	margin-top: 0;
-	padding-bottom: 60px;
-	height: 100%;
+body {
+	padding-top: 36px;
+	/*padding-bottom: 40px;*/
 }
 
 .sidebar {
@@ -27,9 +19,5 @@
 	padding-top: 10px;
 	-webkit-touch-callout: none;
   -webkit-user-select: none;
-	user-select: none ;
-}
-
-body.fixed_header .wrapper {
-	padding-top: 0;
+	user-select: none;
 }

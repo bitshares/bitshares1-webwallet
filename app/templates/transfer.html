@@ -6,16 +6,16 @@
 </div>
 <div ng-switch-default>
 
-<div class="row head-bg p-inner" ng-if="show_from_section">
+<div class="row head-bg account-page" ng-if="show_from_section">
   <div class="col-sm-2">
-    <div class="avatar-150">
-      <img ng-src="http://robohash.org/set_1/{{account_from_name}}?size=150x150" height="150" width="150"/>
+    <div class="avatar move-right-50px">
+      <img class="avatar-150" ng-src="http://robohash.org/set_1/{{account_from_name}}?size=150x150" height="150" width="150"/>
     </div>
+    <br/>
   </div>
   <div class="col-sm-5">
-    <div class="header p-inner ">
-      <div>
-
+    <div class="header">
+      <div class="p-inner">
         <span class="account-from">{{ 'account.from' | translate }}:</span>
         <div class="btn-group" dropdown is-open="status.isopen1">
           <button type="button" class="btn btn-primary dropdown-toggle">{{account_from_name}} <span class="caret"></span></button>
@@ -25,12 +25,10 @@
             </li>
           </ul>
         </div>
-
       </div>
     </div>
   </div>
-  <div class="col-sm-5">
-      <div class="pull-right p-inner">
+  <div class="col-sm-2">
           <table class="table table-striped table-acc-balance">
               <thead>
               <tr>
@@ -45,14 +43,13 @@
               </tr>
               </tbody>
           </table>
-      </div>
   </div>
 </div>
 
 <br/>
 
 <div class="row m-top">
-  <div class="col-md-2">
+  <div class="col-sm-2">
     <div class="avatar move-right-50px">
       <div style='width:150px;padding:0px;margin:0px'ng-if="gravatar_account_name && gravatar_account_name">
         <img class="avatar-150" ng-src="http://robohash.org/set_1/{{gravatar_account_name}}?size=150x150" height="150" width="150"/>
@@ -76,14 +73,14 @@
       <img src="img/user.png" height="150" width="150" ng-if="!gravatar_account_name"/>
     </div>
   </div>
-  <div class="col-md-10" id="transfer-form">
+  <div class="col-sm-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form"
           ng-submit="send()" novalidate>
       <div ng-init="setForm(my_transfer_form);"></div>
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <!-- amount -->
-        <label for="amount" class="col-sm-2 control-label" translate>account.amount</label>
-        <div class="col-md-3">
+        <label for="amount" class="col-sm-1 control-label" translate>account.amount</label>
+        <div class="col-sm-3">
           <div class="input-group">
             <input class="form-control" ng-model="transfer_info.amount" name="amount"
                 type="text" class="form-control" placeholder="0.0" id="amount"
@@ -123,9 +120,9 @@
       </div>
       <!-- pay to -->
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
-        <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
-        <div class="col-md-5">
-          <div class="input-group">
+        <label for="payto" class="col-sm-1 control-label" translate>account.to</label>
+        <div class="col-sm-5">
+          <div class="input-group" style="width: 100%;">
             <input ng-if='model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
@@ -147,8 +144,8 @@
       </div>
       <!-- memo -->
       <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
-        <label for="memo" class="col-sm-2 control-label" translate>account.memo</label>
-        <div class="col-md-5">
+        <label for="memo" class="col-sm-1 control-label" translate>account.memo</label>
+        <div class="col-sm-5">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
                  ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{ 'account.memo' | translate }}"
                  id="memo"/>
@@ -157,7 +154,7 @@
       </div>
       <!-- send -->
       <div class="form-group row">
-        <div class="col-sm-offset-2 col-sm-10">
+        <div class="col-sm-offset-1 col-sm-10">
           <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
             {{'account.send'|translate}}
           </button>

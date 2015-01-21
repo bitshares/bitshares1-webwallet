@@ -13,5 +13,5 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
             else
                 return false
 
-        Wallet.create_account(name, {'gui_data': {'website': $scope.website}}, error_handler).then ->
+        Wallet.create_account(name, null, error_handler).then ->
             $location.path("accounts/" + name)

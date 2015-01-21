@@ -53,7 +53,7 @@
                    {{ block.user_transaction_ids.length }}
                 </td>
                 <td>
-                    <a href="#/accounts/{{ block.delegate_name }}">
+                    <a ui-sref="account.delegate({name: block.delegate_name})">
                         {{ block.delegate_name }}
                     </a>
                 </td>

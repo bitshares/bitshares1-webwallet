@@ -6,6 +6,12 @@ window.getStackTrace = ->
            break
     trace.join("\n ○ ")
 
+window.open_external_url = (url) ->
+    if magic_unicorn?
+        magic_unicorn.open_in_external_browser(url)
+    else
+        window.open(url)
+
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus"])
@@ -73,7 +79,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
-            
+
+    $rootScope.current_account = null
+
     $idle.watch()
 
 app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
@@ -97,7 +105,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
 
-    $urlRouterProvider.otherwise('/home')
+    $urlRouterProvider.otherwise('/accounts')
 
     sp = $stateProvider
 
@@ -279,3 +287,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/referral_code?faucet&code"
         templateUrl: "referral_code.html"
         controller: "ReferralCodeController"
+
+    sp.state "advanced",
+        url: "/advanced"
+        templateUrl: "advanced/advanced.html"
+        controller: "AdvancedController"
+
+    sp.state "advanced.preferences", { url: "/preferences", views: { 'advanced-preferences': { templateUrl: 'advanced/preferences.html', controller: 'PreferencesController' } } }
+    sp.state "advanced.console", { url: "/console", views: { 'advanced-console': { templateUrl: 'advanced/console.html', controller: 'ConsoleController' } } }
