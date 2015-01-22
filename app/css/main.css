@@ -30,6 +30,7 @@ a:focus {
 
 a:hover, a:focus, {
 	color: #115176;
+	text-decoration: none !important;
 }
 
 .delegate-active-link{
@@ -84,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .no-bottom-border {
-	border-bottom: none;
+	border-bottom: none !important;
 }
 
 a.white:hover {

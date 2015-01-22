@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="col-sm-5">
+    <div class="col-sm-3">
       <tabset>
         <tab heading="{{'asset.market_pegged_assets' | translate}}">
           <table class="table table-striped table-hover">
@@ -45,14 +45,12 @@
               <tr>
                 <th translate>th.symbol</th>
                 <th translate>th.name</th>
-                <th translate>th.desc</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="asset in market_peg_assets | orderBy: 'id'" ng-click="go_to_asset(asset.symbol)">
-                <td>{{asset.symbol}}</td>
+                <td><span tooltip="{{asset.description}}">{{asset.symbol}}</span></td>
                 <td>{{asset.name}}</td>
-                <td>{{asset.description}}</td>
               </tr>
             </tbody>
           </table>
@@ -74,14 +72,12 @@
               <tr>
                 <th translate>th.symbol</th>
                 <th translate>th.name</th>
-                <th translate>th.desc</th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="asset in user_issued_assets | orderBy: 'id' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-click="go_to_asset(asset.symbol)">
-                <td>{{asset.symbol}}</td>
+                <td><span tooltip="{{asset.description}}">{{asset.symbol}}</span></td>
                 <td>{{asset.name}}</td>
-                <td>{{asset.description}}</td>
               </tr>
             </tbody>
           </table>
@@ -90,12 +86,38 @@
 
     </div>
 
-    <div class="col-sm-4">
+    <div class="col-sm-6">
       <div class="panel" ng-show="recent_markets.length > 0">
         <div class="panel-heading">
           <h3 class="panel-title" translate>Open Orders</h3>
         </div>
         <div class="panel-body">
+
+          <table class="table table-striped market-table">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Market</th>
+                <th>{{'th.order_price'|translate}}</th>
+                <th>{{'th.quantity'|translate}}</th>
+                <th>{{'th.total'|translate}}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="o in open_orders track by $index">
+                <td>{{'market.order_type.'+ o.type | translate}}</td>
+                <td><a ui-sref="market.buy({name: o.market.quantity_symbol+':'+o.market.base_symbol, account: account_name})">{{o.market.quantity_symbol}}/{{o.market.base_symbol}}</a></td>
+                <td>{{o.price | formatDecimal : o.market.price_precision : true}}</td>
+                <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : o.market.base_precision}} {{o.market.base_symbol}}</span></td>
+                <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : o.market.quantity_precision}} {{o.market.quantity_symbol}}</span></td>
+                <td>
+                  <button ng-show="o.status === 'posted'" class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" tooltip="Fee {{tx_fee}} {{tx_fee_symbol}}" translate>btn.cancel</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
         </div>
       </div>
     </div>

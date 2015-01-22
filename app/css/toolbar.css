@@ -44,6 +44,7 @@
 li > a:hover, li.active > a  {
 	/*color: #1B6FC1 !important;*/
 	/*background-color: transparent !important;*/
+	text-decoration: none;
 }
 
 .navbar-default .navbar-nav > li > a {
