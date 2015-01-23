@@ -16,7 +16,7 @@
   <div class="col-sm-5">
     <div class="header">
       <div class="p-inner">
-        <span class="account-from">{{ 'account.from' | translate }}:</span>
+        <span class="account-from"><span translate>account.from</span>:</span>
         <div class="btn-group" dropdown is-open="status.isopen1">
           <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>{{account_from_name}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
@@ -156,7 +156,7 @@
       <div class="form-group row">
         <div class="col-sm-offset-1 col-sm-10">
           <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid"><i class="fa fa-credit-card fa-lg fa-fw"></i>
-            {{'account.send'|translate}}
+            <span translate>account.send</span>
           </button>
           <span class="help-block">
                New Balance: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} (Less fee {{fee}})</span>

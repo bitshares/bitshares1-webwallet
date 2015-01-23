@@ -196,7 +196,8 @@ class Wallet
     # turn raw rpc return value into nice object
     populate_account: (val) ->
         acct = val
-        acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
         return acct

@@ -3,7 +3,7 @@
   <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a></li>
   <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>Exchange</a></li>
   <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-legal fa-fw fa-lg"></i>Delegates</a></li>
-  <li ui-sref-active="active"><a ui-sref="transfer" class="nav-transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i>{{ 'account.transfer' | translate }}</a></li>
+  <li ui-sref-active="active"><a ui-sref="transfer" class="nav-transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i><span translate>account.transfer</span></a></li>
 </ul>
 
 <ul class="nav navbar-nav pull-right">
@@ -37,9 +37,9 @@
       </li>
     </ul>
   </li>
-  <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i>{{ 'index.lock' | translate }}</a></li>
+  <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i><span translate>index.lock</span></a></li>
 
   <li ng-show="context_help.show" class="context-help">
-    <a ng-click="open_context_help()">{{'help.title'|translate}}<i class="fa fa-angle-double-left fa-fw"/></a>
+    <a ng-click="open_context_help()"><span translate>help.title</span><i class="fa fa-angle-double-left fa-fw"/></a>
   </li>
 </ul>

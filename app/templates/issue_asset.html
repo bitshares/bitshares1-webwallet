@@ -21,7 +21,7 @@
       </div>
       <!--to-->
       <div class="form-group" ng-class="{ 'has-error': has_error }">
-        <label class="col-sm-4 control-label" for="issueto"><span>{{'asset.issue_to'|translate}}</span></label>
+        <label class="col-sm-4 control-label" for="issueto"><span translate>asset.issue_to</span></label>
         <div class="input-group col-sm-8 col-md-7">
           <input id="issueto" name="issueto" ng-model="issue_asset.to" type="text" class="form-control"
                ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/" required/>
@@ -38,7 +38,7 @@
       <!--Submit-->
       <div form-hgroup-error></div>
       <button form-hgroup-submit-btn>
-        {{ "asset.btn_issue" | translate }}
+        <span translate>asset.btn_issue</span>
       </button>
     </form>
   </div>

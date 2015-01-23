@@ -1,6 +1,6 @@
 <div class="pull-right">
   <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Un-approve all' class="fa fa-eraser"></i>
-    {{ "delegate.un_approve_all" | translate }}
+    <span translate>delegate.un_approve_all</span>
   </button>
 </div>
     <div class="col-sm-6">
@@ -40,7 +40,7 @@
             <td>
               <a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a>
               <br>
-              <i ng-show="del.public_data.version"> {{ 'delegate.version' | translate }}: {{del.public_data.version}} </i>
+              <i ng-show="del.public_data.version"> <span translate>delegate.version</span>: {{del.public_data.version}} </i>
               <br>
               <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
             </td>

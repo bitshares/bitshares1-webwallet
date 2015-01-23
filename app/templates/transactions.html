@@ -96,8 +96,8 @@
          <td>
             <span ng-if="t.is_confirmed && !t.error">{{t.pretty_time}}</span><br/>
             <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">
-              <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction">{{'tip.pending' | translate}}</a>
-              <span ng-show="t.status=='rebroadcasted'">{{'tip.pending' | translate}} (rebroadcasted)</span>
+              <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction" translate>tip.pending</a>
+              <span ng-show="t.status=='rebroadcasted'"><span translate>tip.pending</span> (rebroadcasted)</span>
               <br/>Expires {{t.expiration_pretty_time}}
             </span>
             <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>

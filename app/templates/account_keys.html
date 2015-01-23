@@ -1,4 +1,4 @@
-<div class="p-inner"><b> {{ 'account.account_key' | translate}}:</b> {{account.active_key}}</div>
+<div class="p-inner"><b translate>account.account_key</b>: {{account.active_key}}</div>
 <tabset ng-show="account.is_my_account" class="p-inner">
   <hr>
   <tab heading="{{'account.import_wif_key'|translate}}">
@@ -16,7 +16,7 @@
       <div class="form-group row">
         <div class="col-sm-offset-2 col-sm-10">
           <div class="checkbox">
-              <label> <input ng-model='model.rescan' type="checkbox"> {{ 'account.rescan_blockchain' | translate }}</label>
+              <label> <input ng-model='model.rescan' type="checkbox"> <span translate>account.rescan_blockchain</span></label>
           </div>
         </div>
       </div>
