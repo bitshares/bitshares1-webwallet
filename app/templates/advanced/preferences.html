@@ -3,9 +3,7 @@
     <h3 class="header-title" translate>pref.title</h3>
   </div>
 </div>
-
 <div class="main-content">
-
   <div class="row">
     <div class="col-sm-12 m-top">
       <form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()"
@@ -20,7 +18,7 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee">{{'pref.trx_fee' | translate}}</label>
+            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" translate>pref.trx_fee</label>
             <div class="col-sm-3 input-group">
               <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee"
                      class="form-control" placeholder="Transaction Fee"/> <span class="input-group-addon">{{model.symbol}}</span>
@@ -37,7 +35,7 @@
             <label class="col-sm-offset-1 col-sm-3 control-label" translate>pref.language</label>
             <div class="col-sm-3 no-lr-padding">
               <div class="btn-group" dropdown is-open="status2.isopen">
-                <button type="button" class="btn dropdown-toggle">
+                <button type="button" class="btn dropdown-toggle" dropdown-toggle>
                   {{model.language_name}} <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -66,7 +64,7 @@
 
           <div class="form-group row">
             <div class="col-sm-offset-4 col-sm-2 no-lr-padding">
-              <button class="btn btn-success" type="submit" translate>btn.update</button>
+              <button class="btn btn-primary" type="submit" translate>btn.update</button>
             </div>
           </div>
         </div>

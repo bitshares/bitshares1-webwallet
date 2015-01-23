@@ -7,8 +7,8 @@
 </ul>
 
 <ul class="nav navbar-nav pull-right">
-  <li class="dropdown">
-    <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown">
+  <li class="dropdown" dropdown>
+    <a href class="dropdown-toggle pull-right" dropdown-toggle>
       <i class="fa fa-user fa-fw fa-lg"></i>
       <span class="hidden-small">{{current_account}} <b class="caret"></b></span> </a>
     <ul class="dropdown-menu pull-right">
@@ -22,8 +22,8 @@
     </ul>
   </li>
 
-  <li class="dropdown notification error-notifications" ng-show="errors.list.length > 0" ng-class="{'new-error': errors.new_error}" on-toggle="error_notifier_toggled(open)">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+  <li class="dropdown notification error-notifications" ng-show="errors.list.length > 0" ng-class="{'new-error': errors.new_error}" on-toggle="error_notifier_toggled(open)" dropdown>
+    <a href="#" class="dropdown-toggle" dropdown-toggle>
       <span class="label label-danger arrowed arrow-left-in pull-right">{{errors.num_errors}}</span> <i class="fa fa-bell"></i>
     </a>
     <ul class="dropdown-menu pull-right">

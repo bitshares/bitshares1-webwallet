@@ -34,7 +34,7 @@
         <!-- from -->
         <div form-hgroup label="{{'account.from'|translate}}">
           <div class="input-group-btn" dropdown is-open="status.isopen">
-            <button type="button" class="btn dropdown-toggle">{{burn.from}} <span class="caret"></span></button>
+            <button type="button" class="btn dropdown-toggle" dropdown-toggle>{{burn.from}} <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="a in burn.accounts">
                 <a ng-click="burn.from = a; status.isopen=false">{{a}}</a>

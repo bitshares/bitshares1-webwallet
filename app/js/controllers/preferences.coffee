@@ -1,4 +1,4 @@
-angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate) ->
+angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate, $filter) ->
     $scope.model = { transaction_fee: null, symbol: null }
     $scope.model.timeout = Wallet.timeout
     $scope.model.autocomplete = Wallet.autocomplete
