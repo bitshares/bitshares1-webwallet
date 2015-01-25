@@ -42,7 +42,8 @@
         "no_trxs": "트랜잭션 기록이 없습니다.",
         "updating_trx_history": "트랜잭션 기록을 업데이트합니다...",
         "partial_voting_info": "이 계정에는 아직 투표를 하지 않은 지분이 남아있습니다. 투표 완료를 권장합니다.",
-        "client_update_available": "클라이언트 필수 업데이트가 있습니다. https://github.com/BitShares/bitshares/releases 에서 다운로드 하십시오."
+        "client_update_available": "클라이언트 필수 업데이트가 있습니다. https://github.com/BitShares/bitshares/releases 에서 다운로드 하십시오.",
+        "fake_accounts_warning": "Warning! Scammers often make fake accounts to trick people into sending their funds to the wrong place. Please triple-check the name you have entered."
     },
     "th": {
         "date": "날짜",

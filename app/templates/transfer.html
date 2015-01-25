@@ -122,6 +122,11 @@
         </div>
       </div>
       <!-- pay to -->
+      <div class="form-group row">
+        <div class="col-sm-offset-2 col-sm-5">
+          <span class="help-block text-danger" translate>tip.fake_accounts_warning</span>
+        </div>
+      </div>
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
         <label for="payto" class="col-sm-2 control-label" translate>account.to</label>
         <div class="col-md-5">
