@@ -171,21 +171,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         ret = []
         regHash={}
         $scope.gravatar_account_name = ""
-        Blockchain.list_accounts(input, nItems).then (response) ->
-            angular.forEach response, (val) ->
-                if val.name.substring(0, input.length) == input
-                    regHash[val.name]=true
-                    if !Wallet.accounts[val.name]
-                        ret.push {'name': val.name}
-            angular.forEach Wallet.accounts, (val) ->
-                if val.name.substring(0, input.length) == input
-                    if (regHash[val.name])
-                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
-                    else
-                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
-            ret.sort(compare)
-
-            deferred.resolve(ret)
+        # Avoid scam names (look-alikes), NEVER auto-fill account names from the blockchain
+        angular.forEach Wallet.accounts, (val) ->
+            if val.name.substring(0, input.length) == input
+                if (regHash[val.name])
+                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
+                else
+                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
+        ret.sort(compare)
+        deferred.resolve(ret)
         return deferred.promise
 
     compare = (a, b) ->
