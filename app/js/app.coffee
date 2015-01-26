@@ -97,6 +97,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
       when "de", "de-DE", "de-de" then "de"
       when "ru", "ru-RU", "ru-ru" then "ru"
       when "it", "it-IT", "it-it" then "it"
+      when "ko", "ko-KR", "ko-kr" then "ko"
       else "en"
     moment.locale(lang)
 

@@ -9,6 +9,7 @@
       <form class="form-horizontal" role="form" name="pform" ng-submit="updatePreferences()"
             ng-class="{ 'has-error' : pform.wp.$invalid && !pform.wp.$pristine }" novalidate>
         <div class="form-group">
+          <!-- wallet lock timeout -->
           <div class="form-group row">
             <label class="col-sm-offset-1 col-sm-3 control-label" for="timeout" translate>pref.logout_timeout</label>
             <div class="col-sm-3 input-group">
@@ -17,6 +18,7 @@
             </div>
           </div>
 
+          <!-- transaction fee -->
           <div class="form-group row">
             <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" translate>pref.trx_fee</label>
             <div class="col-sm-3 input-group">
@@ -24,13 +26,14 @@
                      class="form-control" placeholder="Transaction Fee"/> <span class="input-group-addon">{{model.symbol}}</span>
             </div>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee"
-                   tooltip="{{ 'pref.autocomplete_info' | translate }}" tooltip-placement="bottom" translate>pref.autocomplete_receiver</label>
-            <div class="col-sm-3 no-lr-padding">
-              <input id="autocomplete" ng-model="model.autocomplete" name="autocomplete" class="form-control"  type="checkbox"/>
-            </div>
-          </div>
+          <!--<div class="form-group row">-->
+            <!--<label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee"-->
+                   <!--tooltip="{{ 'pref.autocomplete_info' | translate }}" tooltip-placement="bottom" translate>pref.autocomplete_receiver</label>-->
+            <!--<div class="col-sm-3 no-lr-padding">-->
+              <!--<input id="autocomplete" ng-model="model.autocomplete" name="autocomplete" class="form-control"  type="checkbox"/>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!-- interface language -->
           <div class="form-group row">
             <label class="col-sm-offset-1 col-sm-3 control-label" translate>pref.language</label>
             <div class="col-sm-3 no-lr-padding">
