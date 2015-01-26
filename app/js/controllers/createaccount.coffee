@@ -3,12 +3,12 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
 
     $scope.createAccount = ->
         form = @createaccount
-        form.account_name.error_message = null
+        form.account_name.$error.message = ""
         name = $scope.f.name
 
         error_handler = (response) ->
             if response.data.error
-                form.account_name.error_message = response.data.error.message
+                form.account_name.$error.message = response.data.error.message
                 return true
             else
                 return false

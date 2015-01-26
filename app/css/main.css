@@ -434,3 +434,11 @@ input.ng-dirty.ng-invalid {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+.newcontact-modal-form {
+	padding: 18px 20px 0 20px;
+}
+
+.modal-content .avatar {
+	margin-top: 18px;
+}
