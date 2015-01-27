@@ -25,6 +25,8 @@ class Wallet
 
     autocomplete: true
 
+    default_vote: 'vote_all'
+
     pendingRegistrations: {}
 
     current_account: null
@@ -69,6 +71,8 @@ class Wallet
                         @idle.watch()
                 @get_setting('autocomplete').then (result) =>
                     @autocomplete = result.value if result
+                @get_setting('default_vote').then (result) =>
+                    @default_vote = result.value if result?.value
                 @get_setting('interface_locale').then (result) =>
                     if result and result.value
                         @interface_locale = result.value

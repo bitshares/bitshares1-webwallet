@@ -28,7 +28,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             symbol: $stateParams.asset || Info.symbol
             payto : $stateParams.to
             memo :  $stateParams.memo
-            vote : 'vote_random'
+            show_vote_options: Wallet.default_vote == "vote_per_transaction"
+            vote : if Wallet.default_vote == "vote_per_transaction" then "vote_all" else Wallet.default_vote
 
     $scope.vote_options =
         vote_none: "vote_none"
@@ -115,7 +116,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.hot_check_send_amount()
     
     yesSend = ->
-        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, $scope.transfer_info.vote).then (response) ->
+        vote = if Wallet.default_vote == "vote_per_transaction" then $scope.transfer_info.vote else Wallet.default_vote
+        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote).then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
             $scope.transfer_info.amount = ""
@@ -166,27 +168,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.gravatar_account_name = $scope.transfer_info.payto
 
     $scope.accountSuggestions = (input) ->
-        nItems=10
-        deferred = $q.defer()
         ret = []
-        regHash={}
         $scope.gravatar_account_name = ""
-        Blockchain.list_accounts(input, nItems).then (response) ->
-            angular.forEach response, (val) ->
-                if val.name.substring(0, input.length) == input
-                    regHash[val.name]=true
-                    if !Wallet.accounts[val.name]
-                        ret.push {'name': val.name}
-            angular.forEach Wallet.accounts, (val) ->
-                if val.name.substring(0, input.length) == input
-                    if (regHash[val.name])
-                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
-                    else
-                        ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
-            ret.sort(compare)
-
-            deferred.resolve(ret)
-        return deferred.promise
+        angular.forEach Wallet.accounts, (val) ->
+            ret.push {'name': val.name} if val.name.substring(0, input.length) == input
+        ret.sort(compare)
+        return ret
 
     compare = (a, b) ->
         return -1  if a.name < b.name

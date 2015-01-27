@@ -333,10 +333,11 @@
         "vote": {
             "tab_title": "Vote",
             "vote_for": "Vote For",
-            "vote_all": "Vote All",
-            "vote_none": "Vote None",
-            "vote_random_subset": "Vote Random Subset",
-            "vote_as_delegates_recommended": "Vote as My Delegates Recommended",
+            "vote_all": "All",
+            "vote_none": "None",
+            "vote_random_subset": "Random Subset",
+            "vote_as_delegates_recommended": "As My Delegates Recommended",
+            "vote_per_transaction": "Specify for each transaction",
             "btn_update_vote": "Update Vote",
             "current_votes": "Current Votes",
             "future_votes": "Future Votes"

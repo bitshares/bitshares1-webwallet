@@ -13,7 +13,7 @@
       <div form-hgroup label="{{'asset.symbol'|translate}}">
         <select name="asset" class="form-control" id='issue_asset.symbol' ng-model="issue_asset.asset"
                 ng-init="issue_asset.symbol = issue_asset.symbol || $parent.my_symbols[0]"
-                ng-options="asset.symbol for asset in $parent.assets"></select>
+                ng-options="asset.symbol for asset in assets"></select>
       </div>
       <!--amount-->
       <div form-hgroup label="{{'asset.amount'|translate}}">

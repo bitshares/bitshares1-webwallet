@@ -13,6 +13,15 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
     $scope.model.language_locale = $translate.preferredLanguage()
     $scope.model.language_name = $scope.model.languages[$scope.model.language_locale]
 
+
+    $scope.voting = {default_vote: Wallet.default_vote}
+    $scope.voting.vote_options =
+        vote_none: "vote_none"
+        vote_all: "vote_all"
+        vote_random: "vote_random_subset"
+        vote_recommended: "vote_as_delegates_recommended"
+        vote_per_transaction: "vote_per_transaction"
+
     $scope.model.themes = {}
     $translate(['pref.default',"pref.flowers"]).then (result) ->
         $scope.model.themes =
@@ -31,6 +40,11 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         Wallet.autocomplete
     , (value) ->
         $scope.model.autocomplete = value
+
+    $scope.$watch ->
+        Wallet.default_vote
+    , (value) ->
+        $scope.voting.default_vote = value
 
     $scope.$watch ->
         Wallet.info.transaction_fee
@@ -71,9 +85,10 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
                 Wallet.set_setting('autocomplete', $scope.model.autocomplete),
                 Wallet.set_setting('interface_locale', $scope.model.language_locale)
                 Wallet.set_setting('interface_theme', $scope.model.theme)
-
+                Wallet.set_setting('default_vote', $scope.voting.default_vote)
         ]
         $q.all(calls).then (r) ->
             $translate.use($scope.model.language_locale)
             moment.locale($scope.model.language_locale)
+            Wallet.default_vote = $scope.voting.default_vote
             Growl.notice "Preferences Updated", ""
