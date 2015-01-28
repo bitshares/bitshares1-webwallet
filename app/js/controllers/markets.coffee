@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, MarketHelper, Utils) ->
+angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, MarketHelper, Utils, RpcService) ->
     $scope.selected_market = null
     MarketService.load_recent_markets()
     $scope.recent_markets = MarketService.recent_markets

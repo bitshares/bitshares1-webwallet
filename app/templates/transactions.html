@@ -101,8 +101,8 @@
               <br/>Expires {{t.expiration_pretty_time}}
             </span>
             <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
-            <span class="label label-warning" ng-if="t.is_virtual">Virtual</span>
-            <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span>Details</span></a></span>
+            <span class="label label-warning" ng-if="t.is_virtual" translate>account.transaction_virtual</span>
+            <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span translate>account.transaction_details</span></a></span>
         </td>
       </tr>
       <tr ng-if="warning">

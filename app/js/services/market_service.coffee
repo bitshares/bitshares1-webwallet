@@ -395,7 +395,7 @@ class MarketService
     pull_covers: (market, inverted) ->
         covers = []
         @blockchain_api.market_list_covers(market.asset_base_symbol, 1000).then (results) =>
-            results = [].concat.apply(results) # flattens array of results
+            results = if results then [].concat.apply(results) else [] # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
                 #r.type = "cover"

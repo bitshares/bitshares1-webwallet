@@ -31,7 +31,7 @@
         "pending": "Ожидание ...",
         "rename_account_name_existed": "Аккаунт с именем {{value}} уже зарегистрирован в цепочке блоков.",
         "account_not_found": "Аккаунт не найден",
-        "wrong_amount": "Неправильное количество",
+        "wrong_amount": "Неправильная сумма",
         "memo_size_exceeds": "Размер примечания не должен превышать {{value}} символов",
         "account_note_can_be_blank": "Примечание к аккаунту. Может быть пустым.",
         "info_filter_by_op": "Фильтр транзакций по операциям",
@@ -49,7 +49,7 @@
         "from": "ОТ",
         "to": "КОМУ",
         "memo": "ПРИМЕЧАНИЕ",
-        "amount": "КОЛИЧЕСТВО",
+        "amount": "СУММА",
         "fee": "КОММИСИЯ",
         "name": "ИМЯ",
         "balance": "БАЛАНС",
@@ -145,7 +145,7 @@
     "unlock": {
         "btn_unlock": "Разблокировать",
         "caps_lock_on": "Caps Lock is on!",
-        "desc_title": "будущее банковской индустрии",
+        "desc_title": "Децентрализованная биржа",
         "desc_content_1": "BitShares - это глобальное сообщество, которое с помощью распределенного приложения, создает лучшие деньги в мире.",
         "desc_content_2": "",
         "wrong_pass": "Неверный пароль.",
@@ -283,8 +283,8 @@
         "reg_pending": "Ожидание регистрации",
         "reg": "Зарегистрировать",
         "reg_date": "Дата регистрации",
-        "balances": "БАЛАНСЫ",
-        "open_orders": "ОТКРЫТЫЕ ОРДЕРА",
+        "balances": "Баланс",
+        "open_orders": "Открытые Ордера",
         "transactions": "Транзакции",
         "recent_trxs": "Последние транзакции",
         "recent_trxs_info": "Транзакции для всех Ваших аккаунтов",
@@ -292,7 +292,7 @@
         "all_trxs": "Вся история транзакций",
         "transfer": "Перевод средств",
         "transfer_authorization": "Подтверждение Перевода",
-        "amount": "Количество",
+        "amount": "Сумма",
         "from": "От",
         "to": "Кому",
         "new": "Новый",
@@ -329,14 +329,17 @@
         "self": "себе",
         "vote": {
             "tab_title": "Голосовать",
-            "vote_for": "Голосовать за",
-            "vote_all": "Голосовать за всех",
-            "vote_none": "Голосовать против всех",
-            "vote_random_subset": "Избрать депутатов случайным образом",
-            "vote_as_delegates_recommended": "Голосовать как рекомендуют мои делегаты",
-            "btn_update_vote": "Обновить выбор",
-            "current_votes": "Текущий выбор",
-            "future_votes": "Планируемый выбор"
+            "vote_for": "Голосовать",
+            "vote_all": "За всех",
+            "vote_none": "Против всех",
+            "vote_random_subset": "За случайную выборку",
+            "vote_as_delegates_recommended": "Как рекомендуют мои делегаты",
+            "btn_update_vote": "Проголосовать",
+            "current_votes": "Текущие голоса",
+            "votes": "Сумма",
+            "approval": "Одобрение",
+            "vote_confirmation_title": "Подтвердите голосование",
+            "vote_confirmation_text": "Проголосовать используя {{balance}} {{symbol}}? Комиссия за транзакцию составит {{fee}} {{fee_symbol}}."
         },
         "import_wif_key": "Импортировать WIF ключ",
         "import_from_wallet": "Импортировать ключи из бумажника",
@@ -358,14 +361,16 @@
         "estimated_yield": "ОЖИДАЕМАЯ ДОХОДНОСТЬ",
         "wall" : {
             "tab_title": "Стена",
-            "burn_records": "Burn Records",
-            "burn_post": "Burn/Post Message",
-            "message": "Message",
-            "post_message": "Post Message",
-            "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver",
-            "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
-        }
+            "burn_records": "Записи",
+            "burn_post": "Оставить запись",
+            "message": "Сообщение",
+            "post_message": "Опубликовать запись",
+            "burn_confirmation": "Подверждение публикации записи",
+            "receiver": "Получатель",
+            "explain": "В целях формирования репутации, вы можете оставить запись на стене аккаунта {{account_name}}, указанная ниже сумма будет уничтожена."
+        },
+        "transaction_details": "Детали",
+        "transaction_virtual": "Виртуальная"
     },
     "accounts": {
         "create_account": "Создать новый аккаунт",
@@ -389,7 +394,7 @@
         "issue_assets": "Эмитировать актив",
         "issue_assets_info": "Эмитировать новый актив из тех, которые Вы контролируете.",
         "btn_issue": "Эмитировать",
-        "amount": "Количество",
+        "amount": "Сумма",
         "issue_to": "Кому",
         "info_create_asset_fee": "Комиссия за создание нового актива",
         "asset_create_auth": "Авторизация создания актива",
@@ -470,5 +475,13 @@
         "minutes": "{{value}} Минут",
         "hours": "{{value}} Часов",
         "days": "{{value}} Дней"
+    },
+    "toolbar": {
+        "back": "Назад",
+        "dashboard": "Инфопанель",
+        "exchange": "Биржа",
+        "delegates": "Делегаты",
+        "account_details": "Текущий аккаунт",
+        "advanced": "Настройки"
     }
 }

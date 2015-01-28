@@ -44,7 +44,7 @@ Copyright 2013 Kevin Sylvestre
       namespace: 'growl',
       duration: 6000,
       close: "&times;",
-      location: "default",
+      location: "br",
       style: "default",
       size: "medium"
     };
