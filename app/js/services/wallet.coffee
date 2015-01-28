@@ -115,12 +115,13 @@ class Wallet
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
                     asset_record = @blockchain.asset_records[asset_id]
-                    symbol = asset_record.symbol
-                    amount = asset_id_amt_pair[1]
-                    @balances[name] = @balances[name] || {}
-                    @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
-                    @asset_balances[asset_id] = @asset_balances[asset_id] || 0
-                    @asset_balances[asset_id] = @asset_balances[asset_id] + amount
+                    if asset_record
+                        symbol = asset_record.symbol
+                        amount = asset_id_amt_pair[1]
+                        @balances[name] = @balances[name] || {}
+                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
+                        @asset_balances[asset_id] = @asset_balances[asset_id] || 0
+                        @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
                 #console.log "------ refresh_balances acct.name ------>", acct.name
                 if acct.is_my_account and !@balances[acct.name]

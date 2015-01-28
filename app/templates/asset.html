@@ -33,7 +33,7 @@
             </td>
             <td>{{ symbol2records[ticker].description }}</td>
             <td>
-               <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer }} </a>
+               <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer.name }} </a>
                 <span ng-if="symbol2records[ticker].issuer_account_id == -2">MARKET</span>
                 <span ng-if="symbol2records[ticker].id == 0">None</span>
             </td>
