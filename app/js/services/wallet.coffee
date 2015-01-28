@@ -23,8 +23,6 @@ class Wallet
     # set in constructor
     timeout: null
 
-    autocomplete: true
-
     default_vote: 'vote_all'
 
     pendingRegistrations: {}
@@ -69,8 +67,6 @@ class Wallet
                         @timeout = result.value
                         @idle._options().idleDuration = @timeout
                         @idle.watch()
-                @get_setting('autocomplete').then (result) =>
-                    @autocomplete = result.value if result
                 @get_setting('default_vote').then (result) =>
                     @default_vote = result.value if result?.value
                 @get_setting('interface_locale').then (result) =>

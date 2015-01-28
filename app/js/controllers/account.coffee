@@ -14,7 +14,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.tabs = []
     $scope.tabs.push { heading: "account.transactions", route: "account.transactions", active: true }
     $scope.tabs.push { heading: "account.delegate", route: "account.delegate", active: false }
-    $scope.tabs.push { heading: "account.transfer", route: "account.transfer", active: false }
     $scope.tabs.push { heading: "account.manageAssets", route: "account.manageAssets", active: false }
     $scope.tabs.push { heading: "account.keys", route: "account.keys", active: false }
     $scope.tabs.push { heading: "account.updateRegAccount", route: "account.updateRegAccount", active: false }

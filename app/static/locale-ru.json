@@ -276,8 +276,11 @@
             "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
             "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
-            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
-        }
+            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
+            "short_interest_rate": "Годовая доходность, которую вы можете заплатить"
+        },
+        "days": "{{value}} Дней",
+        "percent_apr": "%"
     },
     "account": {
         "reg_pending": "Ожидание регистрации",
@@ -398,8 +401,8 @@
         "issue_to": "Кому",
         "info_create_asset_fee": "Комиссия за создание нового актива",
         "asset_create_auth": "Авторизация создания актива",
-        "market_pegged_assets": "Market-Pegged Assets",
-        "user_issued_assets": "User-Issued Assets"
+        "market_pegged_assets": "Рыночные активы",
+        "user_issued_assets": "Пользовательские активы"
     },
     "privacy": {
         "email_warning1": "Адрес Вашей электронной почты используется только в целях идентификации Вашего аккаунта, ",
@@ -466,9 +469,9 @@
     },
     "footer": {
         "enable_trx_scan": "Включить сканирование транзакций",
-        "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
+        "up_to_date": "Цепочка блоков загружена. Обработано {{value}} блоков",
         "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков",
-        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
+        "version_warning": "Внимание! Эта версия GUI требует для работы версию клиента {{expected_client_version}} или более позднюю, текущая версия {{client_version}}"
     },
     "utils": {
         "expired": "Истек",

@@ -9,17 +9,17 @@
     <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()" translate>footer.enable_trx_scan</a></span>
 </p>
 <p class="pull-left" ng-if="show_version_warning">
-  {{'footer.version_warning' | translate:'{expected_client_version: expected_client_version, client_version: client_version}'}}
+  {{'footer.version_warning' | translate:show_version_warning_td}}
 </p>
 <p class="pull-right m-bottom">
   <span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
     <span> {{blockchain_last_sync_info}} </span>
   <span class="blockchain-status icon" ng-switch on="blockchain_status">
     <i class="fa fa-check" ng-switch-when="synced"
-       tooltip="{{'footer.up_to_date'|translate:'{value: blockchain_last_block_num}'}}"
+       tooltip="{{'footer.up_to_date'|translate:blockchain_status_td}}"
        tooltip-placement="left"></i>
     <i class="fa fa-refresh fa-spin" ng-switch-when="syncing"
-       tooltip="{{'footer.catching_up'|translate:'{value1: blockchain_last_block_num, value2: (blockchain_last_block_num + blockchain_blocks_behind)}'}}"
+       tooltip="{{'footer.catching_up'|translate:blockchain_status_td}}"
        tooltip-placement="left"></i>
     <i ng-switch-default></i>
   </span>

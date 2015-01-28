@@ -59,7 +59,7 @@ angular.module("app.directives").directive "inputAssetAmount", ($compile) ->
         <div class="input-asset-amount">
         <input style="width: 12em;" class="form-control" ng-model="amount.value" placeholder="0.0 {{required ? '' : '(optional)'}}" />
         <div class="input-group-btn" dropdown is-open="status.isopen">
-          <button type="button" class="btn dropdown-toggle" ng-disabled="false">{{amount.symbol}} <span class="caret"></span></button>
+          <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="false">{{amount.symbol}} <span class="caret"></span></button>
           <ul class="dropdown-menu" role="menu">
             <li ng-repeat="s in symbols">
               <a ng-click="amount.symbol = s; status.isopen = false">{{s}}</a>

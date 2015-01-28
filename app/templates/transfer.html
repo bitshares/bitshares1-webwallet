@@ -123,7 +123,7 @@
         <label for="payto" class="col-sm-1 control-label" translate>account.to</label>
         <div class="col-sm-5">
           <div class="input-group" style="width: 100%;">
-            <input ng-if='model.autocomplete' ng-model="transfer_info.payto" name="payto" type="text"
+            <input ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select='onSelect($item, $model, $label)' typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"

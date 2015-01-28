@@ -1,7 +1,6 @@
 angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate, $filter) ->
     $scope.model = { transaction_fee: null, symbol: null }
     $scope.model.timeout = Wallet.timeout
-    $scope.model.autocomplete = Wallet.autocomplete
     $scope.model.symbol = ''
     $scope.model.languages =
         "en": "English"
@@ -35,11 +34,6 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
     , (value) ->
         return if value == null
         $scope.model.timeout = value
-
-    $scope.$watch ->
-        Wallet.autocomplete
-    , (value) ->
-        $scope.model.autocomplete = value
 
     $scope.$watch ->
         Wallet.default_vote
@@ -82,7 +76,6 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         calls = [
                 Wallet.set_setting('timeout', $scope.model.timeout),
                 WalletAPI.set_transaction_fee(pf),
-                Wallet.set_setting('autocomplete', $scope.model.autocomplete),
                 Wallet.set_setting('interface_locale', $scope.model.language_locale)
                 Wallet.set_setting('interface_theme', $scope.model.theme)
                 Wallet.set_setting('default_vote', $scope.voting.default_vote)
@@ -92,3 +85,6 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
             moment.locale($scope.model.language_locale)
             Wallet.default_vote = $scope.voting.default_vote
             Growl.notice "Preferences Updated", ""
+
+    $scope.blockchain_last_block_num = 111
+    $scope.translationData = {value: 111}

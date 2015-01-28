@@ -36,6 +36,8 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
             $scope.client_version = info.client_version
             $scope.expected_client_version = Info.expected_client_version
             $scope.show_version_warning = Utils.version_to_number(info.client_version) < Utils.version_to_number(Info.expected_client_version)
+            if $scope.show_version_warning
+                $scope.show_version_warning_td = {expected_client_version: $scope.expected_client_version, client_version: $scope.client_version}
         connections = info.network_connections
         $scope.connections = connections
         if connections > 1
@@ -61,12 +63,6 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
                 minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
 
                 Blockchain.get_info().then (config) ->
-                    switch config.symbol
-                        when "XTS"
-                            $scope.is_testnet = on
-                        else
-                            $scope.is_testnet = off
-                    
                     $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
                     $scope.blockchain_time_behind = "#{hours_diff_str} #{minutes_diff_str}"
                     $scope.blockchain_status = if $scope.blockchain_blocks_behind < 2 then "synced" else "syncing"
@@ -74,13 +70,19 @@ angular.module("app").controller "FooterController", ($scope, Info, Utils, Block
                     if seconds_diff > (config.block_interval + 2)
                         $scope.blockchain_last_sync_info = "Last block was synced " + $filter("formatSecond")(info.blockchain_head_block_age) + " ago"
                     else
-                        $scope.blockchain_last_sync_info = "Blocks are synced "
+                        $scope.blockchain_last_sync_info = "Blocks are synced"
             else
                 $scope.blockchain_status = "off"
-                $scope.blockchain_last_sync_info = " Blocks are syncing ..."
+                $scope.blockchain_last_sync_info = "Blocks are syncing ..."
         else
             $scope.blockchain_status = "off"
             $scope.blockchain_last_sync_info = "Not connected "
+
+        $scope.blockchain_status_td =
+            value: $scope.blockchain_last_block_num
+            value1: $scope.blockchain_last_block_num
+            value2: $scope.blockchain_last_block_num + $scope.blockchain_blocks_behind
+
 
         if info.wallet_scan_progress == -1
             if info.transaction_scanning

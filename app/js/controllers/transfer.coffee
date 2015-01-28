@@ -15,12 +15,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
-    $scope.model.autocomplete = Wallet.autocomplete
-
-    $scope.$watch ->
-        Wallet.autocomplete
-    , ->
-        $scope.model.autocomplete = Wallet.autocomplete
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
