@@ -1,9 +1,12 @@
-angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, MarketHelper, Utils) ->
+angular.module("app").controller "MarketsController", ($scope, $state, Wallet, Blockchain, WalletAPI, MarketService, MarketHelper, Utils, RpcService) ->
     $scope.selected_market = null
     MarketService.load_recent_markets()
     $scope.recent_markets = MarketService.recent_markets
     $scope.account_name = false
     $scope.featured_markets = []
+    $scope.open_orders = []
+    $scope.tx_fee_symbol = ""
+    $scope.tx_fee = 0
 
     promise = Wallet.get_current_or_first_account()
     promise.then (account)->
@@ -33,6 +36,32 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         pageSize: 20
         numberOfPages: 0
     assets_with_unknown_issuer = []
+
+    list_open_orders = ->
+        WalletAPI.account_order_list(null, 100).then (results) ->
+            inverted = false
+            for r in results
+                td = { market: {} }
+                order = r
+                if r instanceof Array and r.length > 1
+                    td.id = r[0]
+                    order = r[1]
+                if order.market_index?.order_price
+                    td.market.quantity_asset = Blockchain.asset_records[order.market_index.order_price.quote_asset_id]
+                    td.market.quantity_precision = td.market.quantity_asset.precision
+                    bit = if td.market.quantity_asset.id > 0 and td.market.quantity_asset.id < 24 then "Bit" else ""
+                    td.market.quantity_symbol = bit + td.market.quantity_asset.symbol
+                    td.market.base_asset = Blockchain.asset_records[order.market_index.order_price.base_asset_id]
+                    td.market.base_precision = td.market.base_asset.precision
+                    bit = if td.market.base_asset.id > 0 and td.market.base_asset.id < 24 then "Bit" else ""
+                    td.market.base_symbol = bit + td.market.base_asset.symbol
+                    td.market.price_precision = Math.max(td.market.quantity_precision, td.market.base_precision)
+                if order.type == "cover_order"
+                    MarketHelper.cover_to_trade_data(order, td.market, inverted, td)
+                else
+                    MarketHelper.order_to_trade_data(order, td.market.quantity_asset, td.market.base_asset, inverted, inverted, inverted, td)
+                $scope.open_orders.push td
+
     Blockchain.refresh_asset_records().then (records) ->
         for key, asset of records
             asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)
@@ -50,26 +79,17 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
                 for i in [0...accounts.length]
                     assets_with_unknown_issuer[i].account_name = if accounts[i] then accounts[i].name else "None"
         $scope.p.numberOfPages = Math.ceil($scope.user_issued_assets.length / $scope.p.pageSize)
+        tx_fee_asset = Blockchain.asset_records[0]
+        $scope.tx_fee_symbol = tx_fee_asset.symbol
+        WalletAPI.get_transaction_fee(tx_fee_asset.symbol).then (tx_fee) ->
+            $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
+        list_open_orders()
         return null
-
-#    WalletAPI.account_order_list(null, 100).then (results) ->
-#        console.log "------ account_order_list ------>", results
-#        for r in results
-#            td = {}
-#            if r.market_index.order_price
-#
-#            order = r
-#            if r instanceof Array and r.length > 1
-#                td.id = r[0]
-#                order = r[1]
-#            console.log "------ market order ------>", order
-#            if order.type == "cover_order"
-#                #MarketHelper.cover_to_trade_data(order, market, inverted, td)
-#                console.log("------ cover order ------>", order, td)
-#            else
-#                MarketHelper.order_to_trade_data(order, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
-#            td.status = "posted" if td.status != "cover"
-#            #orders.push td
 
     $scope.go_to_asset = (name) ->
         $state.go("asset", {ticker: name})
+
+    $scope.cancel_order = (id) ->
+        WalletAPI.market_cancel_order(id).then (res) ->
+            $scope.open_orders.splice(i, 1) for i, o of $scope.open_orders when o.id == id
+

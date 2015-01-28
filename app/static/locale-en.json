@@ -333,13 +333,17 @@
         "vote": {
             "tab_title": "Vote",
             "vote_for": "Vote For",
-            "vote_all": "Vote All",
-            "vote_none": "Vote None",
-            "vote_random_subset": "Vote Random Subset",
-            "vote_as_delegates_recommended": "Vote as My Delegates Recommended",
-            "btn_update_vote": "Update Vote",
+            "vote_all": "All",
+            "vote_none": "None",
+            "vote_random_subset": "Random Subset",
+            "vote_as_delegates_recommended": "As My Delegates Recommended",
+            "vote_per_transaction": "Specify for each transaction",
+            "btn_update_vote": "Vote",
             "current_votes": "Current Votes",
-            "future_votes": "Future Votes"
+            "votes": "Votes",
+            "approval": "Approval",
+            "vote_confirmation_title": "Vote Confirmation",
+            "vote_confirmation_text": "Vote with your {{balance}} {{symbol}} balance. It will charge a fee of {{fee}} {{fee_symbol}}."
         },
         "import_wif_key": "Import WIF Key",
         "import_from_wallet": "Import Keys from Wallet",
@@ -368,7 +372,10 @@
             "burn_confirmation": "Burn/Post Message Confirmation",
             "receiver": "Receiver",
             "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
-        }
+        },
+        "transaction_details": "Details",
+        "transaction_virtual": "Virtual"
+
     },
     "accounts": {
         "create_account": "Create New Account",
@@ -429,7 +436,8 @@
         "language": "Interface Language",
         "theme": "Unlock Screen Theme",
         "default": "Default",
-        "flowers": "Flowers"
+        "flowers": "Flowers",
+        "default_vote": "By Default Vote For"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"
@@ -497,5 +505,13 @@
         "minutes": "{{value}} Minutes",
         "hours": "{{value}} Hours",
         "days": "{{value}} Days"
+    },
+    "toolbar": {
+        "back": "Back",
+        "dashboard": "Dashboard",
+        "exchange": "Exchange",
+        "delegates": "Delegates",
+        "account_details": "Account Details",
+        "advanced": "Advanced"
     }
 }

@@ -163,8 +163,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.cancel_order = (id) ->
         res = MarketService.cancel_order(id)
-        return unless res
-    #res.then -> Growl.notice "", "Your order was canceled."
 
     get_order = ->
         switch $state.current.name

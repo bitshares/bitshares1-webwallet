@@ -149,8 +149,13 @@ span.cell {
 	color: #ff7f0e !important;
 }
 
+.tab-short.active > a {
+	border-top: 2px solid #6390bc !important;
+	color: #6390bc !important;
+}
+
 .tab-short > a:hover {
-	color: #7cb5ec !important;
+	color: #6390bc !important;
 }
 
 /*.market-table tr.bid_order {*/
@@ -162,7 +167,7 @@ span.cell {
 /*}*/
 
 /*.market-table tr.short_order {*/
-	/*color: #7cb5ec;*/
+	/*color: #6390bc;*/
 /*}*/
 
 tr.short_wall td {
@@ -182,11 +187,11 @@ tr.short_wall td {
 }
 
 .short-orders-title {
-	color: #7cb5ec;
+	color: #6390bc;
 }
 
 .margin-orders-title {
-	color: #7cb5ec;
+	color: #6390bc;
 }
 
 .market-header-button {

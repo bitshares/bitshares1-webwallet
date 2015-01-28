@@ -2,15 +2,15 @@
   <table class="table table-striped table-hover market-table">
     <thead>
       <tr>
-        <th>{{'th.order_price'|translate}} ({{market.price_symbol}})</th>
-        <th>{{'th.quantity'|translate}} ({{market.quantity_symbol}})</th>
-        <th>{{'th.total'|translate}} ({{market.base_symbol}})</th>
+        <th><span translate>th.order_price</span> ({{market.price_symbol}})</th>
+        <th><span translate>th.quantity</span> ({{market.quantity_symbol}})</th>
+        <th><span translate>th.total</span> ({{market.base_symbol}})</th>
         <th translate>th.action</th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat-start="o in orders | filter: {type: 'ask_order'} track by $index" class="warning alert alert-danger unconfirmed" ng-show="o.warning">
-        <td colspan="5"><i class="fa fa-warning"></i> <b>{{'tip.warning' | translate}}.</b> &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
+        <td colspan="5"><i class="fa fa-warning"></i> <b translate>tip.warning</b>. &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
       </tr>
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>

@@ -1,5 +1,7 @@
 angular.module("app").controller "IssueAssetController", ($scope, $location, $stateParams, RpcService, Wallet, Growl, Shared, BlockchainAPI, Utils, $modal, Blockchain) ->
-    $scope.issue_asset = 
+    console.log "------ IssueAssetController ------>", $scope
+
+    $scope.issue_asset =
         amount : ""
         asset : null
         to : $stateParams.name

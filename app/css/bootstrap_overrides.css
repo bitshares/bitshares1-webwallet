@@ -73,8 +73,30 @@ input[type="checkbox"] {
 
 .header .header-title {
 	text-shadow: none;
+	padding-bottom: 2px;
 }
 
 .form-group.vertical-lable {
 	margin-bottom: 2px;
 }
+
+.text-muted:hover {
+	color: #c4c4c4;
+}
+
+.text-primary:hover {
+	color: #1B6FC1;
+}
+
+.text-warning:hover {
+	color: #e8b976;
+}
+
+.text-danger:hover {
+	color: #d97572;
+}
+
+.text-success:hover {
+	color: #71c671;
+}
+

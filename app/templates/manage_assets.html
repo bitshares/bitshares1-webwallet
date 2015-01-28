@@ -39,12 +39,12 @@
     </div>
     <tabset class="p-inner">
       <tab>
-        <tab-heading><i class="fa fa-bank fa-fw fa-lg"></i> {{ 'asset.create_assets' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-bank fa-fw fa-lg"></i> <span translate>asset.create_assets</span></tab-heading>
         <div id="create-asset" ng-controller="CreateAssetController" ng-include src="'create_asset.html'">
         </div>
       </tab>
       <tab>
-        <tab-heading><i class="fa fa-send-o fa-fw fa-lg"></i> {{ 'asset.issue_assets' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-send-o fa-fw fa-lg"></i> <span translate>asset.issue_assets</span></tab-heading>
         <div id="issue-asset" ng-controller="IssueAssetController" ng-include src="'issue_asset.html'">
         </div>
       </tab>

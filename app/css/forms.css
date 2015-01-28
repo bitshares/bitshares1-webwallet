@@ -43,3 +43,7 @@ span.help-block {
 .input-group-addon.label-success {
 	color: #fff;
 }
+
+.input-vgroup {
+	width: 100%;
+}

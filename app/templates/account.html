@@ -26,20 +26,20 @@
             <div ng-switch-when='pending'>
               <!--<div class="pull-right" translate>account.reg_pending</div>-->
               <span class="account-name">{{account.name}}</span>
-              &nbsp;&nbsp; <span class="text-muted">{{ "account.reg_pending" | translate }}</span>
+              &nbsp;&nbsp; <span class="text-muted" translate>account.reg_pending</span>
             </div>
             <div ng-switch-default>
               <div class="pull-right">
-                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary">{{'account.reg' | translate}} {{account.name}}</a>
+                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><span translate>account.reg</span> {{account.name}}</a>
               </div>
               <span class="account-name">{{account.name}}</span>
-              &nbsp;&nbsp; <span class="text-muted">{{"tip.not_reg_onchain" | translate}}</span>
+              &nbsp;&nbsp; <span class="text-muted" translate>tip.not_reg_onchain</span>
             </div>
           </div>
         </div>
         <div ng-switch-default class="reg-date" style="" class="white-shadow">
           <span class="account-name">{{account.name}}</span> &nbsp;
-          <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}">{{ 'directory.registered' | translate }}</span>
+          <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}" translate>directory.registered</span>
           &nbsp; <a target="_blank" href='http://{{ website }}'>{{ website }}</a>
           <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
         </div>
@@ -47,7 +47,7 @@
       <div ng-if="account.delegate_info">
       <div class='white-shadow' ng-if="active_delegate" translate>account.active_delegate</div>
       <div class='white-shadow' ng-if="!active_delegate" translate>account.standby_delegate</div>
-      <div class='white-shadow'>{{ 'account.rank' | translate }}: {{ rank }}</div>
+      <div class='white-shadow'><span translate>account.rank</span>: {{ rank }}</div>
       <table class="table table-striped table-acc-balance">
         <thead>
           <tr>
@@ -83,7 +83,7 @@
       </table>
     </div>
     </div>
-    <span class="account-key" ng-show="account.registration_date === '1970-01-01T00:00:00'">{{ 'account.account_key' | translate}}: {{account.active_key}}</span>
+    <span class="account-key" ng-show="account.registration_date === '1970-01-01T00:00:00'"><span translate>account.account_key</span>: {{account.active_key}}</span>
   </div>
 
   <div class="col-sm-5">
@@ -158,49 +158,49 @@
 
       <!--recent transactions tab -->
       <tab ng-click="goto_tab('account.transactions')" active="tabs[0].active">
-        <tab-heading><i class="fa fa-list fa-fw fa-lg"></i> {{'account.recent_trxs' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-list fa-fw fa-lg"></i> <span translate>account.recent_trxs</span></tab-heading>
         <div ui-view="account-transactions" class="p-inner"></div>
       </tab>
 
       <!--delegate info tab -->
       <tab ng-show="account.delegate_info" ng-click="goto_tab('account.delegate')" active="tabs[1].active">
-        <tab-heading><i class="fa fa-legal fa-fw fa-lg"></i>{{ 'account.delegate_info' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-legal fa-fw fa-lg"></i> <span translate>account.delegate_info</span></tab-heading>
         <div ui-view="account-delegate"></div>
       </tab>
 
       <!-- Assets tab -->
       <tab ng-click="goto_tab('account.manageAssets')" active="tabs[3].active" ng-show="account.is_my_account" >
-        <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> {{ 'account.assets' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> <span translate>account.assets</span></tab-heading>
         <div ui-view="account-manage-assets"></div>
       </tab>
 
       <!-- Keys tab -->
       <tab ng-click="goto_tab('account.keys')" active="tabs[4].active" ng-show="account.is_my_account">
-        <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> {{ 'account.keys' | translate }} </tab-heading>
+        <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> <span translate>account.keys</span></tab-heading>
         <div ui-view="account-keys"></div><div ui-view="account-keys2"></div>
       </tab>
 
       <!-- Edit tab (registered) -->
       <tab ng-click="goto_tab('account.updateRegAccount')" active="tabs[5].active" ng-show='account.is_my_account && utils.is_registered(account)'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
         <div ui-view="account-update-reg-account"></div>
       </tab>
 
       <!-- Edit tab (local) -->
       <tab ng-click="goto_tab('account.editLocal')" active="tabs[6].active" ng-show='account.is_my_account && !utils.is_registered(account)'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> {{ 'btn.edit' | translate }}</tab-heading>
+        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
         <div ui-view="account-editlocal"></div>
       </tab>
       
       <!-- Vote tab -->
       <tab ng-click="goto_tab('account.vote')" active="tabs[7].active" ng-if='account.is_my_account'>
-        <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i>{{'account.vote.tab_title'|translate}}</tab-heading>
+        <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i> <span translate>account.vote.tab_title</span></tab-heading>
         <div ui-view="account-vote"></div>
       </tab>
 
       <!-- Wall tab -->
-      <tab ng-click="goto_tab('account.wall')" active="tabs[8].active">
-        <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i>{{'account.wall.tab_title'|translate}}</tab-heading>
+      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[8].active">
+        <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i> <span translate>account.wall.tab_title</span></tab-heading>
         <div ui-view="account-wall"></div>
       </tab>
 

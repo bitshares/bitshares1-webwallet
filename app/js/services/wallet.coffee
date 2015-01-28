@@ -25,6 +25,8 @@ class Wallet
 
     autocomplete: true
 
+    default_vote: 'vote_all'
+
     pendingRegistrations: {}
 
     current_account: null
@@ -69,6 +71,8 @@ class Wallet
                         @idle.watch()
                 @get_setting('autocomplete').then (result) =>
                     @autocomplete = result.value if result
+                @get_setting('default_vote').then (result) =>
+                    @default_vote = result.value if result?.value
                 @get_setting('interface_locale').then (result) =>
                     if result and result.value
                         @interface_locale = result.value
@@ -111,12 +115,13 @@ class Wallet
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
                     asset_record = @blockchain.asset_records[asset_id]
-                    symbol = asset_record.symbol
-                    amount = asset_id_amt_pair[1]
-                    @balances[name] = @balances[name] || {}
-                    @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
-                    @asset_balances[asset_id] = @asset_balances[asset_id] || 0
-                    @asset_balances[asset_id] = @asset_balances[asset_id] + amount
+                    if asset_record
+                        symbol = asset_record.symbol
+                        amount = asset_id_amt_pair[1]
+                        @balances[name] = @balances[name] || {}
+                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
+                        @asset_balances[asset_id] = @asset_balances[asset_id] || 0
+                        @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
                 #console.log "------ refresh_balances acct.name ------>", acct.name
                 if acct.is_my_account and !@balances[acct.name]
@@ -196,7 +201,8 @@ class Wallet
     # turn raw rpc return value into nice object
     populate_account: (val) ->
         acct = val
-        acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
         return acct

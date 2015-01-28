@@ -30,6 +30,7 @@ a:focus {
 
 a:hover, a:focus, {
 	color: #115176;
+	text-decoration: none !important;
 }
 
 .delegate-active-link{
@@ -84,7 +85,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .no-bottom-border {
-	border-bottom: none;
+	border-bottom: none !important;
 }
 
 a.white:hover {
@@ -306,11 +307,12 @@ li.stat {
 	background-color: transparent;
 	color: #ddd;
 	border: 1px solid #ddd;
+	transition: all 0.3s ease 0s;
 }
 
 .account-page .btn-primary:hover {
-	background-color: transparent;
-	color: #fff;
+	background-color: #ddd;
+	color: #000;
 	border: 1px solid #fff;
 }
 
@@ -432,4 +434,12 @@ input.ng-dirty.ng-invalid {
 .vote-tab-header {
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.newcontact-modal-form {
+	padding: 18px 20px 0 20px;
+}
+
+.modal-content .avatar {
+	margin-top: 18px;
 }

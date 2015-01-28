@@ -21,11 +21,12 @@
 	background-color: transparent;
 	color: #ddd;
 	border: 1px solid #ddd;
+	transition: all 0.3s ease 0s;
 }
 
 .splashpage .btn-primary:hover {
-	background-color: transparent;
-	color: #fff;
+	background-color: #ddd;
+	color: #000;
 	border: 1px solid #fff;
 }
 
