@@ -5,7 +5,6 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $scope.m.payrate = 50
     $scope.m.delegate = false
     $scope.available_faucets = [
-#        {id: 0, name: "", url: ""},
         {id: 1, name: "faucet.bitshares.org", url: "http://faucet.bitshares.org/"},
         {id: 1000, name: "Add faucet", url: "add"}
     ]
@@ -29,12 +28,10 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
             angular.forEach balances, (asset, symbol) ->
                 bals.push asset if asset.amount
             $scope.accounts[name] = [name, bals] if bals.length
-            $scope.m.payfrom = null #if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
+            $scope.m.payfrom = if $scope.accounts[$scope.account.name] then $scope.accounts[$scope.account.name] else $scope.accounts[Object.keys($scope.accounts)[0]]
 
     Wallet.get_accounts().then ->
         refresh_accounts()
-
-    #TODO watch accounts
 
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"
@@ -66,24 +63,3 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         faucets.push new_faucet
         faucets.sort (a, b) -> a.id - b.id
         $scope.m.faucet = new_faucet
-
-#$scope.available_faucets.push {}
-
-#    account_observer =
-#        name: "account_observer"
-#        frequency: "each_block"
-#        update: (data, deferred) ->
-#            WalletAPI.get_account($scope.account.name).then (result) ->
-#                if result.registration_date != "1970-01-01T00:00:00"
-#                    $scope.account.registration_date = result.registration_date
-#                    $modalInstance.close("ok")
-#                else
-#                deferred.resolve(true)
-#            ,
-#            (error) ->
-#                deferred.reject(error)
-#
-#    Observer.registerObserver(account_observer)
-#
-#    $scope.$on "$destroy", ->
-#        Observer.unregisterObserver(account_observer)

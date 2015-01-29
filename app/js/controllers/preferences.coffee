@@ -19,7 +19,7 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         vote_all: "vote_all"
         vote_random: "vote_random_subset"
         vote_recommended: "vote_as_delegates_recommended"
-        vote_per_transaction: "vote_per_transaction"
+        vote_per_transfer: "vote_per_transfer"
 
     $scope.model.themes = {}
     $translate(['pref.default',"pref.flowers"]).then (result) ->

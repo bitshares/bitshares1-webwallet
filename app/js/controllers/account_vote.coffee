@@ -10,7 +10,7 @@ angular.module("app").controller "AccountVoteController", ($scope, $translate, W
         vote_recommended: "vote_as_delegates_recommended"
 
     $scope.data = {}
-    $scope.data.vote = if Wallet.default_vote == "vote_per_transaction" then "vote_all" else Wallet.default_vote
+    $scope.data.vote = if Wallet.default_vote == "vote_per_transfer" then "vote_all" else Wallet.default_vote
     $scope.data.main_asset_precision = if Wallet.main_asset then Wallet.main_asset.precision else 10000
     $scope.data.main_asset_symbol = if Wallet.main_asset then Wallet.main_asset.symbol else ''
 

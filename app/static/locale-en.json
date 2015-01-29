@@ -104,7 +104,8 @@
         "received": "RECEIVED",
         "expiration": "EXPIRATION",
         "interest_rate": "Interest Rate (APR)",
-        "message": "Message"
+        "message": "Message",
+        "market": "Market"
     },
     "block": {
         "title": "Block",
@@ -338,7 +339,7 @@
             "vote_none": "None",
             "vote_random_subset": "Random Subset",
             "vote_as_delegates_recommended": "As My Delegates Recommended",
-            "vote_per_transaction": "Specify for each transaction",
+            "vote_per_transfer": "Specify for each transaction",
             "btn_update_vote": "Vote",
             "current_votes": "Current Votes",
             "votes": "Votes",
@@ -501,7 +502,16 @@
         "up_to_date": "Up to date, processed {{value}} blocks",
         "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks",
         "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}",
-        "testnet": "TestNet"
+        "testnet": "TestNet",
+        "synced": "Blocks are synced",
+        "syncing": "Blocks are syncing ...",
+        "not_connected": "Not connected",
+        "last_block": "Last block was synced {{value}} ago",
+        "one_network_connection": "1 network connection",
+        "n_network_connection": "{{value}} network connections",
+        "network_problems": "Network problems",
+        "severe_network_problems": "Severe network problems",
+        "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
     },
     "utils": {
         "expired": "Expired",
