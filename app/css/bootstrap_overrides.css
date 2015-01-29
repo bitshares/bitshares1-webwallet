@@ -100,3 +100,10 @@ input[type="checkbox"] {
 	color: #71c671;
 }
 
+.btn {
+	border-radius: 0;
+}
+
+.tooltip.top {
+	max-width: 240px;
+}

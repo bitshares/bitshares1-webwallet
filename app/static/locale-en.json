@@ -1,5 +1,6 @@
 {
     "unknown": "Unknown",
+    "transaction_fee": "Transaction Fee",
     "btn":{
         "ok": "OK",
         "cancel": "Cancel",
@@ -374,7 +375,10 @@
             "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
         },
         "transaction_details": "Details",
-        "transaction_virtual": "Virtual"
+        "transaction_virtual": "Virtual",
+        "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
+        "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
+        "reg_add_faucet": "Add Faucet"
 
     },
     "accounts": {

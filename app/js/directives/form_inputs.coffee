@@ -11,7 +11,7 @@ angular.module("app.directives").directive "inputAccountName", ->
             if viewValue == "" and not scope.required
                 ctrl.$setValidity "account-name", true
                 return ""
-            if /^[a-z]+(?:[a-z0-9\-])*$/.test(viewValue) and /[a-z0-9]$/.test(viewValue)
+            if /^[a-z]+(?:[a-z0-9\-\.])*$/.test(viewValue) and /[a-z0-9]$/.test(viewValue)
                 ctrl.$setValidity "account-name", true
                 res = viewValue
             else

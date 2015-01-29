@@ -48,7 +48,7 @@
       <div class='white-shadow' ng-if="active_delegate" translate>account.active_delegate</div>
       <div class='white-shadow' ng-if="!active_delegate" translate>account.standby_delegate</div>
       <div class='white-shadow'><span translate>account.rank</span>: {{ rank }}</div>
-      <table class="table table-striped table-acc-balance">
+      <table class="table table-acc-balance">
         <thead>
           <tr>
             <th translate>th.approval</th>
@@ -110,7 +110,7 @@
 
   <div class="col-sm-2">
     <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+      <table class="table table-acc-balance" ng-show="account.is_my_account">
         <thead>
           <tr>
             <th><h3 class="header-title text-muted" translate>account.balances</h3></th>
@@ -130,7 +130,7 @@
 
   <div class="col-sm-3">
     <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+      <table class="table table-acc-balance" ng-show="account.is_my_account">
         <thead>
           <tr>
             <th><h3 class="header-title text-muted" translate>account.estimated_yield</h3></th>
