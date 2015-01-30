@@ -11,7 +11,9 @@
         "update": "Update",
         "cover": "Cover",
         "register": "Register",
-        "close": "Close"
+        "close": "Close",
+        "remove": "Remove",
+        "update_data": "Update Data"
     },
     "tip": {
         "privacy_statement": "Privacy Statement",
@@ -359,6 +361,7 @@
         "pay_rate": "Pay Rate",
         "btn_update": "Update",
         "private_data": "Private Data",
+        "public_data": "Public Data",
         "key": "Key",
         "value": "Value",
         "rename_account": "Rename Account",
@@ -379,14 +382,16 @@
         "transaction_virtual": "Virtual",
         "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
         "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
-        "reg_add_faucet": "Add Faucet"
+        "reg_add_faucet": "Add Faucet",
+        "update_public_data_tx_fee": "Update data transaction Fee: "
 
     },
     "accounts": {
         "create_account": "Create New Account",
         "accounts": "Accounts",
         "info": "Click on an account name to get more information about that account.",
-        "select_account": "Select Account"
+        "select_account": "Select Account",
+        "rename_account": "Rename account"
     },
     "asset": {
         "title": "Assets",

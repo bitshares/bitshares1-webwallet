@@ -43,6 +43,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
 
     $rootScope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
+        console.log "------ $stateChangeSuccess ------>", fromState.name
         app_history.push {state: fromState.name, params: fromState} if fromState.name
 
     $rootScope.history_back = ->
@@ -110,25 +111,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp = $stateProvider
 
-    sp.state "home",
-        url: "/home"
-        templateUrl: "home.html"
-        controller: "HomeController"
-
-    sp.state "help",
-        url: "/help"
-        templateUrl: "help.html"
-        controller: "HelpController"
 
     sp.state "preferences",
         url: "/preferences"
         templateUrl: "preferences.html"
         controller: "PreferencesController"
-
-    sp.state "proposals",
-        url: "/proposals"
-        templateUrl: "proposals.html"
-        controller: "ProposalsController"
 
     sp.state "console",
         url: "/console"
@@ -145,28 +132,10 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "accounts.html"
         controller: "AccountsController"
 
-    sp.state "directory",
-        url: "/directory"
-        templateUrl: "directory/directory.html"
-        controller: "DirectoryController"
-
-    sp.state "directory.favorites", { url: "/favorites", views: { 'directory-favorites': { templateUrl: 'directory/favorite.html', controller: 'FavoriteController' } } }
-
-    sp.state "directory.unregistered", { url: "/unregistered", views: { 'directory-unregistered': { templateUrl: 'contacts.html', controller: 'ContactsController' } } }
-
-    sp.state "directory.registered", { url: "/registered?letter", views: { 'directory-registered': { templateUrl: 'directory/registered.html' } } }
-
-    sp.state "directory.assets", { url: "/assets", views: { 'directory-assets': { templateUrl: 'directory/assets.html', controller: 'AssetsController' } } }
-
     sp.state "delegates",
         url: "/delegates"
         templateUrl: "delegates/delegates.html"
         controller: "DelegatesController"
-
-#    sp.state "editaccount",
-#        url: "/accounts/:name/edit"
-#        templateUrl: "editaccount.html"
-#        controller: "EditAccountController"
 
     sp.state "account",
         url: "/accounts/:name"
@@ -196,11 +165,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "asset.html"
         controller: "AssetController"
 
-    sp.state "blocks",
-        url: "/blocks?withtrxs"
-        templateUrl: "blocks.html"
-        controller: "BlocksController"
-
     sp.state "createwallet",
         url: "/createwallet"
         templateUrl: "createwallet.html"
@@ -210,11 +174,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/blocks/:number"
         templateUrl: "block.html"
         controller: "BlockController"
-
-    sp.state "blocksbyround",
-        url: "/blocks/round/:round?withtrxs"
-        templateUrl: "blocksbyround.html"
-        controller: "BlocksByRoundController"
 
     sp.state "transaction",
         url: "/tx/:id"

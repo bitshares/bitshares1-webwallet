@@ -13,15 +13,6 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         $scope.account_name = account?.name
     $scope.showLoadingIndicator(promise)
 
-    Blockchain.refresh_asset_records().then ->
-        $scope.markets = Blockchain.get_markets()
-        Blockchain.get_asset(0).then (main_asset) ->
-            $scope.featured_markets.push "BitUSD:#{main_asset.symbol}"
-            $scope.featured_markets.push "BitCNY:#{main_asset.symbol}"
-            $scope.featured_markets.push "BitBTC:#{main_asset.symbol}"
-            $scope.featured_markets.push "BitGOLD:#{main_asset.symbol}"
-            $scope.featured_markets.push "BitEUR:#{main_asset.symbol}"
-
     $scope.select_market = (market) ->
         $scope.selected_market = market
 
@@ -63,6 +54,14 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
                 $scope.open_orders.push td
 
     Blockchain.refresh_asset_records().then (records) ->
+        $scope.markets = Blockchain.get_markets()
+        main_asset = Blockchain.asset_records[0]
+        $scope.featured_markets.push "BitUSD:#{main_asset.symbol}"
+        $scope.featured_markets.push "BitCNY:#{main_asset.symbol}"
+        $scope.featured_markets.push "BitBTC:#{main_asset.symbol}"
+        $scope.featured_markets.push "BitGOLD:#{main_asset.symbol}"
+        $scope.featured_markets.push "BitEUR:#{main_asset.symbol}"
+
         for key, asset of records
             asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)
             asset.maximum_supply = Utils.newAsset(asset.maximum_share_supply, asset.symbol, asset.precision)

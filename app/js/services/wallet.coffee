@@ -213,11 +213,10 @@ class Wallet
         if @refresh_accounts_promise
             return @refresh_accounts_promise 
 
-        #console.log "------ refresh_accounts ------"
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
 
-        delete @accounts[id] for id in Object.keys @accounts
+        #delete @accounts[id] for id in Object.keys @accounts
         first_account = null
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
@@ -226,8 +225,8 @@ class Wallet
             if first_account and !@current_account
                 @wallet_api.get_setting("current_account").then (setting) =>
                     if setting?.value
-                        @get_account(setting.value).then (account) =>
-                            @current_account = account
+                        @current_account = @accounts[setting.value]
+                        @current_account = first_account unless @current_account
                     else
                         @current_account = first_account
             @refresh_balances()
@@ -269,7 +268,7 @@ class Wallet
             @refresh_accounts().then =>
                 return @accounts
 
-    get_account: (name) ->
+    get_account: (name, error_handler) ->
         @refresh_balances()
         #console.log "wallet_get_account start",name
         if @accounts[name]
@@ -278,12 +277,12 @@ class Wallet
             deferred.resolve(@accounts[name])
             return deferred.promise
         else
-            @wallet_api.get_account(name).then (result) =>
+            @wallet_api.get_account(name, error_handler).then (result) =>
                 acct = @populate_account(result)
                 return acct
             ,
             (error) =>
-                @blockchain_api.get_account(name).then (result) =>
+                @blockchain_api.get_account(name, error_handler).then (result) =>
                     acct = if result then @populate_account(result) else null
                     return acct
 
