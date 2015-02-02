@@ -147,8 +147,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     $scope.newContactModal = ->
         $modal.open
-            templateUrl: "newcontactmodal.html"
-            controller: "NewContactModalController"
+            templateUrl: "addressbookmodal.html"
+            controller: "AddressBookModalController"
             resolve:
                 contact_name: ->
                     $scope.transfer_info.payto

@@ -532,5 +532,9 @@
         "delegates": "Delegates",
         "account_details": "Account Details",
         "advanced": "Advanced"
+    },
+    "address_book": {
+        "title": "Address Book"
+
     }
 }

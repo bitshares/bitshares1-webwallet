@@ -2,6 +2,7 @@
 class Wallet
 
     accounts: {}
+    favorites: {}
 
     balances: {}
     bonuses: {}
@@ -201,6 +202,7 @@ class Wallet
         acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
+        @favorites[acct.name] = acct if acct.is_favorite
         return acct
 
     refresh_account: (name) ->

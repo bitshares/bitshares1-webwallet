@@ -55,24 +55,20 @@
     white-space:normal;  }
   .growl.growl-default {
     color: white;
-    background: #7f8c8d; }
+    background: #5bc0de; }
   .growl.growl-error {
     color: white;
     background: #D97572; }
   .growl.growl-notice {
     color: white;
-    background: #84ce84; }
+    background: #5bc0de; }
   .growl.growl-warning {
     color: white;
-    background: #f39c12; }
+    background: #e8b976; }
   .growl .growl-close {
     cursor: pointer;
     float: right;
-<<<<<<< HEAD
     font-size: 18px;
-=======
-    font-size: 24px;
->>>>>>> develop
     line-height: 24px;
     font-weight: normal;
 		position: relative;

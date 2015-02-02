@@ -443,6 +443,21 @@ input.ng-dirty.ng-invalid {
 	margin-top: 18px;
 }
 
+.list-group-item {
+}
+
+.list-group-item > img {
+	margin-right: 10px;
+}
+
+.list-group-item:hover {
+	background-color: #eef8ff;
+}
+
+.contacts-list {
+	max-height: 340px;
+	overflow-y: auto;
+}
 .clickable-hand {
 	cursor: pointer;
 }
