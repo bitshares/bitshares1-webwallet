@@ -43,8 +43,8 @@
                 <div class="form-group row">
                     <div class="col-sm-8">
                         <button type="button" class="btn btn-success" ng-click="addPublicDataRecord()"><i class="fa fa-plus fa-fw"></i> <span translate>account.add_field</span></button>
-                        &nbsp; &nbsp; &nbsp; <button class="btn btn-primary" type="submit" translate>btn.update_data</button>
-                        &nbsp; &nbsp; <span translate>account.update_public_data_tx_fee</span> {{model.trx_fee}} {{model.trx_fee_symbol}}
+                        &nbsp; &nbsp; &nbsp; <button ng-show="public_data.length" class="btn btn-primary" type="submit" translate>btn.update_data</button>
+                        &nbsp; &nbsp; <span ng-show="public_data.length"><span translate>account.update_public_data_tx_fee</span> {{model.trx_fee}} {{model.trx_fee_symbol}}</span>
                     </div>
                 </div>
             </div>
@@ -80,7 +80,7 @@
                 <div class="form-group row">
                     <div class="col-sm-8">
                         <button type="button" class="btn btn-success" ng-click="addPrivateDataRecord()"><i class="fa fa-plus fa-fw"></i> <span translate>account.add_field</span></button>
-                        &nbsp; &nbsp; &nbsp; <button class="btn btn-primary" type="submit" translate>btn.update_data</button>
+                        &nbsp; &nbsp; &nbsp; <button ng-show="private_data.length" class="btn btn-primary" type="submit" translate>btn.update_data</button>
                     </div>
                 </div>
             </div>

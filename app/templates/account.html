@@ -181,19 +181,19 @@
       </tab>
 
       <!-- Edit tab -->
-      <tab ng-click="goto_tab('account.editLocal')" active="tabs[5].active">
+      <tab ng-click="goto_tab('account.edit')" active="tabs[4].active">
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
-        <div ui-view="account-editlocal"></div>
+        <div ui-view="account-edit"></div>
       </tab>
       
       <!-- Vote tab -->
-      <tab ng-click="goto_tab('account.vote')" active="tabs[6].active" ng-if='account.is_my_account'>
+      <tab ng-click="goto_tab('account.vote')" active="tabs[5].active" ng-if='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i> <span translate>account.vote.tab_title</span></tab-heading>
         <div ui-view="account-vote"></div>
       </tab>
 
       <!-- Wall tab -->
-      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[7].active">
+      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[6].active">
         <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i> <span translate>account.wall.tab_title</span></tab-heading>
         <div ui-view="account-wall"></div>
       </tab>

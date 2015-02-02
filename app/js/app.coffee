@@ -148,9 +148,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp.state "account.keys", { url: "/account_keys", views: { 'account-keys': { templateUrl: 'account_keys.html' } } }
 
-    sp.state "account.updateRegAccount", { url: "/account_edit_registered", views: { 'account-update-reg-account': { templateUrl: 'update-reg-account.html', controller: 'UpdateRegAccountController' } } }
-
-    sp.state "account.editLocal", { url: "/account_edit_local", views: { 'account-editlocal': { templateUrl: 'editlocal.html', controller: 'EditLocalController' } } }
+    sp.state "account.edit", { url: "/account_edit", views: { 'account-edit': { templateUrl: 'account_edit.html', controller: 'AccountEditController' } } }
 
     sp.state "account.vote", { url: "/account_vote", views: { 'account-vote': { templateUrl: 'account_vote.html', controller: 'AccountVoteController' } } }
 
