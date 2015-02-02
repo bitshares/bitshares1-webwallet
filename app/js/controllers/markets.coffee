@@ -69,7 +69,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
             assets_with_unknown_issuer.push asset unless asset.account_name
             if asset.issuer_account_id > 0
                 $scope.user_issued_assets.push asset
-            else
+            else if asset.issuer_account_id == -2
                 $scope.market_peg_assets.push asset
         if assets_with_unknown_issuer.length > 0
             accounts_ids = ([a.issuer_account_id] for a in assets_with_unknown_issuer)

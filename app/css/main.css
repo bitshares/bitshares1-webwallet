@@ -20,9 +20,9 @@ svg {
 	height: auto;
 }
 
-a, * {
+/*a, * {
  cursor: default !important;
-}
+}*/
 
 a:focus {
   outline: 0;
@@ -441,4 +441,8 @@ input.ng-dirty.ng-invalid {
 
 .modal-content .avatar {
 	margin-top: 18px;
+}
+
+.clickable-hand {
+	cursor: pointer;
 }

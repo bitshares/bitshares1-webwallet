@@ -81,7 +81,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
 
     $idle.watch()
 
-app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider) ->
+app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvider, $tooltipProvider, $compileProvider) ->
+
+    $compileProvider.debugInfoEnabled(false);
 
     $tooltipProvider.options { appendToBody: true }
 
