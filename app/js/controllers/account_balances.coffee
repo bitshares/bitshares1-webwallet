@@ -5,9 +5,9 @@ angular.module("app").controller "AccountBalancesController", ($scope, $location
 
     $scope.formatAsset = Utils.formatAsset
 
-    Wallet.refresh_accounts(true).then ->
-        $scope.accounts = Wallet.accounts
-        $scope.balances = Wallet.balances
+#    Wallet.refresh_accounts(true).then ->
+#        $scope.accounts = Wallet.accounts
+#        $scope.balances = Wallet.balances
 
     $scope.go_to_account = (name) ->
         $state.go("account.transactions", {name: name})

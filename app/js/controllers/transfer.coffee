@@ -15,12 +15,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
-    $scope.model.autocomplete = Wallet.autocomplete
-
-    $scope.$watch ->
-        Wallet.autocomplete
-    , ->
-        $scope.model.autocomplete = Wallet.autocomplete
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
@@ -28,8 +22,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             symbol: $stateParams.asset || Info.symbol
             payto : $stateParams.to
             memo :  $stateParams.memo
-            show_vote_options: Wallet.default_vote == "vote_per_transaction"
-            vote : if Wallet.default_vote == "vote_per_transaction" then "vote_all" else Wallet.default_vote
+            show_vote_options: Wallet.default_vote == "vote_per_transfer"
+            vote : if Wallet.default_vote == "vote_per_transfer" then "vote_all" else Wallet.default_vote
 
     $scope.vote_options =
         vote_none: "vote_none"
@@ -116,7 +110,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.hot_check_send_amount()
     
     yesSend = ->
-        vote = if Wallet.default_vote == "vote_per_transaction" then $scope.transfer_info.vote else Wallet.default_vote
+        vote = if Wallet.default_vote == "vote_per_transfer" then $scope.transfer_info.vote else Wallet.default_vote
         WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote).then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()

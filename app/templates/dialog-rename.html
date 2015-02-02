@@ -10,11 +10,11 @@
 
             <div class='col-sm-8'>
                 <div>
-                <input-name autofocus ng-model="m.newname" form-name="createaccount" show-note-1="false" show-note-2="false"/>
+                <input-account-name autofocus ng-model="m.newname" form-name="createaccount"/>
                 </div>
                 <br>
                 <div class="lead">
-                  {{ 'tip.rename_account_name_existed' | translate:'{value: m.oldname}' }}
+                  {{ 'tip.rename_account_name_existed' | translate:m.translate_data }}
                 </div>
             </div>
         </div>

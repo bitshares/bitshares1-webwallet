@@ -3,6 +3,7 @@ angular.module("app").controller "DialogRenameController", ($scope, $modalInstan
     $scope.m = {}
     $scope.m.oldname = oldname
     $scope.m.newname = oldname
+    $scope.m.translate_data = {value: oldname}
 
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"

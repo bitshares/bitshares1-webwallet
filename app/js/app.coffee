@@ -46,10 +46,8 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
         app_history.push {state: fromState.name, params: fromParams} if fromState.name
 
     $rootScope.history_back = ->
-        return false if app_history.length == 0 or window.history.length == 0
-        history_counter = 0
+        return false if app_history.length == 0
         loop
-            history_counter += 1
             prev_page = app_history.pop()
             break unless prev_page
             break unless prev_page.state == "createwallet" or prev_page.state == "unlockwallet"
@@ -109,25 +107,11 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp = $stateProvider
 
-    sp.state "home",
-        url: "/home"
-        templateUrl: "home.html"
-        controller: "HomeController"
-
-    sp.state "help",
-        url: "/help"
-        templateUrl: "help.html"
-        controller: "HelpController"
 
     sp.state "preferences",
         url: "/preferences"
         templateUrl: "preferences.html"
         controller: "PreferencesController"
-
-    sp.state "proposals",
-        url: "/proposals"
-        templateUrl: "proposals.html"
-        controller: "ProposalsController"
 
     sp.state "console",
         url: "/console"
@@ -144,28 +128,10 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "accounts.html"
         controller: "AccountsController"
 
-    sp.state "directory",
-        url: "/directory"
-        templateUrl: "directory/directory.html"
-        controller: "DirectoryController"
-
-    sp.state "directory.favorites", { url: "/favorites", views: { 'directory-favorites': { templateUrl: 'directory/favorite.html', controller: 'FavoriteController' } } }
-
-    sp.state "directory.unregistered", { url: "/unregistered", views: { 'directory-unregistered': { templateUrl: 'contacts.html', controller: 'ContactsController' } } }
-
-    sp.state "directory.registered", { url: "/registered?letter", views: { 'directory-registered': { templateUrl: 'directory/registered.html' } } }
-
-    sp.state "directory.assets", { url: "/assets", views: { 'directory-assets': { templateUrl: 'directory/assets.html', controller: 'AssetsController' } } }
-
     sp.state "delegates",
         url: "/delegates"
         templateUrl: "delegates/delegates.html"
         controller: "DelegatesController"
-
-#    sp.state "editaccount",
-#        url: "/accounts/:name/edit"
-#        templateUrl: "editaccount.html"
-#        controller: "EditAccountController"
 
     sp.state "account",
         url: "/accounts/:name"
@@ -180,7 +146,7 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
 
     sp.state "account.manageAssets", { url: "/account_assets", views: { 'account-manage-assets': { templateUrl: 'manage_assets.html', controller: 'ManageAssetsController' } } }
 
-    sp.state "account.keys", { url: "/account_keys", views: { 'account-keys': { templateUrl: 'account_keys.html', controller: 'AccountController' } } }
+    sp.state "account.keys", { url: "/account_keys", views: { 'account-keys': { templateUrl: 'account_keys.html' } } }
 
     sp.state "account.updateRegAccount", { url: "/account_edit_registered", views: { 'account-update-reg-account': { templateUrl: 'update-reg-account.html', controller: 'UpdateRegAccountController' } } }
 
@@ -195,11 +161,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         templateUrl: "asset.html"
         controller: "AssetController"
 
-    sp.state "blocks",
-        url: "/blocks?withtrxs"
-        templateUrl: "blocks.html"
-        controller: "BlocksController"
-
     sp.state "createwallet",
         url: "/createwallet"
         templateUrl: "createwallet.html"
@@ -209,11 +170,6 @@ app.config ($idleProvider, $stateProvider, $urlRouterProvider, $translateProvide
         url: "/blocks/:number"
         templateUrl: "block.html"
         controller: "BlockController"
-
-    sp.state "blocksbyround",
-        url: "/blocks/round/:round?withtrxs"
-        templateUrl: "blocksbyround.html"
-        controller: "BlocksByRoundController"
 
     sp.state "transaction",
         url: "/tx/:id"

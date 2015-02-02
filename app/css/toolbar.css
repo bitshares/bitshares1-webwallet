@@ -126,3 +126,15 @@ li[disabled] a {
 	font-size: 9px;
 	clear: right;
 }
+
+.scrollable-menu {
+    height: auto;
+    max-height: 600px;
+    overflow-x: hidden;
+}
+
+.scrollable-menu-short {
+    height: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}

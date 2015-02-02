@@ -1,5 +1,6 @@
 {
     "unknown": "Неизвестно",
+    "transaction_fee": "Комиссия за транзакцию",
     "btn":{
         "ok": "ОК",
         "cancel": "Отменить",
@@ -7,10 +8,12 @@
         "save": "Сохранить",
         "create": "Создать",
         "confirm": "Подтвердить",
-        "update": "Обновить",
+        "update": "Сохранить",
         "cover": "Покрыть",
         "register": "Зарегистрировать",
-        "close": "Закрыть"
+        "close": "Закрыть",
+        "remove": "Удалить",
+        "update_data": "Сохранить данные"
     },
     "tip": {
         "privacy_statement": "Заявление о конфиденциальности",
@@ -276,8 +279,11 @@
             "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
             "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
             "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
-            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio."
-        }
+            "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
+            "short_interest_rate": "Годовая доходность, которую вы можете заплатить"
+        },
+        "days": "{{value}} Дней",
+        "percent_apr": "%"
     },
     "account": {
         "reg_pending": "Ожидание регистрации",
@@ -334,6 +340,7 @@
             "vote_none": "Против всех",
             "vote_random_subset": "За случайную выборку",
             "vote_as_delegates_recommended": "Как рекомендуют мои делегаты",
+            "vote_per_transfer": "Указывать при каждом переводе",
             "btn_update_vote": "Проголосовать",
             "current_votes": "Текущие голоса",
             "votes": "Сумма",
@@ -353,6 +360,7 @@
         "pay_rate": "Уровень выплат",
         "btn_update": "Обновить",
         "private_data": "Личные данные",
+        "public_data": "Публичные данные",
         "key": "Ключ",
         "value": "Значение",
         "rename_account": "Переименовать аккаунт",
@@ -370,13 +378,17 @@
             "explain": "В целях формирования репутации, вы можете оставить запись на стене аккаунта {{account_name}}, указанная ниже сумма будет уничтожена."
         },
         "transaction_details": "Детали",
-        "transaction_virtual": "Виртуальная"
+        "transaction_virtual": "Виртуальная",
+        "reg_no_funds_note": "Если у вас еще нет BTS, ниже вы можете выбрать сервис, который зарегистрирует ваш аккаунт бесплатно.",
+        "reg_subaccount_faucet_not_available": "Бесплатная регистрация не доступна для данного аккаунта. Имя аккаунта содержит символ '.' и является субаккаунтом. Пожалуйста выберите другое имя или переведите на свой счет 0.5 BTS - этого будет достаточно для регистрации аккаунта.",
+        "reg_add_faucet": "Add Faucet"
     },
     "accounts": {
         "create_account": "Создать новый аккаунт",
         "accounts": "Аккаунты",
         "info": "Нажмите на имени аккаунта, чтобы получить больше информации.",
-        "select_account": "Выбрать аккаунт"
+        "select_account": "Выбрать аккаунт",
+        "rename_account": "Переименовать аккаунт"
     },
     "asset": {
         "title": "Активы",
@@ -398,8 +410,8 @@
         "issue_to": "Кому",
         "info_create_asset_fee": "Комиссия за создание нового актива",
         "asset_create_auth": "Авторизация создания актива",
-        "market_pegged_assets": "Market-Pegged Assets",
-        "user_issued_assets": "User-Issued Assets"
+        "market_pegged_assets": "Рыночные активы",
+        "user_issued_assets": "Пользовательские активы"
     },
     "privacy": {
         "email_warning1": "Адрес Вашей электронной почты используется только в целях идентификации Вашего аккаунта, ",
@@ -466,9 +478,19 @@
     },
     "footer": {
         "enable_trx_scan": "Включить сканирование транзакций",
-        "up_to_date": "Цепочка блоков загружена, обработано {{value}} блоков",
+        "up_to_date": "Цепочка блоков загружена. Обработано {{value}} блоков",
         "catching_up": "Цепочка блоков загружается.. обработано {{value1}} из {{value2}} блоков",
-        "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
+        "version_warning": "Внимание! Эта версия GUI требует для работы версию клиента {{expected_client_version}} или более позднюю, текущая версия {{client_version}}",
+        "testnet": "TestNet",
+        "synced": "Цепочка блоков синхронизирована",
+        "syncing": "Цепочка блоков синхронизируется ...",
+        "not_connected": "Нет соединения",
+        "last_block": "Последний блок был получен {{value}} назад",
+        "one_network_connection": "1 сетевое соединение",
+        "n_network_connection": "Сетевых соединений: {{value}}",
+        "network_problems": "Проблема с сетью/цепочкой блоков",
+        "severe_network_problems": "Внимание! проблема с сетью/цепочкой блоков",
+        "delegate_participation_below": "Уровень участия делегатов ниже {{value}}, пожалуйста попробуйте отложить все переводы до тех пор пока уровень не вернется к 100%."
     },
     "utils": {
         "expired": "Истек",

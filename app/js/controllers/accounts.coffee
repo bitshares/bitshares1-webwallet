@@ -9,8 +9,3 @@ angular.module("app").controller "AccountsController", ($scope, $location, Walle
         angular.forEach Wallet.accounts, (item) =>
             warnings[item.name] = false
             account_names.push([item.name])
-#        Wallet.check_vote_proportion(account_names).then (response) =>
-#            for i in [0...account_names.length]
-#                name = account_names[i]
-#                if response.result[i].utilization < 0.75 and Wallet.balances[name] and Wallet.main_asset and Wallet.balances[name][Wallet.main_asset.symbol].amount/Wallet.main_asset.precision >= 10000
-#                    warnings[name] = true

@@ -10,6 +10,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.avg_price = 0
     $scope.advanced = false
     $scope.asset_total_supply = 0.0
+    $scope.buy_sell_translation_data = {}
+    $scope.short_translation_data = {}
     current_market = null
     price_decimals = 4
 
@@ -82,7 +84,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.tabs.forEach (tab) ->
             tab.active = $scope.active_tab(tab.route)
         $scope.market = current_market = market
-        $scope.actual_market = market.get_actual_market()
+        actual_market = $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
         MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
@@ -132,6 +134,17 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             WalletAPI.get_transaction_fee($scope.actual_market.asset_base_symbol).then (tx_fee) ->
                 Blockchain.get_asset(tx_fee.asset_id).then (asset) ->
                     $scope.asset_tx_fee = Utils.formatDecimal(tx_fee.amount / asset.precision, asset.precision)
+
+        $scope.buy_sell_translation_data =
+            value: market.quantity_symbol
+            base: market.base_symbol
+            quantity: market.quantity_symbol
+            account: account.name
+        $scope.short_translation_data =
+            value: actual_market.quantity_symbol
+            base: market.base_symbol
+            quantity: market.quantity_symbol
+            actual_base: actual_market.base_symbol
 
     promise.catch (error) ->
         Growl.error("", error)

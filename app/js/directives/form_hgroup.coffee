@@ -1,7 +1,7 @@
 angular.module("app.directives", []).directive "formHgroup", ->
     template: '''
     <div class="form-group" ng-class="{ 'has-error': has_error }">
-        <label class="col-sm-4 control-label" for="{{for}}"><span popover="{{labelPopover}}" popover-trigger="mouseenter">{{label}}</span></label>
+        <label class="col-sm-4 control-label" for="{{for}}"><span tooltip="{{labelPopover}}">{{label}}</span></label>
         <div class="input-group col-sm-8 col-md-7">
             <span ng-transclude></span>
             <span ng-if="addon" class="input-group-addon">{{addon}}</span>

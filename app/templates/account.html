@@ -48,7 +48,7 @@
       <div class='white-shadow' ng-if="active_delegate" translate>account.active_delegate</div>
       <div class='white-shadow' ng-if="!active_delegate" translate>account.standby_delegate</div>
       <div class='white-shadow'><span translate>account.rank</span>: {{ rank }}</div>
-      <table class="table table-striped table-acc-balance">
+      <table class="table table-acc-balance">
         <thead>
           <tr>
             <th translate>th.approval</th>
@@ -110,7 +110,7 @@
 
   <div class="col-sm-2">
     <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+      <table class="table table-acc-balance" ng-show="account.is_my_account">
         <thead>
           <tr>
             <th><h3 class="header-title text-muted" translate>account.balances</h3></th>
@@ -130,7 +130,7 @@
 
   <div class="col-sm-3">
     <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
+      <table class="table table-acc-balance" ng-show="account.is_my_account">
         <thead>
           <tr>
             <th><h3 class="header-title text-muted" translate>account.estimated_yield</h3></th>
@@ -169,37 +169,31 @@
       </tab>
 
       <!-- Assets tab -->
-      <tab ng-click="goto_tab('account.manageAssets')" active="tabs[3].active" ng-show="account.is_my_account" >
+      <tab ng-click="goto_tab('account.manageAssets')" active="tabs[2].active" ng-show="account.is_my_account" >
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> <span translate>account.assets</span></tab-heading>
         <div ui-view="account-manage-assets"></div>
       </tab>
 
       <!-- Keys tab -->
-      <tab ng-click="goto_tab('account.keys')" active="tabs[4].active" ng-show="account.is_my_account">
+      <tab ng-click="goto_tab('account.keys')" active="tabs[3].active" ng-show="account.is_my_account">
         <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> <span translate>account.keys</span></tab-heading>
         <div ui-view="account-keys"></div><div ui-view="account-keys2"></div>
       </tab>
 
-      <!-- Edit tab (registered) -->
-      <tab ng-click="goto_tab('account.updateRegAccount')" active="tabs[5].active" ng-show='account.is_my_account && utils.is_registered(account)'>
-        <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
-        <div ui-view="account-update-reg-account"></div>
-      </tab>
-
-      <!-- Edit tab (local) -->
-      <tab ng-click="goto_tab('account.editLocal')" active="tabs[6].active" ng-show='account.is_my_account && !utils.is_registered(account)'>
+      <!-- Edit tab -->
+      <tab ng-click="goto_tab('account.editLocal')" active="tabs[5].active">
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
         <div ui-view="account-editlocal"></div>
       </tab>
       
       <!-- Vote tab -->
-      <tab ng-click="goto_tab('account.vote')" active="tabs[7].active" ng-if='account.is_my_account'>
+      <tab ng-click="goto_tab('account.vote')" active="tabs[6].active" ng-if='account.is_my_account'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i> <span translate>account.vote.tab_title</span></tab-heading>
         <div ui-view="account-vote"></div>
       </tab>
 
       <!-- Wall tab -->
-      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[8].active">
+      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[7].active">
         <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i> <span translate>account.wall.tab_title</span></tab-heading>
         <div ui-view="account-wall"></div>
       </tab>

@@ -14,7 +14,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.tabs = []
     $scope.tabs.push { heading: "account.transactions", route: "account.transactions", active: true }
     $scope.tabs.push { heading: "account.delegate", route: "account.delegate", active: false }
-    $scope.tabs.push { heading: "account.transfer", route: "account.transfer", active: false }
     $scope.tabs.push { heading: "account.manageAssets", route: "account.manageAssets", active: false }
     $scope.tabs.push { heading: "account.keys", route: "account.keys", active: false }
     $scope.tabs.push { heading: "account.updateRegAccount", route: "account.updateRegAccount", active: false }
@@ -68,7 +67,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             update_delegate_info (acct) # update delegate info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
-            $state.go "account.delegate"
             $scope.del_tab = true # necessary to display tab html
 
         #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value
