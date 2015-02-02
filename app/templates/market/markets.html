@@ -19,7 +19,7 @@
         </div>
         <div class="panel-body">
           <ul class="markets-list">
-            <li ng-repeat="m in recent_markets track by $index"><a class="clickable-hand" ng-click="select_market(m)">{{m}}</a></li>
+            <li ng-repeat="m in recent_markets track by $index"><a ng-click="select_market(m)">{{m}}</a></li>
           </ul>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="panel-body">
           <ul class="markets-list">
             <li ng-repeat="m in featured_markets track by $index">
-              <market-thumbnail name="m" ng-click="select_market(m)" class="clickable-hand">{{m}}</market-thumbnail>
+              <market-thumbnail name="m" ng-click="select_market(m)">{{m}}</market-thumbnail>
             </li>
           </ul>
         </div>
@@ -48,7 +48,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr tooltip="{{asset.description}}" class="clickable-hand" ng-repeat="asset in market_peg_assets | orderBy: 'symbol'" ng-click="go_to_asset(asset.symbol)">
+              <tr tooltip="{{asset.description}}" ng-repeat="asset in market_peg_assets | orderBy: 'symbol'" ng-click="go_to_asset(asset.symbol)">
                 <td>{{asset.symbol}}</td>
                 <td>{{asset.name}}</td>
               </tr>
@@ -75,7 +75,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr tooltip="{{asset.description}}" class="clickable-hand" ng-repeat="asset in user_issued_assets | orderBy: 'symbol' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-click="go_to_asset(asset.symbol)">
+              <tr tooltip="{{asset.description}}" ng-repeat="asset in user_issued_assets | orderBy: 'symbol' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-click="go_to_asset(asset.symbol)">
                 <td>{{asset.symbol}}</td>
                 <td>{{asset.name}}</td>
               </tr>
