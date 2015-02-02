@@ -40,7 +40,9 @@
         <div ng-switch-default class="reg-date" style="" class="white-shadow">
           <span class="account-name">{{account.name}}</span> &nbsp;
           <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}" translate>directory.registered</span>
-          &nbsp; <a target="_blank" href='http://{{ website }}'>{{ website }}</a>
+          &nbsp; 
+          <br/>
+          <a style="color:white;" target="_blank" href='{{ website }}'>{{ website }}</a>
           <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
         </div>
       </div>

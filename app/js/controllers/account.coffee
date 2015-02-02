@@ -60,6 +60,9 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             $scope.website = acct.gui_data.website;
         if (acct.public_data && acct.public_data.website)
             $scope.website = acct.public_data.website;
+        
+        if $scope.website.indexOf('http://') == -1 && $scope.website.indexOf('https://') == -1
+            $scope.website = 'http://' + $scope.website
 
         Wallet.set_current_account(acct) if acct.is_my_account
         if $scope.account.delegate_info
