@@ -442,3 +442,7 @@ input.ng-dirty.ng-invalid {
 .modal-content .avatar {
 	margin-top: 18px;
 }
+
+.clickable-hand {
+	cursor: pointer;
+}
