@@ -20,9 +20,9 @@ svg {
 	height: auto;
 }
 
-a, * {
+/*a, * {
  cursor: default !important;
-}
+}*/
 
 a:focus {
   outline: 0;
