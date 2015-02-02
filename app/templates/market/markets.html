@@ -48,8 +48,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="clickable-hand" ng-repeat="asset in market_peg_assets | orderBy: 'id'" ng-click="go_to_asset(asset.symbol)">
-                <td><span tooltip="{{asset.description}}">{{asset.symbol}}</span></td>
+              <tr tooltip="{{asset.description}}" class="clickable-hand" ng-repeat="asset in market_peg_assets | orderBy: 'symbol'" ng-click="go_to_asset(asset.symbol)">
+                <td>{{asset.symbol}}</td>
                 <td>{{asset.name}}</td>
               </tr>
             </tbody>
@@ -75,8 +75,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr class="clickable-hand" ng-repeat="asset in user_issued_assets | orderBy: 'id' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-click="go_to_asset(asset.symbol)">
-                <td><span tooltip="{{asset.description}}">{{asset.symbol}}</span></td>
+              <tr tooltip="{{asset.description}}" class="clickable-hand" ng-repeat="asset in user_issued_assets | orderBy: 'symbol' | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize" ng-click="go_to_asset(asset.symbol)">
+                <td>{{asset.symbol}}</td>
                 <td>{{asset.name}}</td>
               </tr>
             </tbody>
