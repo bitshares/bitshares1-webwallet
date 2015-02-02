@@ -43,7 +43,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
 
     $rootScope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
-        app_history.push {state: fromState.name, params: fromState} if fromState.name
+        app_history.push {state: fromState.name, params: fromParams} if fromState.name
 
     $rootScope.history_back = ->
         return false if app_history.length == 0 or window.history.length == 0
@@ -53,9 +53,8 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
             prev_page = app_history.pop()
             break unless prev_page
             break unless prev_page.state == "createwallet" or prev_page.state == "unlockwallet"
-        return false if window.history.length < history_counter
-        $window.history.go(0 - history_counter)
-        return true
+        $state.go(prev_page.state, prev_page.params) if prev_page
+        return !!prev_page
 
     $rootScope.history_forward = ->
         $window.history.forward()
