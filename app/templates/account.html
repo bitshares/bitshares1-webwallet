@@ -42,7 +42,7 @@
           <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}" translate>directory.registered</span>
           &nbsp; 
           <br/>
-          <a style="color:white;" target="_blank" href='{{ website }}'>{{ website }}</a>
+          <a style="color:white;" ng-click="link(website)">{{ website }}</a>
           <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
         </div>
       </div>

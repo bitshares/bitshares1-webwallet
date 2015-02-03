@@ -129,7 +129,7 @@ class Blockchain
                             markets_hash[value] = value
         angular.forEach markets_hash, (key, value) ->
             markets.push value
-        console.log markets.length
+        # console.log markets
         markets
 
 

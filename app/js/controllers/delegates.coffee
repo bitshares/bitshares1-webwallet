@@ -1,4 +1,4 @@
-angular.module("app").controller "DelegatesController", ($scope, $location, $state, $q, Growl, Blockchain, Wallet, RpcService, Info) ->
+angular.module("app").controller "DelegatesController", ($scope, $location, $state, $window, $q, Growl, Blockchain, Wallet, RpcService, Info) ->
     $scope.active_delegates = Blockchain.active_delegates
     $scope.inactive_delegates = Blockchain.inactive_delegates
     $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
@@ -49,3 +49,9 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             if (value.delegate_info && value.approved!=0)
                 Wallet.approve_account(key, 0).then ->
                     Wallet.accounts[key].approved=0
+
+    $scope.link = (address) ->
+        if address.indexOf('http://') == -1 and address.indexOf('https://') == -1
+            address = 'http://' + address
+        $window.open(address)
+        return true
