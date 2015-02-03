@@ -55,10 +55,11 @@
         <img class="avatar-150" ng-src="http://robohash.org/set_1/{{transfer_info.payto}}?size=200x200" height="150" width="150"/>
         <br/><br>
         <div class="avatar-150 text-center">
-          <button ng-show="!accounts[transfer_info.payto].is_favorite && !model.add_to_address_book_error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
-            ADD TO ADDRESS BOOK
+          <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
+            <span translate>contact.add_to_address_book</span>
           </button>
-          <span ng-show="model.add_to_address_book_error" class="text-danger">{{model.add_to_address_book_error}}</span>
+          <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
+          <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
         </div>
         <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='transfer_info.payto==account.name'>
           <b translate>account.self</b>

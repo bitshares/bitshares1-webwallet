@@ -4,9 +4,16 @@
       <img ng-src="http://robohash.org/set_1/{{account_name}}?size=200x200" height="150" width="150"/>
     </div>
     <br/>
-    <div class="text-center avatar-150">
-      <button ng-click="toggleFavorite()" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.favorite' | translate }}">
-        <i ng-class="(account.is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
+    <div ng-show="!account.delegate_info" class="text-center avatar-150">
+      <button ng-show="!account.is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
+            <span translate>contact.add_to_address_book</span>
+      </button>
+      <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
+      <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
+    </div>
+    <div ng-show="account.delegate_info" class="text-center avatar-150">
+      <button ng-show="!account.is_favorite" ng-click="addToAddressBook(account_name)" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
+        <i class="fa fa-book fa-2x"></i>
       </button>
       <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary"
               tooltip="{{ 'account.toggle.approval' | translate }}">

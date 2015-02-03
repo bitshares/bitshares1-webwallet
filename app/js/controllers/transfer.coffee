@@ -15,7 +15,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
-    $scope.model.add_to_address_book_error = null
+    $scope.add_to_address_book = {}
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
@@ -178,22 +178,25 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.addToAddressBook = (name) ->
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
-            $scope.model.add_to_address_book_error = if message and message.length > 2 then message else "Unknown account"
+            $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
         WalletAPI.account_set_favorite(name, true, error_handler).then () ->
             account = Wallet.accounts[name]
             if account
                 account.is_favorite = true
                 Wallet.favorites[name] = account
+                $scope.add_to_address_book.message = "Added to address book"
             else
                 Wallet.refresh_account(name).then (account) ->
                     if account
                         account.is_favorite = true
                         Wallet.favorites[name] = account
+                        $scope.add_to_address_book.message = "Added to address book"
                     else
-                        $scope.model.add_to_address_book_error = "Unknown account"
+                        $scope.add_to_address_book.error = "Unknown account"
                 , (error) ->
-                    $scope.model.add_to_address_book_error = "Unknown account"
+                    $scope.add_to_address_book.error = "Unknown account"
 
     $scope.payToChanged = ->
-        $scope.model.add_to_address_book_error = null
+        $scope.add_to_address_book.message = null
+        $scope.add_to_address_book.error = null
         my_transfer_form?.payto.error_message = null

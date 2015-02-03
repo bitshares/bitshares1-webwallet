@@ -65,4 +65,4 @@ angular.module("app").controller "AccountEditController", ($scope, $filter, $loc
 
     $scope.changeName = ->
         Wallet.wallet_rename_account(name, $scope.model.newName).then ->
-            $state.go("account.editLocal", {name: $scope.model.newName})
+            $state.go("account.edit", {name: $scope.model.newName})

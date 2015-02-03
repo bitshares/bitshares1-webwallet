@@ -9,6 +9,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
+    $scope.add_to_address_book = {}
     
     # tabs
     $scope.tabs = []
@@ -115,7 +116,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         frequency: "each_block"
         update: (data, deferred) ->
             Wallet.refresh_account(name).then (result) ->
-                if Wallet.accounts[name]
+                if Wallet.accounts[name] and $scope.account
                     $scope.account.registration_date = Wallet.accounts[name].registration_date
             deferred.resolve(true)
     Observer.registerObserver(account_balances_observer)
@@ -194,11 +195,11 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         Wallet.approve_account(name, newApproval).then ->
             $scope.account.approved=newApproval
 
-    $scope.toggleFavorite = ->
-        address = $scope.account.owner_key
-        #Wallet.wallet_add_contact_account(name, address).then ()->
-        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-            Wallet.refresh_accounts()
+#    $scope.toggleFavorite = ->
+#        address = $scope.account.owner_key
+#        #Wallet.wallet_add_contact_account(name, address).then ()->
+#        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
+#            Wallet.refresh_accounts()
 
     $scope.regDial = ->
         #if Wallet.asset_balances[0]
@@ -212,3 +213,26 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.link = (address) ->
         $window.open(address)
         return true
+
+    $scope.addToAddressBook = (name) ->
+        error_handler = (error) ->
+            message = Utils.formatAssertException(error.data.error.message)
+            $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
+        WalletAPI.account_set_favorite(name, true, error_handler).then () ->
+            account = Wallet.accounts[name]
+            if account
+                $scope.account.is_favorite = true
+                account.is_favorite = true
+                Wallet.favorites[name] = account
+                $scope.add_to_address_book.message = "Added to address book"
+            else
+                Wallet.refresh_account(name).then (account) ->
+                    if account
+                        $scope.account.is_favorite = true
+                        account.is_favorite = true
+                        Wallet.favorites[name] = account
+                        $scope.add_to_address_book.message = "Added to address book"
+                    else
+                        $scope.add_to_address_book.error = "Unknown account"
+                , (error) ->
+                    $scope.add_to_address_book.error = "Unknown account"

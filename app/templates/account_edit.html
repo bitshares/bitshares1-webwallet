@@ -1,9 +1,8 @@
-<h3 translate>account.public_data</h3>
 <div class='row'>
   <div class="col-sm-1">
   </div>
   <div class="col-sm-11">
-      <form ng-show="!account.registered" role="form" ng-submit="changeName()">
+    <form ng-show="!account.registered" role="form" ng-submit="changeName()">
             <div class="form-group m-top">
                 <div class="form-group row">
                     <div class="col-sm-4">
@@ -20,6 +19,14 @@
                  </div>
             </div>
         </form>
+  </div>
+</div>
+<div ng-show="account.registered">
+<h3 translate>account.public_data</h3>
+<div class='row'>
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-11">
        <form role="form" ng-submit="savePublicData()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
             <div class="form-group m-top">
                 <div ng-show="public_data && public_data.length" class="form-group row form-row-header">
@@ -50,6 +57,7 @@
             </div>
         </form>
     </div>
+</div>
 </div>
 <hr/>
 <h3 translate>account.private_data</h3>
