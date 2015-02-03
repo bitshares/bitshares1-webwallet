@@ -448,6 +448,8 @@ input.ng-dirty.ng-invalid {
 
 .list-group-item > img {
 	margin-right: 10px;
+	width: 32px;
+	height: 32px;
 }
 
 .list-group-item:hover {
@@ -457,4 +459,8 @@ input.ng-dirty.ng-invalid {
 .contacts-list {
 	max-height: 340px;
 	overflow-y: auto;
+}
+
+.remove-contact-btn {
+	padding: 4px;
 }

@@ -1,18 +1,20 @@
 <div class="container-fluid">
 
-  <div class="contacts">
+  <div ng-show="!data.add_contact_mode" class="contacts">
     <div class="modal-header">
       <div class="row">
-      <input class="pull-right" type="text" class="form-control" ng-model="contact_name_filter"/>
+      <input class="pull-right" type="text" class="form-control" ng-model="data.contact_name_filter" placeholder="{{ 'pagination.filter' | translate }}"/>
       {{contact_name_filter}}
-      <h3 class="modal-title" translate>address_book.title</h3>
+      <h3 class="modal-title" translate>contact.address_book</h3>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
 
         <ul class="list-group contacts-list">
-          <li class="list-group-item" ng-repeat="name in favorites | filter:contact_name_filter">
+
+          <li class="list-group-item" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
+            <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
             <img ng-src="http://robohash.org/set_1/{{name}}?size=200x200" height="32" width="32"/>
             {{name}}
           </li>
@@ -20,12 +22,13 @@
 
         <div class="modal-footer">
           <button class="btn btn-warning" ng-click="cancel()"><span translate>btn.cancel</span></button>
+          <button class="btn btn-success pull-left" ng-click="data.add_contact_mode = true"><span translate>contact.add_contact</span></button>
         </div>
       </div>
     </div>
   </div>
 
-  <div ng-show="false" class="add-contact">
+  <div ng-show="data.add_contact_mode" class="add-contact">
     <div class="modal-header">
       <h3 class="modal-title" translate>contact.new_contact</h3>
     </div>
@@ -46,8 +49,8 @@
           </div>
         </form>
         <div class="modal-footer">
-          <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; <span translate>btn.ok</span> &nbsp;</button>
-          <button class="btn btn-warning" ng-click="cancel()"><span translate>btn.cancel</span></button>
+          <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; <span translate>contact.btn_add_contact</span> &nbsp;</button>
+          <button class="btn btn-warning" ng-click="cancel()"><span translate>btn.close</span></button>
         </div>
       </div>
     </div>
