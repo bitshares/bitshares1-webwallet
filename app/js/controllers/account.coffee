@@ -1,7 +1,7 @@
-angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer, $translate) ->
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $window, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer, $translate) ->
 
     Info.refresh_info()
-    $scope.refresh_addresses=Wallet.refresh_accounts
+    $scope.refresh_addresses = Wallet.refresh_accounts
     name = $stateParams.name
     $scope.account_name = name
     $scope.utils = Utils
@@ -41,7 +41,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
     Blockchain.refresh_delegates().then ->
-        if ($scope.account && $scope.account.delegate_info)
+        if ($scope.account and $scope.account.delegate_info)
             $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
             $scope.rank = Blockchain.all_delegates[name].rank
     # TODO: mixing the wallet account with blockchain account is not a good thing.
@@ -56,12 +56,12 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                 WalletAPI.account_update_private_data(name, $scope.account.private_data)
         )
         $scope.account_name = acct.name
-        if (acct.gui_data && acct.gui_data.website)
+        if (acct.gui_data and acct.gui_data.website)
             $scope.website = acct.gui_data.website;
-        if (acct.public_data && acct.public_data.website)
+        if (acct.public_data and acct.public_data.website)
             $scope.website = acct.public_data.website;
         
-        if $scope.website.indexOf('http://') == -1 && $scope.website.indexOf('https://') == -1
+        if $scope.website and $scope.website.indexOf('http://') == -1 and $scope.website.indexOf('https://') == -1
             $scope.website = 'http://' + $scope.website
 
         Wallet.set_current_account(acct) if acct.is_my_account
@@ -208,3 +208,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             scope: $scope
         #else
         #  Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
+
+    $scope.link = (address) ->
+        $window.open(address)
+        return true

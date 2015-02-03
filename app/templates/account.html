@@ -1,7 +1,7 @@
 <div class="account-page" ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
   <div class="col-sm-2">
     <div class="avatar-150">
-      <img ng-src="http://robohash.org/set_1/{{account_name}}?size=150x150" height="150" width="150"/>
+      <img ng-src="http://robohash.org/set_1/{{account_name}}?size=200x200" height="150" width="150"/>
     </div>
     <br/>
     <div class="text-center avatar-150">
@@ -42,7 +42,7 @@
           <i class="fa fa-fw fa-check text-success"></i> <span tooltip=" {{ 'account.reg_date' | translate }}: {{ account.registration_date | prettyDate }}" translate>directory.registered</span>
           &nbsp; 
           <br/>
-          <a style="color:white;" target="_blank" href='{{ website }}'>{{ website }}</a>
+          <a style="color:white;" ng-click="link(website)">{{ website }}</a>
           <div ng-if="delegate.role" style='color:white;font-size:150%'>Role: {{ delegate.role }}</div>
         </div>
       </div>

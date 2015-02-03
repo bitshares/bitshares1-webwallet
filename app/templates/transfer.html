@@ -9,7 +9,7 @@
 <div class="row head-bg account-page" ng-if="show_from_section">
   <div class="col-sm-2">
     <div class="avatar move-right-50px">
-      <img class="avatar-150" ng-src="http://robohash.org/set_1/{{account_from_name}}?size=150x150" height="150" width="150"/>
+      <img class="avatar-150" ng-src="http://robohash.org/set_1/{{account_from_name}}?size=200x200" height="150" width="150"/>
     </div>
     <br/>
   </div>
@@ -52,7 +52,7 @@
   <div class="col-sm-2">
     <div class="avatar move-right-50px">
       <div style='width:150px;padding:0px;margin:0px' ng-if="transfer_info.payto">
-        <img class="avatar-150" ng-src="http://robohash.org/set_1/{{transfer_info.payto}}?size=150x150" height="150" width="150"/>
+        <img class="avatar-150" ng-src="http://robohash.org/set_1/{{transfer_info.payto}}?size=200x200" height="150" width="150"/>
         <br/><br>
         <div class="avatar-150 text-center" ng-if='transfer_info.payto!=account.name'>
           <button ng-click="toggleFavoriteContact(transfer_info.payto)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.favorite' | translate }}">
