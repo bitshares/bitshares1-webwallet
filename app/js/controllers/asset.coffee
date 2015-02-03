@@ -3,7 +3,7 @@ angular.module("app").controller "AssetController", ($scope, $rootScope, Blockch
     $scope.symbol2records = Blockchain.symbol2records
     $scope.ticker = $stateParams.ticker.toUpperCase()
     $scope.Utils = Utils
-    $scope.issuer =''
+    $scope.issuer = ''
     $scope.asset_record = null
     $scope.current_account = $rootScope.current_account
     $scope.asset_name = $scope.ticker
