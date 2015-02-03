@@ -208,6 +208,10 @@ tr.short_wall td {
 	height: 240px;
 }
 
+.advanced-mode {
+	padding-bottom: 1em;
+}
+
 .tab-short {
 	display: none !important;
 }

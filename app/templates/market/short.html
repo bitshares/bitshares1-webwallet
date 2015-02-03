@@ -1,9 +1,16 @@
+<div ng-class="{ 'simple-mode-short-stub':!advanced, 'advanced-mode': advanced }">
+  <a ng-click="flip_advanced()" class="market-header-button">
+    <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
+    <span translate>market.advanced</span>
+  </a>
+</div>
 <form ng-show="advanced" name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <!--balance-->
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}} ({{account.name}})">
     <span class="clickable" ng-click="use_trade_data({collateral: account.short_balance})">
       {{account.short_balance | formatDecimal : market.base_precision}}
     </span>
+
   </div>
   <!--collateral-->
   <div form-hgroup label="{{'market.collateral'|translate}}" addon="{{actual_market.quantity_symbol}}" label-popover="{{'market.help.short_collateral' | translate:short_translation_data}}">
@@ -30,9 +37,4 @@
   <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{blockchain_tx_fee}} {{blockchain_symbol}}"><span translate>market.short</span> {{actual_market.base_symbol}}</button>
 </form>
 
-<div ng-show="!advanced" class="simple-mode-short-stub">
-  <a ng-click="flip_advanced()" class="market-header-button">
-            <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
-            <span translate>market.advanced</span></a>
-</div>
 
