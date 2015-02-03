@@ -18,7 +18,7 @@
     "tip": {
         "privacy_statement": "Privacy Statement",
         "warning": "Warning",
-        "validate_symbol": "The Symbol should be 3-8 uppercase characters",
+        "validate_symbol": "The parent symbol must be 3-8 uppercase characters. A secondary symbol of 3-8 characters may also be used, separated by a '.', but only if the primary asset already exists. The total length allowed is 12 characters, including the dot. The prefix 'BIT' is not allowed",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
         "pay_with_info": "Registering costs BTS, Pay with",
         "reg_as_delegate": "Registered as delegate",
