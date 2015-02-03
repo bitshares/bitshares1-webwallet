@@ -214,4 +214,34 @@ class MarketHelper
             return parseFloat str_value.replace(/,/g, "")
         return parseFloat value
 
+    flatten_orderbookchart: (array, sumBoolean, inverse, precision) ->
+        inverse = if inverse == undefined then false else inverse;
+        orderBookArray = [];
+        if inverse
+            array.sort (a, b) ->
+                a[0] - b[0]
+
+            if array and array.length
+                arrayLength = array.length - 1;
+                orderBookArray.unshift([array[arrayLength][0], array[arrayLength][1]])
+                for i in [array.length-2...0]
+                    maxStep = Math.min((array[i + 1][0] - array[i][0] ) / 2, 0.1 / precision)
+                    orderBookArray.unshift([array[i][0] + maxStep, array[i + 1][1]])
+                    if (sumBoolean) 
+                        array[i][1] += array[i - 1][1]                        
+                    orderBookArray.unshift([array[i][0], array[i][1]])
+
+        else 
+            if array and array.length
+                orderBookArray.push([array[0][0], array[0][1]])
+
+                for i in [1...array.length]
+                    maxStep = Math.min((array[i][0] - array[i - 1][0]) / 2, 0.1 / precision)
+                    orderBookArray.push([array[i][0] - maxStep, array[i - 1][1]])
+                    if (sumBoolean) 
+                        array[i][1] += array[i - 1][1]                        
+                    orderBookArray.push([array[i][0], array[i][1]])                    
+
+        orderBookArray
+
 angular.module("app").service("MarketHelper", ["$filter", "Utils",  MarketHelper])
