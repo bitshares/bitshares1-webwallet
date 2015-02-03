@@ -27,16 +27,16 @@
       <table style='width:100%' class="table table-striped">
         <thead>
           <tr style="text-transform: uppercase;">
-            <th translate>th.rank</th>
-            <th translate>th.name</th>
+            <th ng-click="orderByField='rank'; reverseSort = !reverseSort" ><ng-sort-fa order-string="rank" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.rank</span></th>
+            <th ng-click="orderByField='name'; reverseSort = !reverseSort" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.name</span></th>
             <th translate>th.approval</th>
             <th translate>th.reliability</th>
-            <th translate>th.pay_rate</th>
+            <th ng-click="orderByField='delegate_info.pay_rate'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
             <th translate>th.approve</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="del in active_delegates | filter:search">
+          <tr ng-repeat="del in active_delegates | filter:search | orderBy: [orderByField,'name']:reverseSort track by del.id">
             <td>{{ del.rank }}</td>
             <td>
               <a class='delegate-link' ui-sref="account.delegate({name: del.name})"><strong>{{ del.name }}</strong></a>
@@ -93,16 +93,16 @@
         <table class="table table-striped">
           <thead>
             <tr style="text-transform: uppercase;">
-              <th translate>th.rank</th>
-              <th translate>th.name</th>
+              <th ng-click="orderByFieldStandby='rank'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="rank" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.rank</span></th>
+            <th ng-click="orderByFieldStandby='name'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.name</span></th>
               <th translate>th.approval</th>
               <th translate>th.reliability</th>
-              <th translate>th.pay_rate</th>
+              <th ng-click="orderByFieldStandby='delegate_info.pay_rate'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
               <th translate>th.approve</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
+            <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize | orderBy: [orderByFieldStandby,'name']:reverseSortStandby track by del.id">
               <td>{{ del.rank }}</td>
               <td>
                 <a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a>

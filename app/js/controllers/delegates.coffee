@@ -10,6 +10,10 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
     $scope.accounts = Wallet.accounts
 
+    $scope.orderByField = "rank";
+    $scope.reverseSort = false;
+    $scope.orderByFieldStandby = "rank";
+    $scope.reverseSortStandby = false;
 
     $q.all([Wallet.refresh_accounts(), Blockchain.refresh_delegates()]).then ->
         $scope.active_delegates = Blockchain.active_delegates
