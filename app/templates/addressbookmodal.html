@@ -13,7 +13,7 @@
 
         <ul class="list-group contacts-list">
           <li class="list-group-item" ng-repeat="name in favorites | filter:contact_name_filter">
-            <img ng-src="http://robohash.org/set_1/{{name}}?size=64x64" height="32" width="32"/>
+            <img ng-src="http://robohash.org/set_1/{{name}}?size=200x200" height="32" width="32"/>
             {{name}}
           </li>
         </ul>
@@ -32,7 +32,7 @@
     <div class="row">
       <div class="col-md-2">
         <div class="avatar">
-          <img ng-src="http://robohash.org/set_1/{{account.name}}?size=100x100" height="100" width="100" ng-if="account.name"/>
+          <img ng-src="http://robohash.org/set_1/{{account.name}}?size=200x200" height="100" width="100" ng-if="account.name"/>
           <img src="img/user.png" height="100" width="100" ng-if="!account.name"/>
         </div>
       </div>
