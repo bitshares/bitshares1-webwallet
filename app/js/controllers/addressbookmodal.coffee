@@ -21,6 +21,7 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
         if index >= 0
             $scope.data.favorites.splice(index, 1)
             delete Wallet.favorites[name]
+            Wallet.accounts[name].is_favorite = false
             WalletAPI.account_set_favorite(name, false)
 
     $scope.ok = ->

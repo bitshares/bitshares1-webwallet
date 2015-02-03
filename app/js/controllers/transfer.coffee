@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, Wallet, WalletAPI, Blockchain, Utils, Info, Growl) ->
+angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, Utils, Info, Growl) ->
     Info.refresh_info()
     $scope.utils = Utils
     $scope.balances = []
@@ -15,6 +15,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
+    $scope.model.add_to_address_book_error = null
 
     if (!$scope.transfer_info)
         $scope.transfer_info =
@@ -119,12 +120,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.transfer_info.memo = ""
             Growl.notice "", "Transfer transaction broadcasted"
             $scope.model.t_active=true
-        ,
-        (error) ->
-            if (error.data.error.code==20005)
+        , (error) ->
+            if error.data.error.code == 20005
                 my_transfer_form.payto.error_message = "Unknown receive account"
-            if (error.data.error.code==20010)
+            else if error.data.error.code == 20010
                 my_transfer_form.amount.error_message = "Insufficient funds"
+            else
+                my_transfer_form.payto.error_message = Utils.formatAssertException(error.data.error.message)
 
     $scope.send = ->
         my_transfer_form.amount.error_message = null
@@ -156,38 +158,42 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     (contact)->
                         $scope.transfer_info.payto = contact
 
-    $scope.onSelect = ($item, $model, $label) ->
-        console.log('selected!',$item, $model, $label)
-        $scope.transfer_info.payto=$label.name
-        $scope.gravatar_account_name = $scope.transfer_info.payto
+    $scope.onSelect = (name) ->
+        $scope.transfer_info.payto = name
+        $scope.gravatar_account_name = name
 
     $scope.accountSuggestions = (input) ->
-        ret = []
-        $scope.gravatar_account_name = ""
-        angular.forEach Wallet.accounts, (val) ->
-            ret.push {'name': val.name} if val.name.substring(0, input.length) == input
-        ret.sort(compare)
-        return ret
+        $filter('filter')(Object.keys(Wallet.favorites),input)
 
-    compare = (a, b) ->
-        return -1  if a.name < b.name
-        return 1  if a.name > b.name
-        0
+#    $scope.toggleVoteUpContact = (name) ->
+#        newApproval=1
+#        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
+#            newApproval=-1
+#        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
+#            newApproval=0
+#        Wallet.approve_account(name, newApproval).then (res)->
+#            Wallet.refresh_account(name).then () ->
+#                $scope.accounts=Wallet.accounts
 
-    $scope.toggleVoteUpContact = (name) ->
-        newApproval=1
-        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
-            newApproval=-1
-        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
-            newApproval=0
-        Wallet.approve_account(name, newApproval).then (res)->
-            Wallet.refresh_account(name).then () ->
-                $scope.accounts=Wallet.accounts
+    $scope.addToAddressBook = (name) ->
+        error_handler = (error) ->
+            message = Utils.formatAssertException(error.data.error.message)
+            $scope.model.add_to_address_book_error = if message and message.length > 2 then message else "Unknown account"
+        WalletAPI.account_set_favorite(name, true, error_handler).then () ->
+            account = Wallet.accounts[name]
+            if account
+                account.is_favorite = true
+                Wallet.favorites[name] = account
+            else
+                Wallet.refresh_account(name).then (account) ->
+                    if account
+                        account.is_favorite = true
+                        Wallet.favorites[name] = account
+                    else
+                        $scope.model.add_to_address_book_error = "Unknown account"
+                , (error) ->
+                    $scope.model.add_to_address_book_error = "Unknown account"
 
-    $scope.toggleFavoriteContact = (name) ->
-        is_favorite=true
-        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
-            is_favorite=false
-        WalletAPI.account_set_favorite(name, is_favorite).then () ->
-            Wallet.refresh_account(name).then () ->
-                $scope.accounts=Wallet.accounts
+    $scope.payToChanged = ->
+        $scope.model.add_to_address_book_error = null
+        my_transfer_form?.payto.error_message = null

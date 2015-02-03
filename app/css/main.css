@@ -464,3 +464,33 @@ input.ng-dirty.ng-invalid {
 .remove-contact-btn {
 	padding: 4px;
 }
+
+/* outline buttons */
+.btn.outline {
+	background: none;
+	padding: 12px 22px;
+	transition: all 0.3s ease 0s;
+}
+
+.btn-sm.outline {
+	padding: 6px 10px;
+	font-size: 90%;
+}
+
+.btn-primary.outline {
+	border: 1px solid #1b6fc1;
+	color: #1b6fc1;
+}
+
+.btn-primary.outline:hover, .btn-primary.outline:active {
+	color: #fff;
+	border-color: #1863ad;
+}
+
+.btn-primary.outline:focus {
+	color: #1b6fc1;
+}
+
+.btn-primary.outline:focus:hover {
+	color: #fff;
+}

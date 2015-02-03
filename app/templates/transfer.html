@@ -54,11 +54,11 @@
       <div style='width:150px;padding:0px;margin:0px' ng-if="transfer_info.payto">
         <img class="avatar-150" ng-src="http://robohash.org/set_1/{{transfer_info.payto}}?size=200x200" height="150" width="150"/>
         <br/><br>
-        <div class="avatar-150 text-center" ng-if='transfer_info.payto!=account.name'>
-          <button ng-click="toggleFavoriteContact(transfer_info.payto)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.favorite' | translate }}">
-            <i ng-class="(accounts[transfer_info.payto].is_favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
+        <div class="avatar-150 text-center">
+          <button ng-show="!accounts[transfer_info.payto].is_favorite && !model.add_to_address_book_error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
+            ADD TO ADDRESS BOOK
           </button>
-          <button ng-if='accounts[transfer_info.payto].registration_date == "1970-01-01T00:00:00"' class="btn btn-sm btn-link success"><i tooltip="{{ 'tip.not_reg_onchain' | translate }}" class='fa fa-eye-slash fa-2x text-success'></i></button>
+          <span ng-show="model.add_to_address_book_error" class="text-danger">{{model.add_to_address_book_error}}</span>
         </div>
         <div style='font-size:120%;text-align:center;border-style:solid;border-width:2px' ng-if='transfer_info.payto==account.name'>
           <b translate>account.self</b>
@@ -70,7 +70,7 @@
   <div class="col-sm-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form"
           ng-submit="send()" novalidate>
-      <div ng-init="setForm(my_transfer_form);"></div>
+      <div ng-init="setForm(my_transfer_form)"></div>
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <!-- amount -->
         <label for="amount" class="col-sm-1 control-label" translate>account.amount</label>
@@ -107,7 +107,7 @@
         </div>
       </div>
       <div class="form-group row transfer-amount-error" ng-show="(my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine) || my_transfer_form.amount.error_message">
-        <div class="col-sm-offset-2 col-sm-4">
+        <div class="col-sm-offset-1 col-sm-4">
           <span class="help-block text-danger" translate ng-hide="my_transfer_form.amount.error_message">tip.wrong_amount</span>
           <span class="help-block text-danger">{{my_transfer_form.amount.error_message}}</span>
         </div>
@@ -120,8 +120,8 @@
             <input ng-model="transfer_info.payto" name="payto" type="text"
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
-                   typeahead-append-to-body='true' typeahead-on-select='onSelect($item, $model, $label)' typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
-                   required ng-change="my_transfer_form.payto.error_message = null"/>
+                   typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
+                   required ng-change="payToChanged()"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
             <!--<span ng-if='transfer_info.payto' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">-->
               <!--<i class="fa fa-book fa-lg fa-fw"></i>-->

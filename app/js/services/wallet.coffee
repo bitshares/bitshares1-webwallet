@@ -209,6 +209,7 @@ class Wallet
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
             @refresh_balances()
+            return @accounts[name]
 
     refresh_accounts: () ->
         @refresh_accounts_request = on
@@ -272,21 +273,21 @@ class Wallet
 
     get_account: (name, error_handler) ->
         @refresh_balances()
+        deferred = @q.defer()
         #console.log "wallet_get_account start",name
         if @accounts[name]
             #console.log "wallet_get_account found",name
-            deferred = @q.defer()
             deferred.resolve(@accounts[name])
-            return deferred.promise
         else
             @wallet_api.get_account(name, error_handler).then (result) =>
                 acct = @populate_account(result)
-                return acct
+                deferred.resolve(@accounts[name])
             ,
             (error) =>
                 @blockchain_api.get_account(name, error_handler).then (result) =>
                     acct = if result then @populate_account(result) else null
-                    return acct
+                    deferred.resolve(acct)
+        return deferred.promise
 
     approve_account: (name, approve) ->
         @wallet_api.account_set_approval(name, approve)
