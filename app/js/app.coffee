@@ -42,8 +42,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     editableThemes['default'].submitTpl = '<button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check fa-lg"></i></button>'
     editableThemes['default'].cancelTpl = '<button type="button" ng-click="$form.$cancel()" class="btn btn-sm btn-warning"><i class="fa fa-times fa-lg"></i></button>'
 
+    history_back_in_process = false
     $rootScope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
-        app_history.push {state: fromState.name, params: fromParams} if fromState.name
+        app_history.push {state: fromState.name, params: fromParams} if fromState.name and !history_back_in_process
 
     $rootScope.history_back = ->
         return false if app_history.length == 0
@@ -51,7 +52,10 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
             prev_page = app_history.pop()
             break unless prev_page
             break unless prev_page.state == "createwallet" or prev_page.state == "unlockwallet"
-        $state.go(prev_page.state, prev_page.params) if prev_page
+        if prev_page
+            history_back_in_process = true
+            $state.transitionTo(prev_page.state, prev_page.params).then (res) ->
+                history_back_in_process = false
         return !!prev_page
 
     $rootScope.history_forward = ->
