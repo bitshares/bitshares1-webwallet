@@ -217,12 +217,7 @@ class Wallet
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
 
-<<<<<<< HEAD
-        #console.log "refresh_accounts clearing cache"
-=======
-        #delete @accounts[id] for id in Object.keys @accounts
         first_account = null
->>>>>>> newlayout
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
                 account = @populate_account(val)
