@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="header">
-            <h3 class="header-title">{{ 'block.title' | translate }} #{{number}}</h3>
+            <h3 class="header-title"><span translate>block.title</span> #{{number}}</h3>
 
     </div>
   </div>
@@ -11,7 +11,7 @@
   <div class="col-sm-12">
     <div class="main-content">
 
-          <table class="table table-striped table-hover table-bordered">
+          <table class="table table-striped table-bordered">
 
              <tr>
                  <th colspan="2"><b translate>block.summary</b></th>
@@ -89,8 +89,8 @@
                           <h3 class="header-title" translate>block.trx.title</h3>
 
                  <div class=" col-sm-12 pull-right p-inner">
-                    {{ "tip.info_filter_by_op" | translate }}:&nbsp;<input ng-model="operation_filter" type="text"/>
-                     </div>
+                     <span translate>tip.info_filter_by_op</span>:&nbsp;<input ng-model="operation_filter" type="text"/>
+                 </div>
                 </div>
            </div>
        </div>
@@ -99,7 +99,7 @@
 
    <div class="col-sm-12">
        <div id="transaction_summary">
-       <table class="table table-striped table-hover">
+       <table class="table table-striped">
          <thead>
          <tr>
            <th translate>th.trx_id</th>
@@ -120,7 +120,7 @@
                     <div ng-repeat="deposit in t.a_deposits"><span>{{deposit | formatAsset}}</span><br></div></td>
                 <td>
                     <div ng-repeat="net_vote in t.net_delegate_votes | limitTo: 3">
-                        <span><a href="#/accounts/{{ net_vote[3] }}">{{ net_vote[3] }}</a>:&nbsp; </span>
+                        <span><a ui-sref="account.transactions({name: net_vote[3]})">{{ net_vote[3] }}</a>:&nbsp; </span>
                         <span>{{ net_vote[2] | formatAsset }}</span><br></div></td>
                 <td>
                     <div ng-repeat="operation in t.operations"><span>-&nbsp;{{ operation.type | formatOperationType}}</span><br></div></td>

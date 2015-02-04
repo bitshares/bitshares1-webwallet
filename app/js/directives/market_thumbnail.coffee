@@ -94,8 +94,8 @@ angular.module("app.directives").directive "marketThumbnail", ->
             <h6>{{name}}</h6>
             <div class="sparkchart pull-right"></div>
             <ul>
-                <li>{{market.volume | formatDecimal : market.base_precision}} {{market.asset_base_symbol}} 24h volume</li>
-                <li>{{market.last_price | formatDecimal : market.price_precision}} {{market.price_symbol}}</li>
+                <li>{{market.volume | formatDecimal : 0}} {{market.asset_base_symbol}} 24h volume</li>
+                <li>{{market.last_price | formatDecimal : 2}} {{market.price_symbol}}</li>
                 <li ng-show="market.last_price > 0">{{1.0/market.last_price | formatDecimal : market.price_precision}} {{market.inverse_price_symbol}}</li>
             </ul>
         </div>

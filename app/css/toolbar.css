@@ -10,7 +10,8 @@
 	/*left: 190px;*/
 	/*padding-left: 190px;*/
 	/*padding-right: 10px;*/
-	background-color: #f5f5f5 !important;
+	background-color: #e2e2e2 !important;
+	border-bottom: none !important;
 }
 
 .navbar-main.navbar-main .navbar-nav {
@@ -41,8 +42,22 @@
 }
 
 li > a:hover, li.active > a  {
-	color: #01bbf4 !important;
-	background-color: transparent !important;
+	/*color: #1B6FC1 !important;*/
+	/*background-color: transparent !important;*/
+	text-decoration: none;
+}
+
+.navbar-default .navbar-nav > li > a {
+	height: 36px;
+	border-bottom: 2px solid transparent;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	border-bottom: 2px solid #1B6FC1;
+}
+
+.navbar-default .navbar-nav a.nav-transfer {
+	border-bottom: 2px solid transparent !important;
 }
 
 .left-panel {
@@ -110,4 +125,16 @@ li[disabled] a {
 .error-stack {
 	font-size: 9px;
 	clear: right;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 600px;
+    overflow-x: hidden;
+}
+
+.scrollable-menu-short {
+    height: auto;
+    max-height: 400px;
+    overflow-x: hidden;
 }

@@ -151,7 +151,7 @@ class BlockchainAPI
   #   string `account` - account name, ID, or public key to retrieve the record for
   # return_type: `optional_account_record`
   get_account: (account, error_handler = null) ->
-    @rpc.request('blockchain_get_account', [account]).then (response) ->
+    @rpc.request('blockchain_get_account', [account], error_handler).then (response) ->
       response.result
 
   # Retrieves a map of delegate IDs and names defined by the given slate ID or recommending account

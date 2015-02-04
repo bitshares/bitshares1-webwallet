@@ -1,33 +1,28 @@
 <div class="pull-left logo" ng-click="profile_toggle()">
-    <img src="/img/logo-ico.svg" height="32"/>&nbsp;
-    <span>{{
-        is_testnet == true ? 'footer.testnet' :
-            (is_testnet == false ? 'index.title' : '')
-        | translate
-    }}</span>
+    <img src="/img/logo-ico.svg" height="64"/>&nbsp;
 </div>
-<p class="pull-left">
+<div class="pull-left">
+  {{blockchain_name}}
+</div>
+<div class="pull-left">
     <span>{{message}}&nbsp;{{scan_progress_info}}</span> &nbsp;
     <span ng-if="transaction_scanning_disabled"><a ng-click="enable_transaction_scanning()" translate>footer.enable_trx_scan</a></span>
-</p>
-<p class="pull-left" ng-if="show_version_warning">
-  {{'footer.version_warning' | translate:'{expected_client_version: expected_client_version, client_version: client_version}'}}
-</p>
-<p class="pull-right m-bottom">
-  <span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b></span>
+</div>
+<div class="pull-left" ng-if="show_version_warning">
+  {{'footer.version_warning' | translate:show_version_warning_td}}
+</div>
+<div class="pull-right">
+  <span tooltip="{{alert_level_tip}}"><b>{{alert_level_msg}}</b><span ng-show="alert_level_msg"> | </span></span>
     <span> {{blockchain_last_sync_info}} </span>
   <span class="blockchain-status icon" ng-switch on="blockchain_status">
-    <i class="fa fa-check" ng-switch-when="synced"
-       tooltip="{{'footer.up_to_date'|translate:'{value: blockchain_last_block_num}'}}"
-       tooltip-placement="left"></i>
-    <i class="fa fa-refresh fa-spin" ng-switch-when="syncing"
-       tooltip="{{'footer.catching_up'|translate:'{value1: blockchain_last_block_num, value2: (blockchain_last_block_num + blockchain_blocks_behind)}'}}"
-       tooltip-placement="left"></i>
+    <span tooltip="{{'footer.up_to_date'|translate:blockchain_status_td}}">
+      <i class="fa fa-check" ng-switch-when="synced"></i>
+    </span>
+    <i class="fa fa-refresh fa-spin" ng-switch-when="syncing" tooltip="{{'footer.catching_up'|translate:blockchain_status_td}}"></i>
     <i ng-switch-default></i>
   </span>
-  <span class="icon" tooltip="{{connections_str}}" tooltip-placement="left">
-    <svg height="16" width="16" version="1.1" xmlns="http://www.w3.org/2000/svg"
-         class="{{connections_class}}">
+  <span class="icon" tooltip="{{connections_str}}">
+    <svg height="16" width="16" version="1.1" xmlns="http://www.w3.org/2000/svg" class="{{connections_class}}">
       <g class="connection" transform="translate(-61.0002,-257)">
         <path class="bar-4" d="m 73,257 0,1.5 0,12 0,1.5 3,0 0,-1.5 0,-12 0,-1.5 -3,0 z" fill="#999"/>
         <path class="bar-3" d="m 69,260 0,1.5 0,9  0,1.5 3,0 0,-1.5 0,-9  0,-1.5 -3,0 z" fill="#999"/>
@@ -42,4 +37,4 @@
     </svg>
   </span>
 
-</p>
+</div>

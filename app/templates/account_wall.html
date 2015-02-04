@@ -4,7 +4,7 @@
       <div class="panel-heading">
         <h3 class="panel-title" translate>account.wall.burn_records</h3>
       </div>
-      <table class="table table-striped table-hover">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th translate>th.amount</th>
@@ -28,14 +28,14 @@
     <div class="panel">
       <div class="panel-heading">
         <h3 class="panel-title" translate>account.wall.burn_post</h3>
-        <h6>{{'account.wall.explain' | translate:'{account_name: account_name}'}}</h6>
+        <h6 translate translate-values='{account_name: account_name}'>account.wall.explain</h6>
       </div>
       <form name="burn_form" class="form-horizontal" role="form" ng-submit="post()" novalidate>
         <!-- from -->
         <div form-hgroup label="{{'account.from'|translate}}">
           <div class="input-group-btn" dropdown is-open="status.isopen">
-            <button type="button" class="btn dropdown-toggle">{{burn.from}} <span class="caret"></span></button>
-            <ul class="dropdown-menu" role="menu">
+            <button type="button" class="btn dropdown-toggle" dropdown-toggle>{{burn.from}} <span class="caret"></span></button>
+            <ul class="dropdown-menu scrollable-menu-short" role="menu">
               <li ng-repeat="a in burn.accounts">
                 <a ng-click="burn.from = a; status.isopen=false">{{a}}</a>
               </li>
@@ -52,9 +52,7 @@
         </div>
         <!--Submit-->
         <div form-hgroup-error></div>
-        <button form-hgroup-submit-btn>
-          {{ "account.wall.post_message" | translate }}
-        </button>
+        <button form-hgroup-submit-btn><span translate>account.wall.post_message</span></button>
       </form>
       <br/>
     </div>

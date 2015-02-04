@@ -4,11 +4,16 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     $scope.currentPath = $location.path()
     $scope.theme = 'default'
 
-    $scope.current_path_includes = (str)->
-        $state.current.name.indexOf(str) >= 0
+    $scope.current_path_includes = (str, params = null)->
+        res = $state.current.name.indexOf(str) >= 0
+        if res and params
+            key = Object.keys(params)[0]
+            res = $stateParams[key] == params[key]
+        return res
 
     Wallet.check_wallet_status().then ->
         Info.watch_for_updates()
+        Wallet.refresh_accounts()
 
     $scope.started = false
 

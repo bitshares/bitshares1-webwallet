@@ -1,33 +1,28 @@
 <div class="container-fluid">
-<div class="modal-header">
-  <h3 class="modal-title" translate>contact.new_contact</h3>
-</div>
-<div class="row">
-  <div class="col-md-2">
-    <div class="avatar">
-      <br/>
-      <img ng-src="http://robohash.org/set_1/{{$parent.name}}?size=100x100" height="100" width="100" ng-if="$parent.name"/>
-      <img src="img/user.png" height="100" width="100" ng-if="!$parent.name"/>
-    </div>
+  <div class="modal-header">
+    <h3 class="modal-title" translate>contact.new_contact</h3>
   </div>
-  <div class="col-md-10">
-    <form name="newcontact" role="form" ng-submit="ok()">
-      <div class="modal-body">
-        <div class="form-group" ng-class="{ 'has-error' : (newcontact.account_name.$invalid || newcontact.account_name.error_message) && !newcontact.account_name.$pristine }">
-            <label for="account_name" class="control-label" translate>contact.contact_name</label>
-            <input-name autofocus ng-model="$parent.name" form-name="newcontact" show-note-1="false" show-note-2="true"/>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error' : newcontact.address.$invalid && !newcontact.address.$pristine }">
-          <label for="address" translate>contact.public_key</label>
-          <input ng-model="$parent.address" name="address" class="form-control" id="address"  placeholder="{{ 'contact.public_key_tip' | translate }}" required>
-          <div ng-show="newcontact.address.error_message && !newcontact.address.$pristine" class="text-danger">{{newcontact.address.error_message}}</div>
-        </div>
+  <div class="row">
+    <div class="col-md-2">
+      <div class="avatar">
+        <img ng-src="http://robohash.org/set_1/{{account.name}}?size=200x200" height="100" width="100" ng-if="account.name"/>
+        <img src="img/user.png" height="100" width="100" ng-if="!account.name"/>
       </div>
-    </form>
-    <div class="modal-footer">
-      <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; {{ 'btn.ok' | translate }} &nbsp;</button>
-      <button class="btn btn-warning" ng-click="cancel()">{{ 'btn.cancel' | translate }}</button>
+    </div>
+    <div class="col-md-10">
+      <form class="newcontact-modal-form" name="newcontact" role="form" ng-submit="ok()" novalidate>
+        <div form-vgroup label="{{'contact.contact_name'|translate}}" help="{{'directive.input_name.note2'|translate}}" help-if="true">
+          <input-account-name name="account_name" autofocus ng-model="account.name"/>
+        </div>
+        <div form-vgroup label="{{'contact.public_key'|translate}}">
+          <input ng-model="account.key" name="account_key" class="form-control"/>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button class="btn btn-primary" ng-disabled="!newcontact.$valid" ng-click="ok()">&nbsp; <span
+            translate>btn.ok</span> &nbsp;</button>
+        <button class="btn btn-warning" ng-click="cancel()"><span translate>btn.cancel</span></button>
+      </div>
     </div>
   </div>
 </div>
- </div>

@@ -5,16 +5,16 @@
     <div class="modal-body">
         <div class="row">
             <div class='col-sm-4'>
-                <img style='margin:0px;padding:0px' ng-src="http://robohash.org/set_1/{{m.newname}}?size=512x512" class="img-responsive"/>
+                <img style='margin:0px;padding:0px' ng-src="http://robohash.org/set_1/{{m.newname}}?size=200x200" class="img-responsive"/>
             </div>
 
             <div class='col-sm-8'>
                 <div>
-                <input-name autofocus ng-model="m.newname" form-name="createaccount" show-note-1="false" show-note-2="false"/>
+                <input-account-name autofocus ng-model="m.newname" form-name="createaccount"/>
                 </div>
                 <br>
                 <div class="lead">
-                  {{ 'tip.rename_account_name_existed' | translate:'{value: m.oldname}' }}
+                  {{ 'tip.rename_account_name_existed' | translate:m.translate_data }}
                 </div>
             </div>
         </div>

@@ -149,8 +149,13 @@ span.cell {
 	color: #ff7f0e !important;
 }
 
+.tab-short.active > a {
+	border-top: 2px solid #6390bc !important;
+	color: #6390bc !important;
+}
+
 .tab-short > a:hover {
-	color: #7cb5ec !important;
+	color: #6390bc !important;
 }
 
 /*.market-table tr.bid_order {*/
@@ -162,7 +167,7 @@ span.cell {
 /*}*/
 
 /*.market-table tr.short_order {*/
-	/*color: #7cb5ec;*/
+	/*color: #6390bc;*/
 /*}*/
 
 tr.short_wall td {
@@ -182,11 +187,11 @@ tr.short_wall td {
 }
 
 .short-orders-title {
-	color: #7cb5ec;
+	color: #6390bc;
 }
 
 .margin-orders-title {
-	color: #7cb5ec;
+	color: #6390bc;
 }
 
 .market-header-button {
@@ -201,6 +206,10 @@ tr.short_wall td {
 
 .simple-mode-short-stub {
 	height: 240px;
+}
+
+.advanced-mode {
+	padding-bottom: 1em;
 }
 
 .tab-short {
@@ -219,12 +228,12 @@ tr.short_wall td {
 }
 
 .market-thumbnail:hover {
-	border: 1px solid #01bbf4;
+	background-color: #eef8ff;
 }
 
 .market-thumbnail h6 {
 	padding-left: 1em;
-	color: #01bbf4;
+	color: #1B6FC1;
 }
 
 .market-thumbnail ul {

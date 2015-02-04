@@ -1,11 +1,14 @@
 <div class="modal-header bg-danger">
-  <h3 class="modal-title"><span class="text-lighter">Register</span> {{account.name}}</h3>
+  <h3 class="modal-title"><span class="text-lighter" translate>account.reg</span> {{account.name}}</h3>
 </div>
 <div class="modal-body">
   <div class="row">
     <form name="confirm_register_account" role="form" class="form-horizontal col-sm-11">
-      <div form-hgroup-value label="Transaction fee" show-value="true">
+      <div form-hgroup-value label="{{'transaction_fee'|translate}}" show-value="true">
         {{ transaction_fee }}
+      </div>
+      <div class="form-group" ng-show="!m.payfrom && !m.subaccount">
+        <div class="col-sm-offset-4" translate>account.reg_no_funds_note</div>
       </div>
       <div form-hgroup ng-show="m.payfrom" label="Pay fee with">
         <select name="pay_with" ng-model="m.payfrom" class="form-control"
@@ -13,14 +16,11 @@
       </div>
       <div form-hgroup ng-show="!m.payfrom && !m.subaccount" label="Use faucet">
         <select name="faucet" ng-model="m.faucet" class="form-control" ng-options="obj.name for obj in available_faucets track by obj.url"/>
-        <span class="help-block">Faucet provides free account registration. None of your private keys will be shared with faucet.</span>
       </div>
-      <div ng-show="!m.payfrom && m.subaccount">
-        Free faucet registration is not available for this account name.  Account names containing a "." are sub accounts and may not be registered using the faucet.  Please choose a different account name or add BTS to pay for the registration fee.
-      </div>
+      <div ng-show="!m.payfrom && m.subaccount" translate>account.reg_subaccount_faucet_not_available</div>
       <div form-hgroup ng-show="m.faucet.url === 'add'" label="Faucet domain or URL">
         <input name="faucet_url" ng-model="m.faucet_url" type="text" class="form-control" ui-validate="{valid_faucet_url: 'true'}"/>
-        <button ng-click="addCustomFaucet()" class="btn white btn-success add-btn">Add Faucet</button>
+        <button ng-click="addCustomFaucet()" class="btn white btn-success add-btn" translate>account.reg_add_faucet</button>
       </div>
     </form>
     <div class="col-sm-1">&nbsp;</div>

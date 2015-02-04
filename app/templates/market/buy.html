@@ -6,22 +6,22 @@
     </span>
   </div>
   <!--quantity-->
-  <div form-hgroup label="{{'market.quantity'|translate}}" label-popover="{{'market.help.buy_quantity' | translate:'{value: market.quantity_symbol}'}}" addon="{{market.quantity_symbol}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" label-popover="{{'market.help.buy_quantity' | translate:buy_sell_translation_data}}" addon="{{market.quantity_symbol}}">
     <input-positive-number name="bid_quantity" ng-model="bid.quantity" ng-change="order_change()" required="true"/>
   </div>
   <!--price-->
-  <div form-hgroup label="{{'market.price'|translate}}" label-popover="{{'market.help.buy_price' | translate:'{base: market.base_symbol, quantity: market.quantity_symbol}'}}" addon="{{market.price_symbol}}">
+  <div form-hgroup label="{{'market.price'|translate}}" label-popover="{{'market.help.buy_price' | translate:buy_sell_translation_data}}" addon="{{market.price_symbol}}">
     <input-positive-number name="bid_price" ng-model="bid.price" ng-change="order_change()" required="true" />
   </div>
   <!--lowest ask-->
   <div form-hgroup-note ng-show="market.lowest_ask">
-    <span popover="{{'market.help.buy_lowest_ask' | translate}}" popover-trigger="mouseenter">{{'market.lowest_ask'|translate}}</span> <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask})">{{market.lowest_ask | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    <span tooltip="{{'market.help.buy_lowest_ask' | translate}}" translate>market.lowest_ask</span> <span class="clickable" ng-click="use_trade_data({price: market.lowest_ask})">{{market.lowest_ask | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <!--cost(total)-->
-  <div form-hgroup label="{{'market.total'|translate}}" label-popover="{{'market.help.buy_total' | translate:'{base: market.base_symbol, account: account.name}'}}" addon="{{market.base_symbol}}">
+  <div form-hgroup label="{{'market.total'|translate}}" label-popover="{{'market.help.buy_total' | translate:buy_sell_translation_data}}" addon="{{market.base_symbol}}">
     <input-positive-number name="bid_total" ng-model="bid.cost" ng-change="order_total_change()" required="true"/>
   </div>
   <!--Submit-->
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{tx_fee}} {{market.base_symbol}}">{{'market.buy'|translate}} {{market.quantity_symbol}}</button>
+  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{tx_fee}} {{market.base_symbol}}"><span translate>market.buy</span> {{market.quantity_symbol}}</button>
 </form>

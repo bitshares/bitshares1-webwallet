@@ -23,8 +23,16 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
     # TODO validate that this symbol has not already been created
     $scope.is_valid_symbol = (value) ->
         return false unless angular.isString value
-        pattern = /^([A-Z0-9]{3,8})$/
-        return !!value.match(pattern)
+        value = value.split '.'
+        scam_pattern = /^BIT/
+        pattern = /^([A-Z]{3,8})$/
+        if value.length == 1
+            return !!value[0].match(pattern) and not !!value[0].match(scam_pattern)
+        else if value.length == 2
+            rest = 12-(value[0].length+1)
+            pattern2 = new RegExp('^([A-Z]{3,'+rest+'})$');
+            return !!value[0].match(pattern) and !!value[1].match(pattern2)
+
 
     $scope.create = ->
         form = @create_asset_form

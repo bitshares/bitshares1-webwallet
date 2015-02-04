@@ -1,0 +1,18 @@
+<div class="main-content">
+  <div class="pull-right">
+    <a ng-click="open_block_explorer()" translate>block.block_explorer</a>
+  </div>
+  <tabset>
+    <!-- preferences tab -->
+    <tab ng-click="goto_tab('advanced.preferences')" active="tabs[0].active">
+      <tab-heading><i class="fa fa-gears fa-fw fa-lg"></i> <span translate>index.preferences</span></tab-heading>
+      <div ui-view="advanced-preferences"></div>
+    </tab>
+
+    <!--console tab -->
+    <tab ng-click="goto_tab('advanced.console')" active="tabs[1].active">
+      <tab-heading><i class="fa fa-terminal fa-fw fa-lg"></i> <span translate>index.console</span></tab-heading>
+      <div ui-view="advanced-console"></div>
+    </tab>
+  </tabset>
+</div>

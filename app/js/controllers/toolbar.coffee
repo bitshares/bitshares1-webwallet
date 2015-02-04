@@ -1,4 +1,21 @@
-angular.module("app").controller "ToolbarController", ($scope, $rootScope, Shared, Wallet) ->
+angular.module("app").controller "ToolbarController", ($scope, $state, $rootScope, Shared, Wallet) ->
+
+    $scope.current_account = null
+    $scope.accounts = []
+
+    $scope.$watch ->
+        Wallet.current_account
+    , (value) ->
+        return unless value
+        $rootScope.current_account = $scope.current_account = value.name
+
+    $scope.$watch ->
+        Wallet.accounts
+    , (all_accounts) ->
+        return unless all_accounts
+        $scope.accounts.splice(0, $scope.accounts.length)
+        $scope.accounts.push(name) for name, a of all_accounts when a.is_my_account and name != $scope.current_account
+    , true
 
     $scope.back = ->
         $scope.history_back()
@@ -20,3 +37,12 @@ angular.module("app").controller "ToolbarController", ($scope, $rootScope, Share
     $scope.lock = ->
         Wallet.wallet_lock().then ->
             navigate_to('unlockwallet')
+
+    $scope.switch_account = (account) ->
+        if $state.params?.account
+            params = angular.copy($state.params)
+            params.account = account
+            $state.go($state.current.name, params)
+        else
+            $state.go("account.transactions", {name: account})
+        return null

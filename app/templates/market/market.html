@@ -1,19 +1,6 @@
 <div>
 <div class="col-sm-12 market-header">
   <div class="header m-bottom">
-    <div class="account-selector pull-right">
-      <span class="title">{{'account.name'|translate}} &nbsp;</span>
-      <div class="btn-group" dropdown is-open="status.isopen">
-        <button type="button" class="btn btn-primary dropdown-toggle">
-          {{account ? account.name : ('accounts.select_account' | translate)}} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-          <li ng-repeat="(key,a) in accounts">
-            <a ui-sref="market.buy({account: '{{a.name}}', market: '{{market.name}}'})">{{a.name}}</a>
-          </li>
-        </ul>
-      </div>
-    </div>
 
     <div class="row">
       <h3 class="header-title col-sm-4">
@@ -29,18 +16,18 @@
       </h3>
       <ul class="row market-stats stats col-sm-5">
         <li class="stat col-sm-3">
-          <span>{{market.quantity_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
+          <span>{{market.quantity_symbol}}&nbsp;<span translate>account.balances</span><br/><b class="value">
            {{account.quantity_balance | formatDecimal : market.quantity_precision}}</b></span>
         </li>
         <li class="stat col-sm-3">
-          <span>{{market.base_symbol}}&nbsp;{{'account.balances'|translate}}<br/><b class="value">
+          <span>{{market.base_symbol}}&nbsp;<span translate>account.balances</span><br/><b class="value">
            {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
         </li>
         <li ng-show="true || market.feed_price" class="col-sm-3 stat">
-          <span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+          <span><span translate>market.feed_price</span><br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
         <li ng-show="true || market.feed_price" class="col-sm-3 stat">
-          <span>{{'asset.total_supply'|translate}}<br/><b class="value">{{asset_total_supply | formatDecimal : 2}}</b><br/><em>{{actual_market.base_symbol}}</em></span>
+          <span><span translate>asset.total_supply</span><br/><b class="value">{{asset_total_supply | formatDecimal : 2}}</b><br/><em>{{actual_market.base_symbol}}</em></span>
         </li>
       </ul>
     </div>
@@ -165,7 +152,7 @@
         </div>
         <div class="panel col-xs-12 col-sm-6">
             <div class="panel-heading">
-                <h3 class="panel-title margin-orders-title">{{('market.open_margin_orders') | translate}}</h3>
+                <h3 class="panel-title margin-orders-title"><span translate>market.open_margin_orders</span></h3>
             </div>
             <div class="panel-body">
                 <div ng-include src="'market/open_margin.html'"></div>

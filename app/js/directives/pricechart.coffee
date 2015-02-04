@@ -106,7 +106,7 @@ angular.module("app.directives").directive "pricechart", ->
     controller: ($scope, $element, $attrs) ->
         #console.log "pricechart controller"
 
-    template: "<div id=\"pricechart\" style=\"margin: 0 auto\"></div>"
+    template: "<div id=\"pricechart\"></div>"
 
     chart: null
 

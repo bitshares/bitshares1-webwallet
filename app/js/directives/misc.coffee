@@ -107,3 +107,11 @@ angular.module("app.directives").directive "focus", ($timeout) ->
     link: (scope, element) ->
         $timeout -> element[0].focus()
 
+angular.module("app.directives").directive "ngSortFa", () ->
+    restrict: 'E',
+    scope: 
+      'orderString':'@',
+      'orderByField':'@',
+      'reverseSort':'@'
+    templateUrl: 'ng-sort-template.html'
+

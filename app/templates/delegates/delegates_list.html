@@ -1,68 +1,127 @@
 <div class="pull-right">
   <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Un-approve all' class="fa fa-eraser"></i>
-    {{ "delegate.un_approve_all" | translate }}
+    <span translate>delegate.un_approve_all</span>
   </button>
 </div>
-    <div class="col-sm-6">
-    <table style='width:100%' class="table table-hover">
+<div class="col-sm-6">
+  <table style='width:100%' class="table table-hover">
     <tr>
-    <td><b translate>delegate.max_pay_per_blk</b></td> <td><b>{{blockchain_delegate_pay_rate}}</b></td>
+      <td><b translate>delegate.max_pay_per_blk</b></td> <td><b>{{blockchain_delegate_pay_rate}}</b></td>
     </tr>
     <tr>
-    <td><b translate>delegate.avg_active_delegate_pay_rate</b> </td> <td> <b> {{avg_act_del_pay_rate | number:2}}</b> % </td>
+      <td><b translate>delegate.avg_active_delegate_pay_rate</b> </td> <td> <b> {{avg_act_del_pay_rate | number:2}}</b> % </td>
     </tr>
-    </table>
-    </div>
+  </table>
+</div>
 <div class="row">
   <div class="col-sm-3">
     <input type="text" class="form-control" ng-model="search.name" placeholder="{{'pagination.filter'|translate}}">
   </div>
-
 </div>
 <div class="row">
   <div class="col-lg-12">
-    <div class="header">
+    <div class="header no-bottom-border">
       <h4 class="header-title" translate>delegate.top_delegates</h4>
     </div>
-
     <div>
-      <table style='width:100%' class="table table-striped table-hover">
+      <table style='width:100%' class="table table-striped">
         <thead>
           <tr style="text-transform: uppercase;">
-            <th translate>th.rank</th>
-            <th translate>th.name</th>
+            <th ng-click="orderByField='rank'; reverseSort = !reverseSort" ><ng-sort-fa order-string="rank" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.rank</span></th>
+            <th ng-click="orderByField='name'; reverseSort = !reverseSort" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.name</span></th>
             <th translate>th.approval</th>
             <th translate>th.reliability</th>
-            <th translate>th.blk_produced</th>
-            <th translate>th.pay_rate</th>
-            <!--<th style="max-width: 100px;">Feeds</th>-->
+            <th ng-click="orderByField='delegate_info.pay_rate'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
             <th translate>th.approve</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="del in active_delegates | filter:search">
+          <tr ng-repeat="del in active_delegates | filter:search | orderBy: [orderByField,'name']:reverseSort track by del.id">
             <td>{{ del.rank }}</td>
             <td>
-              <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
+              <a class='delegate-link' ui-sref="account.delegate({name: del.name})"><strong>{{ del.name }}</strong></a>
               <br>
-              <i ng-show="del.public_data.version"> {{ 'delegate.version' | translate }}: {{del.public_data.version}} </i>
+              <i ng-show="del.public_data.version"> <span translate>delegate.version</span>: {{del.public_data.version}} </i>
               <br>
-              <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
+              <!-- <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i> -->
+              <i><a ng-click="link(del.public_data.website)">{{del.public_data.website}} </a></i>
             </td>
             <td>
+              <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
+              tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
+              <span ng-switch-when='true'>&#60;0.01%</span>
+              <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+            </span>
+          </td>
+          <td>
+            <span ng-show="del.delegate_info.blocks_produced>0">{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
+          </td>
+          <td>{{ del.delegate_info.pay_rate }}%</td>
+          <!--<td style="max-width: 100px; font-size: 10px; text-overflow: ellipsis;">{{del.feeds.join(', ')}}</td>-->
+          <td>
+            <div class="btn-group">
+              <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
+                <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+                <i ng-if="!accounts[del.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+                <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div>
+      <div class="header">
+        <h4 class="header-title" translate>delegate.standby_delegates</h4>
+      </div>
+      <div class="col-sm-12">
+        <ul class="pagination pagination-sm">
+          <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate>pagination.first</a></li>
+          <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
+          <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
+          <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1" translate>pagination.next</a></li>
+          <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
+        </ul>
+      </div>
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr style="text-transform: uppercase;">
+              <th ng-click="orderByFieldStandby='rank'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="rank" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.rank</span></th>
+            <th ng-click="orderByFieldStandby='name'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.name</span></th>
+              <th translate>th.approval</th>
+              <th translate>th.reliability</th>
+              <th ng-click="orderByFieldStandby='delegate_info.pay_rate'; reverseSortStandby = !reverseSortStandby" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSortStandby}}" order-by-field="{{orderByFieldStandby}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
+              <th translate>th.approve</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize | orderBy: [orderByFieldStandby,'name']:reverseSortStandby track by del.id">
+              <td>{{ del.rank }}</td>
+              <td>
+                <a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a>
+                <br>
+                <i ng-show="del.public_data.version"> Version: {{del.public_data.version}} </i>
+                <br>
+                <i><a ng-click="link(del.public_data.website)"> {{del.public_data.website}} </a></i>
+              </td>
+              <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
-                      tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
-                  <span ng-switch-when='true'>&#60;0.01%</span>
-                  <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
-                </span>
+                tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
+                <span ng-switch-when='true'>&#60;0.01%</span>
+                <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+              </span>
             </td>
-            <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
-              <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
-              <span ng-switch-default translate>unknown</span>
+            <td>
+              <span ng-show="del.delegate_info.blocks_produced > 0">{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
             </td>
-            <td>{{ del.delegate_info.blocks_produced }}</td>
             <td>{{ del.delegate_info.pay_rate }}%</td>
-            <!--<td style="max-width: 100px; font-size: 10px; text-overflow: ellipsis;">{{del.feeds.join(', ')}}</td>-->
             <td>
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
@@ -78,71 +137,4 @@
     </div>
   </div>
 </div>
-
-<div class="row">
-  <div class="col-lg-12">
-    <div>
-      <div class="header">
-        <h4 class="header-title" translate>delegate.standby_delegates</h4>
-      </div>
-      <div class="col-sm-12">
-              <ul class="pagination pagination-sm">
-                    <li ><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=0" translate>pagination.first</a></li>
-                    <li><a class="btn" ng-disabled="p.currentPage == 0" ng-click="p.currentPage=p.currentPage-1" translate>pagination.prev</a></li>
-                    <li> <span class="btn btn-primary" style="color: #FFF; font-size: 110%; font-weight: 100;padding: 4px 12px;">{{p.currentPage+1}}/{{p.numberOfPages}}</span></li>
-                    <li><a class="btn" ng-disabled="p.currentPage >= p.numberOfPages - 1" ng-click="p.currentPage=p.currentPage+1" translate>pagination.next</a></li>
-                    <li><a class="btn" ng-disabled="p.currentPage == p.numberOfPages - 1" ng-click="p.currentPage=p.numberOfPages - 1" translate>pagination.last</a></li>
-                </ul>
-              </div>
-      <div>
-        <table class="table table-hover">
-          <thead>
-            <tr style="text-transform: uppercase;">
-              <th translate>th.rank</th>
-              <th translate>th.name</th>
-              <th translate>th.approval</th>
-              <th translate>th.reliability</th>
-              <th translate>th.blk_produced</th>
-              <th class='hideableCol' translate>th.pay_rate</th>
-              <th translate>th.approve</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="del in inactive_delegates | filter:search | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize">
-              <td>{{ del.rank }}</td>
-              <td>
-                <a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a>
-                <br>
-                <i ng-show="del.public_data.version"> Version: {{del.public_data.version}} </i>
-                <br>
-                <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i>
-              </td>
-              <td>
-                  <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
-                        tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
-            <span ng-switch-when='true'>&#60;0.01%</span>
-            <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
-          </span>
-              </td>
-              <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
-                <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
-                <span ng-switch-default translate>unknown</span>
-              </td>
-              <td>{{ del.delegate_info.blocks_produced }}</td>
-              <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
-              <td>
-                <div class="btn-group">
-                  <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
-                    <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
-                    <i ng-if="!accounts[del.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
-                    <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
 </div>

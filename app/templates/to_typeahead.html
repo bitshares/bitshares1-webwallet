@@ -1,8 +1,4 @@
 <a>
-  <img ng-src="http://robohash.org/set_1/{{match.label.name}}?size=32x32" height="32" width="32"/>
-  {{match.label.name}}
-  <i ng-if='match.label.is_favorite' tooltip='Favorite' class="fa fa-star fa-lg"></i>
-  <i ng-if="match.label.approved>0" tooltip='Approved' class='fa fa-thumbs-up fa-lg'></i>
-  <i ng-if="match.label.approved<0" tooltip='Disapproved' class='text-danger fa fa-thumbs-down fa-lg'></i>
-  <i ng-if="match.label.unregistered" tooltip='Unregistered' class='fa fa-eye-slash fa-lg'></i>
+  <img ng-src="http://robohash.org/set_1/{{match.label}}?size=200x200" height="32" width="32"/>
+  {{match.label}}
 </a>

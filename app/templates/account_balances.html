@@ -3,31 +3,31 @@
 	<div id="account_balances">
 		<table class="table table-striped table-hover">
 			<thead>
-			<tr>
-        <th></th>
-				<th translate>th.name</th>
-        <th width="1em"></th>
-        <th translate>th.balance</th>
-        <th translate>th.registered</th>
-      </tr>
-			</thead>
-			<tbody>
-                <tr ng-repeat="a in accounts" ng-show='a.is_my_account'>
-                    <td class="avatar-40">
-                      <a class='my-account-link' href="#/accounts/{{a.name}}"><img ng-src="http://robohash.org/set_1/{{a.name}}?size=40x40" height="40" width="40"/></a>
-                    </td>
-                    <td>         
-                       <a class='my-account-link' href="#/accounts/{{a.name}}"><b>{{a.name}} &rarr;</b></a>
-                    </td>
-                    <td width="1em">
-                    </td>
-                    <td>
-                        <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
-                    </td>
-                    <td>{{a.registration_date | prettyDate}}</td>
-                </tr>
-               
-			</tbody>
-		</table>
-	</div>
+             <tr>
+                <th></th>
+                <th translate>th.name</th>
+                <th width="1em"></th>
+                <th translate>th.balance</th>
+                <th translate>th.registered</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr ng-click="go_to_account(a.name)" ng-repeat="a in accounts" ng-show='a.is_my_account'>
+                <td class="avatar-40">
+                  <img ng-src="http://robohash.org/set_1/{{a.name}}?size=200x200" height="40" width="40"/>
+              </td>
+              <td>         
+                 <b>{{a.name}}</b>
+             </td>
+             <td width="1em">
+             </td>
+             <td>
+                <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
+            </td>
+            <td>{{a.registration_date | prettyDate}}</td>
+        </tr>
+
+    </tbody>
+</table>
+</div>
 </div>

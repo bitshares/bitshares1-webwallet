@@ -1,12 +1,19 @@
+<div ng-class="{ 'simple-mode-short-stub':!advanced, 'advanced-mode': advanced }">
+  <a ng-click="flip_advanced()" class="market-header-button">
+    <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
+    <span translate>market.advanced</span>
+  </a>
+</div>
 <form ng-show="advanced" name="short_form" class="form-horizontal order-form" role="form" ng-submit="submit_short()" novalidate>
   <!--balance-->
   <div form-hgroup-value label="{{'market.balance'|translate}}" show-value="true" data-symbol="{{actual_market.quantity_symbol}} ({{account.name}})">
     <span class="clickable" ng-click="use_trade_data({collateral: account.short_balance})">
       {{account.short_balance | formatDecimal : market.base_precision}}
     </span>
+
   </div>
   <!--collateral-->
-  <div form-hgroup label="{{'market.collateral'|translate}}" addon="{{actual_market.quantity_symbol}}" label-popover="{{'market.help.short_collateral' | translate: '{value: actual_market.quantity_symbol}'}}">
+  <div form-hgroup label="{{'market.collateral'|translate}}" addon="{{actual_market.quantity_symbol}}" label-popover="{{'market.help.short_collateral' | translate:short_translation_data}}">
     <input-positive-number name="short_collateral" ng-model="short.collateral" ng-change="short_change()" required="true" />
   </div>
   <!--interest rate-->
@@ -14,25 +21,20 @@
     <input-positive-number name="short_interest_rate" ng-model="short.interest_rate" ng-change="short_change()" required="true"/>
   </div>
   <!--price limit-->
-  <div form-hgroup label="{{'market.price_limit'|translate}}" label-popover="{{market.inverted ? 'market.help.short_price_limit_inverted':'market.help.short_price_limit_direct' | translate:'{quantity: market.quantity_symbol, base: market.base_symbol}'}}" addon="{{market.price_symbol}}">
+  <div form-hgroup label="{{'market.price_limit'|translate}}" label-popover="{{market.inverted ? 'market.help.short_price_limit_inverted':'market.help.short_price_limit_direct' | translate:short_translation_data}}" addon="{{market.price_symbol}}">
     <input-positive-number name="short_price_limit" ng-model="short.short_price_limit" ng-change="short_change()"/>
   </div>
   <!--feed price-->
   <div form-hgroup-note ng-show="market.shorts_price">
-    <span popover="{{'market.help.short_feed_price' | translate}}" popover-trigger="mouseenter">{{'market.feed_price'|translate}}</span> <span class="clickable" ng-click="use_trade_data({price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
+    <span tooltip="{{'market.help.short_feed_price' | translate}}" translate>market.feed_price</span> <span class="clickable" ng-click="use_trade_data({price_limit: market.shorts_price})">{{market.shorts_price | formatDecimal : market.price_precision}}</span> {{market.price_symbol}}
   </div>
   <!--cost-->
-  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}" label-popover="{{'market.help.short_quantity' | translate: '{value: actual_market.base_symbol}'}}">
+  <div form-hgroup label="{{'market.quantity'|translate}}" addon="{{actual_market.base_symbol}}" label-popover="{{'market.help.short_quantity' | translate:short_translation_data}}">
     <input-positive-number name="short_quantity" ng-model="short.quantity" ng-change="short_total_change()" required="true"/>
   </div>
   <!--Submit-->
   <div form-hgroup-error></div>
-  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{blockchain_tx_fee}} {{blockchain_symbol}}">{{'market.short'|translate}} {{actual_market.base_symbol}}</button>
+  <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{blockchain_tx_fee}} {{blockchain_symbol}}"><span translate>market.short</span> {{actual_market.base_symbol}}</button>
 </form>
 
-<div ng-show="!advanced" class="simple-mode-short-stub">
-  <a ng-click="flip_advanced()" class="market-header-button">
-            <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
-            {{'market.advanced' | translate}}</a>
-</div>
 

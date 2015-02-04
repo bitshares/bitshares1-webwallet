@@ -42,9 +42,9 @@ Copyright 2013 Kevin Sylvestre
   Growl = (function() {
     Growl.settings = {
       namespace: 'growl',
-      duration: 6000,
+      duration: 4000,
       close: "&times;",
-      location: "default",
+      location: "br",
       style: "default",
       size: "medium"
     };

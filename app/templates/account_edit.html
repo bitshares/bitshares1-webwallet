@@ -1,0 +1,97 @@
+<div class='row'>
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-11">
+    <form ng-show="!account.registered" role="form" ng-submit="changeName()">
+            <div class="form-group m-top">
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <label for="name" class="control-label"><span tooltip="{{'directive.input_name.note2'|translate}}" translate>account.name</span></label>
+                        <div class="input-group input-vgroup">
+                            <input-account-name id="name" name="account_name" autofocus ng-model="model.newName"/>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="form-group row">
+                    <div class="col-sm-4">
+                        <button type="submit" class="btn btn-primary" translate>accounts.rename_account</button>
+                    </div>
+                 </div>
+            </div>
+        </form>
+  </div>
+</div>
+<div ng-show="account.registered">
+<h3 translate>account.public_data</h3>
+<div class='row'>
+  <div class="col-sm-1">
+  </div>
+  <div class="col-sm-11">
+       <form role="form" ng-submit="savePublicData()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+            <div class="form-group m-top">
+                <div ng-show="public_data && public_data.length" class="form-group row form-row-header">
+                        <div class="col-sm-2">Key</div>
+                        <div class="col-sm-6">Value</div>
+                        <div class="col-sm-4"></div>
+                    </div>
+                <div ng-repeat="d in public_data">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <input focus type="text" ng-model="d.key" class="form-control"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="d.value" class="form-control"/>
+                        </div>
+                        <div class="col-sm-4">
+                            <a class="remove-btn" href ng-click="removePublicDataRecord($index)"> <i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <button type="button" class="btn btn-success" ng-click="addPublicDataRecord()"><i class="fa fa-plus fa-fw"></i> <span translate>account.add_field</span></button>
+                        &nbsp; &nbsp; &nbsp; <button ng-show="public_data.length" class="btn btn-primary" type="submit" translate>btn.update_data</button>
+                        &nbsp; &nbsp; <span ng-show="public_data.length"><span translate>account.update_public_data_tx_fee</span> {{model.trx_fee}} {{model.trx_fee_symbol}}</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+<hr/>
+<h3 translate>account.private_data</h3>
+<div class='row'>
+    <div class="col-sm-1">
+    </div>
+    <div class="col-sm-11">
+        <form role="form" ng-submit="savePrivateData()" ng-class="{ 'has-error' : wform.wp.$invalid && !wform.wp.$pristine }">
+            <div class="form-group m-top">
+                <div ng-show="private_data && private_data.length" class="form-group row form-row-header">
+                        <div class="col-sm-2">Key</div>
+                        <div class="col-sm-6">Value</div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                <div ng-repeat="d in private_data">
+                    <div class="form-group row">
+                        <div class="col-sm-2">
+                            <input focus type="text" ng-model="d.key" class="form-control"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" ng-model="d.value" class="form-control"/>
+                        </div>
+                        <div class="col-sm-2">
+                            <a class="remove-btn" href ng-click="removePrivateDataRecord($index)"> <i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-8">
+                        <button type="button" class="btn btn-success" ng-click="addPrivateDataRecord()"><i class="fa fa-plus fa-fw"></i> <span translate>account.add_field</span></button>
+                        &nbsp; &nbsp; &nbsp; <button ng-show="private_data.length" class="btn btn-primary" type="submit" translate>btn.update_data</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 {
     "unknown": "Unknown",
+    "transaction_fee": "Transaction Fee",
     "btn":{
         "ok": "OK",
         "cancel": "Cancel",
@@ -10,12 +11,14 @@
         "update": "Update",
         "cover": "Cover",
         "register": "Register",
-        "close": "Close"
+        "close": "Close",
+        "remove": "Remove",
+        "update_data": "Update Data"
     },
     "tip": {
         "privacy_statement": "Privacy Statement",
         "warning": "Warning",
-        "validate_symbol": "The Symbol should be 3-8 uppercase characters",
+        "validate_symbol": "The parent symbol must be 3-8 uppercase characters. A secondary symbol of 3-8 characters may also be used, separated by a '.', but only if the primary asset already exists. The total length allowed is 12 characters, including the dot. The prefix 'BIT' is not allowed",
         "validate_precision": "Precision must be greater than 0 and must be a power of 10 (or 1).",
         "pay_with_info": "Registering costs BTS, Pay with",
         "reg_as_delegate": "Registered as delegate",
@@ -104,7 +107,8 @@
         "received": "RECEIVED",
         "expiration": "EXPIRATION",
         "interest_rate": "Interest Rate (APR)",
-        "message": "Message"
+        "message": "Message",
+        "market": "Market"
     },
     "block": {
         "title": "Block",
@@ -203,7 +207,7 @@
     "market": {
         "title": "Market",
         "featured_markets": "Featured Markets",
-        "search_market": "Search market",
+        "search_market": "Search markets (example: BitUSD:BTS)",
         "market_name": "Market Name",
         "all_markets": "All Markets",
         "recent_markets": "Recent Markets",
@@ -272,7 +276,7 @@
             "sell_price" : "The amount you are willing to get in {{base}} per {{quantity}}.",
             "sell_highest_bid" : "The highest price at which your sell order can be immediately matched.",
             "sell_total" : "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
-            "short_quantity": "The approximate number of {{value}} that you would like to borrow and sell.",
+            "short_quantity": "The approximate number of {{actual_base}} that you would like to borrow and sell.",
             "short_collateral": "The number of {{value}} that you are willing to post as collateral. You should provide 3x backing at the trade price and quantity, 2x comes from short seller and 1x from buyer.",
             "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
             "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
@@ -334,13 +338,17 @@
         "vote": {
             "tab_title": "Vote",
             "vote_for": "Vote For",
-            "vote_all": "Vote All",
-            "vote_none": "Vote None",
-            "vote_random_subset": "Vote Random Subset",
-            "vote_as_delegates_recommended": "Vote as My Delegates Recommended",
-            "btn_update_vote": "Update Vote",
+            "vote_all": "All",
+            "vote_none": "None",
+            "vote_random_subset": "Random Subset",
+            "vote_as_delegates_recommended": "As My Delegates Recommended",
+            "vote_per_transfer": "Specify for each transaction",
+            "btn_update_vote": "Vote",
             "current_votes": "Current Votes",
-            "future_votes": "Future Votes"
+            "votes": "Votes",
+            "approval": "Approval",
+            "vote_confirmation_title": "Vote Confirmation",
+            "vote_confirmation_text": "Vote with your {{balance}} {{symbol}} balance. It will charge a fee of {{fee}} {{fee_symbol}}."
         },
         "import_wif_key": "Import WIF Key",
         "import_from_wallet": "Import Keys from Wallet",
@@ -354,6 +362,7 @@
         "pay_rate": "Pay Rate",
         "btn_update": "Update",
         "private_data": "Private Data",
+        "public_data": "Public Data",
         "key": "Key",
         "value": "Value",
         "rename_account": "Rename Account",
@@ -369,13 +378,21 @@
             "burn_confirmation": "Burn/Post Message Confirmation",
             "receiver": "Receiver",
             "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
-        }
+        },
+        "transaction_details": "Details",
+        "transaction_virtual": "Virtual",
+        "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
+        "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
+        "reg_add_faucet": "Add Faucet",
+        "update_public_data_tx_fee": "Update data transaction Fee: "
+
     },
     "accounts": {
         "create_account": "Create New Account",
         "accounts": "Accounts",
         "info": "Click on an account name to get more information about that account.",
-        "select_account": "Select Account"
+        "select_account": "Select Account",
+        "rename_account": "Rename account"
     },
     "asset": {
         "title": "Assets",
@@ -415,11 +432,13 @@
     "contact": {
         "add_contact": "Add Contact",
         "new_contact": "New Contact",
-        "contact_name": "Contact Name",
+        "contact_name": "Contact Name or Address",
         "contact_name_tip": "Name (Required)",
         "public_key": "Public Key",
         "public_key_tip": "Public Key (Required)",
-        "btn_add_contact": "Add Contact"
+        "btn_add_contact": "Add Contact",
+        "address_book": "Address Book",
+        "add_to_address_book": "Add to address book"
     },
     "pref": {
         "title": "Preferences",
@@ -430,7 +449,8 @@
         "language": "Interface Language",
         "theme": "Unlock Screen Theme",
         "default": "Default",
-        "flowers": "Flowers"
+        "flowers": "Flowers",
+        "default_vote": "By Default Vote For"
     },
     "console": {
         "type_cmd_and_enter": "Type a command and hit Enter"
@@ -440,7 +460,7 @@
             "name_tip": "Name (required)",
             "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
             "note1": "Note: Account names cannot be transferred.",
-            "note2": "Only lowercase alphanumeric characters, dots, and dashes. Must start with a letter and cannot end with a dash."
+            "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash."
         }
     },
     "pagination": {
@@ -490,7 +510,16 @@
         "up_to_date": "Up to date, processed {{value}} blocks",
         "catching_up": "Catching up.. processed {{value1}} out of {{value2}} blocks",
         "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}",
-        "testnet": "TestNet"
+        "testnet": "TestNet",
+        "synced": "Blocks are synced",
+        "syncing": "Blocks are syncing ...",
+        "not_connected": "Not connected",
+        "last_block": "Last block was synced {{value}} ago",
+        "one_network_connection": "1 network connection",
+        "n_network_connection": "{{value}} network connections",
+        "network_problems": "Network problems",
+        "severe_network_problems": "Severe network problems",
+        "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
     },
     "utils": {
         "expired": "Expired",
@@ -498,5 +527,13 @@
         "minutes": "{{value}} Minutes",
         "hours": "{{value}} Hours",
         "days": "{{value}} Days"
+    },
+    "toolbar": {
+        "back": "Back",
+        "dashboard": "Dashboard",
+        "exchange": "Exchange",
+        "delegates": "Delegates",
+        "account_details": "Account Details",
+        "advanced": "Advanced"
     }
 }

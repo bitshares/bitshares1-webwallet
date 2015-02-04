@@ -1,17 +1,15 @@
-<table style='width:100%' class="table table-striped table-hover">
+<table style='width:100%' class="table table-striped">
   <thead>
     <tr style="text-transform: uppercase;">
       <th translate>th.name</th>
       <th translate>th.approval</th>
-      <th translate>th.reliability</th>
-      <th translate>th.blk_produced</th>
       <th class='hideableCol' translate>th.pay_rate</th>
       <th translate>th.approve</th>
     </tr>
   </thead>
   <tbody>
     <tr ng-repeat="(key, del) in accounts" ng-if="del.delegate_info">
-      <td><a class='delegate-link' href="#/accounts/{{del.name}}">{{ del.name }}</a></td>
+      <td><a class='delegate-link' ui-sref="account.delegate({name: del.name})">{{ del.name }}</a></td>
       <td>
                 <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001'
                       tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
@@ -19,11 +17,6 @@
           <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
         </span>
       </td>
-      <td ng-switch on='del.delegate_info.blocks_produced>0 || del.delegate_info.blocks_missed>0'>
-        <span ng-switch-when='true'>{{ del.delegate_info.blocks_produced/(del.delegate_info.blocks_produced + del.delegate_info.blocks_missed)*100 | number:2 }}%</span>
-        <span ng-switch-default translate>unknown</span>
-      </td>
-      <td>{{ del.delegate_info.blocks_produced }}</td>
       <td class='hideableCol'>{{ del.delegate_info.pay_rate }}%</td>
       <td>
         <div class="btn-group">

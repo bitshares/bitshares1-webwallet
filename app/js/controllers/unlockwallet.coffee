@@ -48,7 +48,7 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
             Wallet.wallet_unlock($scope.spending_password, error_handler).then ->
                 deferred.resolve()
                 res = $scope.history_back()
-                navigate_to('home') unless res
+                navigate_to('accounts') unless res
             , (error) ->
                 deferred.reject()
         , (error) ->

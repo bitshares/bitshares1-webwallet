@@ -395,7 +395,7 @@ class MarketService
     pull_covers: (market, inverted) ->
         covers = []
         @blockchain_api.market_list_covers(market.asset_base_symbol, 1000).then (results) =>
-            results = [].concat.apply(results) # flattens array of results
+            results = if results then [].concat.apply(results) else [] # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
                 #r.type = "cover"
@@ -551,7 +551,6 @@ class MarketService
                 market.price_history = ohlc_data
                 market.volume_history = volume_data
 
-
     pull_market_data: (data, deferred) ->
         self = data.context
         self.loading_promise = deferred.promise
@@ -570,7 +569,7 @@ class MarketService
             promises.push(self.pull_shorts(market, self.market.inverted))
             promises.push(self.pull_covers(market, self.market.inverted))
 
-        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 5 == 0
+        promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 5 == 0       
 
         self.q.all(promises).finally =>
             try
@@ -599,9 +598,10 @@ class MarketService
                     self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
                 bids_array.sort (a,b) -> a[0] - b[0]
                 asks_array.sort (a,b) -> a[0] - b[0]
+                
                 self.market.orderbook_chart_data =
-                    bids_array: bids_array
-                    asks_array: asks_array
+                    bids_array: self.helper.flatten_orderbookchart(bids_array,false,true, self.market.price_precision)
+                    asks_array: self.helper.flatten_orderbookchart(asks_array,false,false, self.market.price_precision)
 
                 # shorts collateralization chart data
                 self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)

@@ -12,7 +12,7 @@
         <div form-hgroup label="{{'asset.symbol'|translate}}">
           <input ng-model="create_asset.symbol" type="text" name="symbol" class="form-control"
                  ui-validate="{valid_symbol: 'is_valid_symbol($value)'}"
-                 minlength="3" maxlength="8" ng-change="symbol_changed()" required/>
+                 minlength="3" maxlength="12" ng-change="symbol_changed()" required/>
           <div ng-show="!create_asset_form.symbol.$pristine && create_asset_form.symbol.$error.valid_symbol" class="text-danger">
             <span translate>tip.validate_symbol</span>
           </div>
@@ -40,7 +40,7 @@
         <!--Submit-->
         <div form-hgroup-error></div>
         <button form-hgroup-submit-btn help="{{'block.trx.fee'|translate}} {{reg_fee.current | formatDecimal}} {{reg_fee.symbol}}">
-          {{ "btn.create" | translate }}
+          <span translate>btn.create</span>
         </button>
       </form>
       <br/>

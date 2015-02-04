@@ -2,6 +2,7 @@
 class Wallet
 
     accounts: {}
+    favorites: {}
 
     balances: {}
     bonuses: {}
@@ -23,7 +24,7 @@ class Wallet
     # set in constructor
     timeout: null
 
-    autocomplete: true
+    default_vote: 'vote_all'
 
     pendingRegistrations: {}
 
@@ -67,8 +68,8 @@ class Wallet
                         @timeout = result.value
                         @idle._options().idleDuration = @timeout
                         @idle.watch()
-                @get_setting('autocomplete').then (result) =>
-                    @autocomplete = result.value if result
+                @get_setting('default_vote').then (result) =>
+                    @default_vote = result.value if result?.value
                 @get_setting('interface_locale').then (result) =>
                     if result and result.value
                         @interface_locale = result.value
@@ -109,12 +110,13 @@ class Wallet
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
                     asset_record = @blockchain.asset_records[asset_id]
-                    symbol = asset_record.symbol
-                    amount = asset_id_amt_pair[1]
-                    @balances[name] = @balances[name] || {}
-                    @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
-                    @asset_balances[asset_id] = @asset_balances[asset_id] || 0
-                    @asset_balances[asset_id] = @asset_balances[asset_id] + amount
+                    if asset_record
+                        symbol = asset_record.symbol
+                        amount = asset_id_amt_pair[1]
+                        @balances[name] = @balances[name] || {}
+                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
+                        @asset_balances[asset_id] = @asset_balances[asset_id] || 0
+                        @asset_balances[asset_id] = @asset_balances[asset_id] + amount
             angular.forEach @accounts, (acct) =>
                 #console.log "------ refresh_balances acct.name ------>", acct.name
                 if acct.is_my_account and !@balances[acct.name]
@@ -194,31 +196,47 @@ class Wallet
     # turn raw rpc return value into nice object
     populate_account: (val) ->
         acct = val
-        acct["active_key"] = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
+        acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
+        @favorites[acct.name] = acct if acct.is_favorite
         return acct
 
     refresh_account: (name) ->
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
             @refresh_balances()
+            return @accounts[name]
 
-    refresh_accounts: (prevent_rapid_refresh = true) ->
+    refresh_accounts: () ->
         @refresh_accounts_request = on
-        if @refresh_accounts_promise and prevent_rapid_refresh
+        if @refresh_accounts_promise
             return @refresh_accounts_promise 
-        
+
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
-        @refresh_accounts_request = off
 
+<<<<<<< HEAD
         #console.log "refresh_accounts clearing cache"
+=======
+        #delete @accounts[id] for id in Object.keys @accounts
+        first_account = null
+>>>>>>> newlayout
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
-                @populate_account(val)
+                account = @populate_account(val)
+                first_account = account unless first_account
+            if first_account and !@current_account
+                @wallet_api.get_setting("current_account").then (setting) =>
+                    if setting?.value
+                        @current_account = @accounts[setting.value]
+                        @current_account = first_account unless @current_account
+                    else
+                        @current_account = first_account
             @refresh_balances()
             deferred.resolve()
+            @refresh_accounts_request = off
         @refresh_accounts_promise
 
     check_vote_proportion: (account_names) ->
@@ -255,23 +273,23 @@ class Wallet
             @refresh_accounts().then =>
                 return @accounts
 
-    get_account: (name) ->
+    get_account: (name, error_handler) ->
         @refresh_balances()
+        deferred = @q.defer()
         #console.log "wallet_get_account start",name
         if @accounts[name]
             #console.log "wallet_get_account found",name
-            deferred = @q.defer()
             deferred.resolve(@accounts[name])
-            return deferred.promise
         else
-            @wallet_api.get_account(name).then (result) =>
+            @wallet_api.get_account(name, error_handler).then (result) =>
                 acct = @populate_account(result)
-                return acct
+                deferred.resolve(@accounts[name])
             ,
             (error) =>
-                @blockchain_api.get_account(name).then (result) =>
+                @blockchain_api.get_account(name, error_handler).then (result) =>
                     acct = if result then @populate_account(result) else null
-                    return acct
+                    deferred.resolve(acct)
+        return deferred.promise
 
     approve_account: (name, approve) ->
         @wallet_api.account_set_approval(name, approve)

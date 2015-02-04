@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div id="unregister">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped">
           <thead>
             <tr>
               <th></th>
@@ -25,7 +25,7 @@
             <tr ng-repeat="c in contacts | filter:q">
               <td style='width:1%;white-space:nowrap'>
                   <div class="avatar-40">
-                    <img ng-src="http://robohash.org/set_1/{{c.name}}?size=40x40" height="40" width="40"/>
+                    <img ng-src="http://robohash.org/set_1/{{c.name}}?size=200x200" height="40" width="40"/>
                   </div>
               </td>
               <td style='width:1%;white-space:nowrap'>
@@ -33,7 +33,7 @@
                   <i ng-class="(c.private_data.gui_data.favorite) ? 'fa fa-star fa-2x' : 'fa fa-star-o fa-2x'"></i>
                 </button>
               </td>
-              <td><a href="#/accounts/{{c.name}}">{{ c.name }}</a></td>
+              <td><a ui-sref="account.transactions({name: c.name})">{{ c.name }}</a></td>
               <td>
                 <button ng-click="deleteContact(c.name)" class="btn btn-sm btn-link"><i class="fa fa-trash-o fa-lg"></i>
                 </button>

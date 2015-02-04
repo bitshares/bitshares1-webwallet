@@ -1,7 +1,7 @@
-angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer, $translate) ->
+angular.module("app").controller "AccountController", ($scope, $state, $filter, $location, $stateParams, $window, $q, Growl, Wallet, Utils, WalletAPI, $modal, Blockchain, BlockchainAPI, Info, Observer, $translate) ->
 
     Info.refresh_info()
-    $scope.refresh_addresses=Wallet.refresh_accounts
+    $scope.refresh_addresses = Wallet.refresh_accounts
     name = $stateParams.name
     $scope.account_name = name
     $scope.utils = Utils
@@ -9,16 +9,15 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.formatAsset = Utils.formatAsset
     $scope.model = {}
     $scope.model.rescan = true
+    $scope.add_to_address_book = {}
     
     # tabs
     $scope.tabs = []
     $scope.tabs.push { heading: "account.transactions", route: "account.transactions", active: true }
     $scope.tabs.push { heading: "account.delegate", route: "account.delegate", active: false }
-    $scope.tabs.push { heading: "account.transfer", route: "account.transfer", active: false }
     $scope.tabs.push { heading: "account.manageAssets", route: "account.manageAssets", active: false }
     $scope.tabs.push { heading: "account.keys", route: "account.keys", active: false }
-    $scope.tabs.push { heading: "account.updateRegAccount", route: "account.updateRegAccount", active: false }
-    $scope.tabs.push { heading: "account.editLocal", route: "account.editLocal", active: false }
+    $scope.tabs.push { heading: "account.edit", route: "account.edit", active: false }
     $scope.tabs.push { heading: "account.vote", route: "account.vote", active: false }
     $scope.tabs.push { heading: "account.wall", route: "account.wall", active: false }
     $scope.goto_tab = (route) ->
@@ -43,7 +42,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     $scope.p = { pendingRegistration: Wallet.pendingRegistrations[name] }
     $scope.wallet_info = {file: "", password: "", type: 'Bitcoin/PTS'}
     Blockchain.refresh_delegates().then ->
-        if ($scope.account && $scope.account.delegate_info)
+        if ($scope.account and $scope.account.delegate_info)
             $scope.active_delegate = Blockchain.delegate_active_hash_map[name]
             $scope.rank = Blockchain.all_delegates[name].rank
     # TODO: mixing the wallet account with blockchain account is not a good thing.
@@ -58,17 +57,19 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                 WalletAPI.account_update_private_data(name, $scope.account.private_data)
         )
         $scope.account_name = acct.name
-        if (acct.gui_data && acct.gui_data.website)
+        if (acct.gui_data and acct.gui_data.website)
             $scope.website = acct.gui_data.website;
-        if (acct.public_data && acct.public_data.website)
+        if (acct.public_data and acct.public_data.website)
             $scope.website = acct.public_data.website;
+        
+        if $scope.website and $scope.website.indexOf('http://') == -1 and $scope.website.indexOf('https://') == -1
+            $scope.website = 'http://' + $scope.website
 
         Wallet.set_current_account(acct) if acct.is_my_account
         if $scope.account.delegate_info
             update_delegate_info (acct) # update delegate info
             Blockchain.get_asset(0).then (asset_type) ->
                 $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
-            $state.go "account.delegate"
             $scope.del_tab = true # necessary to display tab html
 
         #check if already registered.  this call should be removed when the name conflict info is added to the Wallet.get_account return value
@@ -115,7 +116,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         frequency: "each_block"
         update: (data, deferred) ->
             Wallet.refresh_account(name).then (result) ->
-                if Wallet.accounts[name]
+                if Wallet.accounts[name] and $scope.account
                     $scope.account.registration_date = Wallet.accounts[name].registration_date
             deferred.resolve(true)
     Observer.registerObserver(account_balances_observer)
@@ -194,11 +195,11 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         Wallet.approve_account(name, newApproval).then ->
             $scope.account.approved=newApproval
 
-    $scope.toggleFavorite = ->
-        address = $scope.account.owner_key
-        #Wallet.wallet_add_contact_account(name, address).then ()->
-        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
-            Wallet.refresh_accounts()
+#    $scope.toggleFavorite = ->
+#        address = $scope.account.owner_key
+#        #Wallet.wallet_add_contact_account(name, address).then ()->
+#        WalletAPI.account_set_favorite(name, !Wallet.accounts[name].is_favorite).then ()->
+#            Wallet.refresh_accounts()
 
     $scope.regDial = ->
         #if Wallet.asset_balances[0]
@@ -208,3 +209,30 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             scope: $scope
         #else
         #  Growl.error '','Account registration requires funds.  Please fund one of your accounts.'
+
+    $scope.link = (address) ->
+        $window.open(address)
+        return true
+
+    $scope.addToAddressBook = (name) ->
+        error_handler = (error) ->
+            message = Utils.formatAssertException(error.data.error.message)
+            $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
+        WalletAPI.account_set_favorite(name, true, error_handler).then () ->
+            account = Wallet.accounts[name]
+            if account
+                $scope.account.is_favorite = true
+                account.is_favorite = true
+                Wallet.favorites[name] = account
+                $scope.add_to_address_book.message = "Added to address book"
+            else
+                Wallet.refresh_account(name).then (account) ->
+                    if account
+                        $scope.account.is_favorite = true
+                        account.is_favorite = true
+                        Wallet.favorites[name] = account
+                        $scope.add_to_address_book.message = "Added to address book"
+                    else
+                        $scope.add_to_address_book.error = "Unknown account"
+                , (error) ->
+                    $scope.add_to_address_book.error = "Unknown account"

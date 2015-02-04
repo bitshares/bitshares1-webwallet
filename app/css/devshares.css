@@ -1,0 +1,32 @@
+/*.splashpage > .wrapper.default {*/
+	/*background: #607d8b !important;*/
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#607d8b), color-stop(100%,#455A64)) !important;*/
+	/*background: -webkit-linear-gradient(top,  #607d8b 0%, #455A64 100%) !important;*/
+	/*background: linear-gradient(to bottom,  #607d8b 0%, #455A64 100%) !important;*/
+/*}*/
+
+/*.navbar {*/
+	/*background-color: #607D8B !important;*/
+	/*color: #fff !important;*/
+	/*height: 36px !important;*/
+	/*border-bottom: none !important;*/
+/*}*/
+
+/*.navbar a {*/
+	/*color: #CFD8DC !important;*/
+/*}*/
+
+/*.navbar a:hover, .navbar a:active, .navbar li.active a {*/
+	/*color: #fff !important;*/
+/*}*/
+
+/*.logo-panel {*/
+	/*background-color: #455A64 !important;*/
+/*}*/
+
+/*.head-bg {*/
+	/*background: #607d8b;*/
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#455A64), color-stop(100%,#607d8b));*/
+	/*background: -webkit-linear-gradient(top,  #455A64 0%, #607d8b 100%);*/
+	/*background: linear-gradient(to bottom,  #455A64 0%, #607d8b 100%);*/
+/*}*/

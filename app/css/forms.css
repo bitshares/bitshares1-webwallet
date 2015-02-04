@@ -43,3 +43,18 @@ span.help-block {
 .input-group-addon.label-success {
 	color: #fff;
 }
+
+.input-vgroup {
+	width: 100%;
+}
+
+.remove-btn {
+	color: #777;
+	height: 20px;
+	vertical-align: middle;
+	font-size: 20px;
+}
+
+.form-row-header {
+	margin-bottom: 6px;
+}

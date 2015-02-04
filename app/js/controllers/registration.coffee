@@ -5,7 +5,6 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     $scope.m.payrate = 50
     $scope.m.delegate = false
     $scope.available_faucets = [
-#        {id: 0, name: "", url: ""},
         {id: 1, name: "faucet.bitshares.org", url: "http://faucet.bitshares.org/"},
         {id: 1000, name: "Add faucet", url: "add"}
     ]
@@ -34,18 +33,13 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
     Wallet.get_accounts().then ->
         refresh_accounts()
 
-    #TODO watch accounts
-
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"
 
     $scope.register = ->
         if !$scope.m.payfrom and $scope.m.faucet?.url and $scope.m.faucet.url != 'add'
             url = "#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&account_key=#{$scope.account.active_key}"
-            if magic_unicorn?
-                magic_unicorn.open_in_external_browser(url)
-            else
-                $window.open(url)
+            open_external_url(url)
             $modalInstance.close("ok")
             return
 
@@ -69,24 +63,3 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         faucets.push new_faucet
         faucets.sort (a, b) -> a.id - b.id
         $scope.m.faucet = new_faucet
-
-#$scope.available_faucets.push {}
-
-#    account_observer =
-#        name: "account_observer"
-#        frequency: "each_block"
-#        update: (data, deferred) ->
-#            WalletAPI.get_account($scope.account.name).then (result) ->
-#                if result.registration_date != "1970-01-01T00:00:00"
-#                    $scope.account.registration_date = result.registration_date
-#                    $modalInstance.close("ok")
-#                else
-#                deferred.resolve(true)
-#            ,
-#            (error) ->
-#                deferred.reject(error)
-#
-#    Observer.registerObserver(account_observer)
-#
-#    $scope.$on "$destroy", ->
-#        Observer.unregisterObserver(account_observer)

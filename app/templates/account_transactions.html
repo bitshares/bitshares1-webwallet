@@ -24,7 +24,7 @@
   </div>
 </div>
 <div id="transaction_history">
-  <table class="table table-striped table-hover">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th translate uppercase>th.avatar</th>
@@ -44,13 +44,13 @@
               <div class="avatar-40">
                 <span ng-if="account.name==entry.from">
                     <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()"
-                         ng-src="http://robohash.org/set_1/{{entry.to}}?size=80x80" height="40" width="40"/>
+                         ng-src="http://robohash.org/set_1/{{entry.to}}?size=200x200" height="40" width="40"/>
                     <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()"
-                         ng-src="http://robohash.org/set_1/{{account.name}}?size=80x80" height="40" width="40"/>
+                         ng-src="http://robohash.org/set_1/{{account.name}}?size=200x200" height="40" width="40"/>
                 </span>
                 <span ng-if="account.name==entry.to && account.name!=entry.from">
                     <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/set_1/{{entry.from}}?size=80x80" height="40" width="40"/>
+                        <img ng-src="http://robohash.org/set_1/{{entry.from}}?size=200x200" height="40" width="40"/>
                     </span>
                     <span ng-if="entry.from.charAt(0) === 'X'">
                         <img ng-src="img/user.png" height="40" width="40"/>
@@ -62,7 +62,7 @@
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span ng-if="account.name==entry.to && account.name!=entry.from">
-                    {{ 'th.from' | translate }}
+                    <span translate>th.from</span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
                         <span ng-if="entry.from.charAt(0) !== 'X'">{{ entry.from }}</span>
                         <a ng-if="entry.from.charAt(0) === 'X'" class="text-danger" tooltip-placement="right"
@@ -72,21 +72,21 @@
                                                                                                                     }}...</a>
                     </span>
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                    <a href="#/accounts/{{entry.from}}">{{ entry.from }}</a>
+                    <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
                     </span>
                 </span>
 
                 <span ng-if="account.name==entry.from && account.name!=entry.to">
-                    {{ 'th.to' | translate }}
+                    <span translate>th.to</span>
                     <span ng-if="entry.to[0] === entry.to[0].toUpperCase()">
                         {{ entry.to }}
                     </span>
-                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" href="#/accounts/{{entry.to}}">{{ entry.to
+                    <a ng-if="entry.to[0] !== entry.to[0].toUpperCase()" ui-sref="account.transactions({name: entry.to})">{{ entry.to
                                                                                                         }}</a>
                 </span>
 
                 <span ng-if="account.name==entry.to && account.name==entry.from">
-                    {{ 'th.to' | translate }} <a href="#/accounts/{{account.name}}">{{ 'account.self' | translate }}</a>
+                    <span translate>th.to</span> <a ui-sref="account.transactions({name: account.name})">{{ 'account.self' | translate }}</a>
                 </span>
 
                 <span ng-if="account.name!=entry.to && account.name!=entry.from"> {{ entry.from }} <i
@@ -123,13 +123,13 @@
         <td>
           <span ng-if="t.is_confirmed && !t.error">{{ t.pretty_time }}</span><br/>
           <span ng-if="(!t.is_confirmed)&&(!t.is_virtual) && !t.error">
-            <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction">{{'tip.pending' | translate}}</a>
-            <span ng-show="t.status=='rebroadcasted'">{{'tip.pending' | translate}} (rebroadcasted)</span>
+            <a ng-show="t.status!='rebroadcasted'" ng-click="rebroadcastTransaction(t)" tooltip="Click to rebroadcast transaction" translate>tip.pending</a>
+            <span ng-show="t.status=='rebroadcasted'"><span translate>tip.pending</span> (rebroadcasted)</span>
             <br/>Expires {{t.expiration_pretty_time}}
           </span>
           <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
-          <span class="label label-warning" ng-if="t.is_virtual">Virtual</span>
-          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span>Details</span></a></span>
+          <span class="label label-warning" ng-if="t.is_virtual" translate>account.transaction_virtual</span>
+          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span translate>account.transaction_details</span></a></span>
         </td>
       </tr>
       <tr ng-if="warning">

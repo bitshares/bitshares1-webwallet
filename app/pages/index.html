@@ -11,35 +11,16 @@
   <body class="cover fixed_header" ng-class="{splashpage: splashpage}" ng-controller="RootController">
     <pageslide ps-open="context_help.open" ps-size="460px">
     <div id="context-help">
-      <a class="close-help-link" ng-click="close_context_help()">{{ 'btn.close' | translate }} <i class="fa fa-angle-double-right fa-fw"></i></a>
+      <a class="close-help-link" ng-click="close_context_help()"><span translate>btn.close</span> <i class="fa fa-angle-double-right fa-fw"></i></a>
       <div class="context-help-content" ng-include src="context_help.file"></div>
     </div>
     </pageslide>
-    <div class="wrapper" ng-class="theme">
       <!-- TOOLBAR -->
-      <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
-        <div ng-include src="'toolbar.html'"></div>
-      </div>
-      <div class="body">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-          <ul class="nav nav-stacked">
-            <li ui-sref-active="active"><a ui-sref="home"><i class="fa fa-home fa-fw"></i>{{ 'index.overview' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-bank fa-fw"></i>{{ 'index.my_account' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('directory')}"><a ui-sref="directory.favorites"><i class="fa fa-book fa-fw"></i>{{ 'index.directory' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-flag fa-fw"></i>{{ 'index.delegates' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i>{{ 'index.market' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('blocks')}"><a ui-sref="blocks"><i class="fa fa-link fa-fw"></i>{{ 'index.block_explorer' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="preferences"><i class="fa fa-gears fa-fw"></i>{{ 'index.preferences' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="console"><i class="fa fa-terminal fa-fw"></i>{{ 'index.console' | translate }}</a></li>
-            <li ng-class="{active: current_path_includes('mail')}" ng-show="mail_enabled"><a ui-sref="mail({box:'inbox'})"><i class="fa fa-envelope fa-fw"></i>{{ 'index.mail' | translate }}</a></li>
-            <li ui-sref-active="active"><a ui-sref="help"><i class="fa fa-question-circle fa-fw"></i>{{ 'index.help' | translate }}</a></li>
-          </ul>
-        </aside>
-        <section class="content">
-          <div ui-view></div>
-        </section>
-      </div>
+    <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
+      <div ng-include src="'toolbar.html'"></div>
+    </div>
+    <div class="body" ng-class="theme">
+      <div ui-view class="main-view"></div>
     </div>
     <div loading-indicator></div>
     <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
