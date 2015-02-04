@@ -383,8 +383,9 @@
         "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
         "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
         "reg_add_faucet": "Add Faucet",
-        "update_public_data_tx_fee": "Update data transaction Fee: "
-
+        "update_public_data_tx_fee": "Update data transaction Fee: ",
+        "new_balance": "New Balance",
+        "less_fee": "Less fee of"
     },
     "accounts": {
         "create_account": "Create New Account",

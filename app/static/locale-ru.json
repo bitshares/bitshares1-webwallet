@@ -381,7 +381,10 @@
         "transaction_virtual": "Виртуальная",
         "reg_no_funds_note": "Если у вас еще нет BTS, ниже вы можете выбрать сервис, который зарегистрирует ваш аккаунт бесплатно.",
         "reg_subaccount_faucet_not_available": "Бесплатная регистрация не доступна для данного аккаунта. Имя аккаунта содержит символ '.' и является субаккаунтом. Пожалуйста выберите другое имя или переведите на свой счет 0.5 BTS - этого будет достаточно для регистрации аккаунта.",
-        "reg_add_faucet": "Add Faucet"
+        "reg_add_faucet": "Add Faucet",
+        "update_public_data_tx_fee": "Update data transaction Fee: ",
+        "new_balance": "New Balance",
+        "less_fee": "Less fee of"
     },
     "accounts": {
         "create_account": "Создать новый аккаунт",
