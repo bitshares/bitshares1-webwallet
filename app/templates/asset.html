@@ -9,35 +9,36 @@
 <div ng-show="asset_record" class="main-content">
     <table class="table table-striped">
         <thead>
-        <tr>
-            <!--<th>Asset ID</th>-->
-            <th translate>th.symbol</th>
-            <th translate>th.name</th>
-            <th translate>th.desc</th>
-            <!--<th translate>Public Data</th>-->
-            <th translate>th.issue_account</th>
-            <th translate>th.precision</th>
-            <th translate>th.current_share_supply</th>
-            <th translate>th.maximum_share_supply</th>
-            <th translate>th.collected_fees</th>
-            <th translate>th.registration_date</th>
-        </tr>
+            <tr>
+                <!--<th>Asset ID</th>-->
+                <th translate>th.symbol</th>
+                <th translate>th.name</th>
+                <th translate>th.desc</th>
+                <!--<th translate>Public Data</th>-->
+                <th translate>th.issue_account</th>
+                <th translate>th.precision</th>
+                <th translate>th.current_share_supply</th>
+                <th translate>th.maximum_share_supply</th>
+                <th translate>th.collected_fees</th>
+                <th ng-if="symbol2records[ticker].issuer_account_id === -2" translate>account.estimated_yield</th>
+                <th translate>th.registration_date</th>
+            </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>
-                {{ticker}}
-            </td>
-            <td>
-                {{symbol2records[ticker].name}}
-            </td>
-            <td>{{ symbol2records[ticker].description }}</td>
-            <td>
-               <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer.name }} </a>
-                <span ng-if="symbol2records[ticker].issuer_account_id == -2">MARKET</span>
-                <span ng-if="symbol2records[ticker].id == 0">None</span>
-            </td>
-            <td>
+            <tr>
+                <td>
+                    {{ticker}}
+                </td>
+                <td>
+                    {{symbol2records[ticker].name}}
+                </td>
+                <td>{{ symbol2records[ticker].description }}</td>
+                <td>
+                 <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer.name }} </a>
+                 <span ng-if="symbol2records[ticker].issuer_account_id == -2">MARKET</span>
+                 <span ng-if="symbol2records[ticker].id == 0">None</span>
+             </td>
+             <td>
                 {{ symbol2records[ticker].precision }} 
             </td>
             <td>
@@ -49,35 +50,38 @@
             <td>
                 {{ Utils.newAsset(symbol2records[ticker].collected_fees, ticker, symbol2records[ticker].precision) | formatAsset }} 
             </td>
+            <td ng-if="symbol2records[ticker].issuer_account_id === -2">
+                {{ (100 * symbol2records[ticker].collected_fees / symbol2records[ticker].current_share_supply) | number:2 }}% 
+            </td>
             <td>
                 {{ symbol2records[ticker].registration_date | prettyDate }} 
             </td>
         </tr>
-        </tbody>
-    </table>
-    <table class="table table-striped">
-        <thead>
+    </tbody>
+</table>
+<table class="table table-striped">
+    <thead>
         <tr>
             <th translate uppercase>th.delegate</th>
             <th translate uppercase colspan="2">th.price</th>
             <th translate uppercase>th.last_updated</th>
         </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
-                <td>
-                  {{feed.delegate_name}}
-                </td>
-                <td>
-                  {{ (1 / feed.price) | formatDecimal:symbol2records[ticker].precision}} {{asset0.symbol}}/{{ticker}}
-                </td>
-                <td>
-                  {{ feed.price | formatDecimal:symbol2records[ticker].precision}} {{ticker}}/{{asset0.symbol}}
-                </td>
-                <td>
-                  {{feed.last_update | prettyDate}}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    </thead>
+    <tbody>
+        <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
+            <td>
+              {{feed.delegate_name}}
+          </td>
+          <td>
+              {{ (1 / feed.price) | formatDecimal:symbol2records[ticker].precision}} {{asset0.symbol}}/{{ticker}}
+          </td>
+          <td>
+              {{ feed.price | formatDecimal:symbol2records[ticker].precision}} {{ticker}}/{{asset0.symbol}}
+          </td>
+          <td>
+              {{feed.last_update | prettyDate}}
+          </td>
+      </tr>
+  </tbody>
+</table>
 </div>

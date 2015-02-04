@@ -24,7 +24,7 @@ angular.module("app").controller "AssetController", ($scope, $rootScope, Blockch
                 $scope.issuer = result
         if $scope.asset_record and $scope.asset_record.id > 0
             BlockchainAPI.get_feeds_for_asset($scope.ticker).then (result) ->
-                $scope.feeds=result
+                $scope.feeds= result
             if $scope.asset_record.id < 22
                 $scope.trade_market_name = "Bit#{$scope.ticker}:#{$scope.asset0.symbol}"
                 $scope.trade_market_label = "Bit#{$scope.ticker}/#{$scope.asset0.symbol}"

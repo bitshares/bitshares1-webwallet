@@ -148,7 +148,7 @@
             <span translate>account.send</span>
           </button>
           <span class="help-block">
-               New Balance: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} (Less fee {{fee}})</span>
+               {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+transfer_asset.symbol }})</span>
         </div>
       </div>
     </form>

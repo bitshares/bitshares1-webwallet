@@ -106,6 +106,7 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvide
     moment.locale(lang)
 
     $translateProvider.preferredLanguage(lang)
+    .fallbackLanguage('en');
 
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
