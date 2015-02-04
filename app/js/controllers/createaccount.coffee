@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, Utils) ->
     $scope.f = {}
 
     $scope.createAccount = ->
@@ -7,8 +7,9 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
         name = $scope.f.name
 
         error_handler = (response) ->
+            console.log "------ error ------>", response.data.error
             if response.data.error
-                form.account_name.$error.message = response.data.error.message
+                form.account_name.$error.message = Utils.formatAssertException(response.data.error.message)
                 return true
             else
                 return false

@@ -168,15 +168,15 @@ servicesModule.factory "Utils", ($translate,$q) ->
         was = @too_soon_times[name]
         if not was or now - was > time_mills
             @too_soon_times[name] = now
-            #console.log "[too_soon] #{name} false"
             return false
         else
-            #console.log "[too_soon] #{name} true"
             return true
 
     formatAssertException: (text) ->
         match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)
-        return if !match or match.length < 2 then text else match[1]
+        res = if !match or match.length < 2 then text else match[1]
+        match = /[^\(]+\(\d+\)\s(.+)/mi.exec(res)
+        return if !match or match.length < 2 then res else match[1]
 
     formatAssertExceptionWithAssets: (text, assets) ->
         match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)

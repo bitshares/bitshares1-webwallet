@@ -1,5 +1,4 @@
 angular.module("app").controller "IssueAssetController", ($scope, $location, $stateParams, RpcService, Wallet, Growl, Shared, BlockchainAPI, Utils, $modal, Blockchain) ->
-    console.log "------ IssueAssetController ------>", $scope
 
     $scope.issue_asset =
         amount : ""
@@ -29,8 +28,8 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
 
     $scope.newContactModal = ->
         $modal.open
-            templateUrl: "newcontactmodal.html"
-            controller: "NewContactModalController"
+            templateUrl: "addressbookmodal.html"
+            controller: "AddressBookModalController"
             resolve:
                 contact_name: ->
                     $scope.issue_asset.to

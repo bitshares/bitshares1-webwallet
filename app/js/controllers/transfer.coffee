@@ -165,16 +165,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.accountSuggestions = (input) ->
         $filter('filter')(Object.keys(Wallet.favorites),input)
 
-#    $scope.toggleVoteUpContact = (name) ->
-#        newApproval=1
-#        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
-#            newApproval=-1
-#        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
-#            newApproval=0
-#        Wallet.approve_account(name, newApproval).then (res)->
-#            Wallet.refresh_account(name).then () ->
-#                $scope.accounts=Wallet.accounts
-
     $scope.addToAddressBook = (name) ->
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
