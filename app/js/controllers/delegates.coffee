@@ -14,11 +14,22 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.reverseSort = false;
     $scope.orderByFieldStandby = "rank";
     $scope.reverseSortStandby = false;
+    $scope.orderByFieldVotes = "votes_for";
+    $scope.reverseSortVotes = true;
 
     $q.all([Wallet.refresh_accounts(), Blockchain.refresh_delegates()]).then ->
         $scope.active_delegates = Blockchain.active_delegates
         $scope.inactive_delegates = Blockchain.inactive_delegates
         $scope.accounts = Wallet.accounts
+        $scope.sort_accounts = []
+        for key of $scope.accounts
+            if $scope.accounts[key].delegate_info
+                $scope.sort_accounts.push(
+                        name: key,
+                        votes_for: $scope.accounts[key].delegate_info.votes_for,
+                        pay_rate: $scope.accounts[key].delegate_info.pay_rate
+                    )
+        $scope.sortableAccounts
         $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
         $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
         $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
