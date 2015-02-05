@@ -6,13 +6,13 @@
     <!-- preferences tab -->
     <tab ng-click="goto_tab('advanced.preferences')" active="tabs[0].active">
       <tab-heading><i class="fa fa-gears fa-fw fa-lg"></i> <span translate>index.preferences</span></tab-heading>
-      <div ui-view="advanced-preferences"></div>
+      <div ui-view="advanced-preferences" autoscroll="false"></div>
     </tab>
 
     <!--console tab -->
     <tab ng-click="goto_tab('advanced.console')" active="tabs[1].active">
       <tab-heading><i class="fa fa-terminal fa-fw fa-lg"></i> <span translate>index.console</span></tab-heading>
-      <div ui-view="advanced-console"></div>
+      <div ui-view="advanced-console" autoscroll="false"></div>
     </tab>
   </tabset>
 </div>

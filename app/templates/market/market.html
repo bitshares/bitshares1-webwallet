@@ -10,9 +10,6 @@
             tooltip="{{'market.flip_market'|translate}}"
             tooltip-placement="right" ng-show="account">
             <i class="fa fa-retweet fa-fw"></i></a>
-        <a ng-show="market.shorts_available" ng-click="flip_advanced()" class="market-header-button">
-            <i class="fa {{advanced ? 'fa-check-square-o' : 'fa-square-o'}} fa-fw"></i>
-            {{'market.advanced' | translate}}</a>
       </h3>
       <ul class="row market-stats stats col-sm-5">
         <li class="stat col-sm-3">
@@ -88,7 +85,7 @@
           <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
             <div class="panel">
               <div class="panel-body">
-                <div ui-view></div>
+                <div ui-view autoscroll="false"></div>
               </div>
             </div>
           </tab>

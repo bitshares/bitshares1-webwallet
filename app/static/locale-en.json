@@ -435,7 +435,7 @@
   "contact": {
     "add_contact": "Add Contact",
     "new_contact": "New Contact",
-    "contact_name": "Contact Name or Address",
+    "contact_name": "Account Name",
     "contact_name_tip": "Name (Required)",
     "public_key": "Public Key",
     "public_key_tip": "Public Key (Required)",
