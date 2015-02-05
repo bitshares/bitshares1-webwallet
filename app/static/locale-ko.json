@@ -369,7 +369,15 @@
             "burn_confirmation": "보낼 메세지 확인",
             "receiver": "수신자",
             "explain": "입력한 금액을 소각하며 {{account_name}}에게 메세지를 보낼 수 있습니다. 이것은 수신자의 담벼락에 기록됩니다."
-        }
+        },
+        "transaction_details": "Details",
+        "transaction_virtual": "Virtual",
+        "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
+        "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
+        "reg_add_faucet": "Add Faucet",
+        "update_public_data_tx_fee": "Update data transaction Fee: ",
+        "new_balance": "New Balance",
+        "less_fee": "Less fee of"
     },
     "accounts": {
         "create_account": "새 계정 생성",
@@ -419,7 +427,9 @@
         "contact_name_tip": "이름 (필수 항목)",
         "public_key": "공개키",
         "public_key_tip": "공개키 (필수 항목)",
-        "btn_add_contact": "연락처 추가하기"
+        "btn_add_contact": "연락처 추가하기",
+        "address_book": "Address Book",
+        "add_to_address_book": "Add to address book"
     },
     "pref": {
         "title": "환경 설정",
@@ -498,5 +508,13 @@
         "minutes": "{{value}} 분",
         "hours": "{{value}} 시간",
         "days": "{{value}} 일"
+    },
+    "toolbar": {
+        "back": "Back",
+        "dashboard": "Dashboard",
+        "exchange": "Exchange",
+        "delegates": "Delegates",
+        "account_details": "Account Details",
+        "advanced": "Advanced"
     }
 }

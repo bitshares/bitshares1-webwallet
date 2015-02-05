@@ -366,7 +366,15 @@
             "burn_confirmation": "Burn/Post Message Confirmation",
             "receiver": "Receiver",
             "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
-        }
+        },
+        "transaction_details": "Details",
+        "transaction_virtual": "Virtual",
+        "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
+        "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
+        "reg_add_faucet": "Add Faucet",
+        "update_public_data_tx_fee": "Update data transaction Fee: ",
+        "new_balance": "New Balance",
+        "less_fee": "Less fee of"
     },
     "accounts": {
         "create_account": "Konto erstellen",
@@ -416,7 +424,9 @@
         "contact_name_tip": "Name (Pflichtfeld)",
         "public_key": "Öffentlicher Schlüssel",
         "public_key_tip": "Öffentlicher Schlüssel (Pflichtfeld)",
-        "btn_add_contact": "Kontakt hinzufügen"
+        "btn_add_contact": "Kontakt hinzufügen",
+        "address_book": "Address Book",
+        "add_to_address_book": "Add to address book"
     },
     "pref": {
         "title": "Einstellungen",
@@ -471,5 +481,13 @@
         "minutes": "{{value}} Minuten",
         "hours": "{{value}} Stunden",
         "days": "{{value}} Tage"
+    },
+    "toolbar": {
+        "back": "Back",
+        "dashboard": "Dashboard",
+        "exchange": "Exchange",
+        "delegates": "Delegates",
+        "account_details": "Account Details",
+        "advanced": "Advanced"
     }
 }
