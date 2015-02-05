@@ -14,13 +14,13 @@
       </div>
     </div>
 
-    <div class="col-sm-9">
-      <form name="newcontact" class="form-horizontal m-top" role="form" ng-submit="newcontact.$valid && createContact()" novalidate>
+    <div class="col-sm-6">
+      <form name="newcontact" class="m-top" role="form" ng-submit="newcontact.$valid && createContact()" novalidate>
         <div form-vgroup label="{{'account.name'|translate}}" help="{{'directive.input_name.note2'|translate}}" help-if="true">
-          <input-account-name name="account_name" autofocus ng-model="f.name" show-extra-note="true"/>
+          <input-account-name name="account_name" autofocus ng-model="data.account_name" show-extra-note="true"/>
         </div>
         <div form-vgroup label="{{'contact.public_key'|translate}}">
-          <input ng-model="address" name="address" class="form-control"/>
+          <input ng-model="data.address" name="address" class="form-control"/>
         </div>
         <button ng-disabled="!newcontact.$valid" class="btn btn-primary" type="submit" translate>contact.btn_add_contact</button>
       </form>

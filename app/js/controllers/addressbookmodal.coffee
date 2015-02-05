@@ -9,14 +9,12 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
         $modalInstance.dismiss "cancel"
 
     $scope.selectAccount = (name) ->
-        console.log "------ selectAccount ------>", name
         index = $scope.data.favorites.indexOf(name)
         if index >= 0
             $modalInstance.close("ok")
             action(name) if action
 
     $scope.removeContact = (name) ->
-        console.log "------ removeContact ------>", name
         index = $scope.data.favorites.indexOf(name)
         if index >= 0
             $scope.data.favorites.splice(index, 1)
