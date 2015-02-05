@@ -163,46 +163,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.gravatar_account_name = name
 
     $scope.accountSuggestions = (input) ->
-<<<<<<< HEAD
-        nItems=10
-        deferred = $q.defer()
-        ret = []
-        regHash={}
-        $scope.gravatar_account_name = ""
-        # Avoid scam names (look-alikes), NEVER auto-fill account names from the blockchain
-        angular.forEach Wallet.accounts, (val) ->
-            if val.name.substring(0, input.length) == input
-                if (regHash[val.name])
-                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved}
-                else
-                    ret.push {'name': val.name, 'is_favorite': val.is_favorite, 'approved': val.approved, 'unregistered': true}
-        ret.sort(compare)
-        deferred.resolve(ret)
-        return deferred.promise
-
-    compare = (a, b) ->
-        return -1  if a.name < b.name
-        return 1  if a.name > b.name
-        0
-
-    $scope.toggleVoteUpContact = (name) ->
-        newApproval=1
-        if ($scope.accounts[name] && $scope.accounts[name].approved>0)
-            newApproval=-1
-        if ($scope.accounts[name] && $scope.accounts[name].approved<0)
-            newApproval=0
-        Wallet.approve_account(name, newApproval).then (res)->
-            Wallet.refresh_account(name).then () ->
-                $scope.accounts=Wallet.accounts
-
-    $scope.toggleFavoriteContact = (name) ->
-        is_favorite=true
-        if (Wallet.accounts[name] && Wallet.accounts[name].is_favorite)
-            is_favorite=false
-        WalletAPI.account_set_favorite(name, is_favorite).then () ->
-            Wallet.refresh_account(name).then () ->
-                $scope.accounts=Wallet.accounts
-=======
         $filter('filter')(Object.keys(Wallet.favorites),input)
 
 #    $scope.toggleVoteUpContact = (name) ->
@@ -240,4 +200,3 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.add_to_address_book.message = null
         $scope.add_to_address_book.error = null
         my_transfer_form?.payto.error_message = null
->>>>>>> newlayout
