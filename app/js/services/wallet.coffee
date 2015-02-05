@@ -481,7 +481,7 @@ class Wallet
                 @location.path("/unlockwallet")
 
     open: ->
-        @rpc.request('wallet_open', ['default']).then (response) =>
+        @rpc.request('wallet_open', ['skk']).then (response) =>
           response.result
     
     get_block: (block_num)->

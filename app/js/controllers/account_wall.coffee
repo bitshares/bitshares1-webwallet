@@ -5,7 +5,8 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
         accounts: []
         symbols: []
         from: null
-        amount: { value: 0, symbol: '' }
+        amount: 0, 
+        symbol: 'BTS' 
         message: null
 
     form = null
@@ -26,14 +27,14 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
             currencies[symbol] = true for symbol, balance of value
         $scope.burn.from = $scope.burn.accounts[0] if $scope.burn.accounts.length > 0
         $scope.burn.symbols.push c for c in Object.keys(currencies)
-        $scope.burn.amount.symbol = $scope.burn.symbols[0] if $scope.burn.symbols.length > 0
+        $scope.burn.symbol = $scope.burn.symbols[0] if $scope.burn.symbols.length > 0
 
     yesSend = ->
-        WalletAPI.burn($scope.burn.amount.value, $scope.burn.amount.symbol, $scope.burn.from, "for", $scope.account_name, $scope.burn.message, false).then (response) ->
+        WalletAPI.burn($scope.burn.amount, $scope.burn.symbol, $scope.burn.from, "for", $scope.account_name, $scope.burn.message, false).then (response) ->
             $scope.burn_records.push
                 amount: $scope.transfer_amount
                 message: $scope.burn.message
-            $scope.burn.amount.value = 0
+            $scope.burn.amount = 0
             $scope.burn.message = ''
             form.message.$setPristine()
         ,
@@ -43,9 +44,9 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
 
     $scope.post = ->
         form = @burn_form
-        symbol = $scope.burn.amount.symbol
+        symbol = $scope.burn.symbol
         amount_asset = Wallet.balances[$scope.burn.from][symbol]
-        $scope.transfer_amount = Utils.formatDecimal($scope.burn.amount.value, amount_asset.precision) + ' ' + symbol
+        $scope.transfer_amount = Utils.formatDecimal($scope.burn.amount, amount_asset.precision) + ' ' + symbol
         WalletAPI.get_transaction_fee(symbol).then (tx_fee) ->
             transfer_asset = Blockchain.symbol2records[symbol]
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
