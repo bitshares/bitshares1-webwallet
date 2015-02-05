@@ -28,7 +28,7 @@
         "error_parsing_wif_key": "Ihr privater Schlüssel (WIF) konnte nicht verarbeitet werden.",
         "vote_will_transfer_balance_to_self": "Stimmen Sie ab in dem das Guthaben dieses Kontos an sich selbst gesendet wird. (Es entstehen lediglich die Standard-Transaktionskosten, siehe Einstellungen) ",
         "canceling": "wird abgebrochen...",
-        "pending": "wir bearbeitet...",
+        "pending": "wird bearbeitet...",
         "rename_account_name_existed": "Ein Konto mit dem Namen {{value}} ist bereits registriert.",
         "account_not_found": "Konto nicht gefunden",
         "wrong_amount": "Falscher Betrag",
@@ -43,7 +43,7 @@
         "updating_trx_history": "Aktualisiere Liste der Transaktionen ...",
         "partial_voting_info": "Dieses Konto hat verfügbare Stimmen. Nutzen Sie Ihr Recht und wählen Sie Ihre favorisierten Delegierten mit dem gesamten Kontostand.",
         "client_update_available": "Eine neues zwingend Update ist verfügbar. Besuchen Sie bitte http://www.bitshares-x.info",
-        "fake_accounts_warning": "Warning! Scammers often make fake accounts to trick people into sending their funds to the wrong place. Please triple-check the name you have entered."
+        "fake_accounts_warning": "Warnung! Betrüger erstellen häufig trügerische Kennungen um ihr Opfer dazu zu bewegen ihr Vermögen falsch zu transferieren. Bitte überprüfen Sie das Konto!"
     },
     "th": {
         "date": "DATUM",
@@ -103,14 +103,14 @@
         "paid": "BEZAHLT",
         "received": "EMPFANGEN",
         "expiration": "ABLAUF",
-        "interest_rate": "Interest Rate (APR)",
-        "message": "Message"
+        "interest_rate": "Zins Rate (p.a.)",
+        "message": "Nachricht"
     },
     "block": {
         "title": "Block",
         "summary": "Zusammenfassung",
         "trx_count": "Anzahl der Transaktionen",
-        "blk_id": "Block ID",
+        "blk_id": "Block Nr.",
         "prev_blk_id": "vorhergehende Block ID",
         "delegate_name": "signierender Delegierter",
         "delegate_pay_rate": "Einkommensrate des Delegierten",
@@ -122,8 +122,8 @@
         "pending_trxs": "Anstehende Transaktionen",
         "block_explorer": "Block Übersicht",
         "missing_block": "Verpasster Block",
-		"older": "Older",
-		"newer": "Newer",
+		"older": "Älter",
+		"newer": "Neuer",
         "trx": {
             "title": "Transaktionen",
             "expired_trx": "Abgelaufene Transaktionen",
@@ -150,7 +150,7 @@
         "desc_content_1": "BitShares ist eine vollständig dezentrale Handelsplattform auf der Sie BitAssets aller Art handeln können. Zum Beispiel: BitGLD = XAU(Gold)",
         "desc_content_2": "Weitere Informationen und Hilfe zu BitShares erhalten Sie unter http://bitsharestalk.org und http://wiki.bitshares.org",
         "wrong_pass": "Falsches Passwort.",
-        "risks_warning": "Warning: This is experimental software. Make sure you understand the risks."
+        "risks_warning": "Warning: Es handelt sich um experimentelle Software. Vergewissern Sie sich, dass Sie die Risiken verstanden haben."
     },
     "wallet": {
         "create_new_wallet": "Neue Kontensammlung (Wallet) erstellen",
@@ -167,6 +167,7 @@
         "block_explorer": "Block Explorer",
         "preferences": "Einstellungen",
         "console": "Konsole",
+        "mail": "Mail",
         "help": "Hilfe",
         "lock": "Abmelden",
         "daily_income": "Netzwerk: Tägliche Einnahmen",
@@ -184,26 +185,26 @@
         "votes_obtained": "Stimmen gesamt",
         "version": "Version",
         "un_approve_all": "Alle Stimmen zurücknehmen",
-        "description": "Description",
-        "proposal": "Delegate bid",
-        "location": "Server location",
-        "handle": "BitsharesTalk username",
-        "ann": "Announcements",
-        "country": "Legal jurisdiction",
-        "role_0": "Development",
+        "description": "Beschreibung",
+        "proposal": "Delegate Vorschlag",
+        "location": "Ort des Servers",
+        "handle": "BitsharesTalk Benutzername",
+        "ann": "Annkündigung",
+        "country": "Rechtsraum",
+        "role_0": "Entwicklung",
         "role_1": "Marketing",
         "role_2": "Faucet",
         "role_3": "Backbone",
-        "role_4": "Charity",
-        "role_5": "Technical Support",
-        "role_6": "Law/Regulations",
-        "role_7": "Media/Public Relations"
+        "role_4": "Wohltätigkeit",
+        "role_5": "Technischer Support",
+        "role_6": "Recht/Regulierung",
+        "role_7": "Medien/Public Relations"
     },
     "market": {
         "title": "Marktübersicht",
         "featured_markets": "Featured Märkte",
         "search_market": "Suche Markt",
-        "market_name": "Market Name",
+        "market_name": "Marktname",
         "all_markets": "Alle Märkte",
         "recent_markets": "Zuletzt genutzte Märkte",
         "median_price": "Median Preis",
@@ -237,7 +238,7 @@
             "bid_order": "Kauforder",
             "ask_order": "Verkaufsorder",
             "short_order": "Shortorder",
-            "margin_order": "Margin Order"
+            "margin_order": "Marginorder"
         },
         "tip": {
             "insufficient_balances": "Unzureichender Saldo",
@@ -258,8 +259,9 @@
         "open_sell_orders": "Offene Verkaufsorder: {{value}}",
         "open_short_orders": "Offene Verkaufsorder (Short): {{value}}",
         "open_margin_orders": "Offene Margin Order",
+        "collateral": "Kollateral",
         "collateral_ratio": "Kollateral Ratio",
-        "interest_rate": "Interest Rate",
+        "interest_rate": "Zinsrate",
         "price_limit": "Preislimit",
         "help": {
             "buy_quantity": "Die Menge an {{value}} die Sie kaufen möchten.",
@@ -271,14 +273,15 @@
             "sell_highest_bid" : "Der höchste Preis bei dem Ihre Verkaufsorder sofort durchgeführt werden soll.",
             "sell_total" : "Die Menge an {{base}} die auf Ihr Konto {{account}} durch diese Order gutgeschrieben werden wird.",
             "short_quantity": "Die Menge an {{value}} die Sie leihen und verkaufen möchten.",
+            "short_collateral": "Die Menge an {{value}} die Sie bereits sind als Kollateral aufzugeben. Sie sollten die 3-fache Menge zurücklegen. 2x kommt von der Shortenden Partei und 1x vom Käufer.",
             "short_price_limit_direct": "Der höchste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{base}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer größer ist.",
-            "short_price_limit_inverted": "Der niedrigste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{quantity}} zu leihen zu und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer niedriger ist.",
+            "short_price_limit_inverted": "Der niedrigste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{quantity}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer niedriger ist.",
             "short_feed_price": "Der Median des Handelspreis von externen Handelsplatformen gemäß der Delegierten Preis-Feeds.",
             "short_total": "Die benötigte Menge {{value}} für diese Order. Bestimmt als Quantität mal Kollateral-Ratio.",
             "short_interest_rate": "Der Zinssatz, den Sie zu zahlen bereit sind."
         },
         "days": "{{value}} Tage",
-        "percent_apr": "APR"
+        "percent_apr": "p.a."
     },
     "account": {
         "reg_pending": "Registrierung ausstehend",
@@ -292,7 +295,7 @@
         "load_more_trxs": "Lade weitere Transaktionen...",
         "all_trxs": "Transaktionsverlauf",
         "transfer": "Überweisung",
-        "transfer_authorization": "Transfer Authorization",
+        "transfer_authorization": "Überweisung authorisieren",
         "amount": "Betrag",
         "from": "Von",
         "to": "An",
@@ -319,7 +322,7 @@
         "email_tip": "Email (Optional)",
         "active_delegate": "Aktive Delegierte",
         "standby_delegate": "Bereitstehende Delegierte",
-        "rank": "Current rank",
+        "rank": "Aktueller Rang",
         "toggle": {
             "favorite": "Favorit",
             "approval": "Zustimmung"
@@ -358,14 +361,14 @@
         "public_info": "Öffentliche Informationen",
         "estimated_yield": "Voraussichtlicher Ertrag",
         "wall" : {
-            "tab_title": "Wall",
-            "burn_records": "Burn Records",
-            "burn_post": "Burn/Post Message",
-            "message": "Message",
-            "post_message": "Post Message",
-            "burn_confirmation": "Burn/Post Message Confirmation",
-            "receiver": "Receiver",
-            "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
+            "tab_title": "Wand",
+            "burn_records": "Burn Beiträge",
+            "burn_post": "Burn/Schreibe Nachricht",
+            "message": "Nachricht",
+            "post_message": "Nachricht abschicken",
+            "burn_confirmation": "Burn/Nachricht Bestätigung",
+            "receiver": "Empfänger",
+            "explain": "Burns übertragen {{amount}} auf {{account_name}}'s Konto. Dadurch können Sie Nachrichten auf die Wand des Benutzers schreiben und eine Bewertung abgeben."
         }
     },
     "accounts": {
@@ -394,8 +397,8 @@
         "amount": "Betrag",
         "issue_to": "An",
         "asset_create_auth": "BitAsset wird erstellt...",
-        "market_pegged_assets": "Market-Pegged Assets",
-        "user_issued_assets": "User-Issued Assets"
+        "market_pegged_assets": "Markt-bezogene Assets",
+        "user_issued_assets": "Nutzer-erstellte Assets"
     },
     "privacy": {
         "email_warning1": "Ihre Emailaddresse wir ausschließlich dazu genutzt Sie zu identifizieren.",
@@ -426,7 +429,7 @@
         "autocomplete_info": "Zeigt bei Überweisungen automatisch alle möglichen Empfänger an.",
         "language": "Sprache",
         "theme": "Display entsperren Theme",
-        "default": "Default",
+        "default": "Standard",
         "flowers": "Blumen"
     },
     "console": {
@@ -447,6 +450,29 @@
         "next": "Nächste",
         "last": "Letzte"
     },
+    "mail": {
+        "sender": "Absender",
+        "recipient": "Empfänger",
+        "subject": "Betreff",
+        "body": "Nachricht",
+        "compose": "Verfassen",
+        "email": "Email",
+        "close": "Schließen",
+        "inbox": "Eingang",
+        "sent": "Gesendete",
+        "transmitting": "Übertragen",
+        "archive": "Archiv",
+        "processing": "Bearbeite..",
+        "failed": "Fehlgeschlagen",
+        "proof_of_work": "Proof of Work",
+        "canceled": "Abgebrochen",
+        "unspecified": "nicht spezifiziert",
+        "delete_pending": "Löschvorgang wird bearbeitet..",
+        "undo": "Rückgängig",
+        "no_recipient_mail_servers": "Empfänger prüft nicht auf Nachrichten.",
+        "Timed out while transmitting message.": "Zeit während des übermittelns der Nachricht abgelaufen.",
+        "Could not find mail servers for this recipient.": "Es konnte kein Server für diesen Empfänger gefunden werden."
+    },
     "help": {
         "title": "Hilfe",
         "console_intro": "Für eine Liste aller Kommandos, gehen Sie zur Konsole, geben Sie 'help' ein und drücken Sie die Eingabetaste.",
@@ -464,6 +490,7 @@
         "up_to_date": "Der Datenstand ist aktuell. Letzter Block: {{value}}",
         "catching_up": "Der Datenstand wird aktualisiert: {{value1}} von {{value2}} Blöcken verarbeitet",
         "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
+        "testnet": "TestNetz"
     },
     "utils": {
         "expired": "Abgelaufen",
