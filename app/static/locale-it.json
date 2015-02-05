@@ -364,7 +364,9 @@
       "post_message": "Post Message",
       "burn_confirmation": "Burn/Post Message Confirmation",
       "receiver": "Receiver",
-      "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation."
+      "explain": "Burns given amount to {{account_name}}'s account. This will allow you to post message to this wall as a form of reputation.",
+      "for": "For",
+      "against": "Against"
     },
     "transaction_details": "Details",
     "transaction_virtual": "Virtual",

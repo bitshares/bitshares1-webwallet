@@ -365,7 +365,9 @@
       "post_message": "发送消息",
       "burn_confirmation": "销毁/发送消息确认",
       "receiver": "受评账户",
-      "explain": "销毁自己账户下一定数量的资金，从而向 {{account_name}} 账户的信誉墙上进行留言/评价。"
+      "explain": "销毁自己账户下一定数量的资金，从而向 {{account_name}} 账户的信誉墙上进行留言/评价。",
+      "for": "For",
+      "against": "Against"
     },
     "transaction_details": "交易明细",
     "transaction_virtual": "虚拟交易",

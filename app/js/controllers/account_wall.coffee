@@ -8,6 +8,7 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
         amount: null,
         symbol: null
         message: null
+        type: 'for'
 
     form = null
 
@@ -17,8 +18,9 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
             asset = Blockchain.asset_records[r.amount.asset_id]
             continue until asset
             $scope.burn_records.push
-                amount: Utils.formatAsset amount: r.amount.amount, precision: asset.precision, symbol: asset.symbol
+                amount: Utils.formatAsset(amount: r.amount.amount, precision: asset.precision, symbol: asset.symbol)
                 message: r.message
+                for: r.account_id > 0
 
     Wallet.refresh_balances().then (balances) ->
         currencies = {}
@@ -30,7 +32,7 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
         $scope.burn.symbol = $scope.burn.symbols[0] if $scope.burn.symbols.length > 0
 
     yesSend = ->
-        WalletAPI.burn($scope.burn.amount, $scope.burn.symbol, $scope.burn.from, "for", $scope.account_name, $scope.burn.message, false).then (response) ->
+        WalletAPI.burn($scope.burn.amount, $scope.burn.symbol, $scope.burn.from, $scope.burn.type, $scope.account_name, $scope.burn.message, false).then (response) ->
             $scope.burn_records.push
                 amount: $scope.transfer_amount
                 message: $scope.burn.message

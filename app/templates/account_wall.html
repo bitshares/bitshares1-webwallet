@@ -7,12 +7,14 @@
       <table class="table table-striped">
         <thead>
           <tr>
+            <th class="icon-column" translate></th>
             <th translate>th.amount</th>
             <th translate>th.message</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="r in burn_records">
+            <td class="icon-column"><i class="fa fa-fw fa-2x" ng-class="r.for ? 'fa-thumbs-o-up' : 'fa-thumbs-o-down'" tooltip="{{(r.for ? 'account.wall.for' : 'account.wall.against') | translate}}"/></td>
             <td>{{r.amount}}</td>
             <td>{{r.message}}</td>
           </tr>
@@ -63,6 +65,12 @@
         <!-- message -->
         <div form-hgroup label="{{'account.wall.message'|translate}}">
           <input name="message" ng-model="burn.message" type="text" class="form-control" required="true"/>
+        </div>
+
+        <div form-hgroup>
+              <label><span class="checked"><input type="radio" name="burn_type" value="for" ng-model="burn.type"></span> <span translate>account.wall.for</span></label>
+              &nbsp; &nbsp;
+              <label><span class=""><input type="radio" name="burn_type" value="against" ng-model="burn.type"></span> <span translate>account.wall.against</span></label>
         </div>
         <!--Submit-->
         <div form-hgroup-error></div>

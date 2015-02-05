@@ -377,7 +377,9 @@
       "post_message": "Nachricht abschicken",
       "burn_confirmation": "Burn/Nachricht Bestätigung",
       "receiver": "Empfänger",
-      "explain": "Burns übertragen {{amount}} auf {{account_name}}'s Konto. Dadurch können Sie Nachrichten auf die Wand des Benutzers schreiben und eine Bewertung abgeben."
+      "explain": "Burns übertragen {{amount}} auf {{account_name}}'s Konto. Dadurch können Sie Nachrichten auf die Wand des Benutzers schreiben und eine Bewertung abgeben.",
+      "for": "For",
+      "against": "Against"
     },
     "transaction_details": "Details",
     "transaction_virtual": "Virtual",

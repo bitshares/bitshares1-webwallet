@@ -500,3 +500,7 @@ input.ng-dirty.ng-invalid {
 .btn-primary.outline:focus:hover {
 	color: #fff;
 }
+
+.icon-column {
+	width: 2em;
+}
