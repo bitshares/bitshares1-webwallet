@@ -44,7 +44,21 @@
         </div>
         <!-- amount -->
         <div form-hgroup label="{{'account.amount'|translate}}">
-          <input-asset-amount name="amount" ng-model="burn.amount" symbols="burn.symbols" required="true"/>
+          <div class="input-group">
+            <input class="form-control" ng-model="burn.amount" name="amount"
+            type="text" class="form-control" placeholder="0.0" id="amount"
+            ui-validate="'$value > 0'" ng-change="hot_check_send_amount();"
+            autocomplete="off" required/>
+            <!-- asset selector -->
+            <div class="input-group-btn" dropdown is-open="status.isopen">
+              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">{{burn.symbol}} <span class="caret"></span></button>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="symbol in burn.symbols">
+                  <a ng-click="burn.symbol = symbol; status.isopen=false">{{symbol}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <!-- message -->
         <div form-hgroup label="{{'account.wall.message'|translate}}">
