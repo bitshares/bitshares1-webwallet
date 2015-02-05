@@ -176,7 +176,7 @@ servicesModule.factory "Utils", ($translate,$q) ->
 
     formatAssertException: (text) ->
         match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)
-        return if !match or match.length < 2 then text else match[1]
+        return if !match or match.length < 2 then text.trim() else match[1].trim()
 
     formatAssertExceptionWithAssets: (text, assets) ->
         match = /Assert Exception [\s\S.]+: ([\s\S.]+)/mi.exec(text)

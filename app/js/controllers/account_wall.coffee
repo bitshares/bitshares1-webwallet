@@ -5,8 +5,8 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
         accounts: []
         symbols: []
         from: null
-        amount: 0, 
-        symbol: 'BTS' 
+        amount: null,
+        symbol: null
         message: null
 
     form = null
@@ -34,13 +34,17 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
             $scope.burn_records.push
                 amount: $scope.transfer_amount
                 message: $scope.burn.message
-            $scope.burn.amount = 0
+            $scope.burn.amount = null
             $scope.burn.message = ''
-            form.message.$setPristine()
+            form.amount.$setPristine(true)
+            form.message.$setPristine(true)
         ,
         (error) ->
             if (error.data.error.code == 20010)
-                form.amount.$error.message = "Insufficient funds"
+                form.$error.message = "Insufficient funds"
+            else
+                msg = Utils.formatAssertException(error.data.error.message)
+                form.$error.message = if msg?.length > 2 then msg else error.data.error.message
 
     $scope.post = ->
         form = @burn_form
