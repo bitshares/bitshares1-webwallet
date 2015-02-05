@@ -176,7 +176,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
             $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
-        WalletAPI.account_set_favorite(name, true, error_handler).then () ->
+        WalletAPI.account_set_favorite(name, true, error_handler).then ->
             account = Wallet.accounts[name]
             if account
                 account.is_favorite = true

@@ -88,8 +88,13 @@ input[type="checkbox"] {
 	color: #1B6FC1;
 }
 
+
+.text-warning {
+	color: #d0a66a;
+}
+
 .text-warning:hover {
-	color: #e8b976;
+	color: #d0a66a;
 }
 
 .text-danger:hover {

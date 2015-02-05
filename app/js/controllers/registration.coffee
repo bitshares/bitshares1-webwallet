@@ -48,7 +48,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         if $scope.account.private_data?.gui_data?.website
             website = $scope.account.private_data.gui_data.website
 
-        Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gui_data': {'website': website}}, payrate, "titan_account").then (response) ->
+        Wallet.wallet_account_register($scope.account.name, $scope.m.payfrom[0], {'gui_data': {'website': website}}, payrate, "public_account").then (response) ->
             $scope.p.pendingRegistration = Wallet.pendingRegistrations[$scope.account.name] = "pending"
             $modalInstance.close("ok")
 

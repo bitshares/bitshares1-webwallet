@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, WalletAPI) ->
     $scope.f = {}
 
     $scope.createAccount = ->
@@ -14,4 +14,7 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
                 return false
 
         Wallet.create_account(name, null, error_handler).then ->
-            $location.path("accounts/" + name)
+            WalletAPI.account_set_favorite(name, true, error_handler).then ->
+                $location.path("accounts/" + name)
+            , (error) ->
+                $location.path("accounts/" + name)
