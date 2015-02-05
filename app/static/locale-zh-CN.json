@@ -42,7 +42,7 @@
     "no_trxs": "没有交易!",
     "updating_trx_history": "正在更新交易记录...",
     "partial_voting_info": "账户尚有权益未使用投票权。请考虑行使投票权。",
-    "client_update_available": "发现客户端关键更新，请访问 https://bitshares.org/resources/downloads 获取。"
+    "client_update_available": "发现客户端关键更新，请访问 https://bitshares.org/resources/downloads 获取。",
     "fake_accounts_warning": "Warning! Scammers often make fake accounts to trick people into sending their funds to the wrong place. Please triple-check the name you have entered."
   },
   "th": {
@@ -457,6 +457,29 @@
     "next": "下一页",
     "last": "最后页"
   },
+  "mail": {
+    "sender": "Sender",
+    "recipient": "To",
+    "subject": "Topic",
+    "body": "Message",
+    "compose": "Compose",
+    "email": "Email",
+    "close": "Close",
+    "inbox": "Inbox",
+    "sent": "Sent",
+    "transmitting": "Transmitting",
+    "archive": "Archive",
+    "processing": "Processing..",
+    "failed": "Failed",
+    "proof_of_work": "Proof of Work",
+    "canceled": "Canceled",
+    "unspecified": "Unspecified",
+    "delete_pending": "Delete Pending..",
+    "undo": "UNDO",
+    "no_recipient_mail_servers": "Recipient is not checking mail.",
+    "Timed out while transmitting message.": "Timed out while transmitting message.",
+    "Could not find mail servers for this recipient.": "Could not find mail servers for this recipient."
+  },
   "help": {
     "title": "帮助",
     "console_intro": "查询命令行使用方法，请前往”控制台“页面，输入 help 并回车。",
@@ -472,8 +495,18 @@
   "footer": {
     "enable_trx_scan": "启用交易记录扫描",
     "up_to_date": "已同步到最新状态：已处理 {{value}} 块区块",
-    "catching_up": "同步中：已处理 {{value}} 块区块，总共 {{value2}} 块区块",
-    "version_warning": "警告！钱包图形界面要求钱包工具包软件(Toolkit)版本 {{expected_client_version}} 或更高，当前版本为 {{client_version}}"
+    "catching_up": "同步中：已处理 {{value1}} 块区块，总共 {{value2}} 块区块",
+    "version_warning": "警告！钱包图形界面要求钱包工具包软件(Toolkit)版本 {{expected_client_version}} 或更高，当前版本为 {{client_version}}",
+    "testnet": "TestNet",
+    "synced": "Blocks are synced",
+    "syncing": "Blocks are syncing ...",
+    "not_connected": "Not connected",
+    "last_block": "Last block was synced {{value}} ago",
+    "one_network_connection": "1 network connection",
+    "n_network_connection": "{{value}} network connections",
+    "network_problems": "Network problems",
+    "severe_network_problems": "Severe network problems",
+    "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
   },
   "utils": {
     "expired": "逾时",

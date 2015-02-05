@@ -146,6 +146,12 @@ a.white:hover {
 	padding-top: 0;
 }
 
+.no-bottom-space {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+
 .m-bottom {
 	margin-bottom: 12px;
 }

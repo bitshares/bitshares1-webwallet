@@ -500,7 +500,16 @@
     "up_to_date": "동기화 완료: 총 {{value}} 블록",
     "catching_up": "동기화중... 동기화된 블록: {{value1}}, 전체 블록: {{value2}}",
     "version_warning": "경고! 이 GUI 버전은 툴킷 버전 {{expected_client_version}} 이상을 필요로 합니다. 현재 버전 {{client_version}}",
-    "testnet": "테스트넷"
+    "testnet": "TestNet",
+    "synced": "Blocks are synced",
+    "syncing": "Blocks are syncing ...",
+    "not_connected": "Not connected",
+    "last_block": "Last block was synced {{value}} ago",
+    "one_network_connection": "1 network connection",
+    "n_network_connection": "{{value}} network connections",
+    "network_problems": "Network problems",
+    "severe_network_problems": "Severe network problems",
+    "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
   },
   "utils": {
     "expired": "만료",

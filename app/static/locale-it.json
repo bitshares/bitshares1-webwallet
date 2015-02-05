@@ -456,6 +456,29 @@
     "next": "Prossimo",
     "last": "Ultimo"
   },
+  "mail": {
+    "sender": "Sender",
+    "recipient": "To",
+    "subject": "Topic",
+    "body": "Message",
+    "compose": "Compose",
+    "email": "Email",
+    "close": "Close",
+    "inbox": "Inbox",
+    "sent": "Sent",
+    "transmitting": "Transmitting",
+    "archive": "Archive",
+    "processing": "Processing..",
+    "failed": "Failed",
+    "proof_of_work": "Proof of Work",
+    "canceled": "Canceled",
+    "unspecified": "Unspecified",
+    "delete_pending": "Delete Pending..",
+    "undo": "UNDO",
+    "no_recipient_mail_servers": "Recipient is not checking mail.",
+    "Timed out while transmitting message.": "Timed out while transmitting message.",
+    "Could not find mail servers for this recipient.": "Could not find mail servers for this recipient."
+  },
   "help": {
     "title": "Aiuto",
     "console_intro": "Per una lista di comandi vai nella pagina della console, scrivi 'help' e premi Invio.",
@@ -472,7 +495,17 @@
     "enable_trx_scan": "Avvia Scansione Transazioni",
     "up_to_date": "Aggiornato, processati {{value}} blocchi",
     "catching_up": "In aggiornamento.. processati {{value1}} di {{value2}}",
-    "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}"
+    "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}",
+    "testnet": "TestNet",
+    "synced": "Blocks are synced",
+    "syncing": "Blocks are syncing ...",
+    "not_connected": "Not connected",
+    "last_block": "Last block was synced {{value}} ago",
+    "one_network_connection": "1 network connection",
+    "n_network_connection": "{{value}} network connections",
+    "network_problems": "Network problems",
+    "severe_network_problems": "Severe network problems",
+    "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
   },
   "utils": {
     "expired": "Scaduto",
