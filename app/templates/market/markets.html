@@ -43,13 +43,15 @@
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th translate>th.symbol</th>
+                <th ng-click="orderByField='symbol'; reverseSort = !reverseSort" ><ng-sort-fa order-string="symbol" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.symbol</span></th>
+                <th ng-click="orderByField='yield'; reverseSort = !reverseSort" ><ng-sort-fa order-string="yield" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>account.estimated_yield</span></th>
                 <th translate>th.name</th>
               </tr>
             </thead>
             <tbody>
-              <tr tooltip="{{asset.description}}" ng-repeat="asset in market_peg_assets | orderBy: 'symbol'" ng-click="go_to_asset(asset.symbol)">
+              <tr tooltip="{{asset.description}}" ng-repeat="asset in market_peg_assets | orderBy: [orderByField,'symbol']:reverseSort track by asset.id" ng-click="go_to_asset(asset.symbol)">
                 <td>{{asset.symbol}}</td>
+                <td>{{ asset.yield | number:2}}%</td>
                 <td>{{asset.name}}</td>
               </tr>
             </tbody>

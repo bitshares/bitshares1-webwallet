@@ -8,6 +8,9 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
     $scope.tx_fee_symbol = ""
     $scope.tx_fee = 0
 
+    $scope.orderByField = "yield";
+    $scope.reverseSort = true;
+
     promise = Wallet.get_current_or_first_account()
     promise.then (account)->
         $scope.account_name = account?.name
@@ -73,6 +76,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
             asset.maximum_supply = Utils.newAsset(asset.maximum_share_supply, asset.symbol, asset.precision)
             asset.c_fees = Utils.newAsset(asset.collected_fees, asset.symbol, asset.precision)
             assets_with_unknown_issuer.push asset unless asset.account_name
+            asset.yield = if asset.current_share_supply==0 then 0 else 100 * asset.collected_fees / asset.current_share_supply
             if asset.issuer_account_id > 0
                 scam = false;
                 for key2, asset2 of records

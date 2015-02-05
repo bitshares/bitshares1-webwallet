@@ -16,12 +16,12 @@
   </tr>
   </thead>
   <tbody>
-        <tr ng-repeat="feed in feeds" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
+        <tr ng-repeat="feed in feeds | orderBy:['-last_update','asset_symbol']" ng-class="((feed.last_update | hoursAgo)>24) ? 'text-danger' : 'text-default'">
             <td>
               {{feed.asset_symbol}}
             </td>
             <td>
-              {{ feed.price | formatDecimal:symbol2records[feed.asset_symbol].precision}}
+              {{ feed.price | formatDecimal:symbol2records[feed.asset_symbol].precision}} {{feed.asset_symbol+'/BTS'}}
             </td>
             <td>
               {{feed.last_update | prettyDate}}
