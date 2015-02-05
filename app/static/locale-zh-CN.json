@@ -484,7 +484,7 @@
     },
     "toolbar": {
         "back": "Back",
-        "dashboard": "Dashboard",
+        "dashboard": "账户主页",
         "exchange": "Exchange",
         "delegates": "Delegates",
         "account_details": "Account Details",
