@@ -441,7 +441,8 @@
     "public_key_tip": "Öffentlicher Schlüssel (Pflichtfeld)",
     "btn_add_contact": "Kontakt hinzufügen",
     "address_book": "Adressbuch",
-    "add_to_address_book": "Zum Adressnuch hinzufügen"
+    "add_to_address_book": "Zum Adressnuch hinzufügen",
+    "not_in_address_book": "Not in address book"
   },
   "pref": {
     "title": "Einstellungen",

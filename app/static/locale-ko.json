@@ -431,7 +431,8 @@
     "public_key_tip": "공개키 (필수 항목)",
     "btn_add_contact": "연락처 추가하기",
     "address_book": "Address Book",
-    "add_to_address_book": "Add to address book"
+    "add_to_address_book": "Add to address book",
+    "not_in_address_book": "Not in address book"
   },
   "pref": {
     "title": "환경 설정",

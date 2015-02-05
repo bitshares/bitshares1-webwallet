@@ -9,7 +9,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
 
-    $scope.memo_size_max = 19
+    $scope.memo_size_max = 51
     my_transfer_form = null
     tx_fee = null
     tx_fee_asset = null
@@ -60,9 +60,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     $scope.no_account = true
 
     #$scope.showLoadingIndicator(refresh_accounts_promise)
-    
-    Blockchain.get_info().then (config) ->
-        $scope.memo_size_max = config.memo_size_max
+
+#    TODO: uncomment when 19->51 chars transition finish
+#    Blockchain.get_info().then (config) ->
+#        $scope.memo_size_max = config.memo_size_max
     
     $scope.setForm = (form) ->
         my_transfer_form = form
@@ -131,13 +132,19 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.send = ->
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
+        payto = $scope.transfer_info.payto
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
             transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
             Blockchain.get_asset(tx_fee.asset_id).then (tx_fee_asset) ->
                 transaction_fee = Utils.formatAsset(Utils.asset(tx_fee.amount, tx_fee_asset))
-                trx = {to: $scope.transfer_info.payto, amount: transfer_amount + ' ' + $scope.transfer_info.symbol, fee: transaction_fee, memo: $scope.transfer_info.memo, vote: $scope.vote_options[$scope.transfer_info.vote]}
+                trx =
+                    to: payto
+                    amount: transfer_amount + ' ' + $scope.transfer_info.symbol
+                    fee: transaction_fee, memo: $scope.transfer_info.memo
+                    vote: $scope.vote_options[$scope.transfer_info.vote]
+                    is_favorite: !!Wallet.favorites[payto]
                 $modal.open
                     templateUrl: "dialog-transfer-confirmation.html"
                     controller: "DialogTransferConfirmationController"

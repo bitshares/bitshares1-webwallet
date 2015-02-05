@@ -440,7 +440,8 @@
     "public_key_tip": "Открытый ключ контакта (обязательно)",
     "btn_add_contact": "Добавить контакт",
     "address_book": "Адресная книга",
-    "add_to_address_book": "Добавить в адресную книгу"
+    "add_to_address_book": "Добавить в адресную книгу",
+    "not_in_address_book": "Не из адресной книги"
   },
   "pref": {
     "title": "Настройки",

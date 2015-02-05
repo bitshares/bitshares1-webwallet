@@ -441,7 +441,8 @@
     "public_key_tip": "Public Key (Required)",
     "btn_add_contact": "Add Contact",
     "address_book": "Address Book",
-    "add_to_address_book": "Add to address book"
+    "add_to_address_book": "Add to address book",
+    "not_in_address_book": "Not in address book"
   },
   "pref": {
     "title": "Preferences",

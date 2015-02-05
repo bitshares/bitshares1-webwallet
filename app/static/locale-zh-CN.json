@@ -428,7 +428,8 @@
     "public_key_tip": "公钥（必填项）",
     "btn_add_contact": "添加联系人",
     "address_book": "地址簿",
-    "add_to_address_book": "加到地址簿"
+    "add_to_address_book": "加到地址簿",
+    "not_in_address_book": "Not in address book"
   },
   "pref": {
     "title": "设置",
