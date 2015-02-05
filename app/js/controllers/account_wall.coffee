@@ -36,6 +36,7 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
             $scope.burn_records.push
                 amount: $scope.transfer_amount
                 message: $scope.burn.message
+                for: $scope.burn.type == 'for'
             $scope.burn.amount = null
             $scope.burn.message = ''
             form.amount.$setPristine(true)
@@ -67,3 +68,6 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
                         action: -> yesSend
                         transfer_type: ->
                             'burn'
+
+    $scope.toggleType = ->
+        $scope.burn.type = if $scope.burn.type == 'for' then 'against' else 'for'

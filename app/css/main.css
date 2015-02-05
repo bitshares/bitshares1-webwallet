@@ -478,6 +478,12 @@ input.ng-dirty.ng-invalid {
 	transition: all 0.3s ease 0s;
 }
 
+
+.btn.off {
+	background: none;
+	transition: all 0.3s ease 0s;
+}
+
 .btn-sm, .btn-sm.outline {
 	padding: 4px 8px;
 	font-size: 90%;

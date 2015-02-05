@@ -68,9 +68,8 @@
         </div>
 
         <div form-hgroup>
-              <label><span class="checked"><input type="radio" name="burn_type" value="for" ng-model="burn.type"></span> <span translate>account.wall.for</span></label>
-              &nbsp; &nbsp;
-              <label><span class=""><input type="radio" name="burn_type" value="against" ng-model="burn.type"></span> <span translate>account.wall.against</span></label>
+            <button ng-click="toggleType()" type="button" class="btn btn-small" ng-class="burn.type==='for'?'btn-success':'off'"><span translate>account.wall.for</span></button>
+            <button ng-click="toggleType()" type="button" class="btn btn-small" ng-class="burn.type==='against'?'btn-success':'off'"><span translate>account.wall.against</span></button>
         </div>
         <!--Submit-->
         <div form-hgroup-error></div>
