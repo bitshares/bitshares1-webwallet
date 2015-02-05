@@ -190,7 +190,7 @@
       </tab>
 
       <!-- Edit tab -->
-      <tab ng-show="account.is_my_account" ng-click="goto_tab('account.edit')" active="tabs[4].active">
+      <tab ng-click="goto_tab('account.edit')" active="tabs[4].active">
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
         <div ui-view="account-edit"></div>
       </tab>
