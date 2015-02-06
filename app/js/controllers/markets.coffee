@@ -98,6 +98,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         WalletAPI.get_transaction_fee(tx_fee_asset.symbol).then (tx_fee) ->
             $scope.tx_fee = Utils.formatDecimal(tx_fee.amount / tx_fee_asset.precision, tx_fee_asset.precision)
         list_open_orders()
+
         return null
 
     $scope.go_to_asset = (name) ->

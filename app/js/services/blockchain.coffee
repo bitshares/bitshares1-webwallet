@@ -59,6 +59,8 @@ class Blockchain
     #  Asset Records
 
     asset_records: {}
+    asset_records_array: []
+    market_asset_records_array: []
     symbol2records: {}
     asset_records_deferred: null
 
@@ -81,6 +83,9 @@ class Blockchain
         promise.then (result) =>
             angular.forEach result, (record) =>
                 @populate_asset_record record
+                @asset_records_array.push record
+                if record.issuer_account_id == -2
+                    @market_asset_records_array.push record
             deferred.resolve(@asset_records)
             @asset_records_deferred = null
         , (error) ->
@@ -106,14 +111,19 @@ class Blockchain
     get_markets: ->
         markets = []
         markets_hash = {}
-        angular.forEach @asset_records, (asset1) =>
-            angular.forEach @asset_records, (asset2) =>
+        
+        #angular.forEach @asset_records, (asset1) =>
+        for asset1 in @asset_records_array
+            # angular.forEach @asset_records, (asset2) =>
+            for asset2 in @asset_records_array
+            
                 if not (asset1.id > 22 and asset2.id > 22) # one of the assets should be either bts or market pegged asset
                     asset1_symbol = if asset1.issuer_account_id == -2 then "Bit" + asset1.symbol else asset1.symbol
                     asset2_symbol = if asset2.issuer_account_id == -2 then "Bit" + asset2.symbol else asset2.symbol                    
                     if asset1.id > asset2.id
                         scam = false
-                        angular.forEach @asset_records, (asset3) =>
+                        # angular.forEach @asset_records, (asset3) =>
+                        for asset3 in @market_asset_records_array
                             if (asset3.issuer_account_id == -2 and ("bit"+asset3.symbol).toLowerCase() == asset1.symbol.toLowerCase())
                                 scam = true
                         if not scam
@@ -121,7 +131,8 @@ class Blockchain
                             markets_hash[value] = value
                     else if asset2.id > asset1.id
                         scam = false
-                        angular.forEach @asset_records, (asset3) =>
+                        # angular.forEach @asset_records, (asset3) =>
+                        for asset3 in @market_asset_records_array
                             if (asset3.issuer_account_id == -2 and ("bit"+asset3.symbol).toLowerCase() == asset2.symbol.toLowerCase())
                                 scam = true
                          if not scam
