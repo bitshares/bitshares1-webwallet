@@ -42,8 +42,8 @@
     "no_trxs": "没有交易!",
     "updating_trx_history": "正在更新交易记录...",
     "partial_voting_info": "账户尚有权益未使用投票权。请考虑行使投票权。",
-    "client_update_available": "发现客户端更新，请访问 https://bitshares.org/resources/downloads 获取。",
-    "fake_accounts_warning": "严重警告！骗子通常会创建假的账号去误导人们将资金发送到错误的地方。请务必再三确认你输入的收款账号名称。"
+    "client_update_available": "发现客户端关键更新，请访问 https://bitshares.org/resources/downloads 获取。",
+    "fake_accounts_warning": "警示！诈骗者常常通过注册虚假/近似/容易混淆的账户名来引诱用户发送资金到错误的账户。请在输入账户名时再三确认。"
   },
   "th": {
     "date": "日期",
@@ -474,14 +474,14 @@
     "archive": "归档",
     "processing": "处理中..",
     "failed": "失败",
-    "proof_of_work": "工作证明",
+    "proof_of_work": "工作量证明",
     "canceled": "取消",
-    "unspecified": "未指明",
+    "unspecified": "未指明的",
     "delete_pending": "取消等待中的..",
     "undo": "撤销",
     "no_recipient_mail_servers": "收件人没有检查邮件。",
-    "Timed out while transmitting message.": "传送信息时逾时。",
-    "Could not find mail servers for this recipient.": "无法为这个收件人找到邮件服务器。"
+    "Timed out while transmitting message.": "传送信息时超时。",
+    "Could not find mail servers for this recipient.": "找不到收信人的邮件服务器。"
   },
   "help": {
     "title": "帮助",
@@ -504,7 +504,7 @@
     "synced": "区块已经同步",
     "syncing": "正在同步区块 ...",
     "not_connected": "无连接",
-    "last_block": "最后的区块已经在 {{value}} 秒之前同步",
+    "last_block": "最后的区块已经在 {{value}} 之前同步",
     "one_network_connection": "1个网络连f接",
     "n_network_connection": "{{value}} 个网络连接",
     "network_problems": "网络问题",
@@ -512,7 +512,7 @@
     "delegate_participation_below": "受托人参与率低于{{value}}， 请暂缓所有交易直到参与率回到100%。 "
   },
   "utils": {
-    "expired": "逾时",
+    "expired": "超时",
     "seconds": "{{value}} 秒",
     "minutes": "{{value}} 分钟",
     "hours": "{{value}} 小时",
