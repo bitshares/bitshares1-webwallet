@@ -16,13 +16,13 @@
     "privacy_statement": "隐私申明",
     "warning": "警告",
     "validate_symbol": "资产代码必须是3-8个大写字母",
-    "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1).",
+    "validate_precision": "精度必须大于0，并且必须是10的指数(或者 1)。",
     "pay_with_info": "注册需要花费BTS, 使用",
     "reg_as_delegate": "注册成为受托人",
     "reg_delegate_tip": "请注意注册成为受托人需要花费不少BTS",
     "reg_pending": "注册申请中。",
     "not_reg_onchain": "未在区块链上注册",
-    "add_account_name_existed": "无法添加联系人。同名联系人已经存在.",
+    "add_account_name_existed": "无法添加联系人。同名联系人已经存在。",
     "no_assets": "我还没有创建过任何比特资产。",
     "reg_to_create_asset": "你的账号必须是已注册账号才能创建或发行比特资产。",
     "error_parsing_wif_key": "解析 WIF 私钥时发生错误",
@@ -62,7 +62,7 @@
     "current_share_supply": "当前供给数量",
     "maximum_share_supply": "最大供给数量",
     "share_supply": "供给数量",
-    "asset": "ASSET",
+    "asset": "资产",
     "collected_fees": "已产生的交易费",
     "registration_date": "注册日期",
     "height": "高度",
@@ -150,11 +150,11 @@
     "desc_content_1": "Bitshares 是一个由去中心化社区支持的虚拟公司，为市场提供最佳的数字货币：BitUSD（比特美元），BitGold（比特黄金）及BitSilver（比特白银）等。 ",
     "desc_content_2": "",
     "wrong_pass": "密码错误",
-    "risks_warning": "警告: 这是测试软件.  请确定你知悉相关风险."
+    "risks_warning": "警告: 这是测试软件。  请确定你知悉相关风险。"
   },
   "wallet": {
     "create_new_wallet": "创建新钱包",
-    "info": "请记住该密码，它将控制你的资金何时以及如何被花。如果你忘记该密码，你将无法转账使用你的资金或股份。",
+    "info": "请记住该密码，它将控制你的资金何时以及如何被花。 如果你忘记该密码，你将无法转账使用你的资金或股份。",
     "create_wallet": "创建钱包"
   },
   "index": {
@@ -192,7 +192,7 @@
     "country": "法定管辖权",
     "role_0": "技术开发",
     "role_1": "市场推广",
-    "role_2": "Faucet",
+    "role_2": "水龙头服务",
     "role_3": "骨干",
     "role_4": "慈善",
     "role_5": "技术支持",
@@ -366,13 +366,13 @@
       "burn_confirmation": "销毁/发送消息确认",
       "receiver": "受评账户",
       "explain": "销毁自己账户下一定数量的资金，从而向 {{account_name}} 账户的信誉墙上进行留言/评价。",
-      "for": "For",
-      "against": "Against"
+      "for": "好评",
+      "against": "差评"
     },
     "transaction_details": "交易明细",
     "transaction_virtual": "虚拟交易",
-    "reg_no_funds_note": "如果您还没有BTS, 你可以选择一个水龙头服务来支付这笔费用.",
-    "reg_subaccount_faucet_not_available": "这个账号不可以使用免费的水龙头服务. 含有'.'的账号名称属于子账号, 因此不可以使用水龙头服务来注册.  请选择不同的账号名称, 或是存入BTS来支付注册费.",
+    "reg_no_funds_note": "如果您还没有BTS， 你可以选择一个水龙头服务来支付这笔费用。",
+    "reg_subaccount_faucet_not_available": "这个账号不可以使用免费的水龙头服务。 含有'.'的账号名称属于子账号， 因此不可以使用水龙头服务来注册。  请选择不同的账号名称， 或是存入BTS来支付注册费。",
     "reg_add_faucet": "加入水龙头",
     "update_public_data_tx_fee": "更新数据的交易费用: ",
     "new_balance": "新的余额",
@@ -409,8 +409,8 @@
   },
   "privacy": {
     "email_warning1": "你的邮件地址只会被用来识别",
-    "email_warning2": "绑定你BitShares 账户的地址，这可以帮助其他人来识别你的交易并且发送交易给正确的人.",
-    "email_warning3": "你的邮件地址不会被其他任何人知道，其他人也无法给你发送垃圾邮件."
+    "email_warning2": "绑定你BitShares 账户的地址，这可以帮助其他人来识别你的交易并且发送交易给正确的人。",
+    "email_warning3": "你的邮件地址不会被其他任何人知道，其他人也无法给你发送垃圾邮件。"
   },
   "directory": {
     "directory": "目录",
@@ -429,7 +429,7 @@
     "btn_add_contact": "添加联系人",
     "address_book": "地址簿",
     "add_to_address_book": "加到地址簿",
-    "not_in_address_book": "未在地址簿中"
+    "not_in_address_book": "不存在于地址簿中"
   },
   "pref": {
     "title": "设置",
@@ -461,27 +461,27 @@
     "last": "最后页"
   },
   "mail": {
-    "sender": "发信人",
-    "recipient": "收信人",
-    "subject": "主题",
-    "body": "消息",
+    "sender": "发件人",
+    "recipient": "收件人",
+    "subject": "邮件主题",
+    "body": "内文",
     "compose": "撰写",
     "email": "邮件",
     "close": "关闭",
     "inbox": "收件箱",
     "sent": "已发送",
-    "transmitting": "发送中",
+    "transmitting": "传送中",
     "archive": "归档",
     "processing": "处理中..",
     "failed": "失败",
     "proof_of_work": "工作量证明",
-    "canceled": "已取消",
+    "canceled": "取消",
     "unspecified": "未指明的",
-    "delete_pending": "删除待处理的..",
+    "delete_pending": "取消等待中的..",
     "undo": "撤销",
-    "no_recipient_mail_servers": "收信人没有查收邮件.",
-    "Timed out while transmitting message.": "发送消息超时.",
-    "Could not find mail servers for this recipient.": "找不到收信人的邮件服务器."
+    "no_recipient_mail_servers": "收件人没有检查邮件。",
+    "Timed out while transmitting message.": "传送信息时超时。",
+    "Could not find mail servers for this recipient.": "找不到收信人的邮件服务器。"
   },
   "help": {
     "title": "帮助",
@@ -500,16 +500,16 @@
     "up_to_date": "已同步到最新状态：已处理 {{value}} 块区块",
     "catching_up": "同步中：已处理 {{value1}} 块区块，总共 {{value2}} 块区块",
     "version_warning": "警告！钱包图形界面要求钱包工具包软件(Toolkit)版本 {{expected_client_version}} 或更高，当前版本为 {{client_version}}",
-    "testnet": "TestNet",
-    "synced": "区块链已同步",
-    "syncing": "区块链同步中 ...",
-    "not_connected": "未连接到网络",
-    "last_block": "最新的区块在 {{value}} 前同步",
-    "one_network_connection": "1条到网络的连接",
-    "n_network_connection": "{{value}} 条到网络的连接",
+    "testnet": "测试网络",
+    "synced": "区块已经同步",
+    "syncing": "正在同步区块 ...",
+    "not_connected": "无连接",
+    "last_block": "最后的区块已经在 {{value}} 之前同步",
+    "one_network_connection": "1个网络连f接",
+    "n_network_connection": "{{value}} 个网络连接",
     "network_problems": "网络问题",
-    "severe_network_problems": "严重的网络问题",
-    "delegate_participation_below": "受托人参与度低于 {{value}}, 请考虑推迟交易，直到参与度恢复至100%."
+    "severe_network_problems": "严重网络问题",
+    "delegate_participation_below": "受托人参与率低于{{value}}， 请暂缓所有交易直到参与率回到100%。 "
   },
   "utils": {
     "expired": "超时",

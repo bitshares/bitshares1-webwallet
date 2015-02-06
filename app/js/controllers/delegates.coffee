@@ -2,13 +2,16 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.active_delegates = Blockchain.active_delegates
     $scope.inactive_delegates = Blockchain.inactive_delegates
     $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
-    $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+    $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate || '50.00 BTS'
     $scope.p =
         currentPage: 0
         pageSize: 100
         numberOfPages: 0
     $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
     $scope.accounts = Wallet.accounts
+
+    $scope.activeTab = "all"
+    $scope.delegatesTab = "active"
 
     $scope.orderByField = "rank";
     $scope.reverseSort = false;
@@ -29,15 +32,15 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
                         votes_for: $scope.accounts[key].delegate_info.votes_for,
                         pay_rate: $scope.accounts[key].delegate_info.pay_rate
                     )
-        $scope.sortableAccounts
         $scope.avg_act_del_pay_rate = Blockchain.avg_act_del_pay_rate
-        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate  || '50.00 BTS'
         $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
 
     $scope.$watch ()->
         Info.info
     , ()->
-        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate
+        $scope.blockchain_delegate_pay_rate = Info.info.blockchain_delegate_pay_rate || '50.00 BTS'
+        $scope.delegate_pay_rate = $scope.blockchain_delegate_pay_rate.split(' ')[0];
     ,true
     ###
     Info.refresh_info().then ->
@@ -47,6 +50,8 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
 
     Blockchain.get_asset(0).then (asset_type) =>
         $scope.current_xts_supply = asset_type.current_share_supply
+
+
 
     $scope.toggleVoteUp = (name) ->
         newApproval = 1
