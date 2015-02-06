@@ -199,7 +199,7 @@ class Blockchain
     id_delegates: {}
     delegate_active_hash_map: {}
     delegate_inactive_hash_map: {}
-    avg_act_del_pay_rate=0
+    avg_act_del_pay_rate = 0
 
     # TODO: finish this mapping, may be in some config or settings
     type_name_map :
@@ -246,7 +246,7 @@ class Blockchain
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i], false, i+1)
                 @id_delegates[results.dels[i].id] = results.dels[i]
                 @delegate_inactive_hash_map[@inactive_delegates[i-results.config.delegate_num].name]=true
-                
+
     price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
         #@blockchain_api.market_price_history(quote_symbol, base_symbol, start_time, duration, granularity).then (result) ->
         #    console.log 'price_history -----', result

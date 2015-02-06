@@ -10,6 +10,9 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
     $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
     $scope.accounts = Wallet.accounts
 
+    $scope.activeTab = "all"
+    $scope.delegatesTab = "active"
+
     $scope.orderByField = "rank";
     $scope.reverseSort = false;
     $scope.orderByFieldStandby = "rank";
