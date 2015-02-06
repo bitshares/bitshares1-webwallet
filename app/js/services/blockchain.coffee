@@ -225,6 +225,7 @@ class Blockchain
         record.active = active
         record.rank = rank
         @all_delegates[record.name] = record
+        record.reliability = if (record.delegate_info.blocks_produced > 0) then record.delegate_info.blocks_produced / (record.delegate_info.blocks_produced + record.delegate_info.blocks_missed) * 100 else 0
 #        record.feeds ||= []
 #        if active and record.feeds.length == 0
 #            @blockchain_api.get_feeds_from_delegate(record.name).then (result) ->
