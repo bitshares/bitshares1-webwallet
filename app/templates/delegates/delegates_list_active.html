@@ -1,0 +1,53 @@
+<div class="row">
+  <div class="col-lg-12">
+
+    <div>
+      <table style='width:100%' class="table table-striped">
+        <thead>
+          <tr style="text-transform: uppercase;">
+            <th ng-click="orderByField='rank'; reverseSort = !reverseSort" ><ng-sort-fa order-string="rank" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.rank</span></th>
+            <th ng-click="orderByField='name'; reverseSort = !reverseSort" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.name</span></th>
+            <th ng-click="orderByField='delegate_info.votes_for'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.votes_for" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.approval</span></th>
+            <th ng-click="orderByField='reliability'; reverseSort = !reverseSort" ><ng-sort-fa order-string="reliability" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.reliability</span></th>
+            <th ng-click="orderByField='delegate_info.pay_rate'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
+            <th translate>th.approve</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="del in active_delegates | filter:search | orderBy: [orderByField, '-rank', 'name']:reverseSort track by del.id">
+            <td>{{ del.rank }}</td>
+            <td>
+              <a class='delegate-link' ui-sref="account.delegate({name: del.name})"><strong>{{ del.name }}</strong></a>
+              <br>
+              <i ng-show="del.public_data.version"> <span translate>delegate.version</span>: {{del.public_data.version}} </i>
+              <br>
+              <!-- <i><a target="_blank" href='http://{{del.public_data.gui_data.website}}'> {{del.public_data.gui_data.website}} </a></i> -->
+              <i><a ng-click="link(del.public_data.website)">{{del.public_data.website}} </a></i>
+            </td>
+            <td>
+              <span ng-switch on='del.delegate_info.votes_for/current_xts_supply<0.0001' tooltip-placement="right"
+              tooltip="{{ 'delegate.votes_obtained' | translate }}: {{ del.delegate_info.votes_for | formatVotes}}">
+              <span ng-switch-when='true'>&#60;0.01%</span>
+              <span ng-switch-default>{{ (del.delegate_info.votes_for)/current_xts_supply*100 | number:2 }}%</span>
+            </span>
+          </td>
+          <td>
+            <span ng-show="del.delegate_info.blocks_produced>0" tooltip-placement="right" tooltip-html-unsafe="{{ 'th.blk_produced' | translate }} : {{ del.delegate_info.blocks_produced | number:0 }} <br> {{ 'th.blk_missed' | translate }} : {{ del.delegate_info.blocks_missed  | number:0}}">{{ del.reliability | number:2 }}%</span>
+          </td>
+          <td>{{ del.delegate_info.pay_rate }}%</td>
+          <!--<td style="max-width: 100px; font-size: 10px; text-overflow: ellipsis;">{{del.feeds.join(', ')}}</td>-->
+          <td>
+            <div class="btn-group">
+              <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
+                <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
+                <i ng-if="!accounts[del.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
+                <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

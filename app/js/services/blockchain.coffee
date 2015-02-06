@@ -59,6 +59,8 @@ class Blockchain
     #  Asset Records
 
     asset_records: {}
+    asset_records_array: []
+    market_asset_records_array: []
     symbol2records: {}
     asset_records_deferred: null
 
@@ -81,6 +83,9 @@ class Blockchain
         promise.then (result) =>
             angular.forEach result, (record) =>
                 @populate_asset_record record
+                @asset_records_array.push record
+                if record.issuer_account_id == -2
+                    @market_asset_records_array.push record
             deferred.resolve(@asset_records)
             @asset_records_deferred = null
         , (error) ->
@@ -106,14 +111,19 @@ class Blockchain
     get_markets: ->
         markets = []
         markets_hash = {}
-        angular.forEach @asset_records, (asset1) =>
-            angular.forEach @asset_records, (asset2) =>
+        
+        #angular.forEach @asset_records, (asset1) =>
+        for asset1 in @asset_records_array
+            # angular.forEach @asset_records, (asset2) =>
+            for asset2 in @asset_records_array
+            
                 if not (asset1.id > 22 and asset2.id > 22) # one of the assets should be either bts or market pegged asset
                     asset1_symbol = if asset1.issuer_account_id == -2 then "Bit" + asset1.symbol else asset1.symbol
                     asset2_symbol = if asset2.issuer_account_id == -2 then "Bit" + asset2.symbol else asset2.symbol                    
                     if asset1.id > asset2.id
                         scam = false
-                        angular.forEach @asset_records, (asset3) =>
+                        # angular.forEach @asset_records, (asset3) =>
+                        for asset3 in @market_asset_records_array
                             if (asset3.issuer_account_id == -2 and ("bit"+asset3.symbol).toLowerCase() == asset1.symbol.toLowerCase())
                                 scam = true
                         if not scam
@@ -121,7 +131,8 @@ class Blockchain
                             markets_hash[value] = value
                     else if asset2.id > asset1.id
                         scam = false
-                        angular.forEach @asset_records, (asset3) =>
+                        # angular.forEach @asset_records, (asset3) =>
+                        for asset3 in @market_asset_records_array
                             if (asset3.issuer_account_id == -2 and ("bit"+asset3.symbol).toLowerCase() == asset2.symbol.toLowerCase())
                                 scam = true
                          if not scam
@@ -199,7 +210,7 @@ class Blockchain
     id_delegates: {}
     delegate_active_hash_map: {}
     delegate_inactive_hash_map: {}
-    avg_act_del_pay_rate=0
+    avg_act_del_pay_rate = 0
 
     # TODO: finish this mapping, may be in some config or settings
     type_name_map :
@@ -225,6 +236,7 @@ class Blockchain
         record.active = active
         record.rank = rank
         @all_delegates[record.name] = record
+        record.reliability = if (record.delegate_info.blocks_produced > 0) then record.delegate_info.blocks_produced / (record.delegate_info.blocks_produced + record.delegate_info.blocks_missed) * 100 else 0
 #        record.feeds ||= []
 #        if active and record.feeds.length == 0
 #            @blockchain_api.get_feeds_from_delegate(record.name).then (result) ->
@@ -245,7 +257,7 @@ class Blockchain
                 @inactive_delegates[i - results.config.delegate_num] = @populate_delegate(results.dels[i], false, i+1)
                 @id_delegates[results.dels[i].id] = results.dels[i]
                 @delegate_inactive_hash_map[@inactive_delegates[i-results.config.delegate_num].name]=true
-                
+
     price_history: (quote_symbol, base_symbol, start_time, duration, granularity) ->
         #@blockchain_api.market_price_history(quote_symbol, base_symbol, start_time, duration, granularity).then (result) ->
         #    console.log 'price_history -----', result
