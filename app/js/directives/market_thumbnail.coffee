@@ -120,6 +120,7 @@ angular.module("app.directives").directive "marketThumbnail", ->
                 else
                     BlockchainAPI.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 2*24*3600)
                 price_history_call_promise.then (result) =>
+                    return if !result or result.length == 0
                     market.ohlc_data = []
                     market.volume_data = []
                     market.volume = 0.0
