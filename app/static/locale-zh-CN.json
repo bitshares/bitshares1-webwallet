@@ -42,7 +42,7 @@
         "no_trxs": "没有交易!",
         "updating_trx_history": "正在更新交易记录...",
         "partial_voting_info": "账户尚有权益未使用投票权。请考虑行使投票权。",
-        "client_update_available": "发现客户端关键更新，请访问 https://bitshares.org/resources/downloads 获取。"
+        "client_update_available": "发现客户端更新，请访问 https://bitshares.org/resources/downloads 获取。"
     },
     "th": {
         "date": "日期",
@@ -61,7 +61,7 @@
         "current_share_supply": "当前供给数量",
         "maximum_share_supply": "最大供给数量",
         "share_supply": "供给数量",
-        "asset": "ASSET",
+        "asset": "资产",
         "collected_fees": "已产生的交易费",
         "registration_date": "注册日期",
         "height": "高度",
@@ -191,7 +191,7 @@
         "country": "法定管辖权",
         "role_0": "技术开发",
         "role_1": "市场推广",
-        "role_2": "Faucet",
+        "role_2": "水龙头服务",
         "role_3": "骨干",
         "role_4": "慈善",
         "role_5": "技术支持",
@@ -484,7 +484,7 @@
     },
     "toolbar": {
         "back": "返回",
-        "dashboard": "仪表板",
+        "dashboard": "账户主页",
         "exchange": "交易所",
         "delegates": "受托人",
         "account_details": "账户细节",
