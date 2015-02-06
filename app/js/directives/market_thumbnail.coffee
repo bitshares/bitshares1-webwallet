@@ -4,15 +4,15 @@ Highcharts.SparkLine = (options, callback) ->
       renderTo: (options.chart and options.chart.renderTo) or this
       backgroundColor: null
       borderWidth: 0
-      type: "line"
+      type: "area"
       margin: [
-        2
         0
-        2
+        0
+        0
         0
       ]
-      width: 120
-      height: 36
+      padding: 0
+      height: 60
       style:
         overflow: "visible"
 
@@ -26,6 +26,7 @@ Highcharts.SparkLine = (options, callback) ->
 
     xAxis:
       type: "datetime"
+      minRange: 3600 * 1000
       labels:
         enabled: false
 
@@ -35,34 +36,19 @@ Highcharts.SparkLine = (options, callback) ->
       startOnTick: false
       endOnTick: false
       tickPositions: []
-
-    yAxis:
-      endOnTick: false
-      startOnTick: false
-      labels:
-        enabled: false
-
-      title:
-        text: null
-
-      tickPositions: [0]
-
+            
     legend:
       enabled: false
 
     tooltip:
       xDateFormat: "%m/%d/%Y %H:%M%p"
-      backgroundColor: null
-      borderWidth: 0
       shadow: false
-      useHTML: true
       hideDelay: 0
       shared: true
       padding: 0
       positioner: (w, h, point) ->
-        x: point.plotX - w / 2
-        y: point.plotY - h
-      valueDecimals: 2
+        x: point.plotX - 1.5 * w
+        y: 0 * h
 
     plotOptions:
       series:
@@ -71,10 +57,10 @@ Highcharts.SparkLine = (options, callback) ->
         shadow: false
         states:
           hover:
-            lineWidth: 1
+            lineWidth: 0
 
         marker:
-          radius: 1
+          radius: 0
           states:
             hover:
               radius: 2
@@ -82,22 +68,26 @@ Highcharts.SparkLine = (options, callback) ->
         fillOpacity: 0.25
 
       column:
-        negativeColor: "#910000"
-        borderColor: "silver"
+        states: 
+              hover: 
+                color: '#c90808'   
 
   options = Highcharts.merge(defaultOptions, options)
-  new Highcharts.Chart(options, callback)
+  chart = new Highcharts.Chart(options, callback)
+  chart.tooltip.label.attr({zIndex: 9999});
+  return chart
 
 angular.module("app.directives").directive "marketThumbnail", ->
     template: '''
         <div class="market-thumbnail">
-            <h6>{{name}}</h6>
-            <div class="sparkchart pull-right"></div>
-            <ul>
-                <li>{{market.volume | formatDecimal : 0}} {{market.asset_base_symbol}} 24h volume</li>
-                <li>{{market.last_price | formatDecimal : 2}} {{market.price_symbol}}</li>
-                <li ng-show="market.last_price > 0">{{1.0/market.last_price | formatDecimal : market.price_precision}} {{market.inverse_price_symbol}}</li>
-            </ul>
+            <center><span class="spark-title">{{ name }}</span></center>
+            <div>
+              <span class="high"><label>H:</label> {{ market.high_price | number: 2 }}</span>
+              <span class="low"><label>L:</label> {{ market.min_price | number: 2 }}</span>
+              <span class="change pull-right" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}"><span ng-if="market.change>0">+</span>{{ market.change | number: 2 }}%</span>
+            </div>
+            <div class="volume"><label>V:</label> {{market.volume | formatDecimal : 0}} {{market.asset_base_symbol}}</div>
+            <div class="sparkchart"></div>
         </div>
     '''
     restrict: "E"
@@ -123,16 +113,23 @@ angular.module("app.directives").directive "marketThumbnail", ->
                 market.base_asset = results[1]
                 market.base_precision = market.base_asset.precision
                 market.price_precision = Math.max(market.quantity_precision, market.base_precision)
-                market.inverted = market.quantity_asset.id > market.base_asset.id
-                start_time = Utils.formatUTCDate(new Date(Date.now()-24*3600*1000))
+                market.inverted = market.quantity_asset.id > market.base_asset.id                
+                start_time = Utils.formatUTCDate(new Date(Date.now()-2*24*3600*1000))
                 price_history_call_promise = if market.inverted
-                    BlockchainAPI.market_price_history(market.asset_quantity_symbol, market.asset_base_symbol, start_time, 24*3600)
+                    BlockchainAPI.market_price_history(market.asset_quantity_symbol, market.asset_base_symbol, start_time, 2*24*3600)
                 else
-                    BlockchainAPI.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 24*3600)
+                    BlockchainAPI.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 2*24*3600)
                 price_history_call_promise.then (result) =>
                     market.ohlc_data = []
+                    market.volume_data = []
                     market.volume = 0.0
                     market.last_price = 0.0
+                    market.max_volume = 0
+                    market.min_price = 99999999
+                    market.high_price = 0
+                    market.open = prc(result[0].opening_price)
+                    market.close = market.open
+                    
                     for t in result
                         time = Utils.toUTCDate(t.timestamp)
                         o = prc(t.opening_price)
@@ -151,12 +148,65 @@ angular.module("app.directives").directive "marketThumbnail", ->
                         h = 1.10 * Math.max(o,c) if h/oc_avg > 1.25
                         l = 0.90 * Math.min(o,c) if oc_avg/l > 1.25
 
-                        market.ohlc_data.push [time, o, h, l, c]
+                        market.ohlc_data.push [time, oc_avg]
+                        market.volume_data.push [time, t.volume / market.base_asset.precision]
                         market.volume += t.volume / market.base_asset.precision
+                        market.max_volume = Math.max t.volume / market.base_asset.precision, market.max_volume
+                        market.min_price = Math.min oc_avg, market.min_price
+                        market.high_price = Math.max oc_avg, market.high_price
+                        market.close = c;
+
+                    market.max_volume = 3 * Math.floor market.max_volume 
+                    market.change = (market.close - market.open) / market.open * 100
+
+                    area_color = if market.change > 0 then '#28a92e' else '#c90808'
 
                     series = [
-                            data: market.ohlc_data,
+                            {data: market.ohlc_data
                             pointStart: 1
                             name: 'Price'
+                            dataGrouping:
+                              enabled: true
+                            yAxis: 1
+                            tooltip:
+                              valueDecimals: 2
+                              valueSuffix: ' BTS/'+market.asset_quantity_symbol
+                            min: market.min_price
+                            color: area_color
+                            },
+                            {data: market.volume_data
+                            pointStart: 1
+                            name: 'Volume'
+                            type: 'column'
+                            dataGrouping:
+                              enabled: true
+                            tooltip:
+                              valueDecimals: 0
+                              valueSuffix: ' BTS'                            
+                            }
                     ]
-                    $(".sparkchart", $element).highcharts('SparkLine', {series: series})
+
+
+
+                    yAxis = [
+                      {endOnTick: false
+                      startOnTick: false
+                      labels:
+                        enabled: false
+
+                      title:
+                        text: null
+                      
+                      gridLineWidth: 0
+                      },
+                      {
+                        opposite: true,
+                        labels:
+                          enabled: false
+                        title:
+                          text: null
+                        gridLineWidth: 0      
+                        min: 0.98 * market.min_price                  
+                      }]
+                   
+                    $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis})
