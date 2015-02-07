@@ -70,6 +70,9 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         if $scope.model.timeout > 99999999
             $scope.model.timeout = '99999999'
             Growl.notice "", "User-input timeout was too high. It was decreased to 99999999"
+        if $scope.model.transaction_fee < 0.1
+            $scope.model.transaction_fee = 0.1
+            Growl.notice "", "Transaction fee was too low. It was increased to 0.1 BTS"
         Wallet.timeout = $scope.model.timeout
         $idle._options().idleDuration = Wallet.timeout
         pf = $scope.model.transaction_fee

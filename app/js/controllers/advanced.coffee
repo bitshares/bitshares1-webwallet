@@ -11,6 +11,6 @@ angular.module("app").controller "AdvancedController", ($scope, $state, Info) ->
             tab.active = $scope.active_tab(tab.route)
 
     $scope.open_block_explorer = ->
-        url = if Info.symbol == "DVS" then "http://dvs.bitsharesblocks.com/home" else "http://bitsharesblocks.com/home"
+        url = if Info.symbol == "DVS" then "http://dvs.bitsharesblocks.com" else "https://bitsharesblocks.com"
         open_external_url(url)
         return null
