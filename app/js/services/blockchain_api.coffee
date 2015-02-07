@@ -279,8 +279,8 @@ class BlockchainAPI
   #   asset_symbol `quote_symbol` - the symbol name the market is quoted in
   #   uint32_t `limit` - the maximum number of items to return, -1 for all
   # return_type: `market_order_array`
-  market_list_covers: (quote_symbol, limit, error_handler = null) ->
-    @rpc.request('blockchain_market_list_covers', [quote_symbol, limit]).then (response) ->
+  market_list_covers: (quote_symbol, base_symbol, limit, error_handler = null) ->
+    @rpc.request('blockchain_market_list_covers', [quote_symbol, base_symbol, limit]).then (response) ->
       response.result
 
   # Returns the total collateral for an asset of a given type

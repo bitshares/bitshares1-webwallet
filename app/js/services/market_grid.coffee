@@ -58,12 +58,12 @@ class MarketGrid
                 field: "price"
                 displayName: "#{@filter('translate')('th.call_price')} (#{market.price_symbol})"
                 cellFilter: "formatDecimal:#{market.price_precision}:true"
-                sort: { direction: "asc", priority: 1 }
+                sort: { direction: "asc", priority: 2 }
             ,
                 field: "interest_rate"
                 displayName: "#{@filter('translate')('th.interest_rate')}"
                 cellFilter: "formatDecimal:2"
-                sort: { direction: "desc", priority: 2 }
+                sort: { direction: "desc", priority: 3 }
             ,
                 field: "cost"
                 displayName: "#{@filter('translate')('th.units_owed')} (#{actual_market.base_symbol})"
@@ -77,6 +77,7 @@ class MarketGrid
                 displayName: "#{@filter('translate')('th.expiration')}"
                 sortingAlgorithm: @sortByTimestamp
                 cellFilter: "formatSortableExpiration"
+                sort: { direction: "asc", priority: 1 }
             ]
             data: data
 
@@ -90,12 +91,12 @@ class MarketGrid
                 field: "collateral"
                 displayName: "#{@filter('translate')('th.collateral')} (#{actual_market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{actual_market.quantity_precision}"
-                sort: { direction: "desc", priority: 2 }
+                sort: { direction: "desc", priority: 3 }
             ,
                 field: "interest_rate"
                 displayName: "#{@filter('translate')('th.interest_rate')}"
                 cellFilter: "formatDecimal:2"
-                sort: { direction: "desc", priority: 1 }
+                sort: { direction: "desc", priority: 2 }
             ,
                 field: "quantity"
                 displayName: "~ #{@filter('translate')('th.quantity')} (#{actual_market.base_symbol})"
@@ -104,6 +105,7 @@ class MarketGrid
                 field: "short_price_limit"
                 displayName: "#{@filter('translate')('th.price_limit')} (#{market.price_symbol})"
                 cellFilter: "formatDecimal:#{market.price_precision}"
+                sort: { direction: "asc", priority: 1 }
             ]
             data: data
 

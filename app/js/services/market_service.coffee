@@ -380,12 +380,24 @@ class MarketService
                         short_wall.cost +=  td.quantity * shorts_price #td.collateral
                         short_wall.quantity += td.quantity
                         @lowest_ask = shorts_price if shorts_price < @lowest_ask
+                        if td.short_price_limit == null || td.short_price_limit < short_wall.price
+                            td.short_price_limit = short_wall.price   
                     else
                         short_wall.quantity += td.quantity / shorts_price #td.collateral
                         short_wall.cost += td.quantity
                         @highest_bid = shorts_price if shorts_price > @highest_bid
+                        if td.short_price_limit == null || td.short_price_limit > short_wall.price
+                            td.short_price_limit = short_wall.price
 
                 shorts.push td
+                ###
+                for s in self.shorts
+                    if self.market.inverted
+                                     
+                        
+                    else
+                       
+                ###
 
             #console.log "------ short wall ------>", short_wall
             @helper.update_array {target: @shorts, data: shorts}
@@ -394,7 +406,7 @@ class MarketService
 
     pull_covers: (market, inverted) ->
         covers = []
-        @blockchain_api.market_list_covers(market.asset_base_symbol, 1000).then (results) =>
+        @blockchain_api.market_list_covers(market.asset_base_symbol, market.asset_quantity_symbol, 1000).then (results) =>
             results = if results then [].concat.apply(results) else [] # flattens array of results
             for r in results
                 continue unless r.type == "cover_order"
