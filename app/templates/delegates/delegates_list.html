@@ -25,15 +25,15 @@
       <tab ng-click="delegatesTab='active'">
         <tab-heading>
         <div class="header no-bottom-border">
-          <h4 class="header-title" translate>delegate.top_delegates</h4>
+          <h4 class="header-title delegates-title" translate>delegate.top_delegates</h4>
           </div>
         </tab-heading>
         <div ng-if="delegatesTab==='active'" ng-include src="'delegates/delegates_list_active.html'"></div>
       </tab>
-      <tab ng-click="delegatesTab='standby'">
+      <tab ng-click="delegatesTab='standby'" class="">
         <tab-heading>
         <div class="header no-bottom-border">
-        <h4 class="header-title" translate>delegate.standby_delegates</h4>
+        <h4 class="header-title delegates-title" translate>delegate.standby_delegates</h4>
           </div>
         </tab-heading>
         <div ng-if="delegatesTab === 'standby'" ng-include src="'delegates/delegates_list_standby.html'"></div>

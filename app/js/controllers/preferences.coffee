@@ -1,4 +1,4 @@
-angular.module("app").controller "PreferencesController", ($scope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate, $filter) ->
+angular.module("app").controller "PreferencesController", ($scope, $rootScope, $location, $q, Wallet, WalletAPI, Blockchain, Shared, Growl, Utils, $idle, $translate, $filter) ->
     $scope.model = { transaction_fee: null, symbol: null }
     $scope.model.timeout = Wallet.timeout
     $scope.model.symbol = ''
@@ -22,12 +22,23 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         vote_per_transfer: "vote_per_transfer"
 
     $scope.model.themes = {}
-    $translate(['pref.default',"pref.flowers"]).then (result) ->
-        $scope.model.themes =
-            "default": result["pref.default"]
-            "flowers": result["pref.flowers"]
-        $scope.model.theme = Wallet.interface_theme
-        $scope.model.theme_name = $scope.model.themes[$scope.model.theme]
+
+    getTranslations = () ->
+        $translate.use($scope.model.language_locale).then () ->
+            $translate(['pref.default',"pref.flowers", "pref.time_too_low", "pref.time_too_high",
+             "pref.fee_too_low", "pref.updated"]).then (result) ->
+                $scope.model.themes =
+                    "default": result["pref.default"]
+                    "flowers": result["pref.flowers"]
+                $scope.warnings = 
+                    "time_too_low": result["pref.time_too_low"]
+                    "time_too_high": result["pref.time_too_high"]
+                    "fee_too_low": result["pref.fee_too_low"]
+                    "updated": result["pref.updated"]
+                $scope.model.theme = Wallet.interface_theme
+                $scope.model.theme_name = $scope.model.themes[$scope.model.theme]
+
+    getTranslations()
 
     $scope.$watch ->
         Wallet.timeout
@@ -64,12 +75,16 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
         $scope.model.theme_name = $scope.model.themes[value]
 
     $scope.updatePreferences = ->
+        getTranslations()
         if $scope.model.timeout < 15
             $scope.model.timeout = '15'
-            Growl.notice "", "User-input timeout was too low. It was increased to 15"
+            Growl.notice "", $scope.warnings.time_too_low
         if $scope.model.timeout > 99999999
             $scope.model.timeout = '99999999'
-            Growl.notice "", "User-input timeout was too high. It was decreased to 99999999"
+            Growl.notice "", $scope.warnings.time_too_high
+        if $scope.model.transaction_fee < 0.1
+            $scope.model.transaction_fee = 0.1
+            Growl.notice "", $scope.warnings.fee_too_low
         Wallet.timeout = $scope.model.timeout
         $idle._options().idleDuration = Wallet.timeout
         pf = $scope.model.transaction_fee
@@ -84,7 +99,11 @@ angular.module("app").controller "PreferencesController", ($scope, $location, $q
             $translate.use($scope.model.language_locale)
             moment.locale($scope.model.language_locale)
             Wallet.default_vote = $scope.voting.default_vote
-            Growl.notice "Preferences Updated", ""
+            Growl.notice $scope.warnings.updated, ""
 
     $scope.blockchain_last_block_num = 111
     $scope.translationData = {value: 111}
+
+    $rootScope.$on '$translateLoadingSuccess', () ->
+      getTranslations()
+    

@@ -454,7 +454,11 @@
     "theme": "Unlock Screen Theme",
     "default": "Default",
     "flowers": "Flowers",
-    "default_vote": "By Default Vote For"
+    "default_vote": "By Default Vote For",
+    "time_too_low": "User-input timeout was too low. It was increased to 15",
+    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
+    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
+    "updated": "Preferences Updated"
   },
   "console": {
     "type_cmd_and_enter": "Type a command and hit Enter"

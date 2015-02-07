@@ -16,7 +16,7 @@
         <div class="panel-body" style="padding-left:0; padding-right:0;">
           <ul class="markets-list market-sparks">
             <li ng-repeat="m in featured_markets track by $index" class="col-md-4 col-sm-6">
-              <market-thumbnail name="m" ng-click="select_market(m);$event.stopPropagation();">{{m}}</market-thumbnail>
+              <market-thumbnail name="m" ng-click="select_market(m);">{{m}}</market-thumbnail>
             </li>
           </ul>
         </div>
@@ -30,7 +30,7 @@
         <div class="panel-body">
           <ul class="list-group markets-list">
             <li class="list-group-item" ng-repeat="m in recent_markets track by $index" ng-click="select_market(m)">
-              <div class="pull-right remove-contact-btn" ng-click="removeRecent($index)"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
+              <div class="pull-right remove-contact-btn" ng-click="removeRecent($index);$event.stopPropagation()"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
               <a>{{m}}</a>
             </li>
           </ul>
