@@ -1,5 +1,6 @@
 {
   "unknown": "알 수 없음",
+  "transaction_fee": "트랜잭션 수수료",
   "btn": {
     "ok": "확인",
     "cancel": "취소",
@@ -10,7 +11,9 @@
     "update": "업데이트",
     "cover": "커버",
     "register": "등록",
-    "close": "닫기"
+    "close": "닫기",
+    "remove": "삭제",
+    "update_data": "데이터 업데이트"
   },
   "tip": {
     "privacy_statement": "개인 정보 취급 방침",
@@ -22,7 +25,7 @@
     "reg_delegate_tip": "대표자 등록은 다량의 BTS가 필요할 수 있습니다.",
     "reg_pending": "등록 절차 진행중",
     "not_reg_onchain": "블록체인에 등록되지 않았습니다.",
-    "add_account_name_existed": "연락에 추가할 수 없습니다. 사용중인 계정명입니다.",
+    "add_account_name_existed": "사용중인 계정 이름입니다.",
     "no_assets": "자산을 아직 등록하지 않았습니다.",
     "reg_to_create_asset": "자산을 발행하려면 계정을 먼저 등록해야 합니다.",
     "error_parsing_wif_key": "WIF 개인키를 파싱하던 중 오류가 발생했습니다.",
@@ -43,7 +46,7 @@
     "updating_trx_history": "트랜잭션 기록을 업데이트합니다...",
     "partial_voting_info": "이 계정에는 아직 투표를 하지 않은 지분이 남아있습니다. 투표 완료를 권장합니다.",
     "client_update_available": "클라이언트 필수 업데이트가 있습니다. https://github.com/BitShares/bitshares/releases 에서 다운로드 하십시오.",
-    "fake_accounts_warning": "Warning! Scammers often make fake accounts to trick people into sending their funds to the wrong place. Please triple-check the name you have entered."
+    "fake_accounts_warning": "경고: 사기꾼들이 종종 가짜 계정을 만들어서 전송을 유도하는 경우가 있습니다. 계정 이름을 항상 철저하게 확인하여 주십시오."
   },
   "th": {
     "date": "날짜",
@@ -59,9 +62,9 @@
     "desc": "설명",
     "issue_account": "발행인",
     "precision": "소수점 단위",
-    "current_share_supply": "현재 쉐어 공급량",
-    "maximum_share_supply": "최대 쉐어 공급량",
-    "share_supply": "쉐어 공급량",
+    "current_share_supply": "현재 셰어 공급량",
+    "maximum_share_supply": "최대 셰어 공급량",
+    "share_supply": "셰어 공급량",
     "asset": "자산",
     "collected_fees": "수금된 수수료",
     "registration_date": "등록",
@@ -104,7 +107,8 @@
     "received": "받은 금액",
     "expiration": "만기 날짜",
     "interest_rate": "이자율 (연이율)",
-    "message": "메세지"
+    "message": "메세지",
+    "market": "마켓"
   },
   "block": {
     "title": "블록",
@@ -154,11 +158,11 @@
   },
   "wallet": {
     "create_new_wallet": "새로운 지갑을 만듭니다.",
-    "info": "지갑의 자산을 사용할 때 설정된 비밀번호를 필요로 합니다. 비밀번호를 분실하면 쉐어를 거래하실 수 없습니다.",
+    "info": "지갑의 자산을 사용할 때 설정된 비밀번호를 필요로 합니다. 비밀번호를 분실하면 셰어를 거래하실 수 없습니다.",
     "create_wallet": "지갑 만들기"
   },
   "index": {
-    "title": "비트쉐어 지갑",
+    "title": "비트셰어 지갑",
     "overview": "개요",
     "my_account": "내 계정",
     "directory": "디렉토리",
@@ -188,7 +192,7 @@
     "description": "내용",
     "proposal": "대표자 제시",
     "location": "서버 위치",
-    "handle": "비트쉐어토크 계정",
+    "handle": "비트셰어토크 계정",
     "ann": "알림",
     "country": "법적 관할권",
     "role_0": "개발",
@@ -338,9 +342,13 @@
       "vote_none": "기권",
       "vote_random_subset": "서브셋 랜덤 투표",
       "vote_as_delegates_recommended": "내 대표자들이 추천한대로 투표",
+      "vote_per_transfer": "각 트랜잭션마다 지정",
       "btn_update_vote": "투표 업데이트",
       "current_votes": "현재 투표",
-      "future_votes": "미래 투표"
+      "votes": "투표",
+      "approval": "승인",
+      "vote_confirmation_title": "투표 확인",
+      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다."
     },
     "import_wif_key": "WIF 키 임포트",
     "import_from_wallet": "지갑에서 키 임포트 하기",
@@ -354,6 +362,7 @@
     "pay_rate": "급여 비율",
     "btn_update": "수정",
     "private_data": "비공개 데이터",
+    "public_data": "공개 데이터",
     "key": "키",
     "value": "값",
     "rename_account": "계정 이름 변경",
@@ -372,20 +381,21 @@
       "for": "For",
       "against": "Against"
     },
-    "transaction_details": "Details",
-    "transaction_virtual": "Virtual",
-    "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
-    "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
-    "reg_add_faucet": "Add Faucet",
-    "update_public_data_tx_fee": "Update data transaction Fee: ",
-    "new_balance": "New Balance",
-    "less_fee": "Less fee of"
+    "transaction_details": "상세정보",
+    "transaction_virtual": "가상",
+    "reg_no_funds_note": "아직 BTS 가 없다면, faucet을 선택하여 수수료를 대신 지불하도록 할 수 있습니다.",
+    "reg_subaccount_faucet_not_available": "무료 faucet 등록에 실패했습니다. '.' 를 포함하는 계정 이름은 서브계정이며 faucet 등록에서는 사용할 수 없습니다. 다른 계정 이름을 입력하거나 등록수수료를 지불하기 위한 BTS를 준비해 주십시오.",
+    "reg_add_faucet": "Faucet 추가",
+    "update_public_data_tx_fee": "데이터 업데이트 트랜잭션 수수료: ",
+    "new_balance": "새로운 잔액",
+    "less_fee": "작은 수수료"
   },
   "accounts": {
     "create_account": "새 계정 생성",
     "accounts": "계정",
     "info": "계정 이름을 클릭하면 상세 정보를 볼 수 있습니다.",
-    "select_account": "계정 선택"
+    "select_account": "계정 선택",
+    "rename_account": "계정 이름 변경"
   },
   "asset": {
     "title": "자산",
@@ -393,7 +403,7 @@
     "asset_name": "자산 이름",
     "description": "설명",
     "memo_data": "공개 정보",
-    "maximum_share_supply": "최대 쉐어 공급량",
+    "maximum_share_supply": "최대 셰어 공급량",
     "total_supply": "총 공급량",
     "info_create_asset_fee": "자산 생성 수수료",
     "precision": "소수점 단위",
@@ -412,7 +422,7 @@
   },
   "privacy": {
     "email_warning1": "이메일 주소의 유일한 용도는",
-    "email_warning2": "비트쉐어 계정과 연동시켜서 트랜잭션 보내기 전에 서로 확인할 수 있도록 하는 것입니다.",
+    "email_warning2": "비트셰어 계정과 연동시켜서 트랜잭션 보내기 전에 서로 확인할 수 있도록 하는 것입니다.",
     "email_warning3": "이메일 주소는 공유되지 않으며 스팸 메일에 노출되지 않습니다."
   },
   "directory": {
@@ -430,9 +440,9 @@
     "public_key": "공개키",
     "public_key_tip": "공개키 (필수 항목)",
     "btn_add_contact": "연락처 추가하기",
-    "address_book": "Address Book",
-    "add_to_address_book": "Add to address book",
-    "not_in_address_book": "Not in address book"
+    "address_book": "주소록",
+    "add_to_address_book": "주소록에 추가",
+    "not_in_address_book": "주소록에 들어있지 않음"
   },
   "pref": {
     "title": "환경 설정",
@@ -443,7 +453,8 @@
     "language": "인터페이스 언어",
     "theme": "화면 테마 잠금 해제",
     "default": "기본값",
-    "flowers": "Flowers"
+    "flowers": "Flowers",
+    "default_vote": "기본값 투표대상"
   },
   "console": {
     "type_cmd_and_enter": "명령어 입력 후 엔터를 누르십시오."
@@ -503,16 +514,16 @@
     "up_to_date": "동기화 완료: 총 {{value}} 블록",
     "catching_up": "동기화중... 동기화된 블록: {{value1}}, 전체 블록: {{value2}}",
     "version_warning": "경고! 이 GUI 버전은 툴킷 버전 {{expected_client_version}} 이상을 필요로 합니다. 현재 버전 {{client_version}}",
-    "testnet": "TestNet",
-    "synced": "Blocks are synced",
-    "syncing": "Blocks are syncing ...",
-    "not_connected": "Not connected",
-    "last_block": "Last block was synced {{value}} ago",
-    "one_network_connection": "1 network connection",
-    "n_network_connection": "{{value}} network connections",
-    "network_problems": "Network problems",
-    "severe_network_problems": "Severe network problems",
-    "delegate_participation_below": "Delegate participation rate is below {{value}}, please consider to postpone all transfers until the rate is back to 100%."
+    "testnet": "테스트넷",
+    "synced": "블록 동기화 완료",
+    "syncing": "블록 동기화 하는중...",
+    "not_connected": "연결 되지 않음",
+    "last_block": "마지막으로 블록을 동기화 시킨 시점은 {{value}} 전입니다.",
+    "one_network_connection": "1 네트워크 연결",
+    "n_network_connection": "{{value}} 네트워크 연결",
+    "network_problems": "네트워크 오류",
+    "severe_network_problems": "심각한 네트워크 오류",
+    "delegate_participation_below": "대표자 참여율이 {{value}} 에 못미치므로, 100% 가 되기 전까지는 모든 전송을 미루어 두시기를 권합니다."
   },
   "utils": {
     "expired": "만료",
@@ -522,11 +533,11 @@
     "days": "{{value}} 일"
   },
   "toolbar": {
-    "back": "Back",
-    "dashboard": "Dashboard",
-    "exchange": "Exchange",
-    "delegates": "Delegates",
-    "account_details": "Account Details",
-    "advanced": "Advanced"
+    "back": "뒤로",
+    "dashboard": "계기판",
+    "exchange": "거래소",
+    "delegates": "대표자",
+    "account_details": "계정 상세정보",
+    "advanced": "고급"
   }
 }
