@@ -510,3 +510,7 @@ input.ng-dirty.ng-invalid {
 .icon-column {
 	width: 2em;
 }
+
+.delegates-title:hover {
+	color: #1B6FC1;
+}
