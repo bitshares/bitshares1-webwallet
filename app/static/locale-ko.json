@@ -1,5 +1,6 @@
 {
   "unknown": "알 수 없음",
+  "transaction_fee": "트랜잭션 수수료",
   "btn": {
     "ok": "확인",
     "cancel": "취소",
@@ -10,12 +11,14 @@
     "update": "업데이트",
     "cover": "커버",
     "register": "등록",
-    "close": "닫기"
+    "close": "닫기",
+    "remove": "삭제",
+    "update_data": "데이터 업데이트"
   },
   "tip": {
     "privacy_statement": "개인 정보 취급 방침",
     "warning": "경고",
-    "validate_symbol": "3-8글자의 대문자를 입력하십시오.",
+    "validate_symbol": "1차 기호는 3-8 글자의 대문자만 허용됩니다. 2차 기호는 3-8 글자의 대문자가 허용되며 마침표(.)를 사용해 구분할 수 있습니다. 이 때, 해당되는 1차 기호가 존재해야 합니다. 마침표 기호 포함 최대 12글자 까지 허용됩니다. 1차 기호에 'BIT'은 사용할 수 없습니다.",
     "validate_precision": "1과 같거나 큰 10의 지수를 입력하십시오.",
     "pay_with_info": "등록비는 BTS로 지불해야 합니다. 결제 수단 ",
     "reg_as_delegate": "대표자로 등록 되었습니다.",
@@ -42,8 +45,8 @@
     "no_trxs": "트랜잭션 기록이 없습니다.",
     "updating_trx_history": "트랜잭션 기록을 업데이트합니다...",
     "partial_voting_info": "이 계정에는 아직 투표를 하지 않은 지분이 남아있습니다. 투표 완료를 권장합니다.",
-    "client_update_available": "클라이언트 필수 업데이트가 있습니다. https://github.com/BitShares/bitshares/releases 에서 다운로드 하십시오.",
-    "fake_accounts_warning": "경고! 사기꾼들이 종종 가짜 계정을 만들어서 전송을 유도합니다. 입력하신 계정 이름을 철저히 확인해 주십시오."
+    "client_update_available": "지갑 필수 업데이트가 올라왔습니다. https://bitshares.org/resources/downloads 에서 다운로드 하십시오.",
+    "fake_accounts_warning": "주의! 사기꾼들이 종종 가짜 계정을 만들어서 전송을 유도합니다. 입력하신 계정 이름을 철저히 확인해 주십시오."
   },
   "th": {
     "date": "날짜",
@@ -104,7 +107,8 @@
     "received": "받은 금액",
     "expiration": "만기 날짜",
     "interest_rate": "이자율 (연이율)",
-    "message": "메세지"
+    "message": "메시지",
+    "market": "마켓"
   },
   "block": {
     "title": "블록",
@@ -193,8 +197,8 @@
     "country": "법적 관할권",
     "role_0": "개발",
     "role_1": "마케팅",
-    "role_2": "Faucet",
-    "role_3": "Backbone",
+    "role_2": "무료나눔(Faucet)",
+    "role_3": "백본(Backbone)",
     "role_4": "자선",
     "role_5": "기술 지원",
     "role_6": "법률/규정",
@@ -224,8 +228,8 @@
     "open_orders": "주문",
     "blockchain_orders_history": "블록체인 주문 기록",
     "account_orders_history": "계정 주문 기록",
-    "margin_orders": "마진 콜 거래",
-    "margin_orders_explain": "마진거래는 최저 판매가가 이동평균의 110% 보다 낮음과 동시에 콜 가격보다 높을 때 실행됩니다. 최초 콜 가격은 숏 가격의 150% 입니다. (예: BTS 30.00 에서의 숏은 BTS 45.00 에서). 이것은 포지션을 커버하는데 필요한 USD가 담보의 75%와 같아지는 가격입니다. 마진 콜이 실행되었는데 담보가 남게 되면, 5%는 네트워크 수수료로 보존되고 95%는 주인에게 돌아갑니다.",
+    "margin_orders": "마진 콜 주문",
+    "margin_orders_explain": "최저 판매가가 이동평균의 110% 보다 낮음과 동시에 콜 가격보다 높을 때 마진 콜이 실행됩니다. 최초 콜 가격은 숏 가격의 150% 입니다. (예: BTS 30.00 에서의 숏은 BTS 45.00 에서). 이것은 포지션을 커버하는데 필요한 USD가 담보의 75%와 같아지는 가격입니다. 마진 콜이 실행되었는데 담보가 남게 되면, 5%는 네트워크 수수료로 보존되고 95%는 주인에게 돌아갑니다.",
     "margin_call_price_explain": "최초 콜 가격은 숏 가격의 150% 입니다. (예: BTS 30.00 에서의 숏은 BTS 45.00 에서). 이것은 포지션을 커버하는데 필요한 USD가 담보의 75%와 같아지는 가격입니다.",
     "flip_market": "전환",
     "buy_orders": "{{value}} 매수주문",
@@ -289,11 +293,11 @@
     "reg_date": "등록 날짜",
     "balances": "잔액",
     "open_orders": "오픈된 주문",
-    "transactions": "트랜잭션 기록",
-    "recent_trxs": "최근 트랜잭션",
+    "transactions": "거래기록",
+    "recent_trxs": "최근 거래기록",
     "recent_trxs_info": "당신의 모든 계정의 거래기록",
     "load_more_trxs": "더 많은 거래기록 로딩...",
-    "all_trxs": "모든 트랜잭션 기록",
+    "all_trxs": "모든 거래기록",
     "transfer": "전송",
     "transfer_authorization": "전송 승인",
     "amount": "수량",
@@ -338,9 +342,13 @@
       "vote_none": "기권",
       "vote_random_subset": "서브셋 랜덤 투표",
       "vote_as_delegates_recommended": "내 대표자들이 추천한대로 투표",
-      "btn_update_vote": "투표 업데이트",
+      "vote_per_transfer": "전송시 지정",
+      "btn_update_vote": "투표",
       "current_votes": "현재 투표",
-      "future_votes": "미래 투표"
+      "votes": "투표",
+      "approval": "승인",
+      "vote_confirmation_title": "투표 확인",
+      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다."
     },
     "import_wif_key": "WIF 키 임포트",
     "import_from_wallet": "지갑에서 키 임포트 하기",
@@ -354,6 +362,7 @@
     "pay_rate": "급여 비율",
     "btn_update": "수정",
     "private_data": "비공개 데이터",
+    "public_data": "공개 데이터",
     "key": "키",
     "value": "값",
     "rename_account": "계정 이름 변경",
@@ -362,20 +371,20 @@
     "estimated_yield": "추정 이율",
     "wall": {
       "tab_title": "담벼락",
-      "burn_records": "메세지 기록",
-      "burn_post": "메세지 보내기",
-      "message": "메세지",
+      "burn_records": "메시지 기록",
+      "burn_post": "메시지 보내기",
+      "message": "메시지",
       "post_message": "보내기",
-      "burn_confirmation": "보낼 메세지 확인",
+      "burn_confirmation": "보낼 메시지 확인",
       "receiver": "수신자",
-      "explain": "입력한 금액을 소각하며 {{account_name}}에게 메세지를 보낼 수 있습니다. 이것은 수신자의 담벼락에 기록됩니다.",
+      "explain": "입력한 금액을 소각하며 {{account_name}}에게 메시지를 보낼 수 있습니다. 이것은 수신자의 담벼락에 기록됩니다.",
       "for": "For",
       "against": "Against"
     },
     "transaction_details": "내용",
     "transaction_virtual": "가상",
     "reg_no_funds_note": "아직 BTS 가 없다면, faucet을 선택하여 수수료를 대신 지불하도록 할 수 있습니다.",
-    "reg_subaccount_faucet_not_available": "무료 faucet 등록에 실패했습니다. '.' 를 포함하는 계정 이름은 서브계정이며 faucet 등록에서는 사용할 수 없습니다. 다른 계정 이름을 입력하거나 등록수수료를 지불하기 위한 BTS를 준비해 주십시오.",
+    "reg_subaccount_faucet_not_available": "무료 faucet을 이용한 계정 등록이 실패했습니다. '.' 를 포함하는 계정 이름은 서브계정이며 faucet 등록에서는 사용할 수 없습니다. 다른 계정 이름을 입력하거나 등록수수료를 지불하기 위한 BTS를 준비해 주십시오.",
     "reg_add_faucet": "Faucet 추가",
     "update_public_data_tx_fee": "데이터 업데이트 트랜잭션 수수료 : ",
     "new_balance": "새로운 잔액",
@@ -385,7 +394,8 @@
     "create_account": "새 계정 생성",
     "accounts": "계정",
     "info": "계정 이름을 클릭하면 상세 정보를 볼 수 있습니다.",
-    "select_account": "계정 선택"
+    "select_account": "계정 선택",
+    "rename_account": "계정 이름 변경"
   },
   "asset": {
     "title": "자산",
@@ -444,11 +454,11 @@
     "theme": "화면 테마 잠금 해제",
     "default": "기본값",
     "flowers": "Flowers",
-    "default_vote": "By Default Vote For",
-    "time_too_low": "User-input timeout was too low. It was increased to 15",
-    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
-    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
-    "updated": "Preferences Updated"
+    "default_vote": "기본 투표값",
+    "time_too_low": "사용자 입력 타임아웃 값이 너무 작습니다. 값이 15로 조정되었습니다.",
+    "time_too_high": "사용자 입력 타임아웃 값이 너무 큽니다. 값이 99999999로 조정되었습니다.",
+    "fee_too_low": "사용자 입력 수수료 값이 너무 작습니다. 0.1 BTS로 조정되었습니다.",
+    "updated": "환경설정을 적용했습니다"
   },
   "console": {
     "type_cmd_and_enter": "명령어 입력 후 엔터를 누르십시오."
@@ -456,9 +466,9 @@
   "directive": {
     "input_name": {
       "name_tip": "이름 (필수 항목)",
-      "popover": "알파벳 소문자, 숫자, 마침표, 빼기 기호만 허용됩니다. 첫 글자는 알파벳이어야 하고 끝 글자는 빼기 기호가 아니어야 합니다.",
+      "popover": "알파벳 소문자, 숫자, 마침표, 빼기 기호만 허용됩니다. \n첫 글자는 알파벳이어야 하고 끝 글자는 빼기 기호가 아니어야 합니다.",
       "note1": "참고: 계정 이름은 양도할 수 없습니다.",
-      "note2": "알파벳 소문자, 숫자, 마침표, 빼기 기호만 허용됩니다. 첫 글자는 알파벳이어야 하고 끝 글자는 빼기 기호가 아니어야 합니다."
+      "note2": "알파벳 소문자, 숫자, 마침표, 빼기 기호만 허용됩니다. \n첫 글자는 알파벳이어야 하고 끝 글자는 빼기 기호가 아니어야 합니다."
     }
   },
   "pagination": {
@@ -488,7 +498,7 @@
     "delete_pending": "전송을 취소합니다...",
     "undo": "되돌리기",
     "no_recipient_mail_servers": "수신자가 메일을 확인하지 않았습니다.",
-    "Timed out while transmitting message.": "네트워크 응답시간 초과로 메세지 전송이 실패했습니다.",
+    "Timed out while transmitting message.": "네트워크 응답시간 초과로 메시지 전송이 실패했습니다.",
     "Could not find mail servers for this recipient.": "수신자의 메일 서버를 찾을 수 없습니다."
   },
   "help": {
@@ -528,7 +538,7 @@
   },
   "toolbar": {
     "back": "뒤로",
-    "dashboard": "계기판",
+    "dashboard": "대시보드",
     "exchange": "거래소",
     "delegates": "대표자",
     "account_details": "계정 상세정보",
