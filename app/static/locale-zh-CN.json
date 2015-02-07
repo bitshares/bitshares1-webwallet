@@ -440,7 +440,12 @@
     "language": "界面语言选择",
     "theme": "解锁屏幕主题",
     "default": "默认",
-    "flowers": "花卉"
+    "flowers": "花卉",
+    "default_vote": "By Default Vote For",
+    "time_too_low": "User-input timeout was too low. It was increased to 15",
+    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
+    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
+    "updated": "Preferences Updated"
   },
   "console": {
     "type_cmd_and_enter": "输入命令并回车"

@@ -443,7 +443,12 @@
     "language": "인터페이스 언어",
     "theme": "화면 테마 잠금 해제",
     "default": "기본값",
-    "flowers": "Flowers"
+    "flowers": "Flowers",
+    "default_vote": "By Default Vote For",
+    "time_too_low": "User-input timeout was too low. It was increased to 15",
+    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
+    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
+    "updated": "Preferences Updated"
   },
   "console": {
     "type_cmd_and_enter": "명령어 입력 후 엔터를 누르십시오."

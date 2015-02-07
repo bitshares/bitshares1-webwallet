@@ -454,7 +454,11 @@
     "theme": "Display entsperren Theme",
     "default": "Standard",
     "flowers": "Blumen",
-    "default_vote": "Standardmäßig abstimmen für"
+    "default_vote": "Standardmäßig abstimmen für",
+    "time_too_low": "User-input timeout was too low. It was increased to 15",
+    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
+    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
+    "updated": "Preferences Updated"
   },
   "console": {
     "type_cmd_and_enter": "Wählen Sie ein Kommando und bestätigen Sie anschließend mit der Eingabetaste."

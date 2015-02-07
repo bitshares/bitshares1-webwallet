@@ -453,7 +453,11 @@
     "theme": "Разблокировать экран Стиль",
     "default": "дефолт",
     "flowers": "цветы",
-    "default_vote": "По умолчанию голосовать за"
+    "default_vote": "По умолчанию голосовать за",
+    "time_too_low": "User-input timeout was too low. It was increased to 15",
+    "time_too_high": "User-input timeout was too high. It was decreased to 99999999",
+    "fee_too_low": "Transaction fee was too low. It was increased to 0.1 BTS",
+    "updated": "Preferences Updated"
   },
   "console": {
     "type_cmd_and_enter": "Введите команду и нажмите Enter"
