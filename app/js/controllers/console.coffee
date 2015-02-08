@@ -67,9 +67,23 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
         else
             ConsoleState.command = ""
 
-        RpcService.request('execute_command_line', [cmd]).then (response) =>
-            #TODO replace when CommonAPI is added
-            ConsoleState.outputs.unshift(">> " + cmd + "\n\n" + response.result)
+        error_handler = (response) ->
+            if response.data.error
+                result = response.data.error
+                result = result.message if result.message
+                result = JSON.stringify result,null,4
+                ConsoleState.outputs.unshift(">> " + cmd + " \n\n" + result)
+                return true
+            else
+                return false
+        
+        RpcService.request('execute_command_line', [cmd], error_handler).then (response) ->
+            result = response.result
+            result = JSON.stringify result,null,4 if window.bts
+            ConsoleState.outputs.unshift(">> " + cmd + "\n\n" + result)
+        (error)->
+            error = JSON.stringify error,null,4
+            ConsoleState.outputs.unshift(">> " + cmd + "\n\n" + error)
 
     if ConsoleState.commands.length == 0
         init()

@@ -58,8 +58,18 @@ angular.module("app").config ($stateProvider, $urlRouterProvider) ->
 
     sp.state "createwallet",
         url: "/createwallet"
-        templateUrl: "createwallet.html"
-        controller: "CreateWalletController"
+        templateUrl: (
+            if window.bts
+                "brainwallet.html"
+            else
+                "createwallet.html"
+        )
+        controller: (
+            if window.bts
+                "BrainWalletController"
+            else
+                "CreateWalletController"
+        )
 
     sp.state "block",
         url: "/blocks/:number"
@@ -73,8 +83,23 @@ angular.module("app").config ($stateProvider, $urlRouterProvider) ->
 
     sp.state "unlockwallet",
         url: "/unlockwallet"
-        templateUrl: "unlockwallet.html"
-        controller: "UnlockWalletController"
+        templateUrl: (
+            if window.bts
+                "brainwallet.html"
+            else
+                "unlockwallet.html"
+        )
+        controller: (
+            if window.bts
+                "BrainWalletController"
+            else
+                "UnlockWalletController"
+        )
+
+    sp.state "brainwallet",
+        url: "/brainwallet"
+        templateUrl: "brainwallet.html"
+        controller: "BrainWalletController"
 
     sp.state "markets",
         url: "/markets"

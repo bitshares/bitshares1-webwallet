@@ -28,7 +28,8 @@ module.exports = function(lineman) {
         "vendor/js/angular-pageslide-directive.js",
         "vendor/js/highstock.src.js",
         "vendor/js/moment-with-locales.js",
-        "vendor/js/bytebuffer.js"
+        "vendor/js/bytebuffer.js",
+        "vendor/js/bts.js"
       ],
       app: [
         "app/js/app.js",
@@ -66,7 +67,8 @@ module.exports = function(lineman) {
         "app/css/mail.css",
         "app/css/help.css",
         "app/css/splashpage.css",
-        "app/css/devshares.css"
+        "app/css/devshares.css",
+        "app/css/brainwallet.css"
       ]
     }
 

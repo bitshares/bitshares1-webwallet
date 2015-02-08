@@ -1,0 +1,13 @@
+#brainwallet input {
+    /* override bootstrap's .form-control display:block*/
+    display:inline;
+}
+
+#brainwallet .password {
+    max-width:200px;
+}
+
+#brainkey {
+    width: 350px;
+    height: 80px;
+}
