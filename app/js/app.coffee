@@ -113,4 +113,10 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvide
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
 
+    Highcharts.setOptions(
+                        {lang: 
+                            rangeSelectorZoom :""
+                        }
+    )
+
 

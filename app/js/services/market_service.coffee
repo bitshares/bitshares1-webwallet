@@ -550,8 +550,8 @@ class MarketService
                 l = c if c < l
 
                 oc_avg = (o + c) / 2.0
-                h = 1.10 * Math.max(o,c) if h/oc_avg > 1.25
-                l = 0.90 * Math.min(o,c) if oc_avg/l > 1.25
+                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.1
+                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
 
                 ohlc_data.push [time, o, h, l, c]
                 volume_data.push [time, t.volume / market.quantity_asset.precision]

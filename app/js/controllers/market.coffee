@@ -100,6 +100,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         MarketGrid.disableMouseScroll()
 
         $scope.asks = MarketService.asks
+        console.log $scope.asks
+        # $scope.spread = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades

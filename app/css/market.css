@@ -184,7 +184,7 @@ tr.short_wall td {
 }
 
 .sell-orders-title {
-	color: #ff7f0e;
+	color: #c90808;
 }
 
 .short-orders-title {
@@ -193,6 +193,11 @@ tr.short_wall td {
 
 .margin-orders-title {
 	color: #6390bc;
+}
+
+.market-table-title {
+	padding: 0.5em 0em 0.5em 0.5em;
+	text-transform: uppercase;
 }
 
 .market-header-button {
@@ -359,4 +364,10 @@ tr.short_wall td {
 
 .search_market_div {
 	padding-right: 0;
+}
+
+.table > thead > tr > th, .ui-grid-top-panel .ui-grid-cell-contents {
+	color: #333;
+	font-size: 10px;
+	font-weight: bold;
 }
