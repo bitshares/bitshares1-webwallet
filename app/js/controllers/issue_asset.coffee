@@ -33,6 +33,8 @@ angular.module("app").controller "IssueAssetController", ($scope, $location, $st
             resolve:
                 contact_name: ->
                     $scope.issue_asset.to
+                add_contact_mode: ->
+                    false
                 action: ->
                     (contact)->
                         $scope.issue_asset.to = contact

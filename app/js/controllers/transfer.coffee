@@ -152,7 +152,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         trx: -> trx
                         action: -> yesSend
                         transfer_type: ->
-                            if $scope.transfer_asset.id is 0 then 'xts' else ''
+                            if transfer_asset.id is 0 then 'xts' else ''
 
     $scope.newContactModal = (add_contact_mode = false) ->
         $modal.open

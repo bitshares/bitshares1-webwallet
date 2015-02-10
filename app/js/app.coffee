@@ -46,7 +46,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     history_back_in_process = false
     $rootScope.$on "$stateChangeSuccess", (event, toState, toParams, fromState, fromParams) ->
         app_history.push {state: fromState.name, params: fromParams} if fromState.name and !history_back_in_process
-        $window.scrollTo(0,0)
+        from_page = fromState.name.split(".")[0]
+        to_page = toState.name.split(".")[0]
+        $window.scrollTo(0,0) unless from_page == to_page
 
     $rootScope.history_back = ->
         return false if app_history.length == 0

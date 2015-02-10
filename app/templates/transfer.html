@@ -80,7 +80,7 @@
           <div class="input-group">
             <input class="form-control" ng-model="transfer_info.amount" name="amount"
                 type="text" class="form-control" placeholder="0.0" id="amount"
-                ui-validate="'$value > 0'" ng-change="hot_check_send_amount();"
+                ui-validate="'$value > 0'" ng-change="hot_check_send_amount()"
                 autocomplete="off" required/>
             <!-- asset selector -->
             <div class="input-group-btn" dropdown is-open="status.isopen">
