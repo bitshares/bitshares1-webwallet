@@ -1,7 +1,7 @@
-angular.module("app").controller "AddressBookModalController", ($scope, $modalInstance, Wallet, WalletAPI, Utils, contact_name, action) ->
+angular.module("app").controller "AddressBookModalController", ($scope, $modalInstance, Wallet, WalletAPI, Utils, contact_name, add_contact_mode, action) ->
     $scope.account = {name: contact_name, key: ''}
     $scope.data = {}
-    $scope.data.add_contact_mode = false
+    $scope.data.add_contact_mode = add_contact_mode
     $scope.data.favorites = Object.keys(Wallet.favorites)
     $scope.data.contact_name_filter = ""
 
