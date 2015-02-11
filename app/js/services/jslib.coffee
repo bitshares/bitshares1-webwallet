@@ -10,7 +10,10 @@ class BitsharesJsRpc
         JsClient = bts.client.JsClient
         js_client = new JsClient @RpcService, @Growl
         # Wallet API available from the browser's console
-        window.wallet = js_client.wallet_api
+        js_client.init().then ->
+            window.wallet_api = js_client.wallet_api
+            window.wallet = js_client.wallet
+        
         js_client.event 'wallet.not_found', ()->
             unless window.location.hash == "#/brainwallet"
                 navigate_to "brainwallet"
