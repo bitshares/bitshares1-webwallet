@@ -188,7 +188,7 @@
     "mouse_entropy_info": "Move around to collect additional random data.  This will be combine this with your browser's secure random numbers and used to create your brain-key.",
     "use_own":"Use Own Brain-Key",
     "modify":"Modify",
-    "too_short":"Brain-key must be 40 or more characters.",
+    "too_short":"Brain-key must be 32 or more characters.",
     "too_long":"Brain-key is too long.",
     "required":"A brain-key is required.",
     "use_generated":"Use Generated Brain-Key",
