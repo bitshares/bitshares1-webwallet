@@ -1,4 +1,4 @@
-angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, Utils, Info, Growl) ->
+angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Utils, Info, Growl) ->
     Info.refresh_info()
     $scope.utils = Utils
     $scope.balances = []
@@ -155,15 +155,17 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         trx: -> trx
                         action: -> yesSend
                         transfer_type: ->
-                            if $scope.transfer_asset.id is 0 then 'xts' else ''
+                            if transfer_asset.id is 0 then 'xts' else ''
 
-    $scope.newContactModal = ->
+    $scope.newContactModal = (add_contact_mode = false) ->
         $modal.open
             templateUrl: "addressbookmodal.html"
             controller: "AddressBookModalController"
             resolve:
                 contact_name: ->
                     $scope.transfer_info.payto
+                add_contact_mode: ->
+                    add_contact_mode
                 action: ->
                     (contact)->
                         $scope.transfer_info.payto = contact
@@ -200,3 +202,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.add_to_address_book.message = null
         $scope.add_to_address_book.error = null
         my_transfer_form?.payto.error_message = null
+        if Wallet.accounts[$scope.transfer_info.payto]
+            $scope.gravatar_account_name = $scope.transfer_info.payto
+        else
+            BlockchainAPI.get_account($scope.transfer_info.payto).then (result) ->
+                $scope.gravatar_account_name = if result then $scope.transfer_info.payto else null

@@ -46,7 +46,7 @@
     "updating_trx_history": "Обновление истории транзакций...",
     "partial_voting_info": "This account is not voting with some of its stake. Consider updating your vote.",
     "client_update_available": "Внимание! Новая версия кошелька доступна на bitshares.org.",
-    "fake_accounts_warning": "Внимание! Мошенники часто используют похожие имена аккаунтов надеясь на вашу ошибку. Пожалуйста, тщательно проверьте правильность ввода имени."
+    "fake_accounts_warning": "Пожалуйста, тщательно проверьте правильность ввода имени - отправленную транзакцию невозможно отменить."
   },
   "th": {
     "date": "ДАТА",

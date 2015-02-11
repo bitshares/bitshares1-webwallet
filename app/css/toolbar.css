@@ -138,3 +138,9 @@ li[disabled] a {
     max-height: 400px;
     overflow-x: hidden;
 }
+
+.scrollable-menu-extra-short {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
