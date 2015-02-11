@@ -112,11 +112,15 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
     $scope.clear_form_errors = (form) ->
         form.$error.message = null if form.$error.message
+        form.$dirty = false
+        form.$valid = true
+        form.$invalid= false
         for key of form
             continue if /^(\$|_)/.test key
             control = form[key]
-            control.$setPristine true
             control.clear_errors() if control && control.clear_errors
+            control.$setPristine true
+            control.$valid = true
 
     $scope.close_context_help = ->
         $scope.context_help.open = false

@@ -22,6 +22,7 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
 
     # TODO validate that this symbol has not already been created
     $scope.is_valid_symbol = (value) ->
+        return true unless value
         return false unless angular.isString value
         value = value.split '.'
         scam_pattern = /^BIT/
