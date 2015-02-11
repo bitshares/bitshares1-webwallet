@@ -12,7 +12,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.memo_size_max = 51
     my_transfer_form = null
     tx_fee = null
-    tx_fee_asset = null
+    $scope.tx_fee_asset = null
     $scope.no_account = false
     $scope.model ||= {}
     $scope.add_to_address_book = {}
@@ -77,18 +77,21 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         
         my_transfer_form.amount.error_message = null
         
-        if tx_fee.asset_id != tx_fee_asset.id
+        if tx_fee.asset_id != $scope.tx_fee_asset.id
             console.log "ERROR hot_check[_send_amount] encountered unlike transfer and fee assets"
             return
         
-        fee=tx_fee.amount/tx_fee_asset.precision
+        fee=tx_fee.amount/$scope.tx_fee_asset.precision
         transfer_amount=$scope.transfer_info.amount
         _bal=$scope.balances[$scope.transfer_info.symbol]
         balance = _bal.amount/_bal.precision
-        balance_after_transfer = balance - transfer_amount - fee
-        
+        balance_after_transfer = balance - transfer_amount
         #display "New Balance 999 (...)"
         $scope.transfer_asset = Blockchain.symbol2records[$scope.transfer_info.symbol]
+        
+        if tx_fee.asset_id is $scope.transfer_asset.id
+            balance_after_transfer -= fee
+        
         $scope.balance_after_transfer = balance_after_transfer
         $scope.balance = balance
         $scope.balance_precision = _bal.precision
@@ -108,7 +111,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (_tx_fee) ->
             tx_fee = _tx_fee
             Blockchain.get_asset(tx_fee.asset_id).then (_tx_fee_asset) ->
-                tx_fee_asset = _tx_fee_asset
+                $scope.tx_fee_asset = _tx_fee_asset
                 $scope.hot_check_send_amount()
     
     yesSend = ->
