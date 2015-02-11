@@ -303,9 +303,9 @@ li.stat {
 	font-weight: 100;
 }
 
-.move-right-50px {
-	position: relative;
-	left: 50px;
+.avatar-150-min-width {
+	min-width: 155px;
+
 }
 
 .account-page .btn-primary {
@@ -367,8 +367,9 @@ input.ng-dirty.ng-invalid {
 }
 
 .avatar-150 {
-	width: 150px;
-	margin: 0 auto;
+	width: 155px;
+	margin: 0 0 0 auto;
+	padding-left: 5px;
 }
 
 .clickable {
