@@ -100,6 +100,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
                 Observer.unregisterObserver Wallet.observer_config()
         
         navigate_to('unlockwallet') if Info.info.wallet_open and !unlocked
+        ### mail is not used yet... Instead, a default mailserver may enable mail for everyone
         if unlocked
             #console.log 'unlocked, scan for mail accounts..'
             WalletAPI.list_accounts().then (result) ->
@@ -109,6 +110,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
                         #console.log 'unlocked, mail account found..'
                         $scope.mail_enabled = on
                         break
+        ###
     , true
 
     $scope.clear_form_errors = (form) ->
