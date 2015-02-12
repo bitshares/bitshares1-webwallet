@@ -35,7 +35,7 @@ module.exports = function(lineman) {
       apiProxy: {
          prefix: '/rpc',
          enabled: true,
-         host: 'localhost',
+         host: process.env.HTTP_HOST || 'localhost',
          port: process.env.HTTP_PORT
       }
     },
