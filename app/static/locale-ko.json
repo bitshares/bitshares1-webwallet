@@ -285,7 +285,19 @@
       "short_interest_rate": "지불하려는 이자율."
     },
     "days": "{{value}} 일",
-    "percent_apr": "연이율(%)"
+    "percent_apr": "연이율(%)",
+    "rules": {
+        "title": "Market Rules Summary",
+        "conditions": "Short orders can only get filled under these conditions:",
+        "condition1": "There is someone willing to buy BitUSD at the price feed",
+        "condition2": "AND Your short order is the highest interest rate order",
+        "condition3": "AND Your price limit is lower than the feed (BTS per USD) or you didn't specify a price limit",
+        "condition4": "AND You have enough collateral to provide 2x backing at the trade price and quantity",
+        "condition5": "OR Your price limit is higher than the feed (BTS per USD) and someone is willing to buy at your price limit",
+        "short1": "Short orders are forced to cover after 30 days by taking the best offers at the time. No fee is charged.",
+        "short2":"Short orders are forced to cover when 75% of their collateral is required to cover, leaving the short with 25% of the collateral minus a 5% fee.",
+        "cover_fee":"The 5% fee is assessed as a percent of the collateral left over after covering."
+    }
   },
   "account": {
     "reg_pending": "등록 처리중입니다.",
