@@ -27,35 +27,49 @@ initChart = (scope) ->
             #color: "#f0f"
             changeDecimals: 4
             #borderColor: "#058dc7"
-            valueDecimals: (scope.volumePrecision+"").length - 1
+            valueDecimals: (scope.volumePrecision+"").length - 3
+            valueSuffix: ' ' + scope.priceSymbol
 
         scrollbar:
             enabled: false
 
         navigator:
-            enabled: true
+            enabled: false
 
         rangeSelector:
+            rangeSelectorZoom :""
             enabled: true
-            inputEnabled: true
+            inputEnabled: false
             allButtonsEnabled: true
-            #selected: 1
+            selected: 3
             buttons: [
+                type: "minute"
+                count: 30
+                text: "30m"
+            ,
                 type: "hour"
                 count: 1
-                text: "Hour"
+                text: "1h"
+            ,
+                type: "hour"
+                count: 6
+                text: "6h"
             ,
                 type: "day"
                 count: 1
-                text: "Day"
+                text: "1d"
             ,
-                type: "week"
-                count: 1
-                text: "Week"
+                type: "day"
+                count: 7
+                text: "7d"
             ,
-                type: "month"
-                count: 1
-                text: "Month"
+                type: "day"
+                count: 14
+                text: "14d"
+            ,
+                type: "day"
+                count: 30
+                text: "30d"
 #            ,
 #                type: "ytd"
 #                text: "YTD"
@@ -69,14 +83,16 @@ initChart = (scope) ->
             ]
 
         yAxis: [
-            title: { text: 'Price ' + scope.priceSymbol }
-            opposite: false
+            title: { text: '' }
+            labels: 
+                align: 'left'
+                x: 2
+            height: "65%"
         ,
-            title: { text: 'Volume ' + scope.volumeSymbol }
+            title: { text: '' }
             color: "#4572A7"
-            opposite: true
-            height: "50%"
-            top: "50%"
+            top: "70%"
+            height: "30%"            
         ]
 
         series: [
@@ -90,6 +106,8 @@ initChart = (scope) ->
             data: scope.volumedata
             yAxis: 1
             zIndex: 9
+            tooltip:
+                valueSuffix: ' ' + scope.volumeSymbol
         ]
 
 angular.module("app.directives").directive "pricechart", ->

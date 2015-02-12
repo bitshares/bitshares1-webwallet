@@ -15,6 +15,7 @@ initChart = (scope) ->
             enabled: false
 
         legend:
+            enabled: false
             verticalAlign: "top"
 
         tooltip:
@@ -27,17 +28,18 @@ initChart = (scope) ->
 
         yAxis:
             title:
-                text: "Volume " + scope.volumeSymbol
+                text: ""
+
 
         series: [
             name: "Buy " + scope.volumeSymbol
             data: scope.bidsArray
-            color: "#2ca02c"
+            color: "#28a92e"
             lineWidth: 1
         ,
             name: "Sell " + scope.volumeSymbol
             data: scope.asksArray
-            color: "#ff7f0e"
+            color: "#c90808"
             lineWidth: 1
         ]
 
@@ -45,6 +47,8 @@ initChart = (scope) ->
             area:
                 marker:
                     enabled: false
+            series:
+                fillOpacity: 0.25
 
 addPlotLine = (chart, value) ->
     chart.xAxis[0].addPlotLine

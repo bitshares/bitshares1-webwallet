@@ -1,7 +1,7 @@
 class MarketGrid
 
     defaultParams:
-        enableColumnMenu: false
+        enableColumnMenus: false
         enableSorting: true
         useExternalSorting: false
         minRowsToShow: 16
@@ -25,12 +25,7 @@ class MarketGrid
 
     setupBidsAsksGrid: (grid, data, market, sort_direction) ->
         params =
-            columnDefs: [
-                field: "price"
-                displayName: "#{@filter('translate')('th.price')} (#{market.price_symbol})"
-                cellFilter: "formatDecimal:#{market.price_precision}:true"
-                sort: { direction: sort_direction, priority: 1 }
-            ,
+            columnDefs: [                
                 field: "quantity"
                 displayName: "#{@filter('translate')('th.quantity')} (#{market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{market.quantity_precision}"
@@ -39,6 +34,11 @@ class MarketGrid
                 field: "cost"
                 displayName: "#{@filter('translate')('th.total')} (#{market.base_symbol})"
                 cellFilter: "formatDecimal:#{market.base_precision}"
+            ,
+                field: "price"
+                displayName: "#{@filter('translate')('th.price')} (#{market.price_symbol})"
+                cellFilter: "formatDecimal:#{market.price_precision}:true"
+                sort: { direction: sort_direction, priority: 1 }
             ]
             data: data
 
