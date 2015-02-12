@@ -162,44 +162,34 @@ angular.module("app.directives").directive "marketThumbnail", ->
 
                     area_color = if market.change > 0 then '#28a92e' else '#c90808'
 
-                    series = [
-                            {data: market.ohlc_data
-                            pointStart: 1
-                            name: 'Price'
-                            dataGrouping:
-                              enabled: true
-                            yAxis: 1
-                            tooltip:
-                              valueDecimals: 2
-                              valueSuffix: ' BTS/'+market.asset_quantity_symbol
-                            min: market.min_price
-                            color: area_color
-                            },
+                    series = [                            
                             {data: market.volume_data
                             pointStart: 1
                             name: 'Volume'
                             type: 'column'
+                            yAxis: 1
                             dataGrouping:
                               enabled: true
                             tooltip:
                               valueDecimals: 0
                               valueSuffix: ' BTS'                            
+                            },
+                            {data: market.ohlc_data
+                            pointStart: 1
+                            name: 'Price'
+                            dataGrouping:
+                              enabled: true
+                            tooltip:
+                              valueDecimals: 2
+                              valueSuffix: ' BTS/'+market.asset_quantity_symbol
+                            min: market.min_price
+                            color: area_color
                             }
                     ]
 
 
 
                     yAxis = [
-                      {endOnTick: false
-                      startOnTick: false
-                      labels:
-                        enabled: false
-
-                      title:
-                        text: null
-                      
-                      gridLineWidth: 0
-                      },
                       {
                         opposite: true,
                         labels:
@@ -208,6 +198,17 @@ angular.module("app.directives").directive "marketThumbnail", ->
                           text: null
                         gridLineWidth: 0      
                         min: 0.98 * market.min_price                  
+                      },
+                      {
+                        endOnTick: false
+                        startOnTick: false
+                        labels:
+                          enabled: false
+
+                        title:
+                          text: null
+                        
+                        gridLineWidth: 0
                       }]
                    
                     $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis})
