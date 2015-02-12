@@ -515,3 +515,11 @@ input.ng-dirty.ng-invalid {
 .delegates-title:hover {
 	color: #1B6FC1;
 }
+
+.delegates-filter {
+	padding:1em;
+}
+
+.delegates-filter .input-group-addon {
+	width: 40px;
+}
