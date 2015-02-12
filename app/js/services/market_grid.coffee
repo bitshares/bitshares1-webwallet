@@ -6,6 +6,7 @@ class MarketGrid
         useExternalSorting: false
         minRowsToShow: 16
         rowHeight: 22
+        enableVerticalScrollbar: 2
         data: []
 
     defaultRowTemplate: '''

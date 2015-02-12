@@ -1,28 +1,28 @@
-<div id="order_tabs" class="col-sm-4 col-xs-12" style="padding-top:10px;padding-right:0;" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+<div id="order_tabs" class="col-xs-3" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
   <tabset>
-    <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
-      <div ui-view autoscroll="false"></div>
+    <tab ng-repeat="t in tabs" heading="{{t.heading | translate}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
+      <div ui-view autoscroll="true"></div>
     </tab>
   </tabset>
-  <div ng-if="tabs[0].active" style="padding-top:10px;">
-    <h3 class="market-table-title panel-title buy-orders-title">{{('market.open_buy_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
-    <div  ng-include src="'market/open_buy.html'"></div>
-  </div>
-  <div ng-if="tabs[1].active" style="padding-top:10px;">
-    <h3 class="market-table-title panel-title sell-orders-title">{{('market.open_sell_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
-    <div ng-include src="'market/open_sell.html'"></div>
-  </div>
-  <div ng-if="tabs[2].active" style="padding-top:10px;overflow-y: auto;" id="short_orders_row">
-    <h3 class="market-table-title panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
-    <div ng-include src="'market/open_shorts.html'"></div>
-    <h3 class="market-table-title panel-title margin-orders-title"><span translate>market.open_margin_orders</span></h3>
-    <div ng-include src="'market/open_margin.html'"></div>
+  <div class="orders-div">
+    <div ng-if="tabs[0].active">
+      <h3 class="market-table-title panel-title buy-orders-title">{{('market.open_buy_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
+      <div  ng-include src="'market/open_buy.html'"></div>
+    </div>
+    <div ng-if="tabs[1].active">
+      <h3 class="market-table-title panel-title sell-orders-title">{{('market.open_sell_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
+      <div ng-include src="'market/open_sell.html'"></div>
+    </div>
+    <div ng-if="tabs[2].active" id="short_orders_row">
+      <h3 class="market-table-title panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
+      <div ng-include src="'market/open_shorts.html'"></div>
+
+    </div>
   </div>
 </div>
 
-
 <div>
-  <div class="col-sm-8 market-header" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+  <div class="col-xs-9 col-xs-offset-3 market-header" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
     <div class="header m-bottom">
 
       <div class="row">
@@ -90,7 +90,8 @@
             <div class="col-md-4">
               <h3 class="market-table-title panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
               <div ui-grid="listSellGrid" class="market-grid" external-scopes="this"></div>
-              <center><h3 class="market-table-title panel-title buy-orders-title">Spread: {{ (asks[0].price - bids[0].price | number:3) + ' '+market.base_symbol}}</h3></center>
+              <center><h4>Spread: {{ (asks[0].price - bids[0].price | number:4) + ' '+market.base_symbol}}</h4></center>
+              <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
               <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this"></div>
             </div>
 
@@ -129,10 +130,10 @@
               <h3 class="market-table-title panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
               <div ng-include src="'market/open_shorts.html'"></div>
             </div>
-            <div class="col-xs-12">
-              <h3 class="market-table-title panel-title margin-orders-title"><span translate>market.open_margin_orders</span></h3>
-              <div ng-include src="'market/open_margin.html'"></div>
-            </div>
+          </div>
+          <div class="col-xs-12">
+            <h3 class="market-table-title panel-title margin-orders-title"><span translate>market.open_margin_orders</span></h3>
+            <div ng-include src="'market/open_margin.html'"></div>
           </div>
         </div>
 

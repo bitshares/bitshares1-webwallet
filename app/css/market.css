@@ -376,3 +376,19 @@ tr.short_wall td {
 	font-size: 10px;
 	font-weight: bold;
 }
+
+#order_tabs {
+	position: fixed;
+	padding-top:10px;
+	padding-right:0;
+	height: 100%;
+}
+
+#order_tabs li {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.orders-div {
+	padding-top:10px;
+}
