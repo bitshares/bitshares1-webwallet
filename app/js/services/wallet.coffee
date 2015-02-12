@@ -40,6 +40,20 @@ class Wallet
 
     interface_theme = 'default'
     
+    reset_gui_state:->
+        # Information may show after locking the wallet then using the 
+        # back button.  Additionally, clear memory.
+        clear=(map)-> delete map[k] for k in Object.keys map
+        clear @accounts
+        clear @favorites
+        clear @balances
+        clear @bonuses
+        clear @asset_balances
+        clear @transactions
+        @transactions["*"]=[]
+        clear @transactions_all_by_id
+        clear @pendingRegistrations
+    
     observer_config:->
         name: "WalletEachBlockObserver"
         frequency: "each_block"
@@ -88,6 +102,7 @@ class Wallet
 
     refresh_balances_promise: null
 
+    
     refresh_balances: ->
         return @refresh_balances_promise if @refresh_balances_promise
         deffered = @q.defer()
@@ -489,6 +504,7 @@ class Wallet
           response.result
 
     wallet_lock: ->
+        @reset_gui_state()
         @rpc.request('wallet_lock').then (response) ->
           response.result
 
