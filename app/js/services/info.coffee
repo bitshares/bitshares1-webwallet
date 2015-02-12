@@ -43,21 +43,27 @@ class Info
                 if @wallet.main_asset
                     @info.income_per_block = data.max_delegate_pay_issued_per_block
                     @info.blockchain_delegate_pay_rate = @utils.formatAsset(@utils.asset(data.max_delegate_pay_issued_per_block, @wallet.main_asset))
-                @is_refreshing = false
+                
                 @symbol = data.symbol
+                @is_refreshing = false
         , =>
-            @is_refreshing = false
             @info.network_connections = 0
             @info.wallet_open = false
             @info.wallet_unlocked = false
             @info.last_block_num = 0
             @info.transaction_scanning = false
+            @is_refreshing = false
 
-    watch_for_updates: =>
-        @interval (=>
-            if !@is_refreshing
-                @refresh_info()
-        ), 2500
+    watch_for_updates:(shutdown = false) =>
+        unless shutdown
+            @interval_stop = @interval (=>
+                if !@is_refreshing
+                    @refresh_info()
+            ), 2500
+        else
+            if angular.isDefined @interval_stop
+                @interval.cancel @interval_stop
+                @interval_stop = undefined
 
     constructor: (@q, @log, @location, @growl, @common_api, @blockchain, @blockchain_api, @wallet, @interval, @utils) ->
 

@@ -55,6 +55,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
         closeModals()
         $idle.unwatch()
         $scope.started = false
+        Info.watch_for_updates shutdown=true
         return
 
     open_wallet = (mode) ->
@@ -85,7 +86,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 #            $scope.unlockwallet = false
 #            Wallet.check_wallet_status()
 
-    
     $scope.$watch ->
         Info.info.wallet_unlocked
     , (unlocked)->
@@ -98,6 +98,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             when off
                 #console.log 'wallet_unlocked',unlocked
                 Observer.unregisterObserver Wallet.observer_config()
+        
         navigate_to('unlockwallet') if Info.info.wallet_open and !unlocked
         if unlocked
             #console.log 'unlocked, scan for mail accounts..'

@@ -3,6 +3,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     return unless window.bts
     
     $idle.unwatch()
+    $scope.stopIdleWatch()
+    
     $rootScope.splashpage = true
     $scope.has_secure_random = bts.wallet.Wallet.has_secure_random()
     $scope.new_brainkey_info = 'new_brainkey_info0'
