@@ -359,4 +359,9 @@ tr.short_wall td {
 
 .search_market_div {
 	padding-right: 0;
+	padding-left: 15px;
+}
+
+.search_market_div .input-group-addon {
+	width: 40px;
 }
