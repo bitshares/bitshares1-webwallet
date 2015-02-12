@@ -451,8 +451,8 @@ class Wallet
 #                            vote: "N/A"
 #                    @transactions[account_name_key]
 
-    create: (wallet_name, spending_password) ->
-        @rpc.request('wallet_create', [wallet_name, spending_password])
+    create: (wallet_name, spending_password, brainkey) ->
+        @rpc.request('wallet_create', [wallet_name, spending_password, brainkey])
 
     get_balance: ->
         @rpc.request('wallet_get_balance').then (response) ->
@@ -495,8 +495,8 @@ class Wallet
             if not response.result.unlocked
                 @location.path("/unlockwallet")
 
-    open: ->
-        @rpc.request('wallet_open', ['default']).then (response) =>
+    open:(name = "default") ->
+        @rpc.request('wallet_open', [name]).then (response) =>
           response.result
     
     get_block: (block_num)->
