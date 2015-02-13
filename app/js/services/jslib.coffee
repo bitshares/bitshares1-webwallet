@@ -5,6 +5,7 @@
 class BitsharesJsRpc
     
     constructor: (@RpcService, @Growl) ->
+        
         return unless bts = window.bts
         console.log "[BitShares-JS] enabled"
         
