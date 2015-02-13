@@ -5,8 +5,10 @@
 class BitsharesJsRpc
     
     constructor: (@RpcService, @Growl) ->
+        
         return unless bts = window.bts
-        console.log "[BitShares-JS] enabled\tPassword00"
+        console.log "[BitShares-JS] enabled"
+        
         JsClient = bts.client.JsClient
         js_client = new JsClient @RpcService, @Growl
         # Wallet API available from the browser's console
