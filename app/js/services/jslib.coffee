@@ -14,7 +14,6 @@ class BitsharesJsRpc
         # Wallet API available from the browser's console
         js_client.init().then ->
             window.wallet_api = js_client.wallet_api
-            window.wallet = js_client.wallet
         
         js_client.event 'wallet.not_found', ()->
             unless window.location.hash == "#/brainwallet"
