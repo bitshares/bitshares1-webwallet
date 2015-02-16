@@ -35,7 +35,7 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
             errors.new_error = false
 
     $scope.lock = ->
-        Wallet.wallet_lock().then ->
+        Wallet.wallet_lock().finally ->
             navigate_to('unlockwallet')
 
     $scope.switch_account = (account) ->
