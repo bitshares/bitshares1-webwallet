@@ -173,6 +173,7 @@
     "password_info":"This is your encryption password for this wallet.",
     "only_on_this_device":"This password is used only on this device.",
     "password":"Password",
+    "password_to_show":"Enter password to show your brain-key",
     "login":"Login",
     "create":"Create Wallet",
     "create_info":"A wallet with this password was not found on this device.  Re-enter your password to setup a new wallet.",
