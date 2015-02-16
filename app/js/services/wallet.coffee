@@ -44,11 +44,6 @@ class Wallet
         name: "WalletEachBlockObserver"
         frequency: "each_block"
         update: (data, deferred) =>
-            #console.log '[wallet] WalletEachBlockObserver'
-            @refresh_balances_promise = null
-            @transactions_loading_promise = null
-            @check_vote_proportion_promise = null
-            @refresh_accounts_promise = null
             @refresh_accounts() if @refresh_accounts_request
             deferred.resolve(true)
         #notify: (data) ->
@@ -61,6 +56,7 @@ class Wallet
         deferred = @q.defer()
         @open().then =>
             @wallet_get_info().then (result) =>
+                navigate_to('unlockwallet') unless result.unlocked
                 deferred.resolve()
                 @get_setting('timeout').then (result) =>
                     if result && result.value
@@ -77,8 +73,6 @@ class Wallet
                 @get_setting('interface_theme').then (result) =>
                     if result and result.value
                         @interface_theme = result.value
-                if not result.unlocked
-                    navigate_to('unlockwallet')
             , (error) ->
                 deferred.reject(error)
         , (error) ->
@@ -93,7 +87,6 @@ class Wallet
         deffered = @q.defer()
         @refresh_balances_promise = deffered.promise
 
-        #console.log "------ refresh_balances ***** ------>"
         requests =
             refresh_bonuses: @refresh_bonuses()
             account_balances : @wallet_api.account_balance("")
@@ -102,12 +95,9 @@ class Wallet
 
         @q.all(requests).then (results) =>
             @main_asset = results.main_asset
-            delete @balances[id] for id in Object.keys @balances
-            delete @asset_balances[id] for id in Object.keys @asset_balances
             angular.forEach results.account_balances, (name_bal_pair) =>
                 name = name_bal_pair[0]
                 balances = name_bal_pair[1]
-                #console.log "------ refresh_balances name ------>", name
                 angular.forEach balances, (asset_id_amt_pair) =>
                     asset_id = asset_id_amt_pair[0]
                     asset_record = @blockchain.asset_records[asset_id]
@@ -124,26 +114,12 @@ class Wallet
                     @balances[acct.name] = {}
                     @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
             deffered.resolve(@balances)
-            # @observer_config will clear after each block
-            #@refresh_balances_promise = null
+            @refresh_balances_promise = null
         , (error) ->
             deffered.reject(error)
             @refresh_balances_promise = null
 
         return @refresh_balances_promise
-
-#    refresh_open_order_balances: (name) ->
-#        if !@open_orders_balances[name]
-#            @open_orders_balances[name] = {}
-#        @open_order_balances[name]["BTS"] = 0
-#        @wallet_api.account_order_list(name).then (result) =>
-#            angular.forEach result, (order) =>
-#                base = @blockchain.asset_records[order.market_index.order_price.base_asset_id]
-#                quote = @blockchain.asset_records[order.market_index.order_price.quote_asset_id]
-#                if order.type == "ask_order"
-#                    @open_orders_balances[name][base.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[base.symbol])
-#                if order.type == "bid_order" or order.type == "short_order"
-#                    @open_orders_balances[name][quote.symbol] = @utils.asset(order.state.balance, @blockchain.symbol2records[quote.symbol])
 
     refresh_bonuses_promise: null
     
@@ -216,7 +192,6 @@ class Wallet
         deferred = @q.defer()
         @refresh_accounts_promise = deferred.promise
 
-        #delete @accounts[id] for id in Object.keys @accounts
         first_account = null
         @wallet_api.list_accounts().then (result) =>
             angular.forEach result, (val) =>
@@ -231,6 +206,7 @@ class Wallet
                         @current_account = first_account
             @refresh_balances()
             deferred.resolve()
+            @refresh_accounts_promise = null
             @refresh_accounts_request = off
         @refresh_accounts_promise
 
@@ -270,21 +246,20 @@ class Wallet
 
     get_account: (name, error_handler) ->
         @refresh_balances()
-        #console.log "wallet_get_account start",name
+        deferred = @q.defer()
         if @accounts[name]
             #console.log "wallet_get_account found",name
-            deferred = @q.defer()
             deferred.resolve(@accounts[name])
-            return deferred.promise
         else
             @wallet_api.get_account(name, error_handler).then (result) =>
                 acct = @populate_account(result)
-                return acct
+                deferred.resolve(acct)
             ,
             (error) =>
                 @blockchain_api.get_account(name, error_handler).then (result) =>
                     acct = if result then @populate_account(result) else null
-                    return acct
+                    deferred.resolve(acct)
+        return deferred.promise
 
     approve_account: (name, approve) ->
         @wallet_api.account_set_approval(name, approve)
