@@ -26,7 +26,7 @@
 </div>
 </form>
 
-<tabset ng-show="account.is_my_account" class="p-inner">
+<tabset ng-show="account.is_my_account && !is_bitshares_js" class="p-inner">
   <hr>
   <tab heading="{{'account.import_wif_key'|translate}}">
     <form name="import_key_form" class="form-horizontal" role="form" ng-submit="import_key()">
