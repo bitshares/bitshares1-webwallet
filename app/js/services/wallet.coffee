@@ -105,10 +105,10 @@ class Wallet
                 refresh_bonuses: @refresh_bonuses()
                 account_balances : @wallet_api.account_balance("")
             @q.all(requests).then (results) =>
-                angular.forEach results.account_balances, (name_bal_pair) =>
+                for name_bal_pair in results.account_balances
                     name = name_bal_pair[0]
                     balances = name_bal_pair[1]
-                    angular.forEach balances, (asset_id_amt_pair) =>
+                    for asset_id_amt_pair in balances
                         asset_id = asset_id_amt_pair[0]
                         asset_record = @blockchain.asset_records[asset_id]
                         if asset_record
@@ -118,7 +118,7 @@ class Wallet
                             @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
                             @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                             @asset_balances[asset_id] = @asset_balances[asset_id] + amount
-                angular.forEach @accounts, (acct) =>
+                for acct in @accounts
                     if acct.is_my_account and !@balances[acct.name]
                         @balances[acct.name] = {}
                         @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
@@ -139,42 +139,15 @@ class Wallet
                 return response
     
         @refresh_bonuses_promise = @wallet_api.account_yield("").then (response) =>
-            angular.forEach response, (name_balances_pair) =>
+            for name_balances_pair in response
                 name = name_balances_pair[0]
-                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                for asset_id_amt_pair in name_balances_pair[1]
                     asset_id = asset_id_amt_pair[0]
                     symbol = @blockchain.asset_records[asset_id].symbol
                     amount = asset_id_amt_pair[1]
                     @bonuses[name] = @bonuses[name] || {}
                     @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
-
-#    account_yield: []
-#
-#    #empty account_name = all
-#    wallet_account_yield: (account_name = "") ->
-#        if @utils.too_soon("wallet_account_yield #{account_name}", 10 * 1000)
-#            return @account_yield[account_name].then (result) =>
-#                console.log "wallet_account_yield(#{account_name}): too soon #{result}"
-#                return result
-#
-#        @account_yield[account_name] = @wallet_api.account_yield(account_name).then (result) =>
-#            console.log "wallet_account_yield(#{account_name})", result
-#            result
-
-    count_my_accounts: ->
-        accounts = 0
-        angular.forEach @accounts, (acct, name) ->
-            if acct.is_my_account
-                accounts += 1
-        return accounts
-
-    count_my_delegates: ->
-        delegates = 0
-        angular.forEach @accounts, (acct, name) ->
-            if acct.is_my_account and acct.delegate_info != null
-                delegates += 1
-        return delegates
 
     # turn raw rpc return value into nice object
     populate_account: (val) ->
@@ -200,7 +173,7 @@ class Wallet
 
         first_account = null
         @wallet_api.list_accounts().then (result) =>
-            angular.forEach result, (val) =>
+            for val in result
                 account = @populate_account(val)
                 first_account = account unless first_account
             if first_account and !@current_account
@@ -221,7 +194,6 @@ class Wallet
         deferred = @q.defer()
         @check_vote_proportion_promise = deferred.promise
         @RpcService.request("batch", ["wallet_check_vote_proportion", account_names]).then (response) ->
-            #console.log '[Wallet] check_vote_proportion',response
             deferred.resolve(response)
         @check_vote_proportion_promise
         
@@ -291,7 +263,7 @@ class Wallet
         if t.ledger_entries then t.ledger_entries.splice(0, t.ledger_entries.length) else t.ledger_entries = []
         involved_accounts = {}
         used_balance_symbols = {}
-        angular.forEach val.ledger_entries, (entry) =>
+        for entry in val.ledger_entries
             involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
             involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
             running_balances = {}
@@ -338,7 +310,7 @@ class Wallet
         @transactions_all_by_id[val.trx_id] = transaction
 
         @transactions["*"].unshift transaction
-        angular.forEach involved_accounts, (val, account) =>
+        for account, val  of involved_accounts
             @transactions[account] ||= []
             @transactions[account].unshift transaction
 
@@ -383,39 +355,6 @@ class Wallet
 
     refresh_transactions_on_new_block: () ->
         @refresh_transactions()
-#        @refresh_transactions().then =>
-#            if @transactions["*"].length > 0
-#                #@growl.notice "", "You just received a new transaction!"
-#                angular.forEach @accounts, (account, name) =>
-#                    if account.is_my_account
-#                        @refresh_transactions(name)
-#
-#    # TODO: search for all deposit_op_type with asset_id 0 and sum them to get amount
-#    # TODO: sort transactions, show the most recent ones on top
-#    get_transactions: (account_name) ->
-#        account_name_key = account_name || "*"
-#        if @transactions[account_name_key]
-#            deferred = @q.defer()
-#            deferred.resolve(@transactions[account_name_key])
-#            return deferred.promise
-#        else
-#            @blockchain.get_asset(0).then (main_asset) ->
-#                @wallet_account_transaction_history(account_name).then (result) =>
-#                    @transactions[account_name_key] = []
-#                    angular.forEach result, (val, key) =>
-#                        blktrx=val.block_num + "." + val.trx_num
-#                        @transactions[account_name_key].push
-#                            block_num: ((if (blktrx is "0.0") then "Pending" else blktrx))
-#                            #trx_num: Number(key) + 1
-#                            time: new Date(val.received_time*1000)
-#                            amount: val.amount
-#                            from: val.from_account
-#                            to: val.to_account
-#                            memo: val.memo_message
-#                            id: val.trx_id.substring 0, 8
-#                            fee: @utils.asset(val.fees, main_asset)
-#                            vote: "N/A"
-#                    @transactions[account_name_key]
 
     create: (wallet_name, spending_password, brainkey) ->
         @rpc.request('wallet_create', [wallet_name, spending_password, brainkey])
@@ -449,9 +388,6 @@ class Wallet
               @refresh_transactions()
           response.result
 
-#    wallet_account_transaction_history: (account_name) ->
-#        @wallet_api.account_transaction_history(account_name, "", 0, 0, -1)
-
     wallet_unlock: (password, error_handler)->
         @rpc.request('wallet_unlock', [@backendTimeout, password], error_handler).then (response) =>
           response.result
@@ -478,7 +414,7 @@ class Wallet
         limit = if limit then limit else 9999
         @rpc.request('blockchain_list_accounts', [first_account_name, limit]).then (response) ->
           reg = []
-          angular.forEach response.result, (val, key) =>
+          for key, val of response.result
             reg.push
               name: val.name
               owner_key: val.owner_key

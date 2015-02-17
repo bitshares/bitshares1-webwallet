@@ -65,7 +65,7 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
             Wallet.accounts[name].approved = newApproval
 
     $scope.unvoteAll = ->
-        angular.forEach Wallet.accounts, (value, key) ->
+        for key, value of Wallet.accounts
             if (value.delegate_info && value.approved!=0)
                 Wallet.approve_account(key, 0).then ->
                     Wallet.accounts[key].approved=0

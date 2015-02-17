@@ -39,8 +39,8 @@ class AccountObserver
                 continue unless a.is_my_account
                 @my_accounts.push a
                 @my_mail_accounts.push a if a.public_data?.mail_servers
-    
-            angular.forEach @Wallet.accounts, (acct, name) =>
+
+            for name, acct of @Wallet.accounts
                 if acct.is_my_account
                     @accounts[name] = acct
                     
