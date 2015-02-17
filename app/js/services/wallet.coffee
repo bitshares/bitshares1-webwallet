@@ -148,7 +148,6 @@ class Wallet
                     @bonuses[name] = @bonuses[name] || {}
                     @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
-
     # turn raw rpc return value into nice object
     populate_account: (val) ->
         acct = val
