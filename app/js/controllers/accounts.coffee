@@ -6,6 +6,6 @@ angular.module("app").controller "AccountsController", ($scope, $location, Walle
     $scope.warnings = warnings
     account_names = []
     Wallet.refresh_accounts().then ->
-        angular.forEach Wallet.accounts, (item) =>
+        for item in Wallet.accounts
             warnings[item.name] = false
             account_names.push([item.name])

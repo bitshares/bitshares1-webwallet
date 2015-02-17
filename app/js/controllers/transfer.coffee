@@ -40,7 +40,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         for k,a of Wallet.accounts
             $scope.my_accounts.push a if a.is_my_account
 
-        angular.forEach Wallet.accounts, (acct, name) ->
+        for name, acct of Wallet.accounts
             if acct.is_my_account
                 $scope.accounts[name] = acct
 

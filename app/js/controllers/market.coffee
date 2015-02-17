@@ -52,7 +52,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                 return if !result or result.length == 0
                 name_bal_pair = result[0]
                 balances = name_bal_pair[1]
-                angular.forEach balances, (asset_id_amt_pair) =>
+                for asset_id_amt_pair in balances
                     asset_id = asset_id_amt_pair[0]
                     asset_record = Blockchain.asset_records[asset_id]
                     symbol = asset_record.symbol
