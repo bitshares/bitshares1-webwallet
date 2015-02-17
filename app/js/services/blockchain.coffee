@@ -87,9 +87,9 @@ class Blockchain
                 if record.issuer_account_id == -2
                     @market_asset_records_array.push record
             deferred.resolve(@asset_records)
-            @asset_records_deferred = null
         , (error) ->
             deferred.reject(error)
+        promise.finally ->
             @asset_records_deferred = null
 
         return deferred.promise
