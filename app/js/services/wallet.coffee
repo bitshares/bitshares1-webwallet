@@ -1,4 +1,3 @@
-
 class Wallet
 
     accounts: {}
@@ -6,8 +5,6 @@ class Wallet
     balances: {}
     bonuses: {}
     
-    #open_orders_balances: {}
-
     asset_balances : {}
 
     transactions: {"*": []}
@@ -87,37 +84,34 @@ class Wallet
         deffered = @q.defer()
         @refresh_balances_promise = deffered.promise
 
-        requests =
-            refresh_bonuses: @refresh_bonuses()
-            account_balances : @wallet_api.account_balance("")
-            refresh_assets: @blockchain.refresh_asset_records()
-            main_asset: @blockchain.get_asset(0)
-
-        @q.all(requests).then (results) =>
-            @main_asset = results.main_asset
-            angular.forEach results.account_balances, (name_bal_pair) =>
-                name = name_bal_pair[0]
-                balances = name_bal_pair[1]
-                angular.forEach balances, (asset_id_amt_pair) =>
-                    asset_id = asset_id_amt_pair[0]
-                    asset_record = @blockchain.asset_records[asset_id]
-                    if asset_record
-                        symbol = asset_record.symbol
-                        amount = asset_id_amt_pair[1]
-                        @balances[name] = @balances[name] || {}
-                        @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
-                        @asset_balances[asset_id] = @asset_balances[asset_id] || 0
-                        @asset_balances[asset_id] = @asset_balances[asset_id] + amount
-            angular.forEach @accounts, (acct) =>
-                #console.log "------ refresh_balances acct.name ------>", acct.name
-                if acct.is_my_account and !@balances[acct.name]
-                    @balances[acct.name] = {}
-                    @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
-            deffered.resolve(@balances)
-            @refresh_balances_promise = null
-        , (error) ->
-            deffered.reject(error)
-            @refresh_balances_promise = null
+        @blockchain.refresh_asset_records().then =>
+            @main_asset = @blockchain.asset_records[0]
+            requests =
+                refresh_bonuses: @refresh_bonuses()
+                account_balances : @wallet_api.account_balance("")
+            @q.all(requests).then (results) =>
+                angular.forEach results.account_balances, (name_bal_pair) =>
+                    name = name_bal_pair[0]
+                    balances = name_bal_pair[1]
+                    angular.forEach balances, (asset_id_amt_pair) =>
+                        asset_id = asset_id_amt_pair[0]
+                        asset_record = @blockchain.asset_records[asset_id]
+                        if asset_record
+                            symbol = asset_record.symbol
+                            amount = asset_id_amt_pair[1]
+                            @balances[name] = @balances[name] || {}
+                            @balances[name][symbol] = @utils.newAsset(amount, symbol, asset_record.precision)
+                            @asset_balances[asset_id] = @asset_balances[asset_id] || 0
+                            @asset_balances[asset_id] = @asset_balances[asset_id] + amount
+                angular.forEach @accounts, (acct) =>
+                    if acct.is_my_account and !@balances[acct.name]
+                        @balances[acct.name] = {}
+                        @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
+                deffered.resolve(@balances)
+                @refresh_balances_promise = null
+            , (error) ->
+                deffered.reject(error)
+                @refresh_balances_promise = null
 
         return @refresh_balances_promise
 
@@ -130,17 +124,14 @@ class Wallet
                 return response
     
         @refresh_bonuses_promise = @wallet_api.account_yield("").then (response) =>
-            @blockchain.refresh_asset_records().then () =>
-                #console.log "wallet_account_yield()",response
-                angular.forEach response, (name_balances_pair) =>
-                    name = name_balances_pair[0]
-                    #console.log "refresh_bonuse #{name}"
-                    angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
-                        asset_id = asset_id_amt_pair[0]
-                        symbol = @blockchain.asset_records[asset_id].symbol
-                        amount = asset_id_amt_pair[1]
-                        @bonuses[name] = @bonuses[name] || {}
-                        @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
+            angular.forEach response, (name_balances_pair) =>
+                name = name_balances_pair[0]
+                angular.forEach name_balances_pair[1], (asset_id_amt_pair) =>
+                    asset_id = asset_id_amt_pair[0]
+                    symbol = @blockchain.asset_records[asset_id].symbol
+                    amount = asset_id_amt_pair[1]
+                    @bonuses[name] = @bonuses[name] || {}
+                    @bonuses[name][symbol] = @utils.newAsset(amount, symbol, @blockchain.symbol2records[symbol].precision)
 
 
 #    account_yield: []
