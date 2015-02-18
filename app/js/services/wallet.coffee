@@ -56,7 +56,9 @@ class Wallet
         name: "WalletEachBlockObserver"
         frequency: "each_block"
         update: (data, deferred) =>
-            @refresh_accounts() if @refresh_accounts_request
+            if @refresh_accounts_request
+                @refresh_accounts_promise = null
+                @refresh_accounts()
             deferred.resolve(true)
         #notify: (data) ->
 
