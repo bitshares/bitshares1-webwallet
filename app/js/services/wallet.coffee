@@ -1,6 +1,7 @@
 class Wallet
 
     accounts: {}
+    favorites: {}
 
     balances: {}
     bonuses: {}
@@ -141,12 +142,14 @@ class Wallet
         acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct
+        @favorites[acct.name] = acct if acct.is_favorite
         return acct
 
     refresh_account: (name) ->
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
             @refresh_balances()
+            return @accounts[name]
 
     refresh_accounts: () ->
         @refresh_accounts_request = on
@@ -301,7 +304,7 @@ class Wallet
 
     refresh_transactions: () ->
         return @transactions_loading_promise if @transactions_loading_promise
-        #console.log "------ refresh_transactions ------>"
+        console.log "------ refresh_transactions ------>", getStackTrace()
         deffered = @q.defer()
 
         @transactions_loading_promise = deffered.promise
@@ -321,7 +324,7 @@ class Wallet
 
             account_transaction_history_promise.then (result) =>
                 for val in result
-                    #console.log "------ account_transaction ------>", val
+                    console.log "------ account_transaction ------>", val
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
 
