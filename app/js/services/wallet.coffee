@@ -304,7 +304,7 @@ class Wallet
 
     refresh_transactions: () ->
         return @transactions_loading_promise if @transactions_loading_promise
-        console.log "------ refresh_transactions ------>", getStackTrace()
+        #console.log "------ refresh_transactions ------>"
         deffered = @q.defer()
 
         @transactions_loading_promise = deffered.promise
@@ -317,17 +317,11 @@ class Wallet
         refresh_asset_records_promise.then =>
             go_back_to_block = if @transactions_last_block > 20 then @transactions_last_block else 0
             #console.log "------ wallet_account_transaction_history '' '' 0 #{go_back_to_block} -1"
-            account_transaction_history_promise = @wallet_api.account_transaction_history("", "", 0, go_back_to_block, -1)
-            account_transaction_history_promise.catch (error) =>
-                @transactions_loading_promise = null
-                deffered.reject(error)
-
-            account_transaction_history_promise.then (result) =>
+            @wallet_api.account_transaction_history("", "", 0, go_back_to_block, -1).then (result) =>
                 for val in result
-                    console.log "------ account_transaction ------>", val
+                    #console.log "------ account_transaction ------>", val
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
-
                 # pending transactions
                 pending_transactions_promise = @wallet_api.account_transaction_history("", "", 0, 0, 0)
                 pending_transactions_promise.then (result) =>
@@ -335,14 +329,15 @@ class Wallet
                         @process_transaction(val) if not val.is_confirmed and not val.is_virtual
                 pending_transactions_promise.finally =>
                     # each_block observer will reset transactions_loading_promise
-                    #@transactions_loading_promise = null
+                    @transactions_loading_promise = null
                     deffered.resolve(@transactions)
+            , (error) =>
+                @transactions_loading_promise = null
+                deffered.reject(error)
+
 
         @transactions_loading_promise
 
-
-    refresh_transactions_on_new_block: () ->
-        @refresh_transactions()
 
     create: (wallet_name, spending_password, brainkey) ->
         @rpc.request('wallet_create', [wallet_name, spending_password, brainkey])

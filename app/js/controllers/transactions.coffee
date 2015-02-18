@@ -37,9 +37,9 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $lo
                 refresh_transactions_deferred.resolve()
 
     refresh_transactions_deferred.promise.then ->
-        $scope.account_transactions = Wallet.transactions[$scope.name] #unless $scope.account_transactions
+        $scope.account_transactions = Wallet.transactions[$scope.name]
 
-        $scope.$watch (-> Info.info.last_block_time), (-> Wallet.refresh_transactions_on_new_block()), true
+        $scope.$watch ( -> Info.info.last_block_time ), ( -> Wallet.refresh_transactions() ), true
 
         $scope.$watchCollection "account_transactions", -> refresh_data()
 
