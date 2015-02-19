@@ -100,7 +100,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         
         my_transfer_form.$setValidity "funds", balance_after_transfer >= 0
         if balance_after_transfer < 0
-            my_transfer_form.amount.error_message = "Insufficent funds"
+            my_transfer_form.amount.error_message = "Insufficient funds"
 
     #call to initialize and on symbol change
     $scope.$watch ->
@@ -113,10 +113,16 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             Blockchain.get_asset(tx_fee.asset_id).then (_tx_fee_asset) ->
                 $scope.tx_fee_asset = _tx_fee_asset
                 $scope.hot_check_send_amount()
-    
+
+    address_type = "account"
+
     yesSend = ->
         vote = if Wallet.default_vote == "vote_per_transfer" then $scope.transfer_info.vote else Wallet.default_vote
-        WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote).then (response) ->
+        if address_type = "pubkey"
+            transfer_promise = WalletAPI.transfer_to_address($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
+        else
+            transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
+        transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
             $scope.transfer_info.amount = ""
@@ -136,6 +142,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
         payto = $scope.transfer_info.payto
+
+        regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
+        address_type = if regexp.exec(payto) then "pubkey" else "account"
+
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
@@ -148,6 +158,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     fee: transaction_fee, memo: $scope.transfer_info.memo
                     vote: $scope.vote_options[$scope.transfer_info.vote]
                     is_favorite: !!Wallet.favorites[payto]
+                    address_type: address_type
                 $modal.open
                     templateUrl: "dialog-transfer-confirmation.html"
                     controller: "DialogTransferConfirmationController"

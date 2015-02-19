@@ -76,7 +76,7 @@
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <!-- amount -->
         <label for="amount" class="col-sm-1 control-label" translate>account.amount</label>
-        <div class="col-sm-4">
+        <div class="col-sm-4" ng-if="balances">
           <div class="input-group">
             <input class="form-control" ng-model="transfer_info.amount" name="amount"
                 type="text" class="form-control" placeholder="0.0" id="amount"
@@ -93,6 +93,7 @@
             </div>
            </div>
         </div>
+        <div class="col-sm-4" ng-if="!balances"><span class="cell text-danger" translate>market.tip.insufficient_balances</span></div>
 
         <!-- vote options -->
         <div ng-show="transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">
@@ -122,12 +123,9 @@
             <input ng-model="transfer_info.payto" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 600, 'blur': 0} }" name="payto" type="text"
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
-                   typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
-                   required ng-change="payToChanged()"/>
+                   typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63"
+                   required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-]+)$/"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
-            <!--<span ng-if='transfer_info.payto' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">-->
-              <!--<i class="fa fa-book fa-lg fa-fw"></i>-->
-            <!--</span>-->
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
         </div>

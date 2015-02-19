@@ -1,5 +1,10 @@
-angular.module("app").controller "AddressBookModalController", ($scope, $modalInstance, Wallet, WalletAPI, Utils, contact_name, add_contact_mode, action) ->
-    $scope.account = {name: contact_name, key: ''}
+angular.module("app").controller "AddressBookModalController", ($scope, $modalInstance, Wallet, WalletAPI, Utils, Info, contact_name, add_contact_mode, action) ->
+    regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
+    match = regexp.exec(contact_name)
+    if match
+        $scope.account = {name: '', key: contact_name}
+    else
+        $scope.account = {name: '', key: contact_name}
     $scope.data = {}
     $scope.data.add_contact_mode = add_contact_mode
     $scope.data.favorites = Object.keys(Wallet.favorites)
