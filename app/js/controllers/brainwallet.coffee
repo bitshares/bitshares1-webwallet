@@ -184,7 +184,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
             # convert into a number between 0 and 1 (inclusive)
             rndMultiplier = num / Math.pow(2,16)
             wordIndex = Math.round dict_size * rndMultiplier
-            console.log '... i,num,rndMultiplier,wordIndex',i,num,rndMultiplier,wordIndex
+            #console.log '... i,num,rndMultiplier,wordIndex',i,num,rndMultiplier,wordIndex
             dictionary_lines[wordIndex]
         brainkey.join ' '
     
