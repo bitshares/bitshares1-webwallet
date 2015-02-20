@@ -133,18 +133,17 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         $scope.startIdleWatch()
         $scope.reset()
     
-    # 3000,23 7555,20
-    BRAINKEY_WORD_COUNT=20
-    MIN_DICTIONARY_WORD_COUNT=10000
+    BRAINKEY_WORD_COUNT=13
+    DICTIONARY_WORD_COUNT=49745
     
     dictionary_hashes=
-        '/dictionary_en.txt':"b69691d7c679a21593782c18bd05497103217dde"
+        '/dictionary_en.txt':"562e4a7a914c6b907d836b4332629b555b14424b"
     dictionary_url=""
     dictionary_lines=[]
     dictionary=(url = '/dictionary_en.txt')->
         if (
             url is dictionary_url and 
-            dictionary_lines.length >= MIN_DICTIONARY_WORD_COUNT
+            dictionary_lines.length is DICTIONARY_WORD_COUNT
         )
             return
         
@@ -156,8 +155,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 throw new Error "dictionary #{url} sha1 didn't match #{dictionary_hashes[url]} (unknown #{dictionary_hash.toString 'hex'})"
             
             lines = data.split '\n'
-            if lines.length < MIN_DICTIONARY_WORD_COUNT
-                throw new Error "dictionary #{url} needs at least #{MIN_DICTIONARY_WORD_COUNT} words"
+            if lines.length isnt DICTIONARY_WORD_COUNT
+                throw new Error "dictionary #{url} has #{lines.length} words, but needs needs #{DICTIONARY_WORD_COUNT}"
             dictionary_lines = lines
     
     # Shorter pharases may be gained while keeping the same bit strength
@@ -165,12 +164,12 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     # word length.
     generateBrainkey=(
         word_count = BRAINKEY_WORD_COUNT
-        dict_size = MIN_DICTIONARY_WORD_COUNT
+        dict_size = DICTIONARY_WORD_COUNT
     ) ->
         unless private_entropy.length >= 1000
             throw new Error 'Something is wrong, should have lots of entropy'
-        unless dictionary_lines.length >= MIN_DICTIONARY_WORD_COUNT
-            throw new Error 'Something is wrong, should have a large dictionary'
+        if dictionary_lines.length isnt DICTIONARY_WORD_COUNT
+            throw new Error "Something is wrong, should have #{DICTIONARY_WORD_COUNT} words instead of #{dictionary_lines.length}"
         
         entropy = private_entropy.join ''
         entropy += bts.secureRandom.randomBuffer(32).toString()
@@ -179,17 +178,13 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         randomBuffer = bts.hash.sha512 entropy # 64 bytes
         #console.log '... randomBuffer',randomBuffer.toString 'hex'
         
-        # For a 100,000 word dictionary, 16 words are needed:
-        #Math.pow(100*1000,15) = 1e+75
-        #Math.pow(256,32)      = 1e+77 standard private key
-        #Math.pow(100*1000,16) = 1e+80
         brainkey = for i in [0...(word_count * 2)] by 2
             # randomBuffer has 256 bits / 16 bits per word == 16 words
             num = (randomBuffer[i]<<8) + randomBuffer[i+1]
             # convert into a number between 0 and 1 (inclusive)
             rndMultiplier = num / Math.pow(2,16)
             wordIndex = Math.round dict_size * rndMultiplier
-            #console.log '... i,num,rndMultiplier,wordIndex',i,num,rndMultiplier,wordIndex
+            console.log '... i,num,rndMultiplier,wordIndex',i,num,rndMultiplier,wordIndex
             dictionary_lines[wordIndex]
         brainkey.join ' '
     
