@@ -359,7 +359,8 @@
       "votes": "Сумма",
       "approval": "Одобрение",
       "vote_confirmation_title": "Подтвердите голосование",
-      "vote_confirmation_text": "Проголосовать используя {{balance}} {{symbol}}? Комиссия за транзакцию составит {{fee}} {{fee_symbol}}."
+      "vote_confirmation_text": "Проголосовать используя {{balance}} {{symbol}}? Комиссия за транзакцию составит {{fee}} {{fee_symbol}}.",
+      "no_balance": "У вас нет {{symbol}} для голосования"
     },
     "import_wif_key": "Импортировать WIF ключ",
     "import_from_wallet": "Импортировать ключи из бумажника",

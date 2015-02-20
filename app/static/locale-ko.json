@@ -360,7 +360,8 @@
       "votes": "투표",
       "approval": "승인",
       "vote_confirmation_title": "투표 확인",
-      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다."
+      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다.",
+      "no_balance": "You have no {{symbol}} balance that you can vote with"
     },
     "import_wif_key": "WIF 키 임포트",
     "import_from_wallet": "지갑에서 키 임포트 하기",

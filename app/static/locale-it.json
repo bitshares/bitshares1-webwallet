@@ -349,7 +349,11 @@
       "vote_as_delegates_recommended": "Vota come Delegato Raccomandato",
       "btn_update_vote": "Aggiorna Voto",
       "current_votes": "Voti Attuali",
-      "future_votes": "Voti Futuri"
+      "votes": "Votes",
+      "approval": "Approval",
+      "vote_confirmation_title": "Vote Confirmation",
+      "vote_confirmation_text": "Vote with your {{balance}} {{symbol}} balance. It will charge a fee of {{fee}} {{fee_symbol}}.",
+      "no_balance": "You have no {{symbol}} balance that you can vote with"
     },
     "import_wif_key": "Importa WIF Key",
     "import_from_wallet": "Importa Keys da un Portafogli",

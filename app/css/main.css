@@ -523,3 +523,8 @@ input.ng-dirty.ng-invalid {
 .delegates-filter .input-group-addon {
 	width: 40px;
 }
+
+.dropdown-menu.left {
+   left: auto !important;
+   right: 0px;
+ }
