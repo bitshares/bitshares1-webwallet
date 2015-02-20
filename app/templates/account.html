@@ -4,14 +4,14 @@
       <img ng-src="http://robohash.org/{{account_name}}?size=200x200&set=set1" height="150" width="150"/>
     </div>
     <br/>
-    <div ng-show="!account.delegate_info" class="text-center avatar-150">
+    <div ng-show="!account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
       <button ng-show="!account.is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
             <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
     </div>
-    <div ng-show="account.delegate_info" class="text-center avatar-150">
+    <div ng-show="account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
       <button ng-show="!account.is_favorite" ng-click="addToAddressBook(account_name)" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
         <i class="fa fa-book fa-2x"></i>
       </button>

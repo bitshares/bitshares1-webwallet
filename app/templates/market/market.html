@@ -79,7 +79,7 @@
     <br>
 
     <div class="row">
-
+<span ng-hide="is_bitshares_js">
       <div id="order_tabs" class="col-md-5">
         <tabset>
           <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
@@ -91,7 +91,7 @@
           </tab>
         </tabset>
       </div>
-
+</span>
       <div class="col-md-7">
           <orderbookchart
               bids-array="market.orderbook_chart_data.bids_array"
@@ -119,7 +119,7 @@
     </div>
 
     <br>
-
+<span ng-hide="is_bitshares_js">
     <div class="row">
         <div class="panel col-xs-12 col-sm-6">
             <div class="panel-heading">
@@ -156,7 +156,7 @@
             </div>
         </div>
     </div>
-
+</span>
     <div class="row">
       <div class="panel col-md-6">
         <div class="panel-heading">

@@ -52,21 +52,25 @@
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center" ng-if="gravatar_account_name">
       <img ng-src="http://robohash.org/{{gravatar_account_name}}?size=200x200&set=set1" height="150" width="150"/>
+<span ng-hide="is_bitshares_js">
       <br/><br>
       <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
+</span>
     </div>
 
     <div class="avatar-150 text-center" ng-if="!gravatar_account_name">
       <img src="img/user.png" height="150" width="150"/>
       <br/><br>
+<span ng-hide="is_bitshares_js">
       <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error && transfer_info.payto"
               ng-click="newContactModal(true)" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
+</span>
     </div>
 
   </div>
@@ -95,7 +99,7 @@
         </div>
 
         <!-- vote options -->
-        <div ng-show="transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">
+        <div ng-show="!is_bitshares_js && transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">
           <div class="btn-group" dropdown is-open="status2.isopen">
             <button type="button" class="btn dropdown-toggle" dropdown-toggle tooltip="{{ 'account.vote.vote_for' | translate }}">
               {{ ('account.vote.' + vote_options[transfer_info.vote]) | translate }} <span class="caret"></span>
@@ -124,7 +128,7 @@
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
                    required ng-change="payToChanged()"/>
-            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
+            <span ng-hide="is_bitshares_js" ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
             <!--<span ng-if='transfer_info.payto' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">-->
               <!--<i class="fa fa-book fa-lg fa-fw"></i>-->
             <!--</span>-->
@@ -138,7 +142,7 @@
         </div>
       </div>
       <!-- memo -->
-      <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
+      <div ng-hide="is_bitshares_js" class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
         <label for="memo" class="col-sm-1 control-label" translate>account.memo</label>
         <div class="col-md-6 col-sm-10">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
