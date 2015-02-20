@@ -8,6 +8,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.show_from_section = false
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
+    $scope.address_type = "account"
+
+    pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
     $scope.memo_size_max = 51
     my_transfer_form = null
@@ -114,11 +117,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.tx_fee_asset = _tx_fee_asset
                 $scope.hot_check_send_amount()
 
-    address_type = "account"
-
     yesSend = ->
         vote = if Wallet.default_vote == "vote_per_transfer" then $scope.transfer_info.vote else Wallet.default_vote
-        if address_type = "pubkey"
+        if $scope.address_type == "pubkey"
             transfer_promise = WalletAPI.transfer_to_address($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
         else
             transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
@@ -142,10 +143,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         my_transfer_form.amount.error_message = null
         my_transfer_form.payto.error_message = null
         payto = $scope.transfer_info.payto
-
-        regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
-        address_type = if regexp.exec(payto) then "pubkey" else "account"
-
+        $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
         transfer_amount = Utils.formatDecimal($scope.transfer_info.amount, amount_asset.precision)
         WalletAPI.get_transaction_fee($scope.transfer_info.symbol).then (tx_fee) ->
@@ -158,7 +156,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     fee: transaction_fee, memo: $scope.transfer_info.memo
                     vote: $scope.vote_options[$scope.transfer_info.vote]
                     is_favorite: !!Wallet.favorites[payto]
-                    address_type: address_type
+                    address_type: $scope.address_type
                 $modal.open
                     templateUrl: "dialog-transfer-confirmation.html"
                     controller: "DialogTransferConfirmationController"
@@ -179,7 +177,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     add_contact_mode
                 action: ->
                     (contact)->
-                        $scope.transfer_info.payto = contact
+                        $scope.gravatar_account_name = $scope.transfer_info.payto = contact
 
     $scope.onSelect = (name) ->
         $scope.transfer_info.payto = name
@@ -213,8 +211,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.add_to_address_book.message = null
         $scope.add_to_address_book.error = null
         my_transfer_form?.payto.error_message = null
-        if Wallet.accounts[$scope.transfer_info.payto]
-            $scope.gravatar_account_name = $scope.transfer_info.payto
+        payto = $scope.transfer_info.payto
+        if Wallet.accounts[payto]
+            $scope.gravatar_account_name = payto
         else
-            BlockchainAPI.get_account($scope.transfer_info.payto).then (result) ->
-                $scope.gravatar_account_name = if result then $scope.transfer_info.payto else null
+            BlockchainAPI.get_account(payto).then (result) ->
+                $scope.gravatar_account_name = if result then payto else null
