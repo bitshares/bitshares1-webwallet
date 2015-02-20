@@ -24,7 +24,8 @@
             <label class="col-sm-offset-1 col-sm-3 control-label" for="transaction_fee" translate>pref.trx_fee</label>
             <div class="col-sm-3 input-group">
               <input id="transaction_fee" decimalonly ng-model="model.transaction_fee" name="transaction_fee"
-                     class="form-control" placeholder="Transaction Fee"/> <span class="input-group-addon">{{model.symbol}}</span>
+                     class="form-control" placeholder="Transaction Fee"
+                     ng-disabled="is_bitshares_js"/> <span class="input-group-addon">{{model.symbol}}</span>
             </div>
           </div>
 
