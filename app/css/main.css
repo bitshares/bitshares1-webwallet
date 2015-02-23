@@ -304,7 +304,7 @@ li.stat {
 }
 
 .avatar-150-min-width {
-	min-width: 155px;
+	min-width: 170px;
 
 }
 
@@ -367,9 +367,9 @@ input.ng-dirty.ng-invalid {
 }
 
 .avatar-150 {
-	width: 155px;
+	width: 170px;
 	margin: 0 0 0 auto;
-	padding-left: 5px;
+	padding: 0 10px;
 }
 
 .clickable {
