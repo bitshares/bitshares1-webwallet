@@ -142,7 +142,7 @@
         </div>
       </div>
       <!-- memo -->
-      <div ng-hide="is_bitshares_js" class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
+      <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
         <label for="memo" class="col-sm-1 control-label" translate>account.memo</label>
         <div class="col-md-6 col-sm-10">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
