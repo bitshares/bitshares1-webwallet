@@ -257,7 +257,7 @@ class Wallet
         t.trx_num = val.trx_num
         t.time = time
         t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString(undefined, {timeZone:"UTC"})
-        t.pretty_time = time.toLocaleString(undefined, {timeZone:"UTC"})
+        t.pretty_time = time.toLocaleString()#undefined, {timeZone:"UTC"})
         t.fee = @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
         t.vote = "N/A"
         if t.status != "rebroadcasted"
