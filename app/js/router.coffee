@@ -15,6 +15,11 @@ angular.module("app").config ($stateProvider, $urlRouterProvider) ->
         templateUrl: "console.html"
         controller: "ConsoleController"
 
+    sp.state "wallet",
+        url: "/wallet"
+        templateUrl: "wallet.html"
+        controller: "WalletController"
+
     sp.state "createaccount",
         url: "/create/account"
         templateUrl: "createaccount.html"
@@ -171,3 +176,4 @@ angular.module("app").config ($stateProvider, $urlRouterProvider) ->
 
     sp.state "advanced.preferences", { url: "/preferences", views: { 'advanced-preferences': { templateUrl: 'advanced/preferences.html', controller: 'PreferencesController' } } }
     sp.state "advanced.console", { url: "/console", views: { 'advanced-console': { templateUrl: 'advanced/console.html', controller: 'ConsoleController' } } }
+    sp.state "advanced.wallet", { url: "/wallet", views: { 'wallet-console': { templateUrl: 'advanced/wallet.html', controller: 'WalletController' } } }

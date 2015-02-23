@@ -196,7 +196,8 @@
     "existing_brainkey":"Existing Brain-Key",
     "back_to_create":"Back to Create",
     "brainkey":"Brain-Key",
-    "open":"Open"
+    "open":"Open",
+    "backup":"Backup Brain-Key"
   },
   "index": {
     "title": "BitShares Wallet",
@@ -207,6 +208,7 @@
     "market": "Market",
     "block_explorer": "Block Explorer",
     "preferences": "Preferences",
+    "wallet":"Wallet",
     "console": "Console",
     "mail": "Mail",
     "help": "Help",

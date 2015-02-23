@@ -236,15 +236,3 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
                         $scope.add_to_address_book.error = "Unknown account"
                 , (error) ->
                     $scope.add_to_address_book.error = "Unknown account"
-    
-    $scope.brainkey = {}
-    $scope.brainkey_submit=()->
-        wallet_api = window.wallet_api
-        wallet = wallet_api.wallet
-        bk = $scope.brainkey
-        bk.pw_invalid = not(
-            wallet.validate_password bk.password
-        )
-        if not $scope.brainkey.pw_invalid
-            bk.password = ""
-            bk.text = wallet_api.get_brainkey()

@@ -1,0 +1,31 @@
+<div class="header">
+<div class="col-sm-12">
+    <h3 class="header-title" translate>index.wallet</h3>
+</div>
+</div>
+<div class="header"> <div class="col-sm-12"> <div class="main-content">
+
+<form class="form-horizontal" name="form">
+
+<div class="form-group" ng-show="is_bitshares_js">
+    <label for="brainkeyPassword" class="col-sm-2 control-label"  translate>brain_wallet.brainkey</label>
+    <div class="col-sm-10">
+        <input class="form-control" id="brainkeyPassword"
+            ng-hide="brainkey.text" type="password" 
+            ng-model="brainkey.password" ng-trim="true" 
+            ng-change="brainkey_submit()" autofocus
+        >
+        <div ng-hide="brainkey.text">
+            <div translate>
+                brain_wallet.password_to_show
+            </div>
+        </div>
+        <span ng-show="brainkey.text">
+            <pre>{{brainkey.text}}</pre>&nbsp;
+            (<a ng-click=" brainkey.text='' "><span translate>hide</span></a>)
+        </span>
+    </div>
+</div>
+</form>
+
+</div> </div> </div>
