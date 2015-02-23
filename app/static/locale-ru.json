@@ -400,7 +400,8 @@
     "reg_add_faucet": "Add Faucet",
     "update_public_data_tx_fee": "Update data transaction Fee: ",
     "new_balance": "New Balance",
-    "less_fee": "Less fee of"
+    "less_fee": "Less fee of",
+    "select_currency": "Select Currency"
   },
   "accounts": {
     "create_account": "Создать новый аккаунт",

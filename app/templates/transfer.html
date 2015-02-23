@@ -84,10 +84,14 @@
                 autocomplete="off" required/>
             <!-- asset selector -->
             <div class="input-group-btn" dropdown is-open="status.isopen">
-              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">{{transfer_info.symbol}} <span class="caret"></span></button>
-              <ul class="dropdown-menu scrollable-menu-extra-short" role="menu">
-                <li ng-repeat="(k, v) in balances">
-                  <a ng-click="transfer_info.symbol = k; status.isopen=false">{{k}}</a>
+              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                <span ng-show="transfer_info.symbol">{{transfer_info.symbol}}</span>
+                <span ng-show="!transfer_info.symbol" translate>account.select_currency</span>
+                <span ng-show="currencies.length > 1" class="caret"></span>
+              </button>
+              <ul ng-if="currencies.length > 1" class="dropdown-menu scrollable-menu-extra-short" role="menu">
+                <li ng-repeat="c in currencies" ng-show="c">
+                  <a ng-click="transfer_info.symbol = c; status.isopen=false">{{c}}</a>
                 </li>
               </ul>
             </div>
@@ -147,8 +151,8 @@
       <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-1 col-sm-10">
-          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid">
-            <span translate>account.send</span>
+          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid || !transfer_info.symbol">
+            &nbsp; <span translate>account.send</span> &nbsp;
           </button>
           <span class="help-block">
                {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+tx_fee_asset.symbol }})</span>

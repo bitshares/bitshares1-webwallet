@@ -392,7 +392,8 @@
     "reg_add_faucet": "加入水龙头",
     "update_public_data_tx_fee": "更新数据的交易费用: ",
     "new_balance": "新的余额",
-    "less_fee": "少于费用"
+    "less_fee": "少于费用",
+    "select_currency": "Select Currency"
   },
   "accounts": {
     "create_account": "创建新账户",

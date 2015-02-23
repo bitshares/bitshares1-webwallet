@@ -1,7 +1,8 @@
 angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Utils, Info, Growl) ->
     Info.refresh_info()
     $scope.utils = Utils
-    $scope.balances = []
+    $scope.balances = null
+    $scope.currencies = null
     $scope.show_from_section = true
     $scope.account_from_name = account_from_name = $stateParams.from
     if $scope.account_name
@@ -50,7 +51,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         if account_from_name
             if $scope.accounts[account_from_name]
                 $scope.balances = Wallet.balances[account_from_name]
-                $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
+                $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
+                $scope.currencies.unshift("") if  $scope.currencies.length > 1
+                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
             else
                 $scope.no_account = true
         else
@@ -58,7 +61,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 if account
                     $scope.account_from_name = account_from_name = account.name
                     $scope.balances = Wallet.balances[account_from_name]
-                    $scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
+                    $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
+                    $scope.currencies.unshift("") if  $scope.currencies.length > 1
+                    #$scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
+                    $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 else
                     $scope.no_account = true
 
