@@ -233,15 +233,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         else
             $scope.short.collateral = null
 
-    # Adds .01% to the price so when posted it overlaps and should match market bid/ask
-    get_makeweight = ->
-        switch $state.current.name
-            when "market.buy" then .0001
-            when "market.sell" then -.0001
-            when "market.short" then -.0001
-            else
-                throw Error("Unknown $state.current.name", $state.current.name)
-
     $scope.grid_row_clicked = (row) ->
         if row.type == "ask" or row.type == "bid" or row.type == "short_wall"
             $scope.use_trade_data price: row.price, quantity: row.quantity
@@ -250,7 +241,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
-        makeweight = get_makeweight()
         coalesce = (new_value, old_value, precision) ->
             return null if !new_value and !old_value
             TradeData = MarketService.TradeData
@@ -268,8 +258,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
         order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision
 
-        price = data.price + data.price * makeweight if data.price
-        order.price = coalesce price, order.price, $scope.market.price_precision
+        order.price = coalesce data.price, order.price, $scope.market.price_precision
 
         switch $state.current.name
             when "market.buy" then $scope.order_change()
