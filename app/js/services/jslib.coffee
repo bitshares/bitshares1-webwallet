@@ -4,7 +4,7 @@
 ###
 class BitsharesJsRpc
     
-    constructor: (@RpcService, @Growl) ->
+    constructor: (@RpcService, @Growl, $timeout) ->
         
         return unless bts = window.bts
         console.log "[BitShares-JS] enabled"
@@ -21,9 +21,15 @@ class BitsharesJsRpc
         js_client.event 'wallet.must_be_opened',()->
             unless window.location.hash == "#/brainwallet"
                 navigate_to "brainwallet"
+        
+        js_client.event 'wallet.locked', ()->
+            $timeout ->
+                window.location.reload()
+            ,
+                250
     
 angular.module("app").service "BitsharesJsRpc", 
-    ["RpcService", "Growl", BitsharesJsRpc]
+    ["RpcService", "Growl", "$timeout", BitsharesJsRpc]
 
 angular.module("app").run (BitsharesJsRpc, RpcService)->
     #console.log "[BitShares-JS] included"
