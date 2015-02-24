@@ -68,29 +68,29 @@ class Wallet
     
     check_wallet_status: ->
         deferred = @q.defer()
-        @open().then =>
-            @wallet_get_info().then (result) =>
-                navigate_to('unlockwallet') unless result.unlocked
-                deferred.resolve()
-                @get_setting('timeout').then (result) =>
-                    if result && result.value
-                        @timeout = result.value
-                        @idle._options().idleDuration = @timeout
-                        @idle.watch()
-                @get_setting('default_vote').then (result) =>
-                    @default_vote = result.value if result?.value
-                @get_setting('interface_locale').then (result) =>
-                    if result and result.value
-                        @interface_locale = result.value
-                        moment.locale(result.value)
-                        @translate.use(result.value)
-                @get_setting('interface_theme').then (result) =>
-                    if result and result.value
-                        @interface_theme = result.value
-            , (error) ->
-                deferred.reject(error)
+        #@open().then =>
+        @wallet_get_info().then (result) =>
+            navigate_to('unlockwallet') unless result.unlocked
+            deferred.resolve()
+            @get_setting('timeout').then (result) =>
+                if result && result.value
+                    @timeout = result.value
+                    @idle._options().idleDuration = @timeout
+                    @idle.watch()
+            @get_setting('default_vote').then (result) =>
+                @default_vote = result.value if result?.value
+            @get_setting('interface_locale').then (result) =>
+                if result and result.value
+                    @interface_locale = result.value
+                    moment.locale(result.value)
+                    @translate.use(result.value)
+            @get_setting('interface_theme').then (result) =>
+                if result and result.value
+                    @interface_theme = result.value
         , (error) ->
-                deferred.reject(error)
+            deferred.reject(error)
+        #, (error) ->
+        #        deferred.reject(error)
 
         return deferred.promise
 
@@ -335,7 +335,7 @@ class Wallet
             #console.log "------ wallet_account_transaction_history '' '' 0 #{go_back_to_block} -1"
             @wallet_api.account_transaction_history("", "", 0, go_back_to_block, -1).then (result) =>
                 for val in result
-                    console.log "------ account_transaction ------>", val
+                    #console.log "------ account_transaction ------>", val
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
                 # pending transactions
@@ -398,6 +398,7 @@ class Wallet
 
     open:(name = "default") ->
         @rpc.request('wallet_open', [name]).then (response) =>
+          @wallet_name = name
           response.result
     
     get_block: (block_num)->

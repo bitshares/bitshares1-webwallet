@@ -12,10 +12,6 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             res = $stateParams[key] == params[key]
         return res
 
-    Wallet.check_wallet_status().then ->
-        Info.watch_for_updates()
-        Wallet.refresh_accounts()
-
     $scope.started = false
 
     closeModals = ->
@@ -96,6 +92,10 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             when on
                 #console.log 'wallet_unlocked',unlocked
                 Observer.registerObserver Wallet.observer_config()
+                Wallet.check_wallet_status().then ->
+                    Info.watch_for_updates()
+                    Wallet.refresh_accounts()
+
             when off
                 #console.log 'wallet_unlocked',unlocked
                 Observer.unregisterObserver Wallet.observer_config()
