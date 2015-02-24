@@ -89,16 +89,20 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                     return
                 brainkey = $scope.data.brainkey
                 creating_wallet = true
-                Wallet.create(
-                    wallet_name
-                    spending_password
-                    brainkey
-                ).then ->
-                    Wallet.open(wallet_name).then ->
-                        Wallet.wallet_unlock(spending_password).then ->
-                            navigate_to LANDING_PAGE
-                .finally ->
-                    creating_wallet = false
+                $scope.creating_wallet = 'fa fa-refresh fa-spin'
+                $timeout => # timeout gives refresh spin time to show
+                    Wallet.create(
+                        wallet_name
+                        spending_password
+                        brainkey
+                    ).then ->
+                        Wallet.open(wallet_name).then ->
+                            Wallet.wallet_unlock(spending_password).then ->
+                                navigate_to LANDING_PAGE
+                    .finally ->
+                        $scope.creating_wallet = ''
+                ,
+                    250
 
     rotate_brainkey_help_promise = null
     rotate_brainkey_help=->
@@ -118,15 +122,6 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         size = 4
         incr = if direction is 'right' then 1 else (size-1)
         $scope.new_brainkey_info = 'new_brainkey_info' + (num + incr) % size
-    
-    $scope.$watch ->
-        creating_wallet
-    , (unlocked)->
-        $scope.creating_wallet = 
-            if creating_wallet
-                'fa fa-refresh fa-spin'
-            else
-                ''
 
     $scope.$on "$destroy", ->
         $rootScope.splashpage = false
