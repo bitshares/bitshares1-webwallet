@@ -31,6 +31,8 @@ angular.module("app").controller "WalletController", ($scope, Growl) ->
             wallet_api.lock()
         catch error
             Growl.notice "","Error deleting wallet #{error}"
+            console.log error,error.stack
+            
     $scope.cancelDelete= ()->
         bk = $scope.brainkey
         bk.delete_password = undefined
