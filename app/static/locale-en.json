@@ -197,7 +197,11 @@
     "back_to_create":"Back to Create",
     "brainkey":"Brain-Key",
     "open":"Open",
-    "backup":"Backup Brain-Key"
+    "backup":"Backup Brain-Key",
+    "delete_wallet":"Delete Wallet",
+    "delete":"Delete",
+    "password_to_delete":"Enter password to show delete confirmation",
+    "cancel":"Cancel"
   },
   "index": {
     "title": "BitShares Wallet",

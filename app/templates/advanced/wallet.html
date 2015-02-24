@@ -7,7 +7,7 @@
 
 <form class="form-horizontal" name="form">
 
-<div class="form-group" ng-show="is_bitshares_js">
+<div class="form-group">
     <label for="brainkeyPassword" class="col-sm-2 control-label"  translate>brain_wallet.brainkey</label>
     <div class="col-sm-10">
         <input class="form-control" id="brainkeyPassword"
@@ -26,6 +26,34 @@
         </span>
     </div>
 </div>
+
+<div class="form-group">
+    <label for="brainkeyPassword" class="col-sm-2 control-label"  translate>brain_wallet.delete_wallet</label>
+    <div class="col-sm-10">
+        <div ng-hide="brainkey.delete_confirmed">
+            <input class="form-control" id="brainkeyPassword"
+                ng-hide="brainkey.text" type="password" 
+                ng-model="brainkey.delete_password" ng-trim="true" 
+                ng-change="delete_submit()"
+            >
+            <div translate>
+                brain_wallet.password_to_delete
+            </div>
+        </div>
+        <span ng-show="brainkey.delete_confirmed">
+            <button class="btn btn-primary"
+                ng-click="deleteWallet()"
+                translate>brain_wallet.delete
+            </button>
+            <button class="btn btn-primary"
+                ng-click="cancelDelete()"
+                translate>brain_wallet.cancel
+            </button>
+        </span>
+    </div>
+</div>
+
+
 </form>
 
 </div> </div> </div>
