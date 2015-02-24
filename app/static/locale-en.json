@@ -248,7 +248,7 @@
     "all_markets": "All Markets",
     "recent_markets": "Recent Markets",
     "median_price": "Median Price",
-    "feed_price": "Feed Price",
+    "feed_price": "Call Price",
     "bid_depth": "Bid Depth",
     "ask_depth": "Ask Depth",
     "buy": "Buy",
@@ -381,7 +381,7 @@
     },
     "delegate_info": "Delegate Info",
     "blk_produced_missed": "Blocks produced / missed",
-    "price_feeds": "Price Feeds",
+    "price_feeds": "Call Price Feeds",
     "self": "self",
     "vote": {
       "tab_title": "Vote",

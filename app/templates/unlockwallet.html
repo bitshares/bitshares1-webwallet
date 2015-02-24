@@ -14,7 +14,7 @@
               <input ng-model="spending_password" name="sp" type="password" class="form-control input"
                      placeholder="Password" tabindex="1" autofocus focus
                      ng-keydown="keydown($event)" ng-keypress="keypress($event)" ng-trim="false"/>
-              <button ng-disabled="loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary" translate>
+              <button ng-disabled="!spending_password || loading_indicator.show" type="submit" tabindex="2" class="btn btn-primary" translate>
                 unlock.btn_unlock
               </button>
             </div>
