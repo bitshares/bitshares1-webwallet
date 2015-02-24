@@ -9,7 +9,7 @@
 <div class="row head-bg account-page" ng-if="show_from_section">
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
-      <img ng-src="http://robohash.org/{{account_from_name}}?size=200x200&set=set1" height="150" width="150"/>
+      <identicon account="{{account_from_name}}" size="150"/>
     </div>
     <br/>
   </div>
@@ -51,7 +51,7 @@
 <div class="row m-top">
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center" ng-if="gravatar_account_name">
-      <img ng-src="http://robohash.org/{{gravatar_account_name}}?size=200x200&set=set1" height="150" width="150"/>
+      <identicon account="{{gravatar_account_name}}" size="150"/>
       <br/><br>
       <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
