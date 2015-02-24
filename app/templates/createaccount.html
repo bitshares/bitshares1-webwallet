@@ -11,8 +11,7 @@
   <div class="row">
     <div class="col-sm-2 avatar-150-min-width">
       <div class="avatar-150 text-center">
-        <img ng-src="http://robohash.org/{{f.name}}?size=200x200&set=set1" height="150" width="150" ng-if="f.name"
-             tooltip="Your RoboHash is a security feature that helps you verify account names visually"/>
+        <identicon ng-if="f.name" account="{{f.name}}" size="150" tooltip="Your identicon is a security feature that helps you verify account names visually"/>
         <img src="img/user.png" height="150" width="150" ng-if="!f.name"/>
       </div>
     </div>

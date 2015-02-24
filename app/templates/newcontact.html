@@ -8,8 +8,7 @@
 
     <div class="col-sm-3 m-top">
       <div class="avatar col-lg-offset-3 col-md-offset-2">
-        <img ng-src="http://robohash.org/{{account_name}}?size=200x200&set=set1" height="150" width="150" ng-if="account_name"
-             tooltip="Your RoboHash is a security feature that helps you verify account names visually"/>
+        <identicon ng-if="account_name" account="{{account_name}}" size="150" tooltip="Your identicon is a security feature that helps you verify account names visually"/>
         <img src="img/user.png" height="150" width="150" ng-if="!account_name"/>
       </div>
     </div>
