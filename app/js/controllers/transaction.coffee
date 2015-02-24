@@ -19,10 +19,11 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
                 trx.a_deposits.push Utils.newAsset(d[1], asset_type.symbol, asset_type.precision)
 
             asset_type = Blockchain.asset_records[0]
-            for n in trx.net_delegate_votes
-                n.push Utils.asset(n[1].votes_for, asset_type)
-                #delegate name
-                n.push Blockchain.id_delegates[n[0]].name
+            if trx.net_delegate_votes
+                for n in trx.net_delegate_votes
+                    n.push Utils.asset(n[1].votes_for, asset_type)
+                    #delegate name
+                    n.push Blockchain.id_delegates[n[0]].name
 
             for b in trx.balance
                 b.push  Utils.asset(b[1], Blockchain.asset_records[b[0]])

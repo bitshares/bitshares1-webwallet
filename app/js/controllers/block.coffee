@@ -30,10 +30,11 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
 
                         trx.net_delegate_votes = t[1].net_delegate_votes
                         asset_type = Blockchain.asset_records[0]
-                        for n in trx.net_delegate_votes
-                            n.push Utils.asset(n[1].votes_for, asset_type)
-                            # delegate name
-                            n.push Blockchain.id_delegates[n[0]].name
+                        if trx.net_delegate_votes
+                            for n in trx.net_delegate_votes
+                                n.push Utils.asset(n[1].votes_for, asset_type)
+                                # delegate name
+                                n.push Blockchain.id_delegates[n[0]].name
                         trx.operations = t[1].trx.operations
                         trx.balance = t[1].balance
                         for b in trx.balance
