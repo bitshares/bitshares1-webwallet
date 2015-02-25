@@ -43,6 +43,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     $scope.reset=->
         $scope.stepChange 'open_create'
     
+    WalletDb = bts.wallet.WalletDb
+    
     walletName = (spending_password) ->
         pw = spending_password
         # Master key checksum is 2 hashes so there is no
@@ -62,7 +64,6 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                     console.log "ERROR, button should have been disabled.  Unable to create a wallet. Please correct the form."
                     return
                 
-                WalletDb = bts.wallet.WalletDb
                 wallet_name = walletName spending_password
                 if WalletDb.exists wallet_name
                     Wallet.open(wallet_name).then ->
@@ -75,7 +76,15 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 unless $scope.wform.csp.$valid
                     Growl.error "", "Unable to confirm password"
                     return
-                $scope.stepChange 'entropy_collect'
+                spending_password = $scope.data.spending_password
+                wallet_name = walletName spending_password
+                if WalletDb.exists wallet_name
+                    # user changed the password and it exists now
+                    Wallet.open(wallet_name).then ->
+                        Wallet.wallet_unlock(spending_password).then ->
+                            navigate_to LANDING_PAGE
+                else
+                    $scope.stepChange 'entropy_collect'
             when 'new_brainkey', 'existing_brainkey'
                 spending_password = $scope.data.spending_password
                 unless $scope.wform.$valid
