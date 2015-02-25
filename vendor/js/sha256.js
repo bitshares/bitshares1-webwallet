@@ -29,11 +29,6 @@
 
   var blocks = [];
 
-  Array.prototype.__ARRAY__ = true;
-  if(TYPED_ARRAY) {
-    Uint8Array.prototype.__ARRAY__ = true;
-  }
-
   var sha224 = function(message) {
     return sha256(message, true);
   };
@@ -69,7 +64,7 @@
       blocks[4] = blocks[5] = blocks[6] = blocks[7] =
       blocks[8] = blocks[9] = blocks[10] = blocks[11] =
       blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
-      if(message.__ARRAY__) {
+      if(message instanceof Array) {
         for (i = start;index < length && i < 64; ++index) {
           blocks[i >> 2] |= message[index] << SHIFT[i++ & 3];
         }
