@@ -56,10 +56,13 @@ class Info
 
     watch_for_updates:(shutdown = false) =>
         unless shutdown
+            if !@is_refreshing
+                @refresh_info()
+            
             @interval_stop = @interval (=>
                 if !@is_refreshing
                     @refresh_info()
-            ), 2500
+            ), 10*1000
         else
             if angular.isDefined @interval_stop
                 @interval.cancel @interval_stop

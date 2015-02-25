@@ -26,7 +26,7 @@ class BitsharesJsRpc
             $timeout ->
                 window.location.reload()
             ,
-                250
+                100
     
 angular.module("app").service "BitsharesJsRpc", 
     ["RpcService", "Growl", "$timeout", BitsharesJsRpc]
