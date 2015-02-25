@@ -36,7 +36,6 @@
                 <!--From-->
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                        <identicon account="{{entry.from}}" size="36"/>
                         <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
                     </span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
@@ -44,7 +43,6 @@
                     </span>
                 </span>
                 <span ng-if="entry.from.charAt(0) === 'X'">
-                    <img ng-src="img/user.png" height="40" width="40"/>
                     <a class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
                 </span>
 
@@ -56,7 +54,6 @@
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">
-                        <identicon account="{{entry.to}}" size="36"/>
                         <span>
                             <a ui-sref="account.transactions({name: entry.to})" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
                             <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>

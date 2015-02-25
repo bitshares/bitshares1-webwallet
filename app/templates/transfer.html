@@ -50,25 +50,15 @@
 
 <div class="row m-top">
   <div class="col-sm-2 avatar-150-min-width">
-    <div class="avatar-150 text-center" ng-if="gravatar_account_name">
+    <div class="avatar-150 text-center">
       <identicon account="{{gravatar_account_name}}" size="150"/>
       <br/><br>
-      <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
+      <button ng-show="transfer_info.payto && !accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
     </div>
-
-    <div class="avatar-150 text-center" ng-if="!gravatar_account_name">
-      <img src="img/user.png" height="150" width="150"/>
-      <br/><br>
-      <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error && transfer_info.payto"
-              ng-click="newContactModal(true)" class="btn btn-primary btn-sm outline">
-        <span translate>contact.add_to_address_book</span>
-      </button>
-    </div>
-
   </div>
   <div class="col-sm-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form" ng-submit="send()" novalidate>

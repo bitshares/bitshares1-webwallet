@@ -27,7 +27,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th translate uppercase>th.avatar</th>
         <th><span translate>th.from</span> <i class='fa fa-long-arrow-right'></i> <span translate>th.to</span></th>
         <th translate>th.memo</th>
         <th translate>th.amount</th>
@@ -39,24 +38,6 @@
     <tbody>
       <tr ng-repeat="t in account_transactions | orderBy: '-time' | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize"
           ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
-        <td style='width:1%;white-space:nowrap'>
-            <span ng-repeat="entry in t.ledger_entries">
-              <div class="avatar-40">
-                <span ng-if="account.name==entry.from">
-                  <identicon ng-if="entry.to[0] !== entry.to[0].toUpperCase()" account="{{entry.to}}" size="40"/>
-                  <identicon ng-if="account.name !== entry.to && entry.to[0] === entry.to[0].toUpperCase()" account="{{account.name}}" size="40"/>
-                </span>
-                <span ng-if="account.name==entry.to && account.name!=entry.from">
-                    <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
-                      <identicon account="{{entry.from}}" size="40"/>
-                    </span>
-                    <span ng-if="entry.from.charAt(0) === 'X'">
-                        <img ng-src="img/user.png" height="40" width="40"/>
-                    </span>
-                </span>
-              </div>
-            </span>
-        </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span ng-if="account.name==entry.to && account.name!=entry.from">

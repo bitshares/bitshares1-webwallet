@@ -109,19 +109,8 @@ angular.module("app.directives").directive "focus", ($timeout) ->
 
 angular.module("app.directives").directive "ngSortFa", () ->
     restrict: 'E',
-    scope: 
-      'orderString':'@',
-      'orderByField':'@',
-      'reverseSort':'@'
-    templateUrl: 'ng-sort-template.html'
-
-angular.module("app.directives").directive "identicon", () ->
-    restrict: 'E'
-    replace: true
     scope:
-        'account': '@'
-        'size': '@'
-    template: '''<canvas class="identicon" height="{{size}}" width="{{size}}"></canvas></div>'''
-    link: (scope, element) ->
-        scope.$watch "account", (value) ->
-            element.jdenticon(sha256(value)) if value
+        'orderString': '@',
+        'orderByField': '@',
+        'reverseSort': '@'
+    templateUrl: 'ng-sort-template.html'
