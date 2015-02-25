@@ -13,10 +13,10 @@
 
         <ul class="list-group contacts-list">
 
-          <li class="list-group-item" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
+          <li class="list-group-item clearfix" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
             <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
             <identicon account="{{name}}" size="40"/>
-            {{name}}
+            <span class="name">{{name}}</span>
           </li>
         </ul>
 

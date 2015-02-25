@@ -450,16 +450,17 @@ input.ng-dirty.ng-invalid {
 	margin-top: 18px;
 }
 
-.list-group-item {
+.contacts-list .list-group-item {
+	height: 62px;
+	line-height: 40px;
+	font-size: 15px;
 }
 
-.list-group-item > img {
-	margin-right: 10px;
-	width: 32px;
-	height: 32px;
+.contacts-list .list-group-item > canvas {
+	vertical-align: middle;
 }
 
-.list-group-item:hover {
+.contacts-list .list-group-item:hover {
 	background-color: #eef8ff;
 }
 

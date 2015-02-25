@@ -22,6 +22,7 @@ angular.module("app.directives").directive "identicon", () ->
                 centerY = canvas.height / 2
                 radius = 10
                 context.clearRect(0, 0, canvas.width, canvas.height)
+                draw_circle(context, centerX, centerY, radius)
                 draw_circle(context, 2*radius, 2*radius, radius)
                 draw_circle(context, centerX, 2*radius, radius)
                 draw_circle(context, canvas.width - 2*radius, 2*radius, radius)
