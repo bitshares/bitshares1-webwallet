@@ -38,11 +38,14 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
         $scope.wrongPass = false
 
         error_handler = (response) ->
-            if response.data?.error?.code == 20015
-                $scope.wrongPass = true
-                $scope.spending_password = ""
-            else
-                Growl.error response.data.error.message, response.data.error.detail
+            if response.data?.error?.code
+                code = response.data.error.code
+                if code == 20015 or code == 20001
+                    $scope.wrongPass = true
+                    $scope.spending_password = ""
+                    return true
+
+            Growl.error response.data.error.message, response.data.error.detail
             return true
 
         deferred = $q.defer()
