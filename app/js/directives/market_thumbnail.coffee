@@ -1,5 +1,3 @@
-chart_click = null
-
 Highcharts.SparkLine = (options, callback) ->
   defaultOptions =
     chart:
@@ -21,7 +19,7 @@ Highcharts.SparkLine = (options, callback) ->
       skipClone: true
 
       events:
-        click: -> chart_click()
+        click: -> options.chart_click()
 
       container:
         onclick: null
@@ -67,7 +65,7 @@ Highcharts.SparkLine = (options, callback) ->
 
         point:
           events:
-            click: -> chart_click()
+            click: -> options.chart_click()
 
 
   options = Highcharts.merge(defaultOptions, options)
@@ -213,4 +211,4 @@ angular.module("app.directives").directive "marketThumbnail", ->
                         gridLineWidth: 0
                       }]
                    
-                    $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis})
+                    $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis, chart_click: chart_click})
