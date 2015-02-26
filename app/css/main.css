@@ -33,6 +33,10 @@ a:hover, a:focus, {
 	text-decoration: none !important;
 }
 
+canvas, img, b.caret, i.fa {
+	vertical-align: middle;
+}
+
 .delegate-active-link{
 	font-family:"Georgia";
 	font-size:140%;
@@ -450,16 +454,6 @@ input.ng-dirty.ng-invalid {
 	margin-top: 18px;
 }
 
-.contacts-list .list-group-item {
-	height: 62px;
-	line-height: 40px;
-	font-size: 15px;
-}
-
-.contacts-list .list-group-item > canvas {
-	vertical-align: middle;
-}
-
 .contacts-list .list-group-item:hover {
 	background-color: #eef8ff;
 }
@@ -528,4 +522,4 @@ input.ng-dirty.ng-invalid {
 .dropdown-menu.left {
    left: auto !important;
    right: 0px;
- }
+}

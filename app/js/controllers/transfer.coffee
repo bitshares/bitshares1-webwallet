@@ -193,6 +193,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $filter('filter')(Object.keys(Wallet.favorites),input)
 
     $scope.addToAddressBook = (name) ->
+        unless Wallet.accounts[payto]
+            $scope.newContactModal(true)
+            return
+
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
             $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
