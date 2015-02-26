@@ -53,6 +53,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
                     td.market.base_symbol = bit + td.market.base_asset.symbol
                     td.market.price_precision = Math.max(td.market.quantity_precision, td.market.base_precision)
                 if order.type == "cover_order"
+                    td.market.base_asset = Blockchain.asset_records[order.market_index.order_price.quote_asset_id]
                     MarketHelper.cover_to_trade_data(order, td.market, inverted, td)
                 else
                     MarketHelper.order_to_trade_data(order, td.market.quantity_asset, td.market.base_asset, inverted, inverted, inverted, td)

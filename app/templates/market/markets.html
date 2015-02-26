@@ -125,9 +125,9 @@
           <tr ng-repeat="o in open_orders track by $index">
             <td>{{'market.order_type.'+ o.type | translate}}</td>
             <td><a ui-sref="market.buy({name: o.market.quantity_symbol+':'+o.market.base_symbol, account: account_name})">{{o.market.quantity_symbol}}/{{o.market.base_symbol}}</a></td>
-            <td>{{o.price | formatDecimal : o.market.price_precision : true}}</td>
+            <td><span ng-show="o.type === 'buy_order' || o.type === 'sell_order'">{{o.price | formatDecimal : o.market.price_precision : true}}</span></td>
             <td><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : o.market.base_precision}} {{o.market.base_symbol}}</span></td>
-            <td><span ng-show="o.cost >= 0.0">{{o.cost | formatDecimal : o.market.quantity_precision}} {{o.market.quantity_symbol}}</span></td>
+            <td><span ng-show="o.cost >= 0.0 && o.type !== 'short_order'">{{o.cost | formatDecimal : o.market.quantity_precision}} {{o.market.quantity_symbol}}</span></td>
             <td>
               <button ng-show="o.status === 'posted'" class="btn btn-danger btn-xs" ng-click="cancel_order(o.id)" tooltip="Fee {{tx_fee}} {{tx_fee_symbol}}" translate>btn.cancel</button>
             </td>
