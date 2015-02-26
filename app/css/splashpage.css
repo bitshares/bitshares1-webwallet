@@ -24,6 +24,12 @@
 	transition: all 0.3s ease 0s;
 }
 
+.splashpage .btn-primary[disabled] {
+	border: 1px solid #aaa;
+	opacity: 1.0;
+	color: #aaa;
+}
+
 .splashpage .btn-primary:hover {
 	background-color: #ddd;
 	color: #000;

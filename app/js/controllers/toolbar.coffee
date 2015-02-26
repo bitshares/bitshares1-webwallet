@@ -48,7 +48,7 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
             params = angular.copy($state.params)
             params.account = account
             $state.go($state.current.name, params)
-        else if $state.current.name.startsWith("account.")
+        else if $state.current?.name and $state.current.name.indexOf("account.") == 0
             $state.go($state.current.name, {name: account})
         else
             $state.go("account.transactions", {name: account})
