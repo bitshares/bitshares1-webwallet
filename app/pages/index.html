@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
-  <body class="cover fixed_header" ng-class="{splashpage: splashpage}" ng-controller="RootController">
+  <body class="cover fixed_header" ng-class="{splashpage: splashpage, windows: qt_os_name === 'windows'}" ng-controller="RootController">
     <pageslide ps-open="context_help.open" ps-size="460px">
     <div id="context-help">
       <a class="close-help-link" ng-click="close_context_help()"><span translate>btn.close</span> <i class="fa fa-angle-double-right fa-fw"></i></a>

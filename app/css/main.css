@@ -33,8 +33,21 @@ a:hover, a:focus, {
 	text-decoration: none !important;
 }
 
-canvas, img, b.caret, i.fa {
+canvas, img, b.caret, span.caret, i.fa {
 	vertical-align: middle;
+}
+
+body.windows canvas, body.windows img, body.windows b.caret, body.windows span.caret, body.windows i.fa {
+	vertical-align: baseline !important;
+}
+
+body.windows b.caret, body.windows span.caret {
+	position: relative;
+	top: -2px;
+}
+
+.fa-check {
+	vertical-align: baseline !important;
 }
 
 .delegate-active-link{
@@ -49,7 +62,6 @@ canvas, img, b.caret, i.fa {
 }
 
 .my-account-link, .my-account-link:hover {
-	/*color:green;*/
 	text-decoration: none !important;
 }
 

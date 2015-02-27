@@ -149,3 +149,7 @@ li[disabled] a {
 	position: relative;
 	top: -1px;
 }
+
+body.windows .navbar .fa-dashboard {
+	top: 0;
+}
