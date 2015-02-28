@@ -118,7 +118,7 @@
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63"
-                   required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-]+)$/"/>
+                   required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-\.]+)$/"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>

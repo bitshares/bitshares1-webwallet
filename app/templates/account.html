@@ -3,6 +3,7 @@
     <div class="avatar-150">
       <identicon account="{{account_name}}" size="150"/>
     </div>
+    <br/>
     <div ng-show="!account.delegate_info" class="text-center avatar-150">
       <button ng-show="!account.is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
             <span translate>contact.add_to_address_book</span>

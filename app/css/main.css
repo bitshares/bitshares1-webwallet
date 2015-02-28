@@ -33,7 +33,7 @@ a:hover, a:focus, {
 	text-decoration: none !important;
 }
 
-canvas, img, b.caret, span.caret, i.fa {
+body.mac canvas, body.mac img, body.mac b.caret, body.mac span.caret, body.mac i.fa {
 	vertical-align: middle;
 }
 
