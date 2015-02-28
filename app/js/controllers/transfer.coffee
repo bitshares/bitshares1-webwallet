@@ -135,6 +135,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.transfer_info.amount = ""
             my_transfer_form.amount.$setPristine()
             $scope.transfer_info.memo = ""
+            $scope.gravatar_account_name = ""
             Growl.notice "", "Transfer transaction broadcasted"
             $scope.model.t_active=true
         , (error) ->
@@ -184,6 +185,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 action: ->
                     (contact)->
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
+                        $scope.add_to_address_book.error = ""
 
     $scope.onSelect = (name) ->
         $scope.transfer_info.payto = name
@@ -193,13 +195,11 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $filter('filter')(Object.keys(Wallet.favorites),input)
 
     $scope.addToAddressBook = (name) ->
-        unless Wallet.accounts[payto]
-            $scope.newContactModal(true)
-            return
-
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
-            $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
+            $scope.add_to_address_book.error = if message and message.length > 2 then message else ""
+            $scope.newContactModal(true)
+
         WalletAPI.account_set_favorite(name, true, error_handler).then ->
             account = Wallet.accounts[name]
             if account
@@ -218,12 +218,12 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     $scope.add_to_address_book.error = "Unknown account"
 
     $scope.payToChanged = ->
-        $scope.add_to_address_book.message = null
-        $scope.add_to_address_book.error = null
-        my_transfer_form?.payto.error_message = null
+        $scope.add_to_address_book.message = ""
+        $scope.add_to_address_book.error = ""
+        my_transfer_form?.payto.error_message = ""
         payto = $scope.transfer_info.payto
         if Wallet.accounts[payto]
             $scope.gravatar_account_name = payto
         else
             BlockchainAPI.get_account(payto).then (result) ->
-                $scope.gravatar_account_name = if result then payto else null
+                $scope.gravatar_account_name = if result then payto else ""
