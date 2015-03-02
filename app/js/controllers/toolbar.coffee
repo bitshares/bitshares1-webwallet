@@ -36,7 +36,8 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
 
     $scope.lock = ->
         Wallet.wallet_lock().finally ->
-            navigate_to('unlockwallet')
+            unless is_bitshares_js
+                navigate_to('unlockwallet')
 
     $scope.switch_account = (account) ->
         if $state.params?.account
