@@ -113,7 +113,7 @@
 
             <tbody>
       <tr ng-repeat="t in block.transactions" ng-if="t.operations | filterByOperations: operation_filter ">
-                <td><a href="#/tx/{{t.id}}">{{ t.id.substr(0,8) }}</a></td>
+                <td><a href="{{wallet_base_url}}/tx/{{t.id}}">{{ t.id.substr(0,8) }}</a></td>
                 <td>
                     <div ng-repeat="withdraw in t.a_withdraws"><span>{{withdraw | formatAsset}}</span><br></div></td>
                 <td>

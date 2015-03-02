@@ -4,6 +4,8 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
     $scope.currentPath = $location.path()
     $scope.theme = 'default'
     $scope.is_bitshares_js = window.bts isnt undefined
+    
+    $scope.wallet_base_url = window.wallet_base_url
 
     $scope.current_path_includes = (str, params = null)->
         res = $state.current.name.indexOf(str) >= 0

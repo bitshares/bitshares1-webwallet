@@ -10,7 +10,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     $scope.new_brainkey_info = 'new_brainkey_info0'
     $scope.data = {}
     creating_wallet = off
-    LANDING_PAGE = '/accounts'
+    LANDING_PAGE = 'accounts'
     
     $scope.stepChange=(step)->
         #console.log 'step change',step
