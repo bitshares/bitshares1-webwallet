@@ -22,6 +22,9 @@ class BitsharesJsRpc
             unless window.location.hash == "#/brainwallet"
                 navigate_to "brainwallet"
         
+        js_client.event 'wallet.active_key_updated',=>
+            @Growl "","Active key updated"
+        
         js_client.event 'wallet.locked', ()->
             $timeout ->
                 window.location.reload()
