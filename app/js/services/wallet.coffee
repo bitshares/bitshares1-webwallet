@@ -98,7 +98,7 @@ class Wallet
 
     
     refresh_balances: ->
-        return @refresh_balances_promise if @refresh_balances_promise
+        #return @refresh_balances_promise if @refresh_balances_promise
         deffered = @q.defer()
         @refresh_balances_promise = deffered.promise
 
@@ -319,8 +319,8 @@ class Wallet
             @transactions[account].unshift transaction
 
     refresh_transactions: () ->
-        return @transactions_loading_promise if @transactions_loading_promise
-        console.log "------ refresh_transactions ------>", getStackTrace()
+        #return @transactions_loading_promise if @transactions_loading_promise
+        #console.log "------ refresh_transactions ------>"#, getStackTrace()
         deffered = @q.defer()
 
         @transactions_loading_promise = deffered.promise
