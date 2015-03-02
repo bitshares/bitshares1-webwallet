@@ -21,14 +21,14 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.model ||= {}
     $scope.add_to_address_book = {}
 
-    if (!$scope.transfer_info)
-        $scope.transfer_info =
-            amount : $stateParams.amount
-            symbol: $stateParams.asset || Info.symbol
-            payto : $stateParams.to
-            memo :  $stateParams.memo
-            show_vote_options: Wallet.default_vote == "vote_per_transfer"
-            vote : if Wallet.default_vote == "vote_per_transfer" then "vote_all" else Wallet.default_vote
+    $scope.transfer_info =
+        amount : $stateParams.amount
+        symbol: $stateParams.asset || Info.symbol
+        payto : $stateParams.to
+        memo :  $stateParams.memo
+        show_vote_options: Wallet.default_vote == "vote_per_transfer"
+        vote : if Wallet.default_vote == "vote_per_transfer" then "vote_all" else Wallet.default_vote
+        unknown_account: false
 
     $scope.vote_options =
         vote_none: "vote_none"
@@ -186,6 +186,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     (contact)->
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
                         $scope.add_to_address_book.error = ""
+                        $scope.add_to_address_book.message = ""
+                        my_transfer_form?.payto.error_message = ""
 
     $scope.onSelect = (name) ->
         $scope.transfer_info.payto = name
@@ -194,11 +196,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.accountSuggestions = (input) ->
         $filter('filter')(Object.keys(Wallet.favorites),input)
 
-    $scope.addToAddressBook = (name) ->
+    $scope.addToAddressBook = () ->
+
+        name = if $scope.gravatar_account_name && ($scope.address_type == 'pubkey') then $scope.gravatar_account_name else $scope.transfer_info.payto
+
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
             $scope.add_to_address_book.error = if message and message.length > 2 then message else ""
             $scope.newContactModal(true)
+
 
         WalletAPI.account_set_favorite(name, true, error_handler).then ->
             account = Wallet.accounts[name]
@@ -222,8 +228,21 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.add_to_address_book.error = ""
         my_transfer_form?.payto.error_message = ""
         payto = $scope.transfer_info.payto
+        return unless payto
+
+        $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
+
         if Wallet.accounts[payto]
             $scope.gravatar_account_name = payto
         else
             BlockchainAPI.get_account(payto).then (result) ->
-                $scope.gravatar_account_name = if result then payto else ""
+                if result
+                    $scope.transfer_info.unknown_account = false
+                    if $scope.address_type == "pubkey"
+                        $scope.gravatar_account_name = result.name
+                    else
+                        $scope.gravatar_account_name = payto
+                else
+                    $scope.gravatar_account_name = ""
+                    $scope.transfer_info.unknown_account = $scope.address_type != "pubkey"
+                    my_transfer_form.payto.error_message = "Unknown account" if $scope.transfer_info.unknown_account

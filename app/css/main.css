@@ -33,7 +33,7 @@ a:hover, a:focus, {
 	text-decoration: none !important;
 }
 
-body.mac canvas, body.mac img, body.mac b.caret, body.mac span.caret, body.mac i.fa {
+canvas, body.mac img, body.mac b.caret, body.mac span.caret, body.mac i.fa {
 	vertical-align: middle;
 }
 
@@ -386,6 +386,10 @@ input.ng-dirty.ng-invalid {
 	width: 170px;
 	margin: 0 0 0 auto;
 	padding: 0 10px;
+}
+
+.avatar-150 h3 {
+	margin: 0;
 }
 
 .clickable {
