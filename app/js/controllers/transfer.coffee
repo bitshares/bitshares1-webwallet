@@ -10,6 +10,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
     $scope.address_type = "account"
+    $scope.refreshing_balances = false
 
     pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
@@ -37,6 +38,16 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_recommended: "vote_as_delegates_recommended"
 
     $scope.my_accounts = []
+
+    read_balances = (account_name) ->
+        $scope.refreshing_balances = true
+        Wallet.refresh_balances().then ->
+            $scope.balances = Wallet.balances[account_name]
+            $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
+            $scope.currencies.unshift("") if  $scope.currencies.length > 1
+            $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+            $scope.refreshing_balances = false
+
     refresh_accounts_promise = Wallet.refresh_accounts()
     refresh_accounts_promise.then ->
         $scope.accounts = Wallet.accounts
@@ -50,21 +61,14 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
         if account_from_name
             if $scope.accounts[account_from_name]
-                $scope.balances = Wallet.balances[account_from_name]
-                $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
-                $scope.currencies.unshift("") if  $scope.currencies.length > 1
-                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                read_balances(account_from_name)
             else
                 $scope.no_account = true
         else
             Wallet.get_current_or_first_account().then (account)->
                 if account
                     $scope.account_from_name = account_from_name = account.name
-                    $scope.balances = Wallet.balances[account_from_name]
-                    $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
-                    $scope.currencies.unshift("") if  $scope.currencies.length > 1
-                    #$scope.transfer_info.symbol = Object.keys($scope.balances)[0] if $scope.balances and !$stateParams.asset
-                    $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                    read_balances(account_from_name)
                 else
                     $scope.no_account = true
 
@@ -136,6 +140,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             my_transfer_form.amount.$setPristine()
             $scope.transfer_info.memo = ""
             $scope.gravatar_account_name = ""
+            $scope.add_to_address_book.message = ""
             Growl.notice "", "Transfer transaction broadcasted"
             $scope.model.t_active=true
         , (error) ->

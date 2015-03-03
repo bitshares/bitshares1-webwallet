@@ -88,7 +88,8 @@
             </div>
            </div>
         </div>
-        <div class="col-sm-4" ng-if="!balances"><span class="cell text-danger" translate>market.tip.insufficient_balances</span></div>
+        <div class="col-sm-4" ng-if="!balances && refreshing_balances"><i class="fa fa-spinner fa-spin"></i></div>
+        <div class="col-sm-4" ng-if="!balances && !refreshing_balances"><span class="cell text-danger" >market.tip.insufficient_balances</span></div>
 
         <!-- vote options -->
         <div ng-show="transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">
