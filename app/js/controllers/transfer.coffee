@@ -1,16 +1,13 @@
-angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Utils, Info, Growl) ->
+angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Utils, Info, Growl, Observer) ->
     Info.refresh_info()
     $scope.utils = Utils
     $scope.balances = null
     $scope.currencies = null
     $scope.show_from_section = true
     $scope.account_from_name = account_from_name = $stateParams.from
-    if $scope.account_name
-        $scope.show_from_section = false
-        $scope.account_from_name = account_from_name = $scope.account_name
     $scope.gravatar_account_name = null
     $scope.address_type = "account"
-    $scope.refreshing_balances = false
+    $scope.refreshing_balances = true
 
     pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
@@ -38,45 +35,40 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         vote_recommended: "vote_as_delegates_recommended"
 
     $scope.my_accounts = []
+    $scope.accounts = null
 
-    read_balances = (account_name) ->
-        $scope.refreshing_balances = true
-        Wallet.refresh_balances().then ->
-            $scope.balances = Wallet.balances[account_name]
-            $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
-            $scope.currencies.unshift("") if  $scope.currencies.length > 1
-            $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
-            $scope.refreshing_balances = false
-
-    refresh_accounts_promise = Wallet.refresh_accounts()
-    refresh_accounts_promise.then ->
+    $scope.$watchCollection ->
+        Wallet.accounts
+    , ->
+        return unless Wallet.accounts
         $scope.accounts = Wallet.accounts
         $scope.my_accounts.splice(0, $scope.my_accounts.length)
         for k,a of Wallet.accounts
-            $scope.my_accounts.push a if a.is_my_account
+            if a.is_my_account
+                $scope.my_accounts.push a
 
-        for name, acct of Wallet.accounts
-            if acct.is_my_account
-                $scope.accounts[name] = acct
+    account_balances_observer =
+        name: "account_balances_observer"
+        frequency: "each_block"
+        update: (data, deferred) ->
+            Wallet.refresh_account($scope.account_from_name).then ->
+                $scope.balances = Wallet.balances[$scope.account_from_name]
+                $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
+                $scope.currencies.unshift("") if  $scope.currencies.length > 1
+                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                $scope.refreshing_balances = false
+                deferred.resolve(true)
+            , (error) ->
+                $scope.refreshing_balances = false
+                deferred.reject(false)
+    Observer.registerObserver(account_balances_observer)
 
-        if account_from_name
-            if $scope.accounts[account_from_name]
-                read_balances(account_from_name)
-            else
-                $scope.no_account = true
-        else
-            Wallet.get_current_or_first_account().then (account)->
-                if account
-                    $scope.account_from_name = account_from_name = account.name
-                    read_balances(account_from_name)
-                else
-                    $scope.no_account = true
+    $scope.$on "$destroy", ->
+        Observer.unregisterObserver(account_balances_observer)
 
-    #$scope.showLoadingIndicator(refresh_accounts_promise)
 
-#    TODO: uncomment when 19->51 chars transition finish
-#    Blockchain.get_info().then (config) ->
-#        $scope.memo_size_max = config.memo_size_max
+    Blockchain.get_info().then (config) ->
+        $scope.memo_size_max = config.memo_size_max
     
     $scope.setForm = (form) ->
         my_transfer_form = form

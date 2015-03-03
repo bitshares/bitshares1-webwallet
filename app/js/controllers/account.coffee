@@ -96,7 +96,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
 #                Blockchain.get_asset(0).then (asset_type) ->
 #                    $scope.account.delegate_info.pay_balance_asset = Utils.asset($scope.account.delegate_info.pay_balance, asset_type)
 
-    $scope.$watch ->
+    $scope.$watchCollection ->
         Wallet.balances[name]
     , ->
         if Wallet.balances[name]

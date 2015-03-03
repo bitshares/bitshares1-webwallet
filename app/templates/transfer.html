@@ -6,7 +6,7 @@
 </div>
 <div ng-switch-default>
 
-<div class="row head-bg account-page" ng-if="show_from_section">
+<div class="row head-bg account-page">
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
       <identicon account="{{account_from_name}}" size="150"/>
@@ -21,7 +21,7 @@
           <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>{{account_from_name}} <span class="caret"></span></button>
           <ul class="dropdown-menu scrollable-menu-short"  role="menu">
             <li ng-repeat="account in my_accounts">
-              <a ui-sref="transfer({from: '{{account.name}}'})">{{account.name}}</a>
+              <a ui-sref="transfer({from: account.name})">{{account.name}}</a>
             </li>
           </ul>
         </div>
@@ -89,7 +89,7 @@
            </div>
         </div>
         <div class="col-sm-4" ng-if="!balances && refreshing_balances"><i class="fa fa-spinner fa-spin"></i></div>
-        <div class="col-sm-4" ng-if="!balances && !refreshing_balances"><span class="cell text-danger" >market.tip.insufficient_balances</span></div>
+        <div class="col-sm-4" ng-if="!balances && !refreshing_balances"><span class="cell text-danger" translate>market.tip.insufficient_balances</span></div>
 
         <!-- vote options -->
         <div ng-show="transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">

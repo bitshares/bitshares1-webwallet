@@ -146,10 +146,16 @@ class Wallet
         return acct
 
     refresh_account: (name) ->
+        deferred = @q.defer()
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
-            @refresh_balances()
-            return @accounts[name]
+            @refresh_balances().then =>
+                deferred.resolve(@accounts[name])
+            , (error) ->
+                deferred.reject(error)
+        , (error) ->
+                deferred.reject(error)
+        return deferred.promise
 
     refresh_accounts: () ->
         @refresh_accounts_request = on
