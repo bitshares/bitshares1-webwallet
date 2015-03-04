@@ -3,6 +3,10 @@ angular.module("app").controller "AdvancedController", ($scope, $state, Info) ->
     $scope.tabs = []
     $scope.tabs.push { heading: "", route: "advanced.preferences", active: true }
     $scope.tabs.push { heading: "", route: "advanced.console", active: false }
+    if window.bts
+        $scope.show_wallet_tab = on
+        $scope.tabs.push { heading: "", route: "advanced.wallet", active: false }
+    
     $scope.goto_tab = (route) ->
         $state.go route
     $scope.active_tab = (route) -> $state.is route

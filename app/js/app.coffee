@@ -96,7 +96,8 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
 
     $idle.watch()
 
-app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvider) ->
+app.config ($idleProvider, $translateProvider, $tooltipProvider
+    $compileProvider, $locationProvider) ->
 
     $compileProvider.debugInfoEnabled(false);
 
@@ -122,4 +123,5 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvide
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
 
-
+    # relative url app version support
+    $locationProvider.html5Mode true

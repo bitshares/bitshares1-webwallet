@@ -35,12 +35,8 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
             errors.new_error = false
 
     $scope.lock = ->
-        Wallet.wallet_lock().then ->
-            if window.bts
-                # bitshares-js is multi-wallet
-                # reset stored values
-                window.location.reload()
-            else
+        Wallet.wallet_lock().finally ->
+            unless is_bitshares_js
                 navigate_to('unlockwallet')
 
     $scope.switch_account = (account) ->

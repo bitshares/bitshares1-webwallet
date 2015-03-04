@@ -15,7 +15,7 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
                 jsonrpc: "2.0"
                 id: 1
         angular.extend(http_params.data, reqparams)
-        #console.log "+++ RpcService <#{http_params.data.method}>" if http_params.data.method.indexOf("mail_") is 0
+        #console.log "+++ RpcService <#{http_params.data.method}>"
         defered = $q.defer()
         $http(http_params).then (response) ->
             #console.log "------ rpc response:  #{method} #{JSON.stringify(response.data)}"

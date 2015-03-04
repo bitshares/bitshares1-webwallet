@@ -3,6 +3,7 @@
     <a ng-click="open_block_explorer()" translate>block.block_explorer</a>
   </div>
   <tabset>
+    
     <!-- preferences tab -->
     <tab ng-click="goto_tab('advanced.preferences')" active="tabs[0].active">
       <tab-heading><i class="fa fa-gears fa-fw fa-lg"></i> <span translate>index.preferences</span></tab-heading>
@@ -14,5 +15,12 @@
       <tab-heading><i class="fa fa-terminal fa-fw fa-lg"></i> <span translate>index.console</span></tab-heading>
       <div ui-view="advanced-console" autoscroll="false"></div>
     </tab>
+    
+    <!--wallet tab -->
+    <tab ng-click="goto_tab('advanced.wallet')" active="tabs[2].active" ng-show="show_wallet_tab">
+      <tab-heading><i class="fa fa-key fa-fw fa-lg"></i> <span translate>index.wallet</span></tab-heading>
+      <div ui-view="wallet-console" autoscroll="false"></div>
+    </tab>
+    
   </tabset>
 </div>

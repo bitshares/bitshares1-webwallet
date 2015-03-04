@@ -6,7 +6,7 @@
             <tab-heading translate>delegate.all_delegates</tab-heading>
             <div ng-if="activeTab==='all'" ng-include src="'delegates/delegates_list.html'"></div>
           </tab>
-           <tab ng-click="activeTab='votes'">
+           <tab ng-click="activeTab='votes'" ng-hide="is_bitshares_js">
             <tab-heading translate>delegate.my_votes</tab-heading>
             <div ng-if="activeTab === 'votes'" ng-include src="'delegates/voting.html'"></div>
           </tab>
