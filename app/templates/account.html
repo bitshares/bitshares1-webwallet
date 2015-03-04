@@ -1,7 +1,7 @@
 <div class="account-page" ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
   <div class="col-sm-2">
     <div class="avatar-150">
-      <img ng-src="//robohash.org/{{account_name}}?size=200x200&set=set1" height="150" width="150"/>
+      <identicon account="{{account_name}}" size="150"/>
     </div>
     <br/>
     <div ng-show="!account.delegate_info && !is_bitshares_js" class="text-center avatar-150">

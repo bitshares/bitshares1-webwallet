@@ -163,7 +163,7 @@
           <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
         </div>
       </div>
       <div class="panel col-md-6">
@@ -171,7 +171,7 @@
           <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
         </div>
         <div class="panel-body">
-          <div ui-grid="listSellGrid" class="market-grid" external-scopes="this"></div>
+          <div ui-grid="listSellGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
         </div>
       </div>
     </div>
@@ -218,7 +218,7 @@
             <h3 class="panel-title" translate>market.blockchain_orders_history</h3>
           </div>
           <div class="panel-body">
-            <div ui-grid="listBlockchainOrders" class="market-grid" external-scopes="this"></div>
+            <div ui-grid="listBlockchainOrders" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
           </div>
         </div>
       </div>
@@ -228,7 +228,7 @@
             <h3 class="panel-title" translate>market.account_orders_history</h3>
           </div>
           <div class="panel-body">
-            <div ui-grid="listAccountOrders" class="market-grid" external-scopes="this"></div>
+            <div ui-grid="listAccountOrders" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
           </div>
         </div>
       </div>

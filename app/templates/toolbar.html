@@ -3,7 +3,7 @@
   <li ui-sref-active="active"><a ui-sref="accounts"><i class="fa fa-dashboard fa-fw"></i><span translate>toolbar.dashboard</span></a></li>
   <li ng-class="{active: current_path_includes('market')}"><a ui-sref="markets"><i class="fa fa-exchange fa-fw"></i><span translate>toolbar.exchange</span></a></li>
   <li ui-sref-active="active"><a ui-sref="delegates"><i class="fa fa-legal fa-fw fa-lg"></i><span translate>toolbar.delegates</span></a></li>
-  <li ui-sref-active="active"><a ui-sref="transfer" class="nav-transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i><span translate>account.transfer</span></a></li>
+  <li ui-sref-active="active" ng-if="current_account"><a ui-sref="transfer({from: current_account})" class="nav-transfer"><i class="fa fa-sign-out fa-fw fa-lg"></i><span translate>account.transfer</span></a></li>
 </ul>
 <ul class="nav navbar-nav pull-right">
   <li class="dropdown" dropdown>
@@ -14,7 +14,7 @@
       <li><a ui-sref="account.transactions({name: current_account})" translate>toolbar.account_details</a></li>
       <li ng-show="accounts.length" class="divider"></li>
       <li ng-repeat-start="account in accounts"></li>
-      <li><a ng-click="switch_account(account)"><i class="fa fa-user fa-fw fa-lg"></i> {{account}}</a></li>
+      <li ng-class="{'active': account === current_account}"><a ng-click="switch_account(account)"><i class="fa fa-user fa-fw fa-lg"></i> {{account}}</a></li>
       <li ng-repeat-end></li>
       <li class="divider"></li>
       <li><a ui-sref="advanced.preferences"><i class="fa fa-gear fa-fw"></i> <span translate>toolbar.advanced</span></a></li>

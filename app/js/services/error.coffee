@@ -18,7 +18,7 @@ processRpcError = (response, Shared) ->
     method = null
     error_msg = if response.data?.error?.message? then response.data.error.message else response.data
 
-    if response.config? and response.config.url.match(/\/rpc$/)
+    if error_msg and response.config?.url? and response.config.url.match(/\/rpc$/)
         if error_msg.match(/No such wallet exists/) or error_msg.match(/wallet does not exist/)
             navigate_to("createwallet") unless window.location.hash == "#/createwallet"
             dont_report = true
@@ -29,10 +29,13 @@ processRpcError = (response, Shared) ->
     else if response.message
         error_msg = response.message
 
-    if !dont_report and error_msg
-        error_msg = error_msg.substring(0, 512)
+    if !dont_report
+        error_msg = error_msg.substring(0, 512) if error_msg
         stack = if response.config?.stack then response.config?.stack else ""
-        stack = stack.replace(/http\:.+app\.js([\d:]+)/mg, "app.js$1").replace(/^Error/,"RPC Server Error in '#{method}'") if stack
+        if stack
+            stack = stack.replace(/http\:.+app\.js([\d:]+)/mg, "app.js$1").replace(/^Error/,"RPC Server Error in '#{method}'")
+            delete response.config.stack
+        error_msg = JSON.stringify(response) unless error_msg
         console.log "RPC Server Error: #{error_msg} (#{response.status})\n#{response.config?.stack}"
         magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})\n#{stack}") if magic_unicorn?
         Shared.addError(error_msg, stack, response.data?.error?.detail)
@@ -53,7 +56,7 @@ servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
         return response
 
     responseError: (response) ->
-        if response.status == 401 or response.status == 404
+        if response.status == 0 or response.status == 401 or response.status == 404
             response.repeat = true
             return response
         return '' if response.status == 403

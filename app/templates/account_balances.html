@@ -1,4 +1,3 @@
-
 <div class="main-content">
 	<div id="account_balances">
 		<table class="table table-striped table-hover">
@@ -13,8 +12,8 @@
         </thead>
         <tbody>
         <tr ng-click="go_to_account(a.name)" ng-repeat="a in accounts" ng-show='a.is_my_account'>
-                <td class="avatar-40">
-                  <img ng-src="//robohash.org/{{a.name}}?size=200x200&set=set1" height="40" width="40"/>
+              <td class="avatar-40">
+                <identicon account="{{a.name}}" size="40"/>
               </td>
               <td>         
                  <b>{{a.name}}</b>

@@ -53,7 +53,7 @@ addPlotLine = (chart, value) ->
         dashStyle: "longdashdot"
         value: value
         width: 1
-        label: {text: 'Price Feed'}
+        label: {text: 'Call Price'}
         zIndex: 5
 
 removePlotLine = (chart) ->

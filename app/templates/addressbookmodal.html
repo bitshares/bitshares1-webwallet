@@ -13,10 +13,10 @@
 
         <ul class="list-group contacts-list">
 
-          <li class="list-group-item" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
+          <li class="list-group-item clearfix" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
             <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
-            <img ng-src="//robohash.org/{{name}}?size=200x200&set=set1" height="32" width="32"/>
-            {{name}}
+            <identicon account="{{name}}" size="40"/>
+            <span class="name">{{name}}</span>
           </li>
         </ul>
 
@@ -35,8 +35,7 @@
     <div class="row">
       <div class="col-md-2">
         <div class="avatar">
-          <img ng-src="//robohash.org/{{account.name}}?size=200x200&set=set1" height="100" width="100" ng-if="account.name"/>
-          <img src="img/user.png" height="100" width="100" ng-if="!account.name"/>
+          <identicon account="{{account.name}}" size="100"/>
         </div>
       </div>
       <div class="col-md-10">

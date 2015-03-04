@@ -162,10 +162,16 @@ class Wallet
         return acct
 
     refresh_account: (name) ->
+        deferred = @q.defer()
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
             @populate_account(result)
-            @refresh_balances()
-            return @accounts[name]
+            @refresh_balances().then =>
+                deferred.resolve(@accounts[name])
+            , (error) ->
+                deferred.reject(error)
+        , (error) ->
+                deferred.reject(error)
+        return deferred.promise
 
     refresh_accounts: () ->
         @refresh_accounts_request = on
@@ -256,8 +262,8 @@ class Wallet
         t.error = val.error
         t.trx_num = val.trx_num
         t.time = time
-        t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString(undefined, {timeZone:"UTC"})
-        t.pretty_time = time.toLocaleString()#undefined, {timeZone:"UTC"})
+        t.expiration_pretty_time = @utils.toDate(val.expiration_timestamp).toLocaleString()
+        t.pretty_time = time.toLocaleString()
         t.fee = @utils.asset(val.fee.amount, @blockchain.asset_records[val.fee.asset_id])
         t.vote = "N/A"
         if t.status != "rebroadcasted"

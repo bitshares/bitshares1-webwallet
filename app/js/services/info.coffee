@@ -36,6 +36,7 @@ class Info
                 @info.alert_level = data.alert_level
 
             @common_api.get_config().then (data) =>
+                @info.address_prefix = data.address_prefix
                 @info.blockchain_name = data.name
                 @info.delegate_reg_fee = data.delegate_reg_fee
                 @info.asset_reg_fee = data.asset_reg_fee

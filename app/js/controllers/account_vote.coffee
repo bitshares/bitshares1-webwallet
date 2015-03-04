@@ -2,6 +2,7 @@ angular.module("app").controller "AccountVoteController", ($scope, $translate, W
     $scope.votes = []
     balMinusFee = 0
     $scope.accounts = Wallet.accounts
+    $scope.has_balance = Info.symbol and $scope.balances?[Info.symbol] and $scope.balances[Info.symbol].amount > 0
 
     $scope.vote_options =
         vote_none: "vote_none"
@@ -32,6 +33,7 @@ angular.module("app").controller "AccountVoteController", ($scope, $translate, W
         name: "account_votes_observer"
         frequency: 4000
         update: (data, deferred) ->
+            $scope.has_balance = Info.symbol and $scope.balances?[Info.symbol] and $scope.balances[Info.symbol].amount > 0
             WalletAPI.account_vote_summary($scope.account_name).then (res) ->
                 $scope.votes = res
                 deferred.resolve(true)

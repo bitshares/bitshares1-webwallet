@@ -157,6 +157,42 @@
     "info": "请记住该密码，它将控制你的资金何时以及如何被花。 如果你忘记该密码，你将无法转账使用你的资金或股份。",
     "create_wallet": "创建钱包"
   },
+   "wallet_common":{
+    "pw_too_short":"密码长度必须超过9个字元。",
+    "pw_too_long":"密码太长。",
+    "pw_required":"密码是必须的。",
+    "pw_not_match":"两个栏位的密码不相符。"
+  },
+  "brain_wallet": {
+    "no_secure_random":"很抱歉，我们无法在这个装置上面继续进行。因为你的浏览器无法提供安全的随机数。",
+    "open_create": "开启钱包或创建新的",
+    "password_info":"这是你的钱包的加密密码。",
+    "only_on_this_device":"这组密码只会在这个装置上面使用。",
+    "password":"密码",
+    "login":"登入",
+    "create":"创建钱包",
+    "create_info":"这个装置上找不到使用这个密码的钱包。  请重新输入你的密码以设定一个新的钱包。",
+    "confirm_password":"确认密码",
+    "back_to_login":"返回登入",
+    "new_brainkey":"新的脑钱包密钥",
+    "new_brainkey_header":"使用这个脑钱包密钥以在任何装置上面恢复你的钱包。",
+    "new_brainkey_creating":"创建中...",
+    "new_brainkey_info0":"警告: 任何知道你的脑钱包密钥的人都可以存取你的钱包。请注意丢掉的脑钱包密钥是无法回复的。",
+    "new_brainkey_info1":"请务必做好备份，打印出来或者写下来等等...但是请勿让这个资讯外流。",
+    "new_brainkey_info2":"脑钱包密钥并没有受到密码保护。",
+    "new_brainkey_info3":"这组脑钱包密钥只会存在你的装置上，因此你需要作其他的备份。",
+    "mouse_entropy_info": "请将鼠标四处移动以收集额外的随机资料。这个资料将会跟你的浏览器的安全随机数合并并用来创造你的脑钱包密钥。",
+    "use_own":"使用自己的脑钱包密钥",
+    "modify":"修改",
+    "too_short":"脑钱包密钥必须至少32个字元或更长。",
+    "too_long":"脑钱包密钥太长。",
+    "required":"脑钱包密钥是必须的。",
+    "use_generated":"使用已产生的脑钱包密钥",
+    "existing_brainkey":"现有的脑钱包密钥",
+    "back_to_create":"返回创建",
+    "brainkey":"脑钱包密钥",
+    "open":"开启"
+  },
   "index": {
     "title": "BitShares 钱包",
     "overview": "概况",
@@ -350,7 +386,11 @@
       "vote_as_delegates_recommended": "跟随受托人发布的推荐名单投票",
       "btn_update_vote": "更新投票",
       "current_votes": "当前得票数",
-      "future_votes": "投票计划"
+      "votes": "票数",
+      "approval": "支持状态",
+      "vote_confirmation_title": "确认投票",
+      "vote_confirmation_text": "使用你的 {{balance}} {{symbol}} 投票。 将会收取 {{fee}} {{fee_symbol}} 作为手续费。",
+      "no_balance": "你没有足够的 {{symbol}} 余额来进行投票"
     },
     "import_wif_key": "导入 WIF 私钥",
     "import_from_wallet": "从钱包导入私钥",
@@ -389,7 +429,8 @@
     "reg_add_faucet": "加入水龙头",
     "update_public_data_tx_fee": "更新数据的交易费用: ",
     "new_balance": "新的余额",
-    "less_fee": "少于费用"
+    "less_fee": "少于费用",
+    "select_currency": "选择货币"
   },
   "accounts": {
     "create_account": "创建新账户",
@@ -435,7 +476,7 @@
   "contact": {
     "add_contact": "添加联系人",
     "new_contact": "新的联系人",
-    "contact_name": "联系人名称",
+    "contact_name": "联系人名称或公钥",
     "contact_name_tip": "联系人名称（必填项）",
     "public_key": "公钥",
     "public_key_tip": "公钥（必填项）",

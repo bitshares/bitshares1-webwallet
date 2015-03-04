@@ -12,6 +12,8 @@ window.open_external_url = (url) ->
     else
         window.open(url)
 
+
+
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus",
@@ -26,6 +28,11 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
                </div>
               </div>
            </div>'''
+
+    if magic_unicorn? and magic_unicorn.get_os_name
+        $rootScope.qt_os_name = magic_unicorn.get_os_name()
+    else
+        $rootScope.qt_os_name = "dev"
 
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
     app_history = []

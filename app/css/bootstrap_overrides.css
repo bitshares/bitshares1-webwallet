@@ -29,6 +29,13 @@
 	border: 1px solid transparent;
 }
 
+.navbar-main .navbar-nav > li > .dropdown-menu li.active > a {
+	padding-right: 20px;
+  border-right: solid 3px #1B6FC1;
+  color: #1B6FC1;
+  background-color: #f5f5f5;
+}
+
 .nav-tabs > li.active > a:hover {
 	color: #1B6FC1;
 	border-bottom: 1px solid #fff;
