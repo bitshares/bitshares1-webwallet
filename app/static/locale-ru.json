@@ -404,7 +404,7 @@
     "select_currency": "Select Currency"
   },
   "accounts": {
-    "create_account": "Создать новый аккаунт",
+    "create_account": "Добавить аккаунт",
     "accounts": "Аккаунты",
     "info": "Нажмите на имени аккаунта, чтобы получить больше информации.",
     "select_account": "Выбрать аккаунт",

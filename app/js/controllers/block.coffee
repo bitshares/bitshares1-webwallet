@@ -17,16 +17,15 @@ angular.module("app").controller "BlockController", ($scope, $location, $statePa
                         trx.id = t[0]
                         trx.withdraws = t[1].withdraws
                         trx.a_withdraws = []
-                        console.log t
                         for w in trx.withdraws
-                            asset_type = Blockchain.asset_records[w[1].asset_id]
-                            trx.a_withdraws.push Utils.newAsset(w[1].amount, asset_type.symbol, asset_type.precision)
+                            asset_type = Blockchain.asset_records[w[0]]
+                            trx.a_withdraws.push Utils.newAsset(w[1], asset_type.symbol, asset_type.precision)
 
                         trx.deposits = t[1].deposits
                         trx.a_deposits = []
                         for d in trx.deposits
-                            asset_type = Blockchain.asset_records[d[1].asset_id]
-                            trx.a_deposits.push Utils.newAsset(d[1].amount, asset_type.symbol, asset_type.precision)
+                            asset_type = Blockchain.asset_records[d[0]]
+                            trx.a_deposits.push Utils.newAsset(d[1], asset_type.symbol, asset_type.precision)
 
                         trx.net_delegate_votes = t[1].net_delegate_votes
                         asset_type = Blockchain.asset_records[0]
