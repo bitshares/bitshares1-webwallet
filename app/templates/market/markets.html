@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-9">
       <div class="panel" ng-show="featured_markets.length > 0">
-        <div class="panel-heading">           
+        <div class="panel-heading">
           <h3 class="panel-title" translate>market.featured_markets</h3>
         </div>
         <div class="panel-body" style="padding-left:0; padding-right:0;">
@@ -52,7 +52,7 @@
               <th ng-click="orderByField='symbol'; reverseSort = !reverseSort" ><ng-sort-fa order-string="symbol" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.symbol</span></th>
               <th ng-click="orderByField='yield'; reverseSort = !reverseSort" ><ng-sort-fa order-string="yield" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>account.estimated_yield</span></th>
               <th class="hidden-xs" class="" translate>th.current_share_supply</th>
-              <th translate>th.name</th>                
+              <th translate>th.name</th>
             </tr>
           </thead>
           <tbody>
@@ -141,12 +141,11 @@
 
 </div>
 </div>
-</div>
 
 <div class="main-content" ng-show="account_name == false">
   <!--<p class="no-account-selected-note">Loading..</p>-->
 </div>
 
 <div class="main-content" ng-show="account_name == null">
-  <p class="no-account-selected-note">No accounts found, please <a href="{{wallet_base_url}}/create/account">create account</a> to proceed</p>
+  <p class="no-account-selected-note">No accounts found, please <a ui-sref="create/account">create account</a> to proceed</p>
 </div>

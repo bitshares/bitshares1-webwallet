@@ -1,7 +1,12 @@
-angular.module("app").config ($stateProvider, $urlRouterProvider) ->
+angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvider) ->
+
+    base_tag = document.getElementsByTagName('base')[0]
+    prefix = if base_tag then base_tag.getAttribute("href") else ""
+
+    # relative url app version support
+    $locationProvider.html5Mode(true) if prefix
 
     sp = $stateProvider
-    prefix = window.wallet_base_url = "/pre_release"
     $urlRouterProvider.otherwise prefix + '/accounts'
 
     sp.state "preferences",

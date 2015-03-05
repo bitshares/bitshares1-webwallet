@@ -45,10 +45,9 @@
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
                         <span ng-if="entry.from.charAt(0) !== 'X'">{{ entry.from }}</span>
                         <a ng-if="entry.from.charAt(0) === 'X'" class="text-danger" tooltip-placement="right"
-                           tooltip='Add {{ entry.from }} as a contact' href="{{wallet_base_url}}/newcontact?name=&key={{entry.from}}">{{
-                                                                                                                    entry.from.substring(0,
-                                                                                                                    11)
-                                                                                                                    }}...</a>
+                           tooltip='Add {{ entry.from }} as a contact' ui-sref="newcontact({key:entry.from})">
+                          {{entry.from.substring(0,11)}}...
+                        </a>
                     </span>
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
                     <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
@@ -108,7 +107,7 @@
           </span>
           <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
           <span class="label label-warning" ng-if="t.is_virtual" translate>account.transaction_virtual</span>
-          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="{{wallet_base_url}}/tx/{{t.id}}"><span translate>account.transaction_details</span></a></span>
+          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" ui-sref="transaction({id:t.id})"><span translate>account.transaction_details</span></a></span>
         </td>
       </tr>
       <tr ng-if="warning">
