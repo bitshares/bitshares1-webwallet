@@ -28,6 +28,7 @@ class BitsharesJsRpc
         js_client.event 'wallet.locked', ()->
             $timeout ->
                 window.location.reload()
+                navigate_to "/"
             ,
                 100
     
