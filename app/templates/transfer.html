@@ -54,7 +54,7 @@
       <identicon account="{{gravatar_account_name}}" size="150"/>
       <h3 ng-show="gravatar_account_name && (address_type == 'pubkey')">{{gravatar_account_name}}</h3>
       <br/>
-      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
+      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !accounts[transfer_info.payto].is_favorite && !add_to_address_book.error && !is_bitshares_js" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
@@ -122,7 +122,7 @@
                    typeahead="state for state in accountSuggestions($viewValue)"
                    typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63"
                    required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-\.]+)$/"/>
-            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
+            <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" ng-hide="is_bitshares_js" translate>contact.address_book</span>
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
         </div>
