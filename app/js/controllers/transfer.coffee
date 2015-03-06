@@ -57,6 +57,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.currencies.unshift("") if  $scope.currencies.length > 1
                 $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 $scope.refreshing_balances = false
+                $scope.payToChanged()
                 deferred.resolve(true)
             , (error) ->
                 $scope.refreshing_balances = false
@@ -221,6 +222,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     $scope.add_to_address_book.error = "Unknown account"
 
     $scope.payToChanged = ->
+        $scope.is_my_account = false
+        $scope.account_registration_date = ""
         $scope.add_to_address_book.message = ""
         $scope.add_to_address_book.error = ""
         my_transfer_form?.payto.error_message = ""
@@ -229,11 +232,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
         $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
 
-        if Wallet.accounts[payto]
+        account = Wallet.accounts[payto]
+        if account
             $scope.gravatar_account_name = payto
+            $scope.is_my_account = account.is_my_account
+            $scope.account_registration_date = account.registration_date if account.registered
         else
             BlockchainAPI.get_account(payto).then (result) ->
                 if result
+                    $scope.account_registration_date = result.registration_date
                     $scope.transfer_info.unknown_account = false
                     if $scope.address_type == "pubkey"
                         $scope.gravatar_account_name = result.name

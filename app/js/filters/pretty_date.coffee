@@ -1,12 +1,13 @@
 date_params = {timeZone:"UTC",  weekday: undefined, year: "numeric", month: "numeric",  day: "numeric", hour: "numeric", minute: "numeric"}
 
 angular.module("app").filter "prettyDate", (Utils)->
-    (date) ->
+    (date, format) ->
         return "-" if !date or date.valueOf() == "1970-01-01T00:00:00"
+        format_str = if format == "short" then "L" else "L LT"
         if angular.isDate(date)
-            return moment(date).format('L LT')
+            return moment(date).format(format_str)
         else
-            return moment(Utils.toDate(date)).format('L LT')
+            return moment(Utils.toDate(date)).format(format_str)
 
 angular.module("app").filter "prettySortableTime", (Utils)->
     (time) ->

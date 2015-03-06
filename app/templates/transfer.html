@@ -59,6 +59,8 @@
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
+      <span ng-show="is_my_account" class="text-success" translate>account.your_account</span>
+      <span ng-show="account_registration_date" class="text-warning"><span translate>account.registered</span> {{ account_registration_date | prettyDate:'short' }}</span>
     </div>
   </div>
   <div class="col-sm-10" id="transfer-form">

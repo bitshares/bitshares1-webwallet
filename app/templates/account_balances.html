@@ -18,7 +18,7 @@
               </td>
               <td>         
                  <b>{{a.name}}</b>
-                 <span ng-hide="a.lightwallet_compatible">
+                 <span ng-show="a.not_lightwallet_compatible">
                      <i class="fa fa-warning fa-fw fa-lg"></i>
                      <span tooltip="{{'legacy_account'|translate}}"></span>
                  </span>

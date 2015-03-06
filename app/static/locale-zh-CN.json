@@ -429,7 +429,10 @@
     "update_public_data_tx_fee": "更新数据的交易费用: ",
     "new_balance": "新的余额",
     "less_fee": "少于费用",
-    "select_currency": "选择货币"
+    "select_currency": "选择货币",
+    "your_account": "Your Account",
+    "registered" : "Registered",
+    "pay_to": "Make a payment to"
   },
   "accounts": {
     "create_account": "创建新账户",

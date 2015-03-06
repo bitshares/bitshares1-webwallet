@@ -438,7 +438,10 @@
     "update_public_data_tx_fee": "Update data transaction Fee: ",
     "new_balance": "New Balance",
     "less_fee": "Less fee of",
-    "select_currency": "Select Currency"
+    "select_currency": "Select Currency",
+    "your_account": "Your Account",
+    "registered" : "Registered",
+    "pay_to": "Make a payment to"
   },
   "accounts": {
     "create_account": "Add Account",
