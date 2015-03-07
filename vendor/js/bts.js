@@ -11198,7 +11198,7 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "elliptic",
   "version": "0.15.7",
   "description": "EC cryptography",
@@ -23113,7 +23113,7 @@ Curve.prototype.validate = function(Q) {
 module.exports = Curve
 
 },{"./point":"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/point.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bigi":"/home/jcalfee/bitshares/jslib/node_modules/bigi/lib/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/curves.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "secp128r1": {
     "p": "fffffffdffffffffffffffffffffffff",
     "a": "fffffffdfffffffffffffffffffffffc",
@@ -29046,7 +29046,7 @@ function xor(a, b) {
 }
 }).call(this,require("buffer").Buffer)
 },{"buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/aesid.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
 "2.16.840.1.101.3.4.1.4": "aes-128-cfb",
@@ -33226,7 +33226,7 @@ if (typeof window === 'object') {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "elliptic",
   "version": "0.15.15",
   "description": "EC cryptography",
@@ -33998,7 +33998,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 },{"bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js","brorand":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js")
 },{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/primes.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
     "modp1": {
         "gen": "02",
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff"
@@ -38607,13 +38607,9 @@ MemoData = require('../blockchain/memo_data').MemoData;
 q = require('q');
 
 ChainDatabase = (function() {
-  var REGISTERED_ACCOUNT_LOOKAHEAD, sync_accounts_timeout_id, sync_transactions_timeout_id;
-
-  REGISTERED_ACCOUNT_LOOKAHEAD = 11;
+  var sync_transactions_timeout_id;
 
   sync_transactions_timeout_id = null;
-
-  sync_accounts_timeout_id = null;
 
   function ChainDatabase(wallet_db, rpc, chain_id, relay_fee_collector) {
     var active_key;
@@ -38637,39 +38633,6 @@ ChainDatabase = (function() {
     len = this.storage.length();
     for (i = _i = 0; _i < len; i = _i += 1) {
       this.storage.removeItemOrThrow(this.storage.key(i));
-    }
-  };
-
-
-  /*
-      Watch for deterministic account keys beyond what was used to 
-      see if any are registered from another computer wallet
-      with the same key.  Also, this may be a restore.
-   */
-
-  ChainDatabase.prototype.poll_accounts = function(aes_root, shutdown) {
-    var e;
-    if (shutdown == null) {
-      shutdown = false;
-    }
-    if (shutdown) {
-      clearTimeout(sync_accounts_timeout_id);
-      return sync_accounts_timeout_id = null;
-    } else {
-      if (!sync_accounts_timeout_id) {
-        sync_accounts_timeout_id = setTimeout((function(_this) {
-          return function() {
-            sync_accounts_timeout_id = null;
-            return _this.poll_accounts(aes_root);
-          };
-        })(this), 10 * 1000);
-        try {
-          return this.sync_accounts(aes_root);
-        } catch (_error) {
-          e = _error;
-          return console.log(e, e.stack);
-        }
-      }
     }
   };
 
@@ -38741,41 +38704,6 @@ ChainDatabase = (function() {
       addresses[key.account_address] = true;
     }
     return Object.keys(addresses);
-  };
-
-  ChainDatabase.prototype.sync_accounts = function(aes_root) {
-    var batch_params, next_account, next_accounts, _i, _len;
-    next_accounts = this.wallet_db.guess_next_account_keys_legacy(aes_root, REGISTERED_ACCOUNT_LOOKAHEAD);
-    batch_params = [];
-    for (_i = 0, _len = next_accounts.length; _i < _len; _i++) {
-      next_account = next_accounts[_i];
-      batch_params.push([next_account["public"]]);
-    }
-    return this.rpc.request("batch", ["blockchain_get_account", batch_params]).then((function(_this) {
-      return function(batch_result) {
-        var account, e, found, i, _j, _ref, _save;
-        batch_result = batch_result.result;
-        found = false;
-        for (i = _j = 0, _ref = batch_result.length; _j < _ref; i = _j += 1) {
-          account = batch_result[i];
-          if (!account) {
-            continue;
-          }
-          next_account = next_accounts[i];
-          try {
-            _this.wallet_db.generate_new_account_legacy(aes_root, account.name, account.private_data, _save = false, next_account);
-            _this.wallet_db.store_account_or_update(account);
-            found = true;
-          } catch (_error) {
-            e = _error;
-            console.log("ERROR", e);
-          }
-        }
-        if (!found) {
-          clearTimeout(sync_accounts_timeout_id);
-        }
-      };
-    })(this));
   };
 
   ChainDatabase.prototype.sync_transactions = function(account_name) {
@@ -40778,7 +40706,7 @@ JsClient = (function() {
           }
         }
         if (err) {
-          console.log('ERROR', err);
+          console.log('ERROR', err, err.stack);
           if (!err.message) {
             err = {
               message: err
@@ -41821,7 +41749,6 @@ Storage = (function() {
   };
 
   Storage.prototype.setItem = function(key, value) {
-    console.log('... setItem ', this.namespace + '\t' + key);
     this.local_storage.setItem(this.namespace + '\t' + key, value);
   };
 
@@ -41836,7 +41763,6 @@ Storage = (function() {
   };
 
   Storage.prototype.removeItem = function(key) {
-    console.log('... removeItem ', this.namespace + '\t' + key);
     this.local_storage.removeItem(this.namespace + '\t' + key);
   };
 
@@ -43951,43 +43877,6 @@ TransactionBuilder = (function() {
     };
   };
 
-
-  /*
-  wallet_transfer:(
-      amount, asset
-      from_name, to_public
-      memo_message, vote_method
-  )->
-      defer = q.defer()
-      if memo_message?.length > BTS_BLOCKCHAIN_MAX_MEMO_SIZE
-          LE.throw 'jslib_chain.memo_too_long' 
-      
-      otk_private = @wallet.generate_new_account_child_key(
-          @aes_root
-          from_name
-      )
-      owner = ExtendedAddress.derivePublic_outbound otk_private, to_public
-      one_time_public = otk_private.toPublicKey()
-      sender_private = @wallet.getActivePrivate @aes_root, from_name
-      aes = sender_private.sharedAes one_time_public
-      encrypted_memo = if memo_message then aes.encrypt memo_message else ""
-      @_transfer(
-          amount
-          asset
-          from_name
-          owner.toBtsAddy()
-          memo_message
-          encrypted_memo
-          vote_method
-          one_time_public
-          to_public
-      ).then(
-          (result)->defer.resolve result
-          (error)->defer.reject error
-      ).done()
-      defer.promise
-   */
-
   TransactionBuilder.prototype.account_register = function(account_to_register, pay_from_account, public_data, delegate_pay_rate, account_type) {
     var account_segments, active_key, as_delegate, ledger_entry, meta_data, owner_key, pay_from_ActiveKey, register, type_id;
     if (public_data == null) {
@@ -44659,7 +44548,7 @@ Wallet = (function() {
     this.rpc = rpc;
     this.relay = relay;
     this.chain_database = chain_database;
-    this.events = events;
+    this.events = events != null ? events : {};
     if (!this.wallet_db) {
       throw new Error("required wallet_db");
     }
@@ -44761,10 +44650,7 @@ Wallet = (function() {
     }
     try {
       if (this.rpc) {
-        this.chain_database.poll_transactions(shutdown = true);
-      }
-      if (this.rpc) {
-        return this.chain_database.poll_accounts(null, shutdown = true);
+        return this.chain_database.poll_transactions(shutdown = true);
       }
     } finally {
       this.aes_root.clear();
@@ -44800,9 +44686,6 @@ Wallet = (function() {
     })(this), timeout_seconds * 1000);
     if (this.rpc) {
       this.chain_database.poll_transactions(shutdown = false);
-    }
-    if (this.rpc) {
-      this.chain_database.poll_accounts(this.aes_root, shutdown = false);
     }
     return unlock_timeout_id;
   };
@@ -44883,33 +44766,6 @@ Wallet = (function() {
       LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet_db.generate_new_account(this.aes_root, this.blockchain_api, account_name, private_data = null, save = true, recover_only = true);
-  };
-
-
-  /** @return promise: {string} public key */
-
-  Wallet.prototype.account_create_legacy = function(account_name, private_data) {
-    var defer;
-    if (!this.aes_root) {
-      LE["throw"]('jslib_wallet.must_be_unlocked');
-    }
-    defer = q.defer();
-    this.chain_interface.valid_unique_account(account_name).then((function(_this) {
-      return function() {
-        var account, e, key;
-        account = _this.wallet_db.lookup_account(account_name);
-        if (account) {
-          e = new LE('jslib_wallet.account_already_exists', [account_name]);
-          defer.reject(e);
-          return;
-        }
-        key = _this.wallet_db.generate_new_account_legacy(_this.aes_root, account_name, private_data);
-        return defer.resolve(key);
-      };
-    })(this), function(error) {
-      return defer.reject(error);
-    }).done();
-    return defer.promise;
   };
 
   Wallet.prototype.getWithdrawConditions = function(account_name) {
@@ -45094,7 +44950,7 @@ exports.Wallet = Wallet;
 
 }).call(this,require("buffer").Buffer)
 },{"../blockchain/blockchain_api":"/home/jcalfee/bitshares/jslib/src/blockchain/blockchain_api.coffee","../blockchain/chain_database":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_database.coffee","../blockchain/chain_interface":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_interface.coffee","../common/exceptions":"/home/jcalfee/bitshares/jslib/src/common/exceptions.coffee","../ecc/aes":"/home/jcalfee/bitshares/jslib/src/ecc/aes.coffee","../ecc/extended_address":"/home/jcalfee/bitshares/jslib/src/ecc/extended_address.coffee","../ecc/hash":"/home/jcalfee/bitshares/jslib/src/ecc/hash.js","../ecc/key_private":"/home/jcalfee/bitshares/jslib/src/ecc/key_private.coffee","../ecc/key_public":"/home/jcalfee/bitshares/jslib/src/ecc/key_public.coffee","../wallet/transaction_ledger":"/home/jcalfee/bitshares/jslib/src/wallet/transaction_ledger.coffee","./config":"/home/jcalfee/bitshares/jslib/src/wallet/config.coffee","./wallet_db":"/home/jcalfee/bitshares/jslib/src/wallet/wallet_db.coffee","buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js","secure-random":"/home/jcalfee/bitshares/jslib/node_modules/secure-random/lib/secure-random.js"}],"/home/jcalfee/bitshares/jslib/src/wallet/wallet_api.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "category": "Wallet Methods",
   "methods" :
     [
@@ -48492,7 +48348,7 @@ WalletDb = (function() {
   };
 
   WalletDb.prototype.generate_new_account = function(aes_root, blockchain_api, account_name, private_data, save, recover_only) {
-    var account, active, active_key, brainkey, defer, lightwallet_compatible, owner, owner_key, owner_public, _ref;
+    var account, active, active_key, brainkey, defer, owner, owner_key, owner_public, _ref;
     if (save == null) {
       save = true;
     }
@@ -48503,7 +48359,7 @@ WalletDb = (function() {
     owner_key = PrivateKey.fromBuffer(hash.sha256(hash.sha512(brainkey + " " + account_name)));
     owner_public = owner_key.toPublicKey();
     active_key = PrivateKey.fromBuffer(hash.sha256(hash.sha512(owner_key.toWif() + " 0")));
-    _ref = this._new_account(aes_root, account_name, owner_key, active_key, private_data, lightwallet_compatible = true), account = _ref[0], active = _ref[1], owner = _ref[2];
+    _ref = this._new_account(aes_root, account_name, owner_key, active_key, private_data), account = _ref[0], active = _ref[1], owner = _ref[2];
     defer = q.defer();
     blockchain_api.get_account(account_name).then((function(_this) {
       return function(chain_account) {
@@ -48535,81 +48391,8 @@ WalletDb = (function() {
     return defer.promise;
   };
 
-  WalletDb.prototype.guess_next_account_keys_legacy = function(aes_root, count) {
-    var i, key_index, master_key, private_key, _i, _results;
-    key_index = this.get_child_key_index();
-    master_key = this.master_private_key(aes_root);
-    _results = [];
-    for (i = _i = 0; _i < count; i = _i += 1) {
-      ++key_index;
-      private_key = ExtendedAddress.private_key(master_key, key_index);
-      _results.push({
-        "public": private_key.toPublicKey().toBtsPublic(),
-        index: key_index
-      });
-    }
-    return _results;
-  };
-
-  WalletDb.prototype.generate_new_account_legacy = function(aes_root, account_name, private_data, save, next_account) {
-    var account, active, active_address, active_private_key, active_public_key, key_index, master_key, owner, owner_address, owner_private_key, owner_public_key, _lightwallet_compatible, _ref, _ref1, _ref2;
-    if (save == null) {
-      save = true;
-    }
-    if (next_account == null) {
-      next_account = null;
-    }
-    if (this.account[account_name]) {
-      LE["throw"]('jslib_wallet.account_already_exists');
-    }
-    key_index = next_account ? next_account.index : this.get_child_key_index();
-    master_key = this.master_private_key(aes_root);
-    owner_private_key = owner_public_key = owner_address = null;
-    while (true) {
-      if (!next_account) {
-        ++key_index;
-      }
-      if (key_index > Math.pow(2, 32)) {
-        throw new Error("overflow");
-      }
-      owner_private_key = ExtendedAddress.private_key(master_key, key_index);
-      owner_public_key = owner_private_key.toPublicKey();
-      if (next_account) {
-        if (next_account["public"] !== owner_public_key.toBtsPublic()) {
-          throw new Error("unable to generate account matching requested owner key");
-        }
-      }
-      owner_address = owner_public_key.toBtsAddy();
-      if (this.get_account_for_address(owner_address)) {
-        continue;
-      }
-      if ((_ref = this.lookup_key(owner_address)) != null ? (_ref1 = _ref.key) != null ? _ref1.encrypted_private_key : void 0 : void 0) {
-        continue;
-      }
-      active_private_key = ExtendedAddress.private_key(owner_private_key, 0);
-      active_public_key = active_private_key.toPublicKey();
-      active_address = active_public_key.toBtsAddy();
-      if (this.get_account_for_address(active_address)) {
-        continue;
-      }
-      break;
-    }
-    _ref2 = this._new_account(aes_root, account_name, owner_private_key, active_private_key, private_data, _lightwallet_compatible = false), account = _ref2[0], active = _ref2[1], owner = _ref2[2];
-    this.set_child_key_index(key_index, false);
-    this.store_account_or_update(account, null, false);
-    this.add_key_record(owner, false);
-    this.add_key_record(active, false);
-    if (save) {
-      save();
-    }
-    return owner_public_key.toBtsPublic();
-  };
-
-  WalletDb.prototype._new_account = function(aes_root, account_name, owner_private_key, active_private_key, private_data, lightwallet_compatible) {
+  WalletDb.prototype._new_account = function(aes_root, account_name, owner_private_key, active_private_key, private_data) {
     var account, active_address, active_key, active_public_key, owner_address, owner_key, owner_public_key;
-    if (lightwallet_compatible == null) {
-      lightwallet_compatible = true;
-    }
     owner_public_key = owner_private_key.toPublicKey();
     owner_address = owner_public_key.toBtsAddy();
     active_public_key = active_private_key.toPublicKey();
@@ -48638,8 +48421,7 @@ WalletDb = (function() {
       is_favorite: false,
       block_production_enabled: false,
       last_used_gen_sequence: 0,
-      private_data: private_data,
-      lightwallet_compatible: lightwallet_compatible
+      private_data: private_data
     };
     return [account, active_key, owner_key];
   };
@@ -48688,7 +48470,6 @@ WalletDb = (function() {
     if (!new_account.owner_key) {
       EC["throw"]("missing owner key");
     }
-    console.log('...  new_account.name', new_account.name, new_account.lightwallet_compatible);
     is_conflict = function(account1, account2) {
       if (account1.owner_key !== account2.owner_key) {
         return LE["throw"]("jslib_wallet.conflicting_account", [new_account.name]);
@@ -48713,7 +48494,6 @@ WalletDb = (function() {
         return o.type === "account_record_type" && o.data.name === new_account.name;
       });
       new_account.index = existing_account.index;
-      new_account.lightwallet_compatible = new_account.lightwallet_compatible || existing_account.lightwallet_compatible;
       if (existing_account.private_data) {
         new_account.private_data = existing_account.private_data;
       }
@@ -48727,81 +48507,6 @@ WalletDb = (function() {
       return this.save();
     }
   };
-
-
-  /*
-   *#* @return {PrivateKey} ##
-  generate_new_one_time_key:(aes_root)->
-      throw new Error 'not implemented'
-       * Deterministic instead of random to piggy-back
-       * on the extra entropy used in the master key
-      one_time_private_key = PrivateKey.newRandom()
-      one_time_public = one_time_private_key.toPublicKey()
-      one_time_address = one_time_public.toBtsAddy()
-      key_record = @lookup_key one_time_address
-      throw new Error 'key exists' if key_record
-      @store_key
-          public_key: one_time_public
-          encrypted_private_key: aes_root.encryptHex one_time_private_key.toHex()
-      one_time_private_key
-   */
-
-
-  /*
-  store_key:(key, save)->
-     key_record = @lookup_key key.public_key.getBtsAddy()
-     key_record = {} unless key_record
-     @add_key_record key_record, off
-     if key_record.encrypted_private_key
-         account_record = @get_account_for_address key.public_key
-         unless account_record
-             account_record = @get_account_for_address key.account_address
-         if account_record
-             account_record_address = PublicKey.fromHex(account_record.owner_key).toBtsAddy()
-             if key_record.account_address isnt account_record_address
-                 throw 'address miss match'
-              *    key_record.account_address = account_record_address
-              *    @add_key_record key_record, off
-             unless account_record.is_my_account
-                 account_record.is_my_account = yes
-                 @store_account_or_update account_record, null, no
-     @save() if save
-   */
-
-
-  /** @return {PrivateKey} */
-
-
-  /*
-   * This is tested with the bitshares client as of Feb 2015.  This is being
-   * turned off in favor of light weight client one time keys.
-  generate_new_account_child_key:(aes_root, account_name, save = true)->
-      console.log "WARN: Using a child key sequence.  On-going backups or heavy transaction scanning may be needed"
-      private_key = @getActivePrivate aes_root, account_name
-      LE.throw 'jslib_wallet.account_not_found',[account_name] unless current_account unless private_key
-      account = @lookup_account account_name
-      seq = account.last_used_gen_sequence
-      seq = 0 unless seq
-      child_private = child_public = child_address = null
-      while true
-          ++seq
-          try
-              child_private = ExtendedAddress.private_key private_key, seq
-              child_public = child_private.toPublicKey()
-              child_address = child_public.toBtsAddy()
-              break unless @key_record[child_address]
-          catch error
-              console.log "Error creating child key index #{seq} for account #{account_name}", error  # very rare
-          
-      account.last_used_gen_sequence = seq
-      @store_account_or_update account, null, save
-      @add_key_record
-          account_address: child_address
-          public_key: child_public.toBtsPublic()
-          encrypted_private_key: aes_root.encryptHex child_private.toHex()
-      , save
-      child_private
-   */
 
   WalletDb.prototype.add_key_record = function(rec, save) {
     if (save == null) {
