@@ -7,7 +7,11 @@ class BitsharesJsRpc
     constructor: (@RpcService, @Growl, $timeout, $translate) ->
         
         return unless bts = window.bts
-        console.log "[BitShares-JS] enabled"
+        version_name = (->
+            base_tag = document.getElementsByTagName('base')[0]
+            if base_tag then base_tag.getAttribute("href").match /[\w]+/ else ""
+        )()
+        console.log "[BitShares-JS] enabled #{version_name}"
         
         error_translator= (message)->
             message = JSON.parse message
@@ -15,7 +19,7 @@ class BitsharesJsRpc
                 message
         
         JsClient = bts.client.JsClient
-        js_client = new JsClient @RpcService, error_translator
+        js_client = new JsClient @RpcService, version_name, error_translator
         js_client.init().then ->
             window.wallet_api = js_client.wallet_api
         

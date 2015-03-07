@@ -11198,7 +11198,7 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "elliptic",
   "version": "0.15.7",
   "description": "EC cryptography",
@@ -23113,7 +23113,7 @@ Curve.prototype.validate = function(Q) {
 module.exports = Curve
 
 },{"./point":"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/point.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bigi":"/home/jcalfee/bitshares/jslib/node_modules/bigi/lib/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/curves.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "secp128r1": {
     "p": "fffffffdffffffffffffffffffffffff",
     "a": "fffffffdfffffffffffffffffffffffc",
@@ -29046,7 +29046,7 @@ function xor(a, b) {
 }
 }).call(this,require("buffer").Buffer)
 },{"buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/aesid.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
 "2.16.840.1.101.3.4.1.4": "aes-128-cfb",
@@ -33226,7 +33226,7 @@ if (typeof window === 'object') {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "name": "elliptic",
   "version": "0.15.15",
   "description": "EC cryptography",
@@ -33998,7 +33998,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 },{"bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js","brorand":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js")
 },{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/primes.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
     "modp1": {
         "gen": "02",
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff"
@@ -38633,18 +38633,11 @@ ChainDatabase = (function() {
   }
 
   ChainDatabase.prototype["delete"] = function() {
-    var i, key, len, _i, _results;
+    var i, len, _i;
     len = this.storage.length();
-    _results = [];
     for (i = _i = 0; _i < len; i = _i += 1) {
-      key = this.storage.key(i);
-      if (key.indexOf(this.wallet_db.wallet_name + "_" + this.chain_id) === 0) {
-        _results.push(this.storage.removeItem(key));
-      } else {
-        _results.push(void 0);
-      }
+      this.storage.removeItemOrThrow(this.storage.key(i));
     }
-    return _results;
   };
 
 
@@ -39344,7 +39337,7 @@ ChainInterface = (function() {
 
   ChainInterface.is_valid_account_orThrow = function(account_name) {
     if (!ChainInterface.is_valid_account_name(account_name)) {
-      LE["throw"]('wallet.invalid_account_name', [account_name]);
+      LE["throw"]('jslib_wallet.invalid_account_name', [account_name]);
     }
   };
 
@@ -39422,7 +39415,7 @@ ChainInterface = (function() {
       this.blockchain_api.get_account(account_name).then(function(resp) {
         var error;
         if (resp) {
-          error = new LE('blockchain.account_already_exists', [account_name]);
+          error = new LE('jslib_blockchain.account_already_exists', [account_name]);
           return defer.reject(error);
         } else {
           return defer.resolve();
@@ -39573,7 +39566,7 @@ Deposit = (function() {
     this.amount = amount;
     this.withdraw_condition = withdraw_condition;
     if (!(amount > 0)) {
-      LE["throw"]('general.positive_amount', [amount]);
+      LE["throw"]('jslib_general.positive_amount', [amount]);
     }
     this.type_name = "deposit_op_type";
     this.type_id = type_id(types.operation, this.type_name);
@@ -40648,23 +40641,26 @@ module.exports = {
 
 
 },{"./js_client":"/home/jcalfee/bitshares/jslib/src/client/js_client.coffee","./wallet_api":"/home/jcalfee/bitshares/jslib/src/client/wallet_api.coffee"}],"/home/jcalfee/bitshares/jslib/src/client/js_client.coffee":[function(require,module,exports){
-var JsClient, RelayNode, WalletAPI, config, q,
+var JsClient, RelayNode, Storage, WalletAPI, config, q,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 WalletAPI = require('../client/wallet_api').WalletAPI;
 
 RelayNode = require('../net/relay_node').RelayNode;
 
+Storage = require('../common/storage').Storage;
+
 config = require('../config');
 
 q = require('q');
 
 JsClient = (function() {
-  function JsClient(rpc, Growl) {
+  function JsClient(rpc, version_name, error_translator) {
     var relay_node;
     this.rpc = rpc;
-    this.Growl = Growl;
+    this.error_translator = error_translator;
     this.request = __bind(this.request, this);
+    Storage.version_name = version_name;
     this.rpc_pass_through = {
       request: this.rpc.request
     };
@@ -40788,14 +40784,31 @@ JsClient = (function() {
               message: err
             };
           }
-          err = {
-            data: {
-              error: err
+          if (_this.error_translator) {
+            (function(defer, error_handler, err) {
+              return _this.error_translator(err.message).then(function(message) {
+                err.message = message;
+                err = {
+                  data: {
+                    error: err
+                  }
+                };
+                defer.reject(err);
+                if (error_handler) {
+                  return error_handler(err);
+                }
+              });
+            })(defer, error_handler, err);
+          } else {
+            err = {
+              data: {
+                error: err
+              }
+            };
+            defer.reject(err);
+            if (error_handler) {
+              error_handler(err);
             }
-          };
-          defer.reject(err);
-          if (error_handler) {
-            error_handler(err);
           }
         } else {
           if (ret === void 0) {
@@ -40894,7 +40907,7 @@ exports.JsClient = JsClient;
 
 
 
-},{"../client/wallet_api":"/home/jcalfee/bitshares/jslib/src/client/wallet_api.coffee","../config":"/home/jcalfee/bitshares/jslib/src/config.coffee","../deploy/logging":"/home/jcalfee/bitshares/jslib/src/deploy/logging.coffee","../net/relay_node":"/home/jcalfee/bitshares/jslib/src/net/relay_node.coffee","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js"}],"/home/jcalfee/bitshares/jslib/src/client/wallet_api.coffee":[function(require,module,exports){
+},{"../client/wallet_api":"/home/jcalfee/bitshares/jslib/src/client/wallet_api.coffee","../common/storage":"/home/jcalfee/bitshares/jslib/src/common/storage.coffee","../config":"/home/jcalfee/bitshares/jslib/src/config.coffee","../deploy/logging":"/home/jcalfee/bitshares/jslib/src/deploy/logging.coffee","../net/relay_node":"/home/jcalfee/bitshares/jslib/src/net/relay_node.coffee","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js"}],"/home/jcalfee/bitshares/jslib/src/client/wallet_api.coffee":[function(require,module,exports){
 var Aes, BlockchainAPI, ChainDatabase, ChainInterface, ExtendedAddress, LE, TransactionBuilder, TransactionLedger, Wallet, WalletAPI, WalletDb, config, hash, libraries_api_wallet, q;
 
 Wallet = require('../wallet/wallet').Wallet;
@@ -40942,7 +40955,7 @@ WalletAPI = (function() {
       throw new Error('expecting rpc object');
     }
     this.blockchain_api = new BlockchainAPI(this.rpc);
-    this.chain_interface = new ChainInterface(this.blockchain_api, this.relay);
+    this.chain_interface = new ChainInterface(this.blockchain_api, this.relay.chain_id);
   }
 
   WalletAPI.libraries_api_wallet = libraries_api_wallet;
@@ -40971,7 +40984,7 @@ WalletAPI = (function() {
     }
     wallet_db = WalletDb.open(wallet_name, this.events);
     if (!wallet_db) {
-      throw new LE('wallet.not_found', [wallet_name]);
+      throw new LE('jslib_wallet.not_found', [wallet_name]);
     }
     this._open_from_wallet_db(wallet_db);
     this.current_wallet_name = wallet_name;
@@ -40998,10 +41011,10 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.validate_password = function(password) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     if (!this.wallet.validate_password(password)) {
-      LE["throw"]('wallet.invalid_password');
+      LE["throw"]('jslib_wallet.invalid_password');
     }
   };
 
@@ -41010,28 +41023,28 @@ WalletAPI = (function() {
       timeout_seconds = config.BTS_WALLET_DEFAULT_UNLOCK_TIME_SEC;
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     this.wallet.unlock(timeout_seconds, password);
   };
 
   WalletAPI.prototype.lock = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     this.wallet.lock();
   };
 
   WalletAPI.prototype.locked = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.locked();
   };
 
   WalletAPI.prototype.backup_create = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     if (window) {
       window.document.location = 'data:Application/octet-stream,' + encodeURIComponent(JSON.stringify(this.wallet.wallet_db.wallet_object, null, 4));
@@ -41043,10 +41056,10 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.get_brainkey = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     if (!this.wallet.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet.wallet_db.get_brainkey(this.wallet.aes_root);
   };
@@ -41056,7 +41069,7 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.account_create = function(account_name, private_data) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.account_create(account_name, private_data);
   };
@@ -41066,17 +41079,17 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.account_recover = function(account_name) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.account_recover(account_name);
   };
 
   WalletAPI.prototype._transaction_builder = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     if (!this.wallet.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return new TransactionBuilder(this.wallet, this.rpc, this.wallet.aes_root);
   };
@@ -41100,7 +41113,7 @@ WalletAPI = (function() {
       selection_method = "";
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     asset = this.chain_interface.get_asset(asset_name_or_id);
     payer = this.wallet.get_chain_account(paying_account_name);
@@ -41113,7 +41126,7 @@ WalletAPI = (function() {
       return function(asset, payer, sender, recipient) {
         var amount, builder, error, use_stealth_address, _ref;
         if (!asset) {
-          error = new LE('blockchain.unknown_asset', [asset]);
+          error = new LE('jslib_blockchain.unknown_asset', [asset]);
           defer.reject(error);
           return;
         }
@@ -41152,7 +41165,7 @@ WalletAPI = (function() {
       fee_asset_name_or_id = 0;
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     account_check = this.chain_interface.valid_unique_account(account_name);
     payer = this.wallet.get_chain_account(pay_with_account);
@@ -41185,7 +41198,7 @@ WalletAPI = (function() {
   WalletAPI.prototype.backup_restore_object = function(wallet_object, wallet_name) {
     var error, wallet_db;
     if (WalletDb.open(wallet_name, this.events)) {
-      LE["throw"]('wallet.exists', [wallet_name]);
+      LE["throw"]('jslib_wallet.exists', [wallet_name]);
     }
     try {
       wallet_db = new WalletDb(wallet_object, wallet_name, this.events);
@@ -41193,7 +41206,7 @@ WalletAPI = (function() {
       return wallet_db;
     } catch (_error) {
       error = _error;
-      return LE["throw"]('wallet.save_error', [wallet_name, error], error);
+      return LE["throw"]('jslib_wallet.save_error', [wallet_name, error], error);
     }
   };
 
@@ -41237,7 +41250,7 @@ WalletAPI = (function() {
       asset_name_or_id = 0;
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.relay.init().then((function(_this) {
       return function() {
@@ -41253,7 +41266,7 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.set_transaction_fee = function(fee_amount) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return q.all([this.chain_interface.get_asset(0), this.get_transaction_fee(0)]).spread(function(base_asset, fee) {
       if (fee.amount !== fee_amount * base_asset.precision) {
@@ -41265,7 +41278,7 @@ WalletAPI = (function() {
   WalletAPI.prototype.get_setting = function(key) {
     var value;
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     value = this.wallet.get_setting(key);
     return {
@@ -41276,7 +41289,7 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.set_setting = function(key, value) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.set_setting(key, value);
   };
@@ -41284,14 +41297,14 @@ WalletAPI = (function() {
   WalletAPI.prototype.get_account = function(name) {
     var refresh;
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.get_chain_account(name, refresh = true);
   };
 
   WalletAPI.prototype.list_accounts = function() {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.list_accounts();
   };
@@ -41299,7 +41312,7 @@ WalletAPI = (function() {
   WalletAPI.prototype.list_my_accounts = function() {
     var just_mine;
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.list_accounts(just_mine = true);
   };
@@ -41316,7 +41329,7 @@ WalletAPI = (function() {
 
   WalletAPI.prototype.dump_private_key = function(account_name) {
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     return this.wallet.dump_private_key(account_name);
   };
@@ -41341,12 +41354,12 @@ WalletAPI = (function() {
     }
 
     /*
-        LE.throw "wallet.must_be_opened" unless @wallet
+        LE.throw "jslib_wallet.must_be_opened" unless @wallet
         @wallet.get_spendable_account_balances account_name
     _account_balance:(account_name)->
      */
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     totals_by_account = {};
     total = function(account_name, asset_id, balance) {
@@ -41458,7 +41471,7 @@ WalletAPI = (function() {
       end_block_num = -1;
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     asset_id = asset.match(/^[0-9]$/) ? parseInt(asset) : asset === "" ? -1 : void 0;
     if (asset_id) {
@@ -41467,7 +41480,7 @@ WalletAPI = (function() {
     return this.chain_interface.get_asset(asset_symbol).then((function(_this) {
       return function(asset_lookup) {
         if (!asset_lookup) {
-          LE["throw"]("blockchain.unknown_asset", [asset]);
+          LE["throw"]("jslib_blockchain.unknown_asset", [asset]);
         }
         asset_id = asset_lookup.id;
         return _this.wallet.account_transaction_history(account_name, asset_id, limit, start_block_num, end_block_num);
@@ -41796,6 +41809,10 @@ var Storage;
 Storage = (function() {
   function Storage(namespace) {
     this.namespace = namespace != null ? namespace : "default";
+    if (!Storage.version_name) {
+      Storage.version_name = "default_version";
+    }
+    this.namespace = Storage.version_name + '\t' + this.namespace;
     this.local_storage = (typeof window !== "undefined" && window !== null ? window.localStorage : void 0) || new (require('node-localstorage').LocalStorage)('./localstorage-bitsharesjs');
   }
 
@@ -41804,10 +41821,22 @@ Storage = (function() {
   };
 
   Storage.prototype.setItem = function(key, value) {
+    console.log('... setItem ', this.namespace + '\t' + key);
     this.local_storage.setItem(this.namespace + '\t' + key, value);
   };
 
+  Storage.prototype.removeItemOrThrow = function(key) {
+    if (key === void 0) {
+      return;
+    }
+    if (!this.getItem(key)) {
+      throw Error("Could not remove " + (this.namespace + '\t' + key));
+    }
+    this.removeItem(key);
+  };
+
   Storage.prototype.removeItem = function(key) {
+    console.log('... removeItem ', this.namespace + '\t' + key);
     this.local_storage.removeItem(this.namespace + '\t' + key);
   };
 
@@ -41816,7 +41845,13 @@ Storage = (function() {
   };
 
   Storage.prototype.key = function(index) {
-    return this.local_storage.key(index);
+    var key, prefix;
+    key = this.local_storage.key(index);
+    prefix = this.namespace + '\t';
+    if ((key != null ? key.indexOf(prefix) : void 0) !== 0) {
+      return void 0;
+    }
+    return key.substring(prefix.length);
   };
 
   return Storage;
@@ -43780,10 +43815,10 @@ TransactionBuilder = (function() {
       throw new Error('missing amount');
     }
     if (!(amount && amount.amount > 0)) {
-      LE["throw"]('Invalid amount', [amount]);
+      LE["throw"]('jslib_Invalid amount', [amount]);
     }
     if ((memo != null ? memo.length : void 0) > BTS_BLOCKCHAIN_MAX_MEMO_SIZE) {
-      LE["throw"]('chain.memo_too_long');
+      LE["throw"]('jslib_chain.memo_too_long');
     }
     recipientActivePublic = this.wallet.getActiveKey(recipient.name);
     payerActivePublic = this.wallet.getActiveKey(payer.name);
@@ -43925,7 +43960,7 @@ TransactionBuilder = (function() {
   )->
       defer = q.defer()
       if memo_message?.length > BTS_BLOCKCHAIN_MAX_MEMO_SIZE
-          LE.throw 'chain.memo_too_long' 
+          LE.throw 'jslib_chain.memo_too_long' 
       
       otk_private = @wallet.generate_new_account_child_key(
           @aes_root
@@ -43962,7 +43997,7 @@ TransactionBuilder = (function() {
       delegate_pay_rate = -1;
     }
     if (!this.wallet) {
-      LE["throw"]("wallet.must_be_opened");
+      LE["throw"]("jslib_wallet.must_be_opened");
     }
     as_delegate = false;
     if (delegate_pay_rate !== -1) {
@@ -43972,11 +44007,11 @@ TransactionBuilder = (function() {
     owner_key = this.wallet.getOwnerKey(account_to_register);
     active_key = this.wallet.getActiveKey(account_to_register);
     if (!owner_key) {
-      LE["throw"]("create_account_before_register");
+      LE["throw"]("jslib_create_account_before_register");
     }
     pay_from_ActiveKey = this.wallet.getActiveKey(pay_from_account);
     if (!pay_from_ActiveKey) {
-      LE["throw"]("blockchain.unknown_account", pay_from_account);
+      LE["throw"]("jslib_blockchain.unknown_account", pay_from_account);
     }
     meta_data = null;
     if (account_type === "public_account") {
@@ -43990,7 +44025,7 @@ TransactionBuilder = (function() {
       };
     }
     if (delegate_pay_rate > 100) {
-      LE["throw"]('wallet.delegate_pay_rate_invalid', [delegate_pay_rate]);
+      LE["throw"]('jslib_wallet.delegate_pay_rate_invalid', [delegate_pay_rate]);
     }
     register = new RegisterAccount(new Buffer(account_to_register), public_data, owner_key, active_key, delegate_pay_rate, meta_data);
     this.operations.push(new Operation(register.type_id, register));
@@ -44003,7 +44038,7 @@ TransactionBuilder = (function() {
       for parent in parents
           account = @wallet.get_chain_account parent
           unless account
-              LE.throw 'wallet.need_parent_for_registration', [parent]
+              LE.throw 'jslib_wallet.need_parent_for_registration', [parent]
           
            *continue if account.is_retracted #pay_from_ActiveKey == public_key
           @wallet.has_private_key account
@@ -44074,7 +44109,7 @@ TransactionBuilder = (function() {
     }
     if (amount_remaining !== 0) {
       available = amount_to_withdraw.amount - amount_remaining;
-      throw new LE('wallet.insufficient_funds', amount_to_withdraw.amount, available);
+      throw new LE('jslib_wallet.insufficient_funds', amount_to_withdraw.amount, available);
     }
   };
 
@@ -44683,13 +44718,13 @@ Wallet = (function() {
     brain_key = Wallet.normalize_brain_key(brain_key);
     wallet_name = wallet_name != null ? wallet_name.trim() : void 0;
     if (!(wallet_name && wallet_name.length > 0)) {
-      LE["throw"]("wallet.invalid_name");
+      LE["throw"]("jslib_wallet.invalid_name");
     }
     if (!password || password.length < config.BTS_WALLET_MIN_PASSWORD_LENGTH) {
-      LE["throw"]("wallet.password_too_short");
+      LE["throw"]("jslib_wallet.password_too_short");
     }
     if (!brain_key || brain_key.length < config.BTS_WALLET_MIN_BRAINKEY_LENGTH) {
-      LE["throw"]("wallet.brain_key_too_short");
+      LE["throw"]("jslib_wallet.brain_key_too_short");
     }
     data = (function() {
       var _i, _ref;
@@ -44755,7 +44790,7 @@ Wallet = (function() {
       timeout_seconds = 1700;
     }
     if (!this.wallet_db.validate_password(password)) {
-      LE["throw"]('wallet.invalid_password');
+      LE["throw"]('jslib_wallet.invalid_password');
     }
     this.aes_root = Aes.fromSecret(password);
     unlock_timeout_id = setTimeout((function(_this) {
@@ -44778,7 +44813,7 @@ Wallet = (function() {
 
   Wallet.prototype.master_private_key = function() {
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet_db.master_private_key(this.aes_root);
   };
@@ -44834,7 +44869,7 @@ Wallet = (function() {
 
   Wallet.prototype.account_create = function(account_name, private_data) {
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet_db.generate_new_account(this.aes_root, this.blockchain_api, account_name, private_data = null);
   };
@@ -44845,7 +44880,7 @@ Wallet = (function() {
   Wallet.prototype.account_recover = function(account_name) {
     var private_data, recover_only, save;
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet_db.generate_new_account(this.aes_root, this.blockchain_api, account_name, private_data = null, save = true, recover_only = true);
   };
@@ -44856,7 +44891,7 @@ Wallet = (function() {
   Wallet.prototype.account_create_legacy = function(account_name, private_data) {
     var defer;
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     defer = q.defer();
     this.chain_interface.valid_unique_account(account_name).then((function(_this) {
@@ -44864,7 +44899,7 @@ Wallet = (function() {
         var account, e, key;
         account = _this.wallet_db.lookup_account(account_name);
         if (account) {
-          e = new LE('wallet.account_already_exists', [account_name]);
+          e = new LE('jslib_wallet.account_already_exists', [account_name]);
           defer.reject(e);
           return;
         }
@@ -44884,7 +44919,7 @@ Wallet = (function() {
   Wallet.prototype.getNewPrivateKey = function(account_name, expiration_seconds_epoch) {
     var private_key;
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     private_key = this.wallet_db.getActivePrivate(this.aes_root, account_name);
     if (!private_key) {
@@ -44903,14 +44938,14 @@ Wallet = (function() {
       paying_name, from_name, to_name
       memo_message = "", vote_method = ""
   )->
-      LE.throw 'wallet.must_be_unlocked' unless @aes_root
+      LE.throw 'jslib_wallet.must_be_unlocked' unless @aes_root
       defer = q.defer()
       to_public = @wallet_db.getActiveKey to_name
        *console.log to_name,to_public?.toBtsPublic()
       @rpc.request("blockchain_get_account",[to_name]).then(
           (result)=>
               unless result or to_public
-                  error = new LE 'blockchain.unknown_account', [to_name]
+                  error = new LE 'jslib_blockchain.unknown_account', [to_name]
                   defer.reject error
                   return
               
@@ -44950,7 +44985,7 @@ Wallet = (function() {
       end_block_num = -1;
     }
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.chain_database.account_transaction_history(account_name, asset_id, limit, start_block_num, end_block_num, this.aes_root);
   };
@@ -44962,7 +44997,7 @@ Wallet = (function() {
   Wallet.prototype.dump_private_key = function(account_name) {
     var account, rec;
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     account = this.wallet_db.lookup_account(account_name);
     if (!account) {
@@ -44991,7 +45026,7 @@ Wallet = (function() {
   Wallet.prototype.getOwnerPrivate = function(aes_root, account_name) {
     var account;
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     account = this.wallet_db.lookup_account(account_name);
     if (!account) {
@@ -45011,7 +45046,7 @@ Wallet = (function() {
 
   Wallet.prototype.keyrec_to_private = function(key_record) {
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     if (!(key_record != null ? key_record.encrypted_private_key : void 0)) {
       return null;
@@ -45044,7 +45079,7 @@ Wallet = (function() {
 
   Wallet.prototype.getActivePrivate = function(account_name) {
     if (!this.aes_root) {
-      LE["throw"]('wallet.must_be_unlocked');
+      LE["throw"]('jslib_wallet.must_be_unlocked');
     }
     return this.wallet_db.getActivePrivate(this.aes_root, account_name);
   };
@@ -45059,7 +45094,7 @@ exports.Wallet = Wallet;
 
 }).call(this,require("buffer").Buffer)
 },{"../blockchain/blockchain_api":"/home/jcalfee/bitshares/jslib/src/blockchain/blockchain_api.coffee","../blockchain/chain_database":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_database.coffee","../blockchain/chain_interface":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_interface.coffee","../common/exceptions":"/home/jcalfee/bitshares/jslib/src/common/exceptions.coffee","../ecc/aes":"/home/jcalfee/bitshares/jslib/src/ecc/aes.coffee","../ecc/extended_address":"/home/jcalfee/bitshares/jslib/src/ecc/extended_address.coffee","../ecc/hash":"/home/jcalfee/bitshares/jslib/src/ecc/hash.js","../ecc/key_private":"/home/jcalfee/bitshares/jslib/src/ecc/key_private.coffee","../ecc/key_public":"/home/jcalfee/bitshares/jslib/src/ecc/key_public.coffee","../wallet/transaction_ledger":"/home/jcalfee/bitshares/jslib/src/wallet/transaction_ledger.coffee","./config":"/home/jcalfee/bitshares/jslib/src/wallet/config.coffee","./wallet_db":"/home/jcalfee/bitshares/jslib/src/wallet/wallet_db.coffee","buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js","secure-random":"/home/jcalfee/bitshares/jslib/node_modules/secure-random/lib/secure-random.js"}],"/home/jcalfee/bitshares/jslib/src/wallet/wallet_api.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
   "category": "Wallet Methods",
   "methods" :
     [
@@ -47944,7 +47979,7 @@ WalletDb = (function() {
       EC["throw"]("required parameter");
     }
     invalid_format = function() {
-      return LE["throw"]("wallet.invalid_format", [this.wallet_name]);
+      return LE["throw"]("jslib_wallet.invalid_format", [this.wallet_name]);
     };
     if (!(((_ref = this.wallet_object) != null ? _ref.length : void 0) > 0)) {
       invalid_format();
@@ -48187,7 +48222,7 @@ WalletDb = (function() {
       save = true;
     }
     if (WalletDb.exists(wallet_name)) {
-      LE["throw"]('wallet.exists', [wallet_name]);
+      LE["throw"]('jslib_wallet.exists', [wallet_name]);
     }
     checksum = hash.sha512(password);
     checksum = hash.sha512(checksum);
@@ -48231,7 +48266,7 @@ WalletDb = (function() {
   WalletDb["delete"] = function(wallet_name) {
     var storage;
     storage = new Storage(wallet_name + " " + main_config.bts_address_prefix);
-    storage.removeItem('wallet_json');
+    storage.removeItemOrThrow('wallet_json');
   };
 
   WalletDb.prototype.save_brainkey = function(aes_root, brainkey, save) {
@@ -48383,7 +48418,7 @@ WalletDb = (function() {
             local_account = _this.get_account_for_address(name);
           }
           if (!(local_account || chain_account)) {
-            LE["throw"]("general.unknown_account", [name]);
+            LE["throw"]("jslib_general.unknown_account", [name]);
           }
           if (local_account && chain_account) {
             if (local_account.owner_key !== chain_account.owner_key) {
@@ -48525,7 +48560,7 @@ WalletDb = (function() {
       next_account = null;
     }
     if (this.account[account_name]) {
-      LE["throw"]('wallet.account_already_exists');
+      LE["throw"]('jslib_wallet.account_already_exists');
     }
     key_index = next_account ? next_account.index : this.get_child_key_index();
     master_key = this.master_private_key(aes_root);
