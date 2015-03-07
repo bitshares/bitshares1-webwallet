@@ -52,10 +52,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         frequency: "each_block"
         update: (data, deferred) ->
             Wallet.refresh_account($scope.account_from_name).then ->
-                $scope.balances = Wallet.balances[$scope.account_from_name]
-                $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
-                $scope.currencies.unshift("") if  $scope.currencies.length > 1
-                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                $scope.balances = Wallet.balances[$scope.account_from_name] or []
+                $scope.currencies = Object.keys($scope.balances) unless $scope.currencies
                 $scope.refreshing_balances = false
                 deferred.resolve(true)
             , (error) ->
@@ -63,6 +61,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 deferred.reject(false)
     Observer.registerObserver(account_balances_observer)
 
+    ### Populate the currencies drop-down .. ###
+    Wallet.refresh_account($scope.account_from_name).then ->
+        $scope.balances = Wallet.balances[$scope.account_from_name] or []
+        $scope.currencies = Object.keys($scope.balances)
+        $scope.currencies.unshift("") if $scope.currencies.length > 1
+        $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+    
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(account_balances_observer)
 
