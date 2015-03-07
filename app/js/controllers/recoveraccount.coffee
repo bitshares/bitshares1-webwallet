@@ -9,9 +9,8 @@ angular.module("app").controller "RecoverAccountController", ($scope, $location,
 
         error_handler = (response) ->
             if response.data.error
-                message = JSON.parse response.data.error.message
-                $translate(message.key, message).then (message)->
-                    form.account_name.$error.message = message
+                message = response.data.error.message
+                form.account_name.$error.message = message
                 return true
             else
                 return false
