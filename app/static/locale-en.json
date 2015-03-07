@@ -161,6 +161,10 @@
     "info": "Your password is mandatory and controls when and how your funds may be spent. If you forget this password you will be unable to transfer your shares.",
     "create_wallet": "Create Wallet"
   },
+  "jslib_wallet":{
+    "conflicting_account":"Account '{{v1}}' is not owned by this brain-key.",
+    "account_not_found": "Account '{{v1}}' was not found"
+  },
   "wallet_common":{
     "pw_too_short":"Password must be 9 or more characters.",
     "pw_too_long":"Password is too long.",
@@ -448,7 +452,8 @@
     "select_currency": "Select Currency"
   },
   "accounts": {
-    "create_account": "Add Account",
+    "create_account": "Create Account",
+    "recover_account": "Recover Account",
     "accounts": "Accounts",
     "info": "Click on an account name to get more information about that account.",
     "select_account": "Select Account",
@@ -525,7 +530,8 @@
       "name_tip": "Name (required)",
       "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
       "note1": "Note: Account names cannot be transferred.",
-      "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash."
+      "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash.",
+      "note3": "Type in the name of an account previously registered under this wallet's brain-key."
     }
   },
   "pagination": {

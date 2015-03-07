@@ -1,4 +1,4 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, WalletAPI, Utils) ->
+angular.module("app").controller "CreateAccountController", ($scope, $location, $translate, Wallet, WalletAPI, Utils) ->
     $scope.f = {}
 
     $scope.createAccount = ->
@@ -8,7 +8,13 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
 
         error_handler = (response) ->
             if response.data.error
-                form.account_name.$error.message = Utils.formatAssertException(response.data.error.message)
+                if window.bts
+                    message = JSON.parse response.data.error.message
+                    $translate(message.key, message).then (message)->
+                        form.account_name.$error.message = message
+                else
+                    message = Utils.formatAssertException response.data.error.message
+                    form.account_name.$error.message = message
                 return true
             else
                 return false

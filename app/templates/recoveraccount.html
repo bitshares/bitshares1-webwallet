@@ -1,6 +1,6 @@
 <div class="col-sm-12">
   <div class="header">
-    <h3 class="header-title" translate>account.new_account</h3>
+    <h3 class="header-title" translate>accounts.recover_account</h3>
   </div>
 </div>
 
@@ -16,11 +16,11 @@
     </div>
 
     <div class="col-sm-5">
-      <form name="createaccount" role="form" ng-submit="createAccount()" novalidate>
-        <div form-vgroup label="{{'account.name'|translate}}" help="{{'directive.input_name.note2'|translate}} {{'directive.input_name.note1'|translate}}" help-if="true">
+      <form name="recoveraccount" role="form" ng-submit="recoverAccount()" novalidate>
+        <div form-vgroup label="{{'account.name'|translate}}" help="{{'directive.input_name.note3'|translate}}" help-if="true">
           <input-account-name name="account_name" autofocus ng-model="f.name"/>
         </div>
-        <button ng-disabled="!createaccount.$valid" class="btn btn-primary" type="submit" translate>accounts.create_account</button>
+        <button ng-disabled="!recoveraccount.$valid" class="btn btn-primary" type="submit" translate>accounts.recover_account</button>
       </form>
     </div>
 

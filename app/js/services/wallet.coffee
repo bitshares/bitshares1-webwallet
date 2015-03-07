@@ -219,6 +219,13 @@ class Wallet
             @refresh_accounts()
             result
 
+    recover_account: (name, error_handler) ->
+        throw new Error "Missing library: bitshares-js" unless window.bts
+        @rpc.request("wallet_account_recover", [name], error_handler).then (result) =>
+            result = result.result
+            @refresh_accounts()
+            result
+    
     account_update_private_data: (name, privateData) ->
         @wallet_api.account_update_private_data(name, privateData).then (result) =>
             @refresh_accounts()

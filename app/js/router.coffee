@@ -28,6 +28,11 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
         url: prefix + "/create/account"
         templateUrl: "createaccount.html"
         controller: "CreateAccountController"
+        
+    sp.state "recover/account",
+        url: prefix + "/recover/account"
+        templateUrl: "recoveraccount.html"
+        controller: "RecoverAccountController"
 
     sp.state "accounts",
         url: prefix + "/accounts"
