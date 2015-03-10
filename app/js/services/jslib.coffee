@@ -7,8 +7,11 @@ class BitsharesJsRpc
     constructor: (@RpcService, @Growl, $timeout, $translate) ->
         
         return unless bts = window.bts
+        
         base_tag = document.getElementsByTagName('base')[0]
+        base_path = if base_tag then base_tag.getAttribute("href") else ""
         version_name = if base_tag then base_tag.getAttribute("href").match /[\w]+/ else ""
+        
         console.log "[BitShares-JS] enabled #{version_name}"
         
         error_translator= (message)->
@@ -33,12 +36,9 @@ class BitsharesJsRpc
             @Growl "","Active key updated"
         
         js_client.event 'wallet.locked', ()->
-            navigate_to base_tag
-            $timeout ->
-                window.location.reload()
-            ,
-                100
-    
+            # Stay on the same version
+            navigate_to base_path
+
 angular.module("app").service "BitsharesJsRpc", 
     ["RpcService", "Growl", "$timeout", "$translate", BitsharesJsRpc]
 
