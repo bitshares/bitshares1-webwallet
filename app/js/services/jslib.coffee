@@ -38,7 +38,7 @@ class BitsharesJsRpc
             @Growl "","Active key updated"
         
         js_client.event 'wallet.locked', ()->
-            navigate_to "brainwallet"
+            location.href = base_path
 
 angular.module("app").service "BitsharesJsRpc", 
     ["RpcService", "Growl", "$timeout", "$translate", BitsharesJsRpc]
