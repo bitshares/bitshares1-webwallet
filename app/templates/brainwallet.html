@@ -23,7 +23,7 @@
         <div class="str-bottom" ng-switch="step" 
             ng-show="has_secure_random === true">
             
-            <div class="row" ng-switch-when="introduction">
+            <div class="row" ng-if="step === 'introduction' || step === 'guest'">
                 <div class="row spacedrow">
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit"
@@ -39,6 +39,11 @@
                             ng-click="stepChange('recover_brainkey')"
                             translate>brain_wallet.recover
                         </button>
+                        <button class="btn btn-primary" type="submit"
+                            ng-click="stepChange('guest')"
+                            translate>brain_wallet.guest
+                        </button>
+                        <i ng-class="creating_wallet"></i>
                     </div>
                 </div>
             </div>
@@ -119,6 +124,7 @@
                         </span>
                     </div>
                 </div>
+                <br/>
                 <button tabindex="3" class="btn btn-primary" 
                     ng-click="stepChange('introduction')"
                     translate>brain_wallet.cancel
