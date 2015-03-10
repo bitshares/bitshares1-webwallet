@@ -403,7 +403,10 @@
     "update_public_data_tx_fee": "데이터 업데이트 수수료 : ",
     "new_balance": "새로운 잔액",
     "less_fee": "적은 수수료",
-    "select_currency": "Select Currency"
+    "select_currency": "Select Currency",
+    "your_account": "Your Account",
+    "registered" : "Registered",
+    "pay_to": "Make a payment to"
   },
   "accounts": {
     "create_account": "새 계정 생성",
