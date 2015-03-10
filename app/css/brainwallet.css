@@ -1,8 +1,12 @@
+
 #brainwallet input {
-    /* override bootstrap's .form-control display:block*/
+    /* override bootstrap's .form-control display:block (for narrow screens)*/
     display:inline;
 }
-
+#brainwallet textarea {
+    /* override bootstrap's .form-control display:block (for narrow screens)*/
+    display:inline;
+}
 #brainwallet .password {
     max-width:200px;
 }

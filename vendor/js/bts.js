@@ -11198,7 +11198,7 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports={
   "name": "elliptic",
   "version": "0.15.7",
   "description": "EC cryptography",
@@ -23113,7 +23113,7 @@ Curve.prototype.validate = function(Q) {
 module.exports = Curve
 
 },{"./point":"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/point.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bigi":"/home/jcalfee/bitshares/jslib/node_modules/bigi/lib/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/ecurve/lib/curves.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports={
   "secp128r1": {
     "p": "fffffffdffffffffffffffffffffffff",
     "a": "fffffffdfffffffffffffffffffffffc",
@@ -29046,7 +29046,7 @@ function xor(a, b) {
 }
 }).call(this,require("buffer").Buffer)
 },{"buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/aesid.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
+module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
 "2.16.840.1.101.3.4.1.4": "aes-128-cfb",
@@ -32857,9 +32857,1437 @@ elliptic.curves = require('./elliptic/curves');
 // Protocols
 elliptic.ec = require('./elliptic/ec');
 
-},{"../package.json":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json","./elliptic/curve":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js","./elliptic/curves":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curves.js","./elliptic/ec":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js","./elliptic/hmac-drbg":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/hmac-drbg.js","./elliptic/utils":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/utils.js","brorand":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js":[function(require,module,exports){
+},{"../package.json":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json","./elliptic/curve":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js","./elliptic/curves":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curves.js","./elliptic/ec":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js","./elliptic/hmac-drbg":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/hmac-drbg.js","./elliptic/utils":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/utils.js","brorand":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/base.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/edwards.js":[function(require,module,exports){
+var assert = require('assert');
+var curve = require('../curve');
+var elliptic = require('../../elliptic');
+var bn = require('bn.js');
+var inherits = require('inherits');
+var Base = curve.base;
+
+var getNAF = elliptic.utils.getNAF;
+
+function EdwardsCurve(conf) {
+  // NOTE: Important as we are creating point in Base.call()
+  this.twisted = conf.a != 1;
+  this.mOneA = this.twisted && conf.a == -1;
+  this.extended = this.mOneA;
+
+  Base.call(this, 'mont', conf);
+
+  this.a = new bn(conf.a, 16).mod(this.red.m).toRed(this.red);
+  this.c = new bn(conf.c, 16).toRed(this.red);
+  this.c2 = this.c.redSqr();
+  this.d = new bn(conf.d, 16).toRed(this.red);
+  this.dd = this.d.redAdd(this.d);
+
+  assert(!this.twisted || this.c.fromRed().cmpn(1) === 0);
+  this.oneC = conf.c == 1;
+}
+inherits(EdwardsCurve, Base);
+module.exports = EdwardsCurve;
+
+EdwardsCurve.prototype._mulA = function _mulA(num) {
+  if (this.mOneA)
+    return num.redNeg();
+  else
+    return this.a.redMul(num);
+};
+
+EdwardsCurve.prototype._mulC = function _mulC(num) {
+  if (this.oneC)
+    return num;
+  else
+    return this.c.redMul(num);
+};
+
+EdwardsCurve.prototype.point = function point(x, y, z, t) {
+  return new Point(this, x, y, z, t);
+};
+
+// Just for compatibility with Short curve
+EdwardsCurve.prototype.jpoint = function jpoint(x, y, z, t) {
+  return this.point(x, y, z, t);
+};
+
+EdwardsCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
+  return Point.fromJSON(this, obj);
+};
+
+EdwardsCurve.prototype.pointFromX = function pointFromX(odd, x) {
+  x = new bn(x, 16);
+  if (!x.red)
+    x = x.toRed(this.red);
+
+  var x2 = x.redSqr();
+  var rhs = this.c2.redSub(this.a.redMul(x2));
+  var lhs = this.one.redSub(this.c2.redMul(this.d).redMul(x2));
+
+  var y = rhs.redMul(lhs.redInvm()).redSqrt();
+  var isOdd = y.fromRed().isOdd();
+  if (odd && !isOdd || !odd && isOdd)
+    y = y.redNeg();
+
+  return this.point(x, y, curve.one);
+};
+
+EdwardsCurve.prototype.validate = function validate(point) {
+  if (point.isInfinity())
+    return true;
+
+  // Curve: A * X^2 + Y^2 = C^2 * (1 + D * X^2 * Y^2)
+  point.normalize();
+
+  var x2 = point.x.redSqr();
+  var y2 = point.y.redSqr();
+  var lhs = x2.redMul(this.a).redAdd(y2);
+  var rhs = this.c2.redMul(this.one.redAdd(this.d.redMul(x2).redMul(y2)));
+
+  return lhs.cmp(rhs) === 0;
+};
+
+function Point(curve, x, y, z, t) {
+  Base.BasePoint.call(this, curve, 'projective');
+  if (x === null && y === null && z === null) {
+    this.x = this.curve.zero;
+    this.y = this.curve.one;
+    this.z = this.curve.one;
+    this.t = this.curve.zero;
+    this.zOne = true;
+  } else {
+    this.x = new bn(x, 16);
+    this.y = new bn(y, 16);
+    this.z = z ? new bn(z, 16) : this.curve.one;
+    this.t = t && new bn(t, 16);
+    if (!this.x.red)
+      this.x = this.x.toRed(this.curve.red);
+    if (!this.y.red)
+      this.y = this.y.toRed(this.curve.red);
+    if (!this.z.red)
+      this.z = this.z.toRed(this.curve.red);
+    if (this.t && !this.t.red)
+      this.t = this.t.toRed(this.curve.red);
+    this.zOne = this.z === this.curve.one;
+
+    // Use extended coordinates
+    if (this.curve.extended && !this.t) {
+      this.t = this.x.redMul(this.y);
+      if (!this.zOne)
+        this.t = this.t.redMul(this.z.redInvm());
+    }
+  }
+}
+inherits(Point, Base.BasePoint);
+
+Point.fromJSON = function fromJSON(curve, obj) {
+  return new Point(curve, obj[0], obj[1], obj[2]);
+};
+
+Point.prototype.inspect = function inspect() {
+  if (this.isInfinity())
+    return '<EC Point Infinity>';
+  return '<EC Point x: ' + this.x.fromRed().toString(16, 2) +
+      ' y: ' + this.y.fromRed().toString(16, 2) +
+      ' z: ' + this.z.fromRed().toString(16, 2) + '>';
+};
+
+Point.prototype.isInfinity = function isInfinity() {
+  // XXX This code assumes that zero is always zero in red
+  return this.x.cmpn(0) === 0 &&
+         this.y.cmp(this.z) === 0;
+};
+
+Point.prototype._extDbl = function _extDbl() {
+  // http://hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html#doubling-dbl-2008-hwcd
+  // 4M + 4S
+
+  // A = X1^2
+  var a = this.x.redSqr();
+  // B = Y1^2
+  var b = this.y.redSqr();
+  // C = 2 * Z1^2
+  var c = this.z.redSqr();
+  c = c.redIAdd(c);
+  // D = a * A
+  var d = this.curve._mulA(a);
+  // E = (X1 + Y1)^2 - A - B
+  var e = this.x.redAdd(this.y).redSqr().redISub(a).redISub(b);
+  // G = D + B
+  var g = d.redAdd(b);
+  // F = G - C
+  var f = g.redSub(c);
+  // H = D - B
+  var h = d.redSub(b);
+  // X3 = E * F
+  var nx = e.redMul(f);
+  // Y3 = G * H
+  var ny = g.redMul(h);
+  // T3 = E * H
+  var nt = e.redMul(h);
+  // Z3 = F * G
+  var nz = f.redMul(g);
+  return this.curve.point(nx, ny, nz, nt);
+};
+
+Point.prototype._projDbl = function _projDbl() {
+  // http://hyperelliptic.org/EFD/g1p/auto-twisted-projective.html#doubling-dbl-2008-bbjlp
+  // http://hyperelliptic.org/EFD/g1p/auto-edwards-projective.html#doubling-dbl-2007-bl
+  // and others
+  // Generally 3M + 4S or 2M + 4S
+
+  // B = (X1 + Y1)^2
+  var b = this.x.redAdd(this.y).redSqr();
+  // C = X1^2
+  var c = this.x.redSqr();
+  // D = Y1^2
+  var d = this.y.redSqr();
+
+  if (this.curve.twisted) {
+    // E = a * C
+    var e = this.curve._mulA(c);
+    // F = E + D
+    var f = e.redAdd(d);
+    if (this.zOne) {
+      // X3 = (B - C - D) * (F - 2)
+      var nx = b.redSub(c).redSub(d).redMul(f.redSub(this.curve.two));
+      // Y3 = F * (E - D)
+      var ny = f.redMul(e.redSub(d));
+      // Z3 = F^2 - 2 * F
+      var nz = f.redSqr().redSub(f).redSub(f);
+    } else {
+      // H = Z1^2
+      var h = this.z.redSqr();
+      // J = F - 2 * H
+      var j = f.redSub(h).redISub(h);
+      // X3 = (B-C-D)*J
+      var nx = b.redSub(c).redISub(d).redMul(j);
+      // Y3 = F * (E - D)
+      var ny = f.redMul(e.redSub(d));
+      // Z3 = F * J
+      var nz = f.redMul(j);
+    }
+  } else {
+    // E = C + D
+    var e = c.redAdd(d);
+    // H = (c * Z1)^2
+    var h = this.curve._mulC(redMul(this.z)).redSqr();
+    // J = E - 2 * H
+    var j = e.redSub(h).redSub(h);
+    // X3 = c * (B - E) * J
+    var nx = this.curve._mulC(b.redISub(e)).redMul(j);
+    // Y3 = c * E * (C - D)
+    var ny = this.curve._mulC(e).redMul(c.redISub(d));
+    // Z3 = E * J
+    var nz = e.redMul(j);
+  }
+  return this.curve.point(nx, ny, nz);
+};
+
+Point.prototype.dbl = function dbl() {
+  if (this.isInfinity())
+    return this;
+
+  // Double in extended coordinates
+  if (this.curve.extended)
+    return this._extDbl();
+  else
+    return this._projDbl();
+};
+
+Point.prototype._extAdd = function _extAdd(p) {
+  // http://hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html#addition-add-2008-hwcd-3
+  // 8M
+
+  // A = (Y1 - X1) * (Y2 - X2)
+  var a = this.y.redSub(this.x).redMul(p.y.redSub(p.x));
+  // B = (Y1 + X1) * (Y2 + X2)
+  var b = this.y.redAdd(this.x).redMul(p.y.redAdd(p.x));
+  // C = T1 * k * T2
+  var c = this.t.redMul(this.curve.dd).redMul(p.t);
+  // D = Z1 * 2 * Z2
+  var d = this.z.redMul(p.z.redAdd(p.z));
+  // E = B - A
+  var e = b.redSub(a);
+  // F = D - C
+  var f = d.redSub(c);
+  // G = D + C
+  var g = d.redAdd(c);
+  // H = B + A
+  var h = b.redAdd(a);
+  // X3 = E * F
+  var nx = e.redMul(f);
+  // Y3 = G * H
+  var ny = g.redMul(h);
+  // T3 = E * H
+  var nt = e.redMul(h);
+  // Z3 = F * G
+  var nz = f.redMul(g);
+  return this.curve.point(nx, ny, nz, nt);
+};
+
+Point.prototype._projAdd = function _projAdd(p) {
+  // http://hyperelliptic.org/EFD/g1p/auto-twisted-projective.html#addition-add-2008-bbjlp
+  // http://hyperelliptic.org/EFD/g1p/auto-edwards-projective.html#addition-add-2007-bl
+  // 10M + 1S
+
+  // A = Z1 * Z2
+  var a = this.z.redMul(p.z);
+  // B = A^2
+  var b = a.redSqr();
+  // C = X1 * X2
+  var c = this.x.redMul(p.x);
+  // D = Y1 * Y2
+  var d = this.y.redMul(p.y);
+  // E = d * C * D
+  var e = this.curve.d.redMul(c).redMul(d);
+  // F = B - E
+  var f = b.redSub(e);
+  // G = B + E
+  var g = b.redAdd(e);
+  // X3 = A * F * ((X1 + Y1) * (X2 + Y2) - C - D)
+  var tmp = this.x.redAdd(this.y).redMul(p.x.redAdd(p.y)).redISub(c).redISub(d);
+  var nx = a.redMul(f).redMul(tmp);
+  if (this.curve.twisted) {
+    // Y3 = A * G * (D - a * C)
+    var ny = a.redMul(g).redMul(d.redSub(this.curve._mulA(c)));
+    // Z3 = F * G
+    var nz = f.redMul(g);
+  } else {
+    // Y3 = A * G * (D - C)
+    var ny = a.redMul(g).redMul(d.redSub(c));
+    // Z3 = c * F * G
+    var nz = this.curve._mulC(f).redMul(g);
+  }
+  return this.curve.point(nx, ny, nz);
+};
+
+Point.prototype.add = function add(p) {
+  if (this.isInfinity())
+    return p;
+  if (p.isInfinity())
+    return this;
+
+  if (this.curve.extended)
+    return this._extAdd(p);
+  else
+    return this._projAdd(p);
+};
+
+Point.prototype.mul = function mul(k) {
+  if (this.precomputed && this.precomputed.doubles)
+    return this.curve._fixedNafMul(this, k);
+  else
+    return this.curve._wnafMul(this, k);
+};
+
+Point.prototype.mulAdd = function mulAdd(k1, p, k2) {
+  return this.curve._wnafMulAdd(1, [ this, p ], [ k1, k2 ], 2);
+};
+
+Point.prototype.normalize = function normalize() {
+  if (this.zOne)
+    return this;
+
+  // Normalize coordinates
+  var zi = this.z.redInvm();
+  this.x = this.x.redMul(zi);
+  this.y = this.y.redMul(zi);
+  if (this.t)
+    this.t = this.t.redMul(zi);
+  this.z = this.curve.one;
+  this.zOne = true;
+  return this;
+};
+
+Point.prototype.neg = function neg() {
+  return this.curve.point(this.x.redNeg(),
+                          this.y,
+                          this.z,
+                          this.t && this.t.redNeg());
+};
+
+Point.prototype.getX = function getX() {
+  this.normalize();
+  return this.x.fromRed();
+};
+
+Point.prototype.getY = function getY() {
+  this.normalize();
+  return this.y.fromRed();
+};
+
+// Compatibility with BaseCurve
+Point.prototype.toP = Point.prototype.normalize;
+Point.prototype.mixedAdd = Point.prototype.add;
+
+},{"../../elliptic":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js","../curve":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js","inherits":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/inherits/inherits_browser.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js")
-},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curves.js":[function(require,module,exports){
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/mont.js":[function(require,module,exports){
+var assert = require('assert');
+var curve = require('../curve');
+var elliptic = require('../../elliptic');
+var bn = require('bn.js');
+var inherits = require('inherits');
+var Base = curve.base;
+
+var getNAF = elliptic.utils.getNAF;
+
+function MontCurve(conf) {
+  Base.call(this, 'mont', conf);
+
+  this.a = new bn(conf.a, 16).toRed(this.red);
+  this.b = new bn(conf.b, 16).toRed(this.red);
+  this.i4 = new bn(4).toRed(this.red).redInvm();
+  this.two = new bn(2).toRed(this.red);
+  this.a24 = this.i4.redMul(this.a.redAdd(this.two));
+}
+inherits(MontCurve, Base);
+module.exports = MontCurve;
+
+MontCurve.prototype.point = function point(x, z) {
+  return new Point(this, x, z);
+};
+
+MontCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
+  return Point.fromJSON(this, obj);
+}
+
+MontCurve.prototype.validate = function validate(point) {
+  var x = point.normalize().x;
+  var x2 = x.redSqr();
+  var rhs = x2.redMul(x).redAdd(x2.redMul(this.a)).redAdd(x);
+  var y = rhs.redSqrt();
+
+  return y.redSqr().cmp(rhs) === 0;
+};
+
+function Point(curve, x, z) {
+  Base.BasePoint.call(this, curve, 'projective');
+  if (x === null && z === null) {
+    this.x = this.curve.one;
+    this.z = this.curve.zero;
+  } else {
+    this.x = new bn(x, 16);
+    this.z = new bn(z, 16);
+    if (!this.x.red)
+      this.x = this.x.toRed(this.curve.red);
+    if (!this.z.red)
+      this.z = this.z.toRed(this.curve.red);
+  }
+}
+inherits(Point, Base.BasePoint);
+
+Point.prototype.precompute = function precompute() {
+  // No-op
+};
+
+Point.fromJSON = function fromJSON(curve, obj) {
+  return new Point(curve, obj[0], obj[1] || curve.one);
+};
+
+Point.prototype.inspect = function inspect() {
+  if (this.isInfinity())
+    return '<EC Point Infinity>';
+  return '<EC Point x: ' + this.x.fromRed().toString(16, 2) +
+      ' z: ' + this.z.fromRed().toString(16, 2) + '>';
+};
+
+Point.prototype.isInfinity = function isInfinity() {
+  // XXX This code assumes that zero is always zero in red
+  return this.z.cmpn(0) === 0;
+};
+
+Point.prototype.dbl = function dbl() {
+  // http://hyperelliptic.org/EFD/g1p/auto-montgom-xz.html#doubling-dbl-1987-m-3
+  // 2M + 2S + 4A
+
+  // A = X1 + Z1
+  var a = this.x.redAdd(this.z);
+  // AA = A^2
+  var aa = a.redSqr();
+  // B = X1 - Z1
+  var b = this.x.redSub(this.z);
+  // BB = B^2
+  var bb = b.redSqr();
+  // C = AA - BB
+  var c = aa.redSub(bb);
+  // X3 = AA * BB
+  var nx = aa.redMul(bb);
+  // Z3 = C * (BB + A24 * C)
+  var nz = c.redMul(bb.redAdd(this.curve.a24.redMul(c)));
+  return this.curve.point(nx, nz);
+};
+
+Point.prototype.add = function add(p) {
+  throw new Error('Not supported on Montgomery curve');
+};
+
+Point.prototype.diffAdd = function diffAdd(p, diff) {
+  // http://hyperelliptic.org/EFD/g1p/auto-montgom-xz.html#diffadd-dadd-1987-m-3
+  // 4M + 2S + 6A
+
+  // A = X2 + Z2
+  var a = this.x.redAdd(this.z);
+  // B = X2 - Z2
+  var b = this.x.redSub(this.z);
+  // C = X3 + Z3
+  var c = p.x.redAdd(p.z);
+  // D = X3 - Z3
+  var d = p.x.redSub(p.z);
+  // DA = D * A
+  var da = d.redMul(a);
+  // CB = C * B
+  var cb = c.redMul(b);
+  // X5 = Z1 * (DA + CB)^2
+  var nx = diff.z.redMul(da.redAdd(cb).redSqr());
+  // Z5 = X1 * (DA - CB)^2
+  var nz = diff.x.redMul(da.redISub(cb).redSqr());
+  return this.curve.point(nx, nz);
+};
+
+Point.prototype.mul = function mul(k) {
+  var t = k.clone();
+  var a = this; // (N / 2) * Q + Q
+  var b = this.curve.point(null, null); // (N / 2) * Q
+  var c = this; // Q
+
+  for (var bits = []; t.cmpn(0) !== 0; t.ishrn(1))
+    bits.push(t.andln(1));
+
+  for (var i = bits.length - 1; i >= 0; i--) {
+    if (bits[i] === 0) {
+      // N * Q + Q = ((N / 2) * Q + Q)) + (N / 2) * Q
+      a = a.diffAdd(b, c);
+      // N * Q = 2 * ((N / 2) * Q + Q))
+      b = b.dbl();
+    } else {
+      // N * Q = ((N / 2) * Q + Q) + ((N / 2) * Q)
+      b = a.diffAdd(b, c);
+      // N * Q + Q = 2 * ((N / 2) * Q + Q)
+      a = a.dbl();
+    }
+  }
+  return b;
+};
+
+Point.prototype.mulAdd = function mulAdd() {
+  throw new Error('Not supported on Montgomery curve');
+};
+
+Point.prototype.normalize = function normalize() {
+  this.x = this.x.redMul(this.z.redInvm());
+  this.z = this.curve.one;
+  return this;
+};
+
+Point.prototype.getX = function getX() {
+  // Normalize coordinates
+  this.normalize();
+
+  return this.x.fromRed();
+};
+
+},{"../../elliptic":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js","../curve":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js","inherits":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/inherits/inherits_browser.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/short.js":[function(require,module,exports){
+var assert = require('assert');
+var curve = require('../curve');
+var elliptic = require('../../elliptic');
+var bn = require('bn.js');
+var inherits = require('inherits');
+var Base = curve.base;
+
+var getNAF = elliptic.utils.getNAF;
+
+function ShortCurve(conf) {
+  Base.call(this, 'short', conf);
+
+  this.a = new bn(conf.a, 16).toRed(this.red);
+  this.b = new bn(conf.b, 16).toRed(this.red);
+  this.tinv = this.two.redInvm();
+
+  this.zeroA = this.a.fromRed().cmpn(0) === 0;
+  this.threeA = this.a.fromRed().sub(this.p).cmpn(-3) === 0;
+
+  // If the curve is endomorphic, precalculate beta and lambda
+  this.endo = this._getEndomorphism(conf);
+  this._endoWnafT1 = new Array(4);
+  this._endoWnafT2 = new Array(4);
+}
+inherits(ShortCurve, Base);
+module.exports = ShortCurve;
+
+ShortCurve.prototype._getEndomorphism = function _getEndomorphism(conf) {
+  // No efficient endomorphism
+  if (!this.zeroA || !this.g || !this.n || this.p.modn(3) !== 1)
+    return;
+
+  // Compute beta and lambda, that lambda * P = (beta * Px; Py)
+  var beta;
+  var lambda;
+  if (conf.beta) {
+    beta = new bn(conf.beta, 16).toRed(this.red);
+  } else {
+    var betas = this._getEndoRoots(this.p);
+    // Choose the smallest beta
+    beta = betas[0].cmp(betas[1]) < 0 ? betas[0] : betas[1];
+    beta = beta.toRed(this.red);
+  }
+  if (conf.lambda) {
+    lambda = new bn(conf.lambda, 16);
+  } else {
+    // Choose the lambda that is matching selected beta
+    var lambdas = this._getEndoRoots(this.n);
+    if (this.g.mul(lambdas[0]).x.cmp(this.g.x.redMul(beta)) === 0) {
+      lambda = lambdas[0];
+    } else {
+      lambda = lambdas[1];
+      assert(this.g.mul(lambda).x.cmp(this.g.x.redMul(beta)) === 0);
+    }
+  }
+
+  // Get basis vectors, used for balanced length-two representation
+  var basis;
+  if (conf.basis) {
+    basis = conf.basis.map(function(vec) {
+      return {
+        a: new bn(vec.a, 16),
+        b: new bn(vec.b, 16),
+      };
+    });
+  } else {
+    basis = this._getEndoBasis(lambda);
+  }
+
+  return {
+    beta: beta,
+    lambda: lambda,
+    basis: basis
+  };
+};
+
+ShortCurve.prototype._getEndoRoots = function _getEndoRoots(num) {
+  // Find roots of for x^2 + x + 1 in F
+  // Root = (-1 +- Sqrt(-3)) / 2
+  //
+  var red = num === this.p ? this.red : bn.mont(num);
+  var tinv = new bn(2).toRed(red).redInvm();
+  var ntinv = tinv.redNeg();
+  var one = new bn(1).toRed(red);
+
+  var s = new bn(3).toRed(red).redNeg().redSqrt().redMul(tinv);
+
+  var l1 = ntinv.redAdd(s).fromRed();
+  var l2 = ntinv.redSub(s).fromRed();
+  return [ l1, l2 ];
+};
+
+ShortCurve.prototype._getEndoBasis = function _getEndoBasis(lambda) {
+  // aprxSqrt >= sqrt(this.n)
+  var aprxSqrt = this.n.shrn(Math.floor(this.n.bitLength() / 2));
+
+  // 3.74
+  // Run EGCD, until r(L + 1) < aprxSqrt
+  var u = lambda;
+  var v = this.n.clone();
+  var x1 = new bn(1);
+  var y1 = new bn(0);
+  var x2 = new bn(0);
+  var y2 = new bn(1);
+
+  // NOTE: all vectors are roots of: a + b * lambda = 0 (mod n)
+  var a0;
+  var b0;
+  // First vector
+  var a1;
+  var b1;
+  // Second vector
+  var a2;
+  var b2;
+
+  var prevR;
+  var i = 0;
+  while (u.cmpn(0) !== 0) {
+    var q = v.div(u);
+    var r = v.sub(q.mul(u));
+    var x = x2.sub(q.mul(x1));
+    var y = y2.sub(q.mul(y1));
+
+    if (!a1 && r.cmp(aprxSqrt) < 0) {
+      a0 = prevR.neg();
+      b0 = x1;
+      a1 = r.neg();
+      b1 = x;
+    } else if (a1 && ++i === 2) {
+      break;
+    }
+    prevR = r;
+
+    v = u;
+    u = r;
+    x2 = x1;
+    x1 = x;
+    y2 = y1;
+    y1 = y;
+  }
+  a2 = r.neg();
+  b2 = x;
+
+  var len1 = a1.sqr().add(b1.sqr());
+  var len2 = a2.sqr().add(b2.sqr());
+  if (len2.cmp(len1) >= 0) {
+    a2 = a0;
+    b2 = b0;
+  }
+
+  // Normalize signs
+  if (a1.sign) {
+    a1 = a1.neg();
+    b1 = b1.neg();
+  }
+  if (a2.sign) {
+    a2 = a2.neg();
+    b2 = b2.neg();
+  }
+
+  return [
+    { a: a1, b: b1 },
+    { a: a2, b: b2 }
+  ];
+};
+
+ShortCurve.prototype._endoSplit = function _endoSplit(k) {
+  var basis = this.endo.basis;
+  var v1 = basis[0];
+  var v2 = basis[1];
+
+  var c1 = v2.b.mul(k).divRound(this.n);
+  var c2 = v1.b.neg().mul(k).divRound(this.n);
+
+  var p1 = c1.mul(v1.a);
+  var p2 = c2.mul(v2.a);
+  var q1 = c1.mul(v1.b);
+  var q2 = c2.mul(v2.b);
+
+  // Calculate answer
+  var k1 = k.sub(p1).sub(p2);
+  var k2 = q1.add(q2).neg();
+  return { k1: k1, k2: k2 };
+};
+
+ShortCurve.prototype.point = function point(x, y, isRed) {
+  return new Point(this, x, y, isRed);
+};
+
+ShortCurve.prototype.pointFromX = function pointFromX(odd, x) {
+  x = new bn(x, 16);
+  if (!x.red)
+    x = x.toRed(this.red);
+
+  var y2 = x.redSqr().redMul(x).redIAdd(x.redMul(this.a)).redIAdd(this.b);
+  var y = y2.redSqrt();
+
+  // XXX Is there any way to tell if the number is odd without converting it
+  // to non-red form?
+  var isOdd = y.fromRed().isOdd();
+  if (odd && !isOdd || !odd && isOdd)
+    y = y.redNeg();
+
+  return this.point(x, y);
+};
+
+ShortCurve.prototype.jpoint = function jpoint(x, y, z) {
+  return new JPoint(this, x, y, z);
+};
+
+ShortCurve.prototype.pointFromJSON = function pointFromJSON(obj, red) {
+  return Point.fromJSON(this, obj, red);
+};
+
+ShortCurve.prototype.validate = function validate(point) {
+  if (point.inf)
+    return true;
+
+  var x = point.x;
+  var y = point.y;
+
+  var ax = this.a.redMul(x);
+  var rhs = x.redSqr().redMul(x).redIAdd(ax).redIAdd(this.b);
+  return y.redSqr().redISub(rhs).cmpn(0) === 0;
+};
+
+ShortCurve.prototype._endoWnafMulAdd = function _endoWnafMulAdd(points, coeffs) {
+  var npoints = this._endoWnafT1;
+  var ncoeffs = this._endoWnafT2;
+  for (var i = 0; i < points.length; i++) {
+    var split = this._endoSplit(coeffs[i]);
+    var p = points[i];
+    var beta = p._getBeta();
+
+    if (split.k1.sign) {
+      split.k1.sign = !split.k1.sign;
+      p = p.neg(true);
+    }
+    if (split.k2.sign) {
+      split.k2.sign = !split.k2.sign;
+      beta = beta.neg(true);
+    }
+
+    npoints[i * 2] = p;
+    npoints[i * 2 + 1] = beta;
+    ncoeffs[i * 2] = split.k1;
+    ncoeffs[i * 2 + 1] = split.k2;
+  }
+  var res = this._wnafMulAdd(1, npoints, ncoeffs, i * 2);
+
+  // Clean-up references to points and coefficients
+  for (var j = 0; j < i * 2; j++) {
+    npoints[j] = null;
+    ncoeffs[j] = null;
+  }
+  return res;
+};
+
+function Point(curve, x, y, isRed) {
+  Base.BasePoint.call(this, curve, 'affine');
+  if (x === null && y === null) {
+    this.x = null;
+    this.y = null;
+    this.inf = true;
+  } else {
+    this.x = new bn(x, 16);
+    this.y = new bn(y, 16);
+    // Force redgomery representation when loading from JSON
+    if (isRed) {
+      this.x.forceRed(this.curve.red);
+      this.y.forceRed(this.curve.red);
+    }
+    if (!this.x.red)
+      this.x = this.x.toRed(this.curve.red);
+    if (!this.y.red)
+      this.y = this.y.toRed(this.curve.red);
+    this.inf = false;
+  }
+}
+inherits(Point, Base.BasePoint);
+
+Point.prototype._getBeta = function _getBeta() {
+  if (!this.curve.endo)
+    return;
+
+  var pre = this.precomputed;
+  if (pre && pre.beta)
+    return pre.beta;
+
+  var beta = this.curve.point(this.x.redMul(this.curve.endo.beta), this.y);
+  if (pre) {
+    var curve = this.curve;
+    function endoMul(p) {
+      return curve.point(p.x.redMul(curve.endo.beta), p.y);
+    }
+    pre.beta = beta;
+    beta.precomputed = {
+      beta: null,
+      naf: pre.naf && {
+        wnd: pre.naf.wnd,
+        points: pre.naf.points.map(endoMul)
+      },
+      doubles: pre.doubles && {
+        step: pre.doubles.step,
+        points: pre.doubles.points.map(endoMul)
+      }
+    };
+  }
+  return beta;
+};
+
+Point.prototype.toJSON = function toJSON() {
+  if (!this.precomputed)
+    return [ this.x, this.y ];
+
+  return [ this.x, this.y, this.precomputed && {
+    doubles: this.precomputed.doubles && {
+      step: this.precomputed.doubles.step,
+      points: this.precomputed.doubles.points.slice(1)
+    },
+    naf: this.precomputed.naf && {
+      wnd: this.precomputed.naf.wnd,
+      points: this.precomputed.naf.points.slice(1)
+    }
+  }];
+};
+
+Point.fromJSON = function fromJSON(curve, obj, red) {
+  if (typeof obj === 'string')
+    obj = JSON.parse(obj);
+  var res = curve.point(obj[0], obj[1], red);
+  if (!obj[2])
+    return res;
+
+  function obj2point(obj) {
+    return curve.point(obj[0], obj[1], red);
+  }
+
+  var pre = obj[2];
+  res.precomputed = {
+    beta: null,
+    doubles: pre.doubles && {
+      step: pre.doubles.step,
+      points: [ res ].concat(pre.doubles.points.map(obj2point))
+    },
+    naf: pre.naf && {
+      wnd: pre.naf.wnd,
+      points: [ res ].concat(pre.naf.points.map(obj2point))
+    }
+  };
+  return res;
+};
+
+Point.prototype.inspect = function inspect() {
+  if (this.isInfinity())
+    return '<EC Point Infinity>';
+  return '<EC Point x: ' + this.x.fromRed().toString(16 ,2) +
+      ' y: ' + this.y.fromRed().toString(16, 2) + '>';
+};
+
+Point.prototype.isInfinity = function isInfinity() {
+  return this.inf;
+};
+
+Point.prototype.add = function add(p) {
+  // O + P = P
+  if (this.inf)
+    return p;
+
+  // P + O = P
+  if (p.inf)
+    return this;
+
+  // P + P = 2P
+  if (this.eq(p))
+    return this.dbl();
+
+  // P + (-P) = O
+  if (this.neg().eq(p))
+    return this.curve.point(null, null);
+
+  // P + Q = O
+  if (this.x.cmp(p.x) === 0)
+    return this.curve.point(null, null);
+
+  var c = this.y.redSub(p.y);
+  if (c.cmpn(0) !== 0)
+    c = c.redMul(this.x.redSub(p.x).redInvm());
+  var nx = c.redSqr().redISub(this.x).redISub(p.x);
+  var ny = c.redMul(this.x.redSub(nx)).redISub(this.y);
+  return this.curve.point(nx, ny);
+};
+
+Point.prototype.dbl = function dbl() {
+  if (this.inf)
+    return this;
+
+  // 2P = O
+  var ys1 = this.y.redAdd(this.y);
+  if (ys1.cmpn(0) === 0)
+    return this.curve.point(null, null);
+
+  var a = this.curve.a;
+
+  var x2 = this.x.redSqr();
+  var dyinv = ys1.redInvm();
+  var c = x2.redAdd(x2).redIAdd(x2).redIAdd(a).redMul(dyinv);
+
+  var nx = c.redSqr().redISub(this.x.redAdd(this.x));
+  var ny = c.redMul(this.x.redSub(nx)).redISub(this.y);
+  return this.curve.point(nx, ny);
+};
+
+Point.prototype.getX = function getX() {
+  return this.x.fromRed();
+};
+
+Point.prototype.getY = function getY() {
+  return this.y.fromRed();
+};
+
+Point.prototype.mul = function mul(k) {
+  k = new bn(k, 16);
+
+  if (this.precomputed && this.precomputed.doubles)
+    return this.curve._fixedNafMul(this, k);
+  else if (this.curve.endo)
+    return this.curve._endoWnafMulAdd([ this ], [ k ]);
+  else
+    return this.curve._wnafMul(this, k);
+};
+
+Point.prototype.mulAdd = function mulAdd(k1, p2, k2) {
+  var points = [ this, p2 ];
+  var coeffs = [ k1, k2 ];
+  if (this.curve.endo)
+    return this.curve._endoWnafMulAdd(points, coeffs);
+  else
+    return this.curve._wnafMulAdd(1, points, coeffs, 2);
+};
+
+Point.prototype.eq = function eq(p) {
+  return this === p ||
+         this.inf === p.inf &&
+             (this.inf || this.x.cmp(p.x) === 0 && this.y.cmp(p.y) === 0);
+};
+
+Point.prototype.neg = function neg(_precompute) {
+  if (this.inf)
+    return this;
+
+  var res = this.curve.point(this.x, this.y.redNeg());
+  if (_precompute && this.precomputed) {
+    var pre = this.precomputed;
+    function negate(p) {
+      return p.neg();
+    }
+    res.precomputed = {
+      naf: pre.naf && {
+        wnd: pre.naf.wnd,
+        points: pre.naf.points.map(negate)
+      },
+      doubles: pre.doubles && {
+        step: pre.doubles.step,
+        points: pre.doubles.points.map(negate)
+      }
+    };
+  }
+  return res;
+};
+
+Point.prototype.toJ = function toJ() {
+  if (this.inf)
+    return this.curve.jpoint(null, null, null);
+
+  var res = this.curve.jpoint(this.x, this.y, this.curve.one);
+  return res;
+};
+
+function JPoint(curve, x, y, z) {
+  Base.BasePoint.call(this, curve, 'jacobian');
+  if (x === null && y === null && z === null) {
+    this.x = this.curve.one;
+    this.y = this.curve.one;
+    this.z = new bn(0);
+  } else {
+    this.x = new bn(x, 16);
+    this.y = new bn(y, 16);
+    this.z = new bn(z, 16);
+  }
+  if (!this.x.red)
+    this.x = this.x.toRed(this.curve.red);
+  if (!this.y.red)
+    this.y = this.y.toRed(this.curve.red);
+  if (!this.z.red)
+    this.z = this.z.toRed(this.curve.red);
+
+  this.zOne = this.z === this.curve.one;
+}
+inherits(JPoint, Base.BasePoint);
+
+JPoint.prototype.toP = function toP() {
+  if (this.isInfinity())
+    return this.curve.point(null, null);
+
+  var zinv = this.z.redInvm();
+  var zinv2 = zinv.redSqr();
+  var ax = this.x.redMul(zinv2);
+  var ay = this.y.redMul(zinv2).redMul(zinv);
+
+  return this.curve.point(ax, ay);
+};
+
+JPoint.prototype.neg = function neg() {
+  return this.curve.jpoint(this.x, this.y.redNeg(), this.z);
+};
+
+JPoint.prototype.add = function add(p) {
+  // O + P = P
+  if (this.isInfinity())
+    return p;
+
+  // P + O = P
+  if (p.isInfinity())
+    return this;
+
+  // 12M + 4S + 7A
+  var pz2 = p.z.redSqr();
+  var z2 = this.z.redSqr();
+  var u1 = this.x.redMul(pz2);
+  var u2 = p.x.redMul(z2);
+  var s1 = this.y.redMul(pz2.redMul(p.z));
+  var s2 = p.y.redMul(z2.redMul(this.z));
+
+  var h = u1.redSub(u2);
+  var r = s1.redSub(s2);
+  if (h.cmpn(0) === 0) {
+    if (r.cmpn(0) !== 0)
+      return this.curve.jpoint(null, null, null);
+    else
+      return this.dbl();
+  }
+
+  var h2 = h.redSqr();
+  var h3 = h2.redMul(h);
+  var v = u1.redMul(h2);
+
+  var nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v);
+  var ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3));
+  var nz = this.z.redMul(p.z).redMul(h);
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype.mixedAdd = function mixedAdd(p) {
+  // O + P = P
+  if (this.isInfinity())
+    return p.toJ();
+
+  // P + O = P
+  if (p.isInfinity())
+    return this;
+
+  // 8M + 3S + 7A
+  var z2 = this.z.redSqr();
+  var u1 = this.x;
+  var u2 = p.x.redMul(z2);
+  var s1 = this.y;
+  var s2 = p.y.redMul(z2).redMul(this.z);
+
+  var h = u1.redSub(u2);
+  var r = s1.redSub(s2);
+  if (h.cmpn(0) === 0) {
+    if (r.cmpn(0) !== 0)
+      return this.curve.jpoint(null, null, null);
+    else
+      return this.dbl();
+  }
+
+  var h2 = h.redSqr();
+  var h3 = h2.redMul(h);
+  var v = u1.redMul(h2);
+
+  var nx = r.redSqr().redIAdd(h3).redISub(v).redISub(v);
+  var ny = r.redMul(v.redISub(nx)).redISub(s1.redMul(h3));
+  var nz = this.z.redMul(h);
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype.dblp = function dblp(pow) {
+  if (pow === 0)
+    return this;
+  if (this.isInfinity())
+    return this;
+  if (!pow)
+    return this.dbl();
+
+  if (this.curve.zeroA || this.curve.threeA) {
+    var r = this;
+    for (var i = 0; i < pow; i++)
+      r = r.dbl();
+    return r;
+  }
+
+  // 1M + 2S + 1A + N * (4S + 5M + 8A)
+  // N = 1 => 6M + 6S + 9A
+  var a = this.curve.a;
+  var tinv = this.curve.tinv;
+
+  var jx = this.x;
+  var jy = this.y;
+  var jz = this.z;
+  var jz4 = jz.redSqr().redSqr();
+
+  // Reuse results
+  var jyd = jy.redAdd(jy);
+  for (var i = 0; i < pow; i++) {
+    var jx2 = jx.redSqr();
+    var jyd2 = jyd.redSqr();
+    var jyd4 = jyd2.redSqr();
+    var c = jx2.redAdd(jx2).redIAdd(jx2).redIAdd(a.redMul(jz4));
+
+    var t1 = jx.redMul(jyd2);
+    var nx = c.redSqr().redISub(t1.redAdd(t1));
+    var t2 = t1.redISub(nx);
+    var dny = c.redMul(t2);
+    dny = dny.redIAdd(dny).redISub(jyd4);
+    var nz = jyd.redMul(jz);
+    if (i + 1 < pow)
+      jz4 = jz4.redMul(jyd4);
+
+    jx = nx;
+    jz = nz;
+    jyd = dny;
+  }
+
+  return this.curve.jpoint(jx, jyd.redMul(tinv), jz);
+};
+
+JPoint.prototype.dbl = function dbl() {
+  if (this.isInfinity())
+    return this;
+
+  if (this.curve.zeroA)
+    return this._zeroDbl();
+  else if (this.curve.threeA)
+    return this._threeDbl();
+  else
+    return this._dbl();
+};
+
+JPoint.prototype._zeroDbl = function _zeroDbl() {
+  // Z = 1
+  if (this.zOne) {
+    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#doubling-mdbl-2007-bl
+    // 1M + 5S + 14A
+
+    // XX = X1^2
+    var xx = this.x.redSqr();
+    // YY = Y1^2
+    var yy = this.y.redSqr();
+    // YYYY = YY^2
+    var yyyy = yy.redSqr();
+    // S = 2 * ((X1 + YY)^2 - XX - YYYY)
+    var s = this.x.redAdd(yy).redSqr().redISub(xx).redISub(yyyy);
+    s = s.redIAdd(s);
+    // M = 3 * XX + a; a = 0
+    var m = xx.redAdd(xx).redIAdd(xx);
+    // T = M ^ 2 - 2*S
+    var t = m.redSqr().redISub(s).redISub(s);
+
+    // 8 * YYYY
+    var yyyy8 = yyyy.redIAdd(yyyy);
+    yyyy8 = yyyy8.redIAdd(yyyy8);
+    yyyy8 = yyyy8.redIAdd(yyyy8);
+
+    // X3 = T
+    var nx = t;
+    // Y3 = M * (S - T) - 8 * YYYY
+    var ny = m.redMul(s.redISub(t)).redISub(yyyy8);
+    // Z3 = 2*Y1
+    var nz = this.y.redAdd(this.y);
+  } else {
+    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#doubling-dbl-2009-l
+    // 2M + 5S + 13A
+
+    // A = X1^2
+    var a = this.x.redSqr();
+    // B = Y1^2
+    var b = this.y.redSqr();
+    // C = B^2
+    var c = b.redSqr();
+    // D = 2 * ((X1 + B)^2 - A - C)
+    var d = this.x.redAdd(b).redSqr().redISub(a).redISub(c);
+    d = d.redIAdd(d);
+    // E = 3 * A
+    var e = a.redAdd(a).redIAdd(a);
+    // F = E^2
+    var f = e.redSqr();
+
+    // 8 * C
+    var c8 = c.redIAdd(c);
+    c8 = c8.redIAdd(c8);
+    c8 = c8.redIAdd(c8);
+
+    // X3 = F - 2 * D
+    var nx = f.redISub(d).redISub(d);
+    // Y3 = E * (D - X3) - 8 * C
+    var ny = e.redMul(d.redISub(nx)).redISub(c8);
+    // Z3 = 2 * Y1 * Z1
+    var nz = this.y.redMul(this.z);
+    nz = nz.redIAdd(nz);
+  }
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype._threeDbl = function _threeDbl() {
+  // Z = 1
+  if (this.zOne) {
+    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#doubling-mdbl-2007-bl
+    // 1M + 5S + 15A
+
+    // XX = X1^2
+    var xx = this.x.redSqr();
+    // YY = Y1^2
+    var yy = this.y.redSqr();
+    // YYYY = YY^2
+    var yyyy = yy.redSqr();
+    // S = 2 * ((X1 + YY)^2 - XX - YYYY)
+    var s = this.x.redAdd(yy).redSqr().redISub(xx).redISub(yyyy);
+    s = s.redIAdd(s);
+    // M = 3 * XX + a
+    var m = xx.redAdd(xx).redIAdd(xx).redIAdd(this.curve.a);
+    // T = M^2 - 2 * S
+    var t = m.redSqr().redISub(s).redISub(s);
+    // X3 = T
+    var nx = t;
+    // Y3 = M * (S - T) - 8 * YYYY
+    var yyyy8 = yyyy.redIAdd(yyyy);
+    yyyy8 = yyyy8.redIAdd(yyyy8);
+    yyyy8 = yyyy8.redIAdd(yyyy8);
+    var ny = m.redMul(s.redISub(t)).redISub(yyyy8);
+    // Z3 = 2 * Y1
+    var nz = this.y.redAdd(this.y);
+  } else {
+    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#doubling-dbl-2001-b
+    // 3M + 5S
+
+    // delta = Z1^2
+    var delta = this.z.redSqr();
+    // gamma = Y1^2
+    var gamma = this.y.redSqr();
+    // beta = X1 * gamma
+    var beta = this.x.redMul(gamma);
+    // alpha = 3 * (X1 - delta) * (X1 + delta)
+    var alpha = this.x.redSub(delta).redMul(this.x.redAdd(delta));
+    alpha = alpha.redAdd(alpha).redIAdd(alpha);
+    // X3 = alpha^2 - 8 * beta
+    var beta4 = beta.redIAdd(beta);
+    beta4 = beta4.redIAdd(beta4);
+    var beta8 = beta4.redAdd(beta4);
+    var nx = alpha.redSqr().redISub(beta8);
+    // Z3 = (Y1 + Z1)^2 - gamma - delta
+    var nz = this.y.redAdd(this.z).redSqr().redISub(gamma).redISub(delta);
+    // Y3 = alpha * (4 * beta - X3) - 8 * gamma^2
+    var ggamma8 = gamma.redSqr();
+    ggamma8 = ggamma8.redIAdd(ggamma8);
+    ggamma8 = ggamma8.redIAdd(ggamma8);
+    ggamma8 = ggamma8.redIAdd(ggamma8);
+    var ny = alpha.redMul(beta4.redISub(nx)).redISub(ggamma8);
+  }
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype._dbl = function _dbl() {
+  var a = this.curve.a;
+  var tinv = this.curve.tinv;
+
+  // 4M + 6S + 10A
+  var jx = this.x;
+  var jy = this.y;
+  var jz = this.z;
+  var jz4 = jz.redSqr().redSqr();
+
+  var jx2 = jx.redSqr();
+  var jy2 = jy.redSqr();
+
+  var c = jx2.redAdd(jx2).redIAdd(jx2).redIAdd(a.redMul(jz4));
+
+  var jxd4 = jx.redAdd(jx);
+  jxd4 = jxd4.redIAdd(jxd4);
+  var t1 = jxd4.redMul(jy2);
+  var nx = c.redSqr().redISub(t1.redAdd(t1));
+  var t2 = t1.redISub(nx);
+
+  var jyd8 = jy2.redSqr();
+  jyd8 = jyd8.redIAdd(jyd8);
+  jyd8 = jyd8.redIAdd(jyd8);
+  jyd8 = jyd8.redIAdd(jyd8);
+  var ny = c.redMul(t2).redISub(jyd8);
+  var nz = jy.redAdd(jy).redMul(jz);
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype.trpl = function trpl() {
+  if (!this.curve.zeroA)
+    return this.dbl().add(this);
+
+  // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#tripling-tpl-2007-bl
+  // 5M + 10S + ...
+
+  // XX = X1^2
+  var xx = this.x.redSqr();
+  // YY = Y1^2
+  var yy = this.y.redSqr();
+  // ZZ = Z1^2
+  var zz = this.z.redSqr();
+  // YYYY = YY^2
+  var yyyy = yy.redSqr();
+  // M = 3 * XX + a * ZZ2; a = 0
+  var m = xx.redAdd(xx).redIAdd(xx);
+  // MM = M^2
+  var mm = m.redSqr();
+  // E = 6 * ((X1 + YY)^2 - XX - YYYY) - MM
+  var e = this.x.redAdd(yy).redSqr().redISub(xx).redISub(yyyy);
+  e = e.redIAdd(e);
+  e = e.redAdd(e).redIAdd(e);
+  e = e.redISub(mm);
+  // EE = E^2
+  var ee = e.redSqr();
+  // T = 16*YYYY
+  var t = yyyy.redIAdd(yyyy);
+  t = t.redIAdd(t);
+  t = t.redIAdd(t);
+  t = t.redIAdd(t);
+  // U = (M + E)^2 - MM - EE - T
+  var u = m.redIAdd(e).redSqr().redISub(mm).redISub(ee).redISub(t);
+  // X3 = 4 * (X1 * EE - 4 * YY * U)
+  var yyu4 = yy.redMul(u);
+  yyu4 = yyu4.redIAdd(yyu4);
+  yyu4 = yyu4.redIAdd(yyu4);
+  var nx = this.x.redMul(ee).redISub(yyu4);
+  nx = nx.redIAdd(nx);
+  nx = nx.redIAdd(nx);
+  // Y3 = 8 * Y1 * (U * (T - U) - E * EE)
+  var ny = this.y.redMul(u.redMul(t.redISub(u)).redISub(e.redMul(ee)));
+  ny = ny.redIAdd(ny);
+  ny = ny.redIAdd(ny);
+  ny = ny.redIAdd(ny);
+  // Z3 = (Z1 + E)^2 - ZZ - EE
+  var nz = this.z.redAdd(e).redSqr().redISub(zz).redISub(ee);
+
+  return this.curve.jpoint(nx, ny, nz);
+};
+
+JPoint.prototype.mul = function mul(k, kbase) {
+  k = new bn(k, kbase);
+
+  return this.curve._wnafMul(this, k);
+};
+
+JPoint.prototype.eq = function eq(p) {
+  if (p.type === 'affine')
+    return this.eq(p.toJ());
+
+  if (this === p)
+    return true;
+
+  // x1 * z2^2 == x2 * z1^2
+  var z2 = this.z.redSqr();
+  var pz2 = p.z.redSqr();
+  if (this.x.redMul(pz2).redISub(p.x.redMul(z2)).cmpn(0) !== 0)
+    return false;
+
+  // y1 * z2^3 == y2 * z1^3
+  var z3 = z2.redMul(this.z);
+  var pz3 = pz2.redMul(p.z);
+  return this.y.redMul(pz3).redISub(p.y.redMul(z3)).cmpn(0) === 0;
+};
+
+JPoint.prototype.inspect = function inspect() {
+  if (this.isInfinity())
+    return '<EC JPoint Infinity>';
+  return '<EC JPoint x: ' + this.x.toString(16, 2) +
+      ' y: ' + this.y.toString(16, 2) +
+      ' z: ' + this.z.toString(16, 2) + '>';
+};
+
+JPoint.prototype.isInfinity = function isInfinity() {
+  // XXX This code assumes that zero is always zero in red
+  return this.z.cmpn(0) === 0;
+};
+
+},{"../../elliptic":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js","../curve":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/index.js","assert":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/assert/assert.js","bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js","inherits":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/inherits/inherits_browser.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curves.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js")
 },{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js":[function(require,module,exports){
 var assert = require('assert');
@@ -33225,8 +34653,20 @@ if (typeof window === 'object') {
   }
 }
 
-},{}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+},{}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json":[function(require,module,exports){
+module.exports={
   "name": "elliptic",
   "version": "0.15.15",
   "description": "EC cryptography",
@@ -33561,7 +35001,45 @@ module.exports = function (crypto, exports) {
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js")
 },{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js")
-},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/dh.js":[function(require,module,exports){
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curve/base.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/base.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curve/edwards.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/edwards.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/edwards.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/edwards.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curve/index.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curve/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curve/mont.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/mont.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/mont.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/mont.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curve/short.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/short.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/short.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/curve/short.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/curves.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/curves.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/ec/index.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/ec/key.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/key.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/key.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/lib/elliptic/ec/key.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/ec/signature.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/ec/signature.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/ec/signature.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/ec/signature.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/hmac-drbg.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/hmac-drbg.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/hmac-drbg.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/hmac-drbg.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/lib/elliptic/utils.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/utils.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/utils.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/lib/elliptic/utils.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/brorand/index.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/common.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/hmac.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/ripemd.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/sha.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/hash.js/lib/hash/utils.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/elliptic/package.json":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/package.json"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/dh.js":[function(require,module,exports){
 (function (Buffer){
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -33878,8 +35356,8 @@ module.exports = function (crypto, exports) {
 }
 }).call(this,require("buffer").Buffer)
 },{"./dh":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/dh.js","./generatePrime":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/generatePrime.js","./primes.json":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/primes.json","buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js":[function(require,module,exports){
-module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/bn.js/lib/bn.js")
-},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/bn.js/lib/bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/create-ecdh/node_modules/bn.js/lib/bn.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/lib/mr.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/bn.js/lib/bn.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/lib/mr.js":[function(require,module,exports){
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -33998,7 +35476,7 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 },{"bn.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js","brorand":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/node_modules/miller-rabin/node_modules/brorand/index.js":[function(require,module,exports){
 module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js")
 },{"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/browserify-sign/node_modules/elliptic/node_modules/brorand/index.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/crypto-browserify/node_modules/diffie-hellman/primes.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+module.exports={
     "modp1": {
         "gen": "02",
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a63a3620ffffffffffffffff"
@@ -35228,8 +36706,8 @@ function isUndefined(arg) {
 }
 
 },{}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/inherits/inherits_browser.js":[function(require,module,exports){
-module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/hash.js/node_modules/inherits/inherits_browser.js")
-},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/hash.js/node_modules/inherits/inherits_browser.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/hash.js/node_modules/inherits/inherits_browser.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/isarray/index.js":[function(require,module,exports){
+module.exports=require("/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/inherits/inherits_browser.js")
+},{"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/inherits/inherits_browser.js":"/home/jcalfee/bitshares/jslib/node_modules/bitcore/node_modules/elliptic/node_modules/inherits/inherits_browser.js"}],"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/isarray/index.js":[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
@@ -41268,24 +42746,13 @@ WalletAPI = (function() {
   };
 
 
-  /** @return {promise} [
-      [
-          account_name,[ [asset_id,amount] ]
-      ]
-  ]
-   */
+  /** @return {promise} */
 
   WalletAPI.prototype.account_balance = function(account_name, extended) {
     var account, by_account, defer, just_mine, p, total, totals_by_account, _i, _len, _ref;
     if (extended == null) {
       extended = false;
     }
-
-    /*
-        LE.throw "jslib_wallet.must_be_opened" unless @wallet
-        @wallet.get_spendable_account_balances account_name
-    _account_balance:(account_name)->
-     */
     if (!this.wallet) {
       LE["throw"]("jslib_wallet.must_be_opened");
     }
@@ -41778,6 +43245,18 @@ Storage = (function() {
       return void 0;
     }
     return key.substring(prefix.length);
+  };
+
+  Storage.prototype.isEmpty = function() {
+    var i, key, length, _i;
+    length = this.local_storage.length;
+    for (i = _i = 0; _i < length; i = _i += 1) {
+      key = this.local_storage.key(i);
+      if (key != null ? key.indexOf(Storage.version_name === 0) : void 0) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return Storage;
@@ -44050,7 +45529,7 @@ TransactionBuilder = (function() {
   /** @return key_records:[key_records],blance_records:[blance_records] */
 
   TransactionBuilder.prototype.get_account_balance_records = function(account_name, extended) {
-    var defer, error, key, my_keys, owner_keys_params, _i, _len;
+    var defer, error, key, my_keys, public_key_params, _i, _len;
     if (extended == null) {
       extended = false;
     }
@@ -44063,107 +45542,42 @@ TransactionBuilder = (function() {
       defer.resolve({});
       return defer.promise;
     }
-    owner_keys_params = [];
+    public_key_params = [];
     for (_i = 0, _len = my_keys.length; _i < _len; _i++) {
       key = my_keys[_i];
-      owner_keys_params.push([key.public_key]);
+      public_key_params.push([key.public_key]);
     }
     try {
-      this.rpc.request("batch", ["blockchain_list_key_balances", owner_keys_params]).then(function(batch_result) {
-        var balance, balance_records, balances, balances_for_key, i, public_key, _j, _k, _len1, _ref;
-        batch_result = batch_result.result;
-        balance_records = {};
-        for (i = _j = 0, _ref = batch_result.length; _j < _ref; i = _j += 1) {
-          balances = batch_result[i];
-          if (balances.length === 0) {
-            continue;
-          }
-          public_key = owner_keys_params[i];
-          balances_for_key = balance_records[public_key] = [];
-          for (_k = 0, _len1 = balances.length; _k < _len1; _k++) {
-            balance = balances[_k];
-            if (balance[1].condition.type === "withdraw_signature_type") {
-              balances_for_key.push(balance);
+      ((function(_this) {
+        return function(public_key_params) {
+          return _this.rpc.request("batch", ["blockchain_list_key_balances", public_key_params]).then(function(batch_result) {
+            var balance, balance_records, balances, balances_for_key, i, public_key, _j, _k, _len1, _ref;
+            batch_result = batch_result.result;
+            balance_records = {};
+            for (i = _j = 0, _ref = batch_result.length; _j < _ref; i = _j += 1) {
+              balances = batch_result[i];
+              if (balances.length === 0) {
+                continue;
+              }
+              public_key = public_key_params[i];
+              balances_for_key = balance_records[public_key] = [];
+              for (_k = 0, _len1 = balances.length; _k < _len1; _k++) {
+                balance = balances[_k];
+                if (balance[1].condition.type === "withdraw_signature_type") {
+                  balances_for_key.push(balance);
+                }
+              }
             }
-          }
-        }
-        defer.resolve(balance_records);
-      }, function(error) {
-        return defer.reject(error);
-      });
+            defer.resolve(balance_records);
+          }, function(error) {
+            return defer.reject(error);
+          });
+        };
+      })(this))(public_key_params);
     } catch (_error) {
       error = _error;
       defer.reject(error);
     }
-    return defer.promise;
-  };
-
-  TransactionBuilder.prototype.blockchain_lookup_balances = function(balances, extended) {
-    var batch_ids, defer, id, _i, _len;
-    if (extended == null) {
-      extended = false;
-    }
-    defer = q.defer();
-    batch_ids = [];
-    for (_i = 0, _len = balances.length; _i < _len; _i++) {
-      id = balances[_i];
-      batch_ids.push([id, 1]);
-    }
-    this.rpc.request("batch", ["blockchain_list_balances", batch_ids]).then((function(_this) {
-      return function(batch_balances) {
-
-        /*
-        blockchain_list_key_balances= = [[
-          "XTS4pca7BPiQqnQLXUZp8ojTxfXo2g4EzBLP"
-          {
-            condition:
-              asset_id: 0
-              slate_id: 0
-              type: "withdraw_signature_type"
-              data:
-                owner: "XTSD5rYtofD6D4UHJH6mo953P5wpBfMhdMEi"
-                memo: null
-        
-            balance: 99009900990
-            restricted_owner: null
-            snapshot_info:
-              original_address: "Po3mqkgMzBL4F1VXJArwQxeWf3fWEpxUf3"
-              original_balance: 99009900990
-        
-            deposit_date: "1970-01-01T00:00:00"
-            last_update: "2014-10-07T10:55:00"
-          }
-        ]]
-         */
-        var balance, balance_records, _j, _k, _len1, _len2, _ref;
-        balance_records = [];
-        _ref = batch_balances.result;
-        for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-          balances = _ref[_j];
-          for (_k = 0, _len2 = balances.length; _k < _len2; _k++) {
-            balance = balances[_k];
-            if (!(extended || balance[1].condition.type === "withdraw_signature_type")) {
-              continue;
-            }
-            balance_records.push(balance);
-          }
-        }
-        return defer.resolve(balance_records);
-      };
-    })(this), function(error) {
-      return defer.reject(error);
-    }).done();
-
-    /*
-    @rpc.request("get_pending_transactions").then(
-        (result)->
-             * TODO need example output to complete...
-            console.log '... result',JSON.stringify result
-            defer.resolve result
-        (error)->
-            defer.reject error
-    )
-     */
     return defer.promise;
   };
 
@@ -44507,9 +45921,11 @@ exports.TransactionLedger = TransactionLedger;
 
 },{"../blockchain/transaction":"/home/jcalfee/bitshares/jslib/src/blockchain/transaction.coffee"}],"/home/jcalfee/bitshares/jslib/src/wallet/wallet.coffee":[function(require,module,exports){
 (function (Buffer){
-var Aes, BlockchainAPI, ChainDatabase, ChainInterface, EC, ExtendedAddress, LE, PrivateKey, PublicKey, TransactionLedger, Wallet, WalletDb, config, hash, q, secureRandom;
+var Aes, BlockchainAPI, ChainDatabase, ChainInterface, EC, ExtendedAddress, LE, PrivateKey, PublicKey, Storage, TransactionLedger, Wallet, WalletDb, config, hash, q, secureRandom;
 
 WalletDb = require('./wallet_db').WalletDb;
+
+Storage = require('../common/storage').Storage;
 
 TransactionLedger = require('../wallet/transaction_ledger').TransactionLedger;
 
@@ -44597,6 +46013,10 @@ Wallet = (function() {
     }
     rnd = secureRandom.randomBuffer(512 / 8);
     return hash.sha512(Buffer.concat([rnd, Wallet.entropy]));
+  };
+
+  Wallet.has_wallet = function() {
+    return !(new Storage().isEmpty());
   };
 
   Wallet.create = function(wallet_name, password, brain_key, save) {
@@ -44866,8 +46286,8 @@ Wallet = (function() {
     return this.aes_root.decryptHex(rec.encrypted_private_key);
   };
 
-  Wallet.prototype.get_my_key_records = function(owner_key) {
-    return this.wallet_db.get_my_key_records(owner_key);
+  Wallet.prototype.get_my_key_records = function(account_name) {
+    return this.wallet_db.get_my_key_records(account_name);
   };
 
   Wallet.prototype.getOwnerKey = function(account_name) {
@@ -44949,8 +46369,8 @@ exports.Wallet = Wallet;
 
 
 }).call(this,require("buffer").Buffer)
-},{"../blockchain/blockchain_api":"/home/jcalfee/bitshares/jslib/src/blockchain/blockchain_api.coffee","../blockchain/chain_database":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_database.coffee","../blockchain/chain_interface":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_interface.coffee","../common/exceptions":"/home/jcalfee/bitshares/jslib/src/common/exceptions.coffee","../ecc/aes":"/home/jcalfee/bitshares/jslib/src/ecc/aes.coffee","../ecc/extended_address":"/home/jcalfee/bitshares/jslib/src/ecc/extended_address.coffee","../ecc/hash":"/home/jcalfee/bitshares/jslib/src/ecc/hash.js","../ecc/key_private":"/home/jcalfee/bitshares/jslib/src/ecc/key_private.coffee","../ecc/key_public":"/home/jcalfee/bitshares/jslib/src/ecc/key_public.coffee","../wallet/transaction_ledger":"/home/jcalfee/bitshares/jslib/src/wallet/transaction_ledger.coffee","./config":"/home/jcalfee/bitshares/jslib/src/wallet/config.coffee","./wallet_db":"/home/jcalfee/bitshares/jslib/src/wallet/wallet_db.coffee","buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js","secure-random":"/home/jcalfee/bitshares/jslib/node_modules/secure-random/lib/secure-random.js"}],"/home/jcalfee/bitshares/jslib/src/wallet/wallet_api.json":[function(require,module,exports){
-module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports=module.exports={
+},{"../blockchain/blockchain_api":"/home/jcalfee/bitshares/jslib/src/blockchain/blockchain_api.coffee","../blockchain/chain_database":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_database.coffee","../blockchain/chain_interface":"/home/jcalfee/bitshares/jslib/src/blockchain/chain_interface.coffee","../common/exceptions":"/home/jcalfee/bitshares/jslib/src/common/exceptions.coffee","../common/storage":"/home/jcalfee/bitshares/jslib/src/common/storage.coffee","../ecc/aes":"/home/jcalfee/bitshares/jslib/src/ecc/aes.coffee","../ecc/extended_address":"/home/jcalfee/bitshares/jslib/src/ecc/extended_address.coffee","../ecc/hash":"/home/jcalfee/bitshares/jslib/src/ecc/hash.js","../ecc/key_private":"/home/jcalfee/bitshares/jslib/src/ecc/key_private.coffee","../ecc/key_public":"/home/jcalfee/bitshares/jslib/src/ecc/key_public.coffee","../wallet/transaction_ledger":"/home/jcalfee/bitshares/jslib/src/wallet/transaction_ledger.coffee","./config":"/home/jcalfee/bitshares/jslib/src/wallet/config.coffee","./wallet_db":"/home/jcalfee/bitshares/jslib/src/wallet/wallet_db.coffee","buffer":"/home/jcalfee/bitshares/jslib/node_modules/watchify/node_modules/browserify/node_modules/buffer/index.js","q":"/home/jcalfee/bitshares/jslib/node_modules/q/q.js","secure-random":"/home/jcalfee/bitshares/jslib/node_modules/secure-random/lib/secure-random.js"}],"/home/jcalfee/bitshares/jslib/src/wallet/wallet_api.json":[function(require,module,exports){
+module.exports={
   "category": "Wallet Methods",
   "methods" :
     [
@@ -48548,8 +49968,11 @@ WalletDb = (function() {
     return this.set_setting('next_child_key_index', value, save);
   };
 
-  WalletDb.prototype.get_my_key_records = function(account_name) {
+  WalletDb.prototype.get_my_key_records = function(account_name, include_owner_key) {
     var account, addresses, entry, lookup, _i, _len, _ref, _results;
+    if (include_owner_key == null) {
+      include_owner_key = false;
+    }
     account = this.lookup_account(account_name);
     if (!account) {
       return [];
@@ -48567,7 +49990,9 @@ WalletDb = (function() {
         return addresses[address] = true;
       };
     })(this);
-    lookup(account.owner_key);
+    if (include_owner_key) {
+      lookup(account.owner_key);
+    }
     lookup(ChainInterface.get_active_key(account.active_key_history));
     _ref = this.wallet_object;
     _results = [];

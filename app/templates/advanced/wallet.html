@@ -8,12 +8,15 @@
 <form class="form-horizontal" name="form">
 
 <div class="form-group">
-    <label for="brainkeyPassword" class="col-sm-2 control-label"  translate>brain_wallet.brainkey</label>
+    <div class="col-sm-2">
+        <label for="brainkeyPassword" class="control-label"  translate>brain_wallet.brainkey</label>
+    </div>
     <div class="col-sm-10">
         <input class="form-control" id="brainkeyPassword"
             ng-hide="brainkey.text" type="password" 
             ng-model="brainkey.password" ng-trim="true" 
             ng-change="brainkey_submit()" autofocus
+            autocomplete="off"
         >
         <div ng-hide="brainkey.text">
             <div translate>
@@ -24,6 +27,17 @@
             <pre>{{brainkey.text}}</pre>&nbsp;
             (<a ng-click=" brainkey.text='' "><span translate>hide</span></a>)
         </span>
+        <div class="description">
+            <b><span class="text-muted" translate>
+                brain_wallet.brainkey_warning
+            </span></b>
+            <span class="text-muted" translate>
+                brain_wallet.brainkey_warning_recover
+            </span>
+            <span class="text-muted" translate>
+                brain_wallet.brainkey_warning_attack
+            </span>
+        </div>
     </div>
 </div>
 
@@ -35,6 +49,7 @@
                 ng-hide="brainkey.text" type="password" 
                 ng-model="brainkey.delete_password" ng-trim="true" 
                 ng-change="delete_submit()"
+                autocomplete="off"
             >
             <div translate>
                 brain_wallet.password_to_delete

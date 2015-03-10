@@ -1,49 +1,51 @@
 angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $rootElement, $modal, $log, $location, $idle, $q, $timeout, $http, RpcService, Wallet, Growl) ->
     
     return unless window.bts
+    WalletDb = bts.wallet.WalletDb
+    WalletBts = bts.wallet.Wallet
+    WalletService = Wallet
+    Wallet = null # Use WalletService instead
     
     $idle.unwatch()
     $scope.stopIdleWatch()
     
     $rootScope.splashpage = true
-    $scope.has_secure_random = bts.wallet.Wallet.has_secure_random()
-    $scope.new_brainkey_info = 'new_brainkey_info0'
+    $scope.has_secure_random = WalletBts.has_secure_random()
+    $scope.has_wallet = WalletBts.has_wallet()
     $scope.data = {}
-    creating_wallet = off
     LANDING_PAGE = 'accounts'
     
     $scope.stepChange=(step)->
         #console.log 'step change',step
         $scope.entropy_collection = off
         switch step
-            when 'open_create'
-                $scope.new_brainkey_step = 'entropy_collection'
-                $scope.entropy_collection = off
+            when 'introduction'
                 $scope.entropy = "" # Small visual during collection
                 $scope.hide_brainkey = on
                 # Clear data here, or there is a bug where
                 # the login password is change but the confirm
                 # form will still think the passwords match
                 $scope.data = {}
-            #when 'confirm_password'
-            #    false
-            when 'entropy_collect'
+            
+            when 'create_brainkey'
                 $scope.entropy_collection = on
-                # have the dictionary ready for new_brainkey
+                # have the dictionary ready
                 dictionary()
-            when 'new_brainkey'
-                $scope.data.brainkey = generateBrainkey()
-                rotate_brainkey_help()
-            when 'existing_brainkey'
-                rotate_brainkey_help()
+            
+            when 'review_brainkey'
+                $scope.data.brainkey = WalletBts.normalize_brain_key(
+                    $scope.data.brainkey
+                )
+                
+            #when 'open'
+            #    $scope.entropy_collection = off
+            #    $scope.hide_brainkey = on
         
         $scope.step = step
-    $scope.stepChange 'open_create'
+    $scope.stepChange 'introduction'
     
     $scope.reset=->
-        $scope.stepChange 'open_create'
-    
-    WalletDb = bts.wallet.WalletDb
+        $scope.stepChange 'introduction'
     
     walletName = (spending_password) ->
         pw = spending_password
@@ -58,7 +60,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         $scope.entropy_collection = off
         #console.log '... $scope.step',JSON.stringify $scope.step
         switch $scope.step
-            when 'open_create'
+            when 'open'
                 spending_password = $scope.data.spending_password
                 unless $scope.wform.$valid
                     console.log "ERROR, button should have been disabled.  Unable to create a wallet. Please correct the form."
@@ -66,78 +68,58 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 
                 wallet_name = walletName spending_password
                 if WalletDb.exists wallet_name
-                    Wallet.open(wallet_name).then ->
-                        Wallet.wallet_unlock(spending_password).then ->
+                    WalletService.open(wallet_name).then ->
+                        WalletService.wallet_unlock(spending_password).then ->
                             navigate_to LANDING_PAGE
                 else
-                    $scope.stepChange 'confirm_password'
+                    $scope.wform.sp.$error.wrong_password = yes
+                    $timeout ->
+                        delete $scope.wform.sp.$error.wrong_password
+                    ,
+                        2000
             
-            when 'confirm_password'
-                unless $scope.wform.csp.$valid
-                    Growl.error "", "Unable to confirm password"
-                    return
-                spending_password = $scope.data.spending_password
+            when 'recover_brainkey'
+                $scope.stepChange 'review_brainkey'
+            
+            when 'create_wallet'
+                # confirm_spending_password used because $scope.data.spending_password was undefined
+                spending_password = $scope.data.confirm_spending_password
                 wallet_name = walletName spending_password
                 if WalletDb.exists wallet_name
-                    # user changed the password and it exists now
-                    Wallet.open(wallet_name).then ->
-                        Wallet.wallet_unlock(spending_password).then ->
-                            navigate_to LANDING_PAGE
-                else
-                    $scope.stepChange 'entropy_collect'
-            when 'new_brainkey', 'existing_brainkey'
-                spending_password = $scope.data.spending_password
-                unless $scope.wform.$valid
-                    console.log "ERROR, but should have been disabled.  Unable to create a wallet. Please correct the form."
+                    $scope.wform.csp.$error.password_taken = yes
+                    $timeout ->
+                        delete $scope.wform.csp.$error.password_taken
+                    ,
+                        2000
+                    #console.log "ERROR, wallet already exists '#{wallet_name}'"
                     return
                 
-                WalletDb = bts.wallet.WalletDb
-                wallet_name = walletName spending_password
-                if WalletDb.exists wallet_name
-                    console.log "ERROR, wallet already exists '#{wallet_name}'"
+                unless $scope.wform.$valid
+                    console.log "ERROR, HTML form invalid, submit should have been disabled."
                     return
+                
                 brainkey = $scope.data.brainkey
-                creating_wallet = true
                 $scope.creating_wallet = 'fa fa-refresh fa-spin'
-                $timeout => # timeout gives refresh spin time to show
-                    Wallet.create(
+                $timeout -> # timeout gives refresh spin time to show
+                    WalletService.create(
                         wallet_name
                         spending_password
                         brainkey
                     ).then ->
-                        Wallet.open(wallet_name).then ->
-                            Wallet.wallet_unlock(spending_password).then ->
+                        WalletService.open(wallet_name).then ->
+                            WalletService.wallet_unlock(spending_password).then ->
                                 navigate_to LANDING_PAGE
                     .finally ->
                         $scope.creating_wallet = ''
                 ,
                     250
 
-    rotate_brainkey_help_promise = null
-    rotate_brainkey_help=->
-        if rotate_brainkey_help_promise
-            $timeout.cancel rotate_brainkey_help_promise
-        
-        rotate_brainkey_help_promise = $timeout ()->
-            $scope.brainKeyHelp 'right'
-        ,
-            5*1000
-        return
-    
-    $scope.brainKeyHelp=(direction)->
-        rotate_brainkey_help()
-        info = $scope.new_brainkey_info
-        num = parseInt info.match /[0-9]$/
-        size = 4
-        incr = if direction is 'right' then 1 else (size-1)
-        $scope.new_brainkey_info = 'new_brainkey_info' + (num + incr) % size
-
     $scope.$on "$destroy", ->
         $rootScope.splashpage = false
         $scope.startIdleWatch()
         $scope.reset()
     
-    BRAINKEY_WORD_COUNT=13
+    BRAINKEY_WORD_COUNT=16
     DICTIONARY_WORD_COUNT=49745
     
     dictionary_hashes=
@@ -200,11 +182,16 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     on_mouse_event = (event) ->
         #console.log event.type, event
         return unless $scope.entropy_collection
+        if private_entropy.length % 10 is 0
+            $scope.entropy_collection_progressbar = private_entropy.length
+        
         if private_entropy.length >= 1000
             $scope.$apply ->
                 $scope.entropy_collection = off
-                $scope.stepChange 'new_brainkey'
-            bts.wallet.Wallet.add_entropy private_entropy.join ''
+                $scope.entropy_collection_progressbar = 0
+                $scope.data.brainkey = generateBrainkey()
+                $scope.stepChange 'review_brainkey'
+            WalletBts.add_entropy private_entropy.join ''
             private_entropy.length = 0
             return
         
@@ -216,9 +203,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         private_entropy.push num event.offsetX, event.offsetY
         private_entropy.push num event.screenX, event.screenY
         private_entropy.push event.force if event.force
-        if public_entropy.length < 40
-            if new Date().getTime() % 3 == 0
-                public_entropy.push chars.charAt(i % chars_length)
+        if public_entropy.length < 50
+            public_entropy.push chars.charAt(i % chars_length)
         else
             public_entropy = public_entropy.slice 1
             public_entropy.push chars.charAt(i % chars_length)

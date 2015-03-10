@@ -8,7 +8,7 @@
         <img src="img/xts-logo-xl-white-shadow.png" />
         <h4 translate>unlock.desc_title</h4>
     </div>
-    <div ng-hide="has_secure_random">
+    <div ng-show="has_secure_random === false">
         <div class="row spacedrow">
             <div class="description">
                 <p class="text-danger" translate>brain_wallet.no_secure_random</p>
@@ -21,36 +21,60 @@
         role="form" novalidate
     >
         <div class="str-bottom" ng-switch="step" 
-            ng-show="has_secure_random">
+            ng-show="has_secure_random === true">
             
-            <div class="row" ng-switch-when="open_create">
+            <div class="row" ng-switch-when="introduction">
+                <div class="row spacedrow">
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit"
+                            ng-click="stepChange('open')"
+                            ng-show="has_wallet"
+                            translate>brain_wallet.open
+                        </button>
+                        <button class="btn btn-primary" type="submit"
+                            ng-click="stepChange('create_brainkey')"
+                            translate>brain_wallet.create
+                        </button>
+                        <button class="btn btn-primary" type="submit"
+                            ng-click="stepChange('recover_brainkey')"
+                            translate>brain_wallet.recover
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row" ng-switch-when="open">
                 <div class="description">
-                    <h4 translate>brain_wallet.open_create</h4>
+                    <h4 translate>brain_wallet.open_wallet_header</h4>
                 </div>
                 <div class="row spacedrow">
                     <div class="description">
                         <p class="text-muted">
-                            <span translate>brain_wallet.password_info</span>
-                            <span translate>brain_wallet.only_on_this_device</span>
+                            <span translate>brain_wallet.enter_password</span>
                         </p>
                     </div>
                 </div>
                 <div class="form-group" ng-class="{
                     'has-error' : wform.sp.$invalid && !wform.sp.$pristine
                 }">
-                    <input tabindex="1" ng-trim="false"
+                    <input ng-trim="false"
                         ng-model="data.spending_password"
-                        name="sp" type="password"
+                        name="sp" type="password" autofocus
                         class="form-control password" id="spending_password"
                         placeholder="{{'brain_wallet.password'|translate}}" 
-                        required ng-minlength="9" ng-maxlength="255" />
+                        required ng-minlength="9" ng-maxlength="255"
+                    />
 
                 </div>
                 <div class="row spacedrow">
                     <div class="form-group">
                         <button ng-disabled="loading_indicator.show || wform.$invalid" 
-                            tabindex="2" class="btn btn-primary" type="submit"
-                            translate>brain_wallet.login
+                            class="btn btn-primary" type="submit" translate>
+                            brain_wallet.open
+                        </button>
+                        <button class="btn btn-primary"
+                            ng-click="stepChange('introduction')" translate>
+                            brain_wallet.back
                         </button>
                     </div>
                 </div>
@@ -64,127 +88,52 @@
                         class="text-danger small" translate>
                         wallet_common.pw_too_long
                     </div>
+                    <div ng-show="wform.sp.$error.wrong_password" 
+                        class="text-danger small" translate>
+                        wallet_common.wrong_password
+                    </div>
                     <div ng-show="wform.sp.$invalid && !wform.sp.$pristine"
                         class="text-danger small" translate>
                         wallet_common.pw_required
                     </div>
                 </div>
-                <!--div class="row spacedrow">
-                    <div class="description">
-                        <p class="text-muted" translate>brain_wallet.password_info2</p>
-                        "password_info2":"If you do not intend to save your wallet, you should use the browser's incognito mode.",
-                    </div>
-                </div-->
-            </div> <!-- ng-switch-when="open_create" -->
+            </div>
             
-            <div class="row" ng-switch-when="confirm_password">
+            <div class="row" ng-switch-when="create_brainkey">
                 <div class="description">
-                    <h4 translate>brain_wallet.create</h4>
-                </div>
-                <div class="row spacedrow">
-                    <div class="description">
-                        <p class="text-muted" translate>brain_wallet.create_info</p>
-                    </div>
-                </div>
-                <div class="row spacedrow">
-                    <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
-                        <input tabindex="1" ng-trim="false" ng-model="data.spending_password"
-                            name="sp" type="password" style="width:200px;"
-                            class="form-control"  id="spending_password"
-                            placeholder="{{'brain_wallet.password'|translate}}" 
-                            required ng-minlength="9" ng-maxlength="255" />
-                        
-                        <div class="row spacedrow">
-                            <input tabindex="1" ng-trim="false"
-                                ng-model="data.confirm_spending_password" 
-                                name="csp" type="password" style="width:200px;" 
-                                class="form-control" id="confirm_spending_password"
-                                placeholder="Confirm Password" required 
-                                pw-check="spending_password" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row spacedrow">
-                    <div class="form-group row">
-                        <button
-                            ng-disabled="loading_indicator.show || wform.csp.$invalid" 
-                            tabindex="2" class="btn btn-primary" type="submit"
-                            translate>brain_wallet.create
-                        </button>
-                        <button tabindex="3" class="btn btn-primary"
-                            ng-click="reset()" translate>
-                            brain_wallet.back_to_login
-                        </button>
-                    </div>
-                </div>
-                <div class="row">
-                    <br>
-                    <div ng-show="wform.csp.$error.pwmatch"
-                        class="text-danger small" translate>
-                        wallet_common.pw_not_match
-                    </div>
-                </div>
-            </div><!-- ng-switch-when="confirm_password" -->
-              
-            <div class="row" ng-switch-when="entropy_collect">
-                <div class="description">
-                    <h4 translate>brain_wallet.new_brainkey</h4>
+                    <h4 translate>brain_wallet.new_brainkey_header</h4>
                 </div>
                 <div class="row spacedrow">
                     <div class="description">
                         <p class="text-muted" translate>
                             brain_wallet.mouse_entropy_info
                         </p>
-                        <p style="color: lightgreen">
+                        <progressbar
+                            max="1000" value="entropy_collection_progressbar" 
+                            animate="true" class="progress-striped active"
+                            type="info" style="margin: 0px 10px 0px 10px"
+                        >
+                        </progressbar>
+                        <span style="color: lightgreen">
                             <small>{{entropy || '...'}}</small>
-                        </p>
+                        </span>
                     </div>
                 </div>
                 <button tabindex="3" class="btn btn-primary" 
-                    ng-click="stepChange('existing_brainkey')"
-                    translate>brain_wallet.use_own
-                </button>
-                <button tabindex="3" class="btn btn-primary" 
-                    ng-click="stepChange('confirm_password')"
-                    translate>brain_wallet.back_to_create
-                </button>
-            </div>
-                    
-            <div class="row" ng-switch-when="new_brainkey">
-                <div class="description">
-                    <h4 translate>brain_wallet.new_brainkey</h4>
-                </div>
-                <div class="row spacedrow">
-                    <div class="description">
-                        <p class="text-muted" translate>brain_wallet.new_brainkey_header</p>
-                    </div>
-                </div>
-                <div class="row spacedrow">
-                    <p style="color: lightgreen">
-                        <small>{{data.brainkey || '...'}}</small>
-                    </p>
-                </div>
-                <i ng-class="creating_wallet"></i>
-                <button ng-disabled="loading_indicator.show" tabindex="1" 
-                    class="btn btn-primary" type="submit" translate>
-                    brain_wallet.open
-                </button>
-                <button tabindex="2" class="btn btn-primary" 
-                    ng-click="stepChange('existing_brainkey')"
-                    translate>brain_wallet.modify
-                </button>
-                <button tabindex="3" class="btn btn-primary" 
-                    ng-click="stepChange('confirm_password')"
-                    translate>brain_wallet.back_to_create
+                    ng-click="stepChange('introduction')"
+                    translate>brain_wallet.cancel
                 </button>
             </div>
             
-            <div class="row" ng-switch-when="existing_brainkey">
-                <div class="row spacedrow">
+            <div class="row" ng-switch-when="recover_brainkey">
+                <div class="description">
+                    <h4 translate>brain_wallet.recover_header</h4>
+                </div>
+                <div class="row">
                     <div class="description">
-                        <p class="text-muted" translate>
-                            brain_wallet.existing_brainkey
-                        </p>
+                        <span class="text-muted" translate>
+                            brain_wallet.recover_info
+                        </span>
                     </div>
                 </div>
                 <div class="row spacedrow">
@@ -193,29 +142,30 @@
                     }">
                         <textarea id="brainkey" class="form-control"
                             ng-trim="true" ng-model="data.brainkey" name="bk"
-                            placeholder="{{'brain_wallet.new_brainkey'|translate}}" 
-                            required ng-minlength="32" ng-maxlength="1000" />
+                            placeholder="{{'brain_wallet.brainkey'|translate}}" 
+                            required ng-minlength="31" ng-maxlength="1000"
+                            autofocus
+                        />
                     </div>
                 </div>
                 <div class="row spacedrow">
                     <div class="form-group row">
                         <i ng-class="creating_wallet"></i>
                         <button ng-disabled="loading_indicator.show || wform.bk.$invalid" 
-                            tabindex="2" class="btn btn-primary" 
-                            type="submit" translate>
+                            tabindex="2" class="btn btn-primary" type="submit"
+                            translate>
                             brain_wallet.open
                         </button>
                         <button ng-disabled="loading_indicator.show" 
                             tabindex="2" class="btn btn-primary"
-                            ng-click="stepChange('confirm_password')"
+                            ng-click="stepChange('introduction')"
                             translate>
-                            brain_wallet.back_to_create
+                            brain_wallet.back
                         </button>
                     </div>
                 </div>
                 <div class="row">
-                    <br>
-                    <div ng-show="wform.bk.$error.minlength" 
+                    <div ng-show="wform.bk.$error.minlength && wform.bk.$submitted" 
                         class="text-danger small" translate>
                         brain_wallet.too_short
                     </div>
@@ -223,31 +173,128 @@
                         class="text-danger small" translate>
                         brain_wallet.too_long
                     </div>
-                    <div ng-show="wform.bk.$invalid && !wform.sp.$pristine"
-                        class="text-danger small" translate>
-                        brain_wallet.required
-                    </div>
                 </div>
-            </div><!-- ng-switch-when="existing_brainkey" -->
-            
-            <div ng-show="step.indexOf('brainkey') != -1">
-                
-                <div class="row spacedrow" ng-click="brainKeyHelp('right')">
-                    <div class="description">
-                        <p class="text-muted">
-                            {{"brain_wallet."+new_brainkey_info|translate}}
-                        </p>
-                    </div>
-                </div>
+                <br/>
                 <div class="row">
-                    <div class="col-sm-1" ng-click="brainKeyHelp('left')">
-                        <i class="fa fa-arrow-left"></i>
-                    </div>
-                    <div class="col-sm-1 pull-right" ng-click="brainKeyHelp('right')">
-                        <i class="fa fa-arrow-right"></i>
+                    <div class="description">
+                        <b><span class="text-muted" translate>
+                            brain_wallet.brainkey_warning
+                        </span></b>
+                        <span class="text-muted" translate>
+                            brain_wallet.brainkey_warning_creator
+                        </span>
                     </div>
                 </div>
             </div>
+            
+            <div class="row" ng-switch-when="review_brainkey">
+                <div class="description">
+                    <h4 translate>brain_wallet.brainkey_header</h4>
+                </div>
+                <div class="row spacedrow">
+                    <div class="description">
+                        <p class="text-muted" translate>brain_wallet.brainkey_info</p>
+                    </div>
+                </div>
+                <div class="row spacedrow">
+                    <p style="color: lightgreen">
+                        <span>{{data.brainkey || '...'}}</span>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="description">
+                        <b><span class="text-muted" translate>
+                            brain_wallet.brainkey_warning
+                        </span></b>
+                        <span class="text-muted" translate>
+                            brain_wallet.brainkey_warning_recover
+                        </span>
+                        <span class="text-muted" translate>
+                            brain_wallet.brainkey_warning_attack
+                        </span>
+                    </div>
+                </div>
+                <br/>
+                <button ng-disabled="loading_indicator.show" tabindex="1" 
+                    class="btn btn-primary"
+                    ng-click="stepChange('create_wallet')"
+                    translate>brain_wallet.ok
+                </button>
+                <button tabindex="3" class="btn btn-primary" 
+                    ng-click="stepChange('introduction')"
+                    translate>brain_wallet.cancel
+                </button>
+            </div>
+
+            <div class="row" ng-switch-when="create_wallet">
+                <div class="description">
+                    <h4 translate>brain_wallet.brainkey_header</h4>
+                </div>
+                <div class="row spacedrow">
+                    <p style="color: lightgreen">
+                        <span>{{data.brainkey || '...'}}</span>
+                    </p>
+                </div>
+                <div class="row spacedrow">
+                    <div class="description">
+                        <p class="text-muted" translate>brain_wallet.enter_password_info</p>
+                    </div>
+                </div>
+                <div class="row spacedrow">
+                    <div class="form-group" ng-class="{ 'has-error' : wform.csp.$invalid && !wform.csp.$pristine }">
+                        <input tabindex="1" ng-trim="false"
+                            ng-model="data.spending_password"
+                            name="sp" type="password" style="width:200px;"
+                            class="form-control"  id="spending_password"
+                            placeholder="{{'brain_wallet.password'|translate}}"
+                            required ng-minlength="9" ng-maxlength="255"
+                            autofocus />
+                        
+                        <div class="row spacedrow">
+                            <input tabindex="1" ng-trim="false"
+                                ng-model="data.confirm_spending_password" 
+                                name="csp" type="password" style="width:200px;" 
+                                class="form-control" id="confirm_spending_password"
+                                placeholder="{{'brain_wallet.confirm_password'|translate}}" required
+                                pw-check="spending_password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row spacedrow">
+                    <div class="form-group row">
+                        <i ng-class="creating_wallet"></i>
+                        <button
+                            ng-disabled="loading_indicator.show || wform.csp.$invalid" 
+                            tabindex="2" class="btn btn-primary" type="submit"
+                            translate>brain_wallet.create
+                        </button>
+                        <button tabindex="3" class="btn btn-primary"
+                            ng-click="stepChange('review_brainkey')" translate>
+                            brain_wallet.back
+                        </button>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div ng-show="wform.csp.$error.pwmatch"
+                        class="text-danger small" translate>
+                        wallet_common.pw_not_match
+                    </div>
+                    <div ng-show="wform.csp.$error.password_taken" 
+                        class="text-danger small" translate>
+                        brain_wallet.password_taken
+                    </div>
+                    <div ng-show="wform.sp.$error.minlength" 
+                        class="text-danger small" translate>
+                        wallet_common.pw_too_short
+                    </div>
+                    <div ng-show="wform.sp.$error.maxlength" 
+                        class="text-danger small" translate>
+                        wallet_common.pw_too_long
+                    </div>
+                </div>
+            </div>
+            
             <div class="row">
                 <br/>
                 <p class="text-muted"><small translate>unlock.risks_warning</small></p>

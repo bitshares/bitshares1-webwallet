@@ -102,9 +102,12 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider
     $compileProvider.debugInfoEnabled(false);
 
     $tooltipProvider.options { appendToBody: true }
-
+    
+    base_tag = document.getElementsByTagName('base')[0]
+    prefix = if base_tag then base_tag.getAttribute("href") + "/" else ""
+    
     $translateProvider.useStaticFilesLoader
-        prefix: 'locale-',
+        prefix: prefix + 'locale-',
         suffix: '.json'
 
     lang = switch(window.navigator.language)

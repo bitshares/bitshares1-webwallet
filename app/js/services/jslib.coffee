@@ -7,10 +7,8 @@ class BitsharesJsRpc
     constructor: (@RpcService, @Growl, $timeout, $translate) ->
         
         return unless bts = window.bts
-        version_name = (->
-            base_tag = document.getElementsByTagName('base')[0]
-            if base_tag then base_tag.getAttribute("href").match /[\w]+/ else ""
-        )()
+        base_tag = document.getElementsByTagName('base')[0]
+        version_name = if base_tag then base_tag.getAttribute("href").match /[\w]+/ else ""
         console.log "[BitShares-JS] enabled #{version_name}"
         
         error_translator= (message)->
@@ -36,8 +34,9 @@ class BitsharesJsRpc
         
         js_client.event 'wallet.locked', ()->
             $timeout ->
+                try
+                    window.history.pushState "", "Locking...", base_tag
                 window.location.reload()
-                navigate_to "/"
             ,
                 100
     
