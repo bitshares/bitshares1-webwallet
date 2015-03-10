@@ -9,8 +9,8 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     sp = $stateProvider
     if window.bts
         $urlRouterProvider.when prefix + '/', prefix + '/login'
-    else
-        $urlRouterProvider.otherwise prefix + '/accounts'
+    
+    $urlRouterProvider.otherwise prefix + '/accounts'
 
     sp.state "preferences",
         url: prefix + "/preferences"
