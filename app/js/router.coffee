@@ -7,7 +7,10 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     $locationProvider.html5Mode(true) if prefix
 
     sp = $stateProvider
-    $urlRouterProvider.otherwise prefix + '/accounts'
+    if window.bts
+        $urlRouterProvider.otherwise prefix + '/brainwallet'
+    else
+        $urlRouterProvider.otherwise prefix + '/accounts'
 
     sp.state "preferences",
         url: prefix + "/preferences"

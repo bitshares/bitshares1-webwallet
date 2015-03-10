@@ -33,9 +33,8 @@ class BitsharesJsRpc
             @Growl "","Active key updated"
         
         js_client.event 'wallet.locked', ()->
+            navigate_to base_tag
             $timeout ->
-                try
-                    window.history.pushState "", "Locking...", base_tag
                 window.location.reload()
             ,
                 100
