@@ -7,6 +7,8 @@ class BitsharesJsRpc
     constructor: (@RpcService, @Growl, $timeout, $translate) ->
         
         return unless bts = window.bts
+        WalletService = Wallet
+        Wallet = null #
         
         base_tag = document.getElementsByTagName('base')[0]
         base_path = if base_tag then base_tag.getAttribute("href") else ""
@@ -25,19 +27,18 @@ class BitsharesJsRpc
             window.wallet_api = js_client.wallet_api
         
         js_client.event 'wallet.not_found', ()->
-            unless window.location.hash == "#/brainwallet"
+            unless window.location.hash.match /brainwallet$/
                 navigate_to "brainwallet"
         
         js_client.event 'wallet.must_be_opened',()->
-            unless window.location.hash == "#/brainwallet"
+            unless window.location.hash.match /brainwallet$/
                 navigate_to "brainwallet"
         
         js_client.event 'wallet.active_key_updated',=>
             @Growl "","Active key updated"
         
         js_client.event 'wallet.locked', ()->
-            # Stay on the same version
-            navigate_to base_path
+            navigate_to "brainwallet"
 
 angular.module("app").service "BitsharesJsRpc", 
     ["RpcService", "Growl", "$timeout", "$translate", BitsharesJsRpc]

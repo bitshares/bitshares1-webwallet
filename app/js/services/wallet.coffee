@@ -419,9 +419,10 @@ class Wallet
           response.result
 
     wallet_lock: ->
-        @reset_gui_state()
         @rpc.request('wallet_lock').then (response) ->
-          response.result
+            response.result
+        .finally =>
+            @reset_gui_state()
 
     blockchain_list_accounts: (first_account_name, limit) ->
         limit = if limit then limit else 9999

@@ -1,4 +1,5 @@
 angular.module("app").controller "RootController", ($scope, $location, $modal, $q, $http, $rootScope, $state, $stateParams, Wallet, Client, $idle, Shared, Info, WalletAPI, Observer) ->
+    
     $scope.unlockwallet = false
     $scope.bodyclass = "cover"
     $scope.currentPath = $location.path()
