@@ -1,14 +1,8 @@
 angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvider) ->
 
     base_tag = document.getElementsByTagName('base')[0]
-    prefix = if base_tag then base_tag.getAttribute("href") else ""
-
-    # relative url app version support
-    $locationProvider.html5Mode(true) if prefix
-
+    prefix = ""#if base_tag then base_tag.getAttribute("href") else ""
     sp = $stateProvider
-    if window.bts
-        $urlRouterProvider.when prefix + '/', prefix + '/login'
     
     $urlRouterProvider.otherwise prefix + '/accounts'
 
