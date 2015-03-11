@@ -210,7 +210,8 @@
     "delete_wallet":"Delete Wallet",
     "delete":"Delete",
     "password_to_delete":"Enter password to show delete confirmation",
-    "cancel":"Cancel"
+    "cancel":"Cancel",
+    "legacy_accounts":"Legacy Accounts..."
   },
   "index": {
     "title": "BitShares Wallet",
