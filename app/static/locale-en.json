@@ -173,6 +173,7 @@
     "wrong_password":"Wrong password."
   },
   "brain_wallet": {
+    "access_your_wallet":"Access your Online Web Wallet",
     "no_secure_random":"We are very sorry, we can't proceed on this device.  Your browser does not provide secure random numbers.",
     "open_wallet_header": "Open Wallet",
     "enter_password":"Enter your password for this wallet.",

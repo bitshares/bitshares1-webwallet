@@ -8,6 +8,9 @@
         <img src="img/xts-logo-xl-white-shadow.png" />
         <h4 translate>unlock.desc_title</h4>
     </div>
+    <div ng-if="step === 'introduction' || step === 'guest'">
+        <h4 translate>brain_wallet.access_your_wallet</h4>
+    </div>
     <div ng-show="has_secure_random === false">
         <div class="row spacedrow">
             <div class="description">
@@ -25,6 +28,7 @@
             
             <div class="row" ng-if="step === 'introduction' || step === 'guest'">
                 <div class="row spacedrow">
+                    
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit"
                             ng-click="stepChange('open')"
@@ -115,7 +119,7 @@
                         </p>
                         <progressbar
                             max="1000" value="entropy_collection_progressbar" 
-                            animate="true" class="progress-striped active"
+                            animate="false" class="progress-striped active"
                             type="info" style="margin: 0px 10px 0px 10px"
                         >
                         </progressbar>

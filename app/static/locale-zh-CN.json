@@ -165,6 +165,7 @@
     "wrong_password":"Wrong password."
   },
   "brain_wallet": {
+    "access_your_wallet":"Access your Online Web Wallet",
     "no_secure_random":"很抱歉，我们无法在这个装置上面继续进行。因为你的浏览器无法提供安全的随机数。",
     "open_wallet_header": "Open Wallet",
     "enter_password":"Enter your password for this wallet.",
@@ -175,10 +176,10 @@
     "open":"Open",
     "create":"创建钱包",
     "create_header":"Create a New Wallet",
-    "recover":"Recover Wallet",
+    "recover":"恢复钱包",
     "recover_header":"Recover a Wallet",
     "recover_info":"Enter your backup recovery key carefully, it will be validated later when you attempt to recover an account.  If instead, you intend to create a new recovery key we recommend you go 'Back' and use 'Create Wallet' (see the warning below).",
-    "guest":"Guest",
+    "guest":"访客",
     "wrong_password":"Wrong password.",
     "enter_password_info":"Enter a password to secure this wallet.  This wallet and it's recovery key will be saved on this device only.",
     "confirm_password":"确认密码",
