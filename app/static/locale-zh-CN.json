@@ -157,6 +157,10 @@
     "info": "请记住该密码，它将控制你的资金何时以及如何被花。 如果你忘记该密码，你将无法转账使用你的资金或股份。",
     "create_wallet": "创建钱包"
   },
+  "jslib_wallet":{
+    "conflicting_account":"Account '{{v1}}' is not owned by this wallet.",
+    "account_not_found": "Account '{{v1}}' was not found"
+  },
   "wallet_common":{
     "pw_too_short":"密码长度必须超过9个字元。",
     "pw_too_long":"密码太长。",
@@ -178,7 +182,7 @@
     "create_header":"Create a New Wallet",
     "recover":"恢复钱包",
     "recover_header":"Recover a Wallet",
-    "recover_info":"Enter your backup recovery key carefully, it will be validated later when you attempt to recover an account.  If instead, you intend to create a new recovery key we recommend you go 'Back' and use 'Create Wallet' (see the warning below).",
+    "recover_info":"Enter your backup recovery key.  The key is case-insensitive.  If instead, you intend to create a new recovery key we recommend you go 'Back' and use 'Create Wallet' (see the warning below).",
     "guest":"访客",
     "wrong_password":"Wrong password.",
     "enter_password_info":"Enter a password to secure this wallet.  This wallet and it's recovery key will be saved on this device only.",
@@ -187,7 +191,7 @@
     "back":"Back",
     "new_brainkey_header":"New Recovery Key",
     "brainkey_header":"Recovery Key",
-    "brainkey_info":"Use this recovery key anywhere on the block-chain to access your accounts.  Anyone can guess a recovery key, so it should be very strong (like a private key).  You can recover this key later on this device under Advanced preferences.",
+    "brainkey_info":"Use this recovery key anywhere on the block-chain to access your accounts.  You can recover this key later on this device under Advanced preferences.  If you clear your browser's cache this key will be deleted.",
     "brainkey_warning":"WARNING:",
     "brainkey_warning_recover":"It is not possible to recover a lost recovery key.  Make a backup, print it out, or write it down.",
     "brainkey_warning_attack":"Anyone with access to your recovery key will have access to this wallet.",

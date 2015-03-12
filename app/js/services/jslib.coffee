@@ -27,12 +27,12 @@ class BitsharesJsRpc
             window.wallet_api = js_client.wallet_api
         
         js_client.event 'wallet.not_found', ()->
-            console.log '... window.location.hash', window.location.hash
+            #console.log '... window.location.hash', window.location.hash
             unless window.location.hash.match /login$/
                 navigate_to "login"
         
         js_client.event 'wallet.must_be_opened',()->
-            console.log '... window.location.hash', window.location.hash
+            #console.log '... window.location.hash', window.location.hash
             unless window.location.hash.match /login$/
                 navigate_to "login"
         
