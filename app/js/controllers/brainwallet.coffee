@@ -97,7 +97,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 else
                     $scope.wform.sp.$error.wrong_password = yes
                     $timeout ->
-                        delete $scope.wform.sp.$error.wrong_password
+                        if $scope.wform.sp.$error
+                            delete $scope.wform.sp.$error.wrong_password
                     ,
                         2000
             
