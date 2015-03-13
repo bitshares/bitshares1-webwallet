@@ -4,10 +4,6 @@ angular.module("app").controller "AccountsController", ($scope, $location, Walle
 
     warnings = {}
     $scope.warnings = warnings
-    if window.bts
-        $scope.has_legacy_bts_wallet = (
-            window.bts.wallet.WalletDb.has_legacy_bts_wallet()
-        )
     
     account_names = []
     Wallet.refresh_accounts().then ->

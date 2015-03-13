@@ -32,11 +32,6 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 # have the dictionary ready
                 dictionary()
             
-            when 'review_brainkey'
-                $scope.data.brainkey = WalletBts.normalize_brain_key(
-                    $scope.data.brainkey
-                )
-                
             when 'guest'
                 if WalletDb.exists 'guest'
                     WalletService.open('guest').then ->
@@ -97,7 +92,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 else
                     $scope.wform.sp.$error.wrong_password = yes
                     $timeout ->
-                        if $scope.wform.sp.$error
+                        if $scope.wform.sp
                             delete $scope.wform.sp.$error.wrong_password
                     ,
                         2000
@@ -112,7 +107,8 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 if WalletDb.exists wallet_name
                     $scope.wform.csp.$error.password_taken = yes
                     $timeout ->
-                        delete $scope.wform.csp.$error.password_taken
+                        if $scope.wform.csp
+                            delete $scope.wform.csp.$error.password_taken
                     ,
                         2000
                     #console.log "ERROR, wallet already exists '#{wallet_name}'"
