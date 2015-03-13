@@ -541,7 +541,8 @@
       "popover": "Only lowercase alphanumeric characters, dots, and dashes.\nMust start with a letter and cannot end with a dash.",
       "note1": "Note: Account names cannot be transferred.",
       "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash.",
-      "note3": "Type in the name of an account previously registered under this wallet's recovery key."
+      "note3": "Type in the name of an account previously registered under this wallet's recovery key.",
+      "dot_not_supported": "The hosted wallet does not yet support the creation of accounts with a dot in the name."
     }
   },
   "pagination": {
