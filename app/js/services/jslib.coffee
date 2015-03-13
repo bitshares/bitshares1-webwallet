@@ -41,9 +41,6 @@ class BitsharesJsRpc
             unless window.location.hash.match /login$/
                 navigate_to "login"
         
-        js_client.event 'wallet.active_key_updated',=>
-            @Growl "","Active key updated"
-        
         js_client.event 'wallet.locked', ()->
             location.href = base_path
 
