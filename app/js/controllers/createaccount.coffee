@@ -5,7 +5,7 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
         form = @createaccount
         form.account_name.$error.message = ""
         name = $scope.f.name
-        if name.indexOf '.' isnt -1
+        if name.indexOf('.') isnt -1
             $translate('directive.input_name.dot_not_supported').then (message)->
                 form.account_name.$error.message = message
             return
