@@ -12,7 +12,12 @@ class BitsharesJsRpc
         
         base_tag = document.getElementsByTagName('base')[0]
         base_path = if base_tag then base_tag.getAttribute("href") else ""
-        version_name = if base_tag then base_tag.getAttribute("href").match /[\w]+/ else ""
+        version_name = (->
+            return "" unless base_tag
+            version = base_tag.getAttribute("href").match /[\w]+/
+            return "" unless version.length > 0
+            version[0]
+        )()
         
         console.log "[BitShares-JS] enabled #{version_name}"
         

@@ -10,7 +10,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     $scope.stopIdleWatch()
     
     $rootScope.splashpage = true
-    $scope.has_secure_random = WalletBts.has_secure_random()
+    $scope.has_secure_random = window.crypto || window.msCrypto
     $scope.has_wallet = WalletBts.has_wallet()
     $scope.data = {}
     LANDING_PAGE = 'accounts'
