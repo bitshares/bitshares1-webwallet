@@ -98,6 +98,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                         2000
             
             when 'recover_brainkey'
+                
                 $scope.stepChange 'review_brainkey'
             
             when 'create_wallet'

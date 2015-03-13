@@ -10,7 +10,7 @@ angular.module("app").controller "WalletController", ($scope, Growl) ->
         )
         if not $scope.brainkey.pw_invalid
             bk.password = ""
-            bk.text = wallet_api.get_brainkey()
+            bk.text_show = wallet_api.get_brainkey()
     
     $scope.delete_confirmed = no
     $scope.delete_submit=()->
