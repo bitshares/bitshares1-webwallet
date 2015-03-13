@@ -24,18 +24,12 @@ class WalletAPI
   # Creates a wallet with the given name
   # parameters: 
   #   wallet_name `wallet_name` - name of the wallet to create
-  #   new_passphrase `new_passphrase` - a passphrase for encrypting the wallet
+  #   new_passphrase `new_passphrase` - a passphrase for encrypting the wallet; must be surrounded with quotes if contains spaces
   #   brainkey `brain_key` - a strong passphrase that will be used to generate all private keys, defaults to a large random number
+  #   passphrase `new_passphrase_verify` - optionally provide passphrase again to double-check
   # return_type: `void`
-  create: (wallet_name, new_passphrase, brain_key, error_handler = null) ->
-    @rpc.request('wallet_create', [wallet_name, new_passphrase, brain_key], error_handler).then (response) ->
-      response.result
-
-  # Returns the wallet name passed to wallet_open
-  # parameters: 
-  # return_type: `optional_wallet_name`
-  get_name: (error_handler = null) ->
-    @rpc.request('wallet_get_name', error_handler).then (response) ->
+  create: (wallet_name, new_passphrase, brain_key, new_passphrase_verify, error_handler = null) ->
+    @rpc.request('wallet_create', [wallet_name, new_passphrase, brain_key, new_passphrase_verify], error_handler).then (response) ->
       response.result
 
   # Loads the private key into the specified account. Returns which account it was actually imported to.
@@ -86,7 +80,7 @@ class WalletAPI
   #   filename `json_filename` - the full path and filename of JSON wallet to import, example: /path/to/exported_wallet.json
   #   passphrase `imported_wallet_passphrase` - passphrase for encrypted keys
   #   account_name `account` - Account into which to import keys.
-  # return_type: `void`
+  # return_type: `uint32_t`
   import_keys_from_json: (json_filename, imported_wallet_passphrase, account, error_handler = null) ->
     @rpc.request('wallet_import_keys_from_json', [json_filename, imported_wallet_passphrase, account], error_handler).then (response) ->
       response.result
@@ -132,60 +126,6 @@ class WalletAPI
     @rpc.request('wallet_set_transaction_expiration_time', [seconds], error_handler).then (response) ->
       response.result
 
-  # Creates a normal user object. If no owner info is specified, uses a new address from payer.
-  # parameters: 
-  #   account_name `account` - 
-  #   variant `user_data` - 
-  #   int32_t `m` - 
-  #   address_list `owners` - 
-  # return_type: `transaction_record`
-  object_create: (account, user_data, m, owners, error_handler = null) ->
-    @rpc.request('wallet_object_create', [account, user_data, m, owners], error_handler).then (response) ->
-      response.result
-
-  # Update a normal user object.
-  # parameters: 
-  #   sending_account_name `paying_account_name` - the source account to draw the shares from
-  #   object_id_type `object_id` - the object to update
-  #   variant `user_data` - 
-  #   bool `sign_and_broadcast` - 
-  # return_type: `transaction_builder`
-  object_update: (paying_account_name, object_id, user_data, sign_and_broadcast, error_handler = null) ->
-    @rpc.request('wallet_object_update', [paying_account_name, object_id, user_data, sign_and_broadcast], error_handler).then (response) ->
-      response.result
-
-  # Update a normal user object's owner.
-  # parameters: 
-  #   sending_account_name `paying_account_name` - the source account to draw the shares from
-  #   object_id_type `object_id` - the object to update
-  #   uint32_t `m` - 
-  #   address_list `owners` - 
-  #   bool `sign_and_broadcast` - 
-  # return_type: `transaction_builder`
-  object_transfer: (paying_account_name, object_id, m, owners, sign_and_broadcast, error_handler = null) ->
-    @rpc.request('wallet_object_transfer', [paying_account_name, object_id, m, owners, sign_and_broadcast], error_handler).then (response) ->
-      response.result
-
-  # List objects that belong to an account.
-  # parameters: 
-  #   account_name `account` - Account to fetch objects for
-  # return_type: `object_array`
-  object_list: (account, error_handler = null) ->
-    @rpc.request('wallet_object_list', [account], error_handler).then (response) ->
-      response.result
-
-  # Create or update an edge object.
-  # parameters: 
-  #   account_name `paying_account` - Account that will pay for this transaction
-  #   object_id_type `from` - 
-  #   object_id_type `to` - Account that will pay for this transaction
-  #   string `name` - The edge name (the 'key', used in index)
-  #   variant `value` - The edge 'value', not part of the index
-  # return_type: `transaction_builder`
-  set_edge: (paying_account, from, to, name, value, error_handler = null) ->
-    @rpc.request('wallet_set_edge', [paying_account, from, to, name, value], error_handler).then (response) ->
-      response.result
-
   # Lists transaction history for the specified account
   # parameters: 
   #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
@@ -198,19 +138,21 @@ class WalletAPI
     @rpc.request('wallet_account_transaction_history', [account_name, asset_symbol, limit, start_block_num, end_block_num], error_handler).then (response) ->
       response.result
 
+  # Lists wallet's balance at the given time
+  # parameters: 
+  #   timestamp `time` - the date and time for which the balance will be computed, example: 2015-01-31T23:59:59
+  #   string `account_name` - the name of the account for which the historic balance will be returned, "" for all accounts, example: alice
+  # return_type: `account_balance_summary_type`
+  account_historic_balance: (time, account_name, error_handler = null) ->
+    @rpc.request('wallet_account_historic_balance', [time, account_name], error_handler).then (response) ->
+      response.result
+
   # 
   # parameters: 
   #   string `account_name` - the name of the account for which the transaction history will be returned, "" for all accounts, example: alice
   # return_type: `experimental_transactions`
   transaction_history_experimental: (account_name, error_handler = null) ->
     @rpc.request('wallet_transaction_history_experimental', [account_name], error_handler).then (response) ->
-      response.result
-
-  # 
-  # parameters: 
-  # return_type: `snapshot_record_list`
-  check_sharedrop: (error_handler = null) ->
-    @rpc.request('wallet_check_sharedrop', error_handler).then (response) ->
       response.result
 
   # Removes the specified transaction record from your transaction history. USE WITH CAUTION! Rescan cannot reconstruct all transaction details
@@ -247,10 +189,11 @@ class WalletAPI
 
   # Change the password of the current wallet
   # parameters: 
-  #   passphrase `passphrase` - the passphrase for encrypting the wallet
+  #   new_passphrase `new_passphrase` - the new passphrase for encrypting the wallet; must be surrounded with quotes if contains spaces
+  #   passphrase `new_passphrase_verify` - optionally provide passphrase again to double-check
   # return_type: `void`
-  change_passphrase: (passphrase, error_handler = null) ->
-    @rpc.request('wallet_change_passphrase', [passphrase], error_handler).then (response) ->
+  change_passphrase: (new_passphrase, new_passphrase_verify, error_handler = null) ->
+    @rpc.request('wallet_change_passphrase', [new_passphrase, new_passphrase_verify], error_handler).then (response) ->
       response.result
 
   # Return a list of wallets in the current data directory
@@ -263,37 +206,65 @@ class WalletAPI
   # Add new account for receiving payments
   # parameters: 
   #   account_name `account_name` - the name you will use to refer to this receive account
-  #   json_variant `private_data` - Extra data to store with this account record
   # return_type: `public_key`
-  account_create: (account_name, private_data, error_handler = null) ->
-    @rpc.request('wallet_account_create', [account_name, private_data], error_handler).then (response) ->
+  account_create: (account_name, error_handler = null) ->
+    @rpc.request('wallet_account_create', [account_name], error_handler).then (response) ->
       response.result
 
-  # Updates the favorited status of the specified account
+  # List all contact entries
   # parameters: 
-  #   account_name `account_name` - the name of the account to set favorited status on
-  #   bool `is_favorite` - true if account should be marked as a favorite; false otherwise
-  # return_type: `void`
-  account_set_favorite: (account_name, is_favorite, error_handler = null) ->
-    @rpc.request('wallet_account_set_favorite', [account_name, is_favorite], error_handler).then (response) ->
+  # return_type: `wallet_contact_record_array`
+  list_contacts: (error_handler = null) ->
+    @rpc.request('wallet_list_contacts', error_handler).then (response) ->
       response.result
 
-  # Updates your approval of the specified account
+  # Get the specified contact entry
   # parameters: 
-  #   account_name `account_name` - the name of the account to set approval for
+  #   string `contact` - the value or label (prefixed by "label:") of the contact to query
+  # return_type: `owallet_contact_record`
+  get_contact: (contact, error_handler = null) ->
+    @rpc.request('wallet_get_contact', [contact], error_handler).then (response) ->
+      response.result
+
+  # Add a new contact entry or update the label for an existing entry
+  # parameters: 
+  #   string `contact` - a registered account name, a public key, an address, or a btc address that represents this contact
+  #   string `label` - an optional custom label to use when referring to this contact
+  # return_type: `wallet_contact_record`
+  add_contact: (contact, label, error_handler = null) ->
+    @rpc.request('wallet_add_contact', [contact, label], error_handler).then (response) ->
+      response.result
+
+  # Remove a contact entry
+  # parameters: 
+  #   string `contact` - the value or label (prefixed by "label:") of the contact to remove
+  # return_type: `owallet_contact_record`
+  remove_contact: (contact, error_handler = null) ->
+    @rpc.request('wallet_remove_contact', [contact], error_handler).then (response) ->
+      response.result
+
+  # List all approval entries
+  # parameters: 
+  # return_type: `wallet_approval_record_array`
+  list_approvals: (error_handler = null) ->
+    @rpc.request('wallet_list_approvals', error_handler).then (response) ->
+      response.result
+
+  # Get the specified approval entry
+  # parameters: 
+  #   string `approval` - the name of the approval to query
+  # return_type: `owallet_approval_record`
+  get_approval: (approval, error_handler = null) ->
+    @rpc.request('wallet_get_approval', [approval], error_handler).then (response) ->
+      response.result
+
+  # Approve or disapprove the specified account or proposal
+  # parameters: 
+  #   string `name` - a registered account or proposal name to set approval for
   #   int8_t `approval` - 1, 0, or -1 respectively for approve, neutral, or disapprove
-  # return_type: `int8_t`
-  account_set_approval: (account_name, approval, error_handler = null) ->
-    @rpc.request('wallet_account_set_approval', [account_name, approval], error_handler).then (response) ->
-      response.result
-
-  # Add new account for sending payments
-  # parameters: 
-  #   account_name `account_name` - the name you will use to refer to this sending account
-  #   public_key `account_key` - the key associated with this sending account
-  # return_type: `void`
-  add_contact_account: (account_name, account_key, error_handler = null) ->
-    @rpc.request('wallet_add_contact_account', [account_name, account_key], error_handler).then (response) ->
+  # return_type: `wallet_approval_record`
+  approve: (name, approval, error_handler = null) ->
+    @rpc.request('wallet_approve', [name, approval], error_handler).then (response) ->
       response.result
 
   # Authorizes a public key to control funds of a particular asset class.  Requires authority of asset issuer
@@ -301,15 +272,14 @@ class WalletAPI
   #   account_name `paying_account` - the account that will pay the transaction fee
   #   asset_symbol `symbol` - the asset granting authorization
   #   string `address` - the address being granted permission, or the public key, or the account name
-  #   object_id_type `meta` - -1 to remove authorization, otherwise a link to an object in the object graph
   # return_type: `transaction_record`
-  asset_authorize_key: (paying_account, symbol, address, meta, error_handler = null) ->
-    @rpc.request('wallet_asset_authorize_key', [paying_account, symbol, address, meta], error_handler).then (response) ->
+  asset_authorize_key: (paying_account, symbol, address, error_handler = null) ->
+    @rpc.request('wallet_asset_authorize_key', [paying_account, symbol, address], error_handler).then (response) ->
       response.result
 
   # Burns given amount to the given account.  This will allow you to post message and +/- sentiment on someones account as a form of reputation.
   # parameters: 
-  #   real_amount `amount_to_burn` - the amount of shares to burn
+  #   string `amount_to_burn` - the amount of shares to burn
   #   asset_symbol `asset_symbol` - the asset to burn
   #   sending_account_name `from_account_name` - the source account to draw the shares from
   #   string `for_or_against` - the value 'for' or 'against'
@@ -331,56 +301,17 @@ class WalletAPI
     @rpc.request('wallet_address_create', [account_name, label, legacy_network_byte], error_handler).then (response) ->
       response.result
 
-  # Do a simple (non-TITAN) transfer to a BTC-style address
-  # parameters: 
-  #   real_amount `amount_to_transfer` - the amount of shares to transfer
-  #   asset_symbol `asset_symbol` - the asset to transfer
-  #   account_name `from_account_name` - the source account to draw the shares from
-  #   legacy_address `to_address` - the address to transfer to
-  #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `transaction_record`
-  transfer_to_legacy_address: (amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_to_legacy_address', [amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method], error_handler).then (response) ->
-      response.result
-
-  # Do a simple (non-TITAN) transfer to an address
-  # parameters: 
-  #   real_amount `amount_to_transfer` - the amount of shares to transfer
-  #   asset_symbol `asset_symbol` - the asset to transfer
-  #   account_name `from_account_name` - the source account to draw the shares from
-  #   address `to_address` - the address to transfer to
-  #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `transaction_record`
-  transfer_to_address: (amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_to_address', [amount_to_transfer, asset_symbol, from_account_name, to_address, memo_message, vote_method], error_handler).then (response) ->
-      response.result
-
   # Sends given amount to the given account, with the from field set to the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
   # parameters: 
   #   string `amount_to_transfer` - the amount of shares to transfer
   #   asset_symbol `asset_symbol` - the asset to transfer
   #   sending_account_name `from_account_name` - the source account to draw the shares from
-  #   receive_account_name `to_account_name` - the account to transfer the shares to
+  #   string `recipient` - the account name, public key, address, or btc address which will receive the funds
   #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `transaction_record`
-  transfer: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method], error_handler).then (response) ->
-      response.result
-
-  # Sends given amount to the given account
-  # parameters: 
-  #   real_amount `amount_to_transfer` - the amount of shares to transfer
-  #   asset_symbol `asset_symbol` - the asset to transfer
-  #   sending_account_name `from_account_name` - the source account to draw the shares from
-  #   receive_account_name `to_account_name` - the account to transfer the shares to
-  #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `transaction_record`
-  transfer_to_public_account: (amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_to_public_account', [amount_to_transfer, asset_symbol, from_account_name, to_account_name, memo_message, vote_method], error_handler).then (response) ->
+  transfer: (amount_to_transfer, asset_symbol, from_account_name, recipient, memo_message, strategy, error_handler = null) ->
+    @rpc.request('wallet_transfer', [amount_to_transfer, asset_symbol, from_account_name, recipient, memo_message, strategy], error_handler).then (response) ->
       response.result
 
   # 
@@ -400,10 +331,10 @@ class WalletAPI
   #   string `from_name` - TITAN name to withdraw from
   #   uint32_t `m` - Required number of signatures
   #   address_list `addresses` - List of possible addresses for signatures
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `transaction_record`
-  multisig_deposit: (amount, symbol, from_name, m, addresses, vote_method, error_handler = null) ->
-    @rpc.request('wallet_multisig_deposit', [amount, symbol, from_name, m, addresses, vote_method], error_handler).then (response) ->
+  multisig_deposit: (amount, symbol, from_name, m, addresses, strategy, error_handler = null) ->
+    @rpc.request('wallet_multisig_deposit', [amount, symbol, from_name, m, addresses, strategy], error_handler).then (response) ->
       response.result
 
   # 
@@ -412,12 +343,12 @@ class WalletAPI
   #   string `symbol` - which asset
   #   address `from_address` - the balance address to withdraw from
   #   string `to` - address or account to receive funds
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   #   bool `sign_and_broadcast` - 
   #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
   # return_type: `transaction_builder`
-  withdraw_from_address: (amount, symbol, from_address, to, vote_method, sign_and_broadcast, builder_path, error_handler = null) ->
-    @rpc.request('wallet_withdraw_from_address', [amount, symbol, from_address, to, vote_method, sign_and_broadcast, builder_path], error_handler).then (response) ->
+  withdraw_from_address: (amount, symbol, from_address, to, strategy, sign_and_broadcast, builder_path, error_handler = null) ->
+    @rpc.request('wallet_withdraw_from_address', [amount, symbol, from_address, to, strategy, sign_and_broadcast, builder_path], error_handler).then (response) ->
       response.result
 
   # 
@@ -426,12 +357,12 @@ class WalletAPI
   #   string `symbol` - which asset
   #   legacy_address `from_address` - the balance address to withdraw from
   #   string `to` - address or account to receive funds
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   #   bool `sign_and_broadcast` - 
   #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
   # return_type: `transaction_builder`
-  withdraw_from_legacy_address: (amount, symbol, from_address, to, vote_method, sign_and_broadcast, builder_path, error_handler = null) ->
-    @rpc.request('wallet_withdraw_from_legacy_address', [amount, symbol, from_address, to, vote_method, sign_and_broadcast, builder_path], error_handler).then (response) ->
+  withdraw_from_legacy_address: (amount, symbol, from_address, to, strategy, sign_and_broadcast, builder_path, error_handler = null) ->
+    @rpc.request('wallet_withdraw_from_legacy_address', [amount, symbol, from_address, to, strategy, sign_and_broadcast, builder_path], error_handler).then (response) ->
       response.result
 
   # 
@@ -440,30 +371,29 @@ class WalletAPI
   #   string `symbol` - which asset
   #   address `from` - multisig balance ID to withdraw from
   #   address `to_address` - address to receive funds
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
   # return_type: `transaction_builder`
-  multisig_withdraw_start: (amount, symbol, from, to_address, vote_method, builder_path, error_handler = null) ->
-    @rpc.request('wallet_multisig_withdraw_start', [amount, symbol, from, to_address, vote_method, builder_path], error_handler).then (response) ->
+  multisig_withdraw_start: (amount, symbol, from, to_address, strategy, builder_path, error_handler = null) ->
+    @rpc.request('wallet_multisig_withdraw_start', [amount, symbol, from, to_address, strategy, builder_path], error_handler).then (response) ->
       response.result
 
   # Review a transaction and add a signature.
   # parameters: 
   #   transaction_builder `builder` - A transaction builder object created by a wallet. If null, tries to use builder in file.
   #   bool `broadcast` - Try to broadcast this transaction?
-  #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
   # return_type: `transaction_builder`
-  builder_add_signature: (builder, broadcast, builder_path, error_handler = null) ->
-    @rpc.request('wallet_builder_add_signature', [builder, broadcast, builder_path], error_handler).then (response) ->
+  builder_add_signature: (builder, broadcast, error_handler = null) ->
+    @rpc.request('wallet_builder_add_signature', [builder, broadcast], error_handler).then (response) ->
       response.result
 
   # Review a transaction in a builder file and add a signature.
   # parameters: 
-  #   bool `broadcast` - Try to broadcast this transaction?
   #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
+  #   bool `broadcast` - Try to broadcast this transaction?
   # return_type: `transaction_builder`
-  builder_file_add_signature: (broadcast, builder_path, error_handler = null) ->
-    @rpc.request('wallet_builder_file_add_signature', [broadcast, builder_path], error_handler).then (response) ->
+  builder_file_add_signature: (builder_path, broadcast, error_handler = null) ->
+    @rpc.request('wallet_builder_file_add_signature', [builder_path, broadcast], error_handler).then (response) ->
       response.result
 
   # Releases escrow balance to third parties
@@ -471,8 +401,8 @@ class WalletAPI
   #   account_name `pay_fee_with_account_name` - when releasing escrow a transaction fee must be paid by funds not in escrow, this account will pay the fee
   #   address `escrow_balance_id` - The balance id of the escrow to be released.
   #   account_name `released_by_account` - the account that is to perform the release.
-  #   share_type `amount_to_sender` - Amount to release back to the sender.
-  #   share_type `amount_to_receiver` - Amount to release to receiver.
+  #   real_amount `amount_to_sender` - Amount to release back to the sender.
+  #   real_amount `amount_to_receiver` - Amount to release to receiver.
   # return_type: `transaction_record`
   release_escrow: (pay_fee_with_account_name, escrow_balance_id, released_by_account, amount_to_sender, amount_to_receiver, error_handler = null) ->
     @rpc.request('wallet_release_escrow', [pay_fee_with_account_name, escrow_balance_id, released_by_account, amount_to_sender, amount_to_receiver], error_handler).then (response) ->
@@ -488,34 +418,27 @@ class WalletAPI
   #   account_name `escrow_account_name` - the account of the escrow agent which has the power to decide how to divide the funds among from/to accounts.
   #   digest `agreement` - the hash of an agreement between the sender/receiver in the event a dispute arises can be given to escrow agent
   #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   # return_type: `transaction_record`
-  transfer_from_with_escrow: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, escrow_account_name, agreement, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_from_with_escrow', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, escrow_account_name, agreement, memo_message, vote_method], error_handler).then (response) ->
-      response.result
-
-  # Sends given amount to the given name, with the from field set to a different account than the payer.  This transfer will occur in a single transaction and will be cheaper, but may reduce your privacy.
-  # parameters: 
-  #   string `amount_to_transfer` - the amount of shares to transfer
-  #   asset_symbol `asset_symbol` - the asset to transfer
-  #   sending_account_name `paying_account_name` - the source account to draw the shares from
-  #   sending_account_name `from_account_name` - the account to show the recipient as being the sender (requires account's private key to be in wallet).
-  #   receive_account_name `to_account_name` - the account to transfer the shares to
-  #   string `memo_message` - a memo to store with the transaction
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
-  # return_type: `transaction_record`
-  transfer_from: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method, error_handler = null) ->
-    @rpc.request('wallet_transfer_from', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, memo_message, vote_method], error_handler).then (response) ->
+  transfer_from_with_escrow: (amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, escrow_account_name, agreement, memo_message, strategy, error_handler = null) ->
+    @rpc.request('wallet_transfer_from_with_escrow', [amount_to_transfer, asset_symbol, paying_account_name, from_account_name, to_account_name, escrow_account_name, agreement, memo_message, strategy], error_handler).then (response) ->
       response.result
 
   # Scans the blockchain history for operations relevant to this wallet.
   # parameters: 
-  #   uint32_t `first_block_number` - the first block to scan
-  #   uint32_t `num_blocks` - the number of blocks to scan
-  #   bool `fast_scan` - true to scan as fast as possible but freeze the rest of your computer, and false otherwise
+  #   uint32_t `start_block_num` - the first block to scan
+  #   uint32_t `limit` - the maximum number of blocks to scan
+  #   bool `scan_in_background` - if true then scan asynchronously in the background, otherwise block until scan is done
   # return_type: `void`
-  rescan_blockchain: (first_block_number, num_blocks, fast_scan, error_handler = null) ->
-    @rpc.request('wallet_rescan_blockchain', [first_block_number, num_blocks, fast_scan], error_handler).then (response) ->
+  rescan_blockchain: (start_block_num, limit, scan_in_background, error_handler = null) ->
+    @rpc.request('wallet_rescan_blockchain', [start_block_num, limit, scan_in_background], error_handler).then (response) ->
+      response.result
+
+  # Cancel any current scan task
+  # parameters: 
+  # return_type: `void`
+  cancel_scan: (error_handler = null) ->
+    @rpc.request('wallet_cancel_scan', error_handler).then (response) ->
       response.result
 
   # Queries your wallet for the specified transaction
@@ -573,13 +496,14 @@ class WalletAPI
     @rpc.request('wallet_account_register', [account_name, pay_from_account, public_data, delegate_pay_rate, account_type], error_handler).then (response) ->
       response.result
 
-  # Updates the local private data for an account
+  # Overwrite the local custom data for an account, contact, or approval
   # parameters: 
-  #   account_name `account_name` - the account that will be updated
-  #   json_variant `private_data` - private data about the account
+  #   wallet_record_type `type` - specify one of {account_record_type, contact_record_type, approval_record_type}
+  #   string `item` - name of the account, contact, or approval
+  #   variant_object `custom_data` - the custom data object to store
   # return_type: `void`
-  account_update_private_data: (account_name, private_data, error_handler = null) ->
-    @rpc.request('wallet_account_update_private_data', [account_name, private_data], error_handler).then (response) ->
+  set_custom_data: (type, item, custom_data, error_handler = null) ->
+    @rpc.request('wallet_set_custom_data', [type, item, custom_data], error_handler).then (response) ->
       response.result
 
   # Updates the data published about a given account
@@ -603,56 +527,19 @@ class WalletAPI
     @rpc.request('wallet_account_update_active_key', [account_to_update, pay_from_account, new_active_key], error_handler).then (response) ->
       response.result
 
-  # Lists all accounts associated with this wallet
+  # Lists all account entries
   # parameters: 
   # return_type: `wallet_account_record_array`
   list_accounts: (error_handler = null) ->
     @rpc.request('wallet_list_accounts', error_handler).then (response) ->
       response.result
 
-  # Lists all accounts which have been marked as favorites.
+  # Get the specified account entry
   # parameters: 
-  # return_type: `wallet_account_record_array`
-  list_favorite_accounts: (error_handler = null) ->
-    @rpc.request('wallet_list_favorite_accounts', error_handler).then (response) ->
-      response.result
-
-  # Lists all unregistered accounts belonging to this wallet
-  # parameters: 
-  # return_type: `wallet_account_record_array`
-  list_unregistered_accounts: (error_handler = null) ->
-    @rpc.request('wallet_list_unregistered_accounts', error_handler).then (response) ->
-      response.result
-
-  # Lists all accounts for which we have a private key in this wallet
-  # parameters: 
-  # return_type: `wallet_account_record_array`
-  list_my_accounts: (error_handler = null) ->
-    @rpc.request('wallet_list_my_accounts', error_handler).then (response) ->
-      response.result
-
-  # Get the account record for a given name
-  # parameters: 
-  #   account_name `account_name` - the name of the account to retrieve
-  # return_type: `wallet_account_record`
-  get_account: (account_name, error_handler = null) ->
-    @rpc.request('wallet_get_account', [account_name], error_handler).then (response) ->
-      response.result
-
-  # Get the account record for a given name
-  # parameters: 
-  #   account_name `account_name` - the name of the account whose public address you want
-  # return_type: `address`
-  get_account_public_address: (account_name, error_handler = null) ->
-    @rpc.request('wallet_get_account_public_address', [account_name], error_handler).then (response) ->
-      response.result
-
-  # Remove a contact account from your wallet
-  # parameters: 
-  #   account_name `account_name` - the name of the contact
-  # return_type: `void`
-  remove_contact_account: (account_name, error_handler = null) ->
-    @rpc.request('wallet_remove_contact_account', [account_name], error_handler).then (response) ->
+  #   string `account` - the name, key, address, or id of the account to query
+  # return_type: `owallet_account_record`
+  get_account: (account, error_handler = null) ->
+    @rpc.request('wallet_get_account', [account], error_handler).then (response) ->
       response.result
 
   # Rename an account in wallet
@@ -688,14 +575,15 @@ class WalletAPI
   #   optional_double `maximum_share_supply` - the new maximum_share_supply to give the asset; or null to keep the current maximum_share_supply
   #   optional_uint64_t `precision` - the new precision to give the asset; or null to keep the current precision
   #   share_type `issuer_transaction_fee` - an additional fee (denominated in issued asset) charged by the issuer on every transaction that uses this asset type
+  #   real_amount `issuer_market_fee` - an additional fee (denominated in percent) charged by the issuer on every order that is matched
   #   asset_permission_array `flags` - a set of flags set by the issuer (if they have permission to set them)
   #   asset_permission_array `issuer_permissions` - a set of permissions an issuer retains
   #   account_name `issuer_account_name` - used to transfer the asset to a new user
   #   uint32_t `required_sigs` - number of signatures from the authority required to control this asset record
   #   address_list `authority` - owner keys that control this asset record
   # return_type: `transaction_record`
-  asset_update: (symbol, name, description, public_data, maximum_share_supply, precision, issuer_transaction_fee, flags, issuer_permissions, issuer_account_name, required_sigs, authority, error_handler = null) ->
-    @rpc.request('wallet_asset_update', [symbol, name, description, public_data, maximum_share_supply, precision, issuer_transaction_fee, flags, issuer_permissions, issuer_account_name, required_sigs, authority], error_handler).then (response) ->
+  asset_update: (symbol, name, description, public_data, maximum_share_supply, precision, issuer_transaction_fee, issuer_market_fee, flags, issuer_permissions, issuer_account_name, required_sigs, authority, error_handler = null) ->
+    @rpc.request('wallet_asset_update', [symbol, name, description, public_data, maximum_share_supply, precision, issuer_transaction_fee, issuer_market_fee, flags, issuer_permissions, issuer_account_name, required_sigs, authority], error_handler).then (response) ->
       response.result
 
   # Issues new shares of a given asset type
@@ -707,6 +595,15 @@ class WalletAPI
   # return_type: `transaction_record`
   asset_issue: (amount, symbol, to_account_name, memo_message, error_handler = null) ->
     @rpc.request('wallet_asset_issue', [amount, symbol, to_account_name, memo_message], error_handler).then (response) ->
+      response.result
+
+  # Issues new UIA shares to specific addresses.
+  # parameters: 
+  #   asset_symbol `symbol` - the ticker symbol for asset
+  #   snapshot_map `addresses` - A map of addresses-to-amounts to transfer the new shares to
+  # return_type: `transaction_record`
+  asset_issue_to_addresses: (symbol, addresses, error_handler = null) ->
+    @rpc.request('wallet_asset_issue_to_addresses', [symbol, addresses], error_handler).then (response) ->
       response.result
 
   # Lists the total asset balances for all open escrows
@@ -725,6 +622,14 @@ class WalletAPI
     @rpc.request('wallet_account_balance', [account_name], error_handler).then (response) ->
       response.result
 
+  # Lists the balance IDs for the specified account
+  # parameters: 
+  #   account_name `account_name` - the account to get a balance IDs for, or leave empty for all accounts
+  # return_type: `account_balance_id_summary_type`
+  account_balance_ids: (account_name, error_handler = null) ->
+    @rpc.request('wallet_account_balance_ids', [account_name], error_handler).then (response) ->
+      response.result
+
   # Lists the total asset balances across all withdraw condition types for the specified account
   # parameters: 
   #   account_name `account_name` - the account to get a balance for, or leave empty for all accounts
@@ -733,12 +638,12 @@ class WalletAPI
     @rpc.request('wallet_account_balance_extended', [account_name], error_handler).then (response) ->
       response.result
 
-  # Lists the balance record ids for the specified account
+  # List the vesting balances available to the specified account
   # parameters: 
-  #   account_name `account_name` - the account to list balance ids for, or leave empty for all accounts
-  # return_type: `account_balance_id_summary_type`
-  account_balance_ids: (account_name, error_handler = null) ->
-    @rpc.request('wallet_account_balance_ids', [account_name], error_handler).then (response) ->
+  #   account_name `account_name` - the account name to list vesting balances for, or leave empty for all accounts
+  # return_type: `account_vesting_balance_summary_type`
+  account_vesting_balances: (account_name, error_handler = null) ->
+    @rpc.request('wallet_account_vesting_balances', [account_name], error_handler).then (response) ->
       response.result
 
   # Lists the total accumulated yield for asset balances
@@ -783,6 +688,20 @@ class WalletAPI
     @rpc.request('wallet_get_transaction_fee', [symbol], error_handler).then (response) ->
       response.result
 
+  # Used to place a request to sell a quantity of assets at a price specified in another asset
+  # parameters: 
+  #   account_name `from_account_name` - the account that will provide funds for the order
+  #   string `sell_quantity` - the quantity of items you would like to sell
+  #   asset_symbol `sell_quantity_symbol` - the type of items you would like to sell
+  #   string `price_limit` - the lowest price you are willing to accept
+  #   asset_symbol `price_symbol` - the type of asset you would like to be paid
+  #   string `relative_price` - a fraction of the price feed, e.g. 5% above is 1.05 or 105%
+  #   bool `allow_stupid` - Allow user to sell at less than 5% below the current top of book
+  # return_type: `transaction_record`
+  market_sell: (from_account_name, sell_quantity, sell_quantity_symbol, price_limit, price_symbol, relative_price, allow_stupid, error_handler = null) ->
+    @rpc.request('wallet_market_sell', [from_account_name, sell_quantity, sell_quantity_symbol, price_limit, price_symbol, relative_price, allow_stupid], error_handler).then (response) ->
+      response.result
+
   # Used to place a request to buy a quantity of assets at a price specified in another asset
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the bid
@@ -796,19 +715,6 @@ class WalletAPI
     @rpc.request('wallet_market_submit_bid', [from_account_name, quantity, quantity_symbol, base_price, base_symbol, allow_stupid_bid], error_handler).then (response) ->
       response.result
 
-  # Used to place a request to buy a quantity of assets at a price specified in another asset
-  # parameters: 
-  #   account_name `from_account_name` - the account that will provide funds for the bid
-  #   string `quantity` - the quantity of items you would like to buy
-  #   asset_symbol `quantity_symbol` - the type of items you would like to buy
-  #   string `relative_price` - the price relative to the feed you would like to pay
-  #   asset_symbol `base_symbol` - the type of asset you would like to pay with
-  #   string `limit_price` - the limit on what you are willing to pay
-  # return_type: `transaction_record`
-  market_submit_relative_bid: (from_account_name, quantity, quantity_symbol, relative_price, base_symbol, limit_price, error_handler = null) ->
-    @rpc.request('wallet_market_submit_relative_bid', [from_account_name, quantity, quantity_symbol, relative_price, base_symbol, limit_price], error_handler).then (response) ->
-      response.result
-
   # Used to place a request to sell a quantity of assets at a price specified in another asset
   # parameters: 
   #   account_name `from_account_name` - the account that will provide funds for the ask
@@ -820,19 +726,6 @@ class WalletAPI
   # return_type: `transaction_record`
   market_submit_ask: (from_account_name, sell_quantity, sell_quantity_symbol, ask_price, ask_price_symbol, allow_stupid_ask, error_handler = null) ->
     @rpc.request('wallet_market_submit_ask', [from_account_name, sell_quantity, sell_quantity_symbol, ask_price, ask_price_symbol, allow_stupid_ask], error_handler).then (response) ->
-      response.result
-
-  # Used to place a request to sell a quantity of assets at a price specified in another asset
-  # parameters: 
-  #   account_name `from_account_name` - the account that will provide funds for the ask
-  #   string `sell_quantity` - the quantity of items you would like to sell
-  #   asset_symbol `sell_quantity_symbol` - the type of items you would like to sell
-  #   string `relative_ask_price` - the relative price per unit sold.
-  #   asset_symbol `ask_price_symbol` - the type of asset you would like to be paid
-  #   string `limit_ask_price` - the minimum price per unit sold.
-  # return_type: `transaction_record`
-  market_submit_relative_ask: (from_account_name, sell_quantity, sell_quantity_symbol, relative_ask_price, ask_price_symbol, limit_ask_price, error_handler = null) ->
-    @rpc.request('wallet_market_submit_relative_ask', [from_account_name, sell_quantity, sell_quantity_symbol, relative_ask_price, ask_price_symbol, limit_ask_price], error_handler).then (response) ->
       response.result
 
   # Used to place a request to short sell a quantity of assets at a price specified
@@ -915,12 +808,21 @@ class WalletAPI
     @rpc.request('wallet_market_cancel_orders', [order_ids], error_handler).then (response) ->
       response.result
 
-  # Reveals the private key corresponding to an account, public key, or address
+  # Reveals the private key corresponding to the specified public key or address; use with caution
   # parameters: 
-  #   string `input` - an account name, public key, or address (quoted hash of public key)
-  # return_type: `string`
+  #   string `input` - public key or address to dump private key for
+  # return_type: `optional_string`
   dump_private_key: (input, error_handler = null) ->
     @rpc.request('wallet_dump_private_key', [input], error_handler).then (response) ->
+      response.result
+
+  # Reveals the specified account private key; use with caution
+  # parameters: 
+  #   string `account_name` - account name to dump private key for
+  #   account_key_type `key_type` - which account private key to dump; one of {owner_key, active_key, signing_key}
+  # return_type: `optional_string`
+  dump_account_private_key: (account_name, key_type, error_handler = null) ->
+    @rpc.request('wallet_dump_account_private_key', [account_name, key_type], error_handler).then (response) ->
       response.result
 
   # Returns the allocation of votes by this account
@@ -929,14 +831,6 @@ class WalletAPI
   # return_type: `account_vote_summary`
   account_vote_summary: (account_name, error_handler = null) ->
     @rpc.request('wallet_account_vote_summary', [account_name], error_handler).then (response) ->
-      response.result
-
-  # Check how much this account is utilizing its voting power
-  # parameters: 
-  #   account_name `account` - 
-  # return_type: `vote_summary`
-  check_vote_proportion: (account, error_handler = null) ->
-    @rpc.request('wallet_check_vote_proportion', [account], error_handler).then (response) ->
       response.result
 
   # Set a property in the GUI settings DB
@@ -1004,12 +898,12 @@ class WalletAPI
   # parameters: 
   #   address `balance_id` - the current name of the account
   #   string `voter_address` - The new voting address. If none is specified, tries to re-use existing address.
-  #   vote_selection_method `vote_method` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
+  #   vote_strategy `strategy` - enumeration [vote_none | vote_all | vote_random | vote_recommended] 
   #   bool `sign_and_broadcast` - 
   #   string `builder_path` - If specified, will write builder here instead of to DATA_DIR/transactions/latest.trx
   # return_type: `transaction_builder`
-  balance_set_vote_info: (balance_id, voter_address, vote_method, sign_and_broadcast, builder_path, error_handler = null) ->
-    @rpc.request('wallet_balance_set_vote_info', [balance_id, voter_address, vote_method, sign_and_broadcast, builder_path], error_handler).then (response) ->
+  balance_set_vote_info: (balance_id, voter_address, strategy, sign_and_broadcast, builder_path, error_handler = null) ->
+    @rpc.request('wallet_balance_set_vote_info', [balance_id, voter_address, strategy, sign_and_broadcast, builder_path], error_handler).then (response) ->
       response.result
 
   # Publishes the current wallet delegate slate to the public data associated with the account
@@ -1070,8 +964,8 @@ class WalletAPI
   #   string `transaction_id_prefix` - the id (or id prefix) of the transaction record
   #   string `recipient_account` - the account name of the recipient (if known)
   # return_type: `transaction_record`
-  recover_transaction: (transaction_id_prefix, recipient_account, error_handler = null) ->
-    @rpc.request('wallet_recover_transaction', [transaction_id_prefix, recipient_account], error_handler).then (response) ->
+  recover_titan_deposit_info: (transaction_id_prefix, recipient_account, error_handler = null) ->
+    @rpc.request('wallet_recover_titan_deposit_info', [transaction_id_prefix, recipient_account], error_handler).then (response) ->
       response.result
 
   # Verify whether the specified transaction made a TITAN deposit to the current wallet; returns null if not
@@ -1092,7 +986,7 @@ class WalletAPI
     @rpc.request('wallet_publish_price_feed', [delegate_account, price, asset_symbol], error_handler).then (response) ->
       response.result
 
-  # publishes a set of feeds for BitAssets, only active delegates may do this
+  # publish price feeds for market-pegged assets; pays fee from delegate pay balance otherwise wallet account balance
   # parameters: 
   #   account_name `delegate_account` - the delegate to publish the price under
   #   price_map `symbol_to_price_map` - maps the BitAsset symbol to its price per share

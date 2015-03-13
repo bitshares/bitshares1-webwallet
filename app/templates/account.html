@@ -5,14 +5,14 @@
     </div>
     <br/>
     <div ng-show="!account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
-      <button ng-show="!account.is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
+      <button ng-show="!account.is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
             <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
     </div>
     <div ng-show="account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
-      <button ng-show="!account.is_favorite" ng-click="addToAddressBook(account_name)" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
+      <button ng-show="!account.is_address_book_contact" ng-click="addToAddressBook()" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
         <i class="fa fa-book fa-2x"></i>
       </button>
       <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary"
@@ -99,26 +99,7 @@
   </div>
 
   <div class="col-sm-5">
-  <!--  TODO
-    <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
-        <thead>
-          <tr>
-            <th><h3 class="header-title text-muted" translate>IN OPEN ORDERS</h3></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="(symbol, asset) in open_orders_balances">
-            <td>
-              {{asset | formatAsset}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  -->
   </div>
-
 
   <div class="col-sm-2">
     <div class="pull-right p-inner">

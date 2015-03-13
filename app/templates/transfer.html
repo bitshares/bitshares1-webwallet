@@ -54,7 +54,7 @@
       <identicon account="{{gravatar_account_name}}" size="150"/>
       <h3 ng-show="gravatar_account_name && (address_type == 'pubkey')">{{gravatar_account_name}}</h3>
       <br/>
-      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
+      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>

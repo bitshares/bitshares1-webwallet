@@ -94,7 +94,6 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
 
     $rootScope.current_account = null
 
-    $idle.watch()
 
 app.config ($idleProvider, $translateProvider, $tooltipProvider
     $compileProvider, $locationProvider) ->

@@ -408,7 +408,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Konto erstellen",
+    "add_account": "Konto erstellen",
     "accounts": "Kontoübersicht",
     "info": "Wählen Sie ein Konto für weitere Aktionen.",
     "select_account": "Konto auswählen",
@@ -444,7 +444,6 @@
   },
   "directory": {
     "directory": "Verzeichnis",
-    "favorites": "Favoriten",
     "unregistered": "Unregistriert",
     "registered": "Registriert",
     "assets": "BitAssets"

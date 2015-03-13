@@ -435,7 +435,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "创建新账户",
+    "add_account": "创建新账户",
     "accounts": "账户",
     "info": "点击用户名获取更多账户信息",
     "select_account": "选择账户"
@@ -470,7 +470,6 @@
   },
   "directory": {
     "directory": "目录",
-    "favorites": "收藏",
     "unregistered": "非注册",
     "registered": "注册",
     "assets": "比特资产"

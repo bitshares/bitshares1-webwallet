@@ -128,3 +128,5 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
     $scope.close_context_help = ->
         $scope.context_help.open = false
+
+    $scope.startIdleWatch()

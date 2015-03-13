@@ -96,13 +96,6 @@ angular.module("app.directives").directive "watchChange", ->
             scope.$apply ->
                 scope.onchange()
 
-# TODO: finish this directive and use it instead of gravatarImage directive
-angular.module("app.directives").directive 'gravatar', ->
-    restrict: 'E'
-    replace: true
-    template: "<img src=''/>"
-
-
 angular.module("app.directives").directive "focus", ($timeout) ->
     link: (scope, element) ->
         $timeout -> element[0].focus()

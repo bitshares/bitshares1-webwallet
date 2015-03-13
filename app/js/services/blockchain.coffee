@@ -237,7 +237,6 @@ class Blockchain
         record
 
     refresh_delegates: ->
-        # TODO: delegates paginator is needed
         @avg_act_del_pay_rate=0
         @q.all({dels: @blockchain_api.list_delegates(0, 10000), config: @get_info()}).then (results) =>
             for i in [0 ... results.config.delegate_num]

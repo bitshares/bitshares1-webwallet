@@ -444,7 +444,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Add Account",
+    "add_account": "Add Account",
     "accounts": "Accounts",
     "info": "Click on an account name to get more information about that account.",
     "select_account": "Select Account",

@@ -1,7 +1,7 @@
 class Wallet
 
     accounts: {}
-    favorites: {}
+    contacts: {}
 
     balances: {}
     bonuses: {}
@@ -37,13 +37,13 @@ class Wallet
     interface_locale: null
 
     interface_theme = 'default'
-    
+
     reset_gui_state:->
         # Information may show after locking the wallet then using the 
         # back button.  Additionally, clear memory.
         clear=(map)-> delete map[k] for k in Object.keys map
         clear @accounts
-        clear @favorites
+        clear @contacts
         clear @balances
         clear @bonuses
         clear @asset_balances
@@ -119,7 +119,7 @@ class Wallet
                             @asset_balances[asset_id] = @asset_balances[asset_id] || 0
                             @asset_balances[asset_id] = @asset_balances[asset_id] + amount
                 for acct in @accounts
-                    if acct.is_my_account and !@balances[acct.name]
+                    if !@balances[acct.name]
                         @balances[acct.name] = {}
                         @balances[acct.name][@main_asset.symbol] = @utils.asset(0, @main_asset)
                 deffered.resolve(@balances)
@@ -154,9 +154,10 @@ class Wallet
         acct = val
         acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
         acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
-        #console.log "populate_account",acct.name
+        acct.is_my_account = true
+        acct.is_address_book_contact = true
         @accounts[acct.name] = acct
-        @favorites[acct.name] = acct if acct.is_favorite
+        @contacts[acct.name] = acct
         return acct
 
     refresh_account: (name) ->
@@ -212,14 +213,23 @@ class Wallet
         @wallet_api.set_setting(name, value).then (result) =>
             result
 
-    create_account: (name, privateData, error_handler) ->
-        @wallet_api.account_create(name, privateData, error_handler).then (result) =>
+    create_account: (name, error_handler) ->
+        @wallet_api.account_create(name, error_handler).then (result) =>
             @refresh_accounts()
             result
 
     account_update_private_data: (name, privateData) ->
-        @wallet_api.account_update_private_data(name, privateData).then (result) =>
+        @wallet_api.set_custom_data("account_record_type", name, privateData).then (result) =>
             @refresh_accounts()
+
+    refresh_contacts: ->
+        delete @contacts[k] for k, v of @contacts when not v.is_my_account
+        @wallet_api.list_contacts().then (result) =>
+            for acct in result
+                acct.name = acct.label
+                acct.active_key = acct.data
+                #acct.registered = acct.registration_date and acct.registration_date != "1970-01-01T00:00:00"
+                @contacts[acct.name] = acct
 
     get_accounts: () ->
         if Object.keys(@accounts).length > 0
@@ -238,17 +248,21 @@ class Wallet
             deferred.resolve(@accounts[name])
         else
             @wallet_api.get_account(name, error_handler).then (result) =>
-                acct = @populate_account(result)
-                deferred.resolve(acct)
+                if result
+                    acct = @populate_account(result)
+                    deferred.resolve(acct)
+                else
+                    deferred.reject("not found")
             ,
             (error) =>
-                @blockchain_api.get_account(name, error_handler).then (result) =>
-                    acct = if result then @populate_account(result) else null
-                    deferred.resolve(acct)
+#                @blockchain_api.get_account(name, error_handler).then (result) =>
+#                    acct = if result then @populate_account(result) else null
+#                    deferred.resolve(acct)
+                deferred.reject(error)
         return deferred.promise
 
     approve_account: (name, approve) ->
-        @wallet_api.account_set_approval(name, approve)
+        @wallet_api.approve(name, approve)
 
     update_transaction: (t, val) ->
         time = @utils.toDate(val.timestamp)
@@ -358,9 +372,8 @@ class Wallet
 
         @transactions_loading_promise
 
-
-    create: (wallet_name, spending_password, brainkey) ->
-        @rpc.request('wallet_create', [wallet_name, spending_password, brainkey])
+    create: (wallet_name, new_passphrase, brain_key) ->
+        @rpc.request('wallet_create', [wallet_name, new_passphrase, brain_key, new_passphrase])
 
     get_balance: ->
         @rpc.request('wallet_get_balance').then (response) ->
@@ -375,10 +388,6 @@ class Wallet
         @rpc.request('wallet_get_info', [], error_handler).then (response) =>
             @info.transaction_fee = response.result.transaction_fee if response.result
             response.result
-
-    wallet_add_contact_account: (name, address, error_handler) ->
-        @rpc.request('wallet_add_contact_account', [name, address], error_handler).then (response) =>
-          response.result
 
     wallet_account_register: (account_name, pay_from_account, public_data, pay_rate, account_type) ->
         pay_rate = if pay_rate == undefined then 255 else pay_rate
@@ -424,8 +433,8 @@ class Wallet
 
     get_first_account: ->
         for k,v of @accounts
-            if v.is_my_account
-                return v
+            #if v.is_my_account
+            return v
         return null
 
     get_current_or_first_account: ->

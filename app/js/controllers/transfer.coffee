@@ -8,6 +8,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.gravatar_account_name = null
     $scope.address_type = "account"
     $scope.refreshing_balances = true
+    $scope.is_address_book_contact = false
 
     pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
@@ -44,8 +45,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.accounts = Wallet.accounts
         $scope.my_accounts.splice(0, $scope.my_accounts.length)
         for k,a of Wallet.accounts
-            if a.is_my_account
-                $scope.my_accounts.push a
+            $scope.my_accounts.push a
 
     account_balances_observer =
         name: "account_balances_observer"
@@ -67,9 +67,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.$on "$destroy", ->
         Observer.unregisterObserver(account_balances_observer)
 
-
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
+
+    Wallet.refresh_contacts()
     
     $scope.setForm = (form) ->
         my_transfer_form = form
@@ -122,10 +123,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     yesSend = ->
         vote = if Wallet.default_vote == "vote_per_transfer" then $scope.transfer_info.vote else Wallet.default_vote
-        if $scope.address_type == "pubkey"
-            transfer_promise = WalletAPI.transfer_to_address($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
-        else
-            transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
+        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
         transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
@@ -160,7 +158,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     amount: transfer_amount + ' ' + $scope.transfer_info.symbol
                     fee: transaction_fee, memo: $scope.transfer_info.memo
                     vote: $scope.vote_options[$scope.transfer_info.vote]
-                    is_favorite: !!Wallet.favorites[payto]
+                    is_address_book_contact: !!Wallet.contacts[payto]
                     address_type: $scope.address_type
                 $modal.open
                     templateUrl: "dialog-transfer-confirmation.html"
@@ -192,7 +190,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.gravatar_account_name = name
 
     $scope.accountSuggestions = (input) ->
-        $filter('filter')(Object.keys(Wallet.favorites),input)
+        $filter('filter')(Object.keys(Wallet.contacts),input)
 
     $scope.addToAddressBook = () ->
 
@@ -204,25 +202,16 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.newContactModal(true)
 
 
-        WalletAPI.account_set_favorite(name, true, error_handler).then ->
-            account = Wallet.accounts[name]
-            if account
-                account.is_favorite = true
-                Wallet.favorites[name] = account
-                $scope.add_to_address_book.message = "Added to address book"
-            else
-                Wallet.refresh_account(name).then (account) ->
-                    if account
-                        account.is_favorite = true
-                        Wallet.favorites[name] = account
-                        $scope.add_to_address_book.message = "Added to address book"
-                    else
-                        $scope.add_to_address_book.error = "Unknown account"
-                , (error) ->
-                    $scope.add_to_address_book.error = "Unknown account"
+        WalletAPI.add_contact(name, name, error_handler).then (response) ->
+            Wallet.refresh_contacts()
+            $scope.is_address_book_contact = true
+            $scope.add_to_address_book.message = "Added to address book"
+
+
 
     $scope.payToChanged = ->
         $scope.is_my_account = false
+        $scope.is_address_book_contact = false
         $scope.account_registration_date = ""
         $scope.add_to_address_book.message = ""
         $scope.add_to_address_book.error = ""
@@ -236,6 +225,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         if account
             $scope.gravatar_account_name = payto
             $scope.is_my_account = account.is_my_account
+            $scope.is_address_book_contact = true
             $scope.account_registration_date = account.registration_date if account.registered
         else
             BlockchainAPI.get_account(payto).then (result) ->
@@ -246,6 +236,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         $scope.gravatar_account_name = result.name
                     else
                         $scope.gravatar_account_name = payto
+                    $scope.is_address_book_contact = true if Wallet.contacts[payto]
                 else
                     $scope.gravatar_account_name = ""
                     $scope.transfer_info.unknown_account = $scope.address_type != "pubkey"

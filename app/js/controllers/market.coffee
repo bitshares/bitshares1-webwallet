@@ -153,7 +153,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     Wallet.refresh_accounts().then ->
         $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
-            $scope.accounts.push a if a.is_my_account
+            $scope.accounts.push a
 
     $scope.excludeOutOfRange = (item) ->
         not item.out_of_range

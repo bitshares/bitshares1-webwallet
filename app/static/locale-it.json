@@ -399,7 +399,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Crea Nuovo Conto",
+    "add_account": "Crea Nuovo Conto",
     "accounts": "Conti",
     "info": "Clicca sul nome di un conto per avere più informazioini.",
     "select_account": "Seleziona Conto"
@@ -434,7 +434,6 @@
   },
   "directory": {
     "directory": "Cartella",
-    "favorites": "Favoriti",
     "unregistered": "Non Registrato",
     "registered": "Registrato",
     "assets": "Assets"
