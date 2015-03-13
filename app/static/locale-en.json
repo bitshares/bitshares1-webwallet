@@ -164,7 +164,8 @@
   "jslib_wallet":{
     "conflicting_account":"Account '{{v1}}' is not owned by this wallet.",
     "account_not_found": "Account '{{v1}}' was not found",
-    "account_already_exists": "Account '{{v1}}' already exists."
+    "account_already_exists": "Account '{{v1}}' already exists.",
+    "register_account_first":"This wallet has an unregistered account.  Please register that account first."
   },
   "wallet_common":{
     "pw_too_short":"Password must be 9 or more characters.",
