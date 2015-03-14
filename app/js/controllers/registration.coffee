@@ -40,7 +40,7 @@ angular.module("app").controller "RegistrationController", ($scope, $modalInstan
         if !$scope.m.payfrom and $scope.m.faucet?.url and $scope.m.faucet.url != 'add'
             app_id = "0"
             app_id = magic_unicorn.get_app_id() if magic_unicorn? and magic_unicorn.get_app_id
-            url = "#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&active_key=#{$scope.account.active_key}&owner_key=#{$scope.account.owner_key}&app_id=#{app_id}"
+            url = "#{$scope.m.faucet.url}?account_name=#{$scope.account.name}&active_key=#{$scope.account.guest_active_key || $scope.account.active_key}&owner_key=#{$scope.account.guest_active_key || $scope.account.owner_key}&app_id=#{app_id}"
             open_external_url(url)
             $modalInstance.close("ok")
             return

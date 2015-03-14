@@ -42,7 +42,13 @@ class BitsharesJsRpc
                 navigate_to "login"
         
         js_client.event 'wallet.locked', ()->
-            location.href = base_path
+            console.log '... js_client.wallet_api.current_wallet_name', js_client.wallet_api.current_wallet_name
+            if js_client.wallet_api.current_wallet_name is "guest"
+                
+                navigate_to "login"
+            else
+                # reload page (stay on same version url path)
+                location.href = base_path + "/markets"
 
 angular.module("app").service "BitsharesJsRpc", 
     ["RpcService", "Growl", "$timeout", "$translate", BitsharesJsRpc]

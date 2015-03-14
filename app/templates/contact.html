@@ -5,7 +5,7 @@
 </div>
 
 <div class="main-content">
-	<div>{{account.active_key}}</div>
+	<div>{{account.guest_active_key || account.active_key}}</div>
     Registration date:  {{ account.registration_date | prettyDate }}<br>
 	<button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link">
         <i ng-class="(approved_delegates[del.name]) ? 'fa fa-thumbs-up fa-2x' : 'fa fa-thumbs-o-up fa-2x'"></i>

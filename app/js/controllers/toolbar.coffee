@@ -2,19 +2,21 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
 
     $scope.current_account = null
     $scope.accounts = []
+    $scope.guest = Wallet.is_guest()
 
     $scope.$watch ->
         Wallet.current_account
     , (value) ->
         return unless value
         $rootScope.current_account = $scope.current_account = value.name
+        $scope.guest = Wallet.is_guest()
 
     $scope.$watch ->
         Wallet.accounts
     , (all_accounts) ->
         return unless all_accounts
         $scope.accounts.splice(0, $scope.accounts.length)
-        $scope.accounts.push(name) for name, a of all_accounts when a.is_my_account #and name != $scope.current_account
+        $scope.accounts.push(name) for name, a of all_accounts when a.is_my_account
     , true
 
     $scope.back = ->
@@ -36,8 +38,7 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
 
     $scope.lock = ->
         Wallet.wallet_lock().finally ->
-            unless is_bitshares_js
-                navigate_to('unlockwallet')
+            navigate_to('unlockwallet')
 
     $scope.switch_account = (account) ->
         if $state.params?.account

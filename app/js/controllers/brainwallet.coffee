@@ -8,6 +8,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     
     $idle.unwatch()
     $scope.stopIdleWatch()
+    WalletService.clear_accounts()
     
     $rootScope.splashpage = true
     $scope.has_secure_random = (window.crypto || window.msCrypto) isnt undefined
@@ -33,31 +34,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
                 dictionary()
             
             when 'guest'
-                if WalletDb.exists 'guest'
-                    WalletService.open('guest').then ->
-                        WalletService.wallet_unlock('guestpass').then ->
-                            navigate_to LANDING_PAGE
-                else
-                    $scope.creating_wallet = 'fa fa-refresh fa-spin'
-                    # timeout to show fa-spin
-                    $timeout ->
-                        # random recovery key prevents spam
-                        brainkey = bts.secureRandom.randomBuffer(32).toString 'hex'
-                        account_name_hash = brainkey.substring 0, 10
-                        WalletService.create(
-                            wallet_name = 'guest'
-                            spending_password = 'guestpass'
-                            brainkey
-                        ).then ->
-                            WalletService.open(wallet_name).then ->
-                                WalletService.wallet_unlock(spending_password).then ->
-                                    wallet_api = window.wallet_api
-                                    wallet_api.account_create("Guest_" + account_name_hash).then ->
-                                        navigate_to LANDING_PAGE
-                        .finally ->
-                            $scope.creating_wallet = ''
-                    ,
-                        250
+                navigate_to LANDING_PAGE
         
         $scope.step = step
     $scope.stepChange 'introduction'
@@ -76,6 +53,7 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
         
     $scope.submitForm = () ->
         $scope.entropy_collection = off
+        
         #console.log '... $scope.step',JSON.stringify $scope.step
         switch $scope.step
             when 'open'

@@ -38,6 +38,14 @@ class Wallet
 
     interface_theme = 'default'
     
+    clear_accounts:->
+        clear=(map)-> delete map[k] for k in Object.keys map
+        clear @accounts
+        @current_account = ""
+    
+    is_guest:->
+        @accounts["Guest"] isnt undefined
+    
     reset_gui_state:->
         # Information may show after locking the wallet then using the 
         # back button.  Additionally, clear memory.
@@ -155,6 +163,11 @@ class Wallet
     populate_account: (val) ->
         acct = val
         acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
+        if acct.name is "Guest"
+            obfuscate=(key)->key.substring(0,7)+"..."+ key.substring(key.length - 12)
+            acct.guest_owner_key = obfuscate acct.owner_key
+            acct.guest_active_key = obfuscate acct.active_key
+        
         acct.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
         #console.log "populate_account",acct.name
         @accounts[acct.name] = acct

@@ -36,7 +36,7 @@
       </li>
     </ul>
   </li>
-  <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i><span translate>index.lock</span></a></li>
+  <li><a ng-click="lock()" href><i class="fa fa-lock fa-fw"></i><span translate>{{guest ? 'index.login' : 'index.lock'}}</span></a></li>
 
   <li ng-show="context_help.show" class="context-help">
     <a ng-click="open_context_help()"><span translate>help.title</span><i class="fa fa-angle-double-left fa-fw"/></a>
