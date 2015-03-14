@@ -223,6 +223,7 @@
     "console": "控制台",
     "help": "帮助",
     "lock": "锁定钱包",
+    "login": "登陆",
     "daily_income": "网络每日收入",
     "daily_expense": "网络每日花费",
     "daily_burn": "网络每日销毁"

@@ -229,6 +229,7 @@
     "mail": "Mail",
     "help": "Help",
     "lock": "Lock",
+    "login": "Login",
     "daily_income": "Network Daily Income",
     "daily_expense": "Network Daily Expense",
     "daily_burn": "Network Daily Burn"
