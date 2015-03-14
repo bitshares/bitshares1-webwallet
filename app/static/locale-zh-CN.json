@@ -208,7 +208,6 @@
     "delete":"删除",
     "password_to_delete":"输入密码，以显示删除确认",
     "cancel":"取消",
-    "legacy_accounts":"Legacy Accounts..."
   },
   "index": {
     "title": "BitShares 钱包",
