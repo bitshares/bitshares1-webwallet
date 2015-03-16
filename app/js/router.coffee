@@ -4,9 +4,9 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     prefix = ""#if base_tag then base_tag.getAttribute("href") else ""
     sp = $stateProvider
     
-    #if window.bts # need a good landing page...
-    #    $urlRouterProvider.otherwise prefix + '/markets'
-    #else
+    if window.bts
+        $urlRouterProvider.when "", "/unlockwallet"
+    
     $urlRouterProvider.otherwise prefix + '/accounts'
 
     sp.state "preferences",
