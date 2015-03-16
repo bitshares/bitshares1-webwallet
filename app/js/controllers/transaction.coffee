@@ -6,8 +6,9 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
     $scope.prev_trx_num = 0
 
     BlockchainAPI.get_transaction($scope.id).then (result) ->
+        console.log "------ transaction ------>", result
+        trx = $scope.t = result[1]
         $q.all([Blockchain.refresh_asset_records(), Blockchain.refresh_delegates()]).then ()->
-            trx = $scope.t = result[1]
             trx.a_withdraws = []
             for w in trx.withdraws
                 asset_type = Blockchain.asset_records[w[0]]

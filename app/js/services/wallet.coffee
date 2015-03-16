@@ -286,8 +286,8 @@ class Wallet
         involved_accounts = {}
         used_balance_symbols = {}
         for entry in val.ledger_entries
-            involved_accounts[entry.from_account] = true if @accounts[entry.from_account]
-            involved_accounts[entry.to_account] = true if @accounts[entry.to_account]
+            involved_accounts[entry.from_account] = true
+            involved_accounts[entry.to_account] = true
             running_balances = {}
             for acct in entry.running_balances
                 account_name = acct[0]

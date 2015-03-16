@@ -52,8 +52,7 @@
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
       <identicon account="{{gravatar_account_name}}" size="150"/>
-      <h3 ng-show="gravatar_account_name && (address_type == 'pubkey')">{{gravatar_account_name}}</h3>
-      <br/>
+      <h3 ng-show="gravatar_account_name && (address_type == 'pubkey') && gravatar_account_name !== transfer_info.payto">{{gravatar_account_name}}</h3>
       <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>

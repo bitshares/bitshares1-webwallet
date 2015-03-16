@@ -60,7 +60,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.currencies.unshift("") if  $scope.currencies.length > 1
                 $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 $scope.refreshing_balances = false
-                $scope.payToChanged()
+                #$scope.payToChanged()
                 deferred.resolve(true)
             , (error) ->
                 $scope.refreshing_balances = false
@@ -188,7 +188,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     (contact)->
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
                         $scope.add_to_address_book.error = ""
-                        $scope.add_to_address_book.message = ""
+                        $scope.add_to_address_book.message = "Added to address book"
+                        $scope.is_address_book_contact = true
                         my_transfer_form?.payto.error_message = ""
 
     $scope.onSelect = (name) ->
@@ -207,7 +208,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.add_to_address_book.error = if message and message.length > 2 then message else ""
 
         $scope.address_type = if pubkey_regexp.exec(name) then "pubkey" else "account"
-        if "pubkey"
+        if $scope.address_type == "pubkey"
             $scope.newContactModal(true)
         else
             WalletAPI.add_contact(name, name, error_handler).then (response) ->
@@ -246,7 +247,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         $scope.gravatar_account_name = payto
                     $scope.is_address_book_contact = true if Wallet.contacts[payto]
                 else
-                    console.log "------  ------>", $scope.address_type, $scope.address_type != "pubkey"
                     $scope.gravatar_account_name = ""
                     $scope.transfer_info.unknown_account = $scope.address_type != "pubkey"
                     my_transfer_form.payto.error_message = "Unknown account" if $scope.transfer_info.unknown_account

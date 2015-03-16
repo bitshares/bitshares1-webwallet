@@ -22,10 +22,13 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
     $scope.removeContact = (name) ->
         index = $scope.data.contacts.indexOf(name)
         if index >= 0
-            $scope.data.contacts.splice(index, 1)
+            contact_account = Wallet.contacts[name]
+            name_to_remove = if contact_account?.contact_type == "public_key" then contact_account.data else name
+            WalletAPI.remove_contact(name_to_remove, false).then
             delete Wallet.contacts[name]
-            WalletAPI.remove_contact(name, false)
+            $scope.data.contacts.splice(index, 1)
             Wallet.refresh_contacts()
+        return false
 
     $scope.isMyAccount = (name) ->
         !!Wallet.accounts[name]
