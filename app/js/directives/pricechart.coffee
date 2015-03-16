@@ -13,6 +13,7 @@ initChart = (scope) ->
 
         xAxis:
             type: "datetime"
+            linewidth: 0
 
         legend:
             enabled: false
@@ -81,15 +82,20 @@ initChart = (scope) ->
 
         yAxis: [
             title: { text: '' }
-            labels: 
+            labels:
+                enabled: false 
                 align: 'left'
                 x: 2
             height: "65%"
+            gridLineColor: 'transparent'
         ,
+            labels:
+                enabled: false 
             title: { text: '' }
             color: "#4572A7"
             top: "70%"
             height: "30%"            
+            gridLineColor: 'transparent'
         ]
 
         series: [

@@ -27,8 +27,10 @@ initChart = (scope) ->
                 text: "Price " + scope.priceSymbol
 
         yAxis:
+            opposite: true
             title:
                 text: ""
+            gridLineColor: 'transparent'
 
 
         series: [

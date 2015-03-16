@@ -1,7 +1,7 @@
 <div id="order_tabs" class="col-xs-3" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
   <tabset>
     <tab ng-repeat="t in tabs" heading="{{t.heading | translate}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
-      <div ui-view autoscroll="true"></div>
+      <div ui-view autoscroll="false"></div>
     </tab>
   </tabset>
   <div class="orders-div">
@@ -96,13 +96,13 @@
             </div>
 
             <div class="col-md-8 col-sm-12" style="padding-left:0;">
-              <pricechart ng-if="market.price_history.length"
+<!--               <pricechart ng-if="market.price_history.length"
               pricedata="market.price_history"
               volumedata="market.volume_history"
               volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
               volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
               price-symbol="market.price_symbol">
-            </pricechart>
+            </pricechart> -->
 
 
             <orderbookchart
