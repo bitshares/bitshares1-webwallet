@@ -165,7 +165,9 @@
     "conflicting_account":"Account '{{v1}}' is not owned by this wallet.",
     "account_not_found": "Account '{{v1}}' was not found",
     "account_already_exists": "Account '{{v1}}' already exists.",
-    "register_account_first":"This wallet has an unregistered account.  Please register that account first."
+    "register_account_first":"This wallet has an unregistered account.  Please register that account first.",
+    "not_implemented":"Not Implemented: {{v1}}",
+    "unknown_parameter":"Unknown parameter: {{v1}}"
   },
   "wallet_common":{
     "pw_too_short":"Password must be 9 or more characters.",
@@ -189,7 +191,7 @@
     "recover":"Recover Wallet",
     "recover_header":"Recover a Wallet",
     "recover_info":"Enter your backup recovery key.  The key is case-insensitive.  If instead, you intend to create a new recovery key we recommend you go 'Back' and use 'Create Wallet' (see the warning below).",
-    "guest":"Guest",
+    "guest":"Visitors",
     "wrong_password":"Wrong password.",
     "enter_password_info":"Enter a password to secure this wallet.  This wallet and it's recovery key will be saved on this device only.",
     "confirm_password":"Confirm Password",
@@ -455,6 +457,7 @@
     "reg_no_funds_note": "If you don't have any BTS yet, you can select a faucet to pay this fee for you.",
     "reg_subaccount_faucet_not_available": "Free faucet registration is not available for this account name. Account names containing a '.' are sub accounts and may not be registered using the faucet. Please choose a different account name or add BTS to pay for the registration fee.",
     "reg_add_faucet": "Add Faucet",
+    "use_faucet":"Use faucet",
     "update_public_data_tx_fee": "Update data transaction Fee: ",
     "new_balance": "New Balance",
     "less_fee": "Less fee of",

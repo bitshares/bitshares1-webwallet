@@ -1,5 +1,6 @@
 {
   "unknown": "未知",
+  "transaction_fee": "交易费用",
   "btn": {
     "ok": "确认",
     "cancel": "取消",
@@ -207,7 +208,7 @@
     "delete_wallet":"删除钱包",
     "delete":"删除",
     "password_to_delete":"输入密码，以显示删除确认",
-    "cancel":"取消",
+    "cancel":"取消"
   },
   "index": {
     "title": "BitShares 钱包",
@@ -218,7 +219,7 @@
     "market": "市场",
     "block_explorer": "区块浏览",
     "preferences": "设置",
-    "wallet":"Wallet",
+    "wallet":"钱包",
     "console": "控制台",
     "help": "帮助",
     "lock": "锁定钱包",
@@ -444,13 +445,14 @@
     "reg_no_funds_note": "如果您还没有BTS， 你可以选择一个水龙头服务来支付这笔费用。",
     "reg_subaccount_faucet_not_available": "这个账号不可以使用免费的水龙头服务。 含有'.'的账号名称属于子账号， 因此不可以使用水龙头服务来注册。  请选择不同的账号名称， 或是存入BTS来支付注册费。",
     "reg_add_faucet": "加入水龙头",
+    "use_faucet":"使用水龙头",
     "update_public_data_tx_fee": "更新数据的交易费用: ",
     "new_balance": "新的余额",
     "less_fee": "少于费用",
     "select_currency": "选择货币",
     "your_account": "Your Account",
     "registered" : "Registered",
-    "pay_to": "Make a payment to"
+    "pay_to": "付款到"
   },
   "accounts": {
     "create_account": "创建新账户",
