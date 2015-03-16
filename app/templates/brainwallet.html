@@ -11,7 +11,7 @@
     <div ng-if="step === 'introduction' || step === 'guest'">
         <h4 translate>brain_wallet.access_your_wallet</h4>
     </div>
-    <div ng-show="has_secure_random === false">
+    <div ng-hide="has_secure_random" ng-cloak>
         <div class="row spacedrow">
             <div class="description">
                 <p class="text-danger" translate>brain_wallet.no_secure_random</p>
@@ -24,7 +24,7 @@
         role="form" novalidate
     >
         <div class="str-bottom" ng-switch="step" 
-            ng-show="has_secure_random === true">
+            ng-show="has_secure_random">
             
             <div class="row" ng-if="step === 'introduction' || step === 'guest'">
                 <div class="row spacedrow">
