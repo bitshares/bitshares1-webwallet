@@ -14,7 +14,7 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
     , (all_accounts) ->
         return unless all_accounts
         $scope.accounts.splice(0, $scope.accounts.length)
-        $scope.accounts.push(name) for name, a of all_accounts when a.is_my_account and name != $scope.current_account
+        $scope.accounts.push(name) for name, a of all_accounts #when a.is_my_account #and name != $scope.current_account
     , true
 
     $scope.back = ->
@@ -35,12 +35,8 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
             errors.new_error = false
 
     $scope.lock = ->
-        Wallet.wallet_lock().then ->
-            if window.bts
-                # bitshares-js is multi-wallet
-                # reset stored values
-                window.location.reload()
-            else
+        Wallet.wallet_lock().finally ->
+            unless is_bitshares_js
                 navigate_to('unlockwallet')
 
     $scope.switch_account = (account) ->
@@ -48,6 +44,8 @@ angular.module("app").controller "ToolbarController", ($scope, $state, $rootScop
             params = angular.copy($state.params)
             params.account = account
             $state.go($state.current.name, params)
+        else if $state.current?.name and $state.current.name.indexOf("account.") == 0
+            $state.go($state.current.name, {name: account})
         else
             $state.go("account.transactions", {name: account})
         return null

@@ -18,6 +18,12 @@ Highcharts.SparkLine = (options, callback) ->
 
       skipClone: true
 
+      events:
+        click: -> options.chart_click()
+
+      container:
+        onclick: null
+
     title:
       text: ""
 
@@ -41,14 +47,7 @@ Highcharts.SparkLine = (options, callback) ->
       enabled: false
 
     tooltip:
-      xDateFormat: "%m/%d/%Y %H:%M%p"
-      shadow: false
-      hideDelay: 0
-      shared: true
-      padding: 0
-      positioner: (w, h, point) ->
-        x: point.plotX - 1.5 * w
-        y: 0 * h
+      enabled: false
 
     plotOptions:
       series:
@@ -57,24 +56,21 @@ Highcharts.SparkLine = (options, callback) ->
         shadow: false
         states:
           hover:
-            lineWidth: 0
+            enabled: false
 
         marker:
-          radius: 0
-          states:
-            hover:
-              radius: 2
+          enabled: false
 
         fillOpacity: 0.25
 
-      column:
-        states: 
-              hover: 
-                color: '#c90808'   
+        point:
+          events:
+            click: -> options.chart_click()
+
 
   options = Highcharts.merge(defaultOptions, options)
   chart = new Highcharts.Chart(options, callback)
-  chart.tooltip.label.attr({zIndex: 9999});
+  #chart.tooltip.label.attr({zIndex: 9999});
   return chart
 
 angular.module("app.directives").directive "marketThumbnail", ->
@@ -96,6 +92,10 @@ angular.module("app.directives").directive "marketThumbnail", ->
         name: "="
 
     controller: ($scope, $element, $attrs, $q, Utils, BlockchainAPI) ->
+
+        chart_click = ->
+            $scope.$parent.select_market($scope.name)
+
         $scope.market = market = { inverted: false }
         prc = (price) -> if market.inverted then 1.0/price else price
 
@@ -211,4 +211,4 @@ angular.module("app.directives").directive "marketThumbnail", ->
                         gridLineWidth: 0
                       }]
                    
-                    $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis})
+                    $(".sparkchart", $element).highcharts('SparkLine', {series: series, yAxis: yAxis, chart_click: chart_click})

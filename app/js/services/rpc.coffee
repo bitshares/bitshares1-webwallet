@@ -1,6 +1,8 @@
 servicesModule = angular.module("app.services")
 servicesModule.factory "RpcService", ($http, $timeout, $q) ->
     request: (method, params, error_handler = null) ->
+        #console.log "------ rpc request:  #{method} #{JSON.stringify(params)}"
+        #magic_unicorn.log_message("------ rpc request:  #{method} #{JSON.stringify(params)}") if magic_unicorn?
         reqparams = {method: method, params: params || []}
         http_params =
             stack: getStackTrace()
@@ -13,9 +15,11 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
                 jsonrpc: "2.0"
                 id: 1
         angular.extend(http_params.data, reqparams)
-        #console.log "+++ RpcService <#{http_params.data.method}>" if http_params.data.method.indexOf("mail_") is 0
+        #console.log "+++ RpcService <#{http_params.data.method}>"
         defered = $q.defer()
         $http(http_params).then (response) ->
+            #console.log "------ rpc response:  #{method} #{JSON.stringify(response.data)}"
+            #magic_unicorn.log_message("------ rpc response:  #{method} #{JSON.stringify(response.data)}") if magic_unicorn?
             #console.log("RpcService <#{http_params.data.method}>")
             if response.repeat
                 #console.log "------ RpcService: repeating the call #{http_params.data.method} ------>", http_params.repeat_counter

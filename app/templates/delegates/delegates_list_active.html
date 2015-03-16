@@ -15,7 +15,7 @@
             <th ng-click="orderByField='delegate_info.votes_for'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.votes_for" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.approval</span></th>
             <th ng-click="orderByField='reliability'; reverseSort = !reverseSort" ><ng-sort-fa order-string="reliability" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.reliability</span></th>
             <th ng-click="orderByField='delegate_info.pay_rate'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
-            <th translate>th.approve</th>
+            <th translate ng-hide="is_bitshares_js">th.approve</th>
           </tr>
         </thead>
         <tbody>
@@ -38,7 +38,7 @@
               <span ng-show="del.delegate_info.blocks_produced>0" tooltip-placement="right" tooltip-html-unsafe="{{ 'th.blk_produced' | translate }} : {{ del.delegate_info.blocks_produced | number:0 }} <br> {{ 'th.blk_missed' | translate }} : {{ del.delegate_info.blocks_missed  | number:0}}">{{ del.reliability | number:2 }}%</span>
             </td>
             <td>{{ del.delegate_info.pay_rate }}%</td>
-            <td>
+            <td ng-hide="is_bitshares_js">
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
                   <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>

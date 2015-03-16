@@ -36,7 +36,6 @@
                 <!--From-->
                 <span ng-if="entry.from.charAt(0) !== 'X'">
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/{{entry.from}}?size=200x200&set=set1" height="36" width="36"/>
                         <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
                     </span>
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
@@ -44,8 +43,9 @@
                     </span>
                 </span>
                 <span ng-if="entry.from.charAt(0) === 'X'">
-                    <img ng-src="img/user.png" height="40" width="40"/>
-                    <a class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{ entry.from.substring(0, 11) }}...</a>
+                    <a class="text-danger" tooltip-placement="right" tooltip='Add {{ entry.from }} as a contact' ui-sref="newcontact({key:entry.from})">
+                          {{entry.from.substring(0,11)}}...
+                    </a>
                 </span>
 
                 <i class='fa fa-long-arrow-right fa-lg'></i>
@@ -56,7 +56,6 @@
                 </span>
                 <span ng-if='entry.from != entry.to'>
                     <span ng-if="entry.to[0] !== entry.to[0].toUpperCase()">
-                        <img src="http://robohash.org/{{entry.to}}?size=200x200&set=set1" height="36" width="36"/>
                         <span>
                             <a ui-sref="account.transactions({name: entry.to})" ng-if="entry.to[0] != entry.to[0].toUpperCase()">{{ entry.to }}</a>
                             <span ng-if="entry.to[0] == entry.to[0].toUpperCase()">{{ entry.from }}</span>
@@ -76,13 +75,7 @@
         </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
-                <span ng-if="entry.amount!=0">
-                    <span ng-show="accounts[entry.from].is_my_account && accounts[entry.to].is_my_account" class="bold text-primary"><i class="fa fa-undo"></i> {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="(accounts[entry.from].is_my_account) && !(accounts[entry.to].is_my_account)" class="bold text-danger">- {{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="!(accounts[entry.from].is_my_account) && accounts[entry.to].is_my_account" class="bold text-success">{{ entry.amount_asset | formatAsset }}</span>
-                    <span ng-show="!(accounts[entry.from].is_my_account) && !(accounts[entry.to].is_my_account)" class="bold text-default">{{ entry.amount_asset | formatAsset }}</span>
-                </span>
-                <span ng-if="entry.amount==0" class="bold text-warning">{{ entry.amount_asset | formatAsset }}</span> <br>
+              <span class="bold text-default">{{ entry.amount_asset | formatAsset }}</span>
             </span>
         </td>
         <td>{{ t.fee | formatAsset}}</td>
@@ -102,7 +95,7 @@
             </span>
             <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
             <span class="label label-warning" ng-if="t.is_virtual" translate>account.transaction_virtual</span>
-            <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span translate>account.transaction_details</span></a></span>
+            <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" ui-sref="transaction({id:t.id})"><span translate>account.transaction_details</span></a></span>
         </td>
       </tr>
       <tr ng-if="warning">
@@ -111,5 +104,4 @@
       </tr>
     </tbody>
   </table>
-</div>
 </div>

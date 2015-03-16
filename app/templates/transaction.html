@@ -3,7 +3,13 @@
         <h4><span translate>block.trx.transaction</span> #{{id.substr(0, 8)}}</h4>
   </div>
     <div class="col-sm-4">
-        <h4><span translate>block.title</span> <a href="#/blocks/{{t.chain_location.block_num}}">#{{t.chain_location.block_num}}</a><span ng-if="prev_trx_num != 0">, {{'block.trx.prev'|translate}} <a href="#/tx/{{prev_trx_id}}">#{{prev_trx_num}}</a></span> , {{'block.trx.transaction'|translate}} #{{t.chain_location.trx_num}} <span ng-if="next_trx_num != -1">, {{'block.trx.next'|translate}} <a href="#/tx/{{next_trx_id}}">#{{next_trx_num}}</a></span></h4>
+        <h4>
+          <span translate>block.title</span>
+          <a ui-sref="block({number:t.chain_location.block_num})">#{{t.chain_location.block_num}}</a><span ng-if="prev_trx_num != 0">, {{'block.trx.prev'|translate}}
+          <a ui-sref="transaction({id:prev_trx_id})">#{{prev_trx_num}}</a></span> , {{'block.trx.transaction'|translate}} #{{t.chain_location.trx_num}}
+          <span ng-if="next_trx_num != -1">, {{'block.trx.next'|translate}}
+          <a ui-sref="transaction({id:next_trx_id})">#{{next_trx_num}}</a></span>
+        </h4>
   </div>
     <div class="col-sm-4">
         <h4><span translate>block.timestamp</span>: {{ t.timestamp | prettyDate  }} </h4>

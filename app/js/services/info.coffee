@@ -32,10 +32,18 @@ class Info
             if(!@info.client_version)
               @info.client_version=data.client_version
 
-            @blockchain_api.get_security_state().then (data) =>
-                @info.alert_level = data.alert_level
+            @info.delegate_participation = data.blockchain_average_delegate_participation
+            @info.alert_level = "grey"
+            if @info.delegate_participation
+                if @info.delegate_participation > 80
+                    @info.alert_level = "green"
+                else if @info.delegate_participation > 60
+                    @info.alert_level = "yellow"
+                else
+                     @info.alert_level = "red"
 
             @common_api.get_config().then (data) =>
+                @info.address_prefix = data.address_prefix
                 @info.blockchain_name = data.name
                 @info.delegate_reg_fee = data.delegate_reg_fee
                 @info.asset_reg_fee = data.asset_reg_fee

@@ -1,4 +1,4 @@
-<div class="pull-right">
+<div class="pull-right" ng-hide="is_bitshares_js">
   <button ng-click="unvoteAll()" class="btn btn-success"><i tooltip='Un-approve all' class="fa fa-eraser"></i>
     <span translate>delegate.un_approve_all</span>
   </button>
@@ -18,19 +18,11 @@
   <div class="col-sm-12">
     <tabset>
       <tab ng-click="delegatesTab='active'">
-        <tab-heading>
-        <div class="header no-bottom-border">
-          <h4 class="header-title delegates-title" translate>delegate.top_delegates</h4>
-          </div>
-        </tab-heading>
-        <div ng-if="delegatesTab==='active'" ng-include src="'delegates/delegates_list_active.html'"></div>
+        <tab-heading translate>delegate.top_delegates</tab-heading>
+        <div ng-if="delegatesTab === 'active'" ng-include src="'delegates/delegates_list_active.html'"></div>
       </tab>
       <tab ng-click="delegatesTab='standby'" class="">
-        <tab-heading>
-        <div class="header no-bottom-border">
-        <h4 class="header-title delegates-title" translate>delegate.standby_delegates</h4>
-          </div>
-        </tab-heading>
+        <tab-heading translate>delegate.standby_delegates</tab-heading>
         <div ng-if="delegatesTab === 'standby'" ng-include src="'delegates/delegates_list_standby.html'"></div>
       </tab>
     </tabset>

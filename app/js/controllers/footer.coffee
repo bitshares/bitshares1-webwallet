@@ -105,7 +105,7 @@ angular.module("app").controller "FooterController", ($scope, $filter, $translat
         else if info.alert_level == "yellow"
             $scope.alert_level = "warning-state"
             $translate("footer.network_problems").then (res) -> $scope.alert_level_msg = res
-            $translate("footer.delegate_participation_below", {value: "90%"}).then (res) -> $scope.alert_level_tip = res
+            $translate("footer.delegate_participation_below", {value: "80%"}).then (res) -> $scope.alert_level_tip = res
         else if info.alert_level == "red"
             $scope.alert_level = "severe-state"
             $translate("footer.severe_network_problems").then (res) -> $scope.alert_level_msg = res

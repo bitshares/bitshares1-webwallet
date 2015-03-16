@@ -1,18 +1,18 @@
 <div class="account-page" ng-class="(account.delegate_info) ? 'row head-bg-delegate p-inner' : 'row head-bg p-inner'">
   <div class="col-sm-2">
     <div class="avatar-150">
-      <img ng-src="http://robohash.org/{{account_name}}?size=200x200&set=set1" height="150" width="150"/>
+      <identicon account="{{account_name}}" size="150"/>
     </div>
     <br/>
-    <div ng-show="!account.delegate_info" class="text-center avatar-150">
-      <button ng-show="!account.is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
+    <div ng-show="!account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
+      <button ng-show="!account.is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook(account_name)" class="btn btn-primary btn-sm">
             <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
     </div>
-    <div ng-show="account.delegate_info" class="text-center avatar-150">
-      <button ng-show="!account.is_favorite" ng-click="addToAddressBook(account_name)" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
+    <div ng-show="account.delegate_info && !is_bitshares_js" class="text-center avatar-150">
+      <button ng-show="!account.is_address_book_contact" ng-click="addToAddressBook()" class="btn btn-sm btn-link primary" tooltip="{{ 'contact.add_to_address_book' | translate }}">
         <i class="fa fa-book fa-2x"></i>
       </button>
       <button ng-click="toggleVoteUp()" class="btn btn-sm btn-link primary"
@@ -27,6 +27,9 @@
   <div class="col-sm-10">
 
     <div class="header p-inner white-shadow">
+      <div ng-if="current_account" class="pull-right">
+        &nbsp; <a class="btn btn-primary" ui-sref="transfer({from: current_account, to: account.name})"><span translate>account.pay_to</span> {{account.name}}</a>
+      </div>
       <div ng-switch on="account.registration_date">
         <div ng-switch-when="1970-01-01T00:00:00">
           <div ng-switch on="p.pendingRegistration">
@@ -37,7 +40,7 @@
             </div>
             <div ng-switch-default>
               <div class="pull-right">
-                <a ng-show="account.is_my_account" style="margin-top: 4px;" type="submit" ng-click='regDial()' class="btn btn-primary"><span translate>account.reg</span> {{account.name}}</a>
+                <a href ng-show="account.is_my_account" ng-click='regDial()' class="btn btn-primary"><span translate>account.reg</span> {{account.name}}</a>
               </div>
               <span class="account-name">{{account.name}}</span>
               &nbsp;&nbsp; <span class="text-muted" translate>tip.not_reg_onchain</span>
@@ -96,26 +99,7 @@
   </div>
 
   <div class="col-sm-5">
-  <!--  TODO
-    <div class="pull-right p-inner">
-      <table class="table table-striped table-acc-balance" ng-show="account.is_my_account">
-        <thead>
-          <tr>
-            <th><h3 class="header-title text-muted" translate>IN OPEN ORDERS</h3></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="(symbol, asset) in open_orders_balances">
-            <td>
-              {{asset | formatAsset}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  -->
   </div>
-
 
   <div class="col-sm-2">
     <div class="pull-right p-inner">
@@ -172,13 +156,14 @@
       </tab>
 
       <!--delegate info tab -->
-      <tab ng-show="account.delegate_info" ng-click="goto_tab('account.delegate')" active="tabs[1].active">
+      <tab ng-show="account.delegate_info && !is_bitshares_js" 
+            ng-click="goto_tab('account.delegate')" active="tabs[1].active">
         <tab-heading><i class="fa fa-legal fa-fw fa-lg"></i> <span translate>account.delegate_info</span></tab-heading>
         <div ui-view="account-delegate" autoscroll="false"></div>
       </tab>
 
       <!-- Assets tab -->
-      <tab ng-click="goto_tab('account.manageAssets')" active="tabs[2].active" ng-show="account.is_my_account" >
+      <tab ng-click="goto_tab('account.manageAssets')" active="tabs[2].active" ng-show="account.is_my_account && !is_bitshares_js" >
         <tab-heading><i class="fa fa-renren fa-fw fa-lg"></i> <span translate>account.assets</span></tab-heading>
         <div ui-view="account-manage-assets" autoscroll="false"></div>
       </tab>
@@ -190,19 +175,20 @@
       </tab>
 
       <!-- Edit tab -->
-      <tab ng-click="goto_tab('account.edit')" active="tabs[4].active">
+      <tab ng-hide="is_bitshares_js" ng-click="goto_tab('account.edit')" active="tabs[4].active">
         <tab-heading><i class="fa fa-edit fa-fw fa-lg"></i> <span translate>btn.edit</span></tab-heading>
         <div ui-view="account-edit" autoscroll="false"></div>
       </tab>
       
       <!-- Vote tab -->
-      <tab ng-click="goto_tab('account.vote')" active="tabs[5].active" ng-if='account.is_my_account'>
+      <tab ng-click="goto_tab('account.vote')" active="tabs[5].active" ng-if='account.is_my_account && !is_bitshares_js'>
         <tab-heading><i class="fa fa-ticket fa-fw fa-lg"></i> <span translate>account.vote.tab_title</span></tab-heading>
         <div ui-view="account-vote" autoscroll="false"></div>
       </tab>
 
       <!-- Wall tab -->
-      <tab ng-show="account.registered" ng-click="goto_tab('account.wall')" active="tabs[6].active">
+      <tab ng-show="account.registered && !is_bitshares_js" 
+        ng-click="goto_tab('account.wall')" active="tabs[6].active">
         <tab-heading><i class="fa fa-comments-o fa-fw fa-lg"></i> <span translate>account.wall.tab_title</span></tab-heading>
         <div ui-view="account-wall" autoscroll="false"></div>
       </tab>

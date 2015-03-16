@@ -248,7 +248,7 @@
     "all_markets": "All Markets",
     "recent_markets": "Recent Markets",
     "median_price": "Median Price",
-    "feed_price": "Feed Price",
+    "feed_price": "Call Price",
     "bid_depth": "Bid Depth",
     "ask_depth": "Ask Depth",
     "buy": "Buy",
@@ -381,7 +381,7 @@
     },
     "delegate_info": "Delegate Info",
     "blk_produced_missed": "Blocks produced / missed",
-    "price_feeds": "Price Feeds",
+    "price_feeds": "Call Price Feeds",
     "self": "self",
     "vote": {
       "tab_title": "Vote",
@@ -396,7 +396,8 @@
       "votes": "Votes",
       "approval": "Approval",
       "vote_confirmation_title": "Vote Confirmation",
-      "vote_confirmation_text": "Vote with your {{balance}} {{symbol}} balance. It will charge a fee of {{fee}} {{fee_symbol}}."
+      "vote_confirmation_text": "Vote with your {{balance}} {{symbol}} balance. It will charge a fee of {{fee}} {{fee_symbol}}.",
+      "no_balance": "You have no {{symbol}} balance that you can vote with"
     },
     "import_wif_key": "Import WIF Key",
     "import_from_wallet": "Import Keys from Wallet",
@@ -436,10 +437,14 @@
     "reg_add_faucet": "Add Faucet",
     "update_public_data_tx_fee": "Update data transaction Fee: ",
     "new_balance": "New Balance",
-    "less_fee": "Less fee of"
+    "less_fee": "Less fee of",
+    "select_currency": "Select Currency",
+    "your_account": "Your Account",
+    "registered" : "Registered",
+    "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Create New Account",
+    "add_account": "Add Account",
     "accounts": "Accounts",
     "info": "Click on an account name to get more information about that account.",
     "select_account": "Select Account",
@@ -483,7 +488,7 @@
   "contact": {
     "add_contact": "Add Contact",
     "new_contact": "New Contact",
-    "contact_name": "Account Name",
+    "contact_name": "Account Name or Public Key",
     "contact_name_tip": "Name (Required)",
     "public_key": "Public Key",
     "public_key_tip": "Public Key (Required)",

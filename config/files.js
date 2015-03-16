@@ -18,7 +18,7 @@ module.exports = function(lineman) {
         "vendor/js/angular-resource.js",
         "vendor/js/angular-ui-router.js",
         "vendor/js/ui-bootstrap-tpls.js",
-	 	    "vendor/js/ui-grid.js",
+	 	"vendor/js/ui-grid.js",
         "vendor/js/angular-idle.js",
         "vendor/js/validate.js",
         "vendor/js/xeditable.js",
@@ -29,7 +29,8 @@ module.exports = function(lineman) {
         "vendor/js/highstock.src.js",
         "vendor/js/moment-with-locales.js",
         "vendor/js/bytebuffer.js",
-        "vendor/js/bts.js"
+        "vendor/js/sha256.js",
+        "vendor/js/jdenticon.js"
       ],
       app: [
         "app/js/app.js",

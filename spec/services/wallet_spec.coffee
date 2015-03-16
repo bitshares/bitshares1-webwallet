@@ -10,7 +10,7 @@ describe "service: Wallet", ->
   describe "#create", ->
 
     it "should process correct rpc response", ->
-      @Wallet.create 'test', 'password'
+      @Wallet.create 'test', 'password', ''
       @deferred.resolve {result: true}
       @rootScope.$apply()
       expect(@rpc).toHaveBeenCalledWith('wallet_create', ['test', 'password'])

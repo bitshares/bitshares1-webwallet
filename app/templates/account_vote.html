@@ -1,17 +1,20 @@
 <div class="vote-tab-header clearfix">
-  <div class="pull-right">
+  <div ng-if="has_balance" class="pull-right">
     <div class="btn-group" dropdown is-open="status2.isopen">
       <button type="button" class="btn dropdown-toggle" dropdown-toggle>
         {{ ('account.vote.'+vote_options[data.vote]) | translate }} <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu" role="menu">
+      <ul class="dropdown-menu left" role="menu">
         <li ng-repeat="(k, v) in vote_options">
           <a ng-click="data.vote=k; status2.isopen=false">{{ ('account.vote.'+v) | translate }}</a>
         </li>
       </ul>
     </div>
-    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    &nbsp; &nbsp; &nbsp; &nbsp;
     <button type="button" ng-click="updateVotes()" class="btn btn-primary"><i class="fa fa-ticket fa-lg"></i> <span translate>account.vote.btn_update_vote</span></button>
+  </div>
+  <div ng-if="!has_balance" class="pull-right">
+    <span class="text-danger" translate translate-values="{symbol: data.main_asset_symbol}">account.vote.no_balance</span>
   </div>
   <h3 class="col-sm-2 no-top-space" translate>account.vote.current_votes</h3>
 </div>

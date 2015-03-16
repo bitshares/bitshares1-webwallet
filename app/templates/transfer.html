@@ -6,10 +6,10 @@
 </div>
 <div ng-switch-default>
 
-<div class="row head-bg account-page" ng-if="show_from_section">
+<div class="row head-bg account-page">
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
-      <img ng-src="http://robohash.org/{{account_from_name}}?size=200x200&set=set1" height="150" width="150"/>
+      <identicon account="{{account_from_name}}" size="150"/>
     </div>
     <br/>
   </div>
@@ -21,7 +21,7 @@
           <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>{{account_from_name}} <span class="caret"></span></button>
           <ul class="dropdown-menu scrollable-menu-short"  role="menu">
             <li ng-repeat="account in my_accounts">
-              <a ui-sref="transfer({from: '{{account.name}}'})">{{account.name}}</a>
+              <a ui-sref="transfer({from: account.name})">{{account.name}}</a>
             </li>
           </ul>
         </div>
@@ -50,25 +50,18 @@
 
 <div class="row m-top">
   <div class="col-sm-2 avatar-150-min-width">
-    <div class="avatar-150 text-center" ng-if="gravatar_account_name">
-      <img ng-src="http://robohash.org/{{gravatar_account_name}}?size=200x200&set=set1" height="150" width="150"/>
-      <br/><br>
-      <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error" ng-click="addToAddressBook(transfer_info.payto)" class="btn btn-primary btn-sm outline">
+    <div class="avatar-150 text-center">
+      <identicon account="{{gravatar_account_name}}" size="150"/>
+      <h3 ng-show="gravatar_account_name && (address_type == 'pubkey')">{{gravatar_account_name}}</h3>
+      <br/>
+      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
         <span translate>contact.add_to_address_book</span>
       </button>
       <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
       <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
+      <span ng-show="is_my_account" class="text-success" translate>account.your_account</span>
+      <span ng-show="account_registration_date" class="text-warning"><span translate>account.registered</span> {{ account_registration_date | prettyDate:'short' }}</span>
     </div>
-
-    <div class="avatar-150 text-center" ng-if="!gravatar_account_name">
-      <img src="img/user.png" height="150" width="150"/>
-      <br/><br>
-      <button ng-show="!accounts[transfer_info.payto].is_favorite && !add_to_address_book.error && transfer_info.payto"
-              ng-click="newContactModal(true)" class="btn btn-primary btn-sm outline">
-        <span translate>contact.add_to_address_book</span>
-      </button>
-    </div>
-
   </div>
   <div class="col-sm-10" id="transfer-form">
     <form name="my_transfer_form" class="form-horizontal" role="form" ng-submit="send()" novalidate>
@@ -76,7 +69,7 @@
       <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
         <!-- amount -->
         <label for="amount" class="col-sm-1 control-label" translate>account.amount</label>
-        <div class="col-sm-4">
+        <div class="col-sm-4" ng-if="balances">
           <div class="input-group">
             <input class="form-control" ng-model="transfer_info.amount" name="amount"
                 type="text" class="form-control" placeholder="0.0" id="amount"
@@ -84,15 +77,21 @@
                 autocomplete="off" required/>
             <!-- asset selector -->
             <div class="input-group-btn" dropdown is-open="status.isopen">
-              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">{{transfer_info.symbol}} <span class="caret"></span></button>
-              <ul class="dropdown-menu scrollable-menu-extra-short" role="menu">
-                <li ng-repeat="(k, v) in balances">
-                  <a ng-click="transfer_info.symbol = k; status.isopen=false">{{k}}</a>
+              <button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+                <span ng-show="transfer_info.symbol">{{transfer_info.symbol}}</span>
+                <span ng-show="!transfer_info.symbol" translate>account.select_currency</span>
+                <span ng-show="currencies.length > 1" class="caret"></span>
+              </button>
+              <ul ng-if="currencies.length > 1" class="dropdown-menu scrollable-menu-extra-short" role="menu">
+                <li ng-repeat="c in currencies" ng-show="c">
+                  <a ng-click="transfer_info.symbol = c; status.isopen=false">{{c}}</a>
                 </li>
               </ul>
             </div>
            </div>
         </div>
+        <div class="col-sm-4" ng-if="!balances && refreshing_balances"><i class="fa fa-spinner fa-spin"></i></div>
+        <div class="col-sm-4" ng-if="!balances && !refreshing_balances"><span class="cell text-danger" translate>market.tip.insufficient_balances</span></div>
 
         <!-- vote options -->
         <div ng-show="transfer_info.show_vote_options" class="col-md-2" ng-show="transfer_info.symbol == 'XTS' || transfer_info.symbol == 'BTS' || transfer_info.symbol == 'DVS'">
@@ -122,19 +121,16 @@
             <input ng-model="transfer_info.payto" ng-model-options="{ updateOn: 'default blur', debounce: {'default': 600, 'blur': 0} }" name="payto" type="text"
                    class="form-control" placeholder="{{ 'contact.contact_name' | translate }}" id="payto"
                    typeahead="state for state in accountSuggestions($viewValue)"
-                   typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63" ng-pattern="/[a-z]+(?:\-*[a-z0-9])*$/"
-                   required ng-change="payToChanged()"/>
+                   typeahead-append-to-body='true' typeahead-on-select="onSelect($item)" typeahead-template-url='to_typeahead.html' ng-maxlength="63"
+                   required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-\.]+)$/"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" translate>contact.address_book</span>
-            <!--<span ng-if='transfer_info.payto' type="button" class="input-group-addon btn white btn-default" tooltip-append-to-body='true' tooltip-placement='right' tooltip="{{ 'tip.add_account_name_existed' | translate }}">-->
-              <!--<i class="fa fa-book fa-lg fa-fw"></i>-->
-            <!--</span>-->
           </div>
           <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-offset-1 col-sm-offset-1 col-md-5 col-sm-9">
-          <span class="help-block text-warning" translate>tip.fake_accounts_warning</span>
+          <span ng-show="my_transfer_form.payto.$pristine" class="help-block text-warning" translate>tip.fake_accounts_warning</span>
         </div>
       </div>
       <!-- memo -->
@@ -149,8 +145,8 @@
       <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-1 col-sm-10">
-          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid">
-            <span translate>account.send</span>
+          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid || !transfer_info.symbol || my_transfer_form.payto.error_message">
+            &nbsp; <span translate>account.send</span> &nbsp;
           </button>
           <span class="help-block">
                {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+tx_fee_asset.symbol }})</span>

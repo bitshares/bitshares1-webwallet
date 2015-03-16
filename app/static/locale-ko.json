@@ -360,7 +360,8 @@
       "votes": "투표",
       "approval": "승인",
       "vote_confirmation_title": "투표 확인",
-      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다."
+      "vote_confirmation_text": "{{balance}} {{symbol}} 에서 투표합니다. {{fee}} {{fee_symbol}} 의 수수료가 부과됩니다.",
+      "no_balance": "You have no {{symbol}} balance that you can vote with"
     },
     "import_wif_key": "WIF 키 임포트",
     "import_from_wallet": "지갑에서 키 임포트 하기",
@@ -400,10 +401,14 @@
     "reg_add_faucet": "Faucet 추가",
     "update_public_data_tx_fee": "데이터 업데이트 수수료 : ",
     "new_balance": "새로운 잔액",
-    "less_fee": "적은 수수료"
+    "less_fee": "적은 수수료",
+    "select_currency": "Select Currency",
+    "your_account": "Your Account",
+    "registered" : "Registered",
+    "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "새 계정 생성",
+    "add_account": "새 계정 생성",
     "accounts": "계정",
     "info": "계정 이름을 클릭하면 상세 정보를 볼 수 있습니다.",
     "select_account": "계정 선택",
@@ -439,7 +444,6 @@
   },
   "directory": {
     "directory": "디렉토리",
-    "favorites": "즐겨찾기",
     "unregistered": "등록 안됨",
     "registered": "등록됨",
     "assets": "자산"

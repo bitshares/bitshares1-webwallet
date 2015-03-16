@@ -367,7 +367,7 @@ tr.short_wall td {
 	padding-left: 15px;
 }
 
-.search_market_div .input-group-addon {
+.input-group-addon.left {
 	width: 40px;
 }
 
@@ -391,4 +391,9 @@ tr.short_wall td {
 
 .orders-div {
 	padding-top:10px;
+}
+
+.uia_search {
+	margin: 20px 0;
+	width: 280px;
 }

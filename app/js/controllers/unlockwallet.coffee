@@ -1,4 +1,4 @@
-angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer, Info) ->
+angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, $interval, $location, $q, Wallet, Observer, Info, Growl) ->
     $rootScope.splashpage = true
     Wallet.get_setting("interface_theme").then (result) ->
         $rootScope.theme = if result && result.value then result.value else 'default'
@@ -38,8 +38,14 @@ angular.module("app").controller "UnlockWalletController", ($scope, $rootScope, 
         $scope.wrongPass = false
 
         error_handler = (response) ->
-            $scope.wrongPass = true
-            $scope.spending_password = ""
+            if response.data?.error?.code
+                code = response.data.error.code
+                if code == 20015 or code == 20001
+                    $scope.wrongPass = true
+                    $scope.spending_password = ""
+                    return true
+
+            Growl.error response.data.error.message, response.data.error.detail
             return true
 
         deferred = $q.defer()

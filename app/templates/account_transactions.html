@@ -27,7 +27,6 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th translate uppercase>th.avatar</th>
         <th><span translate>th.from</span> <i class='fa fa-long-arrow-right'></i> <span translate>th.to</span></th>
         <th translate>th.memo</th>
         <th translate>th.amount</th>
@@ -39,26 +38,6 @@
     <tbody>
       <tr ng-repeat="t in account_transactions | orderBy: '-time' | filter:q.q | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize"
           ng-if="!pending_only || ((!t.is_confirmed)&&(!t.is_virtual))">
-        <td style='width:1%;white-space:nowrap'>
-            <span ng-repeat="entry in t.ledger_entries">
-              <div class="avatar-40">
-                <span ng-if="account.name==entry.from">
-                    <img ng-if="entry.to[0] !== entry.to[0].toUpperCase()"
-                         ng-src="http://robohash.org/{{entry.to}}?size=200x200&set=set1" height="40" width="40"/>
-                    <img ng-if="account.name != entry.to && entry.to[0] === entry.to[0].toUpperCase()"
-                         ng-src="http://robohash.org/{{account.name}}?size=200x200&set=set1" height="40" width="40"/>
-                </span>
-                <span ng-if="account.name==entry.to && account.name!=entry.from">
-                    <span ng-if="entry.from.charAt(0) !== 'X' && entry.from[0] !== entry.from[0].toUpperCase()">
-                        <img ng-src="http://robohash.org/{{entry.from}}?size=200x200&set=set1" height="40" width="40"/>
-                    </span>
-                    <span ng-if="entry.from.charAt(0) === 'X'">
-                        <img ng-src="img/user.png" height="40" width="40"/>
-                    </span>
-                </span>
-              </div>
-            </span>
-        </td>
         <td>
             <span ng-repeat="entry in t.ledger_entries">
                 <span ng-if="account.name==entry.to && account.name!=entry.from">
@@ -66,10 +45,9 @@
                     <span ng-if="entry.from[0] === entry.from[0].toUpperCase()">
                         <span ng-if="entry.from.charAt(0) !== 'X'">{{ entry.from }}</span>
                         <a ng-if="entry.from.charAt(0) === 'X'" class="text-danger" tooltip-placement="right"
-                           tooltip='Add {{ entry.from }} as a contact' href="#/newcontact?name=&key={{entry.from}}">{{
-                                                                                                                    entry.from.substring(0,
-                                                                                                                    11)
-                                                                                                                    }}...</a>
+                           tooltip='Add {{ entry.from }} as a contact' ui-sref="newcontact({key:entry.from})">
+                          {{entry.from.substring(0,11)}}...
+                        </a>
                     </span>
                     <span ng-if="entry.from[0] !== entry.from[0].toUpperCase()">
                     <a ui-sref="account.transactions({name: entry.from})">{{ entry.from }}</a>
@@ -129,7 +107,7 @@
           </span>
           <span ng-if="t.error" class='text-danger'>{{t.error.message}}</span>
           <span class="label label-warning" ng-if="t.is_virtual" translate>account.transaction_virtual</span>
-          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" href="#/tx/{{t.id}}"><span translate>account.transaction_details</span></a></span>
+          <span ng-if="!t.is_virtual && t.is_confirmed && !t.error"><a class="label label-info" ui-sref="transaction({id:t.id})"><span translate>account.transaction_details</span></a></span>
         </td>
       </tr>
       <tr ng-if="warning">
@@ -138,5 +116,4 @@
       </tr>
     </tbody>
   </table>
-</div>
 </div>

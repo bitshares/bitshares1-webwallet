@@ -12,12 +12,14 @@ window.open_external_url = (url) ->
     else
         window.open(url)
 
+
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus",
      "ui.grid.autoResize"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, $translate, editableOptions, editableThemes) ->
+
     $templateCache.put 'ui-grid/uiGridViewport',
         '''<div class="ui-grid-viewport">
              <div class="ui-grid-canvas">
@@ -26,6 +28,11 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
                </div>
               </div>
            </div>'''
+
+    if magic_unicorn? and magic_unicorn.get_os_name
+        $rootScope.qt_os_name = magic_unicorn.get_os_name()
+    else
+        $rootScope.qt_os_name = "dev"
 
     $rootScope.context_help = {locale: "en", show: false, file: "", open: false}
     app_history = []
@@ -87,9 +94,9 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
 
     $rootScope.current_account = null
 
-    $idle.watch()
 
-app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvider) ->
+app.config ($idleProvider, $translateProvider, $tooltipProvider
+    $compileProvider, $locationProvider) ->
 
     $compileProvider.debugInfoEnabled(false);
 
@@ -109,16 +116,7 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider, $compileProvide
       
     moment.locale(lang)
 
-    $translateProvider.preferredLanguage(lang)
-    .fallbackLanguage('en');
+    $translateProvider.preferredLanguage(lang).fallbackLanguage('en')
 
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
-
-    Highcharts.setOptions(
-                        {lang: 
-                            rangeSelectorZoom :""
-                        }
-    )
-
-

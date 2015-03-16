@@ -129,6 +129,7 @@
             <div class="col-xs-12">
               <h3 class="market-table-title panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
               <div ng-include src="'market/open_shorts.html'"></div>
+
             </div>
           </div>
           <div class="col-xs-12">
@@ -148,10 +149,6 @@
         <!--</shortscollatchart>-->
 
       </div>
-
-
-
-
 
 
 
@@ -194,6 +191,7 @@
       <div class="">
         <h3 class="market-table-title panel-title" translate>market.account_orders_history</h3>
         <div ui-grid="listAccountOrders" class="market-grid" external-scopes="this"></div>
+
       </div>
     </div>
   </div>

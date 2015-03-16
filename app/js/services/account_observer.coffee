@@ -36,14 +36,10 @@ class AccountObserver
             @my_accounts.splice(0, @my_accounts.length)
             @my_mail_accounts.splice(0, @my_mail_accounts.length)
             for k,a of @Wallet.accounts
-                continue unless a.is_my_account
+                @accounts[k] = a
                 @my_accounts.push a
                 @my_mail_accounts.push a if a.public_data?.mail_servers
-    
-            angular.forEach @Wallet.accounts, (acct, name) =>
-                if acct.is_my_account
-                    @accounts[name] = acct
-                    
+
             deferred.resolve()
         
         deferred.promise

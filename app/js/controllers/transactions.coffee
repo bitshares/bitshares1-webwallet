@@ -36,17 +36,17 @@ angular.module("app").controller "TransactionsController", ($scope, $filter, $lo
             Wallet.refresh_transactions().then ->
                 refresh_transactions_deferred.resolve()
 
-    refresh_transactions_deferred.promise.then ->
-        $scope.account_transactions = Wallet.transactions[$scope.name] #unless $scope.account_transactions
+    #refresh_transactions_deferred.promise.then ->
+    $scope.account_transactions = Wallet.transactions[$scope.name]
 
-        $scope.$watch (-> Info.info.last_block_time), (-> Wallet.refresh_transactions_on_new_block()), true
+    $scope.$watch ( -> Info.info.last_block_time ), ( -> Wallet.refresh_transactions() ), true
 
-        $scope.$watchCollection "account_transactions", -> refresh_data()
+    $scope.$watchCollection "account_transactions", -> refresh_data()
 
-        $scope.$watch 'q.q', ->
-            if $scope.account_transactions
-                $scope.p.numberOfPages = Math.ceil(($filter("filter")($scope.account_transactions,  $scope.q.q)).length/$scope.p.pageSize)
-                $scope.p.currentPage = 0
+    $scope.$watch 'q.q', ->
+        if $scope.account_transactions
+            $scope.p.numberOfPages = Math.ceil(($filter("filter")($scope.account_transactions,  $scope.q.q)).length/$scope.p.pageSize)
+            $scope.p.currentPage = 0
 
 
     $scope.showBalances = $location.$$path.indexOf("/accounts/") == 0

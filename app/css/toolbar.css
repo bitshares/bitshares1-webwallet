@@ -144,3 +144,12 @@ li[disabled] a {
     max-height: 200px;
     overflow-x: hidden;
 }
+
+.navbar .fa-dashboard {
+	position: relative;
+	top: -1px;
+}
+
+body.windows .navbar .fa-dashboard {
+	top: 0;
+}

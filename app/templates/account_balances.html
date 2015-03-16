@@ -13,11 +13,15 @@
         </thead>
         <tbody>
         <tr ng-click="go_to_account(a.name)" ng-repeat="a in accounts" ng-show='a.is_my_account'>
-                <td class="avatar-40">
-                  <img ng-src="http://robohash.org/{{a.name}}?size=200x200&set=set1" height="40" width="40"/>
+              <td class="avatar-40">
+                <identicon account="{{a.name}}" size="40"/>
               </td>
               <td>         
                  <b>{{a.name}}</b>
+                 <span ng-show="a.not_lightwallet_compatible">
+                     <i class="fa fa-warning fa-fw fa-lg"></i>
+                     <span tooltip="{{'legacy_account'|translate}}"></span>
+                 </span>
              </td>
              <td width="1em">
              </td>

@@ -23,12 +23,9 @@ initChart = (scope) ->
                 upColor: "#0ab92b"
 
         tooltip:
-            xDateFormat: "%m/%d/%Y %H:%M%p"
-            #color: "#f0f"
             changeDecimals: 4
-            #borderColor: "#058dc7"
-            valueDecimals: (scope.volumePrecision+"").length - 3
-            valueSuffix: ' ' + scope.priceSymbol
+            valueDecimals: (scope.volumePrecision+"").length - 1
+            positioner: -> { x: 40, y: 0 }
 
         scrollbar:
             enabled: false
