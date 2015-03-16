@@ -73,7 +73,6 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
                 result = result.message if result.message
                 result = JSON.stringify result,null,4
                 ConsoleState.outputs.unshift(">> " + cmd + " \n\n" + result)
-                $scope.$apply()
                 return true
             else
                 return false
@@ -82,11 +81,11 @@ angular.module("app").controller "ConsoleController", ($scope, $location, RpcSer
             result = response.result
             result = JSON.stringify result,null,4 if window.bts
             ConsoleState.outputs.unshift(">> " + cmd + "\n\n" + result)
-            $scope.$apply()
+            try
+                $scope.$apply()
         (error)->
             error = JSON.stringify error,null,4
             ConsoleState.outputs.unshift(">> " + cmd + "\n\n" + error)
-            $scope.$apply()
 
     if ConsoleState.commands.length == 0
         init()
