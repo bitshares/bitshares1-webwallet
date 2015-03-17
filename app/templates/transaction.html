@@ -21,52 +21,52 @@
 <div class="main-content">
 
     <div id="tx-{{ id.substr(0,8) }}" >
-        <table class="table table-striped">
-            <tbody>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left" translate>block.trx.deposits</span>
-                </td>
-            </tr>
-            <tr ng-repeat="i in t.a_deposits">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{ i | formatAsset }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left" translate>block.trx.withdraws</span>
-                </td>
-            </tr>
-            <tr ng-repeat="o in t.a_withdraws">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{ o | formatAsset }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left" translate>block.trx.fee</span>
-                </td>
-            </tr>
-            <tr ng-repeat="b in t.balance">
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>{{ b[2] | formatAsset }}</td>
-            </tr>
-            <tr>
-                <td colspan="4" align="left">
-                    <span class="pull-left" translate>block.trx.net_delegate_approval_update</span>
-                </td>
-            </tr>
-            <tr ng-repeat="vote in t.net_delegate_votes">
-                <td><span translate>delegate.title</span>:&nbsp;<a ui-sref="account.delegate({name: vote[3]})">{{ vote[3] }}</a></td>
-                <td><span translate>block.trx.approval_change</span>:&nbsp;{{ vote[2] | formatAsset }}</td>
-            </tr>
-        </tbody>
-        </table>
+        <!--<table class="table table-striped">-->
+            <!--<tbody>-->
+            <!--<tr>-->
+                <!--<td colspan="4" align="left">-->
+                    <!--<span class="pull-left" translate>block.trx.deposits</span>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="i in t.a_deposits">-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td>{{ i | formatAsset }}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td colspan="4" align="left">-->
+                    <!--<span class="pull-left" translate>block.trx.withdraws</span>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="o in t.a_withdraws">-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td>{{ o | formatAsset }}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td colspan="4" align="left">-->
+                    <!--<span class="pull-left" translate>block.trx.fee</span>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="b in t.balance">-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+                <!--<td>{{ b[2] | formatAsset }}</td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+                <!--<td colspan="4" align="left">-->
+                    <!--<span class="pull-left" translate>block.trx.net_delegate_approval_update</span>-->
+                <!--</td>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="vote in t.net_delegate_votes">-->
+                <!--<td><span translate>delegate.title</span>:&nbsp;<a ui-sref="account.delegate({name: vote[3]})">{{ vote[3] }}</a></td>-->
+                <!--<td><span translate>block.trx.approval_change</span>:&nbsp;{{ vote[2] | formatAsset }}</td>-->
+            <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
         <div class="col-sm-12">
             <h4 translate>block.trx.operations</h4>
         </div>

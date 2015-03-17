@@ -43,7 +43,7 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
             form.account_key.$invalid = true
             message = Utils.formatAssertException(error.data.error.message)
             form.account_key.$error.message = if message and message.length > 2 then message else "Not valid public key"
-        WalletAPI.add_contact($scope.account.key, $scope.account.name, error_handler).then (response) ->
+        WalletAPI.add_contact($scope.account.key, $scope.account.name, error_handler).then ->
             Wallet.refresh_contacts()
             $modalInstance.close("ok")
             action($scope.account.name) if action

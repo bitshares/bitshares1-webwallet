@@ -6,18 +6,18 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
     $scope.prev_trx_num = 0
 
     BlockchainAPI.get_transaction($scope.id).then (result) ->
-        console.log "------ transaction ------>", result
+#        console.log "------ transaction ------>", result
         trx = $scope.t = result[1]
         $q.all([Blockchain.refresh_asset_records(), Blockchain.refresh_delegates()]).then ()->
-            trx.a_withdraws = []
-            for w in trx.withdraws
-                asset_type = Blockchain.asset_records[w[0]]
-                trx.a_withdraws.push Utils.newAsset(w[1], asset_type.symbol, asset_type.precision)
-
-            trx.a_deposits = []
-            for d in trx.deposits
-                asset_type = Blockchain.asset_records[d[0]]
-                trx.a_deposits.push Utils.newAsset(d[1], asset_type.symbol, asset_type.precision)
+#            trx.a_withdraws = []
+#            for w in trx.withdraws
+#                asset_type = Blockchain.asset_records[w[0]]
+#                trx.a_withdraws.push Utils.newAsset(w[1], asset_type.symbol, asset_type.precision)
+#
+#            trx.a_deposits = []
+#            for d in trx.deposits
+#                asset_type = Blockchain.asset_records[d[0]]
+#                trx.a_deposits.push Utils.newAsset(d[1], asset_type.symbol, asset_type.precision)
 
             asset_type = Blockchain.asset_records[0]
             if trx.net_delegate_votes
@@ -26,8 +26,9 @@ angular.module("app").controller "TransactionController", ($scope, $location, $s
                     #delegate name
                     n.push Blockchain.id_delegates[n[0]].name
 
-            for b in trx.balance
-                b.push  Utils.asset(b[1], Blockchain.asset_records[b[0]])
+            if trx.balance
+                for b in trx.balance
+                    b.push  Utils.asset(b[1], Blockchain.asset_records[b[0]])
 
             BlockchainAPI.get_block(trx.chain_location.block_num).then (result) ->
                 $scope.t.timestamp = result.timestamp
