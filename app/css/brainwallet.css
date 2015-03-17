@@ -1,4 +1,6 @@
-
+#brainwallet {
+    width: 500px;
+}
 #brainwallet input {
     /* override bootstrap's .form-control display:block (for narrow screens)*/
     display:inline;
@@ -10,8 +12,27 @@
 #brainwallet .password {
     max-width:200px;
 }
-
+#brainwallet .splashpage-wrapper {
+    
+}
 #brainkey {
     width: 350px;
     height: 80px;
+}
+.locale-selector {
+    right:0;
+    top:0;
+    position:fixed;
+}
+.locale-selector .btn {
+	background-color: transparent;
+}
+.locale-selector .btn {
+	color: lightgrey;
+}
+.locale-selector .btn:hover {
+	color: white;
+}
+.locale-selector .dropdown-menu {
+	background-color: transparent;
 }

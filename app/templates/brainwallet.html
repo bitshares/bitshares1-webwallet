@@ -1,6 +1,22 @@
+<div ng-controller="LocaleSelectorController" class="locale-selector pull-right">
+<div class="btn-group" dropdown is-open="status.isopen">
+<button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+<span class="f32"><span class="flag {{flag}}"></span></span> <span class="caret"></span>
+</button>
+<ul class="dropdown-menu" role="menu">
+<!--http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2-->
+<li><a ng-click="setFlag('cn')"> <span class="f32"><span class="flag cn"></span></span> </a></li>
+<li><a ng-click="setFlag('us')"> <span class="f32"><span class="flag us"></span></span> </a></li>
+<li><a ng-click="setFlag('de')"> <span class="f32"><span class="flag de"></span></span> </a></li>
+<li><a ng-click="setFlag('ru')"> <span class="f32"><span class="flag ru"></span></span> </a></li>
+<li><a ng-click="setFlag('it')"> <span class="f32"><span class="flag it"></span></span> </a></li>
+<li><a ng-click="setFlag('kr')"> <span class="f32"><span class="flag kr"></span></span> </a></li>
+</ul>
+</div>
+</div>
+
 <table style="width: 100%; height: 100%;">
 <tr><td class="splashpage-wrapper">
-
 <section id="brainwallet">
 <!--<div class="row"><div class="col-sm-12">row,col-->
 
@@ -312,23 +328,6 @@
         </div>
     </form>
 </section>
-
-<div ng-controller="LocaleSelectorController">
-<div class="btn-group" dropdown is-open="status.isopen">
-<button type="button" class="btn dropdown-toggle" dropdown-toggle ng-disabled="disabled">
-<span class="f32"><span class="flag {{flag}}"></span></span> <span class="caret"></span>
-</button>
-<ul class="dropdown-menu" role="menu">
-<!--http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2-->
-<li><a ng-click="setFlag('cn')"> <span class="f32"><span class="flag cn"></span></span> </a></li>
-<li><a ng-click="setFlag('us')"> <span class="f32"><span class="flag us"></span></span> </a></li>
-<li><a ng-click="setFlag('de')"> <span class="f32"><span class="flag de"></span></span> </a></li>
-<li><a ng-click="setFlag('ru')"> <span class="f32"><span class="flag ru"></span></span> </a></li>
-<li><a ng-click="setFlag('it')"> <span class="f32"><span class="flag it"></span></span> </a></li>
-<li><a ng-click="setFlag('kr')"> <span class="f32"><span class="flag kr"></span></span> </a></li>
-</ul>
-</div>
-</div>
 
 </td> </tr>
 </table>
