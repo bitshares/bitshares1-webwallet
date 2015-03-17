@@ -54,7 +54,8 @@ module.exports = function(lineman) {
         "vendor/css/font-awesome.css",
         "vendor/css/ark.css",
         "vendor/css/xeditable.css",
-        "vendor/css/ui-grid.css"
+        "vendor/css/ui-grid.css",
+        "vendor/css/flags32.css"
       ],
       app: [
         "app/css/bootstrap_overrides.css",

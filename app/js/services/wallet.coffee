@@ -34,8 +34,6 @@ class Wallet
 
     main_asset: null
 
-    interface_locale: null
-
     interface_theme = 'default'
     
     clear_accounts:->
@@ -87,11 +85,6 @@ class Wallet
                     @idle.watch()
             @get_setting('default_vote').then (result) =>
                 @default_vote = result.value if result?.value
-            @get_setting('interface_locale').then (result) =>
-                if result and result.value
-                    @interface_locale = result.value
-                    moment.locale(result.value)
-                    @translate.use(result.value)
             @get_setting('interface_theme').then (result) =>
                 if result and result.value
                     @interface_theme = result.value

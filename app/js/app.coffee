@@ -110,17 +110,21 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider
         prefix: prefix + 'locale-',
         suffix: '.json'
 
-    lang = switch(window.navigator.language)
-      when "zh-CN" then "zh-CN"
-      when "de", "de-DE", "de-de" then "de"
-      when "ru", "ru-RU", "ru-ru" then "ru"
-      when "it", "it-IT", "it-it" then "it"
-      when "ko", "ko-KR", "ko-kr" then "ko"
-      else "en"
+    useLang=(lang)->
+        return no unless lang
+        $translateProvider.preferredLanguage lang
+        moment.locale(lang)
+        return yes
+    
+    localStorage = window.localStorage
+    unless useLang localStorage?.getItem 'locale_selector_lang'
+        useLang switch window.navigator.language
+          when "zh-CN" then "zh-CN"
+          when "de", "de-DE", "de-de" then "de"
+          when "ru", "ru-RU", "ru-ru" then "ru"
+          when "it", "it-IT", "it-it" then "it"
+          when "ko", "ko-KR", "ko-kr" then "ko"
+          else "en"
       
-    moment.locale(lang)
-
-    $translateProvider.preferredLanguage(lang).fallbackLanguage('en')
-
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)

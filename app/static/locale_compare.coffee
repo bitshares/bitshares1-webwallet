@@ -14,7 +14,7 @@ walk_keys=(o, callback)->
         loc.pop key
 en_keys=[]
 walk_keys (require './locale-en'), (key)->en_keys.push key
-other_locales = ['de','it','ru','zh-CN']
+other_locales = ['de','it','ru','zh-CN','kr']
 for other in other_locales
     other_key={}
     walk_keys (require './locale-'+other), (key)->other_key[key]=on
