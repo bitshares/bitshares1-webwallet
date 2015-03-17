@@ -43,7 +43,7 @@ class BitsharesJsRpc
         
         js_client.event 'wallet.locked', ()->
             console.log '... js_client.wallet_api.current_wallet_name', js_client.wallet_api.current_wallet_name
-            if js_client.wallet_api.current_wallet_name is "guest"
+            if js_client.wallet_api.current_wallet_name is "Guest"
                 navigate_to "login"
             else
                 # reload page (stay on same version url path)
