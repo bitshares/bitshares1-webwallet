@@ -42,7 +42,6 @@ class BitsharesJsRpc
                 navigate_to "login"
         
         js_client.event 'wallet.locked', ()->
-            console.log '... js_client.wallet_api.current_wallet_name', js_client.wallet_api.current_wallet_name
             if js_client.wallet_api.current_wallet_name is "Guest"
                 navigate_to "login"
             else
