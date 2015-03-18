@@ -458,7 +458,10 @@
     "create_account": "创建新账户",
     "accounts": "账户",
     "info": "点击用户名获取更多账户信息",
-    "select_account": "选择账户"
+    "select_account": "选择账户",
+    "no_accounts_please":"没有找到账户，请先",
+    "create_account":"创建一个账户",
+    "to_proceed":"再继续操作"
   },
   "asset": {
     "title": "比特资产",
