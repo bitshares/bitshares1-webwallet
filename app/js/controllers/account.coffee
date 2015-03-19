@@ -78,6 +78,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         if error == "not found"
             Wallet.refresh_contacts().then ->
                 BlockchainAPI.get_account(name).then (val) ->
+                    val = Wallet.contacts[name] unless val
                     account = { name: val.name, registration_date: val.registration_date }
                     account.active_key = val.active_key_history[val.active_key_history.length - 1][1] if val.active_key_history?.length > 0
                     account.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"

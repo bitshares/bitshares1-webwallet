@@ -1,5 +1,8 @@
 angular.module("app").controller "TransferController", ($scope, $stateParams, $modal, $q, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Utils, Info, Growl, Observer) ->
-    Info.refresh_info()
+    pubkey_regexp = ""
+    Info.refresh_info().then ->
+        pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
+
     $scope.utils = Utils
     $scope.balances = null
     $scope.currencies = null
@@ -10,7 +13,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.refreshing_balances = true
     $scope.is_address_book_contact = false
 
-    pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
+
 
     $scope.memo_size_max = 51
     my_transfer_form = null
@@ -57,7 +60,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.currencies.unshift("") if  $scope.currencies.length > 1
                 $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 $scope.refreshing_balances = false
-                $scope.payToChanged()
+                #$scope.payToChanged()
                 deferred.resolve(true)
             , (error) ->
                 $scope.refreshing_balances = false
@@ -123,7 +126,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     yesSend = ->
         vote = if Wallet.default_vote == "vote_per_transfer" then $scope.transfer_info.vote else Wallet.default_vote
-        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
+        payto = $scope.transfer_info.payto
+        payto_account = Wallet.contacts[payto]
+        payto = payto_account.data if payto_account?.contact_type == "public_key"
+        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, payto, $scope.transfer_info.memo, vote)
         transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
@@ -182,7 +188,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     (contact)->
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
                         $scope.add_to_address_book.error = ""
-                        $scope.add_to_address_book.message = ""
+                        $scope.add_to_address_book.message = "Added to address book"
+                        $scope.is_address_book_contact = true
                         my_transfer_form?.payto.error_message = ""
 
     $scope.onSelect = (name) ->
@@ -199,13 +206,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         error_handler = (error) ->
             message = Utils.formatAssertException(error.data.error.message)
             $scope.add_to_address_book.error = if message and message.length > 2 then message else ""
+
+        $scope.address_type = if pubkey_regexp.exec(name) then "pubkey" else "account"
+        if $scope.address_type == "pubkey"
             $scope.newContactModal(true)
-
-
-        WalletAPI.add_contact(name, name, error_handler).then (response) ->
-            Wallet.refresh_contacts()
-            $scope.is_address_book_contact = true
-            $scope.add_to_address_book.message = "Added to address book"
+        else
+            WalletAPI.add_contact(name, name, error_handler).then (response) ->
+                Wallet.refresh_contacts()
+                $scope.is_address_book_contact = true
+                $scope.add_to_address_book.message = "Added to address book"
 
 
 
@@ -221,7 +230,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
         $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
 
-        account = Wallet.accounts[payto]
+        account = Wallet.accounts[payto] or Wallet.contacts[payto]
         if account
             $scope.gravatar_account_name = payto
             $scope.is_my_account = account.is_my_account
