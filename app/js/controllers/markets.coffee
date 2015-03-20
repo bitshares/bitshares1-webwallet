@@ -74,6 +74,9 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         $scope.featured_markets.push "BitGOLD:#{main_asset.symbol}"
         $scope.featured_markets.push "BitEUR:#{main_asset.symbol}"
         $scope.featured_markets.push "BitSILVER:#{main_asset.symbol}"
+        $scope.featured_markets.push "BitBTC:BitUSD"
+        $scope.featured_markets.push "BitBTC:BitCNY"
+        $scope.featured_markets.push "BitCNY:BitUSD"
 
         for key, asset of records
             asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)

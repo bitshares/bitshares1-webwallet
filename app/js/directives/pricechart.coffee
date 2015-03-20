@@ -26,7 +26,6 @@ initChart = (scope) ->
         tooltip:
             changeDecimals: 4
             valueDecimals: (scope.volumePrecision+"").length - 1
-            positioner: -> { x: 40, y: 0 }
 
         scrollbar:
             enabled: false
@@ -82,11 +81,12 @@ initChart = (scope) ->
 
         yAxis: [
             title: { text: '' }
+            opposite: false
             labels:
-                enabled: false 
-                align: 'left'
-                x: 2
-            height: "65%"
+                enabled: true 
+                align: 'right'
+                x: -2
+            height: "70%"
             gridLineColor: 'transparent'
         ,
             labels:

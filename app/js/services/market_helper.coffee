@@ -244,4 +244,39 @@ class MarketHelper
 
         orderBookArray
 
+    split_price: (price, market, inverted) ->
+        price_string = null
+        if inverted
+            # console.log "using precision:",market.base_precision.toString().length-2
+            price_string = price.toFixed(market.base_precision.toString().length-2).split(".")
+        else 
+            console.log "using precision:",2+(Math.floor(1/market.feed_price)).toString().length
+            price_string = price.toFixed(2+(Math.floor(1/market.feed_price)).toString().length).split(".")
+        return price_string    
+
+    parse_memo: (memo, amount, market) ->
+        price = null;
+        parsed_memo = memo.split(" ")
+        type = parsed_memo[0]
+        if not market.inverted
+            price = parseFloat parsed_memo[3]
+        else
+            price = 1 / parsed_memo[3]
+        price_string = price.toFixed(4).split(".")
+        if type == "sell"
+            base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.base_asset else market.quantity_asset))
+        else
+            base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.quantity_asset else market.base_asset))
+        return {
+            quantity: base
+            base_asset: parsed_memo[1]
+            quote_asset: parsed_memo[4]
+            price: price
+            type: parsed_memo[0]
+            price_int: price_string[0]
+            price_dec: price_string[1]
+            }
+
+
+
 angular.module("app").service("MarketHelper", ["$filter", "Utils",  MarketHelper])

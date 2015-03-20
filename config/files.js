@@ -30,7 +30,9 @@ module.exports = function(lineman) {
         "vendor/js/moment-with-locales.js",
         "vendor/js/bytebuffer.js",
         "vendor/js/sha256.js",
-        "vendor/js/jdenticon.js"
+        "vendor/js/jdenticon.js",
+        "vendor/js/angu-fixed-header-table.js",
+        "vendor/js/timeAgo.js"
       ],
       app: [
         "app/js/app.js",

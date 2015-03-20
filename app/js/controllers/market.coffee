@@ -2,9 +2,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
-    $scope.bid = new MarketService.TradeData
-    $scope.ask = new MarketService.TradeData
-    $scope.short = new MarketService.TradeData
+    # $scope.bid = new MarketService.TradeData
+    # $scope.ask = new MarketService.TradeData
+    # $scope.short = new MarketService.TradeData
     $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     $scope.avg_price = 0
@@ -22,10 +22,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.listBlockchainOrders = MarketGrid.initGrid()
     $scope.listAccountOrders = MarketGrid.initGrid()
 
+    $scope.blockchain_orders = true
+    $scope.my_orders = false
+
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
         { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
         { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover" }
     ]
 
     $scope.goto_tab = (route) ->
@@ -100,6 +104,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         #MarketGrid.disableMouseScroll()
 
         $scope.asks = MarketService.asks
+        $scope.combined_asks = MarketService.combined_asks
+        $scope.combined_bids = MarketService.combined_bids
         # $scope.spread = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
@@ -155,6 +161,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
             $scope.accounts.push a
+
+    $scope.switchHistory = () ->
+        $scope.blockchain_orders = !$scope.blockchain_orders
+        $scope.my_orders = !$scope.my_orders
 
     $scope.excludeOutOfRange = (item) ->
         not item.out_of_range

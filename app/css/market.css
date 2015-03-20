@@ -14,8 +14,8 @@
 }
 
 @media (min-width: 992px) {
-	.market-sparks li:nth-child(4n) {
-		clear: both;
+	.market-sparks li:nth-child(3n) {
+		clear: right;
 	}
 }
 
@@ -67,11 +67,12 @@ span.cell {
 
 .market-table td {
 	font-size: 12px;
-	text-align: left !important;
+	text-align: right !important;
+	padding: 5px 20px 5px 5px !important
 }
 
 .market-table th {
-	text-align: left !important;
+	text-align: center !important;
 }
 
 .market-table button.btn-xs {
@@ -93,6 +94,10 @@ span.cell {
 	max-height: 640px;
 	overflow-y: auto;
 	overflow-x: auto;
+}
+
+.market-table > tr > td {
+	padding: 0;
 }
 
 .market-table tr.canceled td {
@@ -154,8 +159,8 @@ span.cell {
 }
 
 .tab-sell.active > a {
-	border-top: 2px solid #ff7f0e !important;
-	color: #ff7f0e !important;
+	border-top: 2px solid #c90808 !important;
+	color: #c90808 !important;
 }
 
 .tab-sell > a:hover {
@@ -396,4 +401,59 @@ tr.short_wall td {
 .uia_search {
 	margin: 20px 0;
 	width: 280px;
+}
+
+.ask-text {
+	color:#c90808;
+}
+
+.bid-text {
+	color:#2ca02c;
+}
+
+.short-text {
+	color:#6390bc;
+}
+
+.cover-text {
+	color:#6390bc;
+}
+
+.decimal-text {
+	font-size: 0.95em;
+}
+
+.progress {
+	width:30px;
+	background-color: transparent;
+	webkit-box-shadow:inherit;
+	box-shadow: inherit;
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
+.title-active {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.title-inactive {
+	font-weight: normal;
+	font-size: 0.85em;
+}
+
+.no-l-padding {
+	padding-left: 0;
+}
+
+.small-l-padding {
+	padding-left: 5px;
+}
+
+.small-r-padding {
+	padding-right: 5px;
+}
+
+tr > td.no-r-padding {
+	padding-right: 5px !important;
 }

@@ -124,6 +124,7 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     sp.state "market.buy", { url: "/buy", templateUrl: "market/buy.html" }
     sp.state "market.sell", { url: "/sell", templateUrl: "market/sell.html" }
     sp.state "market.short", { url: "/short", templateUrl: "market/short.html" }
+    sp.state "market.cover", { url: "/cover", templateUrl: "market/short.html" }
 
     sp.state "transfer",
         url: prefix + "/transfer?from&to&amount&memo&asset"

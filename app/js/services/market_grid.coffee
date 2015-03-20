@@ -4,7 +4,7 @@ class MarketGrid
         enableColumnMenus: false
         enableSorting: true
         useExternalSorting: false
-        minRowsToShow: 16
+        minRowsToShow: 11
         rowHeight: 22
         enableVerticalScrollbar: 2
         data: []
@@ -31,10 +31,6 @@ class MarketGrid
                 displayName: "#{@filter('translate')('th.quantity')} (#{market.quantity_symbol})"
                 cellFilter: "formatDecimal:#{market.quantity_precision}"
                 sort: { direction: "desc", priority: 2 }
-            ,
-                field: "cost"
-                displayName: "#{@filter('translate')('th.total')} (#{market.base_symbol})"
-                cellFilter: "formatDecimal:#{market.base_precision}"
             ,
                 field: "price"
                 displayName: "#{@filter('translate')('th.price')} (#{market.price_symbol})"

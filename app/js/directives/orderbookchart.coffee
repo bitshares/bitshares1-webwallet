@@ -24,6 +24,7 @@ initChart = (scope) ->
 
         xAxis:
             title:
+                enabled: false
                 text: "Price " + scope.priceSymbol
 
         yAxis:
