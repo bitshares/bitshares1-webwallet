@@ -24,12 +24,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.blockchain_orders = true
     $scope.my_orders = false
+    $scope.buy_button = false
+    $scope.sell_button = false
 
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
         { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
         { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
-        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover" }
+        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover"}
     ]
 
     $scope.goto_tab = (route) ->

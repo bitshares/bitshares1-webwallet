@@ -246,13 +246,27 @@ class MarketHelper
 
     split_price: (price, market, inverted) ->
         price_string = null
+        
         if inverted
-            # console.log "using precision:",market.base_precision.toString().length-2
-            price_string = price.toFixed(market.base_precision.toString().length-2).split(".")
+            decPlaces = if market.base_precision > 9 then market.base_precision.toString().length - 1 else 2 
         else 
-            console.log "using precision:",2+(Math.floor(1/market.feed_price)).toString().length
-            price_string = price.toFixed(2+(Math.floor(1/market.feed_price)).toString().length).split(".")
-        return price_string    
+            decPlaces = if market.price_precision > 9 then market.price_precision.toString().length - 1 else 2 
+
+        price_string = @filter('number')(price,decPlaces).split(".")
+
+        return price_string   
+
+    filter_quantity: (quantity, market, inverted) ->
+        # console.log market, inverted
+        if inverted
+            decPlaces = if market.base_precision > 9 then market.base_precision.toString().length - 1 else 2 
+        else
+            decPlaces = if market.quantity_precision > 9 then market.quantity_precision.toString().length - 1 else 2 
+
+        price_string = @filter('number')(quantity,decPlaces)
+        # else 
+            # decPlaces = if market.price_precision > 9 then market.price_precision.toString().length - 1 else 2 
+            # price_string = price.toFixed(decPlaces).split(".")
 
     parse_memo: (memo, amount, market) ->
         price = null;
@@ -264,6 +278,7 @@ class MarketHelper
             price = 1 / parsed_memo[3]
         price_string = price.toFixed(4).split(".")
         if type == "sell"
+            console.log 
             base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.base_asset else market.quantity_asset))
         else
             base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.quantity_asset else market.base_asset))

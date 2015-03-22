@@ -223,13 +223,18 @@ tr.short_wall td {
 	padding-bottom: 1em;
 }
 
-.tab-short {
+.tab-short, .tab-cover {
 	display: none !important;
 }
 
 .shorts-available .tab-short {
 	display: block !important;
 }
+
+.advanced .tab-cover {
+	display: block !important;
+}
+
 
 /* market thumbnail */
 .market-thumbnail {
@@ -298,11 +303,11 @@ tr.short_wall td {
 	font-weight: bold;
 }
 
-.market-thumbnail .change-negative {
+.market-thumbnail .change-negative, .market-stats .stat .change-negative {
 	color: #c33;
 }
 
-.market-thumbnail .change-positive {
+.market-thumbnail .change-positive, .market-stats .stat .change-positive {
 	color: #2a2;
 }
 
@@ -416,7 +421,7 @@ tr.short_wall td {
 }
 
 .cover-text {
-	color:#6390bc;
+	color:cyan;
 }
 
 .decimal-text {

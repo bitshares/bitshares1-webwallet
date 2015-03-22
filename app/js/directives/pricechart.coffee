@@ -4,6 +4,8 @@ initChart = (scope) ->
         chart:
             renderTo: "pricechart"
             height: 300
+            zoomType: 'x'
+            pinchType: 'x'
 
         credits:
             enabled: false
@@ -45,10 +47,6 @@ initChart = (scope) ->
                 text: "30m"
             ,
                 type: "hour"
-                count: 1
-                text: "1h"
-            ,
-                type: "hour"
                 count: 6
                 text: "6h"
             ,
@@ -74,18 +72,18 @@ initChart = (scope) ->
 #                type: "year"
 #                count: 1
 #                text: "Year"
-#            ,
-#                type: "all"
-#                text: "All"
+            ,
+                type: "all"
+                text: "All"
             ]
 
         yAxis: [
             title: { text: '' }
-            opposite: false
+            opposite: true
             labels:
                 enabled: true 
-                align: 'right'
-                x: -2
+                align: 'left'
+                x: 2
             height: "70%"
             gridLineColor: 'transparent'
         ,

@@ -348,6 +348,8 @@ class MarketService
                 # price_string = td.price.toFixed(4).split(".")
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
+                
                 bids.push td
             #console.log "------ pull_bids ------>", bids.length, @bids.length
             @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
@@ -367,6 +369,7 @@ class MarketService
                 price_string = @helper.split_price td.price, market, inverted
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
                 asks.push td
             #console.log "------ pull_asks ------>", asks.length, @asks.length
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
@@ -409,6 +412,9 @@ class MarketService
                 price_string = @helper.split_price td.short_price_limit, market, inverted
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
+                
+                
                 shorts.push td
                 ###
                 for s in self.shorts
@@ -425,6 +431,7 @@ class MarketService
                 price_string = @helper.split_price short_wall.price, market, inverted
                 short_wall.price_int = price_string[0]
                 short_wall.price_dec = price_string[1]
+                short_wall.quantity_filtered = @helper.filter_quantity(short_wall.quantity, market, inverted)
                 
             short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
             @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}
@@ -439,15 +446,24 @@ class MarketService
         combined_bids = @bids[..]
 
         price_string = null
-        for short in @shorts
-            if inverted
-                if not (short.type == "short" && short.short_price_limit <= feed_price)
-                    short.price = short.short_price_limit
-                    combined_asks.push short          
-            else
-                if not (short.type == "short" && short.short_price_limit >= feed_price)
-                    short.price = short.short_price_limit
-                    combined_bids.push short 
+        now = new Date()
+        if market.shorts_available
+            for short in @shorts
+                if inverted
+                    if not (short.type == "short" && short.short_price_limit <= feed_price)
+                        short.price = short.short_price_limit
+                        combined_asks.push short          
+                else
+                    if not (short.type == "short" && short.short_price_limit >= feed_price)
+                        short.price = short.short_price_limit
+                        combined_bids.push short 
+            for cover in @covers
+                # console.log cover
+                if new Date(cover.expiration.timestamp) < now
+                    if not inverted
+                        combined_asks.push cover          
+                    else
+                        combined_bids.push cover
 
             # price_string = if ask.type == "short" then ask.short_price_limit.toFixed(4).split(".") else ask.price.toFixed(4).split(".")
             # ask.price_int = price_string[0]
@@ -464,6 +480,7 @@ class MarketService
        
     pull_covers: (market, inverted) ->
         covers = []
+        feed_price =  if inverted then 1 / market.feed_price else market.feed_price
         @blockchain_api.market_list_covers(market.asset_base_symbol, market.asset_quantity_symbol, 1000).then (results) =>
             results = if results then [].concat.apply(results) else [] # flattens array of results
             for r in results
@@ -473,7 +490,13 @@ class MarketService
                 @helper.cover_to_trade_data(r, market, inverted, td)
                 #console.log "---- cover ", r.state.balance, td.cost
                 td.collateral = r.collateral / market.quantity_precision
+                td.quantity = if inverted then td.cost else td.cost / feed_price
+                price_string = @helper.split_price feed_price, market, inverted
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
                 #td.type = "cover"
+
                 covers.push td
             @helper.update_array {target: @covers, data: covers }
             #console.log "------ pull_covers ------>", @covers
@@ -562,19 +585,20 @@ class MarketService
                     # console.log "found trades:",td
                     dailyHigh = Math.max(dailyHigh, td.price)
                     dailyLow = Math.min(dailyLow, td.price)
-                    volume += td.paid
+                    if inverted
+                        volume += td.paid * market.feed_price
+                    else
+                        volume += td.paid
                     open = td.price
 
                 trades.push td
 
             if tradesFound
-                console.log "high:",dailyHigh, "low:",dailyLow
-                console.log "open:",open, "latest:",trades[0].price, "change:", (trades[0].price - open) / trades[0].price
                 @market.max_trade = max
                 @market.daily_high = dailyHigh
                 @market.daily_low = dailyLow
                 @market.volume = volume
-                @market.change = @filter('number')(100 * (trades[0].price - open) / trades[0].price, 3)+"%"
+                @market.change = 100 * (trades[0].price - open) / trades[0].price
             @helper.update_array {target: @trades, data: trades, update: null}
 
     pull_my_trades: (market, inverted, account_name) ->
@@ -631,10 +655,11 @@ class MarketService
 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
-        start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
+        days = 300
+        start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600, 0).then (result) =>
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, days*24*3600, "each_hour").then (result) =>
             ohlc_data = []
             volume_data = []
             for t in result
