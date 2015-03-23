@@ -87,7 +87,7 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     $rootScope.showContextHelp = (name) ->
         if name
             $rootScope.context_help.show = true
-            $rootScope.context_help.file = "context_help/#{$translate.preferredLanguage()}/#{name}.html"
+            $rootScope.context_help.file = "context_help/en/#{name}.html"
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""

@@ -58,7 +58,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.balances = Wallet.balances[$scope.account_from_name]
                 $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
                 $scope.currencies.unshift("") if  $scope.currencies.length > 1
-                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                unless $scope.transfer_info.symbol
+                    $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 $scope.refreshing_balances = false
                 #$scope.payToChanged()
                 deferred.resolve(true)
