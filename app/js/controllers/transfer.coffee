@@ -25,7 +25,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
     $scope.transfer_info =
         amount : $stateParams.amount
-        symbol: $stateParams.asset || Info.symbol
+        symbol: $stateParams.asset
         payto : $stateParams.to
         memo :  $stateParams.memo
         show_vote_options: Wallet.default_vote == "vote_per_transfer"
