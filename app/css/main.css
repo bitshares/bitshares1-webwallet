@@ -539,3 +539,9 @@ input.ng-dirty.ng-invalid {
    left: auto !important;
    right: 0px;
 }
+
+.wallet-sync-warning {
+    display: block;
+    width: 360px;
+    float: right;
+}

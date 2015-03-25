@@ -36,5 +36,10 @@
      </g>
     </svg>
   </span>
+</div>
 
+<div id="syncprogress" class="progress" ng-show="show_progress" tooltip="Blockchain synchronization progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{percent_synced}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percent_synced}}%;">
+        {{percent_synced}}%
+    </div>
 </div>

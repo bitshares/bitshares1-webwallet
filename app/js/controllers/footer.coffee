@@ -32,6 +32,7 @@ angular.module("app").controller "FooterController", ($scope, $filter, $translat
         Info.info
 
     on_update = (info) ->
+        #console.log "[footer.coffee:35] ----- info ----->", info
         if not $scope.client_version and info.client_version
             $scope.client_version = info.client_version
             $scope.expected_client_version = Info.expected_client_version
@@ -54,13 +55,19 @@ angular.module("app").controller "FooterController", ($scope, $filter, $translat
 
         $scope.wallet_unlocked = info.wallet_unlocked
 
+        $scope.percent_synced = 100
+        $scope.show_progress = false
+
         if connections > 0
             if info.last_block_time
-                seconds_diff = (Date.now() - Utils.toDate(info.last_block_time).getTime()) / 1000
+                seconds_diff = info.seconds_behind
                 hours_diff = Math.floor seconds_diff / 3600
                 minutes_diff = (Math.floor seconds_diff / 60) % 60
                 hours_diff_str = if hours_diff == 1 then "#{hours_diff} hour" else "#{hours_diff} hours"
                 minutes_diff_str = if minutes_diff == 1 then "#{minutes_diff} minute" else "#{minutes_diff} minutes"
+
+                $scope.percent_synced = info.percent_synced
+                $scope.show_progress = seconds_diff > Info.FULL_SYNC_SECS
 
                 Blockchain.get_info().then (config) ->
                     $scope.blockchain_blocks_behind = Math.floor seconds_diff / (config.block_interval)
