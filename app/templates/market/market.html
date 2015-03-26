@@ -20,10 +20,10 @@
           <span>{{market.base_symbol}}&nbsp;<span translate>account.balances</span><br/><b class="value">
            {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
         </li>
-        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
+        <li ng-show="market.feed_price" class="col-sm-3 stat">
           <span><span translate>market.feed_price</span><br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
         </li>
-        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
+        <li class="col-sm-3 stat">
           <span><span translate>asset.total_supply</span><br/><b class="value">{{asset_total_supply | formatDecimal : 2}}</b><br/><em>{{actual_market.base_symbol}}</em></span>
         </li>
       </ul>
