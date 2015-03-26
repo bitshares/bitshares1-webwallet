@@ -84,21 +84,14 @@
 	margin-bottom: 20px;
 }
 
-/*.splashpage-wrapper .str-top {*/
-	/*height: 80px;*/
-	/*text-align: center;*/
-	/*border-bottom: 1px solid rgba(255, 255, 255, .5);*/
-	/*-webkit-background-clip: padding-box;*/
-	/*background-clip : padding-box;*/
-/*}*/
-
 .splashpage-wrapper .str-top img { margin-bottom: 4px; }
 
 .splashpage-wrapper .str-top h4 {
 	margin: 18px 0;
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-weight: lighter;
-	letter-spacing: 1.2px;
+    font-size: 20px;
+	font-family: 'Calibri Light', 'Helvetica Neue', 'Helvetica Light', 'Helvetica', Arial, sans-serif;
+	font-weight: 100;
+	letter-spacing: 1.4px;
 }
 
 .splashpage-wrapper .str-content {
