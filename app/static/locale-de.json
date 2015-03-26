@@ -108,7 +108,8 @@
     "expiration": "ABLAUF",
     "interest_rate": "Zins Rate (p.a.)",
     "message": "Nachricht",
-    "market": "Markt"
+    "market": "Markt",
+    "id": "Id"
   },
   "block": {
     "title": "Block",
@@ -332,6 +333,8 @@
     "rescan_blockchain": "Blockkette erneut durchsuchen",
     "new_account": "Neues Konto erstellen",
     "name": "Kontoname",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Webseite",
     "website_tip": "Webseite (Optional)",
     "email": "Email",

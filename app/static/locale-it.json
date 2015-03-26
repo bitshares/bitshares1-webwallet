@@ -104,7 +104,9 @@
     "received": "RICEVUTO",
     "expiration": "SCADENZA",
     "interest_rate": "Interest Rate (APR)",
-    "message": "Message"
+    "message": "Message",
+    "market": "Market",
+    "id": "Id"
   },
   "block": {
     "title": "Blocco",
@@ -325,6 +327,8 @@
     "rescan_blockchain": "Ri-scansiona la blockchain",
     "new_account": "Nuovo Conto",
     "name": "Nome Conto",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Sito Web",
     "website_tip": "Sito Web (Opzionale)",
     "email": "Email",

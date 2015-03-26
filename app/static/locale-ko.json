@@ -108,7 +108,8 @@
     "expiration": "만기일",
     "interest_rate": "이자율 (연이율)",
     "message": "메시지",
-    "market": "마켓"
+    "market": "마켓",
+    "id": "Id"
   },
   "block": {
     "title": "블록",
@@ -332,6 +333,8 @@
     "rescan_blockchain": "블록체인 리스캔",
     "new_account": "새로운 계정",
     "name": "계정 이름",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "웹사이트",
     "website_tip": "웹사이트 (선택사항)",
     "email": "이메일",

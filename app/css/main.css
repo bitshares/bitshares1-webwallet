@@ -545,3 +545,32 @@ input.ng-dirty.ng-invalid {
     width: 360px;
     float: right;
 }
+
+.account-name-with-id {
+    color: #000;
+}
+
+.account-name-with-id .account-name {
+    font-size: 120%;
+    color: #000;
+}
+
+.account-name-with-id .account-id, .account-name-with-id .registration-date {
+    color: #94abb9;
+    white-space: nowrap;
+    font-size: 90%;
+}
+
+.account-page .account-name-with-id .account-name{
+    color: #fff;
+}
+
+.add-to-address-book {
+    margin-top: 10px;
+}
+
+.address-book-account-id {
+    color: #94abb9;
+    margin-left: 10px;
+    font-size: 80%;
+}
