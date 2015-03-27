@@ -119,7 +119,7 @@ class Market
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
-        m.shorts_available = m.base_asset?.id == 0 or m.quantity_asset?.id == 0
+        m.shorts_available = (m.base_asset?.id == 0 or m.quantity_asset?.id == 0) and not (m.base_asset.issuer_account_id > 0 or m.quantity_asset.issuer_account_id > 0)
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url
@@ -230,7 +230,7 @@ class MarketService
                 market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 10
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
-                market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
+                market.shorts_available = (market.base_asset.id == 0 or market.quantity_asset.id == 0) and not (market.base_asset.issuer_account_id > 0 or market.quantity_asset.issuer_account_id > 0)
                 market.collateral_symbol = results[2].symbol
                 market.inverted = market.quantity_asset.id > market.base_asset.id
                 @pull_market_status().then ->
@@ -595,7 +595,10 @@ class MarketService
                 self.helper.sort_array(self.bids, "price", "quantity", true)
 
                 # order book chart data
-                feed_price = self.market.feed_price
+                if self.market.feed_price
+                    feed_price = self.market.feed_price
+                else if self.market.lowest_ask and self.market.highest_bid
+                    feed_price = (self.market.lowest_ask + self.market.highest_bid) / 2
                 sum_asks = 0.0
                 asks_array = []
                 for a in self.asks

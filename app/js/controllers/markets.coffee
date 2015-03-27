@@ -68,12 +68,15 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
                     # console.log('user asset:',market.symbol,'market asset:',market2.symbol)
 
         main_asset = Blockchain.asset_records[0]
+#        $scope.featured_markets.push "BitBTC:BitUSD"
+#        $scope.featured_markets.push "BitBTC:BitCNY"
         $scope.featured_markets.push "BitUSD:#{main_asset.symbol}"
         $scope.featured_markets.push "BitCNY:#{main_asset.symbol}"
         $scope.featured_markets.push "BitBTC:#{main_asset.symbol}"
         $scope.featured_markets.push "BitGOLD:#{main_asset.symbol}"
         $scope.featured_markets.push "BitEUR:#{main_asset.symbol}"
         $scope.featured_markets.push "BitSILVER:#{main_asset.symbol}"
+        $scope.featured_markets.push "NOTE:BTS"
 
         for key, asset of records
             asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)
