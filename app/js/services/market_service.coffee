@@ -578,6 +578,9 @@ class MarketService
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
 
+                td.paid_filtered = @helper.filter_quantity(td.paid,market, inverted)
+                td.received_filtered = @helper.filter_quantity(td.received,market, inverted)
+
                 max = Math.max td.received, max
                 
                 if today < new Date(td.timestamp.timestamp)

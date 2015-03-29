@@ -200,8 +200,8 @@
                 <tr ng-if="blockchain_orders" ng-repeat="ask in trades | limitTo:200 track by $index">
                   <td class="no-r-padding"><progressbar max="market.max_trade/2" value="ask.received"></progressbar></td>
                   <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'bid_order', 'ask-text':ask.type === 'ask_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
-                  <td>{{ ask.paid | number:2 }} </td>
-                  <td>{{ ask.received | number:4 }} </td>
+                  <td>{{ ask.paid_filtered }} </td>
+                  <td>{{ ask.received_filtered }} </td>
                   <td>{{ ask.timestamp.timestamp | timeAgo }} </td>
 
                 </tr>
