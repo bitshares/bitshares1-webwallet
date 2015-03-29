@@ -28,10 +28,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.sell_button = false
 
     $scope.tabs = [
-        { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
-        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
-        { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
-        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover"}
+        { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy bid-text" },
+        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell ask-text" },
+        { heading: "market.short", route: "market.short", active: false, class: "tab-short short-text" }
+        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover cover-text"}
     ]
 
     $scope.goto_tab = (route) ->

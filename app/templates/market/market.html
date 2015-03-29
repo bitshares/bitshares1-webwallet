@@ -19,6 +19,7 @@
     </div>
     
   </div>
+
 </div>
 
 <div>
@@ -41,21 +42,21 @@
               {{ market.volume | formatDecimal : market.quantity_precision}}</b><br/><em>{{ market.quantity_symbol }}</em></span>
             </li>
             <li class="stat col-sm-2">
-              <span translate>market.stats.high</span><br/><b class="value change-positive">
-              {{ market.daily_high | formatDecimal : market.price_precision : true }}</b><br/><em>{{ market.price_symbol }}</em></span>
-            </li>
-            <li class="stat col-sm-2">
               <span translate>market.stats.low</span><br/><b class="value change-negative">
               {{ market.daily_low | formatDecimal : market.price_precision : true }}</b><br/><em>{{market.price_symbol}}</em></span>
+            </li>
+            <li class="stat col-sm-2">
+              <span translate>market.stats.high</span><br/><b class="value change-positive">
+              {{ market.daily_high | formatDecimal : market.price_precision : true }}</b><br/><em>{{ market.price_symbol }}</em></span>
             </li>
             <li class="stat col-sm-2">
               <span translate>market.stats.change</span><br/><b class="value" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}">
               {{ market.change | number:2}}%</b></span>
             </li>
-            <li ng-show="true || market.feed_price" class="col-sm-2 stat">
+            <li class="col-sm-2 stat">
               <span><span translate>market.stats.latest</span><br/><b class="value">{{ trades[0].price | formatDecimal : market.price_precision : true }}</b><br/><em>{{market.price_symbol}}</em></span>
             </li>
-            <li ng-show="true || market.feed_price" class="col-sm-2 stat">
+            <li ng-show="market.shorts_available || market.feed_price" class="col-sm-2 stat">
               <span><span translate>market.feed_price</span><br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
             </li>
           </ul>
@@ -146,7 +147,7 @@
           <!-- Buy and Sell -->
           <!-- Buy -->
           <div class="col-xs-3 small-r-padding" style="clear:left;">
-          <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}<span class="small"><button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right button-small" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}"><span ng-if="market.inverted">Margin calls</span><span ng-if="!market.inverted">Shorts</span></button></span></h3>
+            <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}<span class="small"><button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right button-small" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}"><span ng-if="market.inverted">Margin calls</span><span ng-if="!market.inverted">Shorts</span></button></span></h3>
             <table fixed-header table-height="300px"  class="market-table table table-default table-condensed table-hover">
               <thead>
                 <th><span translate>th.quantity</span><span> ({{ market.quantity_symbol }})</span></th>

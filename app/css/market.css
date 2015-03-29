@@ -421,7 +421,7 @@ tr.short_wall td {
 }
 
 .cover-text {
-	color:cyan;
+	color:#CCBD16;
 }
 
 .decimal-text {
@@ -462,3 +462,20 @@ tr.short_wall td {
 tr > td.no-r-padding {
 	padding-right: 5px !important;
 }
+
+.nav-tabs > li.ask-text > a {
+	color:#c90808;
+}
+
+.nav-tabs > li.bid-text > a {
+	color:#2ca02c;
+}
+
+.nav-tabs > li.short-text > a {
+	color:#6390bc;
+}
+
+.nav-tabs > li.cover-text > a {
+	color:#CCBD16;
+}
+

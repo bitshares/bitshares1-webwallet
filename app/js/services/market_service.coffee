@@ -125,7 +125,10 @@ class Market
         m.base_asset = @quantity_asset
         m.base_precision = @quantity_precision
         m.price_precision = @price_precision
-        m.shorts_available = m.base_asset?.id == 0 or m.quantity_asset?.id == 0
+        if m.base_asset.issuer_account_id == -2 or m.quantity_asset.issuer_account_id == -2
+            m.shorts_available = m.base_asset?.id == 0 or m.quantity_asset?.id == 0
+        else
+            m.shorts_available = false
         m.inverted = null
         m.url = @inverted_url
         m.inverted_url = @url
@@ -240,7 +243,10 @@ class MarketService
                 market.price_precision = Math.max(market.quantity_precision, market.base_precision) * 10
                 market.assets_by_id[market.quantity_asset.id] = market.quantity_asset
                 market.assets_by_id[market.base_asset.id] = market.base_asset
-                market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
+                if market.base_asset.issuer_account_id == -2 or market.quantity_asset.issuer_account_id == -2
+                    market.shorts_available = market.base_asset.id == 0 or market.quantity_asset.id == 0
+                else
+                    market.shorts_available = false
                 market.collateral_symbol = results[2].symbol
                 market.inverted = market.quantity_asset.id > market.base_asset.id
                 @pull_market_status().then ->
@@ -586,7 +592,10 @@ class MarketService
                     dailyHigh = Math.max(dailyHigh, td.price)
                     dailyLow = Math.min(dailyLow, td.price)
                     if inverted
-                        volume += td.paid * market.feed_price
+                        if market.shorts_available
+                            volume += td.paid * market.feed_price
+                        else
+                            volume += td.received
                     else
                         volume += td.paid
                     open = td.price
