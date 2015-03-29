@@ -2,9 +2,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
-    # $scope.bid = new MarketService.TradeData
-    # $scope.ask = new MarketService.TradeData
-    # $scope.short = new MarketService.TradeData
+    $scope.bid = new MarketService.TradeData
+    $scope.ask = new MarketService.TradeData
+    $scope.short = new MarketService.TradeData
     $scope.accounts = []
     $scope.account = account = {name: account_name, base_balance: 0.0, quantity_balance: 0.0}
     $scope.avg_price = 0
@@ -217,6 +217,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.order_total_change = ->
         order = get_order()
+        console.log order
         TradeData = MarketService.TradeData
         price = TradeData.helper.to_float(order.price)
         cost = TradeData.helper.to_float(order.cost)
@@ -462,3 +463,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
             ]
+
+    $scope.row_click = (index, bid) ->
+        if bid
+            $scope.use_trade_data price: $scope.combined_bids[index].price, quantity: $scope.combined_bids[index].quantity
+        else
+            $scope.use_trade_data price: $scope.combined_asks[index].price, quantity: $scope.combined_asks[index].quantity
+        # $scope.bid.price = $scope.combined_bids[index].price

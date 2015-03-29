@@ -145,7 +145,6 @@
           <!-- <center><h4>Spread: {{ (asks[0].price - bids[0].price | number:4) + ' '+market.base_symbol}}</h4></center> -->
 
 
-          <!-- Buy and Sell -->
           <!-- Buy -->
           <div class="col-xs-3 small-r-padding" style="clear:left;">
             <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}<span class="small"><button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right button-small" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}"><span ng-if="market.inverted">Margin calls</span><span ng-if="!market.inverted">Shorts</span></button></span></h3>
@@ -155,7 +154,7 @@
                 <th><span translate>th.price</span><span> ({{ market.price_symbol }})</span></th>
               </thead>
               <tbody>
-                <tr ng-repeat="ask in combined_bids | limitTo:200 track by $index">
+                <tr ng-repeat="ask in combined_bids | limitTo:200 track by $index" ng-click="row_click($index, true)">
                   <td>{{ ask.quantity_filtered }} </td>
                   <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
                 </tr>
@@ -172,7 +171,7 @@
                 <th><span translate>th.quantity</span><span> ({{ market.quantity_symbol }})</span></th>
               </thead>
               <tbody>
-                <tr ng-repeat="ask in combined_asks | limitTo:200 track by $index">
+                <tr ng-repeat="ask in combined_asks | limitTo:200 track by $index" ng-click="row_click($index, false)">
                   <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'ask-text':ask.type === 'ask', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
                   <td>{{ ask.quantity_filtered }} </td>
                 </tr>

@@ -409,7 +409,7 @@ class Wallet
             if not response.result.unlocked
                 @location.path("/unlockwallet")
 
-    open:(name = "default") ->
+    open:(name = "skk") ->
         @rpc.request('wallet_open', [name]).then (response) =>
           response.result
     
