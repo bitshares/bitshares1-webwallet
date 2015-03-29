@@ -1,10 +1,12 @@
 <div class="modal-header bg-danger">
   <h3 class="modal-title">{{title}}</h3>
+  <span class="help-block" translate>tip.fake_accounts_warning</span>
 </div>
 <div class="modal-body">
   <div class="row">
     <div ng-if="trx.address_type === 'account'" class="col-sm-4 text-center">
       <identicon account="{{trx.to}}" size="150"/>
+      <account-name-with-id name="trx.to" account-id="trx.to_id" registration-date="trx.to_registration_date"></account-name-with-id>
       <span ng-show="!trx.is_address_book_contact" class="text-danger" translate>contact.not_in_address_book</span>
     </div>
     <div class='col-sm-8'>

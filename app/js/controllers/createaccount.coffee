@@ -1,5 +1,11 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, WalletAPI, Utils) ->
-    $scope.f = {}
+angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, WalletAPI, Utils, Info) ->
+    $scope.f = { fully_synced: true }
+
+    $scope.fully_synced = true
+    $scope.$watch ()->
+        Info.info.seconds_behind
+    , (seconds_behind) ->
+        $scope.f.fully_synced = seconds_behind <= Info.FULL_SYNC_SECS if seconds_behind
 
     $scope.createAccount = ->
         form = @createaccount

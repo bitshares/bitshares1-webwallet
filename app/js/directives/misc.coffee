@@ -107,3 +107,18 @@ angular.module("app.directives").directive "ngSortFa", () ->
         'orderByField': '@',
         'reverseSort': '@'
     templateUrl: 'ng-sort-template.html'
+
+angular.module("app.directives").directive "accountNameWithId", () ->
+    restrict: 'E',
+    scope:
+        'name': '=',
+        'accountId': '='
+        'registrationDate': '='
+    template: '''
+        <div class="account-name-with-id">
+            <span class="account-name" tooltip="{{'account.name'|translate}}">{{name}}</span>
+            <span ng-show="accountId" class="account-id" tooltip="{{'account.id'|translate}}">#{{accountId}}</span>
+            <span ng-show="!accountId" class="account-id" translate>account.unregistered</span>
+            <div class="registration-date" ng-show="registrationDate"><span translate>account.registered</span> {{registrationDate | prettyDate:'short'}}</div>
+        </div>
+    '''

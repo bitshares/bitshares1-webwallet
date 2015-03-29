@@ -17,6 +17,8 @@
             <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" ng-hide="isMyAccount(name)" tooltip="{{'btn.remove'|translate}}"></i></div>
             <identicon account="{{name}}" size="40"/>
             <span class="name">{{name}}</span>
+            <span class="address-book-account-id" ng-show="data.contact_accounts[name].id">#{{data.contact_accounts[name].id}}</span>
+            <span class="address-book-account-id" ng-show="!data.contact_accounts[name].id" translate>account.unregistered</span>
           </li>
         </ul>
 

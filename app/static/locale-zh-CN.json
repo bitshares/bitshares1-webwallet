@@ -104,7 +104,9 @@
     "received": "获得",
     "expiration": "截止日期",
     "interest_rate": "利率 (年化)",
-    "message": "消息"
+    "message": "消息",
+    "market": "Market",
+    "id": "Id"
   },
   "block": {
     "title": "区块",
@@ -361,6 +363,8 @@
     "rescan_blockchain": "重新扫描区块链",
     "new_account": "新的账户",
     "name": "账户名称",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "网站地址",
     "website_tip": "网站地址（可选项）",
     "email": "电子邮件",

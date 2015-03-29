@@ -7,7 +7,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.balances = null
     $scope.currencies = null
     $scope.show_from_section = true
-    $scope.account_from_name = account_from_name = $stateParams.from
+    $scope.account_from = { name: $stateParams.from, id: 0 }
     $scope.gravatar_account_name = null
     $scope.address_type = "account"
     $scope.refreshing_balances = true
@@ -20,17 +20,17 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     tx_fee = null
     $scope.tx_fee_asset = null
     $scope.no_account = false
-    $scope.model ||= {}
     $scope.add_to_address_book = {}
 
     $scope.transfer_info =
         amount : $stateParams.amount
-        symbol: $stateParams.asset || Info.symbol
+        symbol: $stateParams.asset
         payto : $stateParams.to
         memo :  $stateParams.memo
         show_vote_options: Wallet.default_vote == "vote_per_transfer"
         vote : if Wallet.default_vote == "vote_per_transfer" then "vote_all" else Wallet.default_vote
         unknown_account: false
+        payto_account_id: 0
 
     $scope.vote_options =
         vote_none: "vote_none"
@@ -54,11 +54,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         name: "account_balances_observer"
         frequency: "each_block"
         update: (data, deferred) ->
-            Wallet.refresh_account($scope.account_from_name).then ->
-                $scope.balances = Wallet.balances[$scope.account_from_name]
+            Wallet.refresh_account($scope.account_from.name).then (account) ->
+                $scope.account_from.id = account.id
+                $scope.balances = Wallet.balances[$scope.account_from.name]
                 $scope.currencies = if $scope.balances then Object.keys($scope.balances) else []
                 $scope.currencies.unshift("") if  $scope.currencies.length > 1
-                $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
+                unless $scope.transfer_info.symbol
+                    $scope.transfer_info.symbol = if $scope.currencies.length then $scope.currencies[0] else ""
                 $scope.refreshing_balances = false
                 #$scope.payToChanged()
                 deferred.resolve(true)
@@ -129,7 +131,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         payto = $scope.transfer_info.payto
         payto_account = Wallet.contacts[payto]
         payto = payto_account.data if payto_account?.contact_type == "public_key"
-        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, payto, $scope.transfer_info.memo, vote)
+        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account_from.name, payto, $scope.transfer_info.memo, vote)
         transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
@@ -139,7 +141,6 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.gravatar_account_name = ""
             $scope.add_to_address_book.message = ""
             Growl.notice "", "Transfer transaction broadcasted"
-            $scope.model.t_active=true
         , (error) ->
             if error.data.error.code == 20005
                 my_transfer_form.payto.error_message = "Unknown receive account"
@@ -166,6 +167,8 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     vote: $scope.vote_options[$scope.transfer_info.vote]
                     is_address_book_contact: !!Wallet.contacts[payto]
                     address_type: $scope.address_type
+                    to_id: $scope.transfer_info.payto_account_id
+                    to_registration_date: $scope.account_registration_date
                 $modal.open
                     templateUrl: "dialog-transfer-confirmation.html"
                     controller: "DialogTransferConfirmationController"
@@ -188,9 +191,10 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                     (contact)->
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
                         $scope.add_to_address_book.error = ""
-                        $scope.add_to_address_book.message = "Added to address book"
+                        $scope.add_to_address_book.message = ""
                         $scope.is_address_book_contact = true
                         my_transfer_form?.payto.error_message = ""
+                        $scope.payToChanged()
 
     $scope.onSelect = (name) ->
         $scope.transfer_info.payto = name
@@ -216,14 +220,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 $scope.is_address_book_contact = true
                 $scope.add_to_address_book.message = "Added to address book"
 
-
-
     $scope.payToChanged = ->
         $scope.is_my_account = false
         $scope.is_address_book_contact = false
         $scope.account_registration_date = ""
         $scope.add_to_address_book.message = ""
         $scope.add_to_address_book.error = ""
+        $scope.transfer_info.payto_account_id = 0
         my_transfer_form?.payto.error_message = ""
         payto = $scope.transfer_info.payto
         return unless payto
@@ -232,17 +235,19 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
 
         account = Wallet.accounts[payto] or Wallet.contacts[payto]
         if account
+            $scope.transfer_info.payto_account_id = account.id
             $scope.gravatar_account_name = payto
             $scope.is_my_account = account.is_my_account
             $scope.is_address_book_contact = true
             $scope.account_registration_date = account.registration_date if account.registered
         else
-            BlockchainAPI.get_account(payto).then (result) ->
-                if result
-                    $scope.account_registration_date = result.registration_date
+            BlockchainAPI.get_account(payto).then (account) ->
+                if account
+                    $scope.transfer_info.payto_account_id = account.id
+                    $scope.account_registration_date = account.registration_date
                     $scope.transfer_info.unknown_account = false
                     if $scope.address_type == "pubkey"
-                        $scope.gravatar_account_name = result.name
+                        $scope.gravatar_account_name = account.name
                     else
                         $scope.gravatar_account_name = payto
                     $scope.is_address_book_contact = true if Wallet.contacts[payto]

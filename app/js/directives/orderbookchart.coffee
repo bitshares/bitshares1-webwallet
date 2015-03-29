@@ -54,6 +54,7 @@ initChart = (scope) ->
                 fillOpacity: 0.25
 
 addPlotLine = (chart, value) ->
+    return unless value
     chart.xAxis[0].addPlotLine
         id: "feed_price"
         color: "#555"

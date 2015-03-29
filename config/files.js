@@ -17,6 +17,7 @@ module.exports = function(lineman) {
         "vendor/js/angular.js",
         "vendor/js/angular-resource.js",
         "vendor/js/angular-ui-router.js",
+        "vendor/js/angular-animate.js",
         "vendor/js/ui-bootstrap-tpls.js",
 	 	"vendor/js/ui-grid.js",
         "vendor/js/angular-idle.js",

@@ -7,6 +7,8 @@ class Info
 
     expected_client_version: "0.5.1"
 
+    FULL_SYNC_SECS: 600
+
     get : () ->
         if Object.keys(@info).length > 0
             deferred = @q.defer()
@@ -25,7 +27,10 @@ class Info
             @info.wallet_open = data.wallet_open
             @info.wallet_unlocked = data.wallet_unlocked
             @info.last_block_time = data.blockchain_head_block_timestamp
+            @info.seconds_behind = if @info.last_block_time then (Date.now() - @utils.toDate(@info.last_block_time).getTime()) / 1000 else 0
             @info.last_block_num = data.blockchain_head_block_num
+            last_block_age = data.blockchain_head_block_num * 10
+            @info.percent_synced = if last_block_age and last_block_age > 0 then Math.round((.5 - @info.seconds_behind / last_block_age) * 100.0) else 0
             @info.blockchain_head_block_age = data.blockchain_head_block_age
             @info.share_supply = data.blockchain_share_supply
             @info.wallet_scan_progress = results[1].scan_progress

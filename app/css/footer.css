@@ -10,7 +10,7 @@ footer {
 	height: 36px;
 	background-color: #f5f5f5;
 	padding: 0 20px 0 0;
-  font-size: 14px;
+    font-size: 14px;
 	line-height: 36px;
 	z-index: 1000;
 	color: #000;
@@ -97,3 +97,23 @@ footer .logo img {
 .signal-2 .no-connection { display: none; }
 .signal-3 .no-connection { display: none; }
 .signal-4 .no-connection { display: none; }
+
+
+#syncprogress {
+    position: fixed;
+    bottom: 36px;
+    right: 4px;
+    height: 20px;
+    width: 360px;
+    margin-bottom: 8px;
+    opacity: 0.5;
+    -webkit-transition: all linear 0.5s;
+    transition: all linear 0.5s;
+    z-index: 900;
+    background-color: #aaa;
+}
+
+#syncprogress.ng-hide {
+    bottom: 0;
+    opacity: 0;
+}

@@ -46,7 +46,7 @@
     "updating_trx_history": "Aktualisiere Liste der Transaktionen ...",
     "partial_voting_info": "Dieses Konto hat verfügbare Stimmen. Nutzen Sie Ihr Recht und wählen Sie Ihre favorisierten Delegierten mit dem gesamten Kontostand.",
     "client_update_available": "Eine neues zwingend Update ist verfügbar. Besuchen Sie bitte http://www.bitshares-x.info",
-    "fake_accounts_warning": "Warnung! Betrüger erstellen häufig trügerische Kennungen um ihr Opfer dazu zu bewegen ihr Vermögen falsch zu transferieren. Bitte überprüfen Sie das Konto!"
+    "fake_accounts_warning": "Warnung! Betrüger erstellen häufig trügerische Kennungen um ihr Opfer dazu zu bewegen Ihr Vermögen falsch zu transferieren. Bitte überprüfen Sie das Konto!"
   },
   "th": {
     "date": "DATUM",
@@ -60,7 +60,7 @@
     "registered": "REGISTRIERT",
     "symbol": "SYMBOL",
     "desc": "BESCHREIBUNG",
-    "issue_account": "EMMISIONSKONTO",
+    "issue_account": "EMISSIONSKONTO",
     "precision": "NACHKOMMASTELLEN",
     "current_share_supply": "AKTUELLES ANTEILSANGEBOT",
     "maximum_share_supply": "MAXIMALES ANTEILSANGEBOT",
@@ -108,7 +108,8 @@
     "expiration": "ABLAUF",
     "interest_rate": "Zins Rate (p.a.)",
     "message": "Nachricht",
-    "market": "Markt"
+    "market": "Markt",
+    "id": "Id"
   },
   "block": {
     "title": "Block",
@@ -124,7 +125,7 @@
     "previous_secret": "Vorheriger Geheimschlüssel",
     "delegate_signature": "Signatur des Delegierten",
     "pending_trxs": "Anstehende Transaktionen",
-    "block_explorer": "Block Übersicht",
+    "block_explorer": "externe Block Übersicht (https://bitsharesblocks.com)",
     "missing_block": "Verpasster Block",
     "older": "Älter",
     "newer": "Neuer",
@@ -193,7 +194,7 @@
     "proposal": "Delegate Vorschlag",
     "location": "Ort des Servers",
     "handle": "BitsharesTalk Benutzername",
-    "ann": "Annkündigung",
+    "ann": "Ankündigung",
     "country": "Rechtsraum",
     "role_0": "Entwicklung",
     "role_1": "Marketing",
@@ -206,7 +207,7 @@
   },
   "market": {
     "title": "Marktübersicht",
-    "featured_markets": "Featured Märkte",
+    "featured_markets": "Empfohlene Märkte",
     "search_market": "Suche Markt",
     "market_name": "Marktname",
     "all_markets": "Alle Märkte",
@@ -332,12 +333,14 @@
     "rescan_blockchain": "Blockkette erneut durchsuchen",
     "new_account": "Neues Konto erstellen",
     "name": "Kontoname",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Webseite",
     "website_tip": "Webseite (Optional)",
     "email": "Email",
     "email_tip": "Email (Optional)",
     "active_delegate": "Aktive Delegierte",
-    "standby_delegate": "Bereitstehende Delegierte",
+    "standby_delegate": "bereitstehende Delegierte",
     "rank": "Aktueller Rang",
     "toggle": {
       "favorite": "Favorit",
@@ -353,7 +356,7 @@
       "vote_all": "Nach meinen persönlichen Präferenzen abstimmen.",
       "vote_none": "Gar nicht wählen!",
       "vote_random_subset": "Meine Stimmen zufällig verteilen.",
-      "vote_as_delegates_recommended": "basierend auf der Empfehlung der Delegierten abstimmen",
+      "vote_as_delegates_recommended": "Basierend auf der Empfehlung der Delegierten abstimmen.",
       "btn_update_vote": "erneut Abstimmen",
       "current_votes": "aktuelle Anzahl Ihrer Wahlstimmen",
       "future_votes": "BEFÜRWORTEN (JA/NEUTRAL/NEIN)",
@@ -361,7 +364,7 @@
       "approval": "Zustimmung",
       "vote_confirmation_title": "Zustimmung Bestätigen",
       "vote_confirmation_text": "Zustimmung für {{balance}} {{symbol}} abspeichern. Dieser Vorgang kostet eine Gebühr von {{fee}} {{fee_symbol}}.",
-      "no_balance": "You have no {{symbol}} balance that you can vote with"
+      "no_balance": "Sie haben kein {{symbol}} Guthaben mit dem Sie abstimmen können."
     },
     "import_wif_key": "Importiere WIF Schlüssel",
     "import_from_wallet": "Importiere Schlüssel einer Kontensammlung (Wallet)",
@@ -383,16 +386,16 @@
     "estimated_yield": "Voraussichtlicher Ertrag",
     "estimated_yield": "GESCHÄTZTER ERTRAG",
     "wall": {
-      "tab_title": "Wand",
+      "tab_title": "Burn-Wall",
       "burn_records": "Burn Beiträge",
       "burn_post": "Burn/Schreibe Nachricht",
       "message": "Nachricht",
-      "post_message": "Nachricht abschicken",
-      "burn_confirmation": "Burn/Nachricht Bestätigung",
+      "post_message": "Nachricht an Burn-Wall senden",
+      "burn_confirmation": "Burn/Nachricht überprüfen",
       "receiver": "Empfänger",
-      "explain": "Burns übertragen {{amount}} auf {{account_name}}'s Konto. Dadurch können Sie Nachrichten auf die Wand des Benutzers schreiben und eine Bewertung abgeben.",
-      "for": "For",
-      "against": "Against"
+      "explain": "Bewerten Sie ein Konto in dem Sie dazu eine bestimmte Summe vernichten (Burn). Wählen Sie das zu bewertende Konto, den zu vernichtenden Betrag sowie eine Nachricht ein und wählen Sie ob es sich um eine positive oder negative Bewertung handelt.",
+      "for": "Positiv",
+      "against": "Negativ"
     },
     "transaction_details": "Details",
     "transaction_virtual": "Virtual",
@@ -457,8 +460,8 @@
     "public_key_tip": "Öffentlicher Schlüssel (Pflichtfeld)",
     "btn_add_contact": "Kontakt hinzufügen",
     "address_book": "Adressbuch",
-    "add_to_address_book": "Zum Adressnuch hinzufügen",
-    "not_in_address_book": "Not in address book"
+    "add_to_address_book": "Zum Adressbuch hinzufügen",
+    "not_in_address_book": "Nicht im Addressbuch vorhanden"
   },
   "pref": {
     "title": "Einstellungen",
@@ -534,14 +537,14 @@
     "up_to_date": "Der Datenstand ist aktuell. Letzter Block: {{value}}",
     "catching_up": "Der Datenstand wird aktualisiert: {{value1}} von {{value2}} Blöcken verarbeitet",
     "version_warning": "Warning! This GUI version expects toolkit version {{expected_client_version}} or newer, got {{client_version}}",
-    "testnet": "TestNetz",
+    "testnet": "Testnetz",
     "synced": "Blöcks sind synchronisiert",
     "syncing": "Blöcke werden synchronisiert ...",
     "not_connected": "Nicht verbunden",
     "last_block": "Letzter Block wurde vor {{value}} synchronisiert",
     "one_network_connection": "1 Netzwerkverbindung",
     "n_network_connection": "{{value}} Netzwerkverbindungen",
-    "network_problems": "Netwertkprobleme",
+    "network_problems": "Netzwerkprobleme",
     "severe_network_problems": "Schwerwiegende Netzwerkprobleme",
     "delegate_participation_below": "Delegiertenbeteiligung liegt derzeit unter {{value}}, bitte stellen Sie (falls möglich) alle Überweisungen zurück bis das Netzwerk wieder 100% erreicht hat."
   },

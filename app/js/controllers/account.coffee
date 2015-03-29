@@ -25,13 +25,6 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         $scope.tabs.forEach (tab) ->
             tab.active = $scope.active_tab(tab.route)
     
-    $scope.transfer_info =
-        amount : null
-        symbol : "Symbol not set"
-        payto : ""
-        memo : ""
-        vote : 'vote_random'
-
     if $state.current.name == "account"
         $state.go "account.transactions" # first tab
 

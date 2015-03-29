@@ -108,7 +108,8 @@
     "expiration": "EXPIRATION",
     "interest_rate": "Interest Rate (APR)",
     "message": "Message",
-    "market": "Market"
+    "market": "Market",
+    "id": "Id"
   },
   "block": {
     "title": "Block",
@@ -374,6 +375,8 @@
     "rescan_blockchain": "Rescan blockchain",
     "new_account": "New Account",
     "name": "Account Name",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Website",
     "website_tip": "Website (Optional)",
     "email": "Email",
