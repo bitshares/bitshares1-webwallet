@@ -562,7 +562,9 @@ class MarketService
         trades = []
         max = 0
         dailyHigh = 0
-        dailyLow = if inverted then (1 / market.feed_price) * 2 else market.feed_price / 2 
+        dailyLow = 10^9
+        if market.shorts_available
+            dailyLow = if inverted then (1 / market.feed_price) * 2 else market.feed_price / 2 
         volume = 0
         change = 0
         open = null
