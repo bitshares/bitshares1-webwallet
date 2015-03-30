@@ -210,6 +210,9 @@ angular.module('yaru22.angular-timeago', [
       return iso8601;
     }
     var s = (iso8601 || '').trim();
+    if(s[s.length-1] !== "Z") {
+      s += "Z";
+    }
     s = s.replace(/\.\d+/, ''); // remove milliseconds
     s = s.replace(/-/, '/').replace(/-/, '/');
     s = s.replace(/T/, ' ').replace(/Z/, ' UTC');
