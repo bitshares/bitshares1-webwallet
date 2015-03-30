@@ -1,5 +1,9 @@
 initChart = (scope) ->
 
+    Highcharts.setOptions
+        lang:
+            rangeSelectorZoom: ""
+        
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
@@ -36,7 +40,6 @@ initChart = (scope) ->
             enabled: false
 
         rangeSelector:
-            rangeSelectorZoom :""
             enabled: true
             inputEnabled: false
             allButtonsEnabled: true
