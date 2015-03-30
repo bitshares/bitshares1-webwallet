@@ -1,20 +1,20 @@
 <div id="orders_table">
-  <table fixed-header table-height="300px" class="table table-striped table-hover market-table" >
+  <table fixed-header table-height="300px" class="table table-default table-condensed table-hover market-table" >
     <thead>
       <tr>
-        <th><span translate>th.call_price</span> ({{market.price_symbol}})</th>
+        <th><span translate>th.call_price</span><span>({{ ::market.price_symbol}})</span></th>
         <th translate>th.interest_rate</th>
         <th>{{'th.units_owed'|translate:'{value: actual_market.base_symbol}'}}</th>
-        <th><span translate>th.collateral</span> ({{actual_market.quantity_symbol}})</th>
+        <th><span translate>th.collateral</span> <span>({{ ::actual_market.quantity_symbol}})</span></th>
         <th translate>th.expiration</th>
         <th translate>th.action</th>
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat-start="o in orders | filter: {type: 'margin_order'} track by $index" class="warning alert alert-danger unconfirmed" ng-show="o.warning">
+      <tr ng-repeat-start="o in orders | filter: {type: 'margin_order'} track by $index" class="warning alert alert-danger unconfirmed" ng-if="o.warning">
         <td colspan="5"><i class="fa fa-warning"></i> <b translate>tip.warning</b>. &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
       </tr>
-      <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
+      <tr class="warning unconfirmed" ng-if="o.status === 'unconfirmed'">
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>
       </tr>
       <!--rows-->

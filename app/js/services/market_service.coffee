@@ -618,7 +618,6 @@ class MarketService
             last_trade_id = @my_trades[0].id
 
         toolkit_market_name = "#{market.asset_base_symbol} / #{market.asset_quantity_symbol}"
-
         promise = @wallet.refresh_transactions()
         promise.then =>
             transactions = @wallet.transactions[account_name] or []            
@@ -648,7 +647,7 @@ class MarketService
                 td.price_int = parsed_memo.price_int
                 td.price_dec = parsed_memo.price_dec
                 td.quantity = parsed_memo.quantity
-                td.type = parsed_memo.type                
+                td.type = parsed_memo.type
 
                 new_trades.push td
             #console.log "------ new trades ------>", new_trades

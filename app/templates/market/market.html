@@ -156,7 +156,7 @@
               <tbody>
                 <tr ng-repeat="ask in combined_bids | limitTo:200 track by $index" ng-click="row_click($index, true)">
                   <td>{{ ask.quantity_filtered }} </td>
-                  <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
+                  <td class="no-r-padding"><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
                 </tr>
               </tbody>
             </table>
@@ -173,7 +173,7 @@
               <tbody>
                 <tr ng-repeat="ask in combined_asks | limitTo:200 track by $index" ng-click="row_click($index, false)">
                   <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'ask-text':ask.type === 'ask', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
-                  <td>{{ ask.quantity_filtered }} </td>
+                  <td class="no-r-padding">{{ ask.quantity_filtered }} </td>
                 </tr>
               </tbody>
             </table>
@@ -199,17 +199,17 @@
               <tbody>
                 <tr ng-if="blockchain_orders" ng-repeat="ask in trades | limitTo:200 track by $index">
                   <td class="no-r-padding"><progressbar max="market.max_trade/2" value="ask.received"></progressbar></td>
-                  <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'bid_order', 'ask-text':ask.type === 'ask_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
+                  <td ><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'bid_order', 'ask-text':ask.type === 'ask_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
                   <td>{{ ask.paid_filtered }} </td>
                   <td>{{ ask.received_filtered }} </td>
-                  <td>{{ ask.timestamp.timestamp | timeAgo }} </td>
+                  <td class="no-r-padding">{{ ask.timestamp.timestamp | timeAgo }} </td>
 
                 </tr>
-                <tr ng-show="my_orders" ng-repeat="ask in my_trades | limitTo:200 track by $index">
-                  <td style="vertical-align:middle;"><progressbar max="market.max_my_trades" value="ask.amount_asset.amount"></progressbar></td>
+                <tr ng-if="my_orders" ng-repeat="ask in my_trades | limitTo:200 track by $index">
+                  <td class="no-r-padding"><progressbar max="market.max_my_trades" value="ask.amount_asset.amount"></progressbar></td>
                   <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'buy', 'ask-text':ask.type === 'sell'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
                   <td>{{ ask.quantity }} </td>
-                  <td>{{ ask.time.timestamp | timeAgo }} </td>
+                  <td class="no-r-padding">{{ ask.time.timestamp | timeAgo }} </td>
 
                 </tr>
               </tbody>
