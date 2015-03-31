@@ -633,7 +633,7 @@ class MarketService
                 self.market.shortscollat_chart_data = { array: shorts_array }
 
             catch e
-                console.log "!!!!!! error in pull_market_data: ", e
+                console.log "!!!!!! error in pull_market_data: ", e, e.stack
 
 
             deferred.resolve(true)
