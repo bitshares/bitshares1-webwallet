@@ -4,7 +4,7 @@
 ###
 class BitsharesJsRpc
     
-    constructor: (@RpcService, @Growl, $timeout, $translate) ->
+    constructor: (@RpcService, @Growl, $timeout, $translate, $q) ->
         
         return unless bts = window.bts
         WalletService = Wallet
@@ -22,9 +22,14 @@ class BitsharesJsRpc
         console.log "[BitShares-JS] enabled #{version_name}"
         
         error_translator= (message)->
-            message = JSON.parse message
-            $translate(message.key, message).then (message)->
-                message
+            try
+                message = JSON.parse message
+                $translate(message.key, message).then (message)->
+                    message
+            catch
+                defer = $q.defer()
+                defer.resolve message
+                defer.promise
         
         JsClient = bts.client.JsClient
         js_client = new JsClient @RpcService, version_name, error_translator
@@ -49,7 +54,7 @@ class BitsharesJsRpc
                 location.href = base_path
 
 angular.module("app").service "BitsharesJsRpc", 
-    ["RpcService", "Growl", "$timeout", "$translate", BitsharesJsRpc]
+    ["RpcService", "Growl", "$timeout", "$translate", "$q", BitsharesJsRpc]
 
 angular.module("app").run (BitsharesJsRpc, RpcService)->
     #console.log "[BitShares-JS] included"
