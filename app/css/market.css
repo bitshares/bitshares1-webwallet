@@ -68,11 +68,11 @@ span.cell {
 .market-table td {
 	font-size: 12px;
 	text-align: right !important;
-	padding: 5px 20px 5px 5px !important
+	padding: 5px 5px 5px 5px !important
 }
 
 .market-table th {
-	text-align: center !important;
+	text-align: right !important;
 }
 
 .market-table button.btn-xs {
@@ -384,14 +384,18 @@ tr.short_wall td {
 .table > thead > tr > th, .ui-grid-top-panel .ui-grid-cell-contents {
 	color: #333;
 	font-size: 10px;
-	font-weight: bold;
+	font-weight: 300;
+	
 }
 
 #order_tabs {
 	position: fixed;
-	padding-top:10px;
-	padding-right:0;
+
 	height: 100%;
+	border-right: 1px solid #EEE;
+	padding: 63px 20px;
+	background-color: #F6FAFC;
+	
 }
 
 #order_tabs li {
@@ -400,7 +404,8 @@ tr.short_wall td {
 }
 
 .orders-div {
-	padding-top:10px;
+	padding-top:70px;
+
 }
 
 .uia_search {
@@ -478,4 +483,31 @@ tr > td.no-r-padding {
 .nav-tabs > li.cover-text > a {
 	color:#CCBD16;
 }
+
+
+
+
+/* cass updates */
+
+.top-bar-asset {
+  border-bottom: 1px solid #EEE;
+  padding: 20px;
+}
+
+#back-loader {
+ border: 0px solid #333;
+ margin-bottom: 10px;
+ margin-left: 4px;
+ background: #FFF url('../img/bts-logo-gray.png') no-repeat 48% 48%;
+ position: relative;
+ z-index: 1;
+}
+
+.order-form {
+  border: 0px solid #333;
+  min-height: 270px;
+}
+
+
+
 
