@@ -9,7 +9,7 @@ html {
   overflow-x: hidden!important;
 }
 body {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
   font-size: 13px;
   color: #666666;
   line-height: 1.5;
@@ -85,7 +85,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-	font-family: 'Open Sans',Arial,sans-serif;
+	font-family: 'Roboto',Arial,sans-serif;
 	font-weight: 300;
 }
 h1 small,
@@ -627,11 +627,11 @@ a:focus {
  */
 .daterangepicker {
   font-size: 12px;
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 .daterangepicker .calendar th,
 .daterangepicker .calendar td {
-  font-family: 'Open Sans', Arial, sans-serif;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 .daterangepicker .ranges li {
   font-size: 12px;
@@ -2650,3 +2650,4 @@ body.cover {
 .login-wrap .panel .panel-title {
   font-weight: normal;
 }
+

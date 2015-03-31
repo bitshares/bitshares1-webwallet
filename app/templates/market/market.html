@@ -1,10 +1,10 @@
-<div id="order_tabs" class="col-xs-3" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+<div  id="order_tabs"  class="col-xs-3 order-tabs"  ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
   <tabset>
     <tab ng-repeat="t in tabs" heading="{{t.heading | translate}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
       <div ui-view autoscroll="false"></div>
     </tab>
   </tabset>
-  <div class="orders-div">
+  <div class="orders-div" style="margin-top:-20px;">
     <div ng-if="tabs[0].active">
       <h3 class="market-table-title panel-title buy-orders-title">{{('market.open_buy_orders') | translate}}</h3>
       <div  ng-include src="'market/open_buy.html'"></div>
@@ -26,8 +26,8 @@
   <div class="col-xs-9 col-xs-offset-3 market-header" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
     <div class="m-bottom">
 
-      <div class="row">
-        <div class="col-xs-12">
+      <div class="row" >
+        <div class="col-xs-12 padding-20" style="border-bottom: 1px solid #EEE; padding: 20px;">
           <h3 class="header-title col-xs-3">
             <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
             : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
@@ -75,7 +75,7 @@
 
         </div> 
 
-        <div class="main-content market market-content" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+        <div   class="main-content market market-content padding-20" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
 
           <!--create a stats page-->
           <!--<ul class="row market-stats stats">-->
@@ -96,10 +96,23 @@
           <!--</li>-->
           <!--</ul>-->
 
-          <div class="row">
+            <!-- Back Loader during Charts loading -->
+              <script  type="text/javascript">
+              $(document).ready(function() {
+                 window.setTimeout("fadeMyDiv();", 400); //call fade in 3 seconds
+               }
+              )
+              
+              function fadeMyDiv() {
+                 $("#back-loader").fadeOut('normal');
+              }
+              </script>
 
-            <div class="col-md-12 col-sm-12 no-left-padding" style="padding-left:0;">
-
+          <div class="row" >
+         
+            <div class="col-md-12 col-sm-12 no-left-padding " style="margin-top: 42px; min-height: 300px;">                        <div id="back-loader" style="min-height: 260px;"></div>
+            
+              <div class="chart-container" style="background-color: #000;">
               <div class="small-r-padding col-xs-6" ng-class="{'col-xs-12':market.price_history.length===0, 'col-xs-6':market.price_history.length>0}">
                 <orderbookchart
                 bids-array="market.orderbook_chart_data.bids_array"
@@ -122,7 +135,7 @@
               price-symbol="market.price_symbol">
             </pricechart>
           </div>
-
+</div>
         </div>
       </div>
 
