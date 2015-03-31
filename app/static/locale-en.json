@@ -167,7 +167,8 @@
     "account_already_exists": "Account '{{v1}}' already exists.",
     "register_account_first":"This wallet has an unregistered account.  Please register that account first.",
     "not_implemented":"Not Implemented: {{v1}}",
-    "unknown_parameter":"Unknown parameter: {{v1}}"
+    "unknown_parameter":"Unknown parameter: {{v1}}",
+    "unknown_asset":"Unknown asset: {{v1}}"
   },
   "wallet_common":{
     "pw_too_short":"Password must be 9 or more characters.",
