@@ -24,9 +24,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
-        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
-        { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" }
     ]
+    unless window.bts
+        $scope.tabs.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
 
     $scope.goto_tab = (route) ->
         $state.go route
