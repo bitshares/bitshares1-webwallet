@@ -4,10 +4,11 @@ initChart = (scope) ->
         lang:
             rangeSelectorZoom: ""
         
+    priceSymbol = scope.priceSymbol
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
-            height: 300
+            height: 332
             zoomType: 'x'
             pinchType: 'x'
 
@@ -28,11 +29,31 @@ initChart = (scope) ->
             candlestick:
                 color: "#f01717"
                 upColor: "#0ab92b"
-
         tooltip:
+            shared: true
+            backgroundColor: 'none'
+            borderWidth: 0
+            shadow: false
+            useHTML: true
+            padding: 0
+            # pointFormat: " O: {point.open:.4f} H: {point.high:.4f} L: {point.low:.4f} C: {point.close:.4f}"
+            formatter: () ->
+                if this.points.length == 2
+                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high.toFixed(4) + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4) + " V: " + this.points[1].point.y.toFixed(2)
+                else if this.points.length == 1 and this.points[0] and this.points[0].point.open
+                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4)
+                else if this.points.length == 1 and this.points[1] and this.points[1].point.y
+                    return "V: " + this.points[1].point.y.toFixed(2)
+                else
+                    return ""
+            positioner: () ->
+                return { x: 300, y: 5 };
+        
+            
+        ###
             changeDecimals: 4
             valueDecimals: (scope.volumePrecision+"").length - 1
-
+        ###
         scrollbar:
             enabled: false
 
@@ -110,8 +131,6 @@ initChart = (scope) ->
             data: scope.volumedata
             yAxis: 1
             zIndex: 9
-            tooltip:
-                valueSuffix: ' ' + scope.volumeSymbol
         ]
 
 angular.module("app.directives").directive "pricechart", ->

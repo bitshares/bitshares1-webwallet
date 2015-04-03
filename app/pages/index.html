@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="app">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title translate>index.title</title>
-    <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
-    <script type="text/javascript" src="/js/app.js"></script>
-    <!--<base href="/pre_release" />-->
-  </head>
-  <body class="cover fixed_header" ng-class="{splashpage: splashpage, windows: qt_os_name === 'windows'}" ng-controller="RootController">
-    <pageslide ps-open="context_help.open" ps-size="460px">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title translate>index.title</title>
+  <link rel="stylesheet" type="text/css" href="/css/app.css" media="all">
+<!--   <script src="http://d3js.org/d3.v3.js"></script>
+  <script src="http://techanjs.org/techan.min.js"></script> -->
+  <script type="text/javascript" src="/js/app.js"></script>
+  <!--<base href="/pre_release" />-->
+</head>
+<body class="cover fixed_header" ng-class="{splashpage: splashpage, windows: qt_os_name === 'windows'}" ng-controller="RootController">
+  <pageslide ps-open="context_help.open" ps-size="460px">
     <div id="context-help">
       <a class="close-help-link" ng-click="close_context_help()"><span translate>btn.close</span> <i class="fa fa-angle-double-right fa-fw"></i></a>
       <div class="context-help-content" ng-include src="context_help.file"></div>
     </div>
-    </pageslide>
-      <!-- TOOLBAR -->
-    <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
-      <div ng-include src="'toolbar.html'"></div>
-    </div>
-    <div class="body" ng-class="theme">
-      <div ui-view class="main-view" autoscroll="false"></div>
-    </div>
-    <div loading-indicator></div>
-    <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
-      <div ng-include src="'footer.html'"></div>
-    </footer>
-  </body>
+  </pageslide>
+  <!-- TOOLBAR -->
+  <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
+    <div ng-include src="'toolbar.html'"></div>
+  </div>
+  <div class="body" ng-class="theme">
+    <div ui-view class="main-view" autoscroll="false"></div>
+  </div>
+  <div loading-indicator></div>
+  <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
+    <div ng-include src="'footer.html'"></div>
+  </footer>
+</body>
 </html>

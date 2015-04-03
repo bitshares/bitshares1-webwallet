@@ -6,7 +6,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 300 #if scope.advancedMode then 200 else 350
+            height: 332 #if scope.advancedMode then 200 else 350
 
         title:
             text: null

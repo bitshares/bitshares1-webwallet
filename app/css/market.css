@@ -61,6 +61,11 @@ span.cell {
 	line-height: 34px;
 }
 
+.market-charts {
+	margin-top: 10px; 
+	min-height: 332px;
+}
+
 .market-table {
 	width: 100%;
 }
@@ -390,12 +395,9 @@ tr.short_wall td {
 
 #order_tabs {
 	position: fixed;
-
 	height: 100%;
-	border-right: 1px solid #EEE;
-	padding: 63px 20px;
+	padding: 23px 0px 23px 20px;
 	background-color: #F6FAFC;
-	
 }
 
 #order_tabs li {
@@ -404,7 +406,7 @@ tr.short_wall td {
 }
 
 .orders-div {
-	padding-top:70px;
+	padding-top:54px;
 
 }
 
@@ -464,6 +466,11 @@ tr.short_wall td {
 	padding-right: 5px;
 }
 
+.small-lr-padding {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
 tr > td.no-r-padding {
 	padding-right: 5px !important;
 }
@@ -508,6 +515,24 @@ tr > td.no-r-padding {
   min-height: 270px;
 }
 
+.small-top-padding {
+	padding-top: 30px
+}
 
+.test-fixed {
+	position: fixed;
+	margin-bottom: 50px;
+	z-index: 999;
+	background-color: #F6FAFC;
+}
 
+.market-header {
+	margin-top: 60px;
+}
+
+.highlight {
+    -webkit-transition: 0.25s;
+    transition: 0.25s;
+    background-color: red;
+}
 

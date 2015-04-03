@@ -434,15 +434,28 @@ class MarketService
                 short_wall.quantity_filtered = @helper.filter_quantity(short_wall.quantity, market, inverted)
                 
             short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
-            @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}
+            @helper.update_array {
+                target: short_wall_dest, 
+                data: short_wall_array,
+                update: (target_el, data) =>
+                    target_el.price = data.price
+                    target_el.price_int = data.price_int
+                    target_el.price_dec = data.price_dec
+                    target_el.quantity = data.quantity
+                can_remove: (target_el) -> 
+                    target_el.type == "short_wall"
+                }
 
     combine_orders: (market,inverted) ->
+        if deferred
+            return deferred
         if inverted
             feed_price = 1 / market.feed_price
         else
             feed_price = market.feed_price
         deferred = @q.defer()
-        combined_asks = @asks[..]
+        temp_combined_asks = @asks[..]
+        #temp_combined_asks = []
         combined_bids = @bids[..]
 
         price_string = null
@@ -451,17 +464,17 @@ class MarketService
             for short in @shorts
                 if inverted
                     if not (short.type == "short" && short.short_price_limit <= feed_price)
-                        short.price = short.short_price_limit
-                        combined_asks.push short          
+                        # short.price = short.short_price_limit
+                        temp_combined_asks.push short          
                 else
                     if not (short.type == "short" && short.short_price_limit >= feed_price)
-                        short.price = short.short_price_limit
+                        # short.price = short.short_price_limit
                         combined_bids.push short 
             for cover in @covers
                 # console.log cover
                 if new Date(cover.expiration.timestamp) < now
                     if not inverted
-                        combined_asks.push cover          
+                        temp_combined_asks.push cover          
                     else
                         combined_bids.push cover
 
@@ -469,13 +482,41 @@ class MarketService
             # ask.price_int = price_string[0]
             # ask.price_dec = price_string[1]
         # @combined_asks = combined_asks
-        combined_asks.sort (a,b) ->
+
+
+        for ask in temp_combined_asks
+            if inverted                
+                if ask.type == "short" and ask.short_price_limit > feed_price
+                    ask.price = ask.short_price_limit
+
+        ###
+        temp_combined_asks.sort (a,b) ->
             a.price - b.price
         combined_bids.sort (a,b) ->
             b.price - a.price
+
+        for ask, index in temp_combined_asks
+            ask.index = index
+
+        for ask, index in combined_bids
+            ask.index = index
+        ###
+        temp_combined_asks.sort (a,b) ->
+            if a.price - b.price == 0 then a.index - b.index else a.price - b.price
+        combined_bids.sort (a,b) ->
+            b.price - a.price
+
+        for ask, index in temp_combined_asks
+            ask.index = index
         
-        @helper.update_array {target: @combined_asks, data: combined_asks, can_remove: (target_el) -> (target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall")}
+        @helper.update_array {
+            target: @combined_asks, 
+            data: temp_combined_asks, 
+            can_remove: (target_el) -> 
+                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall"
+            }
         @helper.update_array {target: @combined_bids, data: combined_bids, can_remove: (target_el) -> target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall"}
+
         deferred.resolve(true)
        
     pull_covers: (market, inverted) ->

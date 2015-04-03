@@ -83,7 +83,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         data: {context: MarketService}
         update: MarketService.pull_market_status
 
-
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
@@ -252,6 +251,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.use_trade_data price: row.price, quantity: row.quantity
             $scope.scroll_buysell()
 
+    $scope.row_click = (index, bid) ->
+        if bid
+            $scope.use_trade_data price: $scope.combined_bids[index].price, quantity: $scope.combined_bids[index].quantity
+        else
+            $scope.use_trade_data price: $scope.combined_asks[index].price, quantity: $scope.combined_asks[index].quantity
+
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
         order = get_order()
@@ -313,6 +318,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
+                console.log bid
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
 
@@ -339,6 +345,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
+                console.log ask
         MarketService.add_unconfirmed_order(ask)
 
     $scope.submit_short = ->
@@ -358,8 +365,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         short.type = "short_order"
         short.display_type = "Short"
         console.log "------ submit_short ------>", $scope.market.inverted, short
-        $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
-        $("#orders_table").animate({ scrollTop: 0 }, "slow")
+        # $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
+        # $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
 
     $scope.confirm_order = (id) ->
@@ -464,9 +471,3 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         modalInstance.dismiss "ok"
             ]
 
-    $scope.row_click = (index, bid) ->
-        if bid
-            $scope.use_trade_data price: $scope.combined_bids[index].price, quantity: $scope.combined_bids[index].quantity
-        else
-            $scope.use_trade_data price: $scope.combined_asks[index].price, quantity: $scope.combined_asks[index].quantity
-        # $scope.bid.price = $scope.combined_bids[index].price
