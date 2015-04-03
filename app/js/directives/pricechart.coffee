@@ -4,11 +4,10 @@ initChart = (scope) ->
         lang:
             rangeSelectorZoom: ""
         
-    priceSymbol = scope.priceSymbol
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
-            height: 332
+            height: 400
             zoomType: 'x'
             pinchType: 'x'
 
@@ -29,6 +28,10 @@ initChart = (scope) ->
             candlestick:
                 color: "#f01717"
                 upColor: "#0ab92b"
+            series:
+                marker:
+                    enabled: false
+
         tooltip:
             shared: true
             backgroundColor: 'none'
@@ -38,12 +41,15 @@ initChart = (scope) ->
             padding: 0
             # pointFormat: " O: {point.open:.4f} H: {point.high:.4f} L: {point.low:.4f} C: {point.close:.4f}"
             formatter: () ->
-                if this.points.length == 2
-                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high.toFixed(4) + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4) + " V: " + this.points[1].point.y.toFixed(2)
+                TA = ""
+                if this.points.length == 5
+                    TA = "<br> MACD:"+this.points[2].y.toFixed(2)+ " Signal line:"+this.points[4].y.toFixed(2)
+                if (this.points[0].point and this.points[0].point.open) and (this.points[1].point and this.points[1].point.y)
+                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high.toFixed(4) + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4) + " V: " + this.points[1].point.y.toFixed(2)+TA
                 else if this.points.length == 1 and this.points[0] and this.points[0].point.open
-                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4)
+                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4)+TA
                 else if this.points.length == 1 and this.points[1] and this.points[1].point.y
-                    return "V: " + this.points[1].point.y.toFixed(2)
+                    return "V: " + this.points[1].point.y.toFixed(2)+TA
                 else
                     return ""
             positioner: () ->
@@ -108,19 +114,35 @@ initChart = (scope) ->
                 enabled: true 
                 align: 'left'
                 x: 2
-            height: "70%"
+            height: "65%"
             gridLineColor: 'transparent'
+        ,
+            labels:
+                enabled: false 
+            title: { text: 'MACD' }
+            color: "#4572A7"
+            top: "65%"
+            height: "20%"            
+            offset: 0
+            lineWidth: 1
+            gridLineColor: 'transparent'
+            plotLines: [
+                color: '#FF0000'
+                width: 1
+                value: 0
+            ]
         ,
             labels:
                 enabled: false 
             title: { text: '' }
             color: "#4572A7"
-            top: "70%"
-            height: "30%"            
+            top: "85%"
+            height: "15%"            
             gridLineColor: 'transparent'
         ]
 
         series: [
+            id: "primary"
             type: 'candlestick'
             name: 'Price'
             data: scope.pricedata
@@ -129,8 +151,30 @@ initChart = (scope) ->
             type: 'column'
             name: 'Volume'
             data: scope.volumedata
-            yAxis: 1
+            yAxis: 2
             zIndex: 9
+        ,
+            name: "MACD"
+            linkedTo: 'primary'
+            showInLegend: true
+            type: 'trendline'
+            algorithm: 'MACD'
+            zIndex: 7
+            yAxis: 1
+        ,
+            name : 'Signal line',
+            linkedTo: 'primary',
+            yAxis: 1,
+            showInLegend: true,
+            type: 'trendline',
+            algorithm: 'signalLine'
+        ,
+            name: 'Histogram',
+            linkedTo: 'primary',
+            yAxis: 1,
+            showInLegend: true,
+            type: 'histogram'
+            zIndex: 8
         ]
 
 angular.module("app.directives").directive "pricechart", ->

@@ -210,7 +210,7 @@
         <td class="no-r-padding"><progressbar max="market.max_my_trades" value="ask.amount_asset.amount"></progressbar></td>
         <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'buy', 'ask-text':ask.type === 'sell'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
         <td >{{ ask.quantity }} </td>
-        <td class="no-r-padding">{{ ask.time.timestamp | timeAgo }} </td>
+        <td class="no-r-padding">{{ ask.time.timestamp | date:'DD-MMM / HH:mm' }} </td>
 
       </tr>
     </tbody>

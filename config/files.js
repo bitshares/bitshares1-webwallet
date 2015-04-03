@@ -33,7 +33,7 @@ module.exports = function(lineman) {
         "vendor/js/sha256.js",
         "vendor/js/jdenticon.js",
         "vendor/js/angu-fixed-header-table.js",
-        "vendor/js/timeAgo.js"
+        "vendor/js/technical-indicators.src.js"
       ],
       app: [
         "app/js/app.js",
