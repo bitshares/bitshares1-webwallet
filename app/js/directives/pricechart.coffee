@@ -3,7 +3,9 @@ initChart = (scope) ->
     Highcharts.setOptions
         lang:
             rangeSelectorZoom: ""
-        
+
+    macd_precision = if scope.inverted then 2 else 5
+    
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
@@ -43,7 +45,7 @@ initChart = (scope) ->
             formatter: () ->
                 TA = ""
                 if this.points.length == 5
-                    TA = "<br> MACD:"+this.points[2].y.toFixed(2)+ " Signal line:"+this.points[4].y.toFixed(2)
+                    TA = "<br> MACD:"+this.points[2].y.toFixed(macd_precision)+ " Signal line:"+this.points[4].y.toFixed(macd_precision)
                 if (this.points[0].point and this.points[0].point.open) and (this.points[1].point and this.points[1].point.y)
                     return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high.toFixed(4) + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4) + " V: " + this.points[1].point.y.toFixed(2)+TA
                 else if this.points.length == 1 and this.points[0] and this.points[0].point.open
@@ -187,6 +189,7 @@ angular.module("app.directives").directive "pricechart", ->
         volumeSymbol: "="
         volumePrecision: "="
         priceSymbol: "="
+        inverted: "="
 
     controller: ($scope, $element, $attrs) ->
         #console.log "pricechart controller"

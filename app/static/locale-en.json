@@ -279,7 +279,9 @@
       "bid_order": "Buy Order",
       "ask_order": "Sell Order",
       "short_order": "Short Order",
-      "margin_order": "Margin Order"
+      "margin_order": "Margin Order",
+      "short_orders": "Short Orders",
+      "margin_orders": "Margin Orders"
     },
     "tip": {
       "insufficient_balances": "Insufficient balances",
@@ -337,9 +339,9 @@
         "cover_fee":"The 5% fee is assessed as a percent of the collateral left over after covering."
     },
     "stats": {
-        "high": "Today's High",
-        "low": "Today's Low",
-        "change": "Today's Change",
+        "high": "24h High",
+        "low": "24h Low",
+        "change": "24h Change",
         "latest": "Latest Price"
     }
   },

@@ -27,11 +27,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.buy_button = false
     $scope.sell_button = false
 
-    $scope.testValue = 1;
-    $interval () ->
-        $scope.testValue = Math.random()
-    ,5000
-
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy bid-text" },
         { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell ask-text" },

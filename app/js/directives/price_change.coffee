@@ -1,4 +1,4 @@
-angular.module("app.directives").directive "change", ($timeout) ->
+angular.module("app.directives").directive "change", () ->
     restrict: "A"
     scope:
         change: "="
@@ -13,5 +13,3 @@ angular.module("app.directives").directive "change", ($timeout) ->
                 else if nv < ov
                     elem.addClass "fa fa-arrow-down change-negative"
                     elem.removeClass "fa-arrow-up change-positive"
-                else 
-                    elem.removeClass "fa fa-arrow-up fa-arrow-down change-positive change-negative"

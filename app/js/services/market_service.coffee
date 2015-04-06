@@ -607,7 +607,7 @@ class MarketService
         open = null
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
             now = new Date()
-            today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+            today = now.setDate(now.getDate()-1)
             tradesFound = false
             for r in results
                 td = new TradeData
@@ -699,7 +699,7 @@ class MarketService
 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
-        days = 300
+        days = 365
         start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
@@ -780,6 +780,7 @@ class MarketService
                         continue if feed_price and (b.price > 1.5 * feed_price or b.price < 0.5 * feed_price)
                         sum_bids += b.quantity
                         self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
+
                     bids_array.sort (a,b) -> a[0] - b[0]
                     asks_array.sort (a,b) -> a[0] - b[0]
                     

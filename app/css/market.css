@@ -139,7 +139,7 @@ span.cell {
 	letter-spacing: normal;
 }
 
-tr, .market-stats .stat .value {
+.orderbook-table tr, .market-stats .stat .value {
 	transition: background-color 1s;
 	webkit-transition:background-color 1s;
 }
