@@ -16,7 +16,7 @@
 <!-- Info header -->
 <div class="col-xs-9 col-xs-offset-3 no-lr-padding test-fixed">
   <div class="col-xs-12 padding-20" style="border-bottom: 1px solid #EEE;">
-    <h3 class="header-title col-xs-3">
+    <h3 class="header-title col-xs-3 no-lr-padding">
       <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
       : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
       <a ng-click="flip_market()" class="market-header-button"
@@ -26,26 +26,26 @@
     </h3>
     <ul class="row market-stats stats col-xs-9">
       <li class="col-sm-2 stat">
-        <span><span translate>market.stats.latest</span><br/><b class="value">{{ trades[0].price | formatDecimal : market.price_precision : true }}</b><br/><em>{{market.price_symbol}}</em></span>
+        <span><span translate>market.stats.latest</span><br/><i change="trades[0].price"></i><b class="value stat-primary" flash="trades[0].price">{{ trades[0].price | formatDecimal : market.price_precision : true }}</b><br/><em>{{market.price_symbol}}</em></span>
       </li>
       <li class="stat col-sm-2">
-        <span translate>market.chart.volume</span><br/><b class="value">
+        <span translate>market.chart.volume</span><br/><i change="market.volume"></i><b class="value" flash="market.volume">
         {{ market.volume | formatDecimal : market.quantity_precision}}</b><br/><em>{{ market.quantity_symbol }}</em></span>
       </li>
       <li class="stat col-sm-2">
-        <span translate>market.stats.low</span><br/><b class="value change-negative">
+        <span translate>market.stats.low</span><br/><b class="value change-negative" flash="market.daily_low">
         {{ market.daily_low | formatDecimal : market.price_precision : true }}</b><br/><em>{{market.price_symbol}}</em></span>
       </li>
       <li class="stat col-sm-2">
-        <span translate>market.stats.high</span><br/><b class="value change-positive">
+        <span translate>market.stats.high</span><br/><b class="value change-positive" flash="market.daily_high">
         {{ market.daily_high | formatDecimal : market.price_precision : true }}</b><br/><em>{{ market.price_symbol }}</em></span>
       </li>
       <li class="stat col-sm-2">
-        <span translate>market.stats.change</span><br/><b class="value" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}">
+        <span translate>market.stats.change</span><br/><i change="market.change"></i><b class="value" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}" flash="market.change">
         {{ market.change | number:2}}%</b></span>
       </li>
       <li ng-show="market.shorts_available || market.feed_price" class="col-sm-2 stat">
-        <span><span translate>market.feed_price</span><br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
+        <span><span translate>market.feed_price</span><br/><i change="market.feed_price"></i><b class="value" flash="market.feed_price">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
       </li>
     </ul>
 
@@ -113,7 +113,7 @@
             <th><span translate>th.price</span><br><span> ({{ market.price_symbol }})</span></th>
           </thead>
           <tbody>
-            <tr ng-repeat="ask in combined_bids | limitTo:200 track by $index" ng-click="row_click($index, true)" flash="ask.id">
+            <tr ng-repeat="ask in combined_bids | limitTo:200 track by ask.index" ng-click="row_click($index, true)" flash="ask.id">
               <td>{{ ask.quantity_filtered }} </td>
               <td class="no-r-padding"><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
             </tr>
@@ -130,7 +130,7 @@
             <th><span translate>th.quantity</span><br><span> ({{ market.quantity_symbol }})</span></th>
           </thead>
           <tbody>
-            <tr ng-repeat="ask in combined_asks track by ask.id" ng-click="row_click($index, false)" flash="ask.id">
+            <tr ng-repeat="ask in combined_asks track by ask.index" ng-click="row_click($index, false)" flash="ask.id">
               <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'ask-text':ask.type === 'ask', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
               <td class="no-r-padding">{{ ask.quantity_filtered }} </td>
             </tr>

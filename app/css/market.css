@@ -129,13 +129,23 @@ span.cell {
 	text-align: left;
 	font-size: 10px;
 	overflow: hidden;
-	padding: 5px 10px;
+	padding: 5px 0px;
 }
+
 
 .market-stats .stat .value {
 	font-size: 12px;
 	color: #000;
 	letter-spacing: normal;
+}
+
+tr, .market-stats .stat .value {
+	transition: background-color 1s;
+	webkit-transition:background-color 1s;
+}
+
+.market-stats .stat .stat-primary {
+	font-size: 14px;
 }
 
 .header .stat {
@@ -497,22 +507,22 @@ tr > td.no-r-padding {
 /* cass updates */
 
 .top-bar-asset {
-  border-bottom: 1px solid #EEE;
-  padding: 20px;
+	border-bottom: 1px solid #EEE;
+	padding: 20px;
 }
 
 #back-loader {
- border: 0px solid #333;
- margin-bottom: 10px;
- margin-left: 4px;
- background: #FFF url('../img/bts-logo-gray.png') no-repeat 48% 48%;
- position: relative;
- z-index: 1;
+	border: 0px solid #333;
+	margin-bottom: 10px;
+	margin-left: 4px;
+	background: #FFF url('../img/bts-logo-gray.png') no-repeat 48% 48%;
+	position: relative;
+	z-index: 1;
 }
 
 .order-form {
-  border: 0px solid #333;
-  min-height: 270px;
+	border: 0px solid #333;
+	min-height: 270px;
 }
 
 .small-top-padding {
@@ -530,9 +540,13 @@ tr > td.no-r-padding {
 	margin-top: 60px;
 }
 
+@media (max-width: 992px) {
+	.market-header {
+		margin-top: 90px;
+	}
+}
+
 .highlight {
-    -webkit-transition: 0.25s;
-    transition: 0.25s;
-    background-color: red;
+	background-color: red;
 }
 

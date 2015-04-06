@@ -454,8 +454,8 @@ class MarketService
         else
             feed_price = market.feed_price
         deferred = @q.defer()
-        temp_combined_asks = @asks[..]
-        #temp_combined_asks = []
+        combined_asks = @asks[..]
+        #combined_asks = []
         combined_bids = @bids[..]
 
         price_string = null
@@ -465,7 +465,7 @@ class MarketService
                 if inverted
                     if not (short.type == "short" && short.short_price_limit <= feed_price)
                         # short.price = short.short_price_limit
-                        temp_combined_asks.push short          
+                        combined_asks.push short          
                 else
                     if not (short.type == "short" && short.short_price_limit >= feed_price)
                         # short.price = short.short_price_limit
@@ -474,48 +474,44 @@ class MarketService
                 # console.log cover
                 if new Date(cover.expiration.timestamp) < now
                     if not inverted
-                        temp_combined_asks.push cover          
+                        combined_asks.push cover          
                     else
                         combined_bids.push cover
 
-            # price_string = if ask.type == "short" then ask.short_price_limit.toFixed(4).split(".") else ask.price.toFixed(4).split(".")
-            # ask.price_int = price_string[0]
-            # ask.price_dec = price_string[1]
-        # @combined_asks = combined_asks
-
-
-        for ask in temp_combined_asks
+        for ask in combined_asks
             if inverted                
                 if ask.type == "short" and ask.short_price_limit > feed_price
                     ask.price = ask.short_price_limit
 
-        ###
-        temp_combined_asks.sort (a,b) ->
-            a.price - b.price
-        combined_bids.sort (a,b) ->
-            b.price - a.price
+        for bid in combined_bids
+            if not inverted                
+                if bid.type == "short" and bid.short_price_limit < feed_price
+                    bid.price = bid.short_price_limit
 
-        for ask, index in temp_combined_asks
-            ask.index = index
-
-        for ask, index in combined_bids
-            ask.index = index
-        ###
-        temp_combined_asks.sort (a,b) ->
+        combined_asks.sort (a,b) ->
             if a.price - b.price == 0 then a.index - b.index else a.price - b.price
+        
         combined_bids.sort (a,b) ->
             b.price - a.price
+            if b.price - a.price == 0 then a.index - b.index else b.price - a.price
 
-        for ask, index in temp_combined_asks
+        for ask, index in combined_asks
             ask.index = index
+
+        for bid, index in combined_bids
+            bid.index = index
         
         @helper.update_array {
             target: @combined_asks, 
-            data: temp_combined_asks, 
+            data: combined_asks, 
             can_remove: (target_el) -> 
                 target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall"
             }
-        @helper.update_array {target: @combined_bids, data: combined_bids, can_remove: (target_el) -> target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall"}
+        @helper.update_array {
+            target: @combined_bids, 
+            data: combined_bids, 
+            can_remove: (target_el) -> 
+                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall"}
 
         deferred.resolve(true)
        

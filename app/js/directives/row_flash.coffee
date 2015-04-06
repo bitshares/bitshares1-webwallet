@@ -12,5 +12,5 @@ angular.module("app.directives").directive "flash", ($timeout) ->
                 # auto remove after some delay
                 $timeout ()  ->
                     elem.removeClass "highlight"
-                , 1000
+                , 1500
         , true

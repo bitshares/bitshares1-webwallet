@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid, $interval) ->
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
@@ -26,6 +26,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.my_orders = false
     $scope.buy_button = false
     $scope.sell_button = false
+
+    $scope.testValue = 1;
+    $interval () ->
+        $scope.testValue = Math.random()
+    ,5000
 
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy bid-text" },
