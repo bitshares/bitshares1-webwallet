@@ -1,51 +1,49 @@
 angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvider) ->
 
-    base_tag = document.getElementsByTagName('base')[0]
-    prefix = ""#if base_tag then base_tag.getAttribute("href") else ""
     sp = $stateProvider
     
     if window.bts
         $urlRouterProvider.when "", "/unlockwallet"
     
-    $urlRouterProvider.otherwise prefix + '/accounts'
+    $urlRouterProvider.otherwise '/accounts'
 
     sp.state "preferences",
-        url: prefix + "/preferences"
+        url: "/preferences"
         templateUrl: "preferences.html"
         controller: "PreferencesController"
 
     sp.state "console",
-        url: prefix + "/console"
+        url: "/console"
         templateUrl: "console.html"
         controller: "ConsoleController"
 
     sp.state "wallet",
-        url: prefix + "/wallet"
+        url: "/wallet"
         templateUrl: "wallet.html"
         controller: "WalletController"
 
     sp.state "create/account",
-        url: prefix + "/create/account"
+        url: "/create/account"
         templateUrl: "createaccount.html"
         controller: "CreateAccountController"
         
     sp.state "recover/account",
-        url: prefix + "/recover/account"
+        url: "/recover/account"
         templateUrl: "recoveraccount.html"
         controller: "RecoverAccountController"
 
     sp.state "accounts",
-        url: prefix + "/accounts"
+        url: "/accounts"
         templateUrl: "accounts.html"
         controller: "AccountsController"
 
     sp.state "delegates",
-        url: prefix + "/delegates"
+        url: "/delegates"
         templateUrl: "delegates/delegates.html"
         controller: "DelegatesController"
 
     sp.state "account",
-        url: prefix + "/accounts/:name"
+        url: "/accounts/:name"
         templateUrl: "account.html"
         controller: "AccountController"
 
@@ -66,12 +64,12 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     sp.state "account.wall", { url: "/account_wall", views: { 'account-wall': { templateUrl: 'account_wall.html', controller: 'AccountWallController' } } }
 
     sp.state "asset",
-        url: prefix + "/assets/:ticker"
+        url: "/assets/:ticker"
         templateUrl: "asset.html"
         controller: "AssetController"
 
     sp.state "createwallet",
-        url: prefix + "/createwallet"
+        url: "/createwallet"
         templateUrl: (
             if window.bts
                 "brainwallet.html"
@@ -86,17 +84,17 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
         )
 
     sp.state "block",
-        url: prefix + "/blocks/:number"
+        url: "/blocks/:number"
         templateUrl: "block.html"
         controller: "BlockController"
 
     sp.state "transaction",
-        url: prefix + "/tx/:id"
+        url: "/tx/:id"
         templateUrl: "transaction.html"
         controller: "TransactionController"
 
     sp.state "unlockwallet",
-        url: prefix + "/unlockwallet"
+        url: "/unlockwallet"
         templateUrl: (
             if window.bts
                 "brainwallet.html"
@@ -111,18 +109,18 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
         )
 
     sp.state "login",
-        url: prefix + "/login"
+        url: "/login"
         templateUrl: "brainwallet.html"
         controller: "BrainWalletController"
 
     sp.state "markets",
-        url: prefix + "/markets"
+        url: "/markets"
         templateUrl: "market/markets.html"
         controller: "MarketsController"
 
     sp.state "market",
         abstract: true
-        url: prefix + "/market/:name/:account"
+        url: "/market/:name/:account"
         templateUrl: "market/market.html"
         controller: "MarketController"
 
@@ -131,12 +129,12 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
     sp.state "market.short", { url: "/short", templateUrl: "market/short.html" }
 
     sp.state "transfer",
-        url: prefix + "/transfer?from&to&amount&memo&asset"
+        url: "/transfer?from&to&amount&memo&asset"
         templateUrl: "transfer.html"
         controller: "TransferController"
 
     sp.state "newcontact",
-        url: prefix + "/newcontact?name&key"
+        url: "/newcontact?name&key"
         templateUrl: "newcontact.html"
         controller: "NewContactController"
 
@@ -174,12 +172,12 @@ angular.module("app").config ($stateProvider, $urlRouterProvider, $locationProvi
             )
 
     sp.state "referral_code",
-        url: prefix + "/referral_code?faucet&code"
+        url: "/referral_code?faucet&code"
         templateUrl: "referral_code.html"
         controller: "ReferralCodeController"
 
     sp.state "advanced",
-        url: prefix + "/advanced"
+        url: "/advanced"
         templateUrl: "advanced/advanced.html"
         controller: "AdvancedController"
 
