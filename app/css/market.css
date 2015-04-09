@@ -17,11 +17,11 @@
     background-color: #eef8ff;
 }
 
-@media (min-width: 992px) {
+/*@media (min-width: 992px) {
 	.market-sparks li:nth-child(3n) {
 		clear: right;
 	}
-}
+}*/
 
 /*@media (min-width: 992px) {*/
 	/*.market-sparks li:nth-child(4n) {*/
