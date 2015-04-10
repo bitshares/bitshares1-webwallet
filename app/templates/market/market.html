@@ -206,13 +206,13 @@
         <td ><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'bid_order', 'ask-text':ask.type === 'ask_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
         <td ng-if="blockchain_orders && !market.inverted">{{ ask.paid_filtered }} </td>
         <td ng-if="blockchain_orders && market.inverted">{{ ask.received_filtered }} </td>
-        <td class="hidden-sm hidden-xs no-r-padding">{{ ask.timestamp.timestamp | date:'HH:mm' }} </td>
+        <td class="hidden-sm hidden-xs no-r-padding">{{ ask.localtime | date:'HH:mm' }} </td>
       </tr>
       <tr ng-show="my_orders" ng-repeat="ask in my_trades | limitTo:200 track by $index">
         <td class="no-r-padding"><progressbar max="market.max_my_trades" value="ask.amount_asset.amount"></progressbar></td>
         <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'buy', 'ask-text':ask.type === 'sell'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
         <td >{{ ask.quantity }} </td>
-        <td class="no-r-padding">{{ ask.time.timestamp | date:'DD-MMM / HH:mm' }} </td>
+        <td class="no-r-padding">{{ ask.time.timestamp | date:'dd-MMM / HH:mm' }} </td>
       </tr>
     </tbody>
   </table>

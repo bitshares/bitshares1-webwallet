@@ -15,12 +15,12 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     current_market = null
     price_decimals = 4
 
-    $scope.listBuyGrid = MarketGrid.initGrid()
-    $scope.listSellGrid = MarketGrid.initGrid()
+    # $scope.listBuyGrid = MarketGrid.initGrid()
+    # $scope.listSellGrid = MarketGrid.initGrid()
     $scope.listShortsMarginsLeftGrid = MarketGrid.initGrid()
     $scope.listShortsMarginsRightGrid = MarketGrid.initGrid()
-    $scope.listBlockchainOrders = MarketGrid.initGrid()
-    $scope.listAccountOrders = MarketGrid.initGrid()
+    # $scope.listBlockchainOrders = MarketGrid.initGrid()
+    # $scope.listAccountOrders = MarketGrid.initGrid()
 
     $scope.blockchain_orders = true
     $scope.my_orders = false
@@ -92,16 +92,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         actual_market = $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
-        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
-        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
-        MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
+        #MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
+        #MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
+        #MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
         if market.inverted
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsLeftGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
         else
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
-        MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
+        # MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
         #MarketGrid.disableMouseScroll()
 
         $scope.asks = MarketService.asks

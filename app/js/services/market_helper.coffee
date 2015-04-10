@@ -120,9 +120,7 @@ class MarketHelper
         data = params.data
         target_hash = @array_to_hash(target)
         data_hash = @array_to_hash(data)
-        #if type == "short_wall"
-        #    console.log "target before:",target
-        #    console.log "data:",data_hash
+
         for i, dv of data
             tv = target_hash[dv.id]
             if tv

@@ -479,12 +479,16 @@ class MarketService
                         combined_bids.push cover
 
         for ask in combined_asks
+            if ask.type == "margin_order"
+                ask.price = feed_price
             if inverted                
                 if ask.type == "short" and ask.short_price_limit > feed_price
                     ask.price = ask.short_price_limit
-
+        
         for bid in combined_bids
-            if not inverted                
+            if bid.type == "margin_order"
+                bid.price = feed_price
+            if not inverted
                 if bid.type == "short" and bid.short_price_limit < feed_price
                     bid.price = bid.short_price_limit
 
@@ -606,6 +610,7 @@ class MarketService
         change = 0
         open = null
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
+            console.log('pulled new trades');
             now = new Date()
             today = now.setDate(now.getDate()-1)
             tradesFound = false
@@ -613,6 +618,7 @@ class MarketService
                 td = new TradeData
                 @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
 
+                td.localtime = new Date(td.timestamp.timestamp.replace('T',' ')+ ' UTC');
                 price_string = @helper.split_price td.price, market, inverted
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
@@ -622,7 +628,7 @@ class MarketService
 
                 max = Math.max td.received, max
                 
-                if today < new Date(td.timestamp.timestamp)
+                if today < td.localtime
                     tradesFound = true
                     # console.log "found trades:",td
                     dailyHigh = Math.max(dailyHigh, td.price)
@@ -644,7 +650,8 @@ class MarketService
                 @market.daily_low = dailyLow
                 @market.volume = volume
                 @market.change = 100 * (trades[0].price - open) / trades[0].price
-            @helper.update_array {target: @trades, data: trades, update: null}
+
+            @helper.update_array {target: @trades, data: trades, update: null}, "history"
 
     pull_my_trades: (market, inverted, account_name) ->
         new_trades = []
