@@ -212,3 +212,9 @@ servicesModule.factory "Utils", ($translate,$q) ->
 
     parseInt: (str) -> parseInt(str.replace(/,/g, ""))
 
+    hashString: (s) ->
+        s.split("")
+        .reduce (a,b) ->
+            a=((a<<5)-a)+b.charCodeAt(0)
+            return a&a
+        ,0

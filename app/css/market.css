@@ -561,3 +561,10 @@ tr > td.no-r-padding {
 .highlight {
 	background-color: red;
 }
+
+.margin-button {
+	padding:4px;
+	moz-border-radius: 3px;
+  	-webkit-border-radius: 5px;
+  	background-color:#F9F9F9;
+}

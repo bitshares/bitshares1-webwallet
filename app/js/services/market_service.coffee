@@ -5,9 +5,13 @@ class TradeData
     constructor: ->
         @type = null
         @id = null
+        @uid = null
         @timestamp = null
         @quantity = null
+        @quantity_filtered = null
         @price = null
+        @price_int = null
+        @price_dec = null
         @cost = 0.0
         @collateral
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
@@ -23,12 +27,16 @@ class TradeData
         td = new TradeData()
         td.type = @type
         td.id = @id
+        td.uid = @uid
         td.status = @status
         td.timestamp = @timestamp
         td.quantity = @cost
+        td.quantity_filtered = @quantity_filtered
         td.cost = @quantity
         td.collateral = @collateral
         td.price = 1.0 / @price if @price and @price > 0.0
+        td.price_int = @price_int
+        td.price_dec = @price_dec
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
@@ -57,8 +65,11 @@ class TradeData
         @timestamp = td.timestamp
         @cost = td.cost
         @quantity= td.quantity
+        @quantity_filtered = td.quantity_filtered
         @collateral = td.collateral
         @price = td.price
+        @price_int = td.price_int
+        @price_dec = td.price_dec
         @warning = td.warning
         @display_type = td.display_type
         @collateral_ratio = td.collateral_ratio
@@ -455,7 +466,6 @@ class MarketService
             feed_price = market.feed_price
         deferred = @q.defer()
         combined_asks = @asks[..]
-        #combined_asks = []
         combined_bids = @bids[..]
 
         price_string = null
@@ -504,18 +514,19 @@ class MarketService
 
         for bid, index in combined_bids
             bid.index = index
-        
+
         @helper.update_array {
             target: @combined_asks, 
             data: combined_asks, 
             can_remove: (target_el) -> 
-                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall"
+                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
             }
         @helper.update_array {
             target: @combined_bids, 
             data: combined_bids, 
             can_remove: (target_el) -> 
-                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall"}
+                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
+            }
 
         deferred.resolve(true)
        
@@ -651,6 +662,8 @@ class MarketService
                 @market.change = 100 * (trades[0].price - open) / trades[0].price
 
             @helper.update_array {target: @trades, data: trades, update: null}, "history"
+            @trades.sort (a,b) ->
+                (new Date(b.timestamp.timestamp)) - new Date(a.timestamp.timestamp)
 
     pull_my_trades: (market, inverted, account_name) ->
         new_trades = []

@@ -52,7 +52,7 @@ class MarketHelper
     order_to_trade_data: (order, base_asset, quantity_asset, invert_price, invert_assets, invert_order_type, td) ->
         td.id = order.market_index.owner unless td.id
         td.type = if invert_order_type then @invert_order_type(order.type) else order.type
-
+        td.uid = @utils.hashString order.market_index.owner + order.market_index.order_price.ratio + order.state.last_update
         price = @order_price(order.market_index.order_price, base_asset, quantity_asset)
         td.price = if invert_price and price > 0.0 then 1.0 / price else price
 
@@ -83,6 +83,7 @@ class MarketHelper
 
     cover_to_trade_data: (order, market, invert_price, td) ->
         td.id = order.market_index.owner unless td.id
+        td.uid = @utils.hashString order.market_index.owner + order.market_index.order_price.ratio  + order.state.last_update
         td.type = "margin_order"
         td.display_type = "Margin Order"
         td.status = "cover"
@@ -101,6 +102,7 @@ class MarketHelper
         qa = assets[t.ask_price.quote_asset_id]
         o.type = t.bid_type
         o.id = t.ask_owner+t.bid_owner
+        o.uid = @utils.hashString t.bid_owner + t.ask_received.amount + t.ask_owner + t.bid_received.amount
         o.price = t.ask_price.ratio * (ba.precision / qa.precision)
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
@@ -112,7 +114,7 @@ class MarketHelper
         hash = {}
         for i, v of list
             v.index = i
-            hash[v.id] = v
+            hash[v.uid] = v
         return hash
 
     update_array: (params, type) ->
@@ -122,7 +124,7 @@ class MarketHelper
         data_hash = @array_to_hash(data)
 
         for i, dv of data
-            tv = target_hash[dv.id]
+            tv = target_hash[dv.uid]
             if tv
                 if params.update
                     params.update(tv,dv)
@@ -133,7 +135,7 @@ class MarketHelper
             else
                 target.push dv
         for i, tv of target
-            if !data_hash[tv.id]
+            if !data_hash[tv.uid]
                 if params.can_remove
                     target.splice(tv.index, 1) if params.can_remove(tv)
                 else
@@ -285,7 +287,6 @@ class MarketHelper
             price = 1 / parsed_memo[3]
         price_string = price.toFixed(4).split(".")
         if type == "sell"
-            console.log 
             base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.base_asset else market.quantity_asset))
         else
             base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.quantity_asset else market.base_asset))
