@@ -509,21 +509,13 @@ class MarketService
             target: @combined_asks, 
             data: combined_asks, 
             can_remove: (target_el) -> 
-                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
+                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall"
             }
         @helper.update_array {
             target: @combined_bids, 
             data: combined_bids, 
             can_remove: (target_el) -> 
-                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
-            update: (target_el, data) =>
-                    if target_el.type == "margin_order"
-                        target_el.quantity = data.quantity
-                        target_el.quantity_filtered = data.quantity_filtered
-                        target_el.price_int = data.price_int
-                        target_el.price_dec = data.price_dec
-                        target_el.price = data.price
-            }
+                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall"}
 
         deferred.resolve(true)
        
@@ -547,18 +539,7 @@ class MarketService
                 #td.type = "cover"
 
                 covers.push td
-
-            @helper.update_array {
-                target: @covers 
-                data: covers
-                update: (target_el, data) =>
-                    target_el.quantity = data.quantity
-                    target_el.quantity_filtered = data.quantity_filtered
-                    target_el.price_int = data.price_int
-                    target_el.price_dec = data.price_dec
-                    target_el.price = data.price
-                }
-                
+            @helper.update_array {target: @covers, data: covers }
             #console.log "------ pull_covers ------>", @covers
             #@helper.sort_array(@covers, "price", "quantity", !inverted)
 
