@@ -465,20 +465,34 @@ class MarketService
         else
             feed_price = market.feed_price
         deferred = @q.defer()
-        combined_asks = @asks[..]
-        combined_bids = @bids[..]
+
+        combined_asks = []
+        for ask in @asks
+            if ask.type != "short_wall"
+                combined_asks.push ask
+
+        combined_bids = []
+        for bid in @bids
+            if bid.type != "short_wall"
+                combined_bids.push bid
 
         price_string = null
         now = new Date()
         if market.shorts_available
             for short in @shorts
                 if inverted
-                    if not (short.type == "short" && short.short_price_limit <= feed_price)
-                        # short.price = short.short_price_limit
-                        combined_asks.push short          
+                    if short.short_price_limit >= feed_price
+                        short.price = short.short_price_limit
+                        combined_asks.push short 
+                    else if short.short_price_limit < feed_price
+                        short.price = feed_price
+                        combined_asks.push short 
                 else
-                    if not (short.type == "short" && short.short_price_limit >= feed_price)
-                        # short.price = short.short_price_limit
+                    if short.short_price_limit <= feed_price
+                        short.price = short.short_price_limit
+                        combined_bids.push short 
+                    else
+                        short.price = feed_price
                         combined_bids.push short 
             for cover in @covers
                 # console.log cover
@@ -502,18 +516,27 @@ class MarketService
                 if bid.type == "short" and bid.short_price_limit < feed_price
                     bid.price = bid.short_price_limit
 
+        ###
         combined_asks.sort (a,b) ->
-            if a.price - b.price == 0 then a.index - b.index else a.price - b.price
+            if a.interest_rate and b.interest_rate
+                console.log a
+                if a.price - b.price == 0
+                    if b.interest_rate - a.interest_rate == 0 then a.index - b.index else b.interest_rate - a.interest_rate
+                else 
+                    a.price - b.price
+            else if a.interest_rate and !b.interest_rate
+                if a.price - b.price == 0 then -1 else a.price - b.price
+            else if b.interest_rate and !a.interest_rate
+                if a.price - b.price == 0 then 1 else a.price - b.price
+            else
+                if a.price - b.price == 0 then a.index - b.index else a.price - b.price
         
-        combined_bids.sort (a,b) ->
-            b.price - a.price
-            if b.price - a.price == 0 then a.index - b.index else b.price - a.price
-
         for ask, index in combined_asks
             ask.index = index
 
         for bid, index in combined_bids
             bid.index = index
+        ###
 
         @helper.update_array {
             target: @combined_asks, 
@@ -527,6 +550,35 @@ class MarketService
             can_remove: (target_el) -> 
                 target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
             }
+
+        @combined_asks.sort (a,b) ->
+            if a.interest_rate and b.interest_rate
+                if a.price - b.price == 0
+                    if b.interest_rate - a.interest_rate == 0 then b.quantity - a.quantity else b.interest_rate - a.interest_rate
+                else 
+                    a.price - b.price
+            else if a.interest_rate and !b.interest_rate
+                if a.price - b.price == 0 then -1 else a.price - b.price
+            else if b.interest_rate and !a.interest_rate
+                if a.price - b.price == 0 then 1 else a.price - b.price
+            else
+                if a.price - b.price == 0 then b.quantity - a.quantity else a.price - b.price
+
+        @combined_bids.sort (a,b) ->
+            if a.interest_rate and b.interest_rate
+                if b.price - a.price == 0
+                    if b.interest_rate - a.interest_rate == 0 then b.quantity - a.quantity else b.interest_rate - a.interest_rate
+                else 
+                    b.price - a.price
+            else if a.interest_rate and !b.interest_rate
+                if b.price - a.price == 0 then -1 else b.price - a.price
+            else if b.interest_rate and !a.interest_rate
+                if b.price - a.price == 0 then 1 else b.price - a.price
+            else
+                if b.price - a.price == 0 then b.quantity - a.quantity else b.price - a.price
+        
+        #@combined_bids.sort (a,b) ->
+        #    if b.price - a.price == 0 then a.quantity - b.quantity else b.price - a.price
 
         deferred.resolve(true)
        
