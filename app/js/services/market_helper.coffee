@@ -112,7 +112,7 @@ class MarketHelper
         hash = {}
         for i, v of list
             v.index = i
-            hash[v.id] = v
+            hash[v.index] = v
         return hash
 
     update_array: (params, type) ->
@@ -122,7 +122,7 @@ class MarketHelper
         data_hash = @array_to_hash(data)
 
         for i, dv of data
-            tv = target_hash[dv.id]
+            tv = target_hash[dv.index]
             if tv
                 if params.update
                     params.update(tv,dv)
@@ -133,7 +133,7 @@ class MarketHelper
             else
                 target.push dv
         for i, tv of target
-            if !data_hash[tv.id]
+            if !data_hash[tv.index]
                 if params.can_remove
                     target.splice(tv.index, 1) if params.can_remove(tv)
                 else
