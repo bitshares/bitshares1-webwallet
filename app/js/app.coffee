@@ -120,3 +120,7 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider
 
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
+
+    Highcharts.setOptions
+        global: 
+            useUTC: false
