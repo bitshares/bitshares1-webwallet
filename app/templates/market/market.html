@@ -1,6 +1,6 @@
 <div id="order_tabs" class="col-xs-3 order-tabs" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
   <tabset>
-    <tab ng-repeat="t in tabs" heading="{{t.heading | translate}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
+    <tab ng-repeat="t in tabs" heading="{{ t.heading | translate }}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
       <div ui-view autoscroll="false"></div>
     </tab>
   </tabset>
@@ -116,7 +116,7 @@
             <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
           </thead>
           <tbody>
-            <tr ng-repeat="ask in combined_bids | limitTo:200 track by ask.index" ng-click="row_click($index, true)" flash="ask.id">
+            <tr ng-repeat="ask in combined_bids | limitTo:100 track by ask.index" ng-click="row_click($index, true)" flash="ask.id" tooltip-html-unsafe="{{ask.type === 'short' ? ('market.interest_rate' | translate)+': '+ (ask.interest_rate | number:2)+'%': ''}}" tooltip-placement="left">
               <td>{{ ask.quantity_filtered }} </td>
               <td class="no-r-padding"><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
             </tr>
@@ -133,7 +133,7 @@
             <th><span translate>th.quantity</span><br><span> ({{ ::market.quantity_symbol }})</span></th>
           </thead>
           <tbody>
-            <tr ng-repeat="ask in combined_asks track by ask.index" ng-click="row_click($index, false)" flash="ask.id">
+            <tr ng-repeat="ask in combined_asks track by ask.index" ng-click="row_click($index, false)" flash="ask.id" tooltip-html-unsafe="{{ask.type === 'short' ? ('market.interest_rate' | translate)+': '+ (ask.interest_rate | number:2)+'%': ''}}" tooltip-placement="right">
               <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'ask-text':ask.type === 'ask', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
               <td class="no-r-padding">{{ ask.quantity_filtered }} </td>
             </tr>
@@ -201,14 +201,14 @@
       <th class="hidden-sm hidden-xs" translate>th.time</th>
     </thead>
     <tbody>
-      <tr ng-show="blockchain_orders" ng-repeat="ask in trades | limitTo:200 track by $index">
+      <tr ng-show="blockchain_orders" ng-repeat="ask in trades | limitTo:100 track by $index">
         <td class="no-r-padding"><progressbar max="market.max_trade/2" value="ask.received"></progressbar></td>
         <td ><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'bid_order', 'ask-text':ask.type === 'ask_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
         <td ng-if="blockchain_orders && !market.inverted">{{ ask.paid_filtered }} </td>
         <td ng-if="blockchain_orders && market.inverted">{{ ask.received_filtered }} </td>
         <td class="hidden-sm hidden-xs no-r-padding">{{ ask.localtime | date:'HH:mm' }} </td>
       </tr>
-      <tr ng-show="my_orders" ng-repeat="ask in my_trades | limitTo:200 track by $index">
+      <tr ng-show="my_orders" ng-repeat="ask in my_trades | limitTo:100 track by $index">
         <td class="no-r-padding"><progressbar max="market.max_my_trades" value="ask.amount_asset.amount"></progressbar></td>
         <td><span ng-class="{'short-text':ask.type === 'short_order', 'bid-text':ask.type === 'buy', 'ask-text':ask.type === 'sell'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
         <td >{{ ask.quantity }} </td>

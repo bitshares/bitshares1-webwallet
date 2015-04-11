@@ -610,7 +610,6 @@ class MarketService
         change = 0
         open = null
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
-            console.log('pulled new trades');
             now = new Date()
             today = now.setDate(now.getDate()-1)
             tradesFound = false

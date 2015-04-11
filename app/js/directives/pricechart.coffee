@@ -200,7 +200,16 @@ angular.module("app.directives").directive "pricechart", ->
 
     link: (scope, element, attrs) ->
         chart = null
-
+        if not chart
+            chart = initChart(scope)
+        scope.$watch "pricedata", (newValue) =>
+            if newValue and not chart
+                chart = initChart(scope)
+            else if chart
+                chart.series[0].setData scope.pricedata, true
+                chart.series[1].setData scope.volumedata, true
+                
+        ### Two watches uses a lot of overhead, only one needed
         scope.$watch "pricedata", (newValue) =>
             if newValue and not chart
                 chart = initChart(scope)
@@ -212,4 +221,5 @@ angular.module("app.directives").directive "pricechart", ->
             return unless chart
             chart.series[1].setData newValue, true
         , true
+        ###
 
