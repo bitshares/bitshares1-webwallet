@@ -4,8 +4,10 @@ initChart = (scope) ->
         lang:
             rangeSelectorZoom: ""
 
-    macd_precision = if scope.inverted then 2 else 5
-    
+    macd_dec = if scope.inverted then 2 else 5
+    vol_dec = scope.volumePrecision.toString().length - 3;
+    price_dec = if scope.pricePrecision > 9 then (scope.pricePrecision.toString().length - 1) else scope.pricePrecision
+
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
@@ -45,13 +47,13 @@ initChart = (scope) ->
             formatter: () ->
                 TA = ""
                 if this.points.length == 5
-                    TA = "<br> MACD:"+this.points[2].y.toFixed(macd_precision)+ " Signal line:"+this.points[4].y.toFixed(macd_precision)
+                    TA = "<br> MACD:"+Highcharts.numberFormat(this.points[2].y, price_dec-1,".",",") + " Signal line:"+Highcharts.numberFormat(this.points[4].y, price_dec-1,".",",")
                 if (this.points[0].point and this.points[0].point.open) and (this.points[1].point and this.points[1].point.y)
-                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high.toFixed(4) + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4) + " V: " + this.points[1].point.y.toFixed(2)+TA
+                    return "O: " + Highcharts.numberFormat(this.points[0].point.open, price_dec,".",",") + " H: " + Highcharts.numberFormat(this.points[0].point.high, price_dec,".",",")+ " L: " + Highcharts.numberFormat(this.points[0].point.low, price_dec,".",",") + " C: " + Highcharts.numberFormat(this.points[0].point.close, price_dec,".",",") + " V: " + Highcharts.numberFormat(this.points[1].point.y, vol_dec,".",",")+" "+scope.volumeSymbol+TA
                 else if this.points.length == 1 and this.points[0] and this.points[0].point.open
-                    return "O: " + this.points[0].point.open.toFixed(4) + " H: " + this.points[0].point.high + " L: " + this.points[0].point.low.toFixed(4) + " C: " + this.points[0].point.close.toFixed(4)+TA
+                    return "O: " + Highcharts.numberFormat(this.points[0].point.open, price_dec,".",",") + " H: " + Highcharts.numberFormat(this.points[0].point.high, price_dec,".",",")+ " L: " + Highcharts.numberFormat(this.points[0].point.low, price_dec,".",",") + " C: " + Highcharts.numberFormat(this.points[0].point.close, price_dec,".",",")+TA
                 else if this.points.length == 1 and this.points[1] and this.points[1].point.y
-                    return "V: " + this.points[1].point.y.toFixed(2)+TA
+                    return "V: " + Highcharts.numberFormat(this.points[1].point.y, vol_dec,".",",")+" "+scope.volumeSymbol+TA
                 else
                     return ""
             positioner: () ->
@@ -188,6 +190,7 @@ angular.module("app.directives").directive "pricechart", ->
         marketName: "="
         volumeSymbol: "="
         volumePrecision: "="
+        pricePrecision: "="
         priceSymbol: "="
         inverted: "="
 
@@ -208,7 +211,7 @@ angular.module("app.directives").directive "pricechart", ->
             else if chart
                 chart.series[0].setData scope.pricedata, true
                 chart.series[1].setData scope.volumedata, true
-                
+
         ### Two watches uses a lot of overhead, only one needed
         scope.$watch "pricedata", (newValue) =>
             if newValue and not chart
