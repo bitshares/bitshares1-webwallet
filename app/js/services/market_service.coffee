@@ -390,6 +390,7 @@ class MarketService
         shorts_price = if inverted and market.shorts_price > 0 then 1.0 / market.shorts_price else market.shorts_price
         short_wall = new TradeData()
         short_wall.id = "short_wall"
+        short_wall.uid = "short_wall"
         short_wall.display_type = "Short Wall"
         short_wall.type = "short_wall"
         short_wall.price = shorts_price
@@ -494,49 +495,25 @@ class MarketService
                     else
                         short.price = feed_price
                         combined_bids.push short 
+            ###
             for cover in @covers
-                # console.log cover
-                if new Date(cover.expiration.timestamp) < now
+                console.log cover
+                if new Date(cover.expiration.timestamp) > now or !(inverted and ask.price < feed_price) or (!inverted and ask.price > feed_price)
                     if not inverted
                         combined_asks.push cover          
                     else
                         combined_bids.push cover
+            ###
 
         for ask in combined_asks
-            if ask.type == "margin_order"
-                ask.price = feed_price
             if inverted                
                 if ask.type == "short" and ask.short_price_limit > feed_price
                     ask.price = ask.short_price_limit
         
         for bid in combined_bids
-            if bid.type == "margin_order"
-                bid.price = feed_price
             if not inverted
                 if bid.type == "short" and bid.short_price_limit < feed_price
                     bid.price = bid.short_price_limit
-
-        ###
-        combined_asks.sort (a,b) ->
-            if a.interest_rate and b.interest_rate
-                console.log a
-                if a.price - b.price == 0
-                    if b.interest_rate - a.interest_rate == 0 then a.index - b.index else b.interest_rate - a.interest_rate
-                else 
-                    a.price - b.price
-            else if a.interest_rate and !b.interest_rate
-                if a.price - b.price == 0 then -1 else a.price - b.price
-            else if b.interest_rate and !a.interest_rate
-                if a.price - b.price == 0 then 1 else a.price - b.price
-            else
-                if a.price - b.price == 0 then a.index - b.index else a.price - b.price
-        
-        for ask, index in combined_asks
-            ask.index = index
-
-        for bid, index in combined_bids
-            bid.index = index
-        ###
 
         @helper.update_array {
             target: @combined_asks, 
@@ -585,9 +562,30 @@ class MarketService
     pull_covers: (market, inverted) ->
         covers = []
         feed_price =  if inverted then 1 / market.feed_price else market.feed_price
+        now  = Date.now()
+        expired = 0
+        margin_called = 0
+        margin_orders = new TradeData()
+        margin_orders.uid = "forced_covers"
+        margin_orders.type = "margin_order"
+        margin_orders.price = if inverted then feed_price * 1.1 else feed_price * (1/1.1)
+        margin_orders.cost = 0.0
+        margin_orders.quantity = 0.0
+        margin_orders.collateral = 0.0
+
+        expired_orders = new TradeData()
+        expired_orders.uid = "expired_covers"
+        expired_orders.type = "margin_order"
+        expired_orders.price = feed_price
+        expired_orders.cost = 0.0
+        expired_orders.quantity = 0.0
+        expired_orders.collateral = 0.0
+
+        margin_calls_dest = if inverted then @bids else @asks
+
         @blockchain_api.market_list_covers(market.asset_base_symbol, market.asset_quantity_symbol, 1000).then (results) =>
             results = if results then [].concat.apply(results) else [] # flattens array of results
-            for r in results
+            for r, i in results
                 continue unless r.type == "cover_order"
                 #r.type = "cover"
                 td = new TradeData()
@@ -600,11 +598,52 @@ class MarketService
                 td.price_dec = price_string[1]
                 td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
                 #td.type = "cover"
-
+                if new Date(r.expiration) < now
+                    expired++
+                    expired_orders.collateral += td.collateral
+                    expired_orders.cost += td.cost
+                    expired_orders.quantity += td.quantity
+                else if (inverted and td.price < feed_price) or (!inverted and td.price > feed_price)
+                    margin_called++
+                    margin_orders.collateral += td.collateral
+                    margin_orders.cost += td.cost
+                    margin_orders.quantity += td.quantity
+            
                 covers.push td
+
             @helper.update_array {target: @covers, data: covers }
             #console.log "------ pull_covers ------>", @covers
             #@helper.sort_array(@covers, "price", "quantity", !inverted)
+
+            if expired_orders.quantity > 0.0
+                price_string = @helper.split_price expired_orders.price, market, inverted
+                expired_orders.price_int = price_string[0]
+                expired_orders.price_dec = price_string[1]
+                expired_orders.quantity_filtered = @helper.filter_quantity(expired_orders.quantity, market, inverted)
+            if margin_orders.quantity > 0.0
+                price_string = @helper.split_price margin_orders.price, market, inverted
+                margin_orders.price_int = price_string[0]
+                margin_orders.price_dec = price_string[1]
+                margin_orders.quantity_filtered = @helper.filter_quantity(margin_orders.quantity, market, inverted)
+
+                
+            expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
+            margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
+            
+            @helper.update_array {
+                target: margin_calls_dest, 
+                data: expired_orders_array,
+                can_remove: (target_el) -> 
+                    target_el.uid == "expired_covers"
+                }
+
+            @helper.update_array {
+                target: margin_calls_dest, 
+                data: margin_orders_array,
+                can_remove: (target_el) -> 
+                    target_el.uid == "forced_covers"
+                }
+
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
