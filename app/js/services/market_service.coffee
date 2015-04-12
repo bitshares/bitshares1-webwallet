@@ -611,6 +611,7 @@ class MarketService
             
                 covers.push td
 
+
             @helper.update_array {target: @covers, data: covers }
             #console.log "------ pull_covers ------>", @covers
             #@helper.sort_array(@covers, "price", "quantity", !inverted)
@@ -626,7 +627,6 @@ class MarketService
                 margin_orders.price_dec = price_string[1]
                 margin_orders.quantity_filtered = @helper.filter_quantity(margin_orders.quantity, market, inverted)
 
-                
             expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
             margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
             
@@ -792,7 +792,7 @@ class MarketService
                 td.memo = l.memo
                 td.amount_asset = l.amount_asset
                 max = Math.max td.amount_asset.amount, max
-                parsed_memo = @helper.parse_memo td.memo, td.amount_asset.amount, @market
+                parsed_memo = @helper.parse_memo td.memo, td.amount_asset.amount / td.amount_asset.precision, @market
                 td.price_int = parsed_memo.price_int
                 td.price_dec = parsed_memo.price_dec
                 td.quantity = parsed_memo.quantity

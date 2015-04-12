@@ -211,7 +211,7 @@
       </tr>
       <tr ng-show="my_orders" ng-repeat="trade in my_trades | limitTo:100 track by $index">
         <td class="no-r-padding"><progressbar max="market.max_my_trades" value="trade.amount_asset.amount"></progressbar></td>
-        <td><span ng-class="{'short-text':trade.type === 'short_order', 'bid-text':trade.type === 'buy', 'trade-text':trade.type === 'sell'}">{{ (trade.price_int) }}</span><span class="decimal-text">{{'.' + trade.price_dec }}</span> </td>
+        <td><span ng-class="{'short-text':trade.type === 'short_order', 'bid-text':trade.type === 'buy', 'ask-text':trade.type === 'sell'}">{{ (trade.price_int) }}</span><span class="decimal-text">{{'.' + trade.price_dec }}</span> </td>
         <td >{{ trade.quantity }} </td>
         <td class="no-r-padding">{{ trade.time.timestamp | date:'dd-MMM / HH:mm' }} </td>
       </tr>

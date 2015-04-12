@@ -281,21 +281,41 @@ class MarketHelper
         price = null;
         parsed_memo = memo.split(" ")
         type = parsed_memo[0]
+       
         if not market.inverted
             price = parseFloat parsed_memo[3]
+            if type == "sell"
+                amount *= price
+            else if type == "buy"
+                amount /= price
         else
             price = 1 / parsed_memo[3]
-        price_string = price.toFixed(4).split(".")
-        if type == "sell"
-            base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.base_asset else market.quantity_asset))
-        else
-            base = @utils.formatAsset(@utils.asset(amount, if (market.actual_market) then market.quantity_asset else market.base_asset))
+            if type == "sell"
+                type = "buy"
+                amount /= price
+            else if type == "buy"
+                type = "sell"
+                amount *= price
+
+        price_string = @utils.formatDecimal(price,market.price_precision).split(".")
+        
+        if (type == "sell" and market.actual_market) or (type == "buy" and !market.actual_market)
+            if market.inverted
+                quantity = @utils.formatDecimal(amount, market.base_asset.precision) + ' ' + market.asset_base_symbol
+            else
+                quantity = @utils.formatDecimal(amount, market.quantity_asset.precision) + ' ' + market.asset_quantity_symbol
+        else if (type == "buy" and market.actual_market) or (type == "sell" and !market.actual_market)
+            if market.inverted
+                quantity = @utils.formatDecimal(amount, market.quantity_asset.precision) + ' ' + market.asset_quantity_symbol
+            else
+                quantity = @utils.formatDecimal(amount, market.base_asset.precision) + ' ' + market.asset_base_symbol
+
         return {
-            quantity: base
+            quantity: quantity
             base_asset: parsed_memo[1]
             quote_asset: parsed_memo[4]
             price: price
-            type: parsed_memo[0]
+            type: type
             price_int: price_string[0]
             price_dec: price_string[1]
             }
