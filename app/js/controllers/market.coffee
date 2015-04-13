@@ -253,12 +253,13 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.row_click = (index, bid) ->
         if bid
-            $scope.use_trade_data price: $scope.combined_bids[index]
+            $scope.use_trade_data $scope.combined_bids[index]
         else
-            $scope.use_trade_data price: $scope.combined_asks[index]
+            $scope.use_trade_data $scope.combined_asks[index]
 
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
+        
         order = get_order()
         coalesce = (new_value, old_value, precision) ->
             return null if !new_value and !old_value
@@ -269,14 +270,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             else
                 return Utils.formatDecimal(ret, precision)
 
+        if (data.type == "bid" or data.type == "ask") and $state.current.name == "market.short"
+            data.price_limit = data.price
+            data.collateral = 2 * data.quantity / $scope.actual_market.shorts_price
+
         order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
-
         order.interest_rate = coalesce data.interest_rate, order.interest_rate, 2
-
         order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
-
         order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision
-
         order.price = coalesce data.price, order.price, $scope.market.price_precision
 
         switch $state.current.name
