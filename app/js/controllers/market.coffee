@@ -253,9 +253,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.row_click = (index, bid) ->
         if bid
-            $scope.use_trade_data price: $scope.combined_bids[index].price, quantity: $scope.combined_bids[index].quantity
+            $scope.use_trade_data price: $scope.combined_bids[index]
         else
-            $scope.use_trade_data price: $scope.combined_asks[index].price, quantity: $scope.combined_asks[index].quantity
+            $scope.use_trade_data price: $scope.combined_asks[index]
 
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name

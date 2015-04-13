@@ -25,9 +25,11 @@
           <span class="short-text">{{o.short_price_limit | formatDecimal : market.price_precision : true}}</span>
         </td>
         <!--quantity-->
-        <td ng-click="use_trade_data({price: o.price, quantity: o.quantity})"><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
+        <td ng-if="o.type!=='short_order'" ng-click="use_trade_data({price: o.price, quantity: o.quantity})"><span ng-show="o.quantity >= 0.0">{{o.quantity | formatDecimal : market.quantity_precision}}</span></td>
+        <td ng-if="o.type==='short_order'" ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})"><span>{{o.collateral * actual_market.shorts_price/2.0 | formatDecimal : actual_market.base_precision}}</span></td>
         <!--total(cost)-->
-        <td ng-click="use_trade_data({price: o.price, quantity: o.quantity})"><span ng-show="o.cost >= 0.0 && o.type!=='short_order'">{{o.cost | formatDecimal : market.base_precision}}</span></td>
+        <td ng-if="o.type!=='short_order'" ng-click="use_trade_data({price: o.price, quantity: o.quantity})"><span ng-show="o.cost >= 0.0 && o.type!=='short_order'">{{o.cost | formatDecimal : market.base_precision}}</span></td>
+        <td ng-if="o.type==='short_order'" ng-click="use_trade_data({interest_rate: o.interest_rate, price_limit: o.short_price_limit, collateral: o.collateral})"><span>{{o.collateral | formatDecimal : actual_market.quantity_precision}}</span></td>
         <td>
           <span ng-switch on="o.status">
             <span ng-switch-when="unconfirmed">

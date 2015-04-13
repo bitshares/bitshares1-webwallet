@@ -752,9 +752,16 @@ class MarketService
                 @market.volume = volume
                 @market.change = 100 * (trades[0].price - open) / trades[0].price
 
-            @helper.update_array {target: @trades, data: trades, update: null}, "history"
+            @helper.update_array {target: @trades, data: trades, update: null}
+
             @trades.sort (a,b) ->
-                (new Date(b.timestamp.timestamp)) - new Date(a.timestamp.timestamp)
+                time_a = a.localtime.getTime()
+                time_b = b.localtime.getTime()
+
+                if time_b == time_a
+                    if b.received == a.received then b.price - a.price else b.received - a.received 
+                else 
+                    time_b - time_a
 
     pull_my_trades: (market, inverted, account_name) ->
         new_trades = []
