@@ -303,6 +303,14 @@ tr.short_wall td {
 
 /* ui-grid */
 
+.ui-grid-viewport {
+	width: 100% !important;
+}
+
+.ui-grid-render-container-body .ui-grid-native-scrollbar.vertical {
+	right: 0 !important;
+}
+
 .market-grid {
 	border: none;
 	color: #222;
