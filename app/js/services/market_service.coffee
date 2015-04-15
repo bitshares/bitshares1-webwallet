@@ -406,20 +406,73 @@ class MarketService
 
     pull_covers: (market, inverted) ->
         covers = []
+        feed_price =  if inverted then 1 / market.feed_price else market.feed_price
+        now  = Date.now()
+        expired = 0
+        margin_called = 0
+        margin_orders = new TradeData()
+        margin_orders.uid = "forced_covers"
+        margin_orders.type = "margin_order"
+        margin_orders.price = if inverted then feed_price * 1.1 else feed_price * (1/1.1)
+        margin_orders.cost = 0.0
+        margin_orders.quantity = 0.0
+        margin_orders.collateral = 0.0
+
+        expired_orders = new TradeData()
+        expired_orders.uid = "expired_covers"
+        expired_orders.type = "margin_order"
+        expired_orders.price = feed_price
+        expired_orders.cost = 0.0
+        expired_orders.quantity = 0.0
+        expired_orders.collateral = 0.0
+
+        margin_calls_dest = if inverted then @bids else @asks
+
         @blockchain_api.market_list_covers(market.asset_base_symbol, market.asset_quantity_symbol, 1000).then (results) =>
             results = if results then [].concat.apply(results) else [] # flattens array of results
-            for r in results
+            for r, i in results
                 continue unless r.type == "cover_order"
                 #r.type = "cover"
                 td = new TradeData()
                 @helper.cover_to_trade_data(r, market, inverted, td)
                 #console.log "---- cover ", r.state.balance, td.cost
                 td.collateral = r.collateral / market.quantity_precision
+                td.quantity = if inverted then td.cost else td.cost / feed_price
                 #td.type = "cover"
+                if new Date(r.expiration) < now
+                    expired++
+                    expired_orders.collateral += td.collateral
+                    expired_orders.cost += td.cost
+                    expired_orders.quantity += td.quantity
+                else if (inverted and td.price < feed_price) or (!inverted and td.price > feed_price)
+                    margin_called++
+                    margin_orders.collateral += td.collateral
+                    margin_orders.cost += td.cost
+                    margin_orders.quantity += td.quantity
+
                 covers.push td
+
+
             @helper.update_array {target: @covers, data: covers }
             #console.log "------ pull_covers ------>", @covers
             #@helper.sort_array(@covers, "price", "quantity", !inverted)
+
+            expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
+            margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
+
+            @helper.update_array {
+                target: margin_calls_dest,
+                data: expired_orders_array,
+                can_remove: (target_el) ->
+                    target_el.uid == "expired_covers"
+            }
+
+            @helper.update_array {
+                target: margin_calls_dest,
+                data: margin_orders_array,
+                can_remove: (target_el) ->
+                    target_el.uid == "forced_covers"
+            }            #@helper.sort_array(@covers, "price", "quantity", !inverted)
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
