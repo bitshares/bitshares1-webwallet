@@ -8,6 +8,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.gravatar_account_name = null
     $scope.address_type = "account"
     $scope.refreshing_balances = true
+    $scope.balance_after_transfer = null
 
     pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
