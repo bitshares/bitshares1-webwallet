@@ -3,6 +3,11 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
     request: (method, params, error_handler = null) ->
         #console.log "------ rpc request:  #{method} #{JSON.stringify(params)}"
         #magic_unicorn.log_message("------ rpc request:  #{method} #{JSON.stringify(params)}") if magic_unicorn?
+        
+        # Method_param is a visual for the logs, it must match 
+        # actual method being called in the reqparams
+        #method_param = if method is 'batch' then params[1] else method
+        
         reqparams = {method: method, params: params || []}
         http_params =
             stack: getStackTrace()
@@ -10,7 +15,7 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
             time: Date.now()
             method: "POST",
             cache: false,
-            url: '/rpc'
+            url: '/rpc'#+method_param
             data:
                 jsonrpc: "2.0"
                 id: 1
