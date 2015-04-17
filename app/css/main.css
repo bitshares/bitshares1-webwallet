@@ -516,9 +516,9 @@ input.ng-dirty.ng-invalid {
 	color: #1b6fc1;
 }
 
-.btn-primary.outline:hover, .btn-primary.outline:active {
+.btn-primary.outline:hover, .btn-primary.outline:active, .btn-primary.outline.active {
 	color: #fff;
-	border-color: #1863ad;
+	border-color: #1b6fc1;
 }
 
 .btn-primary.outline:focus {
@@ -526,6 +526,25 @@ input.ng-dirty.ng-invalid {
 }
 
 .btn-primary.outline:focus:hover {
+	color: #fff;
+}
+
+.btn-info.outline {
+	border: 1px solid #4dbadb;
+	color: #4dbadb;
+}
+
+.btn-info.outline:hover, .btn-info.outline:active, .btn-info.outline.active, .btn-info.outline:focus.active {
+	color: #fff;
+	background-color: #4dbadb;
+	border-color: #4dbadb;
+}
+
+.btn-info.outline:focus {
+	color: #4dbadb;
+}
+
+.btn-info.outline:focus:hover {
 	color: #fff;
 }
 

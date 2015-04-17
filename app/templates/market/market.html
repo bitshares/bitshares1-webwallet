@@ -110,7 +110,11 @@
 
       <!-- Buy -->
       <div class="col-xs-4 small-lr-padding orderbook-table">
-        <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}<span class="small"><button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right margin-button" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}"><span ng-if="market.inverted" translate>market.order_type.margin_orders</span><span ng-if="!market.inverted" translate>market.order_type.short_orders</span></button></span></h3>
+        <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}
+          <button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right margin-button btn btn-info btn-sm outline" ng-class="{active: buy_button}">
+            <span ng-if="market.inverted" translate>market.order_type.margin_orders</span><span ng-if="!market.inverted" translate>market.order_type.short_orders</span>
+          </button>
+        </h3>
         <table fixed-header table-height="300px"  class="market-table table table-default table-condensed table-hover">
           <thead>
             <th><span translate>th.quantity</span><br><span> ({{ ::market.quantity_symbol }})</span></th>
@@ -127,7 +131,11 @@
 
       <!-- Sell -->
       <div class="col-xs-4 small-lr-padding orderbook-table">
-        <h3 class="market-table-title panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}<span class="small"><button ng-show="advanced" ng-click="sell_button = !sell_button" class="pull-right margin-button" ng-class="{'short-text':market.inverted,'cover-text':!market.inverted}"><span ng-if="market.inverted" translate>market.order_type.short_orders</span><span ng-if="!market.inverted" translate>market.order_type.margin_orders</span></button></h3>
+        <h3 class="market-table-title panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}
+          <button ng-show="advanced" ng-click="sell_button = !sell_button" class="pull-right margin-button btn btn-info btn-sm outline" ng-class="{active: sell_button}">
+            <span ng-if="market.inverted" translate>market.order_type.short_orders</span><span ng-if="!market.inverted" translate>market.order_type.margin_orders</span>
+          </button>
+        </h3>
         <table fixed-header table-height="300px" class="table table-default table-condensed table-hover market-table">
           <thead>
             <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
@@ -159,7 +167,8 @@
     <!-- Left margin/short table -->
     <div ng-if="market.shorts_available && advanced">
       <div ng-if="buy_button" class="small-lr-padding" ng-class="'col-md-6'">
-        <h3 class="market-table-title panel-title" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}">{{
+        <h3 class="market-table-title panel-title" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}">
+          {{
           (market.inverted ?
           ('market.margin_orders'|translate)
           :
@@ -191,7 +200,7 @@
 
 
 <!-- Blockchain and Account orders -->
-<div class="col-xs-3 small-l-padding market-charts" style="height:775px">
+<div class="col-xs-3 small-l-padding order-list" style="height:775px">
   <h3 class="market-table-title panel-title"> <span ng-click="switchHistory()" ng-class="{'title-active':blockchain_orders, 'title-inactive':!blockchain_orders}" translate>market.blockchain_orders_history</span><span ng-click="switchHistory()" ng-class="{'title-active':my_orders, 'title-inactive':!my_orders}" style="margin-left:1em;" translate>market.account_orders_history</span></h3>
   <table fixed-header table-height="725px" class="market-table table table-default table-condensed table-hover">
     <thead>

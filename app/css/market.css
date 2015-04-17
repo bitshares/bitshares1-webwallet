@@ -230,6 +230,11 @@ tr.short_wall td {
 	text-transform: uppercase;
 }
 
+.order-list .market-table-title {
+    margin-top: 15px;
+    font-size: 96%;
+}
+
 .market-header-button {
 	text-shadow: none;
 	font-size: 14px;
@@ -429,13 +434,22 @@ tr.short_wall td {
 #order_tabs {
 	position: fixed;
 	height: 100%;
-	padding: 23px 0px 23px 20px;
+	padding: 10px;
+    padding-top: 23px;
 	background-color: #F6FAFC;
 }
 
 #order_tabs li {
 	text-transform: uppercase;
 	font-weight: bold;
+}
+
+#order_tabs li.active a {
+    background-color: #fcfcfc;
+}
+
+#order_tabs .tab-content {
+    background-color: #fcfcfc;
 }
 
 .orders-div {
@@ -571,8 +585,7 @@ tr > td.no-r-padding {
 }
 
 .margin-button {
-	padding:4px;
-	moz-border-radius: 3px;
-  	-webkit-border-radius: 5px;
-  	background-color:#F9F9F9;
+    position: relative;
+    top: -3px;
+    font-size: 11px !important;
 }
