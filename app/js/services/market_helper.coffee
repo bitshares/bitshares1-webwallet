@@ -98,12 +98,13 @@ class MarketHelper
                 td.expiration = {days: result, timestamp: td.expiration}
 
     trade_history_to_order: (t, o, assets, invert_price) ->
-        ba = assets[t.ask_price.base_asset_id]
-        qa = assets[t.ask_price.quote_asset_id]
+        ask_price = t.ask_price or t.ask_index.order_price
+        ba = assets[ask_price.base_asset_id]
+        qa = assets[ask_price.quote_asset_id]
         o.type = t.bid_type
         o.id = t.ask_owner+t.bid_owner
-        o.uid = @utils.hashString t.bid_owner + t.ask_received.amount + t.ask_owner + t.bid_received.amount
-        o.price = t.ask_price.ratio * (ba.precision / qa.precision)
+        o.uid = @utils.hashString "#{t.bid_owner}#{t.ask_received.amount}#{t.ask_owner}#{t.bid_received.amount}"
+        o.price = ask_price.ratio * (ba.precision / qa.precision)
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision

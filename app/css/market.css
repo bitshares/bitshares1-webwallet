@@ -350,6 +350,14 @@ tr.short_wall td {
 	border-top: 1px solid #d4d4d4;
 }
 
+.ui-grid-viewport {
+    width: 100% !important;
+}
+
+.ui-grid-render-container-body .ui-grid-native-scrollbar.vertical {
+    right: 0 !important;
+}
+
 .market-grid .ui-grid-native-scrollbar.horizontal {
 	display: none;
 }

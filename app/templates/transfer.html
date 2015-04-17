@@ -142,7 +142,7 @@
           <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid || !transfer_info.symbol || my_transfer_form.payto.error_message">
             &nbsp; <span translate>account.send</span> &nbsp;
           </button>
-          <span class="help-block">
+          <span class="help-block" ng-show="balance_after_transfer">
                {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+tx_fee_asset.symbol }})</span>
         </div>
       </div>

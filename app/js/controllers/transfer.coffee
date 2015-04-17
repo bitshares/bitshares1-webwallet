@@ -12,8 +12,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     $scope.address_type = "account"
     $scope.refreshing_balances = true
     $scope.is_address_book_contact = false
-
-
+    $scope.balance_after_transfer = null
 
     $scope.memo_size_max = 51
     my_transfer_form = null
