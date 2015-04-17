@@ -42,7 +42,7 @@ class Wallet
         @current_account = ""
     
     is_guest:->
-        @accounts["Guest"] isnt undefined
+        @accounts["guest"] isnt undefined
     
     reset_gui_state:->
         # Information may show after locking the wallet then using the 
@@ -156,8 +156,8 @@ class Wallet
     populate_account: (val) ->
         acct = val
         acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
-        if acct.name is "Guest"
-            obfuscate=(key)->key.substring(0,7)+"..."+ key.substring(key.length - 12)
+        if acct.name is "guest"
+            obfuscate=(key)->key.substring(0,8)+"...."
             acct.guest_owner_key = obfuscate acct.owner_key
             acct.guest_active_key = obfuscate acct.active_key
         
@@ -363,7 +363,6 @@ class Wallet
                     for val in result
                         @process_transaction(val) if not val.is_confirmed and not val.is_virtual
                 pending_transactions_promise.finally =>
-                    # each_block observer will reset transactions_loading_promise
                     @transactions_loading_promise = null
                     deffered.resolve(@transactions)
             , (error) =>
