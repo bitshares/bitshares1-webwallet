@@ -16,7 +16,7 @@ window.open_external_url = (url) ->
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus",
-     "ui.grid.autoResize"])
+     "ui.grid.autoResize", "ngAnimate", "anguFixedHeaderTable"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, $translate, editableOptions, editableThemes) ->
 
@@ -87,14 +87,13 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     $rootScope.showContextHelp = (name) ->
         if name
             $rootScope.context_help.show = true
-            $rootScope.context_help.file = "context_help/#{$translate.preferredLanguage()}/#{name}.html"
+            $rootScope.context_help.file = "context_help/en/#{name}.html"
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
 
     $rootScope.current_account = null
 
-    $idle.watch()
 
 app.config ($idleProvider, $translateProvider, $tooltipProvider
     $compileProvider, $locationProvider) ->
@@ -121,3 +120,7 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider
 
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
+
+    Highcharts.setOptions
+        global: 
+            useUTC: false

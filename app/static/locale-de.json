@@ -108,7 +108,8 @@
     "expiration": "ABLAUF",
     "interest_rate": "Zins Rate (p.a.)",
     "message": "Nachricht",
-    "market": "Markt"
+    "market": "Markt",
+    "id": "Id"
   },
   "block": {
     "title": "Block",
@@ -278,8 +279,8 @@
       "sell_total": "Die Menge an {{base}} die auf Ihr Konto {{account}} durch diese Order gutgeschrieben werden wird.",
       "short_quantity": "Die Menge an {{value}} die Sie leihen und verkaufen möchten.",
       "short_collateral": "Die Menge an {{value}} die Sie bereits sind als Kollateral aufzugeben. Sie sollten die 3-fache Menge zurücklegen. 2x kommt von der Shortenden Partei und 1x vom Käufer.",
-      "short_price_limit_direct": "Der höchste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{base}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer größer ist.",
-      "short_price_limit_inverted": "Der niedrigste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{quantity}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer niedriger ist.",
+      "short_price_limit_direct": "Der höchste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{base}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer niedriger ist.",
+      "short_price_limit_inverted": "Der niedrigste Preis in {{base}} pro {{quantity}} zu dem Sie bereit sind {{quantity}} zu leihen und zu verkaufen. Shortorder werden ausschließlich am Preisfeed oder Preislimit ausgeführt, welches auch immer größer ist.",
       "short_feed_price": "Der Median des Handelspreis von externen Handelsplatformen gemäß der Delegierten Preis-Feeds.",
       "short_total": "Die benötigte Menge {{value}} für diese Order. Bestimmt als Quantität mal Kollateral-Ratio.",
       "short_interest_rate": "Der Zinssatz, den Sie zu zahlen bereit sind."
@@ -332,6 +333,8 @@
     "rescan_blockchain": "Blockkette erneut durchsuchen",
     "new_account": "Neues Konto erstellen",
     "name": "Kontoname",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Webseite",
     "website_tip": "Webseite (Optional)",
     "email": "Email",
@@ -408,7 +411,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Konto erstellen",
+    "add_account": "Konto erstellen",
     "accounts": "Kontoübersicht",
     "info": "Wählen Sie ein Konto für weitere Aktionen.",
     "select_account": "Konto auswählen",
@@ -444,7 +447,6 @@
   },
   "directory": {
     "directory": "Verzeichnis",
-    "favorites": "Favoriten",
     "unregistered": "Unregistriert",
     "registered": "Registriert",
     "assets": "BitAssets"

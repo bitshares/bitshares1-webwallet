@@ -1,4 +1,4 @@
-angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid) ->
+angular.module("app").controller "MarketController", ($scope, $state, $stateParams, $modal, $location, $q, $log, $filter, Wallet, WalletAPI, Blockchain, BlockchainAPI, Growl, Utils, MarketService, Observer, MarketGrid, $interval) ->
     $scope.showContextHelp "market"
     $scope.account_name = account_name = $stateParams.account
     return if not account_name or account_name == 'no:account'
@@ -15,17 +15,23 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     current_market = null
     price_decimals = 4
 
-    $scope.listBuyGrid = MarketGrid.initGrid()
-    $scope.listSellGrid = MarketGrid.initGrid()
+    # $scope.listBuyGrid = MarketGrid.initGrid()
+    # $scope.listSellGrid = MarketGrid.initGrid()
     $scope.listShortsMarginsLeftGrid = MarketGrid.initGrid()
     $scope.listShortsMarginsRightGrid = MarketGrid.initGrid()
-    $scope.listBlockchainOrders = MarketGrid.initGrid()
-    $scope.listAccountOrders = MarketGrid.initGrid()
+    # $scope.listBlockchainOrders = MarketGrid.initGrid()
+    # $scope.listAccountOrders = MarketGrid.initGrid()
+
+    $scope.blockchain_orders = true
+    $scope.my_orders = false
+    $scope.buy_button = false
+    $scope.sell_button = false
 
     $scope.tabs = [
-        { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy" },
-        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell" },
-        { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+        { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy bid-text" },
+        { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell ask-text" },
+        { heading: "market.short", route: "market.short", active: false, class: "tab-short short-text" }
+        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover cover-text"}
     ]
 
     $scope.goto_tab = (route) ->
@@ -77,7 +83,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         data: {context: MarketService}
         update: MarketService.pull_market_status
 
-
     market_name = $stateParams.name
     promise = MarketService.init(market_name)
     promise.then (market) ->
@@ -87,19 +92,22 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         actual_market = $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
-        MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
-        MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
-        MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
+        #MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
+        #MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
+        #MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
         if market.inverted
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsLeftGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsRightGrid, MarketService.shorts, market)
         else
             MarketGrid.setupMarginsGrid($scope.listShortsMarginsRightGrid, MarketService.covers, market)
             MarketGrid.setupShortsGrid($scope.listShortsMarginsLeftGrid, MarketService.shorts, market)
-        MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
+        # MarketGrid.setupBlockchainOrdersGrid($scope.listBlockchainOrders, MarketService.trades, market)
         #MarketGrid.disableMouseScroll()
 
         $scope.asks = MarketService.asks
+        $scope.combined_asks = MarketService.combined_asks
+        $scope.combined_bids = MarketService.combined_bids
+        # $scope.spread = MarketService.asks
         $scope.shorts = MarketService.shorts
         $scope.covers = MarketService.covers
         $scope.trades = MarketService.trades
@@ -153,7 +161,11 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     Wallet.refresh_accounts().then ->
         $scope.accounts.splice(0, $scope.accounts.length)
         for k,a of Wallet.accounts
-            $scope.accounts.push a if a.is_my_account
+            $scope.accounts.push a
+
+    $scope.switchHistory = () ->
+        $scope.blockchain_orders = !$scope.blockchain_orders
+        $scope.my_orders = !$scope.my_orders
 
     $scope.excludeOutOfRange = (item) ->
         not item.out_of_range
@@ -204,6 +216,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.order_total_change = ->
         order = get_order()
+        console.log order
         TradeData = MarketService.TradeData
         price = TradeData.helper.to_float(order.price)
         cost = TradeData.helper.to_float(order.cost)
@@ -238,8 +251,15 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.use_trade_data price: row.price, quantity: row.quantity
             $scope.scroll_buysell()
 
+    $scope.row_click = (index, bid) ->
+        if bid
+            $scope.use_trade_data $scope.combined_bids[index]
+        else
+            $scope.use_trade_data $scope.combined_asks[index]
+
     $scope.use_trade_data = (data) ->
         #console.log "use_trade_data",$state.current.name
+        
         order = get_order()
         coalesce = (new_value, old_value, precision) ->
             return null if !new_value and !old_value
@@ -250,14 +270,14 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             else
                 return Utils.formatDecimal(ret, precision)
 
+        if (data.type == "bid" or data.type == "ask") and $state.current.name == "market.short"
+            data.price_limit = data.price
+            data.collateral = 2 * data.quantity / $scope.actual_market.shorts_price
+
         order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
-
         order.interest_rate = coalesce data.interest_rate, order.interest_rate, 2
-
         order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
-
         order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision
-
         order.price = coalesce data.price, order.price, $scope.market.price_precision
 
         switch $state.current.name
@@ -299,6 +319,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 bid.warning = "market.tip.bid_price_too_high"
                 bid.price_diff = Utils.formatDecimal(price_diff, 1)
+                console.log bid
         $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(bid)
 
@@ -325,6 +346,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             if price_diff > 5
                 ask.warning = "market.tip.ask_price_too_low"
                 ask.price_diff = Utils.formatDecimal(price_diff, 1)
+                console.log ask
         MarketService.add_unconfirmed_order(ask)
 
     $scope.submit_short = ->
@@ -344,8 +366,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         short.type = "short_order"
         short.display_type = "Short"
         console.log "------ submit_short ------>", $scope.market.inverted, short
-        $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
-        $("#orders_table").animate({ scrollTop: 0 }, "slow")
+        # $(".content").animate({ scrollTop: $("#short_orders_row").offset().top - 40 }, "slow")
+        # $("#orders_table").animate({ scrollTop: 0 }, "slow")
         MarketService.add_unconfirmed_order(short)
 
     $scope.confirm_order = (id) ->
@@ -449,3 +471,4 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
             ]
+

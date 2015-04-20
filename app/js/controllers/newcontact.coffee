@@ -1,4 +1,4 @@
-angular.module("app").controller "NewContactController", ($scope, $location, $stateParams, Wallet, Utils) ->
+angular.module("app").controller "NewContactController", ($scope, $location, $stateParams, Wallet, WalletAPI, Utils) ->
     $scope.data = {}
     $scope.data.account_name = $stateParams.name
     $scope.data.address = $stateParams.key
@@ -13,6 +13,6 @@ angular.module("app").controller "NewContactController", ($scope, $location, $st
             form.address.$invalid = true
             message = Utils.formatAssertException(error.data.error.message)
             form.address.$error.message = if message and message.length > 2 then message else "Not valid public key"
-        Wallet.wallet_add_contact_account($scope.data.account_name, $scope.data.address, error_handler).then (response) ->
+        WalletAPI.add_contact($scope.data.address, $scope.data.account_name, error_handler).then ->
             Wallet.refresh_accounts()
             $location.path "accounts/#{$scope.data.account_name}"

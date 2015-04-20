@@ -9,7 +9,7 @@ angular.module("app").controller "CreateWalletController", ($scope, $rootScope, 
 
     $scope.submitForm = (isValid, password) ->
         if isValid
-            promise = Wallet.create($scope.wallet_name, password)
+            promise = Wallet.create($scope.wallet_name, password, "")
             promise.then ->
                 $location.path("/create/account")
             $rootScope.showLoadingIndicator promise

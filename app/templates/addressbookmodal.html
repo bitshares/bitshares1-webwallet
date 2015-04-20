@@ -13,10 +13,12 @@
 
         <ul class="list-group contacts-list">
 
-          <li class="list-group-item clearfix" ng-repeat="name in data.favorites | filter:data.contact_name_filter" ng-click="selectAccount(name)">
-            <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" tooltip="{{'btn.remove'|translate}}"></i></div>
+          <li class="list-group-item clearfix" ng-repeat="name in data.contacts | filter:data.contact_name_filter" ng-click="selectAccount(name)">
+            <div class="pull-right remove-contact-btn" ng-click="removeContact(name)"><i class="fa fa-times fa-fw" ng-hide="isMyAccount(name)" tooltip="{{'btn.remove'|translate}}"></i></div>
             <identicon account="{{name}}" size="40"/>
             <span class="name">{{name}}</span>
+            <span class="address-book-account-id" ng-show="data.contact_accounts[name].id">#{{data.contact_accounts[name].id}}</span>
+            <span class="address-book-account-id" ng-show="!data.contact_accounts[name].id" translate>account.unregistered</span>
           </li>
         </ul>
 

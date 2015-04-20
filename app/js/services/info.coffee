@@ -7,6 +7,8 @@ class Info
 
     expected_client_version: "0.5.1"
 
+    FULL_SYNC_SECS: 600
+
     get : () ->
         if Object.keys(@info).length > 0
             deferred = @q.defer()
@@ -18,22 +20,36 @@ class Info
 
     refresh_info : () ->
         @is_refreshing = true
-        @q.all([@common_api.get_info(), @wallet.wallet_get_info()]).then (results) =>
+        @q.all([@common_api.get_info(), @wallet.wallet_get_info(), @blockchain_api.get_info()]).then (results) =>
             data = results[0]
             @info.transaction_scanning = results[1].transaction_scanning
             @info.network_connections = data.network_num_connections
             @info.wallet_open = data.wallet_open
             @info.wallet_unlocked = data.wallet_unlocked
             @info.last_block_time = data.blockchain_head_block_timestamp
+            @info.genesis_timestamp = results[2].genesis_timestamp
+            @info.seconds_behind = if @info.last_block_time then (Date.now() - @utils.toDate(@info.last_block_time).getTime()) / 1000 else 0
+            @info.seconds_from_genesis = if @info.genesis_timestamp then (Date.now() - @utils.toDate(@info.genesis_timestamp).getTime()) / 1000 else 0
             @info.last_block_num = data.blockchain_head_block_num
+            if @info.seconds_from_genesis and @info.seconds_from_genesis > 0 and @info.seconds_behind > 0
+                @info.percent_synced = Math.round((1.0 - @info.seconds_behind / @info.seconds_from_genesis) * 100.0)
+            else
+                @info.percent_synced = 0
             @info.blockchain_head_block_age = data.blockchain_head_block_age
             @info.share_supply = data.blockchain_share_supply
             @info.wallet_scan_progress = results[1].scan_progress
             if(!@info.client_version)
               @info.client_version=data.client_version
 
-            @blockchain_api.get_security_state().then (data) =>
-                @info.alert_level = data.alert_level
+            @info.delegate_participation = data.blockchain_average_delegate_participation
+            @info.alert_level = "grey"
+            if @info.delegate_participation
+                if @info.delegate_participation > 80
+                    @info.alert_level = "green"
+                else if @info.delegate_participation > 60
+                    @info.alert_level = "yellow"
+                else
+                     @info.alert_level = "red"
 
             @common_api.get_config().then (data) =>
                 @info.address_prefix = data.address_prefix

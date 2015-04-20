@@ -6,7 +6,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 350 #if scope.advancedMode then 200 else 350
+            height: 332 #if scope.advancedMode then 200 else 350
 
         title:
             text: null
@@ -15,6 +15,7 @@ initChart = (scope) ->
             enabled: false
 
         legend:
+            enabled: false
             verticalAlign: "top"
 
         tooltip:
@@ -23,21 +24,25 @@ initChart = (scope) ->
 
         xAxis:
             title:
+                enabled: false
                 text: "Price " + scope.priceSymbol
 
         yAxis:
+            opposite: false
             title:
-                text: "Volume " + scope.volumeSymbol
+                text: ""
+            gridLineColor: 'transparent'
+
 
         series: [
             name: "Buy " + scope.volumeSymbol
             data: scope.bidsArray
-            color: "#2ca02c"
+            color: "#28a92e"
             lineWidth: 1
         ,
             name: "Sell " + scope.volumeSymbol
             data: scope.asksArray
-            color: "#ff7f0e"
+            color: "#c90808"
             lineWidth: 1
         ]
 
@@ -45,6 +50,8 @@ initChart = (scope) ->
             area:
                 marker:
                     enabled: false
+            series:
+                fillOpacity: 0.25
 
 addPlotLine = (chart, value) ->
     return unless value

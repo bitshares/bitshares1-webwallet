@@ -1,12 +1,22 @@
 /* Fonts  */
 
 @font-face {
-	font-family: 'Open Sans';
+	font-family: 'Roboto';
 	font-style: normal;
-	font-weight: 400;
-	src: url('/webfonts/opensans-regular.eot');
-	src: url('/webfonts/opensans-regular.eot?#iefix') format('embedded-opentype'), url('/webfonts/opensans-regular.woff') format('woff'), url('/webfonts/opensans-regular.ttf') format('truetype'), url('/webfonts/opensans-regular.svg#open_sansregular') format('svg');
+	font-weight: 300;
+	src: url('/webfonts/Roboto-Regular-webfont.eot');
+	src: url('/webfonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('/webfonts/Roboto-Regular-webfont.woff') format('woff'), url('/webfonts/Roboto-Regular-webfont.ttf') format('truetype'), url('/webfonts/Roboto-Regular-webfont.svg#roboto_regular') format('svg');
 }
+
+@font-face {
+	font-family: 'Roboto Light';
+	font-style: normal;
+	font-weight: 100;
+	src: url('/webfonts/Roboto-Light-webfont.eot');
+	src: url('/webfonts/Roboto-Light-webfont.eot?#iefix') format('embedded-opentype'), url('/webfonts/Roboto-Light-webfont.woff') format('woff'), url('/webfonts/Roboto-Light-webfont.ttf') format('truetype'), url('/webfonts/Roboto-Light-webfont.svg#roboto_light') format('svg');
+}
+
+
 
 @media (min-width: 1200px) and (max-width: 1400px) {
 	.hideableCol {
@@ -51,12 +61,12 @@ body.windows b.caret, body.windows span.caret {
 }
 
 .delegate-active-link{
-	font-family:"Georgia";
+	font-family:"Roboto";
 	font-size:140%;
 }
 
 .delegate-inactive-link{
-	font-family:"Georiga";
+	font-family:"Roboto";
 	font-style:italic;
 	font-size:150%;
 }
@@ -506,9 +516,9 @@ input.ng-dirty.ng-invalid {
 	color: #1b6fc1;
 }
 
-.btn-primary.outline:hover, .btn-primary.outline:active {
+.btn-primary.outline:hover, .btn-primary.outline:active, .btn-primary.outline.active {
 	color: #fff;
-	border-color: #1863ad;
+	border-color: #1b6fc1;
 }
 
 .btn-primary.outline:focus {
@@ -516,6 +526,25 @@ input.ng-dirty.ng-invalid {
 }
 
 .btn-primary.outline:focus:hover {
+	color: #fff;
+}
+
+.btn-info.outline {
+	border: 1px solid #4dbadb;
+	color: #4dbadb;
+}
+
+.btn-info.outline:hover, .btn-info.outline:active, .btn-info.outline.active, .btn-info.outline:focus.active {
+	color: #fff;
+	background-color: #4dbadb;
+	border-color: #4dbadb;
+}
+
+.btn-info.outline:focus {
+	color: #4dbadb;
+}
+
+.btn-info.outline:focus:hover {
 	color: #fff;
 }
 
@@ -539,3 +568,44 @@ input.ng-dirty.ng-invalid {
    left: auto !important;
    right: 0px;
 }
+
+.wallet-sync-warning {
+    display: block;
+    width: 360px;
+    float: right;
+}
+
+.account-name-with-id {
+    color: #000;
+}
+
+.account-name-with-id .account-name {
+    font-size: 120%;
+    color: #000;
+}
+
+.account-name-with-id .account-id, .account-name-with-id .registration-date {
+    color: #94abb9;
+    white-space: nowrap;
+    font-size: 90%;
+}
+
+.account-page .account-name-with-id .account-name{
+    color: #fff;
+}
+
+.add-to-address-book {
+    margin-top: 10px;
+}
+
+.address-book-account-id {
+    color: #94abb9;
+    margin-left: 10px;
+    font-size: 80%;
+}
+
+
+a.delegate-link {
+  text-shadow: none;
+}
+

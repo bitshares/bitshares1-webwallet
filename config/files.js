@@ -17,6 +17,7 @@ module.exports = function(lineman) {
         "vendor/js/angular.js",
         "vendor/js/angular-resource.js",
         "vendor/js/angular-ui-router.js",
+        "vendor/js/angular-animate.js",
         "vendor/js/ui-bootstrap-tpls.js",
 	 	"vendor/js/ui-grid.js",
         "vendor/js/angular-idle.js",
@@ -26,11 +27,13 @@ module.exports = function(lineman) {
         "vendor/js/angular-translate-loader-static-files.js",
         "vendor/js/jsonpath.js",
         "vendor/js/angular-pageslide-directive.js",
-        "vendor/js/highstock.src.js",
+        "vendor/js/highstock.js",
         "vendor/js/moment-with-locales.js",
         "vendor/js/bytebuffer.js",
         "vendor/js/sha256.js",
-        "vendor/js/jdenticon.js"
+        "vendor/js/jdenticon.js",
+        "vendor/js/angu-fixed-header-table.js",
+        "vendor/js/technical-indicators.src.js",
       ],
       app: [
         "app/js/app.js",

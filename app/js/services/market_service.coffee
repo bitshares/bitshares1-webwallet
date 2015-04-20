@@ -5,9 +5,13 @@ class TradeData
     constructor: ->
         @type = null
         @id = null
+        @uid = null
         @timestamp = null
         @quantity = null
+        @quantity_filtered = null
         @price = null
+        @price_int = null
+        @price_dec = null
         @cost = 0.0
         @collateral
         @status = null # possible values: canceled, unconfirmed, confirmed, placed
@@ -23,12 +27,16 @@ class TradeData
         td = new TradeData()
         td.type = @type
         td.id = @id
+        td.uid = @uid
         td.status = @status
         td.timestamp = @timestamp
         td.quantity = @cost
+        td.quantity_filtered = @quantity_filtered
         td.cost = @quantity
         td.collateral = @collateral
         td.price = 1.0 / @price if @price and @price > 0.0
+        td.price_int = @price_int
+        td.price_dec = @price_dec
         td.warning = @warning
         td.display_type = @display_type
         td.collateral_ratio = @collateral_ratio
@@ -57,8 +65,11 @@ class TradeData
         @timestamp = td.timestamp
         @cost = td.cost
         @quantity= td.quantity
+        @quantity_filtered = td.quantity_filtered
         @collateral = td.collateral
         @price = td.price
+        @price_int = td.price_int
+        @price_dec = td.price_dec
         @warning = td.warning
         @display_type = td.display_type
         @collateral_ratio = td.collateral_ratio
@@ -104,6 +115,12 @@ class Market
         @orig_market = null
         @actual_market = null
         @error = {title: null, text: null}
+        @max_trade = 0
+        @daily_high = 0
+        @daily_low = 0
+        @volume = 0
+        @change = 0
+        @max_my_trades = 0
 
     get_actual_market: ->
         return @ if !@inverted
@@ -147,7 +164,9 @@ class MarketService
     quantity_symbol: null
     base_symbol: null
     asks: null
+    combined_asks: null
     bids: null
+    combined_bids: null
     shorts: null
     covers: null
     orders: null
@@ -201,7 +220,9 @@ class MarketService
 
     create_new_market: (market_name, deferred) ->
         @asks = []
+        @combined_asks = []
         @bids = []
+        @combined_bids = []
         @shorts = []
         @covers = []
         @orders = []
@@ -334,6 +355,12 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "bid"
                 @highest_bid = td.price if td.price > @highest_bid
+                price_string = @helper.split_price td.price, market, inverted
+                # price_string = td.price.toFixed(4).split(".")
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
+                
                 bids.push td
             #console.log "------ pull_bids ------>", bids.length, @bids.length
             @helper.update_array {target: @bids, data: bids, can_remove: (target_el) -> target_el.type == "bid"}
@@ -350,6 +377,10 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, inverted, inverted, td)
                 td.type = "ask"
                 @lowest_ask = td.price if td.price < @lowest_ask
+                price_string = @helper.split_price td.price, market, inverted
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
                 asks.push td
             #console.log "------ pull_asks ------>", asks.length, @asks.length
             @helper.update_array {target: @asks, data: asks, can_remove: (target_el) -> target_el.type == "ask" }
@@ -359,6 +390,7 @@ class MarketService
         shorts_price = if inverted and market.shorts_price > 0 then 1.0 / market.shorts_price else market.shorts_price
         short_wall = new TradeData()
         short_wall.id = "short_wall"
+        short_wall.uid = "short_wall"
         short_wall.display_type = "Short Wall"
         short_wall.type = "short_wall"
         short_wall.price = shorts_price
@@ -389,6 +421,12 @@ class MarketService
                         if td.short_price_limit == null || td.short_price_limit > short_wall.price
                             td.short_price_limit = short_wall.price
 
+                price_string = @helper.split_price td.short_price_limit, market, inverted
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
+                
+                
                 shorts.push td
                 ###
                 for s in self.shorts
@@ -401,9 +439,126 @@ class MarketService
 
             #console.log "------ short wall ------>", short_wall
             @helper.update_array {target: @shorts, data: shorts}
+            if short_wall.quantity > 0.0
+                price_string = @helper.split_price short_wall.price, market, inverted
+                short_wall.price_int = price_string[0]
+                short_wall.price_dec = price_string[1]
+                short_wall.quantity_filtered = @helper.filter_quantity(short_wall.quantity, market, inverted)
+                
             short_wall_array = if short_wall.cost > 0.0 or short_wall.quantity > 0.0 then [short_wall] else []
-            @helper.update_array {target: short_wall_dest, data: short_wall_array, can_remove: (target_el) -> target_el.type == "short_wall"}
+            @helper.update_array {
+                target: short_wall_dest, 
+                data: short_wall_array,
+                update: (target_el, data) =>
+                    target_el.price = data.price
+                    target_el.price_int = data.price_int
+                    target_el.price_dec = data.price_dec
+                    target_el.quantity = data.quantity
+                can_remove: (target_el) -> 
+                    target_el.type == "short_wall"
+                }
 
+    combine_orders: (market,inverted) ->
+        if deferred
+            return deferred
+        if inverted
+            feed_price = 1 / market.feed_price
+        else
+            feed_price = market.feed_price
+        deferred = @q.defer()
+
+        combined_asks = []
+        for ask in @asks
+            if ask.type != "short_wall"
+                combined_asks.push ask
+
+        combined_bids = []
+        for bid in @bids
+            if bid.type != "short_wall"
+                combined_bids.push bid
+
+        price_string = null
+        now = new Date()
+        if market.shorts_available
+            for short in @shorts
+                if inverted
+                    if short.short_price_limit >= feed_price
+                        short.price = short.short_price_limit
+                        combined_asks.push short 
+                    else if short.short_price_limit < feed_price
+                        short.price = feed_price
+                        combined_asks.push short 
+                else
+                    if short.short_price_limit <= feed_price
+                        short.price = short.short_price_limit
+                        combined_bids.push short 
+                    else
+                        short.price = feed_price
+                        combined_bids.push short 
+            ###
+            for cover in @covers
+                console.log cover
+                if new Date(cover.expiration.timestamp) > now or !(inverted and ask.price < feed_price) or (!inverted and ask.price > feed_price)
+                    if not inverted
+                        combined_asks.push cover          
+                    else
+                        combined_bids.push cover
+            ###
+
+        for ask in combined_asks
+            if inverted                
+                if ask.type == "short" and ask.short_price_limit > feed_price
+                    ask.price = ask.short_price_limit
+        
+        for bid in combined_bids
+            if not inverted
+                if bid.type == "short" and bid.short_price_limit < feed_price
+                    bid.price = bid.short_price_limit
+
+        @helper.update_array {
+            target: @combined_asks, 
+            data: combined_asks, 
+            can_remove: (target_el) -> 
+                target_el.type == "ask" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
+            }
+        @helper.update_array {
+            target: @combined_bids, 
+            data: combined_bids, 
+            can_remove: (target_el) -> 
+                target_el.type == "bid" || target_el.type == "short" || target_el.type == "short_wall" || target_el.type == "margin_order"
+            }
+
+        @combined_asks.sort (a,b) ->
+            if a.interest_rate and b.interest_rate
+                if a.price - b.price == 0
+                    if b.interest_rate - a.interest_rate == 0 then b.quantity - a.quantity else b.interest_rate - a.interest_rate
+                else 
+                    a.price - b.price
+            else if a.interest_rate and !b.interest_rate
+                if a.price - b.price == 0 then -1 else a.price - b.price
+            else if b.interest_rate and !a.interest_rate
+                if a.price - b.price == 0 then 1 else a.price - b.price
+            else
+                if a.price - b.price == 0 then b.quantity - a.quantity else a.price - b.price
+
+        @combined_bids.sort (a,b) ->
+            if a.interest_rate and b.interest_rate
+                if b.price - a.price == 0
+                    if b.interest_rate - a.interest_rate == 0 then b.quantity - a.quantity else b.interest_rate - a.interest_rate
+                else 
+                    b.price - a.price
+            else if a.interest_rate and !b.interest_rate
+                if b.price - a.price == 0 then -1 else b.price - a.price
+            else if b.interest_rate and !a.interest_rate
+                if b.price - a.price == 0 then 1 else b.price - a.price
+            else
+                if b.price - a.price == 0 then b.quantity - a.quantity else b.price - a.price
+        
+        #@combined_bids.sort (a,b) ->
+        #    if b.price - a.price == 0 then a.quantity - b.quantity else b.price - a.price
+
+        deferred.resolve(true)
+       
     pull_covers: (market, inverted) ->
         covers = []
         feed_price =  if inverted then 1 / market.feed_price else market.feed_price
@@ -438,6 +593,10 @@ class MarketService
                 #console.log "---- cover ", r.state.balance, td.cost
                 td.collateral = r.collateral / market.quantity_precision
                 td.quantity = if inverted then td.cost else td.cost / feed_price
+                price_string = @helper.split_price feed_price, market, inverted
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+                td.quantity_filtered = @helper.filter_quantity(td.quantity,market, inverted)
                 #td.type = "cover"
                 if new Date(r.expiration) < now
                     expired++
@@ -449,7 +608,7 @@ class MarketService
                     margin_orders.collateral += td.collateral
                     margin_orders.cost += td.cost
                     margin_orders.quantity += td.quantity
-
+            
                 covers.push td
 
 
@@ -457,22 +616,34 @@ class MarketService
             #console.log "------ pull_covers ------>", @covers
             #@helper.sort_array(@covers, "price", "quantity", !inverted)
 
+            if expired_orders.quantity > 0.0
+                price_string = @helper.split_price expired_orders.price, market, inverted
+                expired_orders.price_int = price_string[0]
+                expired_orders.price_dec = price_string[1]
+                expired_orders.quantity_filtered = @helper.filter_quantity(expired_orders.quantity, market, inverted)
+            if margin_orders.quantity > 0.0
+                price_string = @helper.split_price margin_orders.price, market, inverted
+                margin_orders.price_int = price_string[0]
+                margin_orders.price_dec = price_string[1]
+                margin_orders.quantity_filtered = @helper.filter_quantity(margin_orders.quantity, market, inverted)
+
             expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
             margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
-
+            
             @helper.update_array {
-                target: margin_calls_dest,
+                target: margin_calls_dest, 
                 data: expired_orders_array,
-                can_remove: (target_el) ->
+                can_remove: (target_el) -> 
                     target_el.uid == "expired_covers"
-            }
+                }
 
             @helper.update_array {
-                target: margin_calls_dest,
+                target: margin_calls_dest, 
                 data: margin_orders_array,
-                can_remove: (target_el) ->
+                can_remove: (target_el) -> 
                     target_el.uid == "forced_covers"
-            }            #@helper.sort_array(@covers, "price", "quantity", !inverted)
+                }
+
 
     pull_orders: (market, inverted, account_name) ->
         orders = []
@@ -532,26 +703,80 @@ class MarketService
 
     pull_trades: (market, inverted) ->
         trades = []
+        max = 0
+        dailyHigh = 0
+        dailyLow = 10^9
+        if market.shorts_available
+            dailyLow = if inverted then (1 / market.feed_price) * 2 else market.feed_price / 2 
+        volume = 0
+        change = 0
+        open = null
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
+            now = new Date()
+            today = now.setDate(now.getDate()-1)
+            tradesFound = false
             for r in results
                 td = new TradeData
                 @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
+
+                td.localtime = new Date(td.timestamp.timestamp.replace('T',' ')+ ' UTC');
+                price_string = @helper.split_price td.price, market, inverted
+                td.price_int = price_string[0]
+                td.price_dec = price_string[1]
+
+                td.paid_filtered = @helper.filter_quantity(td.paid,market, inverted)
+                td.received_filtered = @helper.filter_quantity(td.received,market, inverted)
+
+                max = Math.max td.received, max
+                
+                if today < td.localtime
+                    tradesFound = true
+                    # console.log "found trades:",td
+                    dailyHigh = Math.max(dailyHigh, td.price)
+                    dailyLow = Math.min(dailyLow, td.price)
+                    if inverted
+                        if market.shorts_available
+                            volume += td.paid * market.feed_price
+                        else
+                            volume += td.received
+                    else
+                        volume += td.paid
+                    open = td.price
+
                 trades.push td
+
+            if tradesFound
+                @market.max_trade = max
+                @market.daily_high = dailyHigh
+                @market.daily_low = dailyLow
+                @market.volume = volume
+                @market.change = 100 * (trades[0].price - open) / trades[0].price
+
             @helper.update_array {target: @trades, data: trades, update: null}
+
+            @trades.sort (a,b) ->
+                time_a = a.localtime.getTime()
+                time_b = b.localtime.getTime()
+
+                if time_b == time_a
+                    if b.received == a.received then b.price - a.price else b.received - a.received 
+                else 
+                    time_b - time_a
 
     pull_my_trades: (market, inverted, account_name) ->
         new_trades = []
         last_trade_block_num = 0
         last_trade_id = null
+        max = 0
+
         if @my_trades.length > 0
             last_trade_block_num = @my_trades[0].block_num
             last_trade_id = @my_trades[0].id
 
         toolkit_market_name = "#{market.asset_base_symbol} / #{market.asset_quantity_symbol}"
-
         promise = @wallet.refresh_transactions()
         promise.then =>
-            transactions = @wallet.transactions[account_name] or []
+            transactions = @wallet.transactions[account_name] or []            
             for t in transactions
                 #console.log "------ pull_my_trades transaction ------>", t, t.block_num < last_trade_block_num
                 break if t.block_num < last_trade_block_num
@@ -573,8 +798,17 @@ class MarketService
                 continue unless l.memo.indexOf(toolkit_market_name) > 0
                 td.memo = l.memo
                 td.amount_asset = l.amount_asset
+                max = Math.max td.amount_asset.amount, max
+                parsed_memo = @helper.parse_memo td.memo, td.amount_asset.amount / td.amount_asset.precision, @market
+                td.price_int = parsed_memo.price_int
+                td.price_dec = parsed_memo.price_dec
+                td.quantity = parsed_memo.quantity
+                td.type = parsed_memo.type
+
                 new_trades.push td
             #console.log "------ new trades ------>", new_trades
+            @market.max_my_trades = max
+
             for t in new_trades.reverse()
                 @my_trades.unshift t
 
@@ -582,10 +816,11 @@ class MarketService
 
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
-        start_time = @helper.formatUTCDate(new Date(Date.now()-10*24*3600*1000))
+        days = 365
+        start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else price
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10*24*3600, 0).then (result) =>
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, days*24*3600, "each_hour").then (result) =>
             ohlc_data = []
             volume_data = []
             for t in result
@@ -603,8 +838,8 @@ class MarketService
                 l = c if c < l
 
                 oc_avg = (o + c) / 2.0
-                h = 1.10 * Math.max(o,c) if h/oc_avg > 1.25
-                l = 0.90 * Math.min(o,c) if oc_avg/l > 1.25
+                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.1
+                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
 
                 ohlc_data.push [time, o, h, l, c]
                 volume_data.push [time, t.volume / market.quantity_asset.precision]
@@ -637,62 +872,61 @@ class MarketService
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 5 == 0       
 
         self.q.all(promises).finally =>
-            try
-                self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
-                self.market.highest_bid = market.highest_bid = self.highest_bid
+            self.q.all([self.combine_orders(market, self.market.inverted)]).finally =>
+                try
+                    self.market.lowest_ask = market.lowest_ask = self.lowest_ask if self.lowest_ask != Number.MAX_VALUE
+                    self.market.highest_bid = market.highest_bid = self.highest_bid
 
-                self.market.lowest_ask = market.lowest_ask = self.market.feed_price unless market.lowest_ask
-                self.market.highest_bid = market.highest_bid = self.market.feed_price unless market.highest_bid
+                    self.market.lowest_ask = market.lowest_ask = self.market.feed_price unless market.lowest_ask
+                    self.market.highest_bid = market.highest_bid = self.market.feed_price unless market.highest_bid
 
-                self.helper.sort_array(self.asks, "price", "quantity", false)
-                self.helper.sort_array(self.bids, "price", "quantity", true)
+                    self.helper.sort_array(self.asks, "price", "quantity", false)
+                    self.helper.sort_array(self.bids, "price", "quantity", true)
 
-                # order book chart data
-                if self.market.feed_price
+                    # order book chart data
                     feed_price = self.market.feed_price
-                else if self.market.lowest_ask and self.market.highest_bid
-                    feed_price = (self.market.lowest_ask + self.market.highest_bid) / 2
-                sum_asks = 0.0
-                asks_array = []
-                for a in self.asks
-                    continue if feed_price and (a.price > 1.5 * feed_price or a.price < 0.5 * feed_price)
-                    sum_asks += a.quantity
-                    self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
-                sum_bids = 0.0
-                bids_array = []
-                for b in self.bids
-                    continue if feed_price and (b.price > 1.5 * feed_price or b.price < 0.5 * feed_price)
-                    sum_bids += b.quantity
-                    self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
-                bids_array.sort (a,b) -> a[0] - b[0]
-                asks_array.sort (a,b) -> a[0] - b[0]
-                
-                self.market.orderbook_chart_data =
-                    bids_array: self.helper.flatten_orderbookchart(bids_array,false,true, self.market.price_precision)
-                    asks_array: self.helper.flatten_orderbookchart(asks_array,false,false, self.market.price_precision)
+                    sum_asks = 0.0
+                    asks_array = []
+                    for a in self.asks
+                        continue if feed_price and (a.price > 1.5 * feed_price or a.price < 0.5 * feed_price)
+                        sum_asks += a.quantity
+                        self.helper.add_to_order_book_chart_array(asks_array, a.price, sum_asks)
+                    sum_bids = 0.0
+                    bids_array = []
+                    for b in self.bids
+                        continue if feed_price and (b.price > 1.5 * feed_price or b.price < 0.5 * feed_price)
+                        sum_bids += b.quantity
+                        self.helper.add_to_order_book_chart_array(bids_array, b.price, sum_bids)
 
-                # shorts collateralization chart data
-                self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
-                sum_shorts = 0.0
-                shorts_array = []
-                for s in self.shorts
-                    continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
-                    #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
-                    sum_shorts += if self.market.inverted then s.cost else s.quantity
-                    price = if self.market.inverted then s.price else 1.0/s.price
-                    self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
+                    bids_array.sort (a,b) -> a[0] - b[0]
+                    asks_array.sort (a,b) -> a[0] - b[0]
+                    
+                    self.market.orderbook_chart_data =
+                        bids_array: self.helper.flatten_orderbookchart(bids_array,false,true, self.market.price_precision)
+                        asks_array: self.helper.flatten_orderbookchart(asks_array,false,false, self.market.price_precision)
 
-                shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
-                self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
+                    # shorts collateralization chart data
+                    self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
+                    sum_shorts = 0.0
+                    shorts_array = []
+                    for s in self.shorts
+                        continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
+                        #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
+                        sum_shorts += if self.market.inverted then s.cost else s.quantity
+                        price = if self.market.inverted then s.price else 1.0/s.price
+                        self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
 
-                shorts_array.sort (a,b) -> a[0] - b[0]
-                self.market.shortscollat_chart_data = { array: shorts_array }
+                    shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
+                    self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
 
-            catch e
-                console.log "!!!!!! error in pull_market_data: ", e
+                    shorts_array.sort (a,b) -> a[0] - b[0]
+                    self.market.shortscollat_chart_data = { array: shorts_array }
+
+                catch e
+                    console.log "!!!!!! error in pull_market_data: ", e
 
 
-            deferred.resolve(true)
+                deferred.resolve(true)
 
     pull_market_status: (data = null, deferred = null) ->
         self = data?.context or @

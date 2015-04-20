@@ -108,7 +108,8 @@
     "expiration": "만기일",
     "interest_rate": "이자율 (연이율)",
     "message": "메시지",
-    "market": "마켓"
+    "market": "마켓",
+    "id": "Id"
   },
   "block": {
     "title": "블록",
@@ -278,8 +279,8 @@
       "sell_total": "체결 후 {{account}} 계정으로 입금될 {{base}} 수량.",
       "short_quantity": "빌려서 팔기 위한 대략적인 {{value}} 수량.",
       "short_collateral": "담보로 맡길 {{value}} 수량. 주문량의 3배이며, 그중 2배는 숏 매도자에게서, 1배는 매수자에게서 나옴.",
-      "short_price_limit_direct": "{{base}}을(를) 공매도 하기 위한 최대 가격. 숏 주문은 가격 피드 또는 가격 제한 중 큰 값으로 체결됨.",
-      "short_price_limit_inverted": "{{base}} {{quantity}}개를 공매도 하기 위한 최소 가격. 숏 주문은 가격 피드 또는 가격 제한 중 큰 값으로 체결됨.",
+      "short_price_limit_direct": "{{base}}을(를) 공매도 하기 위한 최소 가격. 숏 주문은 가격 피드 또는 가격 제한 중 큰 값으로 체결됨.",
+      "short_price_limit_inverted": "{{base}} {{quantity}}개를 공매도 하기 위한 최대 가격. 숏 주문은 가격 피드 또는 가격 제한 중 큰 값으로 체결됨.",
       "short_feed_price": "대표자들이 결정한 외부 거래소 가격들의 중간값.",
       "short_total": "주문에 필요한 수량 {{value}}. 수량 곱하기 담보 비율.",
       "short_interest_rate": "지불하려는 이자율."
@@ -332,6 +333,8 @@
     "rescan_blockchain": "블록체인 리스캔",
     "new_account": "새로운 계정",
     "name": "계정 이름",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "웹사이트",
     "website_tip": "웹사이트 (선택사항)",
     "email": "이메일",
@@ -408,7 +411,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "새 계정 생성",
+    "add_account": "새 계정 생성",
     "accounts": "계정",
     "info": "계정 이름을 클릭하면 상세 정보를 볼 수 있습니다.",
     "select_account": "계정 선택",
@@ -444,7 +447,6 @@
   },
   "directory": {
     "directory": "디렉토리",
-    "favorites": "즐겨찾기",
     "unregistered": "등록 안됨",
     "registered": "등록됨",
     "assets": "자산"
