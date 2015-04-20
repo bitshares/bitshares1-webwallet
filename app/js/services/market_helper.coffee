@@ -24,7 +24,7 @@ class MarketHelper
 
     read_market_data: (market, data, assets, inverted) ->
         actual_market = market.get_actual_market()
-        ba = assets[data.base_id]
+        ba = assets[data.index.base_id]
 
         actual_market.bid_depth = data.ask_depth / ba.precision
         actual_market.ask_depth = data.bid_depth / ba.precision
@@ -103,7 +103,7 @@ class MarketHelper
         qa = assets[ask_price.quote_asset_id]
         o.type = t.bid_type
         o.id = t.ask_owner+t.bid_owner
-        o.uid = @utils.hashString "#{t.bid_owner}#{t.ask_received.amount}#{t.ask_owner}#{t.bid_received.amount}"
+        o.uid = @utils.hashString "#{t.bid_index.owner}#{t.ask_received.amount}#{t.ask_index.owner}#{t.bid_received.amount}"
         o.price = ask_price.ratio * (ba.precision / qa.precision)
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
