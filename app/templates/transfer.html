@@ -65,9 +65,8 @@
 
   </div>
   <div class="col-sm-10" id="transfer-form">
-    <form name="my_transfer_form" class="form-horizontal" role="form" ng-submit="send()" novalidate>
-      <div ng-init="setForm(my_transfer_form)"></div>
-      <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.amount.$invalid || my_transfer_form.amount.error_message) && !my_transfer_form.amount.$pristine}">
+    <form name="forms.my_transfer_form" class="form-horizontal" role="form" ng-submit="send()" novalidate>
+      <div class="form-group row" ng-class="{ 'has-error' : (forms.my_transfer_form.amount.$invalid || forms.my_transfer_form.amount.error_message) && !forms.my_transfer_form.amount.$pristine}">
         <!-- amount -->
         <label for="amount" class="col-sm-1 control-label" translate>account.amount</label>
         <div class="col-sm-4" ng-if="balances">
@@ -108,14 +107,14 @@
           </div>
         </div>
       </div>
-      <div class="form-group row transfer-amount-error" ng-show="(my_transfer_form.amount.$invalid && !my_transfer_form.amount.$pristine) || my_transfer_form.amount.error_message">
+      <div class="form-group row transfer-amount-error" ng-show="(forms.my_transfer_form.amount.$invalid && !forms.my_transfer_form.amount.$pristine) || forms.my_transfer_form.amount.error_message">
         <div class="col-sm-offset-1 col-sm-4">
-          <span class="help-block text-danger" translate ng-hide="my_transfer_form.amount.error_message">tip.wrong_amount</span>
-          <span class="help-block text-danger">{{my_transfer_form.amount.error_message}}</span>
+          <span class="help-block text-danger" translate ng-hide="forms.my_transfer_form.amount.error_message">tip.wrong_amount</span>
+          <span class="help-block text-danger">{{forms.my_transfer_form.amount.error_message}}</span>
         </div>
       </div>
       <!-- pay to -->
-      <div class="form-group row no-bottom-space" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
+      <div class="form-group row no-bottom-space" ng-class="{ 'has-error' : (forms.my_transfer_form.payto.$invalid || forms.my_transfer_form.payto.error_message) && !forms.my_transfer_form.payto.$pristine}">
         <label for="payto" class="col-sm-1 control-label" translate>account.to</label>
         <div class="col-md-6 col-sm-10">
           <div class="input-group" style="width: 100%;">
@@ -126,27 +125,27 @@
                    required ng-change="payToChanged()" ng-pattern="/^([a-zA-Z0-9\-\.]+)$/"/>
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" ng-hide="is_bitshares_js" translate>contact.address_book</span>
           </div>
-          <span class="help-block text-danger" ng-show="my_transfer_form.payto.error_message">{{my_transfer_form.payto.error_message}}</span>
+          <span class="help-block text-danger" ng-show="forms.my_transfer_form.payto.error_message">{{forms.my_transfer_form.payto.error_message}}</span>
         </div>
       </div>
       <div class="form-group row">
         <div class="col-md-offset-1 col-sm-offset-1 col-md-5 col-sm-9">
-          <span ng-show="my_transfer_form.payto.$pristine" class="help-block text-warning" translate>tip.fake_accounts_warning</span>
+          <span ng-show="forms.my_transfer_form.payto.$pristine" class="help-block text-warning" translate>tip.fake_accounts_warning</span>
         </div>
       </div>
       <!-- memo -->
-      <div class="form-group" ng-class="{ 'has-error' : my_transfer_form.memo.$invalid && !my_transfer_form.payto.$pristine}">
+      <div class="form-group" ng-class="{ 'has-error' : forms.my_transfer_form.memo.$invalid && !forms.my_transfer_form.payto.$pristine}">
         <label for="memo" class="col-sm-1 control-label" translate>account.memo</label>
         <div class="col-md-6 col-sm-10">
           <input ng-model="transfer_info.memo" name="memo" type="text" class="form-control"
                  ui-validate="{valid_memo: 'utils.byteLength($value) <= memo_size_max'}" placeholder="{{ 'account.memo' | translate }}" id="memo"/>
-          <span class="help-block text-danger" ng-show="my_transfer_form.memo.$invalid && my_transfer_form.memo.$dirty" translate translate-values="{value: memo_size_max}">tip.memo_size_exceeds</span>
+          <span class="help-block text-danger" ng-show="forms.my_transfer_form.memo.$invalid && forms.my_transfer_form.memo.$dirty" translate translate-values="{value: memo_size_max}">tip.memo_size_exceeds</span>
         </div>
       </div>
       <!-- send -->
       <div class="form-group row">
         <div class="col-sm-offset-1 col-sm-10">
-          <button type="submit" class="btn btn-primary" ng-disabled="!my_transfer_form.$valid || !transfer_info.symbol || my_transfer_form.payto.error_message">
+          <button type="submit" class="btn btn-primary" ng-disabled="!forms.my_transfer_form.$valid || !transfer_info.symbol || forms.my_transfer_form.payto.error_message">
             &nbsp; <span translate>account.send</span> &nbsp;
           </button>
           <span class="help-block">

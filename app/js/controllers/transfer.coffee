@@ -12,7 +12,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     pubkey_regexp = new RegExp("^#{Info.info.address_prefix}[a-zA-Z0-9]+")
 
     $scope.memo_size_max = 51
-    my_transfer_form = null
+    $scope.forms = forms = {}
+    forms.my_transfer_form = {}
+    
     tx_fee = null
     $scope.tx_fee_asset = null
     $scope.no_account = false
@@ -76,17 +78,17 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
     Blockchain.get_info().then (config) ->
         $scope.memo_size_max = config.memo_size_max
     
-    $scope.setForm = (form) ->
-        my_transfer_form = form
+    $scope.$watch 'forms.my_transfer_form', (form) ->
+        forms.my_transfer_form = form if form
     
     # Validation and display prior to form submit
     $scope.hot_check_send_amount = ->
         return unless tx_fee
         return unless $scope.balances
         return unless $scope.balances[$scope.transfer_info.symbol]
-        return unless my_transfer_form.amount
+        return unless forms.my_transfer_form.amount
         
-        my_transfer_form.amount.error_message = null
+        forms.my_transfer_form.amount.error_message = null
         
         if tx_fee.asset_id != $scope.tx_fee_asset.id
             console.log "ERROR hot_check[_send_amount] encountered unlike transfer and fee assets"
@@ -109,9 +111,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         #transfer_amount -> already available as $scope.transfer_info.amount
         $scope.fee = fee
         
-        my_transfer_form.$setValidity "funds", balance_after_transfer >= 0
+        forms.my_transfer_form.$setValidity "funds", balance_after_transfer >= 0
         if balance_after_transfer < 0
-            my_transfer_form.amount.error_message = "Insufficient funds"
+            forms.my_transfer_form.amount.error_message = "Insufficient funds"
 
     #call to initialize and on symbol change
     $scope.$watch ->
@@ -133,9 +135,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, account_from_name, $scope.transfer_info.payto, $scope.transfer_info.memo, vote)
         transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
-            my_transfer_form.payto.$setPristine()
+            forms.my_transfer_form.payto.$setPristine()
             $scope.transfer_info.amount = ""
-            my_transfer_form.amount.$setPristine()
+            forms.my_transfer_form.amount.$setPristine()
             $scope.transfer_info.memo = ""
             $scope.gravatar_account_name = ""
             $scope.add_to_address_book.message = ""
@@ -143,15 +145,15 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.model.t_active=true
         , (error) ->
             if error.data.error.code == 20005
-                my_transfer_form.payto.error_message = "Unknown receive account"
+                forms.my_transfer_form.payto.error_message = "Unknown receive account"
             else if error.data.error.code == 20010
-                my_transfer_form.amount.error_message = "Insufficient funds"
+                forms.my_transfer_form.amount.error_message = "Insufficient funds"
             else
-                my_transfer_form.payto.error_message = Utils.formatAssertException(error.data.error.message)
+                forms.my_transfer_form.payto.error_message = Utils.formatAssertException(error.data.error.message)
 
     $scope.send = ->
-        my_transfer_form.amount.error_message = null
-        my_transfer_form.payto.error_message = null
+        forms.my_transfer_form.amount.error_message = null
+        forms.my_transfer_form.payto.error_message = null
         payto = $scope.transfer_info.payto
         $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
         amount_asset = $scope.balances[$scope.transfer_info.symbol]
@@ -190,7 +192,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                         $scope.gravatar_account_name = $scope.transfer_info.payto = contact
                         $scope.add_to_address_book.error = ""
                         $scope.add_to_address_book.message = ""
-                        my_transfer_form?.payto.error_message = ""
+                        forms.my_transfer_form?.payto.error_message = ""
 
     $scope.onSelect = (name) ->
         $scope.transfer_info.payto = name
@@ -231,7 +233,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.account_registration_date = ""
         $scope.add_to_address_book.message = ""
         $scope.add_to_address_book.error = ""
-        my_transfer_form?.payto.error_message = ""
+        forms.my_transfer_form?.payto.error_message = ""
         payto = $scope.transfer_info.payto
         return unless payto
 
@@ -254,4 +256,4 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
                 else
                     $scope.gravatar_account_name = ""
                     $scope.transfer_info.unknown_account = $scope.address_type != "pubkey"
-                    my_transfer_form.payto.error_message = "Unknown account" if $scope.transfer_info.unknown_account
+                    forms.my_transfer_form.payto.error_message = "Unknown account" if $scope.transfer_info.unknown_account
