@@ -46,7 +46,7 @@ angular.module("app").controller "AccountVoteController", ($scope, $translate, W
         Observer.unregisterObserver(account_votes_observer)
 
     yesSend = ->
-        WalletAPI.transfer(balMinusFee.toString(), Info.symbol, $scope.account_name, $scope.account_name, $scope.data.vote, $scope.data.vote).then (response) ->
+        WalletAPI.transfer(balMinusFee, Info.symbol, $scope.account_name, $scope.account_name, $scope.data.vote, $scope.data.vote).then (response) ->
             Growl.notice "", "Transfer transaction broadcasted"
             $scope.t_active = true
         , (error) ->

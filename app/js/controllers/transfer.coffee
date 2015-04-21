@@ -130,7 +130,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         payto = $scope.transfer_info.payto
         payto_account = Wallet.contacts[payto]
         payto = payto_account.data if payto_account?.contact_type == "public_key"
-        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount.toString(), $scope.transfer_info.symbol, $scope.account_from.name, payto, $scope.transfer_info.memo, vote)
+        transfer_promise = WalletAPI.transfer($scope.transfer_info.amount, $scope.transfer_info.symbol, $scope.account_from.name, payto, $scope.transfer_info.memo, vote)
         transfer_promise.then (response) ->
             $scope.transfer_info.payto = ""
             my_transfer_form.payto.$setPristine()
