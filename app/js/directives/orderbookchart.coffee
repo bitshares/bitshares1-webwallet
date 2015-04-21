@@ -73,6 +73,7 @@ angular.module("app.directives").directive "orderbookchart", ->
     scope:
         bidsArray: "="
         asksArray: "="
+        avgValue: "="
         volumeSymbol: "="
         volumePrecision: "="
         priceSymbol: "="
@@ -92,12 +93,18 @@ angular.module("app.directives").directive "orderbookchart", ->
 
         chart = null
 
+
+
+
         scope.$watch "bidsArray", (value) =>
             if value and not chart
                 chart = initChart(scope)
                 addPlotLine(chart, scope.feedPrice)
             else if chart
                 chart.series[0].setData value, true
+            
+            if scope.feedPrice == 0 and scope.avgValue
+                chart.xAxis[0].setExtremes(0.4 * scope.avgValue, 1.6*scope.avgValue, false)
         , true
 
         scope.$watch "asksArray", (value) =>

@@ -904,9 +904,28 @@ class MarketService
                     bids_array.sort (a,b) -> a[0] - b[0]
                     asks_array.sort (a,b) -> a[0] - b[0]
                     
+                    bids_length = bids_array.length
+                    asks_length = asks_array.length
+
+                    high = null
+                    low = null
+                    
+                    if asks_length > 0 and bids_length > 0
+                        high = asks_array[0][0]
+                        low = bids_array[bids_array.length - 1][0]
+                    else if asks_length > 0
+                        high = asks_array[0][0]
+                        low = high;
+                    else if bids_length > 0
+                        low = bids_array[bids_array.length - 1][0]
+                        high = low
+
+                    avg_value = if (high and low) then (high + low) / 2 else null;
+
                     self.market.orderbook_chart_data =
                         bids_array: self.helper.flatten_orderbookchart(bids_array,false,true, self.market.price_precision)
                         asks_array: self.helper.flatten_orderbookchart(asks_array,false,false, self.market.price_precision)
+                        avg_value: avg_value
 
                     # shorts collateralization chart data
                     self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
