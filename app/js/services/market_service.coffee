@@ -818,7 +818,7 @@ class MarketService
         #console.log "------ pull_price_history ------>"
         days = 365
         start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
-        prc = (price) -> if inverted then 1.0/price else price
+        prc = (price) -> if inverted then 1.0/price else parseFloat price
 
         @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, days*24*3600, "each_hour").then (result) =>
             ohlc_data = []
@@ -842,7 +842,10 @@ class MarketService
                 l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
 
                 ohlc_data.push [time, o, h, l, c]
-                volume_data.push [time, t.volume / market.quantity_asset.precision]
+                if inverted
+                    volume_data.push [time, t.quote_volume / market.base_asset.precision]
+                else
+                    volume_data.push [time, t.base_volume / market.quantity_asset.precision]
 
             if market.orig_market and inverted
                 market.orig_market.price_history = ohlc_data

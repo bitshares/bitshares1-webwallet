@@ -1,5 +1,6 @@
 initChart = (scope) ->
 
+    
     Highcharts.setOptions
         lang:
             rangeSelectorZoom: ""
@@ -11,7 +12,7 @@ initChart = (scope) ->
     new Highcharts.StockChart
         chart:
             renderTo: "pricechart"
-            height: 400
+            height: scope.height
             zoomType: 'x'
             pinchType: 'x'
 
@@ -181,7 +182,7 @@ initChart = (scope) ->
             zIndex: 8
         ]
 
-angular.module("app.directives").directive "pricechart", ->
+angular.module("app.directives").directive "pricechart", ($window)->
     restrict: "E"
     replace: true
     scope:
@@ -203,6 +204,9 @@ angular.module("app.directives").directive "pricechart", ->
 
     link: (scope, element, attrs) ->
         chart = null
+        
+        scope.height = if $window.screen.height <= 800 then 300 else 400
+
         if not chart
             chart = initChart(scope)
         scope.$watch "pricedata", (newValue) =>
