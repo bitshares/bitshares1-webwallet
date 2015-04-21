@@ -65,8 +65,8 @@ class Blockchain
     asset_records_deferred: null
 
     populate_asset_record: (record) ->
-        record.account_name = "MARKET" if record.issuer_account_id == -2
-        record.account_name = "GENESIS" if record.issuer_account_id == 0
+        record.account_name = "MARKET" if record.issuer_id == -2
+        record.account_name = "GENESIS" if record.issuer_id == 0
         @asset_records[record.id] = record
         @symbol2records[record.symbol] = record
         return @asset_records[record.id]
@@ -84,7 +84,7 @@ class Blockchain
             for record in result
                 @populate_asset_record record
                 @asset_records_array.push record
-                if record.issuer_account_id == -2
+                if record.issuer_id == -2
                     @market_asset_records_array.push record
             deferred.resolve(@asset_records)
         , (error) ->
@@ -116,12 +116,12 @@ class Blockchain
             for asset2 in @asset_records_array
 
                 if not (asset1.id > 22 and asset2.id > 22) # one of the assets should be either bts or market pegged asset
-                    asset1_symbol = if asset1.issuer_account_id == -2 then "Bit" + asset1.symbol else asset1.symbol
-                    asset2_symbol = if asset2.issuer_account_id == -2 then "Bit" + asset2.symbol else asset2.symbol
+                    asset1_symbol = if asset1.issuer_id == -2 then "Bit" + asset1.symbol else asset1.symbol
+                    asset2_symbol = if asset2.issuer_id == -2 then "Bit" + asset2.symbol else asset2.symbol
                     if asset1.id > asset2.id
                         scam = false
                         for asset3 in @market_asset_records_array
-                            if (asset3.issuer_account_id == -2 and ("bit" + asset3.symbol).toLowerCase() == asset1.symbol.toLowerCase())
+                            if (asset3.issuer_id == -2 and ("bit" + asset3.symbol).toLowerCase() == asset1.symbol.toLowerCase())
                                 scam = true
                         if not scam
                             value = asset1_symbol + ":" + asset2_symbol
@@ -129,7 +129,7 @@ class Blockchain
                     else if asset2.id > asset1.id
                         scam = false
                         for asset3 in @market_asset_records_array
-                            if (asset3.issuer_account_id == -2 and ("bit" + asset3.symbol).toLowerCase() == asset2.symbol.toLowerCase())
+                            if (asset3.issuer_id == -2 and ("bit" + asset3.symbol).toLowerCase() == asset2.symbol.toLowerCase())
                                 scam = true
                         if not scam
                             value = asset2_symbol + ":" + asset1_symbol

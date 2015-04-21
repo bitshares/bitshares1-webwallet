@@ -15,8 +15,8 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
         name: ""
         description: ""
         memo: ""
-        maximum_share_supply: "100,000,000"
-        current_share_supply: 0
+        max_supply: "100,000,000"
+        current_supply: 0
         precision: "1,000,000"
         issuer: $scope.name
 
@@ -41,9 +41,9 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
         asset.fee = $scope.reg_fee.current
         asset.fee_symbol = $scope.reg_fee.symbol
         @create_asset_form.$error.message = null
-        maximum_share_supply = Utils.parseInt($scope.create_asset.maximum_share_supply)
+        max_supply = Utils.parseInt($scope.create_asset.max_supply)
         precision = Utils.parseInt($scope.create_asset.precision)
-        if maximum_share_supply * precision > 1000000000000000
+        if max_supply * precision > 1000000000000000
             @create_asset_form.$error.message = "You need to specify a lower precision or fewer shares."
             return
         $modal.open
@@ -53,18 +53,18 @@ angular.module("app").controller "CreateAssetController", ($scope, $location, $s
                 data: -> asset
                 action: ->
                     ->
-                        WalletAPI.asset_create(asset.symbol, asset.name, $scope.name, asset.description, maximum_share_supply, precision, asset.memo, false).then (response) ->
+                        WalletAPI.asset_create(asset.symbol, asset.name, $scope.name, asset.description, max_supply, precision, asset.memo, false).then (response) ->
                             Growl.notice "", "Asset '#{asset.symbol}' was created"
                             copy = angular.copy(asset)
                             copy.registration_date = new Date()
-                            copy.maximum_share_supply = maximum_share_supply * precision
+                            copy.max_supply = max_supply * precision
                             copy.precision = precision
                             $scope.add_asset(copy)
                             $scope.create_asset.symbol = ""
                             $scope.create_asset.name = ""
                             $scope.create_asset.description = ""
                             $scope.create_asset.memo = ""
-                            $scope.create_asset.maximum_share_supply = "100,000,000"
+                            $scope.create_asset.max_supply = "100,000,000"
                             $scope.create_asset.precision = "1,000,000"
                             $scope.clear_form_errors(form)
 

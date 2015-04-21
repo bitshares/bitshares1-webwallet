@@ -22,7 +22,7 @@
                 <span class="label label-success">{{ asset.symbol }}</span><br/> <span>{{ asset.name }}</span>
               </td>
               <td>{{ asset.description }}</td>
-              <td>{{ asset.current_share_supply / asset.precision | formatDecimal }} / {{ asset.maximum_share_supply /
+              <td>{{ asset.current_supply / asset.precision | formatDecimal }} / {{ asset.max_supply /
                   asset.precision | formatDecimal }}
               </td>
               <td>{{ asset.precision | formatDecimal }}</td>

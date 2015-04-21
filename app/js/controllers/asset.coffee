@@ -16,11 +16,9 @@ angular.module("app").controller "AssetController", ($scope, $rootScope, Blockch
 
     Blockchain.refresh_asset_records().then ->
         $scope.symbol2records = Blockchain.symbol2records
-        console.log($scope.ticker)
-        console.log($scope.symbol2records)
         $scope.asset_record = $scope.symbol2records[$scope.ticker]
-        if $scope.asset_record and $scope.asset_record.issuer_account_id != -2
-            BlockchainAPI.get_account($scope.symbol2records[$scope.ticker].issuer_account_id).then (result) ->
+        if $scope.asset_record and $scope.asset_record.issuer_id != -2
+            BlockchainAPI.get_account($scope.symbol2records[$scope.ticker].issuer_id).then (result) ->
                 $scope.issuer = result
         if $scope.asset_record and $scope.asset_record.id > 0
             BlockchainAPI.get_feeds_for_asset($scope.ticker).then (result) ->

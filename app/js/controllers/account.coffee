@@ -83,7 +83,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
     #Wallet.refresh_account(name)
 
     Blockchain.get_asset(0).then (asset_type) =>
-        $scope.current_xts_supply = asset_type.current_share_supply
+        $scope.current_xts_supply = asset_type.current_supply
 
 #    $scope.$watch ->
 #        Wallet.accounts[name]

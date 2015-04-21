@@ -64,7 +64,7 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         # for market, index in $scope.markets by -1
            # console.log('index:',index, 'market:',market);
             # for market2 in $scope.markets
-                # if market2.issuer_account_id == -2 && market.symbol.toLowercase() == market2.symbol.toLowerCase()
+                # if market2.issuer_id == -2 && market.symbol.toLowercase() == market2.symbol.toLowerCase()
                     # console.log('user asset:',market.symbol,'market asset:',market2.symbol)
 
         main_asset = Blockchain.asset_records[0]
@@ -79,22 +79,22 @@ angular.module("app").controller "MarketsController", ($scope, $state, Wallet, B
         $scope.featured_markets.push "BitBTC:BitCNY"
 
         for key, asset of records
-            asset.current_supply = Utils.newAsset(asset.current_share_supply, asset.symbol, asset.precision)
-            asset.maximum_supply = Utils.newAsset(asset.maximum_share_supply, asset.symbol, asset.precision)
+            asset.currentSupply = Utils.newAsset(asset.current_supply, asset.symbol, asset.precision)
+            asset.maximum_supply = Utils.newAsset(asset.max_supply, asset.symbol, asset.precision)
             asset.c_fees = Utils.newAsset(asset.collected_fees, asset.symbol, asset.precision)
             assets_with_unknown_issuer.push asset unless asset.account_name
-            asset.yield = if asset.current_share_supply==0 then 0 else 100 * asset.collected_fees / asset.current_share_supply
-            if asset.issuer_account_id > 0
+            asset.yield = if asset.current_supply==0 then 0 else 100 * asset.collected_fees / asset.current_supply
+            if asset.issuer_id > 0
                 scam = false;
                 for key2, asset2 of records
-                    if (asset2.issuer_account_id == -2 and ("bit"+asset2.symbol).toLowerCase() == asset.symbol.toLowerCase())
+                    if (asset2.issuer_id == -2 and ("bit"+asset2.symbol).toLowerCase() == asset.symbol.toLowerCase())
                         scam = true
                 if not scam
                     $scope.user_issued_assets.push asset
-            else if asset.issuer_account_id == -2
+            else if asset.issuer_id == -2
                 $scope.market_peg_assets.push asset
         if assets_with_unknown_issuer.length > 0
-            accounts_ids = ([a.issuer_account_id] for a in assets_with_unknown_issuer)
+            accounts_ids = ([a.issuer_id] for a in assets_with_unknown_issuer)
             RpcService.request("batch", ["blockchain_get_account", accounts_ids]).then (response) ->
                 accounts = response.result
                 for i in [0...accounts.length]

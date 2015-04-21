@@ -70,11 +70,11 @@
                                 </thead>
                                 <tbody>
                                     <tr tooltip-placement="right" tooltip="{{asset.description}}"
-                                    ng-repeat="asset in market_peg_assets | orderBy: [orderByField,'current_share_supply', '-symbol']:reverseSort track by asset.id"
+                                    ng-repeat="asset in market_peg_assets | orderBy: [orderByField,'current_supply', '-symbol']:reverseSort track by asset.id"
                                     ng-click="go_to_asset(asset.symbol)">
                                     <td>{{ asset.symbol }}</td>
                                     <td>{{ asset.yield | number:2 }}%</td>
-                                    <td class="hidden-xs">{{ asset.current_supply | formatAsset }}</td>
+                                    <td class="hidden-xs">{{ asset.currentSupply | formatAsset }}</td>
                                     <td>{{ asset.name }}</td>
                                 </tr>
                             </tbody>
@@ -115,7 +115,7 @@
                                         ng-repeat="asset in user_issued_assets | filter:uia_search | orderBy: orderByFieldUIA:reverseSortUIA | startFrom: p.currentPage * p.pageSize | limitTo : p.pageSize"
                                         ng-click="go_to_asset(asset.symbol)">
                                         <td>{{asset.symbol}}</td>
-                                        <td>{{ asset.current_supply | formatAsset }}</td>
+                                        <td>{{ asset.currentSupply | formatAsset }}</td>
                                         <td>{{asset.name}}</td>
                                     </tr>
                                 </tbody>

@@ -51,7 +51,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         update: (data, deferred) ->
             changed = false
             Blockchain.get_asset($scope.actual_market.base_asset.id).then (asset) ->
-                $scope.asset_total_supply = asset.current_share_supply / asset.precision
+                $scope.asset_total_supply = asset.current_supply / asset.precision
             promise = WalletAPI.account_balance(account_name)
             promise.then (result) =>
                 #console.log "------ account_balances_observer result ------>", result
