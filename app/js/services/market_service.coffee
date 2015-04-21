@@ -719,7 +719,7 @@ class MarketService
                 td = new TradeData
                 @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
 
-                td.localtime = new Date(td.timestamp.timestamp.replace('T',' ')+ ' UTC');
+                td.localtime = @helper.utils.toDate(td.timestamp.timestamp)
                 price_string = @helper.split_price td.price, market, inverted
                 td.price_int = price_string[0]
                 td.price_dec = price_string[1]
