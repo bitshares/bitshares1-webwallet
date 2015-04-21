@@ -405,6 +405,7 @@ class MarketService
                 @helper.order_to_trade_data(r, market.base_asset, market.quantity_asset, inverted, false, inverted, td)
                 td.type = "short"
                 td.quantity = td.collateral * market.shorts_price / 2.0
+
                 #console.log "---- 2 short: ", td.cost, td.quantity, td.price, td.short_price_limit, shorts_price
                 #console.log "------ short ------>", td.cost, td.quantity
                 if @helper.is_in_short_wall(td, shorts_price, inverted)
@@ -420,6 +421,11 @@ class MarketService
                         @highest_bid = shorts_price if shorts_price > @highest_bid
                         if td.short_price_limit == null || td.short_price_limit > short_wall.price
                             td.short_price_limit = short_wall.price
+                else
+                    if inverted
+                        @lowest_ask = td.short_price_limit if td.short_price_limit < @lowest_ask
+                    else
+                        @highest_bid = td.short_price_limit if td.short_price_limit > @highest_bid
 
                 price_string = @helper.split_price td.short_price_limit, market, inverted
                 td.price_int = price_string[0]
@@ -621,12 +627,21 @@ class MarketService
                 expired_orders.price_int = price_string[0]
                 expired_orders.price_dec = price_string[1]
                 expired_orders.quantity_filtered = @helper.filter_quantity(expired_orders.quantity, market, inverted)
+                if inverted
+                    @highest_bid = expired_orders.price if expired_orders.price > @highest_bid
+                else
+                    @lowest_ask = expired_orders.price if expired_orders.price < @lowest_ask
             if margin_orders.quantity > 0.0
                 price_string = @helper.split_price margin_orders.price, market, inverted
                 margin_orders.price_int = price_string[0]
                 margin_orders.price_dec = price_string[1]
                 margin_orders.quantity_filtered = @helper.filter_quantity(margin_orders.quantity, market, inverted)
+                if inverted
+                    @highest_bid = margin_orders.price if margin_orders.price > @highest_bid
+                else
+                    @lowest_ask = margin_orders.price if margin_orders.price < @lowest_ask
 
+            console.log margin_orders, expired_orders
             expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
             margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
             
