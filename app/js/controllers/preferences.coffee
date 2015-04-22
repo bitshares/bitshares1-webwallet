@@ -4,6 +4,7 @@ angular.module("app").controller "PreferencesController", ($scope, $rootScope, $
     $scope.model.symbol = ''
     $scope.model.languages =
         "en": "English"
+        "es": "Español"
         "zh-CN": "简体中文"
         "de": "Deutsch"
         "ru": "Русский"

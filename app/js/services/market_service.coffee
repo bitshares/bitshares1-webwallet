@@ -641,7 +641,7 @@ class MarketService
                 else
                     @lowest_ask = margin_orders.price if margin_orders.price < @lowest_ask
 
-            console.log margin_orders, expired_orders
+            #console.log margin_orders, expired_orders
             expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
             margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
             

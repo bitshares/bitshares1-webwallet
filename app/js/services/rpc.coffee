@@ -4,7 +4,7 @@ servicesModule.factory "RpcService", ($http, $timeout, $q) ->
         #console.log "------ rpc request:  #{method} #{JSON.stringify(params)}"
         #magic_unicorn.log_message("------ rpc request:  #{method} #{JSON.stringify(params)}") if magic_unicorn?
         if params
-            params = params.map (p) -> if p and p.toString and not (p instanceof Array) then p.toString() else p
+            params = params.map (p) -> if p and p.toString and not (p instanceof Object) then p.toString() else p
         reqparams = {method: method, params: params || []}
         http_params =
             stack: getStackTrace()
