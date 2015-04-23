@@ -357,14 +357,23 @@ class Wallet
                     #console.log "------ account_transaction ------>", val
                     @transactions_last_block = val.block_num
                     @process_transaction(val) if val.is_confirmed
-                # pending transactions
-                pending_transactions_promise = @wallet_api.account_transaction_history("", "", 0, 0, 0)
-                pending_transactions_promise.then (result) =>
-                    for val in result
-                        @process_transaction(val) if not val.is_confirmed and not val.is_virtual
-                pending_transactions_promise.finally =>
-                    @transactions_loading_promise = null
-                    deffered.resolve(@transactions)
+                if window.bts
+                    @rpc.request("wallet_account_pending_transactions").then (result)=>
+                        result = result.result
+                        if result
+                            @process_transaction tx for tx in result
+                    .finally =>
+                        @transactions_loading_promise = null
+                        deffered.resolve @transactions
+                else
+                    # pending transactions
+                    pending_transactions_promise = @wallet_api.account_transaction_history("", "", 0, 0, 0)
+                    pending_transactions_promise.then (result) =>
+                        for val in result
+                            @process_transaction(val) if not val.is_confirmed and not val.is_virtual
+                    pending_transactions_promise.finally =>
+                        @transactions_loading_promise = null
+                        deffered.resolve(@transactions)
             , (error) =>
                 @transactions_loading_promise = null
                 deffered.reject(error)
