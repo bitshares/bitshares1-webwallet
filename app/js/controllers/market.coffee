@@ -42,6 +42,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         $scope.tabs.forEach (tab) ->
             tab.active = $scope.active_tab(tab.route)
 
+    $scope.intervals = [
+        {interval: 60, text:"market.chart.1_min", active:false}
+        {interval: 300, text:"market.chart.5_min", active:false}
+        {interval: 1800, text:"market.chart.30_min", active:true}
+        {interval: 3600, text:"market.chart.1_hour", active:false}
+        {interval: 3600*12, text:"market.chart.12_hours", active:false}
+        {interval: 3600*24, text:"market.chart.1_day", active:false}
+        {interval: 3600*24*3, text:"market.chart.3_day", active:false}
+    ]
+
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 
@@ -92,6 +102,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         actual_market = $scope.actual_market = market.get_actual_market()
         $scope.market_inverted_url = MarketService.inverted_url
         $scope.bids = MarketService.bids
+        $scope.interval = MarketService.history_interval
         #MarketGrid.setupBidsAsksGrid($scope.listBuyGrid, MarketService.bids, market, "desc")
         #MarketGrid.setupBidsAsksGrid($scope.listSellGrid, MarketService.asks, market, "asc")
         #MarketGrid.setupAccountOrdersGrid($scope.listAccountOrders, MarketService.my_trades, market)
@@ -471,4 +482,16 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
                         original_order.status = "pending"
                         modalInstance.dismiss "ok"
             ]
+
+    $scope.changeInterval = (index) =>
+        if not $scope.intervals[index].active
+            for int in $scope.intervals
+                int.active = false
+            $scope.intervals[index].active = true
+            MarketService.change_history_interval($scope.intervals[index].interval)
+            $scope.interval = $scope.intervals[index].interval
+            if $scope.market.actual_market
+                MarketService.pull_price_history $scope.market.actual_market, $scope.market.inverted
+            else
+                MarketService.pull_price_history $scope.market, $scope.market.inverted
 

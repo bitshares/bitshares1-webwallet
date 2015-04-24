@@ -589,3 +589,17 @@ tr > td.no-r-padding {
     top: -3px;
     font-size: 11px !important;
 }
+
+button.interval-button {
+	margin-right: 1px;
+}
+
+button:nth-child(1).interval-button {
+	margin-left:50px;
+}
+
+.time-interval {
+	display:inline-block;
+	margin:0 10px 0 15px;
+}
+

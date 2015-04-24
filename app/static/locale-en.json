@@ -295,7 +295,14 @@
     },
     "chart": {
       "price": "Price",
-      "volume": "Volume"
+      "volume": "Volume",
+      "1_min": "1m",
+      "5_min": "5m",
+      "30_min": "30m",
+      "1_hour": "1h",
+      "12_hours": "12h",
+      "1_day": "1d",
+      "3_day": "3d"
     },
     "advanced": "Short Mode",
     "open_orders": "Open Orders",

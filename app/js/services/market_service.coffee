@@ -173,6 +173,7 @@ class MarketService
     trades: null
     price_history: null
     orderbook_chart_data = null
+    history_interval = null
 
     id_sequence: 0
     loading_promise: null
@@ -229,6 +230,7 @@ class MarketService
         @trades = []
         @my_trades = []
         @market = market = new Market()
+        @history_interval = 1800;
         market.name = market_name
         market_symbols = market.name.split(':')
         @quantity_symbol = market.quantity_symbol = market_symbols[0]
@@ -262,6 +264,9 @@ class MarketService
                     @log.error "!!! Error in pull_market_status", error_message
                     deferred.resolve(market)
             , => deferred.reject("Cannot initialize market module, failed to get assets data.")
+
+    change_history_interval: (interval) ->
+        @history_interval = interval
 
     add_unconfirmed_order: (order) ->
         o = order #o = angular.copy(order)
@@ -642,6 +647,7 @@ class MarketService
                     @lowest_ask = margin_orders.price if margin_orders.price < @lowest_ask
 
             #console.log margin_orders, expired_orders
+
             expired_orders_array = if expired_orders.cost > 0.0 or expired_orders.quantity > 0.0 then [expired_orders] else []
             margin_orders_array = if margin_orders.cost > 0.0 or margin_orders.quantity > 0.0 then [margin_orders] else []
             
@@ -726,6 +732,7 @@ class MarketService
         volume = 0
         change = 0
         open = null
+
         @blockchain_api.market_order_history(market.asset_base_symbol, market.asset_quantity_symbol, 0, 500).then (results) =>
             now = new Date()
             today = now.setDate(now.getDate()-1)
@@ -832,14 +839,83 @@ class MarketService
     pull_price_history: (market, inverted) ->
         #console.log "------ pull_price_history ------>"
         days = 365
-        start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
         prc = (price) -> if inverted then 1.0/price else parseFloat price
+        fetch_interval = "each_day"
 
-        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, days*24*3600, "each_hour").then (result) =>
+        interval = @history_interval;
+        desired_nr_items = 900;
+
+        if interval < 3600 # one hour
+            fetch_interval = "each_block"
+        else if interval  < 3600 * 24 # one day
+            fetch_interval = "each_hour"
+
+        # start_time = @helper.formatUTCDate(new Date(Date.now()-days*24*3600*1000))
+        start_time = @helper.formatUTCDate(new Date(Date.now()-interval * desired_nr_items * 1000))
+
+        now  = Date.now();
+
+        # console.log "start:",start_time, "duration:", (interval * desired_nr_items) / 60, "mins", "fetch_interval", fetch_interval
+
+        @blockchain_api.market_price_history(market.asset_base_symbol, market.asset_quantity_symbol, start_time, 10 * interval * desired_nr_items, fetch_interval).then (result) =>
+            # console.log "time to fetch price history:",Date.now()-now, "ms"
+            now  = Date.now();
+
             ohlc_data = []
             volume_data = []
-            for t in result
+
+            current_interval = []
+
+            # console.log "number of items in price history:", result.length
+
+            if result.length > 0
+                interval_time = new Date(result[result.length-1].timestamp)
+                # console.log "first date:", new Date(result[0].timestamp), "last date:",interval_time
+                rounded_initial_time = new Date(result[result.length-1].timestamp)
+                rounded_initial_time.setSeconds(rounded_initial_time.getSeconds() - interval * 2)
+                rounded_initial_time.setHours(0)
+                rounded_initial_time.setMinutes(0)
+                rounded_initial_time.setSeconds(0)
+
+                while rounded_initial_time < interval_time
+                    rounded_initial_time.setSeconds(rounded_initial_time.getSeconds() + interval)
+                rounded_initial_time.setSeconds(rounded_initial_time.getSeconds() - interval)
+                interval_time.setSeconds(0);
+                interval_time = rounded_initial_time.getTime()
+
+                interval_counter = 0 
+                interval_o = null
+                interval_l = null
+                interval_h = null
+                interval_v = 0
+                c_old = null
+                h_old = null
+                l_old = null
+
+            # in_interval = false
+            for t, index in result by -1
+
                 time = @helper.date(t.timestamp)
+
+                # add the current interval to the array
+                if time < interval_time 
+                    ohlc_data.unshift [interval_time, interval_o, interval_h, interval_l, interval_c]
+                    if inverted
+                        volume_data.unshift [interval_time, interval_v / market.base_asset.precision]
+                    else
+                        volume_data.unshift [interval_time, interval_v / market.quantity_asset.precision]
+                    interval_time -= interval * 1000
+                    interval_counter = 0
+                    interval_v = 0
+                    in_interval = false
+
+                # if the current time is outside the interval, adjust the interval time
+                if not in_interval and time < interval_time 
+                    while interval_time > time
+                        interval_time -= interval * 1000
+                else
+                    in_interval = true
+
                 o = prc(t.opening_price)
                 c = prc(t.closing_price)
                 lowest_ask = prc(t.lowest_ask)
@@ -856,18 +932,42 @@ class MarketService
                 h = 1.0 * Math.max(o,c) if h/oc_avg > 1.1
                 l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
 
-                ohlc_data.push [time, o, h, l, c]
-                if inverted
-                    volume_data.push [time, t.quote_volume / market.base_asset.precision]
-                else
-                    volume_data.push [time, t.base_volume / market.quantity_asset.precision]
+                interval_o = o
 
+                if interval_counter == 0
+                    interval_c = c
+                    interval_l = l
+                    interval_h = h
+                else
+                    interval_l = Math.min l, l_old
+                    interval_h = Math.max h, h_old
+
+                if inverted
+                    interval_v += t.quote_volume
+                else
+                    interval_v += t.base_volume
+                    
+                interval_counter++
+                
+                h_old = h
+                l_old = l
+
+                if index == 0
+                    ohlc_data.unshift [interval_time, interval_o, interval_h, interval_l, interval_c]
+                    if inverted
+                        volume_data.unshift [interval_time, interval_v / market.base_asset.precision]
+                    else
+                        volume_data.unshift [interval_time, interval_v / market.quantity_asset.precision]
+
+            # console.log "items in final array:", ohlc_data.length
+            # console.log "first date:", new Date(ohlc_data[0][0]), "last date:",new Date(ohlc_data[ohlc_data.length - 1][0])
             if market.orig_market and inverted
                 market.orig_market.price_history = ohlc_data
                 market.orig_market.volume_history = volume_data
             else
                 market.price_history = ohlc_data
                 market.volume_history = volume_data
+            
 
     pull_market_data: (data, deferred) ->
         self = data.context
@@ -889,6 +989,7 @@ class MarketService
 
         promises.push(self.pull_price_history(market, self.market.inverted)) if @counter % 5 == 0       
 
+        
         self.q.all(promises).finally =>
             self.q.all([self.combine_orders(market, self.market.inverted)]).finally =>
                 try
