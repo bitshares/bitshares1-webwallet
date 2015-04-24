@@ -34,6 +34,9 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover cover-text"}
     ]
 
+    $scope.showPriceChart = true;
+    $scope.showOrderBook = false;
+
     $scope.goto_tab = (route) ->
         $state.go route
     $scope.active_tab = (route) ->

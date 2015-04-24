@@ -6,7 +6,7 @@ initChart = (scope) ->
         chart:
             type: "area"
             renderTo: "orderbookchart"
-            height: 332 #if scope.advancedMode then 200 else 350
+            height: scope.height #if scope.advancedMode then 200 else 350
 
         title:
             text: null
@@ -67,7 +67,7 @@ addPlotLine = (chart, value) ->
 removePlotLine = (chart) ->
     chart.xAxis[0].removePlotLine "feed_price"
 
-angular.module("app.directives").directive "orderbookchart", ->
+angular.module("app.directives").directive "orderbookchart", ($window) ->
     restrict: "E"
     replace: true
     scope:
@@ -93,8 +93,12 @@ angular.module("app.directives").directive "orderbookchart", ->
 
         chart = null
 
-
-
+        # Set the height of the graph depending on the vertical resolution
+        scope.height = 500
+        if $window.screen.height <= 800
+            scope.height = 300
+        else if $window.screen.height <= 1080
+            scope.height = 400
 
         scope.$watch "bidsArray", (value) =>
             if value and not chart

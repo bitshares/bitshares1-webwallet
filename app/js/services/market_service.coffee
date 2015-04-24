@@ -737,7 +737,9 @@ class MarketService
             now = new Date()
             today = now.setDate(now.getDate()-1)
             tradesFound = false
-            for r in results
+            n_trades = results.length
+
+            for r, index in results
                 td = new TradeData
                 @helper.trade_history_to_order(r, td, market.assets_by_id, inverted)
 
@@ -748,12 +750,15 @@ class MarketService
 
                 td.paid_filtered = @helper.filter_quantity(td.paid,market, inverted)
                 td.received_filtered = @helper.filter_quantity(td.received,market, inverted)
-
-                max = Math.max td.received, max
+                
+                if index < 100 # because the order history table is limited to 100 items
+                    if inverted
+                        max = Math.max td.received, max
+                    else
+                        max = Math.max td.received, max
                 
                 if today < td.localtime
                     tradesFound = true
-                    # console.log "found trades:",td
                     dailyHigh = Math.max(dailyHigh, td.price)
                     dailyLow = Math.min(dailyLow, td.price)
                     if inverted
@@ -767,8 +772,9 @@ class MarketService
 
                 trades.push td
 
+            @market.max_trade = max
+
             if tradesFound
-                @market.max_trade = max
                 @market.daily_high = dailyHigh
                 @market.daily_low = dailyLow
                 @market.volume = volume

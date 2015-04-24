@@ -302,7 +302,9 @@
       "1_hour": "1h",
       "12_hours": "12h",
       "1_day": "1d",
-      "3_day": "3d"
+      "3_day": "3d",
+      "orderbook":"Orderbook Chart",
+      "pricehistory": "Price History Chart"
     },
     "advanced": "Short Mode",
     "open_orders": "Open Orders",
