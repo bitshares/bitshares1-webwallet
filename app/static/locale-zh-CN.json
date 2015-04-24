@@ -105,7 +105,9 @@
     "received": "获得",
     "expiration": "截止日期",
     "interest_rate": "利率 (年化)",
-    "message": "消息"
+    "message": "消息",
+    "market": "Market",
+    "id": "Id"
   },
   "block": {
     "title": "区块",
@@ -327,8 +329,8 @@
       "sell_total": "完成卖单将存入 {{account}} 的{{base}} 的总额",
       "short_quantity": "你将借入并卖出（卖空）的 {{value}} 大致数量",
       "short_collateral": "你愿意抵押的 {{value}} 数量。 空单需要3倍的价值抵押，2倍价值来自与做空方卖家，1倍价值来自于多方买家。",
-      "short_price_limit_direct": "你借入并愿意卖出 {{base}} 的最高价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较高价处。",
-      "short_price_limit_inverted": "你借入并愿意卖出 {{base}} 的最低价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较低价处。",
+      "short_price_limit_direct": "你借入并愿意卖出 {{base}} 的最高价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较低价处。",
+      "short_price_limit_inverted": "你借入并愿意卖出 {{quantity}} 的最低价格，每 {{quantity}} 支付的 {{base}} 数量。 空单撮合仅发生在喂价与设定的成交限价两者较高价处。",
       "short_feed_price": "依据外部交易所汇率由受托人们提供的汇率中间价",
       "short_total": "成交需要的 {{value}} 总额。根据数量乘以抵押率计算。",
       "short_interest_rate": "你愿意支付的利率"
@@ -380,6 +382,8 @@
     "rescan_blockchain": "重新扫描区块链",
     "new_account": "新的账户",
     "name": "账户名称",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "网站地址",
     "website_tip": "网站地址（可选项）",
     "email": "电子邮件",
@@ -455,7 +459,7 @@
     "pay_to": "付款到"
   },
   "accounts": {
-    "create_account": "创建新账户",
+    "add_account": "创建新账户",
     "accounts": "账户",
     "info": "点击用户名获取更多账户信息",
     "select_account": "选择账户",
@@ -493,7 +497,6 @@
   },
   "directory": {
     "directory": "目录",
-    "favorites": "收藏",
     "unregistered": "非注册",
     "registered": "注册",
     "assets": "比特资产"

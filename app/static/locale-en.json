@@ -108,7 +108,8 @@
     "expiration": "EXPIRATION",
     "interest_rate": "Interest Rate (APR)",
     "message": "Message",
-    "market": "Market"
+    "market": "Market",
+    "id": "Id"
   },
   "block": {
     "title": "Block",
@@ -285,8 +286,8 @@
     "highest_bid": "Highest Bid",
     "lowest_ask": "Lowest Ask",
     "open_orders": "Open Orders",
-    "blockchain_orders_history": "Blockchain Orders History",
-    "account_orders_history": "Account Orders History",
+    "blockchain_orders_history": "Order History",
+    "account_orders_history": "My Order History",
     "margin_orders": "Margin Call Orders",
     "margin_orders_explain": "A margin call will be executed any time the lowest ask is less than 110% of the moving average and the lowest ask is more than the call price.  The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.  If a margin call is executed and there is any collateral left over, then 5% is kept as network fees and 95% is returned to the owner. ",
     "margin_call_price_explain": "The initial call price is 150% of the short price (ie: BTS 45.00 for a short entered at BTS 30.00).  This is the price at which 75% of the collateral would be required to buy back the USD necessary to cover the position.",
@@ -301,7 +302,9 @@
       "bid_order": "Buy Order",
       "ask_order": "Sell Order",
       "short_order": "Short Order",
-      "margin_order": "Margin Order"
+      "margin_order": "Margin Order",
+      "short_orders": "Short Orders",
+      "margin_orders": "Margin Orders"
     },
     "tip": {
       "insufficient_balances": "Insufficient balances",
@@ -315,9 +318,19 @@
     },
     "chart": {
       "price": "Price",
-      "volume": "Volume"
+      "volume": "Volume",
+      "1_min": "1m",
+      "5_min": "5m",
+      "30_min": "30m",
+      "1_hour": "1h",
+      "12_hours": "12h",
+      "1_day": "1d",
+      "3_day": "3d",
+      "orderbook":"Orderbook Chart",
+      "pricehistory": "Price History Chart"
     },
     "advanced": "Short Mode",
+    "open_orders": "Open Orders",
     "open_buy_orders": "Open Buy {{value}} Orders",
     "open_sell_orders": "Open Sell {{value}} Orders",
     "open_short_orders": "Open Short Sell {{value}} Orders",
@@ -337,8 +350,8 @@
       "sell_total": "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
       "short_quantity": "The approximate number of {{actual_base}} that you would like to borrow and sell.",
       "short_collateral": "The number of {{value}} that you are willing to post as collateral. You should provide 3x backing at the trade price and quantity, 2x comes from short seller and 1x from buyer.",
-      "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-      "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
+      "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+      "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is more.",
       "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
       "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
       "short_interest_rate": "The interest rate you are willing to pay."
@@ -356,6 +369,12 @@
         "short1": "Short orders are forced to cover after 30 days by taking the best offers at the time. No fee is charged.",
         "short2":"Short orders are forced to cover when 75% of their collateral is required to cover, leaving the short with 25% of the collateral minus a 5% fee.",
         "cover_fee":"The 5% fee is assessed as a percent of the collateral left over after covering."
+    },
+    "stats": {
+        "high": "24h High",
+        "low": "24h Low",
+        "change": "24h Change",
+        "latest": "Latest Price"
     }
   },
   "account": {
@@ -391,6 +410,8 @@
     "rescan_blockchain": "Rescan blockchain",
     "new_account": "New Account",
     "name": "Account Name",
+    "id": "Account Id",
+    "unregistered": "[unregistered]",
     "website": "Website",
     "website_tip": "Website (Optional)",
     "email": "Email",
@@ -468,7 +489,7 @@
     "pay_to": "Make a payment to"
   },
   "accounts": {
-    "create_account": "Create Account",
+    "add_account": "Add Account",
     "recover_account": "Recover Account",
     "accounts": "Accounts",
     "info": "Click on an account name to get more information about that account.",

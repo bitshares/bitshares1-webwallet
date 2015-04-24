@@ -8,6 +8,7 @@
                 <th width="1em"></th>
                 <th translate>th.balance</th>
                 <th translate>th.registered</th>
+                <th translate>th.id</th>
             </tr>
         </thead>
         <tbody>
@@ -17,6 +18,10 @@
               </td>
               <td>         
                  <b>{{a.name}}</b>
+                 <span ng-show="a.not_lightwallet_compatible">
+                     <i class="fa fa-warning fa-fw fa-lg"></i>
+                     <span tooltip="{{'legacy_account'|translate}}"></span>
+                 </span>
              </td>
              <td width="1em">
              </td>
@@ -24,6 +29,7 @@
                 <div ng-repeat="(symbol, asset) in balances[a.name]">{{asset | formatAsset}}</div>
             </td>
             <td>{{a.registration_date | prettyDate}}</td>
+            <td>{{a.id ? a.id : "-"}}</td>
         </tr>
 
     </tbody>

@@ -15,17 +15,17 @@
       <a class="close-help-link" ng-click="close_context_help()"><span translate>btn.close</span> <i class="fa fa-angle-double-right fa-fw"></i></a>
       <div class="context-help-content" ng-include src="context_help.file"></div>
     </div>
-    </pageslide>
-      <!-- TOOLBAR -->
-    <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
-      <div ng-include src="'toolbar.html'"></div>
-    </div>
-    <div class="body" ng-class="theme">
-      <div ui-view class="main-view" autoscroll="false"></div>
-    </div>
-    <div loading-indicator></div>
-    <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
-      <div ng-include src="'footer.html'"></div>
-    </footer>
-  </body>
+  </pageslide>
+  <!-- TOOLBAR -->
+  <div class="navbar navbar-default navbar-static-top navbar-main" role="navigation" ng-controller="ToolbarController">
+    <div ng-include src="'toolbar.html'"></div>
+  </div>
+  <div class="body" ng-class="theme">
+    <div ui-view class="main-view" autoscroll="false"></div>
+  </div>
+  <div loading-indicator></div>
+  <footer ng-if="!splashpage" ng-class="alert_level" ng-controller="FooterController">
+    <div ng-include src="'footer.html'"></div>
+  </footer>
+</body>
 </html>

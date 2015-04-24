@@ -1,237 +1,272 @@
-<div>
-<div class="col-sm-12 market-header">
-  <div class="header m-bottom">
+<div id="order_tabs" class="col-xs-3 order-tabs" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+  <tabset>
+    <tab ng-repeat="t in tabs" heading="{{ t.heading | translate }}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
+      <div ui-view autoscroll="false"></div>
+    </tab>
+  </tabset>
+  <div class="orders-div" style="margin-top:-20px;">
+    <h3 class="market-table-title panel-title buy-orders-title">{{ 'market.open_orders' | translate}}</h3>
+    <div ng-include src="'market/open_buy.html'"></div>
+  </div>
 
-    <div class="row">
-      <h3 class="header-title col-sm-4">
-        <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{market.quantity_symbol}}</span>
-        : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{market.base_symbol}}</span>
-        <a ng-click="flip_market()" class="market-header-button"
-            tooltip="{{'market.flip_market'|translate}}"
-            tooltip-placement="right" ng-show="account">
-            <i class="fa fa-retweet fa-fw"></i></a>
-      </h3>
-      <ul class="row market-stats stats col-sm-5">
-        <li class="stat col-sm-3">
-          <span>{{market.quantity_symbol}}&nbsp;<span translate>account.balances</span><br/><b class="value">
-           {{account.quantity_balance | formatDecimal : market.quantity_precision}}</b></span>
-        </li>
-        <li class="stat col-sm-3">
-          <span>{{market.base_symbol}}&nbsp;<span translate>account.balances</span><br/><b class="value">
-           {{account.base_balance | formatDecimal : market.base_precision}}</b></span>
-        </li>
-        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
-          <span><span translate>market.feed_price</span><br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>
-        </li>
-        <li ng-show="true || market.feed_price" class="col-sm-3 stat">
-          <span><span translate>asset.total_supply</span><br/><b class="value">{{asset_total_supply | formatDecimal : 2}}</b><br/><em>{{actual_market.base_symbol}}</em></span>
-        </li>
-      </ul>
-    </div>
+</div>
 
-    <div class="row" ng-show="market.error.title">
+<!-- <div> -->
+
+<!-- Info header -->
+<div class="col-xs-9 col-xs-offset-3 test-fixed">
+  <div class="col-xs-12 small-lr-padding" style="border-bottom: 1px solid #EEE;">
+    <h3 class="header-title col-xs-3 no-lr-padding">
+      <span tooltip="{{market.quantity_asset.description}}" tooltip-placement="right">{{ ::market.quantity_symbol }}</span>
+      : <span tooltip="{{market.base_asset.description}}" tooltip-placement="right">{{ ::market.base_symbol }}</span>
+      <a ng-click="flip_market()" class="market-header-button"
+      tooltip="{{'market.flip_market'|translate}}"
+      tooltip-placement="right" ng-show="account">
+      <i class="fa fa-retweet fa-fw"></i></a>
+    </h3>
+    <ul class="row market-stats stats col-xs-9">
+      <li class="col-sm-2 stat">
+        <span><span translate>market.stats.latest</span><br/><i change="trades[0].price"></i><b class="value stat-primary" flash="trades[0].price">{{ trades[0].price | formatDecimal : market.price_precision : true }}</b><br/><em>{{ ::market.price_symbol }}</em></span>
+      </li>
+      <li class="stat col-sm-2">
+        <span translate>market.chart.volume</span><br/><i change="market.volume"></i><b class="value" flash="market.volume">
+        {{ market.volume | formatDecimal : market.quantity_precision}}</b><br/><em>{{ ::market.quantity_symbol }}</em></span>
+      </li>
+      <li class="stat col-sm-2">
+        <span translate>market.stats.low</span><br/><b class="value change-negative" flash="market.daily_low">
+        {{ market.daily_low | formatDecimal : market.price_precision : true }}</b><br/><em>{{ ::market.price_symbol}}</em></span>
+      </li>
+      <li class="stat col-sm-2">
+        <span translate>market.stats.high</span><br/><b class="value change-positive" flash="market.daily_high">
+        {{ market.daily_high | formatDecimal : market.price_precision : true }}</b><br/><em>{{ ::market.price_symbol }}</em></span>
+      </li>
+      <li class="stat col-sm-2">
+        <span translate>market.stats.change</span><br/><i change="market.change"></i><b class="value" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}" flash="market.change">
+        {{ market.change | number:2}}%</b></span>
+      </li>
+      <li ng-show="market.shorts_available || market.feed_price" class="col-sm-2 stat">
+        <span><span translate>market.feed_price</span><br/><i change="market.feed_price"></i><b class="value" flash="market.feed_price">{{ market.feed_price | formatDecimal : market.price_precision : true }}</b><br/><em>{{ ::market.price_symbol}}</em></span>
+      </li>
+    </ul>
+
+    <!--  Market error warning -->
+    <div ng-show="market.error.title">
       <div class="col-sm-2">&nbsp;</div>
       <div class="col-sm-8">
         <div class="alert alert-danger">
           <i class="fa fa-warning"></i>
-          &nbsp; &nbsp; <strong>{{market.error.title}}</strong> &nbsp; &nbsp; {{market.error.text}}
+          &nbsp; &nbsp; <strong>{{ ::market.error.title }}</strong> &nbsp; &nbsp; {{ ::market.error.text }}
         </div>
       </div>
       <div class="col-sm-2">&nbsp;</div>
     </div>
 
-  </div>
+  </div> 
 </div>
+<div class="col-xs-9 col-xs-offset-3 market-header" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+  <div class="col-xs-12 small-lr-padding" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+    <div class="row" >
+      <div class="market market-content" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
 
-<div class="main-content market market-content" ng-class="{'advanced': advanced, 'shorts-available': market.shorts_available}">
+        <!-- Back Loader during Charts loading -->
+        <script  type="text/javascript">
+          $(document).ready(function() {
+                 window.setTimeout("fadeMyDiv();", 400); //call fade in 3 seconds
+               }
+               );
 
-      <!--create a stats page-->
-      <!--<ul class="row market-stats stats">-->
-        <!--<li ng-show="market.feed_price" class="stat col-sm-2">-->
-          <!--<span>{{'market.feed_price'|translate}}<br/><b class="value">{{market.feed_price | formatDecimal : market.price_precision : true}}</b><br/><em>{{market.price_symbol}}</em></span>-->
-        <!--</li>-->
-        <!--<li class="stat col-sm-2">-->
-          <!--<span>{{'market.bid_depth'|translate}}<br/><b class="value">{{market.bid_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
-        <!--</li>-->
-        <!--<li class="stat col-sm-2">-->
-          <!--<span>{{'market.ask_depth'|translate}}<br/><b class="value">{{market.ask_depth | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
-        <!--</li>-->
-        <!--<li class="stat col-sm-2" ng-show="market.actual_market.collateral">-->
-        <!--<span>{{'Backing Collateral'|translate}}<br/><b class="value">{{market.actual_market.collateral | formatDecimal : actual_market.quantity_precision}}</b><br/><em>{{actual_market.quantity_symbol}}</em></span>-->
-        <!--</li>-->
-        <!--<li class="stat col-sm-2" ng-show="market.actual_market.collateral">-->
-        <!--<span>{{'Collateralization'|translate}}<br/><b class="value">{{market.actual_market.collateralization | formatDecimal : actual_market.quantity_precision}} %</b><br/><em></em></span>-->
-        <!--</li>-->
-      <!--</ul>-->
+          function fadeMyDiv() {
+           $("#back-loader").fadeOut('normal');
+         }
+       </script>
 
-    <div class="row">
-      <div class="col-sm-12">
-        <pricechart ng-if="market.price_history.length"
-            pricedata="market.price_history"
-            volumedata="market.volume_history"
-            volume-symbol="market.inverted ? market.base_symbol : market.quantity_symbol"
-            volume-precision="market.inverted ? market.base_precision : market.quantity_precision"
-            price-symbol="market.price_symbol">
-         </pricechart>
-      </div>
-    </div>
+       <div class="col-xs-12 small-lr-padding market-charts">
+         <div>
 
-    <br>
+           <div class="chart-container" style="background-color: #000;">
 
-    <div class="row">
-      <div id="order_tabs" class="col-md-5">
-        <tabset>
-          <tab ng-repeat="t in tabs" heading="{{t.heading | translate}} {{t.route == 'market.short' ? actual_market.base_symbol : market.quantity_symbol}}" ng-click="goto_tab(t.route)" active="t.active" class="{{t.class}}">
-            <div class="panel">
-              <div class="panel-body">
-                <div ui-view autoscroll="false"></div>
+            <div class="col-xs-12 small-lr-padding">
+
+              <div>
+                <div class="pull-right">
+                  <button class="btn btn-info btn-sm outline" ng-class="{'active':showPriceChart}" ng-click="showPriceChart = true; showOrderBook = false;">{{'market.chart.pricehistory' | translate}}</button>
+                  <button class="btn btn-info btn-sm outline" ng-class="{'active':showOrderBook}" ng-click="showPriceChart = false; showOrderBook = true;">{{'market.chart.orderbook' | translate}}</button>
+                </div>
+
+                <div id="back-loader" style="min-height: 400px;"></div>
+
+                <div ng-if="market.price_history.length && showPriceChart">
+                  <p class="time-interval">Time interval:</p>
+                  <button ng-repeat="int in intervals track by $index" ng-class="{'active':int.active}" class="interval-button btn btn-info btn-sm outline" ng-click="changeInterval($index)">{{int.text | translate}}</button>
+
+                  <pricechart 
+                  pricedata="market.price_history"
+                  volumedata="market.volume_history"
+                  volume-symbol="market.inverted ? market.quantity_symbol : market.quantity_symbol"
+                  volume-precision="market.inverted ? market.quantity_precision : market.quantity_precision"
+                  price-precision="market.price_precision"
+                  price-symbol="market.price_symbol"
+                  inverted="market.inverted"
+                  interval="interval"
+                  >
+                </pricechart>
               </div>
-            </div>
-          </tab>
-        </tabset>
-      </div>
-      <div class="col-md-7">
-          <orderbookchart
-              bids-array="market.orderbook_chart_data.bids_array"
-              asks-array="market.orderbook_chart_data.asks_array"
-              volume-symbol="market.quantity_symbol"
-              volume-precision="market.quantity_precision"
-              price-symbol="market.price_symbol"
-              price-precision="market.price_precision"
-              inverted-market="market.inverted"
-              feed-price="market.feed_price"
-              advanced-mode="advanced">
-          </orderbookchart>
+              <div ng-if="showOrderBook">
+                <orderbookchart
+                bids-array="market.orderbook_chart_data.bids_array"
+                asks-array="market.orderbook_chart_data.asks_array"
+                avg-value="market.orderbook_chart_data.avg_value"
+                volume-symbol="market.quantity_symbol"
+                volume-precision="market.quantity_precision"
+                price-symbol="market.price_symbol"
+                price-precision="market.price_precision"
+                inverted-market="market.inverted"
+                feed-price="market.feed_price"
+                advanced-mode="advanced">
+              </orderbookchart>
 
-          <!--<shortscollatchart ng-if="advanced"-->
-              <!--shortscollat-array="market.shortscollat_chart_data.array"-->
-              <!--volume-symbol="actual_market.base_symbol"-->
-              <!--volume-precision="market.base_precision"-->
-              <!--price-symbol="market.price_symbol"-->
-              <!--price-precision="market.price_precision"-->
-              <!--inverted-market="market.inverted"-->
-              <!--shorts-price="market.shorts_price">-->
-          <!--</shortscollatchart>-->
+            </div>
+          </div>
+        </div>
 
-      </div>
-    </div>
+<!--         <div id="pricechart-container" class="techan">
+          <techan 
+          ng-if="market.price_history.length"
+          pricedata="market.price_history"></techan>
+        </div> -->
 
-    <br>
 
-    <div class="row">
-        <div class="panel col-xs-12 col-sm-6">
-            <div class="panel-heading">
-                <h3 class="panel-title buy-orders-title">{{('market.open_buy_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
-            </div>
-            <div class="panel-body">
-                <div ng-include src="'market/open_buy.html'"></div>
-            </div>
-        </div>
-        <div class="panel col-xs-12 col-sm-6">
-            <div class="panel-heading">
-                <h3 class="panel-title sell-orders-title">{{('market.open_sell_orders') | translate:'{value: market.quantity_symbol}'}}</h3>
-            </div>
-            <div class="panel-body">
-                <div ng-include src="'market/open_sell.html'"></div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="short_orders_row" class="row" ng-show="advanced">
-        <div class="panel col-xs-12 col-sm-6">
-            <div class="panel-heading">
-                <h3 class="panel-title short-orders-title">{{('market.open_short_orders') | translate:'{value: actual_market.base_symbol}'}}</h3>
-            </div>
-            <div class="panel-body">
-                <div ng-include src="'market/open_shorts.html'"></div>
-            </div>
-        </div>
-        <div class="panel col-xs-12 col-sm-6">
-            <div class="panel-heading">
-                <h3 class="panel-title margin-orders-title"><span translate>market.open_margin_orders</span></h3>
-            </div>
-            <div class="panel-body">
-                <div ng-include src="'market/open_margin.html'"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-      <div class="panel col-md-6">
-        <div class="panel-heading">
-          <h3 class="panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
-        </div>
-        <div class="panel-body">
-          <div ui-grid="listBuyGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
-        </div>
-      </div>
-      <div class="panel col-md-6">
-        <div class="panel-heading">
-          <h3 class="panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}</h3>
-        </div>
-        <div class="panel-body">
-          <div ui-grid="listSellGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row" ng-show="market.shorts_available && advanced">
-      <div class="panel" ng-class="'col-md-6'">
-        <div class="panel-heading">
-          <h3 class="panel-title short-orders-title">{{
-            (market.inverted ?
-              ('market.margin_orders'|translate)
-            :
-              ('market.short_orders'|translate:'{value: actual_market.base_symbol}')
-            )
-           }}
-           <span ng-show="market.inverted" class="help-popover" popover-placement="right" popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
+        <!-- Buy -->
+        <div class="col-xs-4 orderbook-table">
+          <h3 class="market-table-title panel-title buy-orders-title">{{'market.buy_orders'|translate:'{value: market.quantity_symbol}'}}
+            <button ng-show="advanced" ng-click="buy_button = !buy_button" class="pull-right margin-button btn btn-info btn-sm outline" ng-class="{active: buy_button}">
+              <span ng-if="market.inverted" translate>market.order_type.margin_orders</span><span ng-if="!market.inverted" translate>market.order_type.short_orders</span>
+            </button>
           </h3>
+          <table fixed-header table-height="300px"  class="market-table table table-default table-condensed table-hover">
+            <thead>
+              <th><span translate>th.quantity</span><br><span> ({{ ::market.quantity_symbol }})</span></th>
+              <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="ask in combined_bids | limitTo:100 track by ask.uid" ng-click="row_click($index, true)" flash="ask.price_dec" tooltip-html-unsafe="{{ask.type === 'short' ? ('market.interest_rate' | translate)+': '+ (ask.interest_rate | number:2)+'%': ''}}" tooltip-placement="left">
+                <td>{{ ask.quantity_filtered }} </td>
+                <td class="no-r-padding"><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'bid-text':ask.type === 'bid', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="panel-body">
-          <div ui-grid="listShortsMarginsLeftGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
+
+        <!-- Sell -->
+        <div class="col-xs-4 orderbook-table">
+          <h3 class="market-table-title panel-title sell-orders-title">{{'market.sell_orders'|translate:'{value: market.quantity_symbol}'}}
+            <button ng-show="advanced" ng-click="sell_button = !sell_button" class="pull-right margin-button btn btn-info btn-sm outline" ng-class="{active: sell_button}">
+              <span ng-if="market.inverted" translate>market.order_type.short_orders</span><span ng-if="!market.inverted" translate>market.order_type.margin_orders</span>
+            </button>
+          </h3>
+          <table fixed-header table-height="300px" class="table table-default table-condensed table-hover market-table">
+            <thead>
+              <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
+              <th><span translate>th.quantity</span><br><span> ({{ ::market.quantity_symbol }})</span></th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="ask in combined_asks track by ask.uid" ng-click="row_click($index, false)" flash="ask.price_dec" tooltip-html-unsafe="{{ask.type === 'short' ? ('market.interest_rate' | translate)+': '+ (ask.interest_rate | number:2)+'%': ''}}" tooltip-placement="right">
+                <td><span ng-class="{'short-text':ask.type === 'short' || ask.type === 'short_wall', 'ask-text':ask.type === 'ask', 'cover-text':ask.type === 'margin_order'}">{{ (ask.price_int) }}</span><span class="decimal-text">{{'.' + ask.price_dec }}</span> </td>
+                <td class="no-r-padding">{{ ask.quantity_filtered }} </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
+        <!-- Blockchain and Account orders -->
+        <div class="col-xs-4">
+          <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':blockchain_orders}" ng-click="switchHistory()"><h3 class="market-table-title panel-title">{{'market.blockchain_orders_history' | translate }}</h3></button> 
+          <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':my_orders}" ng-click="switchHistory()"><h3 class="market-table-title panel-title">{{'market.account_orders_history' | translate }}</h3></button> 
+          <!-- <span ng-click="" ng-class="{'title-active':blockchain_orders, 'title-inactive':!blockchain_orders}" translate>market.blockchain_orders_history</span><span ng-click="switchHistory()" ng-class="{'title-active':my_orders, 'title-inactive':!my_orders}" style="margin-left:1em;" translate>market.account_orders_history</span> -->
+          
+
+          <table ng-if="blockchain_orders" fixed-header table-height="300px" class="market-table table table-default table-condensed table-hover">
+            <thead>
+              <th class="hidden-xs hidden-sm" style="width:30px"></th>
+              <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
+              <th ng-if="!market.inverted"><span translate>th.paid</span><br><span> ({{ ::market.inverted ? market.base_symbol : market.quantity_symbol }})</span></th>
+              <th ng-if="market.inverted"><span translate>th.received</span><br><span ng-if="blockchain_orders"> ({{ ::market.inverted ? market.quantity_symbol : market.base_symbol }})</span></th>
+              <th class="hidden-sm hidden-xs" translate>th.time</th>
+            </thead>
+            <tbody>
+              <tr ng-show="blockchain_orders" ng-repeat="trade in trades | limitTo:100 track by trade.uid">
+                <td class="no-r-padding hidden-xs hidden-sm"><progressbar max="market.max_trade/2" value="trade.received"></progressbar></td>
+                <td ><span ng-class="{'short-text':trade.type === 'short_order', 'bid-text':trade.type === 'bid_order', 'trade-text':trade.type === 'ask_order'}">{{ (trade.price_int) }}</span><span class="decimal-text">{{'.' + trade.price_dec }}</span> </td>
+                <td ng-if="blockchain_orders && !market.inverted">{{ trade.paid_filtered }} </td>
+                <td ng-if="blockchain_orders && market.inverted">{{ trade.received_filtered }} </td>
+                <td class="hidden-sm hidden-xs no-r-padding">{{ trade.localtime | date:'HH:mm' }} </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table ng-if="my_orders" fixed-header table-height="300px" class="market-table table table-default table-condensed table-hover">
+            <thead>
+              <th class="hidden-xs hidden-sm" style="width:30px"></th>
+              <th><span translate>th.price</span><br><span> ({{ ::market.price_symbol }})</span></th>
+              <th><span translate>th.received</span><br><span ng-if="blockchain_orders"> ({{ ::market.inverted ? market.quantity_symbol : market.base_symbol }})</span></th>
+              <th class="hidden-sm hidden-xs" translate>th.time</th>
+            </thead>
+            <tbody>
+              <tr ng-repeat="trade in my_trades | limitTo:100 track by $index">
+                <td class="no-r-padding  hidden-xs hidden-sm"><progressbar max="market.max_my_trades" value="trade.amount_asset.amount"></progressbar></td>
+                <td><span ng-class="{'short-text':trade.type === 'short_order', 'bid-text':trade.type === 'buy', 'ask-text':trade.type === 'sell'}">{{ (trade.price_int) }}</span><span class="decimal-text">{{'.' + trade.price_dec }}</span> </td>
+                <td >{{ trade.quantity }} </td>
+                <td class="no-r-padding">{{ trade.time.timestamp | date:'dd-MMM / HH:mm' }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        
       </div>
-      <div class="panel" ng-class="'col-md-6'">
-        <div class="panel-heading">
-          <h3 class="panel-title short-orders-title">{{
+
+      <!-- Left margin/short table -->
+      <div ng-if="market.shorts_available && advanced">
+        <div ng-if="buy_button" class="col-md-6 small-lr-padding">
+          <h3 class="market-table-title panel-title" ng-class="{'short-text':!market.inverted,'cover-text':market.inverted}">
+            {{
             (market.inverted ?
-              ('market.short_orders'|translate:'{value: actual_market.base_symbol}')
+            ('market.margin_orders'|translate)
             :
-              ('market.margin_orders'|translate)
+            ('market.short_orders'|translate)
             )
           }}
-          <span ng-show="!market.inverted" class="help-popover" popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
-          </h3>
-        </div>
-        <div class="panel-body">
-          <div ui-grid="listShortsMarginsRightGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
-        </div>
+          <span ng-show="market.inverted" class="help-popover" popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
+        </h3>
+        <div ui-grid="listShortsMarginsLeftGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
       </div>
+
+      <!-- Right margin/short table -->
+      <div ng-if="sell_button" class="col-md-6 small-lr-padding" >
+        <h3 class="market-table-title panel-title" ng-class="{'short-text':market.inverted,'cover-text':!market.inverted}">{{
+          (market.inverted ?
+          ('market.short_orders'|translate)
+          :
+          ('market.margin_orders'|translate)
+          )
+        }}
+        <span ng-show="!market.inverted" class="help-popover" popover-placement="right"  popover="{{'market.margin_orders_explain'|translate}}" popover-trigger="mouseenter"><i class="fa fa-question-circle"></i></span>
+      </h3>
+      <div ui-grid="listShortsMarginsRightGrid" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-6" ng-show="advanced">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title" translate>market.blockchain_orders_history</h3>
-          </div>
-          <div class="panel-body">
-            <div ui-grid="listBlockchainOrders" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-sm-6">
-        <div class="panel ">
-          <div class="panel-heading">
-            <h3 class="panel-title" translate>market.account_orders_history</h3>
-          </div>
-          <div class="panel-body">
-            <div ui-grid="listAccountOrders" class="market-grid" external-scopes="this" ui-grid-auto-resize></div>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 </div>
 </div>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+

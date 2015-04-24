@@ -107,7 +107,9 @@
     "received": "ПОЛУЧЕНО",
     "expiration": "Истекает",
     "interest_rate": "ДОХОДНОСТЬ (%)",
-    "message": "Сообщение"
+    "message": "Сообщение",
+    "market": "Рынок",
+    "id": "Номер"
   },
   "block": {
     "title": "Блок",
@@ -278,8 +280,8 @@
       "sell_total": "The number of {{base}} that will be deposited to {{account}} account after sell order is executed.",
       "short_quantity": "The number {{value}} that you would like to borrow and sell.",
       "short_collateral_ratio": "The number of {{quantity}} per {{base}} that you are willing to post as collateral. Short orders are matched in order of highest collateral ratio.",
-      "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is more.",
-      "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is less.",
+      "short_price_limit_direct": "The highest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{base}}. Short orders only match at the price feed or price limit, whichever is less.",
+      "short_price_limit_inverted": "The lowest price in {{base}} per {{quantity}} at which you are willing to borrow and sell {{quantity}}. Short orders only match at the price feed or price limit, whichever is more.",
       "short_feed_price": "The median exchange rate on external exchanges according to delegates.",
       "short_total": "The amount {{value}} required to fund this order. Calculated as Quantity times Collateral Ratio.",
       "short_interest_rate": "Годовая доходность, которую вы можете заплатить"
@@ -332,6 +334,8 @@
     "rescan_blockchain": "Повторное сканирование цепочки блоков",
     "new_account": "Новый аккаунт",
     "name": "Имя аккаунта",
+    "id": "Номер аккаунта",
+    "unregistered": "[не зарегистрирован]",
     "website": "Веб сайт",
     "website_tip": "Веб сайт (необязательно)",
     "email": "Email",
@@ -403,12 +407,12 @@
     "new_balance": "Новый баланс",
     "less_fee": "За минусом комиссии",
     "select_currency": "Выберете валюту",
-    "your_account": "Аккаунт принадлежит вам",
+    "your_account": "Ваш аккаунт",
     "registered" : "Дата регистрации",
     "pay_to": "Перевести средства"
   },
   "accounts": {
-    "create_account": "Добавить аккаунт",
+    "add_account": "Добавить аккаунт",
     "accounts": "Аккаунты",
     "info": "Нажмите на имени аккаунта, чтобы получить больше информации.",
     "select_account": "Выбрать аккаунт",
@@ -444,7 +448,6 @@
   },
   "directory": {
     "directory": "Каталог",
-    "favorites": "Избранное",
     "unregistered": "Незарегистрированные",
     "registered": "Зарегистрированные",
     "assets": "Активы"

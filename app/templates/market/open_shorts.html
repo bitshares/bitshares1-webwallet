@@ -11,7 +11,7 @@
     </thead>
     <tbody>
       <tr ng-repeat-start="o in orders | filter: {type: 'short_order'} track by $index" class="warning alert alert-danger unconfirmed" ng-show="o.warning">
-        <td colspan="5"><i class="fa fa-warning"></i> <b translate>tip.warning</b>. &nbsp; {{ o.warning | translate:'{value: o.price_diff}' }}</td>
+        <td colspan="5"><i class="fa fa-warning"></i> <b translate>tip.warning</b>. &nbsp; {{ o.warning | translate: {value: o.price_diff} }}</td>
       </tr>
       <tr class="warning unconfirmed" ng-show="o.status === 'unconfirmed'">
         <td colspan="5">{{'market.tip.confirm_order' | translate:'{value: account.name}'}}</td>

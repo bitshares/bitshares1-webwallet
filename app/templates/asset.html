@@ -20,7 +20,7 @@
                 <th translate>th.current_share_supply</th>
                 <th translate>th.maximum_share_supply</th>
                 <th translate>th.collected_fees</th>
-                <th ng-if="symbol2records[ticker].issuer_account_id === -2" translate>account.estimated_yield</th>
+                <th ng-if="symbol2records[ticker].issuer_id === -2" translate>account.estimated_yield</th>
                 <th translate>th.registration_date</th>
             </tr>
         </thead>
@@ -34,24 +34,24 @@
                 </td>
                 <td>{{ symbol2records[ticker].description }}</td>
                 <td>
-                 <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_account_id != 0 && symbol2records[ticker].issuer_account_id > 0">{{ issuer.name }} </a>
-                 <span ng-if="symbol2records[ticker].issuer_account_id == -2">MARKET</span>
+                 <a ui-sref="account.transactions({name: asset.account_name})" ng-if="symbol2records[ticker].issuer_id != 0 && symbol2records[ticker].issuer_id > 0">{{ issuer.name }} </a>
+                 <span ng-if="symbol2records[ticker].issuer_id == -2">MARKET</span>
                  <span ng-if="symbol2records[ticker].id == 0">None</span>
              </td>
              <td>
                 {{ symbol2records[ticker].precision }} 
             </td>
             <td>
-                {{ Utils.newAsset(symbol2records[ticker].current_share_supply, ticker, symbol2records[ticker].precision) | formatAsset }} 
+                {{ Utils.newAsset(symbol2records[ticker].current_supply, ticker, symbol2records[ticker].precision) | formatAsset }} 
             </td>
             <td>
-                {{ Utils.newAsset(symbol2records[ticker].maximum_share_supply, ticker, symbol2records[ticker].precision) | formatAsset }} 
+                {{ Utils.newAsset(symbol2records[ticker].max_supply, ticker, symbol2records[ticker].precision) | formatAsset }} 
             </td>
             <td>
                 {{ Utils.newAsset(symbol2records[ticker].collected_fees, ticker, symbol2records[ticker].precision) | formatAsset }} 
             </td>
-            <td ng-if="symbol2records[ticker].issuer_account_id === -2">
-                {{ (100 * symbol2records[ticker].collected_fees / symbol2records[ticker].current_share_supply) | number:2 }}% 
+            <td ng-if="symbol2records[ticker].issuer_id === -2">
+                {{ (100 * symbol2records[ticker].collected_fees / symbol2records[ticker].current_supply) | number:2 }}% 
             </td>
             <td>
                 {{ symbol2records[ticker].registration_date | prettyDate }} 

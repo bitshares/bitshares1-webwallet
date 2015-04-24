@@ -4,19 +4,15 @@
 	height: 100%;
 	width: 100%;
 	position: absolute;
-  top: 0; left: 190px; bottom: 0; right: 0;
+    top: 0; left: 95px; bottom: 0; right: 0;
 	z-index: 1 !important;
-	/*background-color: #fff;*/
+    -webkit-transition: opacity linear 0.5s;
+    transition: opacity linear 0.5s;
 }
 
-/*.loading-overlay.with-progress {*/
-	/*height: 100px;*/
-/*}*/
-
-/*.loading-overlay .transactions-progress {*/
-	/*display: none;*/
-/*}*/
-
+.loading-overlay.ng-hide {
+    opacity: 0;
+}
 
 .loading-panel {
 	max-height: 110px;

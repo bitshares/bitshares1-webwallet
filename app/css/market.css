@@ -13,17 +13,27 @@
 	padding-left: 0;
 }
 
-@media (min-width: 992px) {
-	.market-sparks li:nth-child(4n) {
-		clear: both;
-	}
+.markets-list > li.list-group-item:hover {
+    background-color: #eef8ff;
 }
 
-@media (max-width: 991px) {
-	.market-sparks li:nth-child(2n) {
+/*@media (min-width: 992px) {
+	.market-sparks li:nth-child(3n) {
 		clear: right;
 	}
-}
+}*/
+
+/*@media (min-width: 992px) {*/
+	/*.market-sparks li:nth-child(4n) {*/
+		/*clear: both;*/
+	/*}*/
+/*}*/
+
+/*@media (max-width: 991px) {*/
+	/*.market-sparks li:nth-child(2n) {*/
+		/*clear: right;*/
+	/*}*/
+/*}*/
 
 .no-account-selected-note {
 	margin: 40px auto;
@@ -61,17 +71,23 @@ span.cell {
 	line-height: 34px;
 }
 
+.market-charts {
+	margin-top: 10px; 
+	min-height: 332px;
+}
+
 .market-table {
 	width: 100%;
 }
 
 .market-table td {
 	font-size: 12px;
-	text-align: left !important;
+	text-align: right !important;
+	padding: 5px 5px 5px 5px !important
 }
 
 .market-table th {
-	text-align: left !important;
+	text-align: right !important;
 }
 
 .market-table button.btn-xs {
@@ -93,6 +109,10 @@ span.cell {
 	max-height: 640px;
 	overflow-y: auto;
 	overflow-x: auto;
+}
+
+.market-table > tr > td {
+	padding: 0;
 }
 
 .market-table tr.canceled td {
@@ -119,13 +139,23 @@ span.cell {
 	text-align: left;
 	font-size: 10px;
 	overflow: hidden;
-	padding: 5px 10px;
+	padding: 5px 0px;
 }
+
 
 .market-stats .stat .value {
 	font-size: 12px;
-	color: #888;
+	color: #000;
 	letter-spacing: normal;
+}
+
+.orderbook-table tr, .market-stats .stat .value {
+	transition: background-color 1s;
+	webkit-transition:background-color 1s;
+}
+
+.market-stats .stat .stat-primary {
+	font-size: 14px;
 }
 
 .header .stat {
@@ -154,8 +184,8 @@ span.cell {
 }
 
 .tab-sell.active > a {
-	border-top: 2px solid #ff7f0e !important;
-	color: #ff7f0e !important;
+	border-top: 2px solid #c90808 !important;
+	color: #c90808 !important;
 }
 
 .tab-sell > a:hover {
@@ -184,7 +214,7 @@ tr.short_wall td {
 }
 
 .sell-orders-title {
-	color: #ff7f0e;
+	color: #c90808;
 }
 
 .short-orders-title {
@@ -193,6 +223,16 @@ tr.short_wall td {
 
 .margin-orders-title {
 	color: #6390bc;
+}
+
+.market-table-title {
+	padding: 0.5em 0em 0.5em 0.5em;
+	text-transform: uppercase;
+}
+
+.order-list .market-table-title {
+    margin-top: 15px;
+    font-size: 96%;
 }
 
 .market-header-button {
@@ -213,13 +253,18 @@ tr.short_wall td {
 	padding-bottom: 1em;
 }
 
-.tab-short {
+.tab-short, .tab-cover {
 	display: none !important;
 }
 
 .shorts-available .tab-short {
 	display: block !important;
 }
+
+.advanced .tab-cover {
+	display: block !important;
+}
+
 
 /* market thumbnail */
 .market-thumbnail {
@@ -288,11 +333,11 @@ tr.short_wall td {
 	font-weight: bold;
 }
 
-.market-thumbnail .change-negative {
+.market-thumbnail .change-negative, .market-stats .stat .change-negative {
 	color: #c33;
 }
 
-.market-thumbnail .change-positive {
+.market-thumbnail .change-positive, .market-stats .stat .change-positive {
 	color: #2a2;
 }
 
@@ -308,6 +353,14 @@ tr.short_wall td {
 	color: #222;
 	overflow-x: hidden;
 	border-top: 1px solid #d4d4d4;
+}
+
+.ui-grid-viewport {
+    width: 100% !important;
+}
+
+.ui-grid-render-container-body .ui-grid-native-scrollbar.vertical {
+    right: 0 !important;
 }
 
 .market-grid .ui-grid-native-scrollbar.horizontal {
@@ -358,15 +411,203 @@ tr.short_wall td {
 }
 
 .search_market_div {
-	padding-right: 0;
-	padding-left: 15px;
+    width: 66%;
+	padding-right: 15px;
+	padding-left: 10px;
+}
+
+.search_market_div > .input-group {
+    width: 100%;
 }
 
 .input-group-addon.left {
 	width: 40px;
 }
 
+.table > thead > tr > th, .ui-grid-top-panel .ui-grid-cell-contents {
+	color: #333;
+	font-size: 10px;
+	font-weight: 300;
+	
+}
+
+#order_tabs {
+	position: fixed;
+	height: 100%;
+	padding: 10px;
+    padding-top: 23px;
+	background-color: #F6FAFC;
+}
+
+#order_tabs li {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+#order_tabs li.active a {
+    background-color: #fcfcfc;
+}
+
+#order_tabs .tab-content {
+    background-color: #fcfcfc;
+}
+
+.orders-div {
+	padding-top:54px;
+
+}
+
 .uia_search {
 	margin: 20px 0;
 	width: 280px;
+}
+
+.ask-text {
+	color:#c90808;
+}
+
+.bid-text {
+	color:#2ca02c;
+}
+
+.short-text {
+	color:#6390bc;
+}
+
+.cover-text {
+	color:#CCBD16;
+}
+
+.decimal-text {
+	font-size: 0.95em;
+}
+
+.progress {
+	width:30px;
+	background-color: transparent;
+	webkit-box-shadow:inherit;
+	box-shadow: inherit;
+	margin-top:5px;
+	margin-bottom: 5px;
+}
+
+.title-active {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.title-inactive {
+	font-weight: normal;
+	font-size: 0.85em;
+}
+
+.no-l-padding {
+	padding-left: 0;
+}
+
+.small-l-padding {
+	padding-left: 5px;
+}
+
+.small-r-padding {
+	padding-right: 5px;
+}
+
+.small-lr-padding {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+tr > td.no-r-padding {
+	padding-right: 5px !important;
+}
+
+.nav-tabs > li.ask-text > a {
+	color:#c90808;
+}
+
+.nav-tabs > li.bid-text > a {
+	color:#2ca02c;
+}
+
+.nav-tabs > li.short-text > a {
+	color:#6390bc;
+}
+
+.nav-tabs > li.cover-text > a {
+	color:#CCBD16;
+}
+
+/* cass updates */
+
+.top-bar-asset {
+	border-bottom: 1px solid #EEE;
+	padding: 20px;
+}
+
+#back-loader {
+	border: 0px solid #333;
+	margin-bottom: 10px;
+	margin-left: 4px;
+	background: #FFF url('../img/bts-logo-gray.png') no-repeat 48% 48%;
+	position: relative;
+	z-index: 1;
+}
+
+.order-form {
+	border: 0px solid #333;
+	min-height: 270px;
+}
+
+.small-top-padding {
+	padding-top: 30px
+}
+
+.test-fixed {
+	position: fixed;
+	margin-bottom: 50px;
+	z-index: 999;
+	background-color: #F6FAFC;
+}
+
+.market-header {
+	margin-top: 60px;
+}
+
+@media (max-width: 992px) {
+	.market-header {
+		margin-top: 90px;
+	}
+}
+
+.highlight {
+	background-color: red;
+}
+
+.margin-button {
+    position: relative;
+    top: -3px;
+    font-size: 11px !important;
+}
+
+button.interval-button {
+	margin-right: 1px;
+}
+
+button:nth-child(1).interval-button {
+	margin-left:50px;
+}
+
+.time-interval {
+	display:inline-block;
+	margin:0 10px 0 15px;
+}
+
+.order-button {
+	padding:0; 
+	border:0
+}
+
+.order-button h3 {
+	font-size:0.95em;
 }

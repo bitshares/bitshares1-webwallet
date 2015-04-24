@@ -82,7 +82,7 @@ angular.module("app.directives").directive "marketThumbnail", ->
               <span class="low"><label>L:</label> {{ market.min_price | number: 2 }}</span>
               <span class="change pull-right" ng-class="{'change-positive':market.change >=0, 'change-negative':market.change < 0}"><span ng-if="market.change>0">+</span>{{ market.change | number: 2 }}%</span>
             </div>
-            <div class="volume"><label>V:</label> {{market.volume | formatDecimal : 0}} {{market.asset_base_symbol}}</div>
+            <div class="volume"><label>V:</label> {{market.volume | formatDecimal : 2}} {{market.asset_quantity_symbol}}</div>
             <div class="sparkchart"></div>
         </div>
     '''
@@ -150,9 +150,9 @@ angular.module("app.directives").directive "marketThumbnail", ->
                         l = 0.90 * Math.min(o,c) if oc_avg/l > 1.25
 
                         market.ohlc_data.push [time, oc_avg]
-                        market.volume_data.push [time, t.volume / market.base_asset.precision]
-                        market.volume += t.volume / market.base_asset.precision
-                        market.max_volume = Math.max t.volume / market.base_asset.precision, market.max_volume
+                        market.volume_data.push [time, t.quote_volume / market.quantity_asset.precision]
+                        market.volume += t.quote_volume / market.quantity_asset.precision
+                        market.max_volume = Math.max t.quote_volume / market.quantity_asset.precision, market.max_volume
                         market.min_price = Math.min oc_avg, market.min_price
                         market.high_price = Math.max oc_avg, market.high_price
                         market.close = c;

@@ -7,25 +7,32 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
         $scope.account = {name: contact_name, key: ''}
     $scope.data = {}
     $scope.data.add_contact_mode = add_contact_mode
-    $scope.data.favorites = Object.keys(Wallet.favorites)
+    $scope.data.contact_accounts = Wallet.contacts
+    $scope.data.contacts = Object.keys(Wallet.contacts)
     $scope.data.contact_name_filter = ""
 
     $scope.cancel = ->
         $modalInstance.dismiss "cancel"
 
     $scope.selectAccount = (name) ->
-        index = $scope.data.favorites.indexOf(name)
+        index = $scope.data.contacts.indexOf(name)
         if index >= 0
             $modalInstance.close("ok")
             action(name) if action
 
     $scope.removeContact = (name) ->
-        index = $scope.data.favorites.indexOf(name)
+        index = $scope.data.contacts.indexOf(name)
         if index >= 0
-            $scope.data.favorites.splice(index, 1)
-            delete Wallet.favorites[name]
-            Wallet.accounts[name].is_favorite = false
-            WalletAPI.account_set_favorite(name, false)
+            contact_account = Wallet.contacts[name]
+            name_to_remove = if contact_account?.contact_type == "public_key" then contact_account.data else name
+            WalletAPI.remove_contact(name_to_remove, false).then
+            delete Wallet.contacts[name]
+            $scope.data.contacts.splice(index, 1)
+            Wallet.refresh_contacts()
+        return false
+
+    $scope.isMyAccount = (name) ->
+        !!Wallet.accounts[name]
 
     $scope.ok = ->
         form = @newcontact
@@ -37,8 +44,7 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
             form.account_key.$invalid = true
             message = Utils.formatAssertException(error.data.error.message)
             form.account_key.$error.message = if message and message.length > 2 then message else "Not valid public key"
-        Wallet.wallet_add_contact_account($scope.account.name, $scope.account.key, error_handler).then (response) ->
-            WalletAPI.account_set_favorite($scope.account.name, true).then ->
-                Wallet.refresh_accounts()
+        WalletAPI.add_contact($scope.account.key, $scope.account.name, error_handler).then ->
+            Wallet.refresh_contacts().then ->
                 $modalInstance.close("ok")
                 action($scope.account.name) if action

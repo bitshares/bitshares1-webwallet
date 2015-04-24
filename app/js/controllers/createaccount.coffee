@@ -1,5 +1,11 @@
-angular.module("app").controller "CreateAccountController", ($scope, $location, $translate, Wallet, WalletAPI, Utils) ->
-    $scope.f = {}
+angular.module("app").controller "CreateAccountController", ($scope, $location, Wallet, WalletAPI, Utils, Info) ->
+    $scope.f = { fully_synced: true }
+
+    $scope.fully_synced = true
+    $scope.$watch ()->
+        Info.info.seconds_behind
+    , (seconds_behind) ->
+        $scope.f.fully_synced = seconds_behind <= Info.FULL_SYNC_SECS if seconds_behind
 
     $scope.createAccount = ->
         form = @createaccount
@@ -18,8 +24,5 @@ angular.module("app").controller "CreateAccountController", ($scope, $location, 
             else
                 return false
 
-        Wallet.create_account(name, null, error_handler).then ->
-            WalletAPI.account_set_favorite(name, true, error_handler).then ->
-                $location.path("accounts/" + name)
-            , (error) ->
-                $location.path("accounts/" + name)
+        Wallet.create_account(name, error_handler).then ->
+            $location.path("accounts/" + name)

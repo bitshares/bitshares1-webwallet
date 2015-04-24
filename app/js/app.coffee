@@ -16,7 +16,7 @@ window.open_external_url = (url) ->
 app = angular.module("app",
     ["ngResource", "ui.router", 'ngIdle', "app.services", "app.directives", "ui.bootstrap",
      "ui.validate", "xeditable", "pascalprecht.translate", "pageslide-directive", "ui.grid", "utils.autofocus",
-     "ui.grid.autoResize"])
+     "ui.grid.autoResize", "ngAnimate", "anguFixedHeaderTable"])
 
 app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCache, $translate, editableOptions, editableThemes) ->
 
@@ -87,14 +87,13 @@ app.run ($rootScope, $location, $idle, $state, $interval, $window, $templateCach
     $rootScope.showContextHelp = (name) ->
         if name
             $rootScope.context_help.show = true
-            $rootScope.context_help.file = "context_help/#{$translate.preferredLanguage()}/#{name}.html"
+            $rootScope.context_help.file = "context_help/en/#{name}.html"
         else
             $rootScope.context_help.show = false
             $rootScope.context_help.file = ""
 
     $rootScope.current_account = null
 
-    $idle.watch()
 
 app.config ($idleProvider, $translateProvider, $tooltipProvider
     $compileProvider, $locationProvider) ->
@@ -118,13 +117,18 @@ app.config ($idleProvider, $translateProvider, $tooltipProvider
     
     localStorage = window.localStorage
     unless useLang localStorage?.getItem 'locale_selector_lang'
-        useLang switch window.navigator.language
-          when "zh-CN" then "zh-CN"
-          when "de", "de-DE", "de-de" then "de"
-          when "ru", "ru-RU", "ru-ru" then "ru"
-          when "it", "it-IT", "it-it" then "it"
-          when "ko", "ko-KR", "ko-kr" then "ko"
-          else "en"
-      
+        useLang switch window.navigator.language.toLowerCase()
+            when "zh-cn" then "zh-CN"
+            when "de", "de-de" then "de"
+            when "ru", "ru-ru" then "ru"
+            when "it", "it-it" then "it"
+            when "ko", "ko-kr" then "ko"
+            when "es", "es-ar", "es-bo", "es-cl", "es-co", "es-cr", "es-do", "es-ec", "es-sv", "es-gt", "es-hn", "es-mx", "es-ni", "es-pa", "es-py", "es-pe", "es-pr", "es-es", "es-uy", "es-ve" then "es"
+            else "en"
+
     $idleProvider.idleDuration(1776)
     $idleProvider.warningDuration(60)
+
+    Highcharts.setOptions
+        global: 
+            useUTC: false

@@ -81,7 +81,7 @@ class Observer
 
     unregisterObserver: (observer) ->
         unless @private.observers[observer.name]
-            @log.error("Observer.unregisterObserver: cannot find '#{observer.name}' observer")
+            #@log.error("Observer.unregisterObserver: cannot find '#{observer.name}' observer")
             return
         @interval.cancel(observer.interval_promise) if observer.interval_promise
         delete @private.observers[observer.name]

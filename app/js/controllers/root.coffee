@@ -100,7 +100,7 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
             when off
                 #console.log 'wallet_unlocked',unlocked
                 Observer.unregisterObserver Wallet.observer_config()
-        
+
         navigate_to('unlockwallet') if Info.info.wallet_open and !unlocked
         ### mail is not used yet... Instead, a default mailserver may enable mail for everyone
         if unlocked
@@ -129,3 +129,5 @@ angular.module("app").controller "RootController", ($scope, $location, $modal, $
 
     $scope.close_context_help = ->
         $scope.context_help.open = false
+
+    $scope.startIdleWatch()

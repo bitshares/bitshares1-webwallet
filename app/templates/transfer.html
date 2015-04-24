@@ -9,7 +9,8 @@
 <div class="row head-bg account-page">
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
-      <identicon account="{{account_from_name}}" size="150"/>
+      <identicon account="{{account_from.name}}" size="150"/>
+      <account-name-with-id name="account_from.name" account-id="account_from.id"></account-name-with-id>
     </div>
     <br/>
   </div>
@@ -18,7 +19,7 @@
       <div class="p-inner">
         <span class="account-from"><span translate>account.from</span>:</span>
         <div class="btn-group" dropdown is-open="status.isopen1">
-          <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>{{account_from_name}} <span class="caret"></span></button>
+          <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>{{account_from.name}} <span class="caret"></span></button>
           <ul class="dropdown-menu scrollable-menu-short"  role="menu">
             <li ng-repeat="account in my_accounts">
               <a ui-sref="transfer({from: account.name})">{{account.name}}</a>
@@ -52,15 +53,13 @@
   <div class="col-sm-2 avatar-150-min-width">
     <div class="avatar-150 text-center">
       <identicon account="{{gravatar_account_name}}" size="150"/>
-      <h3 ng-show="gravatar_account_name && (address_type == 'pubkey')">{{gravatar_account_name}}</h3>
-      <br/>
-      <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !accounts[transfer_info.payto].is_favorite && !add_to_address_book.error && !is_bitshares_js" ng-click="addToAddressBook()" class="btn btn-primary btn-sm outline">
-        <span translate>contact.add_to_address_book</span>
-      </button>
-      <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
-      <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
-      <span ng-show="is_my_account" class="text-success" translate>account.your_account</span>
-      <span ng-show="account_registration_date" class="text-warning"><span translate>account.registered</span> {{ account_registration_date | prettyDate:'short' }}</span>
+        <account-name-with-id ng-show="gravatar_account_name" name="gravatar_account_name" account-id="transfer_info.payto_account_id" registration-date="account_registration_date"></account-name-with-id>
+        <button ng-show="transfer_info.payto && !transfer_info.unknown_account && !is_address_book_contact && !add_to_address_book.error" ng-click="addToAddressBook()" class="add-to-address-book btn btn-primary btn-sm outline">
+          <span translate>contact.add_to_address_book</span>
+        </button>
+        <span ng-show="add_to_address_book.error" class="text-danger">{{add_to_address_book.error}}</span>
+        <span ng-show="add_to_address_book.message" class="text-success">{{add_to_address_book.message}}</span>
+        <span ng-show="is_my_account" class="text-success" translate>account.your_account</span>
     </div>
 
   </div>
@@ -114,7 +113,7 @@
         </div>
       </div>
       <!-- pay to -->
-      <div class="form-group row no-bottom-space" ng-class="{ 'has-error' : (forms.my_transfer_form.payto.$invalid || forms.my_transfer_form.payto.error_message) && !forms.my_transfer_form.payto.$pristine}">
+      <div class="form-group row" ng-class="{ 'has-error' : (my_transfer_form.payto.$invalid || my_transfer_form.payto.error_message) && !my_transfer_form.payto.$pristine}">
         <label for="payto" class="col-sm-1 control-label" translate>account.to</label>
         <div class="col-md-6 col-sm-10">
           <div class="input-group" style="width: 100%;">
@@ -126,11 +125,6 @@
             <span ng-click='newContactModal()' type="button" class="input-group-addon btn white btn-success" ng-hide="is_bitshares_js" translate>contact.address_book</span>
           </div>
           <span class="help-block text-danger" ng-show="forms.my_transfer_form.payto.error_message">{{forms.my_transfer_form.payto.error_message}}</span>
-        </div>
-      </div>
-      <div class="form-group row">
-        <div class="col-md-offset-1 col-sm-offset-1 col-md-5 col-sm-9">
-          <span ng-show="forms.my_transfer_form.payto.$pristine" class="help-block text-warning" translate>tip.fake_accounts_warning</span>
         </div>
       </div>
       <!-- memo -->
@@ -148,8 +142,9 @@
           <button type="submit" class="btn btn-primary" ng-disabled="!forms.my_transfer_form.$valid || !transfer_info.symbol || forms.my_transfer_form.payto.error_message">
             &nbsp; <span translate>account.send</span> &nbsp;
           </button>
-          <span class="help-block">
-               {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+tx_fee_asset.symbol }})</span>
+          <span class="help-block" ng-show="balance_after_transfer">
+               {{'account.new_balance' | translate }}: {{balance_after_transfer | formatDecimal: balance_precision}} {{transfer_asset.symbol}} ({{'account.less_fee' | translate }} {{ fee+ ' '+tx_fee_asset.symbol }})
+          </span>
         </div>
       </div>
     </form>
@@ -159,5 +154,3 @@
 
 </div>
 </div>
-
-

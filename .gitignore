@@ -6,3 +6,4 @@ vendor/js/bts.js
 *.swo
 generated/*
 dist/*
+vendor/js/bts.js

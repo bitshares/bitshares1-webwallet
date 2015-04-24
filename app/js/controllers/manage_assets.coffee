@@ -13,7 +13,7 @@ angular.module("app").controller "ManageAssetsController", ($scope, $location, $
         account_id = result.id
         Blockchain.refresh_asset_records().then ->
             for asset in Blockchain.asset_records
-                if asset.issuer_account_id == account_id and not assets_by_id[asset.id]
+                if asset.issuer_id == account_id and not assets_by_id[asset.id]
                     assets_by_id[asset.id] = asset
                     $scope.assets.push asset
 

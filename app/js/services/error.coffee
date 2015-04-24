@@ -1,5 +1,8 @@
 servicesModule = angular.module("app.services", [])
 
+RpcException = (@message, @response) ->
+    @name = "RPC Server Error"
+
 servicesModule.config ($httpProvider, $provide) ->
     $httpProvider.interceptors.push('myHttpInterceptor')
 
@@ -37,8 +40,11 @@ processRpcError = (response, Shared) ->
             delete response.config.stack
         error_msg = JSON.stringify(response) unless error_msg
         console.log "RPC Server Error: #{error_msg} (#{response.status})\n#{response.config?.stack}"
-        magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})\n#{stack}") if magic_unicorn?
         Shared.addError(error_msg, stack, response.data?.error?.detail)
+        if magic_unicorn?
+            magic_unicorn.log_message("rpc error: #{error_msg} (#{response.status})\n#{stack}")
+        else
+            throw new RpcException(error_msg, response)
 
 
 servicesModule.factory "myHttpInterceptor", ($q, Shared) ->
