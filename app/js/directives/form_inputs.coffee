@@ -49,7 +49,7 @@ angular.module("app.directives").directive "inputPositiveNumber", ($compile, $to
             else
                 ctrl.$setValidity "float", false
             return res
-
+        
         ctrl.$parsers.unshift validator
 
 

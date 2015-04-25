@@ -16,7 +16,6 @@ angular.module("app").controller "AccountWallController", ($scope, $modal, $stat
         $scope.burn_records.splice(0, $scope.burn_records.length)
         for r in results
             asset = Blockchain.asset_records[r.amount.asset_id]
-            console.log "r:",r
             continue until asset
             $scope.burn_records.push
                 amount: Utils.formatAsset(amount: r.amount.amount, precision: asset.precision, symbol: asset.symbol)
