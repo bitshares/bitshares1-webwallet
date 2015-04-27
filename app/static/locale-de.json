@@ -295,8 +295,8 @@
         "condition3": "Und das Preislimit ist niedriger als der Feed-Preis (BTS pro BitAsset) oder es wurde kein Limit angegeben.",
         "condition4": "Und Es sind 200 Prozent als Kollateral und der BitAsset Menge gemessen am Preis-Feed hinterlegt.",
         "condition5": "Oder das Preislimit ist höher als der Feed (BTS pro BitAsset) und jemand ist bereit zum Preislimit zu kaufen.",
-        "short1": "•Nach 30 Tagen wird das Beste Angebot angenommen und der wird Short geschlossen, es sei denn der Leerverkäufer hinterlegt erneut BTS um mindestens 200% als Sicherheit zu decken. Es fallen keine Gebühren an.
-        "short2":"•Der Short wird automatisch geschlossen wenn 75% der hinterlegten Sicherheiten als Deckung benötigt werden. Der Leerverkäufer erhält dann bis zu 25% der Sicherheiten zurück, abzüglich einer Gebühr in Höhe von 5%.",
+        "short1": "Nach 30 Tagen wird das Beste Angebot angenommen und der wird Short geschlossen, es sei denn der Leerverkäufer hinterlegt erneut BTS um mindestens 200% als Sicherheit zu decken. Es fallen keine Gebühren an.",
+        "short2":"Der Short wird automatisch geschlossen wenn 75% der hinterlegten Sicherheiten als Deckung benötigt werden. Der Leerverkäufer erhält dann bis zu 25% der Sicherheiten zurück, abzüglich einer Gebühr in Höhe von 5%.",
         "cover_fee":"Die 5% Gebühren beziehen sich auf das übrig gebliebene collateral nach dem der Short gedeckt wurde."
     }
   },
