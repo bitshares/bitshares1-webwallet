@@ -103,12 +103,12 @@ class MarketHelper
         qa = assets[ask_price.quote_asset_id]
         o.type = t.bid_type
         o.id = t.ask_owner+t.bid_owner
-        o.uid = @utils.hashString "#{t.bid_index.owner}#{t.ask_received.amount}#{t.ask_index.owner}#{t.bid_received.amount}"
         o.price = ask_price.ratio * (ba.precision / qa.precision)
         o.price = 1.0 / o.price if invert_price
         o.paid = t.ask_paid.amount / ba.precision
         o.received = t.ask_received.amount / qa.precision
         o.timestamp = @filter('prettySortableTime')(t.timestamp)
+        o.uid = @utils.hashString "#{t.bid_index.owner}#{t.timestamp}#{t.ask_received.amount}#{t.ask_index.owner}#{t.bid_received.amount}"
         o.display_type = @capitalize(o.type.split("_")[0])
 
     array_to_hash: (list) ->
@@ -320,6 +320,19 @@ class MarketHelper
             price_int: price_string[0]
             price_dec: price_string[1]
             }
+
+    removeDuplicates: (array, limit) =>
+        duplicates = false
+        uids = {}
+
+        array.forEach (entry, index) ->
+            if index < limit
+                if not uids[entry.uid] 
+                    uids[entry.uid] = true;
+                else
+                    entry.uid += 1
+                    duplicates = true
+        return {array: array, duplicates: duplicates}
 
 
 
