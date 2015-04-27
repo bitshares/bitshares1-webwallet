@@ -82,12 +82,12 @@ span.cell {
 
 .market-table td {
 	font-size: 12px;
-	text-align: right !important;
+	text-align: center !important;
 	padding: 5px 5px 5px 5px !important
 }
 
 .market-table th {
-	text-align: right !important;
+	text-align: center !important;
 }
 
 .market-table button.btn-xs {

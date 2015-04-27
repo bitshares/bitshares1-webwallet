@@ -774,6 +774,13 @@ class MarketService
 
             @market.max_trade = max
 
+            # Check for duplicates in uid which will cause problems with angular and update_array
+            temp = {duplicates: true}
+            start = Date.now()
+            while temp.duplicates
+                temp = @helper.removeDuplicates trades, 100
+                trades = temp.array
+            
             if tradesFound
                 @market.daily_high = dailyHigh
                 @market.daily_low = dailyLow
