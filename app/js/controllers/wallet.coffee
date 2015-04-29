@@ -37,3 +37,7 @@ angular.module("app").controller "WalletController", ($scope, Growl) ->
         bk = $scope.brainkey
         bk.delete_password = undefined
         bk.delete_confirmed = no
+    
+    $scope.backupWallet= ()->
+        wallet_api = window.wallet_api
+        wallet_api.backup_create()
