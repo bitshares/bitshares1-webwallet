@@ -30,11 +30,10 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
     $scope.tabs = [
         { heading: "market.buy", route: "market.buy", active: true, class: "tab-buy bid-text" },
         { heading: "market.sell", route: "market.sell", active: false, class: "tab-sell ask-text" },
-        { heading: "market.short", route: "market.short", active: false, class: "tab-short short-text" }
-        { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover cover-text"}
     ]
     unless window.bts
-        $scope.tabs.push { heading: "market.short", route: "market.short", active: false, class: "tab-short" }
+        $scope.tabs.push { heading: "market.short", route: "market.short", active: false, class: "tab-short short-text" }
+        $scope.tabs.push { heading: "btn.cover", route: "market.cover", active: false, class: "tab-cover cover-text"}
 
     $scope.showPriceChart = true;
     $scope.showOrderBook = false;
