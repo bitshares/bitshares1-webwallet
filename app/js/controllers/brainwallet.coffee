@@ -11,7 +11,12 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     WalletService.clear_accounts()
     
     $rootScope.splashpage = true
-    $scope.has_secure_random = (window.crypto || window.msCrypto) isnt undefined
+    if not window.crypto and not window.msCrypto
+        $scope.no_secure_random = true
+        # HTML is used over angularjs.  Angular was not able to keep this
+        # block hidden completely (unless true).
+        document.getElementById('no_secure_random').style.display = 'block'
+    
     $scope.has_wallet = WalletBts.has_wallet()
     $scope.data = {}
     LANDING_PAGE = 'accounts'
