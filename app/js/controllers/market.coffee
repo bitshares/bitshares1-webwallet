@@ -230,7 +230,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.order_total_change = ->
         order = get_order()
-        console.log order
         TradeData = MarketService.TradeData
         price = TradeData.helper.to_float(order.price)
         cost = TradeData.helper.to_float(order.cost)

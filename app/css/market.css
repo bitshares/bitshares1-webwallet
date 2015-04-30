@@ -603,11 +603,17 @@ button:nth-child(1).interval-button {
 	margin:0 10px 0 15px;
 }
 
-.order-button {
-	padding:0; 
-	border:0
+.order-buttons {
+	padding-top: 5px;
+	padding-bottom: 3px;
 }
 
-.order-button h3 {
-	font-size:0.95em;
+.order-button {
+	padding:0; 
+	border:0;
+	font-size: 11px !important;
+}
+
+.chart-selection-buttons {
+	margin-right: 8px;
 }
