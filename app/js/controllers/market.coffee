@@ -55,6 +55,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         {interval: 3600*24*3, text:"market.chart.3_day", active:false}
     ]
 
+    $scope.interval = 1800;
+
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 

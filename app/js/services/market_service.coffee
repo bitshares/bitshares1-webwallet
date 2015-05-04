@@ -942,18 +942,20 @@ class MarketService
                 l = c if c < l
 
                 oc_avg = (o + c) / 2.0
-                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.1
-                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
+                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.25
+                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.25
 
+                # We're looping backwards in time so the current open is always the interval open
                 interval_o = o
 
+                # First point of the interval
                 if interval_counter == 0
                     interval_c = c
                     interval_l = l
                     interval_h = h
-                else
-                    interval_l = Math.min l, l_old
-                    interval_h = Math.max h, h_old
+                else # Remaining points
+                    interval_l = Math.min l, interval_l
+                    interval_h = Math.max h, interval_h
 
                 if inverted
                     interval_v += t.quote_volume

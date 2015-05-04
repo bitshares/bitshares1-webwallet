@@ -214,6 +214,7 @@ angular.module("app.directives").directive "pricechart", ($window)->
         chart = null
         initialZoom = true
         intervalChange = false
+        interval = 1800
 
         scope.afterSetExtremes = (e) ->
             # On first draw or interval change, reset to min/max to a reasonable value
