@@ -322,7 +322,7 @@
     "assets": "BitAssets",
     "keys": "Schlüssel",
     "advanced": "Erweitert",
-    "account_key": "Kontoschlüssel",
+    "account_key": "Kontoadresse",
     "priv_key": "Privater Schlüssel",
     "import_key": "Importiere diesen privaten Schlüssel",
     "wallet_type": "Typ der Kontensammlung (Wallet)",
