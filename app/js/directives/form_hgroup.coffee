@@ -97,7 +97,7 @@ angular.module("app.directives").directive "formHgroupValue", ->
     template: '''
     <div class="form-group">
         <label class="col-sm-4 control-label">{{label}}</label>
-        <div class="col-sm-8 col-md-6"><span class="cell" ng-show="showValue"><span ng-transclude></span> {{symbol}}</span></div>
+        <div class="col-sm-8 col-md-6 balance-label"><span class="cell" ng-show="showValue"><span ng-transclude></span> {{symbol}}</span></div>
     </div>
     '''
     replace: true

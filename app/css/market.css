@@ -453,8 +453,7 @@ tr.short_wall td {
 }
 
 .orders-div {
-	padding-top:54px;
-
+	padding-top:1em;
 }
 
 .uia_search {
@@ -574,7 +573,7 @@ tr > td.no-r-padding {
 	margin-top: 60px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 937px) {
 	.market-header {
 		margin-top: 90px;
 	}
@@ -617,3 +616,46 @@ button:nth-child(1).interval-button {
 .chart-selection-buttons {
 	margin-right: 8px;
 }
+
+#order_tabs .balance-label {
+	padding-left:0px;
+	padding-right: 0px;
+}
+
+
+@media screen and (max-device-height: 801px) {
+	#order_tabs {
+		font-size: 11px;
+	}
+	#order_tabs ul li a {
+		padding-left: 0.65em;
+		padding-right: 0.65em;
+	}
+
+	.form-group {
+		margin-bottom: 10px;
+	}
+
+	#order_tabs table {
+		margin-bottom: 0px;
+	}
+
+	#order_tabs .tab-content {
+		padding-top: 5px;
+		padding-bottom: 0px;
+	}
+
+	.hgroup-no-top-space {
+  		margin-top: -10px;
+	}
+
+	.order-form {
+		min-height: 1px;
+	}
+
+	.advanced-mode {
+		padding-bottom: 0.4em;
+	}
+}
+
+
