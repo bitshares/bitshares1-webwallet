@@ -4,7 +4,7 @@
       <th ng-click="orderByFieldVotes='name'; reverseSortVotes = !reverseSortVotes" ><ng-sort-fa order-string="name" reverse-sort="{{reverseSortVotes}}" order-by-field="{{orderByFieldVotes}}"></ng-sort-fa><span translate>th.name</span></th>
       <th ng-click="orderByFieldVotes='votes_for'; reverseSortVotes = !reverseSortVotes" ><ng-sort-fa order-string="votes_for" reverse-sort="{{reverseSortVotes}}" order-by-field="{{orderByFieldVotes}}"></ng-sort-fa><span translate>th.approval</span></th>
       <th ng-click="orderByFieldVotes='pay_rate'; reverseSortVotes = !reverseSortVotes" ><ng-sort-fa order-string="pay_rate" reverse-sort="{{reverseSortVotes}}" order-by-field="{{orderByFieldVotes}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
-      <th translate>th.approve</th>
+      <th ng-click="orderByFieldVotes='approval'; reverseSortVotes = !reverseSortVotes"><ng-sort-fa order-string="approval" reverse-sort="{{reverseSortVotes}}" order-by-field="{{orderByFieldVotes}}"></ng-sort-fa><span translate>th.approve</span></th>
     </tr>
   </thead>
   <tbody>
@@ -16,13 +16,13 @@
         <span ng-switch-when='true'>&#60;0.01%</span>
         <span ng-switch-default>{{ (del.votes_for)/current_xts_supply*100 | number:2 }}%</span></span>        
       </td>
-      <td class='hideableCol'>{{ del.pay_rate }}%</td>
+      <td>{{ del.pay_rate }}%</td>
       <td>
         <div class="btn-group">
           <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{'account.toggle.approval'|translate}}">
-            <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
-            <i ng-if="!accounts[del.name].approved || accounts[del.name].approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
-            <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+            <i ng-if="approvals[del.name].approval>0" class='fa fa-thumbs-up fa-2x'></i>
+            <i ng-if="!approvals[del.name].approval || approvals[del.name].approval==0" class='fa fa-thumbs-o-up fa-2x'></i>
+            <i ng-if="approvals[del.name].approval<0" class='fa fa-thumbs-down fa-2x'></i>
           </button>
         </div>
       </td>

@@ -228,6 +228,7 @@ class Blockchain
     populate_delegate: (record, active, rank) ->
         record.active = active
         record.rank = rank
+        record.approval = 0
         @all_delegates[record.name] = record
         record.reliability = if (record.delegate_info.blocks_produced > 0) then record.delegate_info.blocks_produced / (record.delegate_info.blocks_produced + record.delegate_info.blocks_missed) * 100 else 0
 #        record.feeds ||= []

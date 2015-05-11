@@ -15,7 +15,7 @@
             <th ng-click="orderByField='delegate_info.votes_for'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.votes_for" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.approval</span></th>
             <th ng-click="orderByField='reliability'; reverseSort = !reverseSort" ><ng-sort-fa order-string="reliability" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.reliability</span></th>
             <th ng-click="orderByField='delegate_info.pay_rate'; reverseSort = !reverseSort" ><ng-sort-fa order-string="delegate_info.pay_rate" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.pay_rate</span></th>
-            <th translate ng-hide="is_bitshares_js">th.approve</th>
+            <th ng-hide="is_bitshares_js" ng-click="orderByField='approval'; reverseSort = !reverseSort" ><ng-sort-fa order-string="approval" reverse-sort="{{reverseSort}}" order-by-field="{{orderByField}}"></ng-sort-fa><span translate>th.approve</span></th>
           </tr>
         </thead>
         <tbody>
@@ -41,9 +41,9 @@
             <td ng-hide="is_bitshares_js">
               <div class="btn-group">
                 <button ng-click="toggleVoteUp(del.name)" class="btn btn-sm btn-link primary" tooltip="{{ 'account.toggle.approval' | translate }}">
-                  <i ng-if="accounts[del.name].approved>0" class='fa fa-thumbs-up fa-2x'></i>
-                  <i ng-if="!accounts[del.name].approved || account.approved==0" class='fa fa-thumbs-o-up fa-2x'></i>
-                  <i ng-if="accounts[del.name].approved<0" class='fa fa-thumbs-down fa-2x'></i>
+                  <i ng-if="approvals[del.name].approval>0" class='fa fa-thumbs-up fa-2x'></i>
+                  <i ng-if="!approvals[del.name].approval || approvals[del.name].approval === 0" class='fa fa-thumbs-o-up fa-2x'></i>
+                  <i ng-if="approvals[del.name].approval<0" class='fa fa-thumbs-down fa-2x'></i>
                 </button>
               </div>
             </td>

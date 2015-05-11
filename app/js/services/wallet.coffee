@@ -2,6 +2,7 @@ class Wallet
 
     accounts: {}
     contacts: {}
+    approvals: {}
 
     balances: {}
     bonuses: {}
@@ -44,6 +45,7 @@ class Wallet
         clear=(map)-> delete map[k] for k in Object.keys map
         clear @accounts
         clear @contacts
+        clear @approvals
         clear @balances
         clear @bonuses
         clear @asset_balances
@@ -160,6 +162,10 @@ class Wallet
         @contacts[acct.name] = acct
         return acct
 
+    populate_approvals: (val) ->
+        @approvals[val.name] = val
+        return true
+
     refresh_account: (name) ->
         deferred = @q.defer()
         @wallet_api.get_account(name).then (result) => # TODO no such acct?
@@ -181,8 +187,14 @@ class Wallet
         @refresh_accounts_promise = deferred.promise
 
         first_account = null
-        @wallet_api.list_accounts().then (result) =>
-            for val in result
+        @q.all([
+            @wallet_api.list_accounts()
+            @wallet_api.list_approvals()
+            ])
+        .then (results) =>
+            for appr in results[1]
+                @populate_approvals appr
+            for val in results[0]
                 account = @populate_account(val)
                 first_account = account unless first_account
             if first_account and !@current_account
