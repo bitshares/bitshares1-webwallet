@@ -239,7 +239,10 @@
     "role_4": "Charity",
     "role_5": "Technical Support",
     "role_6": "Law/Regulations",
-    "role_7": "Media/Public Relations"
+    "role_7": "Media/Public Relations",
+    "positive_votes": "Number of positive votes selected",
+    "neutral_votes": "Number of neutral votes selected",
+    "negative_votes": "Number of negative votes selected"
   },
   "market": {
     "title": "Market",

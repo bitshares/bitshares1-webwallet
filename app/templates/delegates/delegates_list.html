@@ -11,6 +11,15 @@
     <tr>
       <td><b translate>delegate.avg_active_delegate_pay_rate</b> </td> <td tooltip-placement="right" tooltip="{{ (delegate_pay_rate * avg_act_del_pay_rate / 100 ) | number:2 }} BTS"> <b> {{avg_act_del_pay_rate | number:2}}</b> % </td>
     </tr>
+    <tr>
+      <td><b translate>delegate.positive_votes</b> </td> <td> <b> {{my_approvals.positive | number:0}}</b> </td>
+    </tr>
+    <tr>
+      <td><b translate>delegate.neutral_votes</b> </td> <td> <b> {{my_approvals.neutral | number:0}}</b> </td> 
+    </tr>
+    <tr>
+      <td><b translate>delegate.negative_votes</b> </td> <td> <b> {{my_approvals.negative | number:0}}</b> </td>
+    </tr>
   </table>
 </div>
 

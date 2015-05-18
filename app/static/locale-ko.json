@@ -203,7 +203,10 @@
     "role_4": "자선",
     "role_5": "기술 지원",
     "role_6": "법률/규정",
-    "role_7": "미디어/흥보"
+    "role_7": "미디어/흥보",
+    "positive_votes": "Number of positive votes selected",
+    "neutral_votes": "Number of neutral votes selected",
+    "negative_votes": "Number of negative votes selected"
   },
   "market": {
     "title": "마켓",
