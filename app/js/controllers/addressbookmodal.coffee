@@ -25,10 +25,9 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
         if index >= 0
             contact_account = Wallet.contacts[name]
             name_to_remove = if contact_account?.contact_type == "public_key" then contact_account.data else name
-            WalletAPI.remove_contact(name_to_remove, false).then
+            WalletAPI.remove_contact(name_to_remove)
             delete Wallet.contacts[name]
             $scope.data.contacts.splice(index, 1)
-            Wallet.refresh_contacts()
         return false
 
     $scope.isMyAccount = (name) ->
@@ -45,6 +44,6 @@ angular.module("app").controller "AddressBookModalController", ($scope, $modalIn
             message = Utils.formatAssertException(error.data.error.message)
             form.account_key.$error.message = if message and message.length > 2 then message else "Not valid public key"
         WalletAPI.add_contact($scope.account.key, $scope.account.name, error_handler).then ->
-            Wallet.refresh_contacts().then ->
+            Wallet.refresh_contact_data($scope.account.name).then ->
                 $modalInstance.close("ok")
                 action($scope.account.name) if action
