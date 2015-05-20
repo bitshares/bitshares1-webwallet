@@ -71,7 +71,7 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
         if error == "not found"
             Wallet.refresh_contacts().then ->
                 BlockchainAPI.get_account(name).then (val) ->
-                    val = Wallet.contacts[name] unless val
+                    return unless val
                     account = { name: val.name, registration_date: val.registration_date }
                     account.active_key = val.active_key_history[val.active_key_history.length - 1][1] if val.active_key_history?.length > 0
                     account.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
@@ -198,13 +198,11 @@ angular.module("app").controller "AccountController", ($scope, $state, $filter, 
             message = Utils.formatAssertException(error.data.error.message)
             $scope.add_to_address_book.error = if message and message.length > 2 then message else "Unknown account"
 
-        WalletAPI.add_contact($scope.account.active_key, $scope.account.name, error_handler).then ->
-            Wallet.refresh_contacts().then ->
-                account = Wallet.contacts[name]
+        WalletAPI.add_contact($scope.account.name, $scope.account.name, error_handler).then ->
+            Wallet.refresh_contact_data($scope.account.name).then ->
+                account = Wallet.contacts[$scope.account.name]
                 if account
                     $scope.account.is_address_book_contact = true
-                    account.is_address_book_contact = true
-                    Wallet.contacts[name] = account
                     $scope.add_to_address_book.message = "Added to address book"
                 else
                     $scope.add_to_address_book.error = "Unknown account"

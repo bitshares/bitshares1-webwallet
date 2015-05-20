@@ -234,14 +234,28 @@ class Wallet
         @wallet_api.set_custom_data("account_record_type", name, privateData).then (result) =>
             @refresh_accounts()
 
+    refresh_contact_data: (contact_name_or_address) ->
+        promise = @blockchain_api.get_account(contact_name_or_address)
+        promise.then (val) =>
+            if val
+                account = val
+                account.active_key = val.active_key_history[val.active_key_history.length - 1][1]
+                account.registered = val.registration_date and val.registration_date != "1970-01-01T00:00:00"
+                account.is_my_account = false
+                account.is_address_book_contact = true
+                @contacts[account.name] = account
+        return promise
+
     refresh_contacts: ->
-        delete @contacts[k] for k, v of @contacts when not v.is_my_account
-        @wallet_api.list_contacts().then (result) =>
-            for acct in result
-                acct.name = acct.label
-                acct.active_key = acct.data
-                #acct.registered = acct.registration_date and acct.registration_date != "1970-01-01T00:00:00"
-                @contacts[acct.name] = acct
+        #delete @contacts[k] for k, v of @contacts when not v.is_my_account
+        if Object.keys(@contacts).length > 0
+            deferred = @q.defer()
+            deferred.resolve(true)
+            return deferred.promise
+        else
+            @wallet_api.list_contacts().then (result) =>
+                for acct in result
+                    @refresh_contact_data(acct.data)
 
     get_accounts: () ->
         if Object.keys(@accounts).length > 0

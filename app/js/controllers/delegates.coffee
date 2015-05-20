@@ -37,21 +37,22 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
         $scope.p.numberOfPages = Math.ceil($scope.inactive_delegates.length / $scope.p.pageSize)
 
     updateApprovals = () =>
-        temp_approvals = {positive: 0, negative: 0, neutral: 0};
+        my_approvals = {positive: 0, negative: 0, neutral: 0};
+        sort_accounts = []
         for key of $scope.approvals
             del_found = false;
             if $scope.approvals[key].approval == 1
-                temp_approvals.positive++
+                my_approvals.positive++
             else if $scope.approvals[key].approval == 0
-                temp_approvals.neutral++
+                my_approvals.neutral++
             else if $scope.approvals[key].approval == -1
-                temp_approvals.negative++
+                my_approvals.negative++
             # Search through active delegates first for reduced search space
             for del in $scope.active_delegates            
                 if del.name == $scope.approvals[key].name
                     del_found = true
                     del.approval = $scope.approvals[key].approval
-                    $scope.sort_accounts.push(
+                    sort_accounts.push(
                         name: del.name,
                         votes_for: del.delegate_info.votes_for,
                         pay_rate: del.delegate_info.pay_rate,
@@ -63,14 +64,16 @@ angular.module("app").controller "DelegatesController", ($scope, $location, $sta
                 for del in $scope.inactive_delegates
                     if del.name == $scope.approvals[key].name
                         del.approval = $scope.approvals[key].approval
-                        $scope.sort_accounts.push(
+                        sort_accounts.push(
                             name: del.name,
                             votes_for: del.delegate_info.votes_for,
                             pay_rate: del.delegate_info.pay_rate,
                             approval: $scope.approvals[key].approval
                         )
                         break;
-        $scope.my_approvals = temp_approvals
+
+        $scope.my_approvals = my_approvals
+        $scope.sort_accounts = sort_accounts
 
     $scope.$watch ()->
         Info.info
