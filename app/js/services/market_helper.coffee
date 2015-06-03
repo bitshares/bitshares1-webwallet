@@ -28,8 +28,8 @@ class MarketHelper
 
         actual_market.bid_depth = data.ask_depth / ba.precision
         actual_market.ask_depth = data.bid_depth / ba.precision
-        actual_market.feed_price = data.current_feed_price
-        actual_market.shorts_price = data.current_feed_price
+        actual_market.feed_price = parseFloat(data.current_feed_price)
+        actual_market.shorts_price = actual_market.feed_price
 
         if inverted
             market.bid_depth = data.ask_depth / ba.precision

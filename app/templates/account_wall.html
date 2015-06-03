@@ -68,8 +68,8 @@
         </div>
 
         <div form-hgroup>
-            <button ng-click="toggleType()" type="button" class="btn btn-small" ng-class="burn.type==='for'?'btn-success':'off'"><span translate>account.wall.for</span></button>
-            <button ng-click="toggleType()" type="button" class="btn btn-small" ng-class="burn.type==='against'?'btn-success':'off'"><span translate>account.wall.against</span></button>
+            <button ng-click="toggleType()" type="button" class="btn btn-info btn-sm outline" ng-class="{'active':burn.type==='for'}"><span translate>account.wall.for</span></button>
+            <button ng-click="toggleType()" type="button" class="btn btn-info btn-sm outline" ng-class="{'active':burn.type==='against'}"><span translate>account.wall.against</span></button>
         </div>
         <!--Submit-->
         <div form-hgroup-error></div>

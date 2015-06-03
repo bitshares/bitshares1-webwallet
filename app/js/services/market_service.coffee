@@ -318,11 +318,11 @@ class MarketService
     post_bid: (bid, account) ->
         call = if !@market.inverted
             console.log "---- adding bid regular ----", bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol
-            @wallet_api.market_submit_bid(account.name, bid.quantity, @market.asset_quantity_symbol, bid.price, @market.asset_base_symbol)
+            @wallet_api.market_submit_bid(account.name, bid.quantity.toString(), @market.asset_quantity_symbol, bid.price.toString(), @market.asset_base_symbol)
         else
             ibid = bid.invert()
             console.log "---- adding bid inverted ----", ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol
-            @wallet_api.market_submit_ask(account.name, ibid.quantity, @market.asset_base_symbol, ibid.price, @market.asset_quantity_symbol)
+            @wallet_api.market_submit_ask(account.name, ibid.quantity.toString(), @market.asset_base_symbol, ibid.price.toString(), @market.asset_quantity_symbol)
         return call
 
     post_short: (short, account) ->
@@ -341,11 +341,11 @@ class MarketService
     post_ask: (ask, account, deferred) ->
         call = if !@market.inverted
             console.log "---- adding ask regular ----", ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol
-            @wallet_api.market_submit_ask(account.name, ask.quantity, @market.asset_quantity_symbol, ask.price, @market.asset_base_symbol)
+            @wallet_api.market_submit_ask(account.name, ask.quantity.toString(), @market.asset_quantity_symbol, ask.price.toString(), @market.asset_base_symbol)
         else
             iask = ask.invert()
             console.log "---- adding ask inverted ----", iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol
-            @wallet_api.market_submit_bid(account.name, iask.quantity, @market.asset_base_symbol, iask.price, @market.asset_quantity_symbol)
+            @wallet_api.market_submit_bid(account.name, iask.quantity.toString(), @market.asset_base_symbol, iask.price.toString(), @market.asset_quantity_symbol)
         return call
 
     pull_bids: (market, inverted) ->
@@ -726,9 +726,7 @@ class MarketService
         trades = []
         max = 0
         dailyHigh = 0
-        dailyLow = 10^9
-        if market.shorts_available
-            dailyLow = if inverted then (1 / market.feed_price) * 2 else market.feed_price / 2 
+        dailyLow = 10e9
         volume = 0
         change = 0
         open = null
@@ -942,18 +940,20 @@ class MarketService
                 l = c if c < l
 
                 oc_avg = (o + c) / 2.0
-                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.1
-                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.1
+                h = 1.0 * Math.max(o,c) if h/oc_avg > 1.25
+                l = 1.0 * Math.min(o,c) if oc_avg/l > 1.25
 
+                # We're looping backwards in time so the current open is always the interval open
                 interval_o = o
 
+                # First point of the interval
                 if interval_counter == 0
                     interval_c = c
                     interval_l = l
                     interval_h = h
-                else
-                    interval_l = Math.min l, l_old
-                    interval_h = Math.max h, h_old
+                else # Remaining points
+                    interval_l = Math.min l, interval_l
+                    interval_h = Math.max h, interval_h
 
                 if inverted
                     interval_v += t.quote_volume
@@ -1057,21 +1057,21 @@ class MarketService
                         avg_value: avg_value
 
                     # shorts collateralization chart data
-                    self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
-                    sum_shorts = 0.0
-                    shorts_array = []
-                    for s in self.shorts
-                        continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
-                        #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
-                        sum_shorts += if self.market.inverted then s.cost else s.quantity
-                        price = if self.market.inverted then s.price else 1.0/s.price
-                        self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
-
-                    shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
-                    self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
-
-                    shorts_array.sort (a,b) -> a[0] - b[0]
-                    self.market.shortscollat_chart_data = { array: shorts_array }
+#                    self.helper.sort_array(self.shorts, "price", "quantity", self.market.inverted)
+#                    sum_shorts = 0.0
+#                    shorts_array = []
+#                    for s in self.shorts
+#                        continue unless self.helper.is_in_short_wall(s, self.market.shorts_price, self.market.inverted)
+#                        #console.log "------ S H O R T ------>", s.price, s.cost, s.quantity
+#                        sum_shorts += if self.market.inverted then s.cost else s.quantity
+#                        price = if self.market.inverted then s.price else 1.0/s.price
+#                        self.helper.add_to_order_book_chart_array(shorts_array, price, sum_shorts)
+#
+#                    shorts_price = if self.market.inverted then self.market.shorts_price else 1.0/self.market.shorts_price
+#                    self.helper.add_to_order_book_chart_array(shorts_array, shorts_price, sum_shorts)
+#
+#                    shorts_array.sort (a,b) -> a[0] - b[0]
+#                    self.market.shortscollat_chart_data = { array: shorts_array }
 
                 catch e
                     console.log "!!!!!! error in pull_market_data: ", e

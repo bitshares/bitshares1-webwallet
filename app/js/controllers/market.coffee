@@ -56,6 +56,8 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
         {interval: 3600*24*3, text:"market.chart.3_day", active:false}
     ]
 
+    $scope.interval = 1800;
+
     Wallet.get_account(account.name).then (acct) ->
         Wallet.set_current_account(acct)
 
@@ -231,7 +233,6 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
 
     $scope.order_total_change = ->
         order = get_order()
-        console.log order
         TradeData = MarketService.TradeData
         price = TradeData.helper.to_float(order.price)
         cost = TradeData.helper.to_float(order.cost)
@@ -273,7 +274,7 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             $scope.use_trade_data $scope.combined_asks[index]
 
     $scope.use_trade_data = (data) ->
-        #console.log "use_trade_data",$state.current.name
+        # console.log "use_trade_data",$state.current.name
         
         order = get_order()
         coalesce = (new_value, old_value, precision) ->
@@ -282,18 +283,22 @@ angular.module("app").controller "MarketController", ($scope, $state, $statePara
             ret = if new_value and isFinite(new_value) then new_value else TradeData.helper.to_float(old_value)
             if ret == 0 # TODO, instead of nulls for validation, use (<input min="... )
                 return null
-            else
+            else if precision
                 return Utils.formatDecimal(ret, precision)
+            else 
+                return ret
 
         if (data.type == "bid" or data.type == "ask") and $state.current.name == "market.short"
             data.price_limit = data.price
             data.collateral = 2 * data.quantity / $scope.actual_market.shorts_price
+        else if data.type == "short" and $state.current.name == "market.short"
+            data.price_limit = data.short_price_limit
 
-        order.quantity = coalesce data.quantity, order.quantity, $scope.market.quantity_precision
+        order.quantity = coalesce data.quantity, order.quantity, false
         order.interest_rate = coalesce data.interest_rate, order.interest_rate, 2
-        order.short_price_limit = coalesce data.price_limit, order.short_price_limit, $scope.market.price_precision
-        order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision
-        order.price = coalesce data.price, order.price, $scope.market.price_precision
+        order.short_price_limit = coalesce data.price_limit, order.short_price_limit, false
+        order.collateral = coalesce data.collateral, order.collateral, $scope.actual_market.quantity_precision + 3
+        order.price = coalesce data.price, order.price, false
 
         switch $state.current.name
             when "market.buy" then $scope.order_change()

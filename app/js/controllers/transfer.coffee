@@ -224,7 +224,7 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.newContactModal(true)
         else
             WalletAPI.add_contact(name, name, error_handler).then (response) ->
-                Wallet.refresh_contacts()
+                Wallet.refresh_contact_data(name)
                 $scope.is_address_book_contact = true
                 $scope.add_to_address_book.message = "Added to address book"
 
@@ -237,7 +237,9 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
         $scope.transfer_info.payto_account_id = 0
         forms.my_transfer_form?.payto.error_message = ""
         payto = $scope.transfer_info.payto
-        return unless payto
+        unless payto
+            $scope.gravatar_account_name = ""
+            return
 
         $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
 

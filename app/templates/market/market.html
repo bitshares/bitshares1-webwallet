@@ -4,7 +4,7 @@
       <div ui-view autoscroll="false"></div>
     </tab>
   </tabset>
-  <div class="orders-div" style="margin-top:-20px;">
+  <div class="orders-div">
     <h3 class="market-table-title panel-title buy-orders-title">{{ 'market.open_orders' | translate}}</h3>
     <div ng-include src="'market/open_buy.html'"></div>
   </div>
@@ -88,7 +88,7 @@
             <div class="col-xs-12 small-lr-padding">
 
               <div>
-                <div class="pull-right">
+                <div class="pull-right chart-selection-buttons">
                   <button class="btn btn-info btn-sm outline" ng-class="{'active':showPriceChart}" ng-click="showPriceChart = true; showOrderBook = false;">{{'market.chart.pricehistory' | translate}}</button>
                   <button class="btn btn-info btn-sm outline" ng-class="{'active':showOrderBook}" ng-click="showPriceChart = false; showOrderBook = true;">{{'market.chart.orderbook' | translate}}</button>
                 </div>
@@ -180,11 +180,11 @@
 
         <!-- Blockchain and Account orders -->
         <div class="col-xs-4">
-          <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':blockchain_orders}" ng-click="switchHistory()"><h3 class="market-table-title panel-title">{{'market.blockchain_orders_history' | translate }}</h3></button> 
-          <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':my_orders}" ng-click="switchHistory()"><h3 class="market-table-title panel-title">{{'market.account_orders_history' | translate }}</h3></button> 
+          <div class="order-buttons pull-right">
+            <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':blockchain_orders}" ng-click="switchHistory()">{{'market.blockchain_orders_history' | translate }}</button>
+            <button class="btn btn-info btn-sm outline order-button" ng-class="{'active':my_orders}" ng-click="switchHistory()">{{'market.account_orders_history' | translate }}</button>
+          </div>
           <!-- <span ng-click="" ng-class="{'title-active':blockchain_orders, 'title-inactive':!blockchain_orders}" translate>market.blockchain_orders_history</span><span ng-click="switchHistory()" ng-class="{'title-active':my_orders, 'title-inactive':!my_orders}" style="margin-left:1em;" translate>market.account_orders_history</span> -->
-          
-
           <table ng-if="blockchain_orders" fixed-header table-height="300px" class="market-table table table-default table-condensed table-hover">
             <thead>
               <th class="hidden-xs hidden-sm" style="width:30px"></th>
