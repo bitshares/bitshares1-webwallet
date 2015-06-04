@@ -43,7 +43,7 @@ class Wallet
         @current_account = ""
     
     is_guest:->
-        @accounts["guest"] isnt undefined
+        @accounts["Guest"] isnt undefined
 
     reset_gui_state:->
         # Information may show after locking the wallet then using the 
@@ -158,7 +158,7 @@ class Wallet
     populate_account: (val) ->
         acct = val
         acct.active_key = val.active_key_history[val.active_key_history.length - 1][1]
-        if acct.name is "guest"
+        if acct.name is "Guest"
             obfuscate=(key)->key.substring(0,8)+"...."
             acct.guest_owner_key = obfuscate acct.owner_key
             acct.guest_active_key = obfuscate acct.active_key
