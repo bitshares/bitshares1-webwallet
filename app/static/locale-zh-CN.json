@@ -161,6 +161,7 @@
     "create_wallet": "创建钱包"
   },
   "jslib_wallet":{
+    "transaction_broadcasted": "交易已经广播",
     "insufficient_balances": "余额不足",
     "conflicting_account":"账号 '{{v1}}' 不是这个钱包所拥有的。",
     "account_not_found": "账号 '{{v1}}' 并没有找到。",

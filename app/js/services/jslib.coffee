@@ -4,7 +4,7 @@
 ###
 class BitsharesJsRpc
     
-    constructor: (@RpcService, @Shared, $timeout, $translate, $q) ->
+    constructor: (@RpcService, @Shared, @Growl, $timeout, $translate, $q) ->
         
         return unless bts = window.bts
         WalletService = Wallet
@@ -41,8 +41,14 @@ class BitsharesJsRpc
             window.wallet_api = js_client.wallet_api
         
         js_client.event 'error', (text, stack)=>
-            console.log '... error text, stack',text, stack
             @Shared.addError text, stack
+            return
+        
+        js_client.event 'transaction_broadcasted', ()=>
+            $translate("jslib_wallet.transaction_broadcasted").then (message)=>
+                @Growl.notice "", message
+            , (error)=>
+                @Growl.notice "", error
             return
         
         js_client.event 'wallet.not_found', ()->
@@ -63,7 +69,7 @@ class BitsharesJsRpc
                 location.href = base_path
 
 angular.module("app").service "BitsharesJsRpc", 
-    ["RpcService", "Shared", "$timeout", "$translate", "$q", BitsharesJsRpc]
+    ["RpcService", "Shared", "Growl", "$timeout", "$translate", "$q", BitsharesJsRpc]
 
 angular.module("app").run (BitsharesJsRpc, RpcService)->
     #console.log "[BitShares-JS] included"
