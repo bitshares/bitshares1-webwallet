@@ -95,7 +95,7 @@
       </table>
     </div>
     </div>
-    <span class="account-key" ng-show="account.registration_date === '1970-01-01T00:00:00'"><span translate>account.account_key</span>: {{account.active_key}}</span>
+    <span class="account-key" ng-show="account.registration_date === '1970-01-01T00:00:00'"><span translate>account.account_key</span>: {{account.guest_active_key || account.active_key}}</span>
     <span class="account-key" ng-show="account.id"><span translate>account.id</span>: {{account.id}}</span>
   </div>
 

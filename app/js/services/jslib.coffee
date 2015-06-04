@@ -10,6 +10,8 @@ class BitsharesJsRpc
         WalletService = Wallet
         Wallet = null #
         
+        # Allows pre_release versions:
+        # https://wallet.bitshares.org/pre_release
         base_tag = document.getElementsByTagName('base')[0]
         base_path = if base_tag then base_tag.getAttribute("href") else ""
         version_name = (->

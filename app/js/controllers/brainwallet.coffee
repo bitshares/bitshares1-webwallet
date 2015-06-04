@@ -8,7 +8,6 @@ angular.module("app").controller "BrainWalletController", ($scope, $rootScope, $
     
     $idle.unwatch()
     $scope.stopIdleWatch()
-    WalletService.clear_accounts()
     
     $rootScope.splashpage = true
     if not window.crypto and not window.msCrypto

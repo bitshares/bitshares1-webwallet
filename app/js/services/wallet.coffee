@@ -48,8 +48,8 @@ class Wallet
     reset_gui_state:->
         # Information may show after locking the wallet then using the 
         # back button.  Additionally, clear memory.
+        @clear_accounts()
         clear=(map)-> delete map[k] for k in Object.keys map
-        clear @accounts
         clear @contacts
         clear @approvals
         clear @balances
@@ -459,6 +459,7 @@ class Wallet
                 @location.path("/unlockwallet")
 
     open:(name = "default") ->
+        @reset_gui_state()
         @rpc.request('wallet_open', [name]).then (response) =>
           @wallet_name = name
           response.result
