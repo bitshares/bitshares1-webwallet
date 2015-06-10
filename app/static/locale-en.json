@@ -578,7 +578,8 @@
       "note1": "Note: Account names cannot be transferred.",
       "note2": "Only lowercase alphanumeric characters, dots, and dashes. \nMust start with a letter and cannot end with a dash.",
       "note3": "Type in the name of an account previously registered under this wallet's recovery key.",
-      "dot_not_supported": "The hosted wallet does not yet support the creation of accounts with a dot in the name."
+      "dot_not_supported": "The hosted wallet does not yet support the creation of accounts with a dot in the name.",
+      "please_use_cheap_name": "Until supported, please register only cheap names.  A cheap name has no vowels (aeiouy), or has at least one number, or is longer than 8 characters."
     }
   },
   "pagination": {
