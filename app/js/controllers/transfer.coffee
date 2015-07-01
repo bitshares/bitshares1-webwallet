@@ -241,6 +241,13 @@ angular.module("app").controller "TransferController", ($scope, $stateParams, $m
             $scope.gravatar_account_name = ""
             return
 
+        try
+            window.bts.ecc.Address.fromString payto
+            # memo to address is not supported (even if it is registered)
+            $scope.memo_size_max = 0
+        catch e
+            $scope.memo_size_max = 51
+        
         $scope.address_type = if pubkey_regexp.exec(payto) then "pubkey" else "account"
 
         account = Wallet.accounts[payto] or Wallet.contacts[payto]
